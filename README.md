@@ -1,6 +1,6 @@
 # vue-template
 
-> vue common template
+> vue基础模板，可以搭建vue项目，也可以练习vue项目
 
 ## 项目扩展功能
 
