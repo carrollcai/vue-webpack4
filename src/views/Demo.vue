@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>hello，welcome to Demo page！</div>
+    <div class="demo-title">hello，welcome to Demo page！</div>
     <br>
     <div style="margin-bottom: 40px;">{{demoList}}</div>
     <div v-for="(item, index) in demoList" :key="index">
@@ -31,3 +31,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+  @import '../assets/scss/variables.scss';
+  .demo-title {
+    background-color: $bg;
+  }
+</style>
