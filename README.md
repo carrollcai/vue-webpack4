@@ -1,6 +1,6 @@
 # vue-template
 
-> common template
+> vue common template
 
 ## 项目扩展功能
 
@@ -13,6 +13,8 @@
 > 集成Vuex的Demo
 
 > 完善eslint配置
+
+> 用scss管理样式
 
 ## 项目结构介绍（src）
 
