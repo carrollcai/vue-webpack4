@@ -1,7 +1,7 @@
-let path = require('path');
-let fs = require('fs');
-let app = require('express')();
-var mock = require('mockjs');
+const path = require('path');
+const fs = require('fs');
+const app = require('express')();
+const mock = require('mockjs');
 const glob = require('glob');
 
 let apiContArr = [];
@@ -35,7 +35,7 @@ init();
 
 app.use((req, res) => {
   let data;
-  var delay = 0;
+  let delay = 0;
   apiContArr.forEach(val => {
     val.forEach(reqData => {
       if (reqData.regexp) {
@@ -46,7 +46,7 @@ app.use((req, res) => {
         return false;
       }
 
-      var apiRes = reqData.res;
+      let apiRes = reqData.res;
       data = reqData.mock ? mock.mock(apiRes) : apiRes;
       delay = reqData.delay || 0;
       return true;
@@ -56,7 +56,7 @@ app.use((req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  data !== undefined ? setTimeout(() => res.jsonp(data), delay) : res.sendStatus(404);
+  data !== undefined ? setTimeout(() => res.json(data), delay) : res.sendStatus(404);
 });
 
 app.listen('3618', () => {
