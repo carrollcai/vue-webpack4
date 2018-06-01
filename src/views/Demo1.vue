@@ -10,7 +10,7 @@ export default {
   computed: {
     ...mapState({
       // 注意这里的demoList和state下面对象对应
-      demoList: ({ demoList }) => demoList
+      demoList: ({ dashboard }) => dashboard.demoList
     })
   },
   beforeMount() {
