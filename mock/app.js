@@ -23,7 +23,10 @@ async function init() {
     apiPathArr.forEach(async val => {
       await fs.readFile(val, 'utf-8', (err, cont) => {
         if (err) throw err;
-        if (!cont) throw 'content must exsit.';
+        if (!cont) {
+          console.log('content must exsit.');
+          return false;
+        }
 
         apiContArr.push(JSON.parse(cont));
       });
