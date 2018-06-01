@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
-    <el-container>
+  <div id="app" class="app">
+    <el-container class="app-container">
       <el-header>Header</el-header>
-      <el-container>
-        <el-aside width="200px">
-          <Aside />
+      <el-container class="app-aside">
+        <el-aside width="200px" height="100%">
+          <Aside style="height: 100%" />
         </el-aside>
-        <el-main>
-          <Main />
+        <el-main height="100%">
+          <Main style="height: 100%" />
         </el-main>
       </el-container>
     </el-container>
@@ -28,4 +28,13 @@ export default {
 
 <style lang="scss">
 @import "scss/index.scss";
+.app {
+  height: 100vh;
+}
+.app-container {
+  height: 100%;
+}
+.app-aside {
+  height: 100%;
+}
 </style>

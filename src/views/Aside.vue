@@ -7,7 +7,7 @@
       </el-menu-item>
       <el-submenu v-else  :index="i">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i :class="item.icon"></i>
           <span slot="title">{{item.name}}</span>
         </template>
         <el-menu-item v-for="(subItem, subI) in item.children" :key="subI" :index="subItem.url">

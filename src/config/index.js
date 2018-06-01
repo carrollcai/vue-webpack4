@@ -22,12 +22,36 @@ export const SIDEBAR_DATA = {
   task: {
     name: '任务管理',
     url: '/task',
-    icon: 'el-icon-setting'
+    icon: 'el-icon-setting',
+    children: [
+      {
+        name: '任务查询',
+        url: '/task/management'
+      },
+      {
+        name: '我的任务',
+        url: '/task/push'
+      },
+      {
+        name: '我的待办',
+        url: '/task/todo'
+      }
+    ]
   },
   system: {
     name: '系统配置',
     url: '/system',
-    icon: 'el-icon-setting'
+    icon: 'el-icon-setting',
+    children: [
+      {
+        name: '角色管理',
+        url: '/system/role/management'
+      },
+      {
+        name: '用户管理',
+        url: '/system/user/management'
+      }
+    ]
   }
 };
 
