@@ -1,7 +1,8 @@
 @import "scss/variables.scss";
 html {
   font-size: $font;
+  background-color: $bg;
 }
-#app {
-    background-color: $bg;
-}
+// #app {
+//     background-color: $bg;
+// }
