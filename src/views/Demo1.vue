@@ -1,12 +1,6 @@
 <template>
   <div>
     <div class="demo-title">hello，welcome to Demo page！</div>
-    <br>
-    <div style="margin-bottom: 40px;">{{demoList}}</div>
-    <div v-for="(item, index) in demoList" :key="index">
-      title: <input type="text" v-model="item.title" />
-    </div>
-
   </div>
 </template>
 
@@ -21,7 +15,7 @@ export default {
   },
   beforeMount() {
     this.getDemo().then(() => {
-      // console.log(this.demoList);
+      console.log(this.demoList);
     });
   },
   methods: {
@@ -31,10 +25,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-  @import 'scss/variables.scss';
-  .demo-title {
-    background-color: $bg;
-  }
-</style>
