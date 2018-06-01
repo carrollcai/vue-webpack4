@@ -1,9 +1,20 @@
 <template>
-  <el-menu :default-active="getActiveNav" @select="handleNavSelect">
-    <el-menu-item v-for="(item, i) in SIDEBAR_DATA" :key="i" :index="i">
-      <i :class="item.icon"></i>
-      <span slot="title">{{item.name}}</span>
-    </el-menu-item>
+  <el-menu :default-active="$route.path" :router="true">
+    <div v-for="(item, i) in SIDEBAR_DATA" :key="i">
+      <el-menu-item v-if="!item.children" :index="item.url">
+        <i :class="item.icon"></i>
+        <span slot="title">{{item.name}}</span>
+      </el-menu-item>
+      <el-submenu v-else  :index="i">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">{{item.name}}</span>
+        </template>
+        <el-menu-item v-for="(subItem, subI) in item.children" :key="subI" :index="subItem.url">
+          {{subItem.name}}
+        </el-menu-item>
+      </el-submenu>
+    </div>
   </el-menu>
 </template>
 
@@ -22,12 +33,9 @@ export default {
     ])
   },
   beforeMount() {
-    // console.log(this.SIDEBAR_DATA)
+    console.log(this.$route.path);
   },
   methods: {
-    handleNavSelect(index) {
-      this.$router.push(this.SIDEBAR_DATA[index].url);
-    }
   }
 };
 </script>

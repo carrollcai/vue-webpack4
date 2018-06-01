@@ -1,12 +1,32 @@
 export const SIDEBAR_DATA = {
-  demo: {
-    name: 'Demo',
-    url: '/demo',
+  dashboard: {
+    name: '首页',
+    url: '/dashboard',
     icon: 'el-icon-menu'
   },
-  demo1: {
-    name: 'Demo1',
-    url: '/demo1',
+  analysis: {
+    name: '数据分析',
+    url: '/analysis',
+    icon: 'el-icon-setting',
+    children: [
+      {
+        name: '活跃度分析',
+        url: '/analysis/active'
+      },
+      {
+        name: '留存流失分析',
+        url: '/analysis/retention-loss'
+      }
+    ]
+  },
+  task: {
+    name: '任务管理',
+    url: '/task',
+    icon: 'el-icon-setting'
+  },
+  system: {
+    name: '系统配置',
+    url: '/system',
     icon: 'el-icon-setting'
   }
 };
