@@ -24,8 +24,11 @@ import { mapActions } from 'vuex';
 export default {
   name: 'Login',
   methods: {
+    isSuccess(res) {
+      return res && res.code === 1;
+    },
     handleLogin() {
-
+      this.login();
     },
     ...mapActions(['login'])
   }

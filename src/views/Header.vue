@@ -11,10 +11,10 @@
       <el-menu mode="horizontal" :default-active="'1'" background-color="#292c31" text-color="#fff">
         <el-submenu :index="'1'">
           <template slot="title">
-            <i class="el-icon-service"></i>用户名
+            <i class="el-icon-service"></i>{{username}}
           </template>
-          <el-menu-item index="2-1" @click="readUserInfo">个人资料</el-menu-item>
-          <el-menu-item index="2-2" @click="logout">退出</el-menu-item>
+          <el-menu-item index="2-1" @click="readUserInfo">修改密码</el-menu-item>
+          <el-menu-item index="2-2" @click="handleLogout">退出</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>
@@ -22,14 +22,19 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
+  computed: {
+    ...mapGetters(['username'])
+  },
   methods: {
     readUserInfo() {
 
     },
-    logout() {
-
-    }
+    handleLogout() {
+      this.logout();
+    },
+    ...mapActions(['logout'])
   }
 };
 </script>

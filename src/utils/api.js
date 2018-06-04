@@ -14,9 +14,9 @@ const fetch = (url, params, method) => {
     }
     ajx.then(res => {
       if (res.code === 1) {
-        reject(res);
-      } else {
         resolve(res);
+      } else {
+        reject(res);
       }
     }).catch((err) => {
       if (err) return err;
@@ -28,5 +28,8 @@ const development = 'http://localhost:3618';
 const API = (url, method) => params => fetch(development + url, params, method);
 
 export default {
-  getDemoAPI: API('/demo', 'post')
+  getDemoAPI: API('/demo', 'post'),
+  loginApi: API('/login', 'post'),
+  logoutApi: API('/logout', 'post'),
+  resetPwdApi: API('/resetPwd', 'post')
 };

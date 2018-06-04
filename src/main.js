@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import axios from 'axios';
 
 import App from './App';
 import router from './router';
@@ -14,6 +15,28 @@ import 'utils/helper';
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
+
+Vue.axios = axios;
+
+// http request 拦截器
+Vue.axios.interceptors.request.use(
+  config => {
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  }
+);
+
+// http response 拦截器
+Vue.axios.interceptors.response.use(
+  response => {
+    return response.data;
+  },
+  error => {
+    return Promise.reject(error.response);
+  }
+);
 
 /* eslint-disable no-new */
 new Vue({
