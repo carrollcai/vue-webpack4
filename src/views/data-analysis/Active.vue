@@ -1,7 +1,5 @@
 <template>
   <div>
-    
-
     <div class="active-trend block-containter">
       <div class="trend-header">
         <div>活跃度趋势分析</div>
