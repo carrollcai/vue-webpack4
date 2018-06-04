@@ -21,5 +21,14 @@
         "loginName": "admin"
       }
     }
+  },
+  {
+    "url": "/resetPwd",
+    "desc": "修改密码",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success"
+    }
   }
 ]
