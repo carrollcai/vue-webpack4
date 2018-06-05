@@ -31,6 +31,7 @@ const API = (url, method) => params => fetch(development + url, params, method |
 export default {
   getDemoAPI: API('/demo'),
   getProvinceAPI: API('/province'),
+  getRoleListAPI: API('/role/list'),
   loginApi: API('/login', 'post'),
   logoutApi: API('/logout', 'post'),
   resetPwdApi: API('/resetPwd', 'post')

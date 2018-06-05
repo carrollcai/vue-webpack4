@@ -1,13 +1,99 @@
 <template>
-  <div>这是角色管理</div>
+  <div class="m-container">
+    <el-form class="role-form">
+      <el-form-item>角色名称：</el-form-item>
+      <el-form-item class="role-form-item__input">
+        <el-input />
+      </el-form-item>
+      <el-form-item class="role-form-item">
+        <el-button type="primary" @click="query">查询</el-button>
+      </el-form-item>
+      <el-form-item class="role-form-item">
+        <el-button @click="query" icon="el-icon-plus">创建角色</el-button>
+      </el-form-item>
+    </el-form>
+    <wm-table :source="roleObj.list" :pageNo="pageNo" :pageSize="pageSize" :total="roleObj.totalCount">
+      <el-table-column label="用户角色" property="role" />
+      <el-table-column label="用户描述" property="desc" />
+      <el-table-column label="用户数" property="num" />
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <span class="btnLists">
+            <el-tooltip effect="dark" content="编辑" placement="bottom">
+              <el-button type="text" @click="handleEdit(scope.row)">
+                <i class="el-icon-edit-outline"></i>
+              </el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="删除" placement="bottom">
+              <el-button type="text" @click="handleDelete(scope.row)">
+                <i class="el-icon-delete"></i>
+              </el-button>
+            </el-tooltip>
+          </span>
+        </template>
+      </el-table-column>
+    </wm-table>
+  </div>
 </template>
 
 <script>
+import WmTable from 'components/Table.vue';
+import { mapActions, mapState } from 'vuex';
+import { PAGE_NO, PAGE_SIZE } from '@/config';
 export default {
+  data() {
+    return {
+      pageNo: PAGE_NO,
+      pageSize: PAGE_SIZE
+    };
+  },
+  components: {
+    WmTable
+  },
+  computed: {
+    ...mapState({
+      roleObj: ({ system }) => system.roleObj
+    })
+  },
+  beforeMount() {
+    this.getRoleList();
+  },
+  methods: {
+    handleEdit(row) {
+      const path = `/role/edit/${row.id}`;
+      this.$router.push(path);
+    },
+    handleDelete(row) {
+      this.$confirm('删除兑换码, 是否继续?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+      }).catch(() => {
+        this.$message('已取消删除');
+      });
+    },
+    query() {
 
+    },
+    ...mapActions([
+      'getRoleList'
+    ])
+  }
 };
 </script>
 
-<style>
-
+<style lang="scss">
+@import "scss/variables.scss";
+$formWidth: 32px;
+.role-form {
+  display: flex;
+  align-items: center;
+}
+.role-form-item__input {
+  margin-left: $blockWidth;
+}
+.role-form-item {
+  margin-left: $formWidth;
+}
 </style>

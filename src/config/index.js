@@ -56,3 +56,6 @@ export const SIDEBAR_DATA = {
 };
 
 export const INPUT_NUM_MAX = 2000;
+
+export const PAGE_NO = 1;
+export const PAGE_SIZE = 20;

@@ -22,3 +22,16 @@ html, body, div {
 .flex {
   display: flex;
 }
+.btnLists {
+  & .el-button {
+    font-size: 18px;
+    color: #333333;
+    &+.el-button {
+        margin-left: 10px;
+    }
+  }
+}
+.m-container {
+  background-color: #fff;
+  padding: 16px;
+}
