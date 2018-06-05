@@ -1,0 +1,34 @@
+[
+  {
+    "url": "/logout",
+    "desc": "退出",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success"
+    }
+  },
+  {
+    "url": "/log",
+    "desc": "登录",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": {
+        "username": "admin",
+        "userId": "1",
+        "loginName": "admin"
+      }
+    }
+  },
+  {
+    "url": "/resetPwd",
+    "desc": "修改密码",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success"
+    }
+  }
+]

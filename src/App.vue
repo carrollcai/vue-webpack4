@@ -1,18 +1,6 @@
 <template>
   <div id="app" class="app">
-    <el-container class="app-container">
-      <el-header class="app-header">
-        <Header />
-      </el-header>
-      <el-container class="app-aside">
-        <el-aside width="200px" height="100%">
-          <Aside style="height: 100%" />
-        </el-aside>
-        <el-main class="app-menu">
-          <Main style="height: 100%" />
-        </el-main>
-      </el-container>
-    </el-container>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -44,22 +32,5 @@ export default {
 @import "scss/variables.scss";
 .app {
   height: 100vh;
-}
-.app-container {
-  height: 100%;
-}
-.app-aside {
-  height: 100%;
-}
-.app-header {
-  padding: 0 30px;
-  height: 60px;
-  line-height: 60px;
-  background-color: $headerBg;
-  z-index: 99;
-}
-.app-menu {
-  height: 100%;
-  padding: $blockWidth;
 }
 </style>

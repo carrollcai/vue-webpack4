@@ -11,30 +11,118 @@
       <el-menu mode="horizontal" :default-active="'1'" background-color="#292c31" text-color="#fff">
         <el-submenu :index="'1'">
           <template slot="title">
-            <i class="el-icon-service"></i>用户名
+            <i class="el-icon-service"></i>{{username}}
           </template>
-          <el-menu-item index="2-1" @click="readUserInfo">个人资料</el-menu-item>
-          <el-menu-item index="2-2" @click="logout">退出</el-menu-item>
+          <el-menu-item index="2-1" @click="readUserInfo">修改密码</el-menu-item>
+          <el-menu-item index="2-2" @click="handleLogout">退出</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>
+    <el-dialog title="修改密码" :visible.sync="dialogFormVisible" class="reset-pwd-dialog"
+      :center="true"
+      width="470px">
+      <el-form :model="form" ref="resetForm" :rules="rules">
+        <el-form-item label="原密码" label-width="150px" prop="oldPwd">
+          <el-input v-model="form.oldPwd" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" label-width="150px" prop="newPwd">
+          <el-input type="password" v-model="form.newPwd" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" label-width="150px" prop="checkPass">
+          <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button @click="handleClose">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
+  computed: {
+    ...mapGetters(['username'])
+  },
+  data() {
+    const validateOldPass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入旧密码'));
+      } else {
+        callback();
+      }
+    };
+
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入新密码'));
+      } else {
+        if (this.form.checkPass !== '') {
+          this.$refs.resetForm.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+
+    const validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.form.newPwd) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
+
+    return {
+      form: {
+        oldPwd: '',
+        newPwd: '',
+        checkPass: ''
+      },
+      dialogFormVisible: false,
+      rules: {
+        oldPwd: [
+          { validator: validateOldPass, trigger: 'blur' }
+        ],
+        newPwd: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ]
+      }
+    };
+  },
   methods: {
     readUserInfo() {
-
+      this.dialogFormVisible = true;
     },
-    logout() {
-
-    }
+    handleLogout() {
+      this.logout();
+    },
+    handleSubmit() {
+      this.$refs.resetForm.validate((valid) => {
+        if (valid) {
+          this.handleClose();
+          this.resetPwd(this.form);
+        } else {
+          return false;
+        }
+      });
+    },
+    handleClose() {
+      this.$refs.resetForm.resetFields();
+      this.dialogFormVisible = false;
+    },
+    ...mapActions(['logout', 'resetPwd'])
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "scss/variables.scss";
 .header-title {
   padding-left: 0;
@@ -51,4 +139,16 @@ export default {
 .header-func__split {
   margin: 0 16px;
 }
+
+/*
+.dialog-footer{
+  text-align: center;
+}
+
+.reset-pwd-dialog{
+  .el-dialog__header{
+    text-align: center;
+  }
+}
+*/
 </style>
