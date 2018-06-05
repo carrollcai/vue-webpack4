@@ -1,45 +1,29 @@
 <template>
   <div>
-    
-
-    <div class="active-trend block-containter">
-      <div class="trend-header">
-        <div>活跃度趋势分析</div>
-        <div>按月/按日</div>
-        <div>
-          <el-date-picker>
-
-          </el-date-picker>
-        </div>
-        <div>
-          |
-        </div>
-        <div>
-          切换
-        </div>
-      </div>
-      <div class="trend-sub">
-        <div class="trend-sub__radio">
-          <el-radio v-model="radio" label="1">日活跃用户数</el-radio>
-          <el-radio v-model="radio" label="2">手机账号登录用户</el-radio>
-          <el-radio v-model="radio" label="3">移动IP用户/非移动IP用户</el-radio>
-          <el-radio v-model="radio" label="4">新增会员用户</el-radio>
-        </div>
-        <div>
-          <i class="el-icon-download"></i>下载此数据分析
-        </div>
-      </div>
-      <active-trend-chart :charData="serverData" :id="'c1'" />
-    </div>
+    <active-search />
+    <active-userdata />
+    <active-trend />
+    <active-province-user />
   </div>
 </template>
 
 <script>
-import ActiveTrendChart from 'components/data-analysis/ActiveTrendChart.vue';
-
+import ActiveSearch from 'components/data-analysis/ActiveSearch.vue';
+import ActiveTrend from 'components/data-analysis/ActiveTrend.vue';
+import ActiveUserdata from 'components/data-analysis/ActiveUserdata.vue';
+import ActiveProvinceUser from 'components/data-analysis/ActiveProvinceUser.vue';
+import MultSelect from 'components/MultSelect.vue';
 export default {
+  components: {
+    ActiveSearch,
+    ActiveTrend,
+    ActiveUserdata,
+    ActiveProvinceUser,
+    MultSelect
+  },
   data() {
     return {
+      dateType: 0,
       radio: '1',
       serverData: [
         { 'mzkId': 113, 'strftime': '2017-01-11', 'value': 9275501 },
@@ -51,20 +35,14 @@ export default {
       ]
     };
   },
-  components: {
-    ActiveTrendChart
+  methods: {
+    query() {
+      console.log();
+    }
   }
 };
 </script>
 
-<style>
-.active-trend__header {
-  display: flex;
-}
-.trend-sub {
-  display: flex;
-}
-.trend-header {
-  display: flex;
-}
+<style lang="scss">
+@import "scss/views/active.scss";
 </style>

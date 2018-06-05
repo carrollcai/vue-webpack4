@@ -1,0 +1,85 @@
+@import "scss/variables.scss";
+.active-trend,
+.active-userdata,
+.province-user {
+  margin-top: $blockWidth;
+}
+/* search */
+.active-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.active-search__select {
+  display: flex;
+}
+.province-operate {
+  display: flex;
+  align-items: center;
+}
+.daliy-download {
+  margin-left: $blockWidth;
+}
+.active-search__province, .active-search__client {
+  display: flex;
+  align-items: center;
+}
+.active-search__client {
+  margin-left: $blockWidth;
+}
+
+.userdata-main {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.userdata-main-left {
+  display: flex;
+  justify-content: center;
+}
+.userdata-main-left__outer {
+  border-right: 1px solid rgba(230, 230, 230, 1);
+  height: 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: flex-start;
+  // padding-left: 24px;
+  padding: 0 40px;
+}
+.userdata-main-left__title {
+  height: 16px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 12px;
+}
+.userdata-main-left__num {
+  margin-top: 8px;
+  height: 22px;
+  line-height: 22px;
+  color: rgba(55, 120, 255, 1);
+  font-size: 20px;
+}
+
+
+.active-trend__header {
+  display: flex;
+}
+.trend-sub {
+  display: flex;
+}
+.trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.trend-header-right {
+  display: flex;
+}
+
+
+.province-user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

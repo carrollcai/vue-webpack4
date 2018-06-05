@@ -8,12 +8,16 @@ import App from './App';
 import router from './router';
 import store from './store';
 import 'utils/helper';
+import EsopButton from 'components/EsopButton';
+import ViserVue from 'viser-vue';
 
 // 这里不能通过import直接引入scss，不支持这个scss后缀格式，需要在App组件style中引入
 // import 'scss/index.scss';
 
 Vue.use(ElementUI);
+Vue.use(ViserVue);
 Vue.config.productionTip = false;
+Vue.component('esop-button', EsopButton);
 
 /* eslint-disable no-new */
 new Vue({

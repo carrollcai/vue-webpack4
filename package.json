@@ -15,11 +15,13 @@
     "mock": "node mock/app.js"
   },
   "dependencies": {
+    "@antv/data-set": "^0.8.9",
     "@antv/g2": "^3.1.0",
     "axios": "^0.18.0",
     "bizcharts": "^3.1.8",
     "element-ui": "^2.4.0",
     "g2": "^2.3.13",
+    "viser-vue": "^2.2.5",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

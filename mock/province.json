@@ -1,0 +1,81 @@
+[
+  {
+    "url": "/province",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": [
+        {
+          "key": 1,
+          "value": "北京"
+        },
+        {
+          "key": 2,
+          "value": "天津"
+        },
+        {
+          "key": 3,
+          "value": "上海"
+        },
+        {
+          "key": 4,
+          "value": "重庆"
+        },
+        {
+          "key": 5,
+          "value": "河北"
+        },
+        {
+          "key": 6,
+          "value": "山西"
+        },
+        {
+          "key": 7,
+          "value": "陕西"
+        },
+        {
+          "key": 8,
+          "value": "山东"
+        },
+        {
+          "key": 9,
+          "value": "河南"
+        },
+        {
+          "key": 10,
+          "value": "辽宁"
+        },
+        {
+          "key": 11,
+          "value": "吉林"
+        },
+        {
+          "key": 12,
+          "value": "黑龙江"
+        },
+        {
+          "key": 13,
+          "value": "江苏"
+        },
+        {
+          "key": 14,
+          "value": "浙江"
+        },
+        {
+          "key": 15,
+          "value": "安徽"
+        },
+        {
+          "key": 16,
+          "value": "江西"
+        },
+        {
+          "key": 17,
+          "value": "福建"
+        }
+      ]
+    }
+  }
+]

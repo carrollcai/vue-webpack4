@@ -3,8 +3,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
-
+  beforeMount() {
+    this.getDemo();
+  },
+  methods: {
+    ...mapActions([
+      'getDemo'
+    ])
+  }
 };
 </script>
 

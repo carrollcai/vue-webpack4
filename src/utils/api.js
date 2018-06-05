@@ -19,14 +19,16 @@ const fetch = (url, params, method) => {
         resolve(res);
       }
     }).catch((err) => {
+      console.log(err);
       if (err) return err;
     });
   });
 };
 
 const development = 'http://localhost:3618';
-const API = (url, method) => params => fetch(development + url, params, method);
+const API = (url, method) => params => fetch(development + url, params, method || 'post');
 
 export default {
-  getDemoAPI: API('/demo', 'post')
+  getDemoAPI: API('/demo'),
+  getProvinceAPI: API('/province')
 };
