@@ -33,10 +33,13 @@ export default {
   getProvinceAPI: API('/province'),
   getRoleListAPI: API('/role/list'),
   getRoleInfoAPI: API('/role/info'),
+  createRoleAPI: API('/role/info'),
+  deleteRoleAPI: API('/role/info'),
   getPermissionsAPI: API('/permissions'),
   getUserListAPI: API('/user/list'),
   getUserRoleAPI: API('/user/role/list'),
   createUserAPI: API('/user/role/list'),
+  deleteUserAPI: API('/user/role/list'),
 
   loginApi: API('/login', 'post'),
   logoutApi: API('/logout', 'post'),

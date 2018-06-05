@@ -74,11 +74,26 @@ export default {
     onSizePagination(value) {
       this.userForm.pageSize = value;
     },
+    handleCreate() {
+      const path = `/system/user/create`;
+      this.$router.push(path);
+    },
     handleEdit(row) {
-
+      const path = `/system/user/edit/${row.id}`;
+      this.$router.push(path);
     },
     handleDelete(row) {
-
+      this.$confirm('删除用户数据, 是否继续?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteUser({id :row.id}).then(res => {
+          this.query();
+        });
+      }).catch(() => {
+        this.$message('已取消删除');
+      });
     },
     query() {
       const params = this.userForm;
@@ -89,7 +104,8 @@ export default {
       this.$router.push(path);
     },
     ...mapActions([
-      'getUserList'
+      'getUserList',
+      'deleteUser'
     ])
   }
 };

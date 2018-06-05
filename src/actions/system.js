@@ -1,5 +1,6 @@
 import * as types from '../store/types';
 import API from '../utils/api';
+import { Message } from 'element-ui';
 
 const actions = {
   // 获取getDemo列表
@@ -34,6 +35,17 @@ const actions = {
       // 创建成功
       commit(types.ROUTE_CHANGE, {
         path: '/system/user/management'
+      });
+    });
+  },
+  deleteUser: ({ commit }, params) => {
+    return API.deleteUserAPI(params).then(res => {
+      console.log('删除成功');
+      Message({
+        showClose: true,
+        message: '删除成功',
+        type: 'success',
+        duration: 3000
       });
     });
   }

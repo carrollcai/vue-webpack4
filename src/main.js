@@ -10,6 +10,7 @@ import App from './App';
 import router from './router';
 import store from './store';
 import EsopButton from 'components/EsopButton';
+import FormCancel from 'components/FormCancel';
 import ViserVue from 'viser-vue';
 
 // 这里不能通过import直接引入scss，不支持这个scss后缀格式，需要在App组件style中引入
@@ -19,6 +20,7 @@ Vue.use(ElementUI);
 Vue.use(ViserVue);
 Vue.config.productionTip = false;
 Vue.component('esop-button', EsopButton);
+Vue.component('form-cancel', FormCancel);
 
 Vue.axios = axios;
 
