@@ -97,24 +97,20 @@ export default new Router({
           name: 'user',
           component: User
         },
+        // type分为create / edit
         {
-          path: '/system/role/create',
+          path: '/system/role/:type/:id?',
           name: 'role-create',
           component: RoleCreate
         },
+        // {
+        //   path: '/system/role/edit/:id',
+        //   name: 'role-edit',
+        //   component: RoleCreate
+        // },
         {
-          path: '/system/role/edit/:id',
-          name: 'role-edit',
-          component: RoleCreate
-        },
-        {
-          path: '/system/user/create',
+          path: '/system/user/:type/:id?',
           name: 'user-create',
-          component: UserCreate
-        },
-        {
-          path: '/system/user/edit/:id',
-          name: 'role-user',
           component: UserCreate
         }
       ]

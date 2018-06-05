@@ -38,5 +38,19 @@
         ]
       }
     }
+  },
+  {
+    "url": "/role/info",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": {
+        "id": 1,
+        "name": "蔡成楠",
+        "desc": "描述"
+      }
+    }
   }
 ]

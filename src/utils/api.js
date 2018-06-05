@@ -32,6 +32,8 @@ export default {
   getDemoAPI: API('/demo'),
   getProvinceAPI: API('/province'),
   getRoleListAPI: API('/role/list'),
+  getRoleInfoAPI: API('/role/info'),
+
   loginApi: API('/login', 'post'),
   logoutApi: API('/logout', 'post'),
   resetPwdApi: API('/resetPwd', 'post')

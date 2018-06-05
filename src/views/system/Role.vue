@@ -9,7 +9,7 @@
         <el-button type="primary" @click="query">查询</el-button>
       </el-form-item>
       <el-form-item class="role-form-item">
-        <el-button @click="query" icon="el-icon-plus">创建角色</el-button>
+        <el-button @click="handleCreate" icon="el-icon-plus">创建角色</el-button>
       </el-form-item>
     </el-form>
     <wm-table :source="roleObj.list" :pageNo="pageNo" :pageSize="pageSize" :total="roleObj.totalCount">
@@ -59,8 +59,12 @@ export default {
     this.getRoleList();
   },
   methods: {
+    handleCreate() {
+      const path = `/system/role/create`;
+      this.$router.push(path);
+    },
     handleEdit(row) {
-      const path = `/role/edit/${row.id}`;
+      const path = `/system/role/edit/${row.id}`;
       this.$router.push(path);
     },
     handleDelete(row) {

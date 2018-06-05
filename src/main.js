@@ -3,12 +3,12 @@
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'utils/helper';
 import axios from 'axios';
 
 import App from './App';
 import router from './router';
 import store from './store';
-import 'utils/helper';
 import EsopButton from 'components/EsopButton';
 import ViserVue from 'viser-vue';
 

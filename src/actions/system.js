@@ -11,6 +11,13 @@ const actions = {
         commit(types.ROLE_LIST, {});
       }
     });
+  },
+  getRoleInfo: ({ commit }, params) => {
+    return API.getRoleInfoAPI(params).then(res => {
+      commit(types.ROLE_GET_INFO, res.data);
+    }, err => {
+      if (err) commit(types.ROLE_GET_INFO, {});
+    });
   }
 };
 

@@ -1,0 +1,31 @@
+[
+  {
+    "url": "/demo",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": [
+        {
+          "key": 1,
+          "name": "首页"
+        },
+        {
+          "key": 2,
+          "name": "数据分析",
+          "children": [
+            {
+              "key": 1,
+              "name": "活跃度分析"
+            },
+            {
+              "key": 2,
+              "name": "留存流失分析"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

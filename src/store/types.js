@@ -7,3 +7,5 @@ export const LOG_OUT = 'LOG_OUT';
 
 /* system */
 export const ROLE_LIST = 'ROLE_LIST';
+export const ROLE_INIT_FORM = 'ROLE_INIT_FORM';
+export const ROLE_GET_INFO = 'ROLE_GET_INFO';
