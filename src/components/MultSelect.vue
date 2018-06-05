@@ -22,7 +22,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function () {
+      default: function() {
         return [];
       }
     }
@@ -35,13 +35,13 @@ export default {
   },
   beforeMount() {
     this.selected = Object.cloneDeep(this.data.slice(0, 1));
-    console.log(this.selected)
+    console.log(this.selected);
   },
   methods: {
     itemClick(item) {
       let isSelected = this.isSelected(item);
       if (isSelected) {
-        this.selected = this.selected.filter(val => val.key !== item.key); 
+        this.selected = this.selected.filter(val => val.key !== item.key);
       } else {
         this.selected.push(item);
       }

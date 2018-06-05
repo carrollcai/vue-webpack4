@@ -39,19 +39,18 @@
 
 <script>
 import ActiveUserdataChart from 'components/data-analysis/ActiveUserdataChart';
-import G2 from 'g2';
-import Chart from 'components/Chart.vue';
-import DataSet from '@antv/data-set';
+// import G2 from 'g2';
+// import Chart from 'components/Chart.vue';
+// import DataSet from '@antv/data-set';
 
 export default {
   data() {
     return {
-      dateType: 0,
-      
+      dateType: 0
     };
   },
   components: {
-    Chart,
+    // Chart,
     ActiveUserdataChart
   },
   beforeMount() {

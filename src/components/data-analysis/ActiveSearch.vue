@@ -47,6 +47,7 @@ export default {
     })
   },
   beforeMount() {
+    console.log(123);
     // this.provinceSelected
   },
   methods: {

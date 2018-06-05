@@ -24,7 +24,7 @@ const sourceData = [
 const scale = [{
   dataKey: 'percent',
   min: 0,
-  formatter: '.0%',
+  formatter: '.0%'
 }];
 
 const dv = new DataSet.View().source(sourceData);
@@ -43,14 +43,14 @@ export default {
       scale,
       height: 400,
       pieStyle: {
-        stroke: "#fff",
-        lineWidth: 1,
+        stroke: '#fff',
+        lineWidth: 1
       },
       labelConfig: ['percent', {
         formatter: (val, item) => {
           return item.point.item + ': ' + val;
         }
-      }],
+      }]
     };
   }
 };

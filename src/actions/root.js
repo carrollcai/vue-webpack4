@@ -5,7 +5,7 @@ const actions = {
   // 获取getDemo列表
   getProvince: ({ commit }, params) => {
     return API.getProvinceAPI(params).then(res => {
-      commit(types.PROVINCE, res.data.data);
+      commit(types.PROVINCE, res.data);
     }, err => {
       if (err) {
         commit(types.PROVINCE, {});

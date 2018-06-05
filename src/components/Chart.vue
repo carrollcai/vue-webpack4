@@ -36,14 +36,13 @@ export default {
   },
   methods: {
     drawChart(data) {
-      const { width, height, id } = this
+      const { width, height, id } = this;
       this.chart && this.chart.destroy();
       this.chart = new G2.Chart({
         id: id,
         width: width,
         height: height
       });
-      
       this.chart.source(data);
 
       this.$emit('option', this);

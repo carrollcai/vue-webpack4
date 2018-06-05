@@ -5,7 +5,7 @@ const actions = {
   // 获取getDemo列表
   getDemo: ({ commit }, params) => {
     return API.getDemoAPI(params).then(res => {
-      commit(types.DEMO_LIST, res.data.data);
+      commit(types.DEMO_LIST, res.data);
     }, err => {
       if (err) {
         commit(types.DEMO_LIST, {});
