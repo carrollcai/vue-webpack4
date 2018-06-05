@@ -11,13 +11,21 @@
     <div class="m-container role-create">
       <el-form :label-position="'right'" label-width="120px" :model="roleCreate" ref="roleForm">
         <el-form-item label="角色名称：">
-          <el-input style="width: 468px;" v-model="roleCreate.name"></el-input>
+          <el-input class="form-input" v-model="roleCreate.name"></el-input>
         </el-form-item>
         <el-form-item label="角色描述：">
-          <el-input style="width: 468px;" v-model="roleCreate.desc"></el-input>
+          <el-input class="form-input" v-model="roleCreate.desc"></el-input>
         </el-form-item>
-        <el-form-item label="菜单权限：">
-          <el-input style="width: 468px;" v-model="roleCreate.desc"></el-input>
+        <el-form-item label="菜单权限：" v-if="!Object.isNullArray(permissions)">
+          <el-select class="form-input" multiple v-model="roleCreate.permissions" placeholder="选择菜单权限">
+            <div v-for="group in permissions" :key="group.menuId">
+              <el-option-group v-if="group.children" :label="group.name">
+                <el-option v-for="item in group.children" :key="item.menuId" :label="item.name" :value="item.menuId"></el-option>
+              </el-option-group>
+
+              <el-option v-else :key="group.menuId" :label="group.name" :value="group.menuId"></el-option>
+            </div>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm()">提交</el-button>
@@ -33,19 +41,21 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
   computed: {
     ...mapState({
-      roleCreate: ({ system }) => system.roleCreate
+      roleCreate: ({ system }) => system.roleCreate,
+      permissions: ({ system }) => system.permissions
     })
   },
   beforeMount() {
     this.resetForm();
+
+    Object.isNullArray(this.permissions) && this.getPermissions();
   },
   methods: {
     submitForm() {
-      
+      console.log(this.roleCreate);
     },
     resetForm() {
       const { type } = this.$route.params;
-      // console.log(type);
       if (type === 'create') {
         this.initForm();
       } else {
@@ -53,7 +63,8 @@ export default {
       }
     },
     ...mapActions([
-      'getRoleInfo'
+      'getRoleInfo',
+      'getPermissions'
     ]),
     ...mapMutations({
       initForm: 'ROLE_INIT_FORM'
@@ -71,5 +82,8 @@ export default {
   margin-top: $blockWidth;
   display: flex;
   justify-content: center;
+}
+.form-input {
+  width: 468px;
 }
 </style>

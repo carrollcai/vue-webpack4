@@ -18,6 +18,24 @@ const actions = {
     }, err => {
       if (err) commit(types.ROLE_GET_INFO, {});
     });
+  },
+  getPermissions: ({ commit }, params) => {
+    return API.getPermissionsAPI(params).then(res => {
+      commit(types.PERMISSIONS, res.data);
+    });
+  },
+  getUserList: ({ commit }, params) => {
+    return API.getUserListAPI(params).then(res => {
+      commit(types.USER_GET_LIST, res.data);
+    });
+  },
+  createUser: ({ commit }, params) => {
+    return API.createUserAPI(params).then(res => {
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/system/user/management'
+      });
+    });
   }
 };
 

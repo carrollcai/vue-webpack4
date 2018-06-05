@@ -1,13 +1,76 @@
 <template>
-  <div>这是用户创建</div>
+  <div>
+    <div class="m-container">
+      <div class="breadcrumb">
+        <el-breadcrumb>
+          <el-breadcrumb-item :to="{ path: '/system/user/management' }">用户管理</el-breadcrumb-item>
+          <el-breadcrumb-item>创建用户</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+    </div>
+    <div class="m-container user-create">
+      <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm">
+        <el-form-item label="用户姓名：">
+          <el-input class="form-input" v-model="userCreate.name"></el-input>
+        </el-form-item>
+        <el-form-item label="登录账号：">
+          <el-input class="form-input" v-model="userCreate.account"></el-input>
+        </el-form-item>
+        <el-form-item label="用户角色：">
+          <el-select class="form-input" v-model="userCreate.role">
+            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="省份权限：">
+          <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.province" placeholder="请选择" multiple>
+            <el-option v-for="item in province" :key="item.key" :label="item.value" :value="item.key">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="submitForm()">提交</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
-
+  computed: {
+    ...mapState({
+      userCreate: ({ system }) => system.userCreate,
+      userRoleList: ({ root }) => root.userRoleList,
+      province: ({ root }) => root.province
+    })
+  },
+  methods: {
+    submitForm() {
+      const params = this.createUser;
+      this.$refs['userForm'].validate(valid => {
+        if (valid) {
+          this.createUser(params)
+        }
+      });
+    },
+    ...mapActions([
+      'createUser'
+    ])
+  }
 };
 </script>
 
-<style>
-
+<style lang="scss">
+@import "scss/variables.scss";
+.user-create {
+  margin-top: $blockWidth;
+  display: flex;
+  justify-content: center;
+}
+.form-input {
+  width: 468px;
+}
 </style>

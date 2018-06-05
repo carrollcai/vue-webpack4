@@ -8,7 +8,7 @@
 import Main from './views/Main.vue';
 import Aside from './views/Aside.vue';
 import Header from './views/Header.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
   name: 'App',
   components: {
@@ -16,13 +16,27 @@ export default {
     Aside,
     Header
   },
+  computed: {
+    ...mapState({
+      currentRoute: ({ root }) => root.currentRoute
+    })
+  },
   beforeMount() {
     this.getProvince();
+    this.getUserRole();
   },
   methods: {
+    changeRoute(obj) {
+      console.log(obj);
+      this.$router.push(obj.path);
+    },
     ...mapActions([
-      'getProvince'
+      'getProvince',
+      'getUserRole'
     ])
+  },
+  watch: {
+    currentRoute: 'changeRoute'
   }
 };
 </script>

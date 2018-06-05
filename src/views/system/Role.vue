@@ -1,18 +1,18 @@
 <template>
   <div class="m-container">
-    <el-form class="role-form">
+    <el-form class="role-form" ref="roleManageForm" :model="roleForm" >
       <el-form-item>角色名称：</el-form-item>
       <el-form-item class="role-form-item__input">
-        <el-input />
+        <el-input v-model="roleForm.name" />
       </el-form-item>
       <el-form-item class="role-form-item">
         <el-button type="primary" @click="query">查询</el-button>
       </el-form-item>
       <el-form-item class="role-form-item">
-        <el-button @click="handleCreate" icon="el-icon-plus">创建角色</el-button>
+        <el-button @click.prevent="handleCreate" icon="el-icon-plus">创建角色</el-button>
       </el-form-item>
     </el-form>
-    <wm-table :source="roleObj.list" :pageNo="pageNo" :pageSize="pageSize" :total="roleObj.totalCount">
+    <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户角色" property="role" />
       <el-table-column label="用户描述" property="desc" />
       <el-table-column label="用户数" property="num" />
@@ -39,12 +39,9 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState } from 'vuex';
-import { PAGE_NO, PAGE_SIZE } from '@/config';
 export default {
   data() {
     return {
-      pageNo: PAGE_NO,
-      pageSize: PAGE_SIZE
     };
   },
   components: {
@@ -52,13 +49,20 @@ export default {
   },
   computed: {
     ...mapState({
-      roleObj: ({ system }) => system.roleObj
+      roleObj: ({ system }) => system.roleObj,
+      roleForm: ({ system }) => system.roleForm
     })
   },
   beforeMount() {
     this.getRoleList();
   },
   methods: {
+    onPagination(value) {
+      this.roleForm.pageNo = value;
+    },
+    onSizePagination(value) {
+      this.roleForm.pageSize = value;
+    },
     handleCreate() {
       const path = `/system/role/create`;
       this.$router.push(path);
@@ -78,10 +82,16 @@ export default {
       });
     },
     query() {
-
+      const params = this.roleForm;
+      this.$refs['roleManageForm'].validate(valid => {
+        if (valid) {
+          this.getRoleList(params);
+        }
+      })
     },
     ...mapActions([
-      'getRoleList'
+      'getRoleList',
+      'queryRole'
     ])
   }
 };
@@ -89,7 +99,6 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-$formWidth: 32px;
 .role-form {
   display: flex;
   align-items: center;

@@ -25,7 +25,7 @@ async function init() {
         if (err) throw err;
         if (!cont) {
           console.log('content must exsit.');
-          return false;
+          // return false;
         }
 
         apiContArr.push(JSON.parse(cont));

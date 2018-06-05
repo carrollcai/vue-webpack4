@@ -29,7 +29,7 @@ export const SIDEBAR_DATA = {
         url: '/task/management'
       },
       {
-        name: '我的任务',
+        name: '我的申请',
         url: '/task/push'
       },
       {
