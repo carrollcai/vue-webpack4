@@ -10,48 +10,58 @@
     <div class="userdata-main">
       <div class="userdata-main-left">
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title">日活跃用户数</div>
+          <div class="userdata-main-left__title ellipsis">日活跃用户数</div>
           <div class="userdata-main-left__num">728972</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title">日活跃用户数</div>
+          <div class="userdata-main-left__title ellipsis">日活跃用户数</div>
           <div class="userdata-main-left__num">728972</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title">移动IP用户/非移动IP用户</div>
+          <div class="userdata-main-left__title ellipsis">移动IP用户/非移动IP用户</div>
           <div class="userdata-main-left__num">24255/21333</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title">日活跃用户数</div>
+          <div class="userdata-main-left__title ellipsis">日活跃用户数</div>
           <div class="userdata-main-left__num">728972</div>
         </div>
       </div>
       <div class="userdata-main-right">
         <div class="userdata-main-right__chart">
-          <!-- <chart :id="'userdata'" :width="400" :height="360" @option="option" :charData="charData" /> -->
-          <active-userdata-chart />
+          <Pie :id="'mountNode'" :charData="charData" :width="200" :height="200" />
         </div>
       </div>
     </div>
-    <!-- <div id="userdata"></div> -->
   </div>
 </template>
 
 <script>
-import ActiveUserdataChart from 'components/data-analysis/ActiveUserdataChart';
-// import G2 from 'g2';
-// import Chart from 'components/Chart.vue';
-// import DataSet from '@antv/data-set';
+import Pie from 'components/chart/Pie.vue';
 
 export default {
   data() {
     return {
-      dateType: 0
+      dateType: 0,
+      charData: [{
+        item: '事例一',
+        count: 40
+      }, {
+        item: '事例二',
+        count: 21
+      }, {
+        item: '事例三',
+        count: 17
+      }, {
+        item: '事例四',
+        count: 13
+      }, {
+        item: '事例五',
+        count: 9
+      }]
     };
   },
   components: {
-    // Chart,
-    ActiveUserdataChart
+    Pie
   },
   beforeMount() {
 

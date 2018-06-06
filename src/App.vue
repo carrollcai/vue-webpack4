@@ -27,7 +27,6 @@ export default {
   },
   methods: {
     changeRoute(obj) {
-      console.log(obj);
       this.$router.push(obj.path);
     },
     ...mapActions([

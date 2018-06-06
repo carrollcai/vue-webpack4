@@ -13,3 +13,7 @@ export const ROLE_LIST = 'ROLE_LIST';
 export const ROLE_INIT_FORM = 'ROLE_INIT_FORM';
 export const ROLE_GET_INFO = 'ROLE_GET_INFO';
 export const USER_GET_LIST = 'USER_GET_LIST';
+
+/* data-analysis */
+export const CLIENT_GET = 'CLIENT_GET';
+export const ACTIVE_QUERY_FORM = 'ACTIVE_QUERY_FORM';

@@ -13,7 +13,6 @@ const actions = {
     });
   },
   getUserRole: ({ commit }, params) => {
-    console.log(111);
     return API.getUserRoleAPI(params).then(res => {
       commit(types.USER_ROLE_LIST, res.data);
     });

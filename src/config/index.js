@@ -2,7 +2,7 @@ export const SIDEBAR_DATA = {
   dashboard: {
     name: '首页',
     url: '/dashboard',
-    icon: 'el-icon-menu'
+    icon: 'icon-download-copy'
   },
   analysis: {
     name: '数据分析',

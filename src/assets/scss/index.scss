@@ -15,23 +15,11 @@ html, body, div {
   padding: 0;
 }
 
-.block-containter {
-  background-color: #fff;
-  padding: $blockWidth;
+.ellipsis {
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis; 
 }
 .flex {
   display: flex;
-}
-.btnLists {
-  & .el-button {
-    font-size: 18px;
-    color: #333333;
-    &+.el-button {
-        margin-left: 10px;
-    }
-  }
-}
-.m-container {
-  background-color: #fff;
-  padding: 16px;
 }

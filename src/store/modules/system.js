@@ -15,6 +15,7 @@ const userCreate = {
 
 const state = {
   roleObj: [],
+  permissions: [],
   roleForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,

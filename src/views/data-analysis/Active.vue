@@ -13,6 +13,7 @@ import ActiveTrend from 'components/data-analysis/ActiveTrend.vue';
 import ActiveUserdata from 'components/data-analysis/ActiveUserdata.vue';
 import ActiveProvinceUser from 'components/data-analysis/ActiveProvinceUser.vue';
 import MultSelect from 'components/MultSelect.vue';
+import { mapActions } from 'vuex';
 export default {
   components: {
     ActiveSearch,
@@ -35,10 +36,13 @@ export default {
       ]
     };
   },
+  beforeMount() {
+    this.getClient();
+  },
   methods: {
-    query() {
-      console.log();
-    }
+    ...mapActions([
+      'getClient'
+    ])
   }
 };
 </script>

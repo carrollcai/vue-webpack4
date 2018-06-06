@@ -1,3 +1,21 @@
 .el-menu {
   border-right: 0 !important;
 }
+
+.block-containter {
+  background-color: #fff;
+  padding: $blockWidth;
+}
+.btnLists {
+  & .el-button {
+    font-size: 18px;
+    color: #333333;
+    &+.el-button {
+        margin-left: 10px;
+    }
+  }
+}
+.m-container {
+  background-color: #fff;
+  padding: 16px;
+}

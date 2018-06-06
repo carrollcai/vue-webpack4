@@ -77,6 +77,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.deleteRole({ id: row.id }).then(res => {
+          this.query();
+        });
       }).catch(() => {
         this.$message('已取消删除');
       });

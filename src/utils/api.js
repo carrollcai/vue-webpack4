@@ -40,6 +40,8 @@ export default {
   getUserRoleAPI: API('/user/role/list'),
   createUserAPI: API('/user/role/list'),
   deleteUserAPI: API('/user/role/list'),
+  getClientAPI: API('/client'),
+  queryActiveFormAPI: API('/client'),
 
   loginApi: API('/login', 'post'),
   logoutApi: API('/logout', 'post'),

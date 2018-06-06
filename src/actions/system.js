@@ -48,6 +48,24 @@ const actions = {
         duration: 3000
       });
     });
+  },
+  createRole: ({ commit }, params) => {
+    return API.createRoleAPI(params).then(res => {
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/system/role/management'
+      });
+    });
+  },
+  deleteRole: ({ commit }, params) => {
+    return API.deleteRoleAPI(params).then(res => {
+      Message({
+        showClose: true,
+        message: '删除成功',
+        type: 'success',
+        duration: 3000
+      });
+    });
   }
 };
 

@@ -3,15 +3,15 @@
     <div class="active-search__select">
       <div class="active-search__province">
         省份：
-        <el-select v-if="province.length" v-model="provinceSelected" placeholder="请选择" multiple @change="channelChange" collapse-tags>
+        <el-select v-if="province.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
           <el-option v-for="item in province" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
         </el-select>
       </div>
       <div class="active-search__client">
         客户端：
-        <el-select v-if="province.length" v-model="provinceSelected" placeholder="请选择" multiple @change="channelChange" collapse-tags>
-          <el-option v-for="item in province" :key="item.key" :label="item.value" :value="item.key">
+        <el-select v-if="client.length" v-model="activeObj.clientSelected" placeholder="请选择" multiple @change="clientChange" collapse-tags>
+          <el-option v-for="item in client" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
         </el-select>
       </div>
@@ -28,13 +28,9 @@
 </template>
 
 <script>
-// import MultSelect from 'components/MultSelect.vue';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: {
-    // MultSelect
-  },
   data() {
     return {
       provinceSelected: [],
@@ -43,20 +39,28 @@ export default {
   },
   computed: {
     ...mapState({
-      province: ({ root }) => root.province
+      province: ({ root }) => root.province,
+      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj,
+      client: ({ dataAnalysis }) => dataAnalysis.client
     })
   },
   beforeMount() {
-    console.log(123);
     // this.provinceSelected
   },
   methods: {
-    channelChange() {
+    provinceChange() {
+
+    },
+    clientChange() {
 
     },
     query() {
-      console.log();
-    }
+      const { activeObj } = this;
+      this.queryActiveForm(activeObj);
+    },
+    ...mapActions([
+      'queryActiveForm'
+    ])
   }
 };
 </script>

@@ -52,7 +52,12 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log(this.roleCreate);
+      const params = this.roleCreate;
+      this.$refs['roleForm'].validate(valid => {
+        if (valid) {
+          this.createRole(params);
+        }
+      });
     },
     resetForm() {
       const { type } = this.$route.params;
@@ -64,6 +69,7 @@ export default {
     },
     ...mapActions([
       'getRoleInfo',
+      'createRole',
       'getPermissions'
     ]),
     ...mapMutations({
