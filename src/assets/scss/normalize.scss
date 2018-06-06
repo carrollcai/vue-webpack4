@@ -1,3 +1,5 @@
+$menu-active-color: #FFFFFF;
+
 .el-menu {
   border-right: 0 !important;
 }
@@ -18,4 +20,15 @@
 .m-container {
   background-color: #fff;
   padding: 16px;
+}
+
+/*重置头部 用户名菜单 选中的颜色*/
+.el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
+  border-bottom: none;
+  color: $menu-active-color;
+}
+
+.el-menu--horizontal .el-menu .el-menu-item.is-active,
+.el-menu--horizontal .el-menu .el-submenu__title.is-active{
+  color: $menu-active-color;
 }
