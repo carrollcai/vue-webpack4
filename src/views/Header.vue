@@ -18,23 +18,27 @@
         </el-submenu>
       </el-menu>
     </div>
-    <el-dialog title="修改密码" :visible.sync="dialogFormVisible" class="reset-pwd-dialog"
+    <el-dialog title="修改密码"
+      :visible.sync="dialogFormVisible"
+      class="reset-pwd-dialog"
+      :show-close="false"
       :center="true"
+      @close="handleClose"
       width="470px">
-      <el-form :model="form" ref="resetForm" :rules="rules">
-        <el-form-item label="原密码" label-width="150px" prop="oldPwd">
+      <el-form :model="form" ref="resetForm" :rules="rules" label-width="145px">
+        <el-form-item label="原密码" prop="oldPwd">
           <el-input v-model="form.oldPwd" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="新密码" label-width="150px" prop="newPwd">
+        <el-form-item label="新密码" prop="newPwd">
           <el-input type="password" v-model="form.newPwd" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" label-width="150px" prop="checkPass">
+        <el-form-item label="确认密码" prop="checkPass">
           <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="handleSubmit">确 定</el-button>
-        <el-button @click="handleClose">取 消</el-button>
+        <el-button @click="handleClose" class="btn-cancel">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -140,15 +144,26 @@ export default {
   margin: 0 16px;
 }
 
-/*
-.dialog-footer{
-  text-align: center;
-}
-
 .reset-pwd-dialog{
+  line-height: 1;
   .el-dialog__header{
-    text-align: center;
+    padding: 24px;
+  }
+
+  .el-dialog__body{
+    padding: 0 25px;
+
+    .el-input__inner{
+      width: 208px;
+    }
+  }
+
+  .el-dialog__footer{
+    padding-top: 10px;
+
+    .btn-cancel{
+      margin-left: 24px;
+    }
   }
 }
-*/
 </style>

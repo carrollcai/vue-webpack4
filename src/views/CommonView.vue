@@ -47,7 +47,7 @@ export default {
   height: 60px;
   line-height: 60px;
   background-color: $headerBg;
-  z-index: 99;
+  /* z-index: 99; */
 }
 .app-menu {
   height: 100%;

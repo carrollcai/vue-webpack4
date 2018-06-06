@@ -6,10 +6,10 @@
       </div>
       <div class="body">
         <div class="input-wrapper">
-          <input type="text" class="login-input" placeholder="账号">
+          <login-input type="text" v-model="loginName" placeholder="账号"></login-input>
         </div>
         <div  class="input-wrapper">
-          <input type="text" class="login-input" placeholder="密码">
+          <login-input type="password" v-model="pwd" placeholder="密码"></login-input>
         </div>
         <div class="btn-group">
           <el-button type="primary" @click="handleLogin">登录</el-button>
@@ -21,8 +21,18 @@
 
 <script>
 import { mapActions } from 'vuex';
+import LoginInput from 'components/LoginInput.vue';
 export default {
   name: 'Login',
+  components: {
+    LoginInput
+  },
+  data() {
+    return {
+      loginName: '',
+      pwd: ''
+    };
+  },
   methods: {
     isSuccess(res) {
       return res && res.code === 1;
@@ -49,10 +59,10 @@ export default {
     align-items: center;
 
     .login-form{
-      background: #FFFFFF;
       width: 510px;
+      background: #FFFFFF;
       box-sizing: border-box;
-      height: 350px;
+      height: auto;
 
       .title{
         padding-left: $padding-left;
@@ -71,24 +81,12 @@ export default {
           display: flex;
           align-items: flex-end;
         }
-        .login-input{
-          border: none;
-          border-bottom: 1px solid rgba(163, 195, 254, 1);
-          height: 24px;
-          line-height: 24px;
-          width: 429px;
-          &:focus{
-            border: none;
-            border-bottom: 1px solid rgba(163, 195, 254, 1);
-            outline: none;
-          }
-        }
 
         .btn-group{
           display: flex;
-          justify-content: flex-end;
+          justify-content: center;
           padding-right: 37px;
-          margin-top: 22px;
+          margin: 40px 0 24px 0;
           .el-button{
             width: 130px;
             align-self: flex-end;
