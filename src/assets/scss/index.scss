@@ -10,6 +10,10 @@ html {
 //     background-color: $bg;
 // }
 
+html, body {
+  font-family: MicrosoftYaHei;
+}
+
 html, body, div {
   margin: 0;
   padding: 0;
@@ -18,7 +22,7 @@ html, body, div {
 .ellipsis {
   white-space:nowrap;
   overflow:hidden;
-  text-overflow:ellipsis; 
+  text-overflow:ellipsis;
 }
 .flex {
   display: flex;
