@@ -52,7 +52,7 @@ export default {
       const params = this.createUser;
       this.$refs['userForm'].validate(valid => {
         if (valid) {
-          this.createUser(params)
+          this.createUser(params);
         }
       });
     },

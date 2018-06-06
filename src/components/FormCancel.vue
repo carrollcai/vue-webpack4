@@ -19,7 +19,7 @@ export default {
       }).then(() => {
         this.closeCurrentTab({
           path: this.path
-        })
+        });
       }).catch(() => {
         this.$message('已取消');
       });

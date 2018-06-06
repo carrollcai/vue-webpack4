@@ -9,8 +9,8 @@ import axios from 'axios';
 import App from './App';
 import router from './router';
 import store from './store';
-import EsopButton from 'components/EsopButton';
-import FormCancel from 'components/FormCancel';
+import EsopButton from 'components/EsopButton.vue';
+import FormCancel from 'components/FormCancel.vue';
 import ViserVue from 'viser-vue';
 
 // 这里不能通过import直接引入scss，不支持这个scss后缀格式，需要在App组件style中引入

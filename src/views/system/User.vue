@@ -88,7 +88,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteUser({id :row.id}).then(res => {
+        this.deleteUser({ id: row.id }).then(res => {
           this.query();
         });
       }).catch(() => {
@@ -98,10 +98,6 @@ export default {
     query() {
       const params = this.userForm;
       this.getUserList(params);
-    },
-    handleCreate() {
-      const path = `/system/user/create`;
-      this.$router.push(path);
     },
     ...mapActions([
       'getUserList',

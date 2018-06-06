@@ -29,7 +29,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm()">提交</el-button>
-          <el-button>取消</el-button>
+          <form-cancel :path="'/system/role/management'">取消</form-cancel>
         </el-form-item>
       </el-form>
     </div>

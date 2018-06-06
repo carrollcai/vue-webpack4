@@ -87,7 +87,7 @@ export default {
         if (valid) {
           this.getRoleList(params);
         }
-      })
+      });
     },
     ...mapActions([
       'getRoleList',
@@ -104,7 +104,7 @@ export default {
   align-items: center;
 }
 .role-form-item__input {
-  margin-left: $blockWidth;
+  // margin-left: $blockWidth;
 }
 .role-form-item {
   margin-left: $formWidth;
