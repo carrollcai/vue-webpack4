@@ -6,7 +6,16 @@ const state = {
     provincedSelected: [],
     clientSelected: []
   },
-  userdata: []
+  userdata: [],
+  dailyUser: [],
+  trendList: [],
+  members: [],
+  trend: {
+    dateType: 0,
+    date: '',
+    mode: 0,
+    chartRadio: 0
+  }
 };
 
 const mutations = {
@@ -15,6 +24,15 @@ const mutations = {
   },
   [types.ACTIVE_QUERY_FORM](state, data) {
     state.userdata = data;
+  },
+  [types.ACTIVE_GET_DAILY_USER](state, data) {
+    state.dailyUser = data;
+  },
+  [types.TREND_GET_LIST](state, data) {
+    state.trendList = data;
+  },
+  [types.ACTIVE_GET_MEMBERS](state, data) {
+    state.members = data;
   }
 };
 

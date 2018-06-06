@@ -31,9 +31,9 @@
         }
       ],
       "properties": {
-        "order": 2,
+        "order": 11,
         "id": 8,
-        "name": "任务",
+        "name": "task",
         "prevSize": 32,
         "code": 59648
       },
@@ -64,9 +64,9 @@
         }
       ],
       "properties": {
-        "order": 3,
+        "order": 12,
         "id": 7,
-        "name": "首页",
+        "name": "home",
         "prevSize": 32,
         "code": 59649
       },
@@ -111,9 +111,9 @@
         }
       ],
       "properties": {
-        "order": 4,
+        "order": 13,
         "id": 6,
-        "name": "数据",
+        "name": "data",
         "prevSize": 32,
         "code": 59650
       },
@@ -140,9 +140,9 @@
         {}
       ],
       "properties": {
-        "order": 5,
+        "order": 14,
         "id": 5,
-        "name": "date-picker",
+        "name": "date1",
         "prevSize": 32,
         "code": 59651
       },
@@ -169,9 +169,9 @@
         {}
       ],
       "properties": {
-        "order": 6,
+        "order": 15,
         "id": 4,
-        "name": "椭圆_1_拷贝_10",
+        "name": "chart",
         "prevSize": 32,
         "code": 59652
       },
@@ -198,9 +198,9 @@
         {}
       ],
       "properties": {
-        "order": 7,
+        "order": 16,
         "id": 3,
-        "name": "系统",
+        "name": "system",
         "prevSize": 32,
         "code": 59653
       },
@@ -230,9 +230,9 @@
         {}
       ],
       "properties": {
-        "order": 8,
+        "order": 17,
         "id": 2,
-        "name": "download-copy",
+        "name": "download",
         "prevSize": 32,
         "code": 59654
       },
@@ -265,9 +265,9 @@
         {}
       ],
       "properties": {
-        "order": 9,
+        "order": 18,
         "id": 1,
-        "name": "提示",
+        "name": "info",
         "prevSize": 32,
         "code": 59655
       },
@@ -294,9 +294,9 @@
         {}
       ],
       "properties": {
-        "order": 10,
+        "order": 19,
         "id": 0,
-        "name": "Shape",
+        "name": "date2",
         "prevSize": 32,
         "code": 59656
       },

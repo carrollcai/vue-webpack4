@@ -1,5 +1,25 @@
 <template>
-  <div :style="{width: `${width}px`, height:`${height}px` }" :id="id"></div>
+  <div style="position: relative;">
+    <div style="width: calc(100% - 240px);">
+      <div style="font-size: 0px;position: relative;">
+        <div :style="{width: `${width}px`, height:`${height}px` }" :id="id"></div>
+      </div>
+      <ul v-if="hasLegend" class="has-legend">
+        <div>
+          <li v-for="(item, i) in legendData" :key="i" v-if="i <= 2">
+            <span class="dot" :style="{backgroundColor: item.color}" />
+            <span class="legend-title">{{item.item}}</span>
+          </li>
+        </div>
+        <div class="pie-item">
+          <li v-for="(item, i) in legendData" :key="i" v-if="i > 2">
+            <span class="dot" :style="{backgroundColor: item.color}" />
+            <span class="legend-title">{{item.item}}</span>
+          </li>
+        </div>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -8,24 +28,27 @@ import DataSet from '@antv/data-set';
 export default {
   data() {
     return {
-      chart: null
+      chart: null,
+      legendData: []
     };
   },
   props: {
     charData: {
       type: Array,
-      default: []
+      default: function() {
+        return [];
+      }
     },
-    option: Function,
-    id: String,
     width: {
       type: Number,
       default: 500
     },
     height: {
       type: Number,
-      default: 5000
-    }
+      default: 500
+    },
+    id: String,
+    hasLegend: Boolean
   },
   mounted() {
     this.drawChart(this.charData);
@@ -36,6 +59,20 @@ export default {
     }
   },
   methods: {
+    pushColor() {
+      const { hasLegend } = this;
+      if (hasLegend) {
+        const geom = this.chart.getAllGeoms()[0]; // 获取所有的图形
+        const items = geom.get('dataArray') || []; // 获取图形对应的
+
+        this.legendData = items.map(item => {
+          const origin = item[0]._origin;
+          origin.color = item[0].color;
+          origin.checked = true;
+          return origin;
+        });
+      }
+    },
     drawChart(data) {
       this.chart && this.chart.destroy();
 
@@ -54,7 +91,8 @@ export default {
         forceFit: true,
         height: height,
         width: width,
-        animate: false
+        animate: false,
+        padding: 10
       });
       this.chart.source(dv, {
         percent: {
@@ -65,21 +103,14 @@ export default {
         }
       });
       this.chart.coord('theta', {
-        radius: 0.75,
+        radius: 1,
         innerRadius: 0.6
       });
       this.chart.tooltip({
         showTitle: false,
         itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
       });
-      // 辅助文本
-      // this.chart.guide().html({
-      //   position: ['50%', '50%'],
-      //   html: '<div style="color:#8c8c8c;font-size: 14px;text-align: center;width: 10em;">主机<br><span style="color:#8c8c8c;font-size:20px">200</span>台</div>',
-      //   alignX: 'middle',
-      //   alignY: 'middle'
-      // });
-      var interval = this.chart.intervalStack().position('percent').color('item').label('percent').tooltip('item*percent', function(item, percent) {
+      this.chart.intervalStack().position('percent').color('item').label('percent').tooltip('item*percent', function(item, percent) {
         percent = percent * 100 + '%';
         return {
           name: item,
@@ -89,18 +120,48 @@ export default {
         lineWidth: 1,
         stroke: '#fff'
       });
-      // this.chart.axis('x',false)
       this.chart.legend(false);
-
-      // this.chart.legend('gender', {
-      //   position: 'right'
-      // });
       this.chart.render();
-      // interval.setSelected(dv.rows[0]);
+      this.pushColor();
     }
   }
-}
+};
 </script>
 
-<style>
+<style lang="scss">
+.has-legend {
+  position: absolute;
+  right: 0;
+  min-width: 200px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 20px;
+  list-style: none;
+  padding: 0;
+  display: flex;
+}
+
+.pie-item {
+  margin-left: 16px;
+}
+.has-legend li {
+  cursor: pointer;
+  margin-bottom: 8px;
+  height: 22px;
+  line-height: 22px;
+
+  & .dot {
+    border-radius: 8px;
+    display: inline-block;
+    margin-right: 8px;
+    position: relative;
+    top: -1px;
+    height: 8px;
+    width: 8px;
+    background-color: rgb(133, 67, 224);
+  }
+  & .legend-title {
+    color: rgba(0, 0, 0, 0.65);
+  }
+}
 </style>

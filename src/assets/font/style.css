@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?jucuv3');
-  src:  url('fonts/icomoon.eot?jucuv3#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?jucuv3') format('truetype'),
-    url('fonts/icomoon.woff?jucuv3') format('woff'),
-    url('fonts/icomoon.svg?jucuv3#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?axdam1');
+  src:  url('fonts/icomoon.eot?axdam1#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?axdam1') format('truetype'),
+    url('fonts/icomoon.woff?axdam1') format('woff'),
+    url('fonts/icomoon.svg?axdam1#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,30 +24,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-任务:before {
+.icon-task:before {
   content: "\e900";
 }
-.icon-首页:before {
+.icon-home:before {
   content: "\e901";
 }
-.icon-数据:before {
+.icon-data:before {
   content: "\e902";
 }
-.icon-date-picker:before {
+.icon-date1:before {
   content: "\e903";
 }
-.icon-椭圆_1_拷贝_10:before {
+.icon-chart:before {
   content: "\e904";
 }
-.icon-系统:before {
+.icon-system:before {
   content: "\e905";
 }
-.icon-download-copy:before {
+.icon-download:before {
   content: "\e906";
 }
-.icon-提示:before {
+.icon-info:before {
   content: "\e907";
 }
-.icon-Shape:before {
+.icon-date2:before {
   content: "\e908";
 }

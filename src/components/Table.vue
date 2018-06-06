@@ -3,7 +3,7 @@
     <el-table :data="source" :selection-mode="mode" :empty-text="emptyText" @selection-change="onSelected" stripe>
       <slot></slot>
     </el-table>
-    <el-pagination v-if="source&&source.length" ref="pagination" class="paginationSty" :layout="paginationLayout" @current-change="onPagination" @size-change="onSizePagination" :current-page="pageNo" :page-size="pageSize" :total="total">
+    <el-pagination v-if="total" ref="pagination" class="paginationSty" :layout="paginationLayout" @current-change="onPagination" @size-change="onSizePagination" :current-page="pageNo" :page-size="pageSize" :total="total">
     </el-pagination>
   </div>
 </template>

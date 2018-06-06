@@ -15,6 +15,26 @@ const actions = {
     return API.queryActiveFormAPI(params).then(res => {
       commit(types.ACTIVE_QUERY_FORM, res.data);
     });
+  },
+  getDailyActiveUser: ({ commit }, params) => {
+    return API.getDailyActiveUserAPI(params).then(res => {
+      commit(types.ACTIVE_GET_DAILY_USER, res.data);
+    });
+  },
+  getTrendList: ({ commit }, params) => {
+    return API.getTrendListAPI(params).then(res => {
+      commit(types.TREND_GET_LIST, res.data);
+    });
+  },
+  getMembers: ({ commit }, params) => {
+    return API.getMembersAPI(params).then(res => {
+      commit(types.ACTIVE_GET_MEMBERS, res.data);
+    });
+  },
+  getActiveTrend: ({ commit }, params) => {
+    return API.getActiveTrendAPI(params).then(res => {
+      commit(types.TREND_GET_ACTIVE, res.data);
+    });
   }
 };
 

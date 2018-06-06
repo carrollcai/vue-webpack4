@@ -60,6 +60,9 @@
   color: rgba(55, 120, 255, 1);
   font-size: 20px;
 }
+.userdata-main-right {
+  width: 360px;
+}
 
 
 .active-trend__header {
@@ -67,6 +70,12 @@
 }
 .trend-sub {
   display: flex;
+  margin-top: $formWidth;
+  justify-content: space-between;
+  align-items: center;
+}
+.trend-chart {
+  // margin-top: $formWidth;
 }
 .trend-header {
   display: flex;
@@ -75,6 +84,24 @@
 }
 .trend-header-right {
   display: flex;
+  align-items: center;
+}
+.trend-header-title {
+  font-size: 16px;
+}
+.trend-header-right__query {
+  margin-left: $formWidth;
+}
+.trend-header-divider {
+  margin: 0 $blockWidth;
+  height: $buttonLineHeight;
+  line-height: $buttonLineHeight;
+  font-size: 20px;
+  color: #E3E3E3;
+}
+.trend-mode {
+  margin-top: $formWidth;
+  min-height: 500px;
 }
 
 

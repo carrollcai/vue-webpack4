@@ -41,7 +41,13 @@ export default {
   createUserAPI: API('/user/role/list'),
   deleteUserAPI: API('/user/role/list'),
   getClientAPI: API('/client'),
+
+  /* 数据分析 */
   queryActiveFormAPI: API('/client'),
+  getDailyActiveUserAPI: API('/active/dailyLive'),
+  getTrendListAPI: API('/trend/list'),
+  getMembersAPI: API('/member'),
+  getActiveTrendAPI: API('/member'),
 
   loginApi: API('/login', 'post'),
   logoutApi: API('/logout', 'post'),

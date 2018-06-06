@@ -1,7 +1,7 @@
 <template>
   <div class="active-userdata block-containter">
     <div class="userdata-header">
-      <el-radio-group v-model="dateType" size="small">
+      <el-radio-group v-model="dateType" size="small" @change="dataChange">
         <el-radio-button :label="0">按日</el-radio-button>
         <el-radio-button :label="1">按月</el-radio-button>
       </el-radio-group>
@@ -28,7 +28,7 @@
       </div>
       <div class="userdata-main-right">
         <div class="userdata-main-right__chart">
-          <Pie :id="'mountNode'" :charData="charData" :width="200" :height="200" />
+          <Pie :id="'mountNode'" :charData="members" :width="100" :height="100" hasLegend />
         </div>
       </div>
     </div>
@@ -37,39 +37,34 @@
 
 <script>
 import Pie from 'components/chart/Pie.vue';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data() {
     return {
-      dateType: 0,
-      charData: [{
-        item: '事例一',
-        count: 40
-      }, {
-        item: '事例二',
-        count: 21
-      }, {
-        item: '事例三',
-        count: 17
-      }, {
-        item: '事例四',
-        count: 13
-      }, {
-        item: '事例五',
-        count: 9
-      }]
+      dateType: 0
     };
   },
   components: {
     Pie
   },
-  beforeMount() {
-
+  computed: {
+    ...mapState({
+      members: ({ dataAnalysis }) => dataAnalysis.members
+    })
   },
-  beforeUpdate() {
-    this.test();
+  beforeMount() {
+    this.getMembers();
   },
   methods: {
+    dataChange(val) {
+      console.log(val);
+      this.getDailyActiveUser({ val });
+    },
+    ...mapActions([
+      'getDailyActiveUser',
+      'getMembers'
+    ])
   }
 };
 </script>

@@ -17,3 +17,7 @@ export const USER_GET_LIST = 'USER_GET_LIST';
 /* data-analysis */
 export const CLIENT_GET = 'CLIENT_GET';
 export const ACTIVE_QUERY_FORM = 'ACTIVE_QUERY_FORM';
+export const ACTIVE_GET_DAILY_USER = 'ACTIVE_GET_DAILY_USER';
+export const ACTIVE_GET_MEMBERS = 'ACTIVE_GET_MEMBERS';
+export const TREND_GET_LIST = 'TREND_GET_LIST';
+export const TREND_GET_ACTIVE = 'TREND_GET_ACTIVE';
