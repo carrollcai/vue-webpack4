@@ -9,6 +9,7 @@ import axios from 'axios';
 import App from './App';
 import router from './router';
 import store from './store';
+import auth from './auth';
 import EsopButton from 'components/EsopButton.vue';
 import FormCancel from 'components/FormCancel.vue';
 import '@/assets/font/style.css';
@@ -48,6 +49,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  auth,
   components: { App },
   template: '<App/>'
 });
