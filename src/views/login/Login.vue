@@ -38,7 +38,9 @@ export default {
       return res && res.code === 1;
     },
     handleLogin() {
-      this.login();
+      this.login({
+        loginName: 'admin'
+      });
     },
     ...mapActions(['login'])
   }
