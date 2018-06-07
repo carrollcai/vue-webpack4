@@ -1,3 +1,5 @@
+@import "scss/variables.scss";
+
 $menu-active-color: #FFFFFF;
 
 .el-menu {
@@ -22,7 +24,7 @@ $menu-active-color: #FFFFFF;
   padding: 16px;
 }
 
-/*重置头部 用户名菜单 选中的颜色*/
+/* 重置头部 用户名菜单 选中的颜色 */
 .el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
   border-bottom: none;
   color: $menu-active-color;
@@ -31,4 +33,42 @@ $menu-active-color: #FFFFFF;
 .el-menu--horizontal .el-menu .el-menu-item.is-active,
 .el-menu--horizontal .el-menu .el-submenu__title.is-active{
   color: $menu-active-color;
+}
+
+/* 重置普通按钮宽度为96 */
+.el-button {
+  line-height: $buttonLineHeight;
+  padding: 0;
+  width: 96px;
+}
+.el-button--have-icon {
+  width: 120px;
+}
+
+/* 重置input框高度 */
+.el-input__inner {
+  line-height: $buttonLineHeight;
+  height: $buttonLineHeight;
+}
+
+/* 重置外部引用icon */
+.el-submenu [class^=icon-], .el-menu-item [class^=icon-] {
+  vertical-align: middle;
+  margin-right: 5px;
+  width: 24px;
+  text-align: center;
+  font-size: 18px;
+}
+
+[class*=" icon-"], [class^=icon-] {
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

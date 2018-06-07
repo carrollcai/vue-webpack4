@@ -6,17 +6,21 @@ const state = {
     provincedSelected: [],
     clientSelected: []
   },
-  userdata: [],
-  dailyUser: [],
-  trendList: [],
-  members: [],
-  mapData: [],
   trend: {
     dateType: 0,
     date: '',
     mode: 0,
     chartRadio: 0
-  }
+  },
+  provinceUser: {
+    data: ''
+  },
+  userdata: [],
+  dailyUser: [],
+  trendList: [],
+  provinceUserList: [],
+  members: [],
+  mapData: []
 };
 
 const mutations = {
@@ -37,6 +41,9 @@ const mutations = {
   },
   [types.PROVINCE_GET_MAP_JSON](state, data) {
     state.mapData = data;
+  },
+  [types.PROVINCE_GET_USER](state, data) {
+    state.provinceUserList = data;
   }
 };
 

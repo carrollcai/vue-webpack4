@@ -40,6 +40,11 @@ const actions = {
     return API.getMapJsonAPI(params).then(res => {
       commit(types.PROVINCE_GET_MAP_JSON, res.data);
     });
+  },
+  getProvinceUser: ({ commit }, params) => {
+    return API.getProvinceUserAPI(params).then(res => {
+      commit(types.PROVINCE_GET_USER, res.data);
+    });
   }
 };
 

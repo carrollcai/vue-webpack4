@@ -5,7 +5,7 @@
         <el-radio-button :label="0">按日</el-radio-button>
         <el-radio-button :label="1">按月</el-radio-button>
       </el-radio-group>
-      <span>5-26日关键指标（展示“T-2”日关键指标数据，”T“为今日数据）</span>
+      <span class="userdata-header-quote">5-26日关键指标（展示“T-2”日关键指标数据，”T“为今日数据）</span>
     </div>
     <div class="userdata-main">
       <div class="userdata-main-left">
@@ -28,7 +28,7 @@
       </div>
       <div class="userdata-main-right">
         <div class="userdata-main-right__chart">
-          <Pie :id="'mountNode'" :charData="members" :width="100" :height="100" hasLegend />
+          <Pie :id="'mountNode'" :charData="members" :width="80" :height="80" hasLegend />
         </div>
       </div>
     </div>

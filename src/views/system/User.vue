@@ -22,7 +22,7 @@
         <el-button type="primary" @click="query">查询</el-button>
       </el-form-item>
       <el-form-item class="role-form-item">
-        <el-button @click="handleCreate" icon="el-icon-plus">创建用户</el-button>
+        <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建用户</el-button>
       </el-form-item>
     </el-form>
 

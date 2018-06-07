@@ -1,39 +1,50 @@
 <template>
   <div class="province-user block-containter">
     <div class="province-user-header">
-      <div>活跃度趋势分析</div>
+      <div class="trend-header-title">各省日活跃用户情况</div>
       <div>
         <span>查询：</span>
-        <el-date-picker>
-
-        </el-date-picker>
+        <el-date-picker type="date" placeholder="选择日期" v-model="provinceUser.date" :editable="false" @change="query" />
       </div>
     </div>
     <div class="province-user-chart">
-      <Map :id="'map'" :charData="charData" :width="500" :height="400" />
+      <div class="province-user-chart__map">
+        <Map :id="'map'" :charData="provinceUserList" :width="700" :height="500" />
+      </div>
+      <active-province-user-rank v-if="Object.isExistArray(provinceUserList)" :provinceUserList="provinceUserList" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import Map from 'components/chart/Map.vue';
+import ActiveProvinceUserRank from 'components/data-analysis/ActiveProvinceUserRank.vue';
 export default {
   components: {
-    Map
+    Map,
+    ActiveProvinceUserRank
+  },
+  computed: {
+    ...mapState({
+      provinceUser: ({ dataAnalysis }) => dataAnalysis.provinceUser,
+      provinceUserList: ({ dataAnalysis }) => dataAnalysis.provinceUserList
+    })
   },
   data() {
     return {
-      charData: [
-        {
-          name: '江苏',
-          value: 100
-        },
-        {
-          name: '浙江',
-          value: 200
-        }
-      ]
-    }
+    };
+  },
+  beforeMount() {
+    this.getProvinceUser();
+  },
+  methods: {
+    query() {
+      this.getProvinceUser();
+    },
+    ...mapActions([
+      'getProvinceUser'
+    ])
   }
 };
 </script>

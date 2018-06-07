@@ -36,6 +36,8 @@
 .userdata-main-left {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-left: 24px;
 }
 .userdata-main-left__outer {
   border-right: 1px solid rgba(230, 230, 230, 1);
@@ -43,9 +45,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  // align-items: flex-start;
-  // padding-left: 24px;
-  padding: 0 40px;
+  text-align: center;
+  padding-right: 40px;
+}
+.userdata-main-left__outer+.userdata-main-left__outer {
+  padding-left: 40px;
 }
 .userdata-main-left__title {
   height: 16px;
@@ -54,14 +58,21 @@
   font-size: 12px;
 }
 .userdata-main-left__num {
-  margin-top: 8px;
+  margin-top: $blockWidth;
   height: 22px;
   line-height: 22px;
   color: rgba(55, 120, 255, 1);
   font-size: 20px;
+  font-family: MicrosoftYaHei;
+  font-weight: bold;
 }
 .userdata-main-right {
-  width: 360px;
+  width: 320px;
+}
+.userdata-header-quote {
+  margin-left: $blockWidth;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 12px;
 }
 
 
@@ -109,4 +120,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.province-user-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.province-user-chart__map {
+  // max-width: 1000px;
+  flex: 1;
 }
