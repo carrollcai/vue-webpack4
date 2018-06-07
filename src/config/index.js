@@ -1,3 +1,9 @@
+
+/**
+ * 请求的根路径
+ */
+export const BASE_URL = 'http://localhost:3618';
+
 export const SIDEBAR_DATA = {
   dashboard: {
     name: '首页',

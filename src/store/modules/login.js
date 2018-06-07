@@ -12,6 +12,9 @@ const getters = {
   },
   username(state) {
     return state.username;
+  },
+  userId(state) {
+    return state.userId;
   }
 };
 
