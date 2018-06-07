@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative;">
-    <div style="width: calc(100% - 240px);">
+    <div style="width: calc(100% - 200px);">
       <div style="font-size: 0px;position: relative;">
         <div :style="{width: `${width}px`, height:`${height}px` }" :id="id"></div>
       </div>
@@ -106,10 +106,11 @@ export default {
         radius: 1,
         innerRadius: 0.6
       });
-      this.chart.tooltip({
-        showTitle: false,
-        itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
-      });
+      // this.chart.tooltip({
+      //   showTitle: false,
+      //   itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+      // });
+      this.chart.tooltip(false);
       this.chart.intervalStack().position('percent').color('item').label('percent').tooltip('item*percent', function(item, percent) {
         percent = percent * 100 + '%';
         return {
@@ -131,7 +132,7 @@ export default {
 <style lang="scss">
 .has-legend {
   position: absolute;
-  right: 0;
+  // right: 0;
   min-width: 200px;
   top: 50%;
   transform: translateY(-50%);
@@ -139,6 +140,7 @@ export default {
   list-style: none;
   padding: 0;
   display: flex;
+  left: 80px;
 }
 
 .pie-item {
@@ -146,7 +148,7 @@ export default {
 }
 .has-legend li {
   cursor: pointer;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   height: 22px;
   line-height: 22px;
 

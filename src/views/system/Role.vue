@@ -9,7 +9,7 @@
         <el-button type="primary" @click="query">查询</el-button>
       </el-form-item>
       <el-form-item class="role-form-item">
-        <el-button @click.prevent="handleCreate" icon="el-icon-plus">创建角色</el-button>
+        <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">创建角色</el-button>
       </el-form-item>
     </el-form>
     <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">

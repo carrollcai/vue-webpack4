@@ -1,6 +1,6 @@
 [
   {
-    "url": "/province",
+    "url": "/province/list",
     "desc": "测试接口",
     "mock": true,
     "res": {

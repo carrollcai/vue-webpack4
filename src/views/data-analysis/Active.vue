@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getClient',
+      'getClient'
       // 'getMapJson'
     ])
   }

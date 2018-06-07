@@ -4,7 +4,7 @@ const API = (url, method = 'post') => (params = {}, config = {}) => axios[method
 
 export default {
   getDemoAPI: API('/demo'),
-  getProvinceAPI: API('/province'),
+  getProvinceAPI: API('/province/list'),
   getRoleListAPI: API('/role/list'),
   getRoleInfoAPI: API('/role/info'),
   createRoleAPI: API('/role/info'),
@@ -22,6 +22,7 @@ export default {
   getTrendListAPI: API('/trend/list'),
   getMembersAPI: API('/member'),
   getActiveTrendAPI: API('/member'),
+  getProvinceUserAPI: API('/province/user'),
   // getMapJsonAPI: fetch('file:///Users/carroll/Documents/esop/src/config/world.geo.json', null, 'get'),
 
   loginApi: API('/login'),

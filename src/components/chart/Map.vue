@@ -1,8 +1,9 @@
 <template>
-  <div :style="{width: `${width}px`, height:`${height}px` }" :id="id"></div>
+  <div :style="{width: typeof width === 'number' ? `${width}px` : width , height:`${height}px` }" :id="id"></div>
 </template>
 
 <script>
+const colorRange = '#0087F5-#4A9EF7-#79B6F6-#A7CEF6-#D7E6FD';
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
 import { mapState } from 'vuex';
@@ -47,18 +48,20 @@ export default {
   },
   methods: {
     drawChart(data) {
+      this.chart && this.chart.destroy();
+
       const { height, id, mapData } = this;
-      var chart = new G2.Chart({
+      this.chart = new G2.Chart({
         container: id,
         forceFit: true,
         height: height,
-        padding: [55, 20]
+        padding: [10, 20, 70, 10]
       });
-      chart.tooltip({
+      this.chart.tooltip({
         showTitle: false
       });
       // 同步度量
-      chart.scale({
+      this.chart.scale({
         longitude: {
           sync: true
         },
@@ -66,8 +69,8 @@ export default {
           sync: true
         }
       });
-      chart.axis(false);
-      chart.legend('trend', {
+      this.chart.axis(false);
+      this.chart.legend('trend', {
         position: 'left'
       });
 
@@ -76,11 +79,11 @@ export default {
       var worldMap = ds.createView('back').source(mapData, {
         type: 'GeoJSON'
       });
-      var worldMapView = chart.view();
+      var worldMapView = this.chart.view();
       worldMapView.source(worldMap);
       worldMapView.tooltip(false);
       worldMapView.polygon().position('longitude*latitude').style({
-        fill: '#fff',
+        fill: '#D7E6FD',
         stroke: '#ccc',
         lineWidth: 1
       });
@@ -99,18 +102,19 @@ export default {
           return obj;
         }
       });
-      var userView = chart.view();
+      var userView = this.chart.view();
       userView.source(userDv, {
         'trend': {
           alias: '每100位女性对应的男性数量'
         }
       });
-      userView.polygon().position('longitude*latitude').color('trend', ['#F51D27', '#0A61D7']).opacity('value').tooltip('name*trend').animate({
+      userView.polygon().position('longitude*latitude').opacity('value').tooltip('name*trend').animate({
         leave: {
           animation: 'fadeOut'
         }
-      });
-      chart.render();
+      })
+      .color('value', colorRange);
+      this.chart.render();
     }
   }
 };

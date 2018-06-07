@@ -4,7 +4,7 @@
       <el-header class="app-header">
         <Header />
       </el-header>
-      <el-container class="app-aside">
+      <el-container class="app-content">
         <el-aside width="200px" height="100%">
           <Aside style="height: 100%" />
         </el-aside>
@@ -31,15 +31,15 @@ export default {
 </script>
 
 <style lang="scss">
-@import "scss/index.scss";
 @import "scss/variables.scss";
+
 .common-view {
   height: 100vh;
 }
 .app-container {
   height: 100%;
 }
-.app-aside {
+.app-content {
   height: 100%;
 }
 .app-header {

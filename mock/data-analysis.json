@@ -49,22 +49,87 @@
     "res": {
       "code": 1,
       "msg": "success",
-      "data": [{
-        "item": "事例一",
-        "count": 40
-      }, {
-        "item": "事例二",
-        "count": 21
-      }, {
-        "item": "事例三",
-        "count": 17
-      }, {
-        "item": "事例四",
-        "count": 13
-      }, {
-        "item": "事例五",
-        "count": 9
-      }]
+      "data": [
+        {
+          "item": "事例一",
+          "count": 40
+        },
+        {
+          "item": "事例二",
+          "count": 21
+        },
+        {
+          "item": "事例三",
+          "count": 17
+        },
+        {
+          "item": "事例四",
+          "count": 13
+        },
+        {
+          "item": "事例五",
+          "count": 9
+        }
+      ]
+    }
+  },
+  {
+    "url": "/province/user",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": [
+        {
+          "name": "北京",
+          "value": 600
+        },
+        {
+          "name": "江苏",
+          "value": 500
+        },
+        {
+          "name": "浙江",
+          "value": 400
+        },
+        {
+          "name": "上海",
+          "value": 300
+        },
+        {
+          "name": "广东",
+          "value": 300
+        },
+        {
+          "name": "天津",
+          "value": 300
+        },
+        {
+          "name": "重庆",
+          "value": 300
+        },
+        {
+          "name": "河北",
+          "value": 300
+        },
+        {
+          "name": "山西",
+          "value": 300
+        },
+        {
+          "name": "陕西",
+          "value": 300
+        },
+        {
+          "name": "山东",
+          "value": 300
+        },
+        {
+          "name": "河南",
+          "value": 300
+        }
+      ]
     }
   }
 ]
