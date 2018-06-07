@@ -10,6 +10,7 @@ const state = {
   dailyUser: [],
   trendList: [],
   members: [],
+  mapData: [],
   trend: {
     dateType: 0,
     date: '',
@@ -33,6 +34,9 @@ const mutations = {
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {
     state.members = data;
+  },
+  [types.PROVINCE_GET_MAP_JSON](state, data) {
+    state.mapData = data;
   }
 };
 

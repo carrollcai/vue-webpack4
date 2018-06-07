@@ -35,6 +35,11 @@ const actions = {
     return API.getActiveTrendAPI(params).then(res => {
       commit(types.TREND_GET_ACTIVE, res.data);
     });
+  },
+  getMapJson: ({ commit }, params) => {
+    return API.getMapJsonAPI(params).then(res => {
+      commit(types.PROVINCE_GET_MAP_JSON, res.data);
+    });
   }
 };
 

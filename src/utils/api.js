@@ -48,6 +48,7 @@ export default {
   getTrendListAPI: API('/trend/list'),
   getMembersAPI: API('/member'),
   getActiveTrendAPI: API('/member'),
+  // getMapJsonAPI: fetch('file:///Users/carroll/Documents/esop/src/config/world.geo.json', null, 'get'),
 
   loginApi: API('/login', 'post'),
   logoutApi: API('/logout', 'post'),

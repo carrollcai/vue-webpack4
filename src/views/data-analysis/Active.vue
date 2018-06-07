@@ -38,10 +38,12 @@ export default {
   },
   beforeMount() {
     this.getClient();
+    // this.getMapJson();
   },
   methods: {
     ...mapActions([
-      'getClient'
+      'getClient',
+      // 'getMapJson'
     ])
   }
 };
