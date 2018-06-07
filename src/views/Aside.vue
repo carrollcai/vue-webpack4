@@ -10,7 +10,7 @@
           <i :class="item.icon"></i>
           <span slot="title">{{item.name}}</span>
         </template>
-        <el-menu-item v-for="(subItem, subI) in item.children" :key="subI" :index="subItem.url">
+        <el-menu-item class="sub-menu" v-for="(subItem, subI) in item.children" :key="subI" :index="subItem.url">
           {{subItem.name}}
         </el-menu-item>
       </el-submenu>

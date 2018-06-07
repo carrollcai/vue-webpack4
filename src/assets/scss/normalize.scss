@@ -51,13 +51,19 @@ $menu-active-color: #FFFFFF;
   height: $buttonLineHeight;
 }
 
+/* input框的icon */
+.el-input__icon {
+  line-height: $buttonLineHeight;
+}
+
 /* 重置外部引用icon */
 .el-submenu [class^=icon-], .el-menu-item [class^=icon-] {
   vertical-align: middle;
   margin-right: 5px;
   width: 24px;
   text-align: center;
-  font-size: 18px;
+  // font-size: 18px;
+  font-size: 16px;
 }
 
 [class*=" icon-"], [class^=icon-] {
@@ -72,3 +78,9 @@ $menu-active-color: #FFFFFF;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* 左侧菜单栏二级目录间距 */
+.sub-menu {
+  padding-left: 52px !important;
+}
+

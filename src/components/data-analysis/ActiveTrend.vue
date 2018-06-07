@@ -31,9 +31,6 @@
         <el-radio v-if="!trend.mode" v-for="i in Object.keys(trendRadio)" :key="i" v-model="trend.chartRadio" :label="Number(i)" @change="query">
           {{trendRadio[i]}}
         </el-radio>
-        <!-- <el-radio v-model="radio" label="2">手机账号登录用户</el-radio>
-        <el-radio v-model="radio" label="3">移动IP用户/非移动IP用户</el-radio>
-        <el-radio v-model="radio" label="4">新增会员用户</el-radio> -->
       </div>
       <div>
         <i class="el-icon-download"></i>下载此数据分析

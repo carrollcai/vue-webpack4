@@ -14,9 +14,13 @@ html, body {
   font-family: MicrosoftYaHei;
 }
 
-html, body, div {
+html, body, div, ul, li, p {
   margin: 0;
   padding: 0;
+}
+
+ul, li {
+  list-style: none;
 }
 
 .ellipsis {

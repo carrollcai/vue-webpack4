@@ -108,6 +108,7 @@ export default {
 }
 .role-form-item__input {
   // margin-left: $blockWidth;
+  width: $inputWidthQuery;
 }
 .role-form-item {
   margin-left: $formWidth;

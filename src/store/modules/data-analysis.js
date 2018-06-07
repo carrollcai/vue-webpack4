@@ -20,7 +20,12 @@ const state = {
   trendList: [],
   provinceUserList: [],
   members: [],
-  mapData: []
+  mapData: [],
+  // 留存流失
+  retentionObj: {
+    provincedSelected: [],
+    clientSelected: []
+  }
 };
 
 const mutations = {
@@ -34,6 +39,9 @@ const mutations = {
     state.dailyUser = data;
   },
   [types.TREND_GET_LIST](state, data) {
+    state.trendList = data;
+  },
+  [types.TREND_GET_ACTIVE](state, data) {
     state.trendList = data;
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {

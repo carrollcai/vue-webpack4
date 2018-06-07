@@ -3,24 +3,19 @@
 </template>
 
 <script>
-const colorRange = '#0087F5-#4A9EF7-#79B6F6-#A7CEF6-#D7E6FD';
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
-import { mapState } from 'vuex';
 import { mapData } from '@/config/china.js';
+
+const colorRange = '#0087F5-#4A9EF7-#79B6F6-#A7CEF6-#D7E6FD';
 
 export default {
   data() {
     return {
       chart: null,
       mapData
-    }
+    };
   },
-  // computed: {
-  //   ...mapState({
-  //     mapData: ({ dataAnalysis }) => dataAnalysis.mapData
-  //   })
-  // },
   props: {
     charData: {
       type: Array,
@@ -112,8 +107,7 @@ export default {
         leave: {
           animation: 'fadeOut'
         }
-      })
-      .color('value', colorRange);
+      }).color('value', colorRange);
       this.chart.render();
     }
   }

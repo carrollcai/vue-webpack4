@@ -117,7 +117,7 @@ export default {
   align-items: center;
 }
 .user-form-item__input {
-  width: 120px;
+  width: $inputWidthQuery;
 }
 .role-form-item {
   margin-left: $formWidth;

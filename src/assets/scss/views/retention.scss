@@ -1,0 +1,32 @@
+@import 'scss/variables.scss';
+.retention-user-outer {
+  display: flex;
+  margin-top: $blockWidth;
+}
+.retention-user-center {
+  width: $blockWidth;
+}
+.retention-user {
+  flex: 1;
+}
+.retention-user-data-outer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 32px;
+}
+.retention-user-data__title {
+  font-size: 12px;
+  color: $titleColor;
+}
+.retention-user-data__num {
+  font-size: 16px;
+  line-height: 32px;
+}
+.retention-user-data {
+  display: flex;
+  flex-direction: column;
+}
+.retention-user-data li {
+  margin:8px 0;
+}

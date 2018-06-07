@@ -28,14 +28,14 @@ export default {
     const maxNum = this.provinceUserList[0] ? this.provinceUserList[0].value : 10000;
     return {
       maxNum
-    }
+    };
   },
   methods: {
     calcPercentWidth(val) {
       return parseInt(val / this.maxNum * defaultWidth);
     },
     filterTop3(i) {
-      return  i <= 2 ? '#FF5A57' : '#6C9CFF'
+      return i <= 2 ? '#FF5A57' : '#6C9CFF';
     }
   }
 };

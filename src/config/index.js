@@ -8,12 +8,12 @@ export const SIDEBAR_DATA = {
   dashboard: {
     name: '首页',
     url: '/dashboard',
-    icon: 'icon-download'
+    icon: 'icon-home'
   },
   analysis: {
     name: '数据分析',
     url: '/analysis',
-    icon: 'el-icon-setting',
+    icon: 'icon-data',
     children: [
       {
         name: '活跃度分析',
@@ -28,7 +28,7 @@ export const SIDEBAR_DATA = {
   task: {
     name: '任务管理',
     url: '/task',
-    icon: 'el-icon-setting',
+    icon: 'icon-task',
     children: [
       {
         name: '任务查询',
