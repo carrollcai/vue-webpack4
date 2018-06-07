@@ -4,6 +4,10 @@ import Router from 'vue-router';
 import Login from '@/views/login/Login.vue';
 import CommonView from '@/views/CommonView.vue';
 
+import Page404 from '@/views/common/Page404.vue';
+import Page403 from '@/views/common/Page403.vue';
+import Page500 from '@/views/common/Page500.vue';
+
 import Dashboard from '@/views/dashboard/Dashboard.vue';
 import Active from '@/views/data-analysis/Active.vue';
 import RetentionLoss from '@/views/data-analysis/RetentionLoss.vue';
@@ -112,6 +116,18 @@ export default new Router({
           path: '/system/user/:type/:id?',
           name: 'user-create',
           component: UserCreate
+        },
+        {
+          path: '/500',
+          component: Page500
+        },
+        {
+          path: '/403',
+          component: Page403
+        },
+        {
+          path: '*',
+          component: Page404
         }
       ]
     }
