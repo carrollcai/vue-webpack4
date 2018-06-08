@@ -11,11 +11,6 @@ const actions = {
       }
     });
   },
-  queryActiveForm: ({ commit }, params) => {
-    return API.queryActiveFormAPI(params).then(res => {
-      commit(types.ACTIVE_QUERY_FORM, res.data);
-    });
-  },
   getDailyActiveUser: ({ commit }, params) => {
     return API.getDailyActiveUserAPI(params).then(res => {
       commit(types.ACTIVE_GET_DAILY_USER, res.data);
@@ -31,11 +26,6 @@ const actions = {
       commit(types.ACTIVE_GET_MEMBERS, res.data);
     });
   },
-  getActiveTrend: ({ commit }, params) => {
-    return API.getActiveTrendAPI(params).then(res => {
-      commit(types.TREND_GET_ACTIVE, res.data);
-    });
-  },
   getMapJson: ({ commit }, params) => {
     return API.getMapJsonAPI(params).then(res => {
       commit(types.PROVINCE_GET_MAP_JSON, res.data);
@@ -44,6 +34,16 @@ const actions = {
   getProvinceUser: ({ commit }, params) => {
     return API.getProvinceUserAPI(params).then(res => {
       commit(types.PROVINCE_GET_USER, res.data);
+    });
+  },
+  getRetentionLossUser: ({ commit }, params) => {
+    return API.getRetentionLossUserAPI(params).then(res => {
+      commit(types.RETENTION_GET_USER, res.data);
+    });
+  },
+  getRetTrendList: ({ commit }, params) => {
+    return API.getRetTrendListAPI(params).then(res => {
+      commit(types.RETENTION_GET_TREND_LIST, res.data);
     });
   }
 };

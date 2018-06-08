@@ -46,6 +46,7 @@ export default {
   },
   beforeMount() {
     // this.provinceSelected
+    this.query();
   },
   methods: {
     provinceChange() {
@@ -56,10 +57,19 @@ export default {
     },
     query() {
       const { activeObj } = this;
-      this.queryActiveForm(activeObj);
+      // 第一模块
+      this.getMembers(activeObj);
+      this.getDailyActiveUser(activeObj);
+      // 第二模块
+      this.getTrendList();
+      // 第三模块
+      this.getProvinceUser();
     },
     ...mapActions([
-      'queryActiveForm'
+      'getMembers',
+      'getDailyActiveUser',
+      'getTrendList',
+      'getProvinceUser'
     ])
   }
 };

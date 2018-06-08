@@ -24,6 +24,7 @@ export default {
   beforeMount() {
     this.getProvince();
     this.getUserRole();
+    this.getClient();
   },
   methods: {
     changeRoute(obj) {
@@ -31,7 +32,8 @@ export default {
     },
     ...mapActions([
       'getProvince',
-      'getUserRole'
+      'getUserRole',
+      'getClient'
     ])
   },
   watch: {
@@ -41,8 +43,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import "scss/reset.scss";
 @import "scss/index.scss";
-@import "scss/variables.scss";
+@import "scss/views/active.scss";
+@import "scss/views/retention.scss";
 .app {
   height: 100vh;
 }

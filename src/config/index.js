@@ -77,3 +77,8 @@ export const TREND_RADIO = {
   2: '移动IP用户/非移动IP用户',
   3: '新增会员用户'
 };
+
+export const RETENTION_TREND_RADIO = {
+  0: '新增用户留存率',
+  1: '留存用户流失率'
+};
