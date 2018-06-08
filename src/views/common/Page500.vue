@@ -20,7 +20,6 @@
 </template>
 <script>
 export default {
-  name: 'Page404'
+  name: 'Page500'
 };
 </script>
-<style lang="scss" src="@/assets/scss/views/page-error.scss"></style>

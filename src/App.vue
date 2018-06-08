@@ -51,3 +51,4 @@ export default {
   height: 100vh;
 }
 </style>
+<style lang="scss" src="@/assets/scss/views/page-error.scss"></style>

@@ -23,4 +23,3 @@ export default {
   name: 'Page404'
 };
 </script>
-<style lang="scss" src="@/assets/scss/views/page-error.scss"></style>
