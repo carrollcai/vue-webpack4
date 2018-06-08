@@ -1,4 +1,6 @@
+import Cookies from 'js-cookie';
 import * as types from '../types';
+import { SESSION_DURATION } from '@/config';
 
 const state = {
   username: '',
@@ -23,6 +25,8 @@ const mutations = {
     state.username = data.username;
     state.userId = data.userId;
     state.loginName = data.loginName;
+
+    Cookies.set('token', new Date().getTime(), { expires: SESSION_DURATION });
   },
   [types.LOG_OUT](state) {
     state.username = '';
