@@ -1,13 +1,12 @@
 import * as types from '../types';
-import { PAGE_NO, PAGE_SIZE } from '@/config';
 
 const state = {
-  pushList: []
+  pushList: {}
 };
 
 const mutations = {
   [types.SET_PUSH_LIST](state, data) {
-    state.userList = data;
+    state.pushList = data;
   }
 };
 

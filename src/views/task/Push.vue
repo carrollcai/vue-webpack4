@@ -6,7 +6,6 @@
         <el-date-picker
           v-model="taskForm.date"
           type="daterange"
-          range-separator="~"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
@@ -31,19 +30,13 @@
         <template slot-scope="scope">
           <span class="btnLists">
             <el-tooltip effect="dark" content="查看详情" placement="bottom">
-              <el-button type="text" @click="handleDetail(scope.row)">
-                <i class="el-icon-edit-outline"></i>
-              </el-button>
+              <i class="el-icon-edit-outline" @click="handleDetail(scope.row)"></i>
             </el-tooltip>
             <el-tooltip effect="dark" content="删除" placement="bottom">
-              <el-button type="text" @click="handleDelete(scope.row)">
-                <i class="el-icon-delete"></i>
-              </el-button>
+              <i class="el-icon-delete" @click="handleDelete(scope.row)"></i>
             </el-tooltip>
             <el-tooltip effect="dark" content="复制下载地址" placement="bottom">
-              <el-button type="text" @click="handleCopy(scope.row)">
-                <i class="el-icon-delete"></i>
-              </el-button>
+              <i class="el-icon-delete" @click="handleCopy(scope.row)"></i>
             </el-tooltip>
           </span>
         </template>
@@ -67,7 +60,7 @@ export default {
   data() {
     return {
       taskForm: {
-        date: '',
+        date: [],
         name: ''
       },
       pageNo: 1,
