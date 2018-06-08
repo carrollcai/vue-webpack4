@@ -1,7 +1,7 @@
 <template>
   <div class="active-trend block-containter">
     <div class="trend-header">
-      <div class="trend-header-title">活跃度趋势分析</div>
+      <div class="trend-header-title">活跃度分析</div>
       <div class="trend-header-right">
         <el-radio-group v-model="trend.dateType" size="small" @change="query">
           <el-radio-button :label="0">按日</el-radio-button>
@@ -94,8 +94,6 @@ export default {
       const { trend } = this;
       this.getActiveTrend(trend);
     },
-    // modeChange(val) {
-    // },
     ...mapActions([
       'getActiveTrend',
       'getTrendList'

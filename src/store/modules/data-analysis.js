@@ -25,7 +25,18 @@ const state = {
   retentionObj: {
     provincedSelected: [],
     clientSelected: []
-  }
+  },
+  retentionLossUser: {
+    newUser: 1,
+    retentionUser: 1,
+    lossUser: 1
+  },
+  retTrend: {
+    date: '',
+    mode: 0,
+    chartRadio: 0
+  },
+  retTrendList: []
 };
 
 const mutations = {
@@ -52,6 +63,31 @@ const mutations = {
   },
   [types.PROVINCE_GET_USER](state, data) {
     state.provinceUserList = data;
+  },
+  [types.RETENTION_GET_USER](state, data) {
+    state.retentionLossUser = data;
+  },
+  [types.RETENTION_GET_TREND_LIST](state, data) {
+    state.retTrendList = data.map(val => {
+      val.newUserRetPer = (val.retentionUser / val.newUser * 100).toFixed(1) + '%';
+      val.retLossPer = (val.lossUser / val.retentionUser * 100).toFixed(1) + '%';
+      // 方便图表字段展示, toFix()返回的是string。
+      val.value = parseFloat(val.newUserRetPer.replace('%', ''));
+      return val;
+    });
+  },
+  [types.RETENTION_UPDATE_TREND_LIST](state, data) {
+    if (data.chartRadio) {
+      state.retTrendList = state.retTrendList.map(val => {
+        val.value = parseFloat(val.retLossPer.replace('%', ''));
+        return val;
+      });
+    } else {
+      state.retTrendList = state.retTrendList.map(val => {
+        val.value = parseFloat(val.newUserRetPer.replace('%', ''));
+        return val;
+      });
+    }
   }
 };
 

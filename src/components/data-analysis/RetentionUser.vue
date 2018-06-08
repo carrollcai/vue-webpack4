@@ -1,20 +1,21 @@
 <template>
   <div class="retention-user block-containter">
-    <div class="trend-header-title">上月新增用户留存率
-      <el-tooltip class="item" effect="dark" content="留存率=上月留存用户数/ 上月新增用户数" placement="top-start">
+    <div class="trend-header-title">
+      {{ !type ? '上月新增用户留存率' : '上月留存用户流失率' }}
+      <el-tooltip class="item" effect="dark" :content="!type ? '新增率 = 上月留存用户数 / 上月新增用户数' : '留存率 = 上月流失用户数 / 上月留存用户数'" placement="top-start">
         <i class="el-icon-info"></i>
       </el-tooltip>
     </div>
     <div class="retention-user-data-outer">
-      <el-progress type="circle" :percentage="25"></el-progress>
+      <el-progress :stroke-width="16" type="circle" :percentage="circlePercent()"></el-progress>
       <ul class="retention-user-data">
         <li>
-          <p class="retention-user-data__title">上月新增用户数</p>
-          <p class="retention-user-data__num">15689701</p>
+          <p class="retention-user-data__title">{{ !type ? '上月新增用户数' : '上月流失用户数' }}</p>
+          <p class="retention-user-data__num">{{ !type ? retentionLossUser.newUser : retentionLossUser.lossUser}}</p>
         </li>
         <li>
           <p class="retention-user-data__title">上月留存用户数</p>
-          <p class="retention-user-data__num">15689701</p>
+          <p class="retention-user-data__num">{{retentionLossUser.retentionUser}}</p>
         </li>
       </ul>
     </div>
@@ -22,8 +23,23 @@
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex';
 
+export default {
+  props: {
+    type: Number
+  },
+  computed: {
+    ...mapState({
+      retentionLossUser: ({ dataAnalysis }) => dataAnalysis.retentionLossUser
+    })
+  },
+  methods: {
+    circlePercent() {
+      const { type, retentionLossUser } = this;
+      return !type ? parseInt(retentionLossUser.retentionUser / retentionLossUser.newUser * 100) : parseInt(retentionLossUser.lossUser / retentionLossUser.retentionUser * 100);
+    }
+  }
 };
 </script>
 

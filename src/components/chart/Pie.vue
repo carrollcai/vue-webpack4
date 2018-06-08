@@ -106,11 +106,11 @@ export default {
         radius: 1,
         innerRadius: 0.6
       });
-      // this.chart.tooltip({
-      //   showTitle: false,
-      //   itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
-      // });
-      this.chart.tooltip(false);
+      this.chart.tooltip({
+        showTitle: false,
+        itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+      });
+      // this.chart.tooltip(false);
       this.chart.intervalStack().position('percent').color('item').label('percent').tooltip('item*percent', function(item, percent) {
         percent = percent * 100 + '%';
         return {

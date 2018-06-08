@@ -1,33 +1,19 @@
 @import "scss/variables.scss";
-@import "scss/normalize.scss";
 
-html {
-  font-size: $font;
-  background-color: $bg;
-  min-width: 1200px;
+.block-containter {
+  background-color: #fff;
+  padding: $blockWidth;
 }
-// #app {
-//     background-color: $bg;
-// }
-
-html, body {
-  font-family: MicrosoftYaHei;
+.btnLists {
+  & .el-button {
+    font-size: 18px;
+    color: #333333;
+    &+.el-button {
+        margin-left: 10px;
+    }
+  }
 }
-
-html, body, div, ul, li, p {
-  margin: 0;
-  padding: 0;
-}
-
-ul, li {
-  list-style: none;
-}
-
-.ellipsis {
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.flex {
-  display: flex;
+.m-container {
+  background-color: #fff;
+  padding: 16px;
 }

@@ -44,10 +44,24 @@ export default {
         id: id,
         forceFit: true,
         height: height,
-        padding: [40, 80]
+        padding: 40
       });
-      this.chart.source(data);
 
+      this.chart.source(data, {
+        // 这边的value对应数据中的value
+        value: {
+          max: 100,
+          min: 0
+        }
+      });
+
+      this.chart.axis('value', {
+        label: {
+          formatter: function formatter(val) {
+            return val + '%';
+          }
+        }
+      });
       this.chart.line().position('date*value').size(1).shape('smooth');
       this.chart.point().position('date*value').color('#757373')
         .shape('circle')
@@ -60,5 +74,4 @@ export default {
 </script>
 
 <style>
-
 </style>

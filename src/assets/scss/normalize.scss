@@ -2,26 +2,9 @@
 
 $menu-active-color: #FFFFFF;
 
+/* 充值侧边栏的右边线为0 */
 .el-menu {
   border-right: 0 !important;
-}
-
-.block-containter {
-  background-color: #fff;
-  padding: $blockWidth;
-}
-.btnLists {
-  & .el-button {
-    font-size: 18px;
-    color: #333333;
-    &+.el-button {
-        margin-left: 10px;
-    }
-  }
-}
-.m-container {
-  background-color: #fff;
-  padding: 16px;
 }
 
 /* 重置头部 用户名菜单 选中的颜色 */
@@ -84,3 +67,7 @@ $menu-active-color: #FFFFFF;
   padding-left: 52px !important;
 }
 
+/* 重置进度条内的字体大小 */
+.el-progress__text {
+  font-size: 28px !important;
+}

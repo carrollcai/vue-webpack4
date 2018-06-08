@@ -23,7 +23,8 @@ export default {
   getMembersAPI: API('/member'),
   getActiveTrendAPI: API('/member'),
   getProvinceUserAPI: API('/province/user'),
-  // getMapJsonAPI: fetch('file:///Users/carroll/Documents/esop/src/config/world.geo.json', null, 'get'),
+  getRetentionLossUserAPI: API('/retention/user'),
+  getRetTrendListAPI: API('/retention/trend'),
 
   loginApi: API('/login'),
   logoutApi: API('/logout'),

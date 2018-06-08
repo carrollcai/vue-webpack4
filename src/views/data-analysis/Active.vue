@@ -27,22 +27,22 @@ export default {
       dateType: 0,
       radio: '1',
       serverData: [
-        { 'mzkId': 113, 'strftime': '2017-01-11', 'value': 9275501 },
-        { 'mzkId': 112, 'strftime': '2017-01-12', 'value': 9281904 },
-        { 'mzkId': 112, 'strftime': '2017-01-13', 'value': 9290777 },
-        { 'mzkId': 112, 'strftime': '2017-01-14', 'value': 9297913 },
-        { 'mzkId': 112, 'strftime': '2017-01-15', 'value': 9306918 },
-        { 'mzkId': 112, 'strftime': '2017-01-16', 'value': 9315641 }
+        { 'mzkId': 113, 'data': '2017-01-11', 'value': 9275501 },
+        { 'mzkId': 112, 'date': '2017-01-12', 'value': 9281904 },
+        { 'mzkId': 112, 'date': '2017-01-13', 'value': 9290777 },
+        { 'mzkId': 112, 'date': '2017-01-14', 'value': 9297913 },
+        { 'mzkId': 112, 'date': '2017-01-15', 'value': 9306918 },
+        { 'mzkId': 112, 'date': '2017-01-16', 'value': 9315641 }
       ]
     };
   },
   beforeMount() {
-    this.getClient();
+    // this.getClient();
     // this.getMapJson();
   },
   methods: {
     ...mapActions([
-      'getClient'
+      // 'getClient'
       // 'getMapJson'
     ])
   }
@@ -50,5 +50,4 @@ export default {
 </script>
 
 <style lang="scss">
-@import "scss/views/active.scss";
 </style>

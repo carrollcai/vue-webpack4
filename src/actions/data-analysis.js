@@ -45,6 +45,16 @@ const actions = {
     return API.getProvinceUserAPI(params).then(res => {
       commit(types.PROVINCE_GET_USER, res.data);
     });
+  },
+  getRetentionLossUser: ({ commit }, params) => {
+    return API.getRetentionLossUserAPI(params).then(res => {
+      commit(types.RETENTION_GET_USER, res.data);
+    });
+  },
+  getRetTrendList: ({ commit }, params) => {
+    return API.getRetTrendListAPI(params).then(res => {
+      commit(types.RETENTION_GET_TREND_LIST, res.data);
+    });
   }
 };
 

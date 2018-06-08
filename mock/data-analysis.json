@@ -131,5 +131,58 @@
         }
       ]
     }
+  },
+  {
+    "url": "/retention/user",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": {
+        "newUser": 5000,
+        "retentionUser": 4000,
+        "lossUser": 3000
+      }
+    }
+  },
+  {
+    "url": "/retention/trend",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": [
+        {
+          "date": "2018-1",
+          "newUser": 366535,
+          "retentionUser": 234346,
+          "lossUser": 234346,
+          "lastMonthRentention": 23535
+        },
+        {
+          "date": "2018-2",
+          "newUser": 316535,
+          "retentionUser": 214346,
+          "lossUser": 214346,
+          "lastMonthRentention": 21535
+        },
+        {
+          "date": "2018-3",
+          "newUser": 326535,
+          "retentionUser": 224346,
+          "lossUser": 224346,
+          "lastMonthRentention": 22535
+        },
+        {
+          "date": "2018-4",
+          "newUser": 3465135,
+          "retentionUser": 244346,
+          "lossUser": 244346,
+          "lastMonthRentention": 24535
+        }
+      ]
+    }
   }
 ]

@@ -1,0 +1,33 @@
+@import "scss/variables.scss";
+@import "scss/normalize.scss";
+
+html {
+  font-size: $font;
+  background-color: $bg;
+  min-width: 1200px;
+}
+// #app {
+//     background-color: $bg;
+// }
+
+html, body {
+  font-family: MicrosoftYaHei;
+}
+
+html, body, div, ul, li, p {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li {
+  list-style: none;
+}
+
+.ellipsis {
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.flex {
+  display: flex;
+}
