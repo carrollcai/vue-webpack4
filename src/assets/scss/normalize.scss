@@ -71,3 +71,7 @@ $menu-active-color: #FFFFFF;
 .el-progress__text {
   font-size: 28px !important;
 }
+
+.el-date-editor .el-range__icon, .el-date-editor .el-range__close-icon {
+  line-height: 24px;
+}

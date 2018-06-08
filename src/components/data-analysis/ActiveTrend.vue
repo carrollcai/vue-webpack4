@@ -1,32 +1,35 @@
 <template>
   <div class="active-trend block-containter">
-    <div class="trend-header">
-      <div class="trend-header-title">活跃度分析</div>
-      <div class="trend-header-right">
-        <el-radio-group v-model="trend.dateType" size="small">
-          <el-radio-button :label="0">按日</el-radio-button>
-          <el-radio-button :label="1">按月</el-radio-button>
-        </el-radio-group>
-        <div class="trend-header-right__query">
-          <span>查询：</span>
-          <el-date-picker v-if="trend.dateType" type="month" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
-          <el-date-picker v-if="!trend.dateType" type="date" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
-        </div>
-        <div class="trend-header-divider">
-          |
-        </div>
-        <div>
-          <el-radio-group v-model="trend.mode" size="small">
-            <el-radio-button :label="0">
-              <i class="icon-chart"></i>
-            </el-radio-button>
-            <el-radio-button :label="1">
-              <i class="icon-date1"></i>
-            </el-radio-button>
+    <el-form ref="activeTrendForm" :model="trend">
+      <div class="trend-header">
+        <div class="trend-header-title">活跃度分析</div>
+        <div class="trend-header-right">
+          <el-radio-group v-model="trend.dateType" size="small" @change="dateTypeChange">
+            <el-radio-button :label="0">按日</el-radio-button>
+            <el-radio-button :label="1">按月</el-radio-button>
           </el-radio-group>
+          <div class="trend-header-right__query">
+            <span>查询：</span>
+            <!-- 这里的切换需要重置或者默认选项 -->
+            <el-date-picker v-if="trend.dateType" type="monthrange" placeholder="选择日期" v-model="trend.date" :editable="false" :clearable="false" />
+            <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" :clearable="false" />
+          </div>
+          <div class="trend-header-divider">
+            |
+          </div>
+          <div>
+            <el-radio-group v-model="trend.mode" size="small">
+              <el-radio-button :label="0">
+                <i class="icon-chart"></i>
+              </el-radio-button>
+              <el-radio-button :label="1">
+                <i class="icon-date1"></i>
+              </el-radio-button>
+            </el-radio-group>
+          </div>
         </div>
       </div>
-    </div>
+    </el-form>
     <div class="trend-sub">
       <div class="trend-sub__radio">
         <el-radio v-if="!trend.mode" v-for="i in Object.keys(trendRadio)" :key="i" v-model="trend.chartRadio" :label="Number(i)" @change="changeRadio">
@@ -81,6 +84,10 @@ export default {
     this.getTrendList();
   },
   methods: {
+    dateTypeChange() {
+      const { trend } = this;
+
+    },
     query() {
       const { trend } = this;
       this.getTrendList(trend);
