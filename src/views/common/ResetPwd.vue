@@ -1,28 +1,28 @@
 <template>
   <el-dialog title="修改密码"
-      :visible.sync="dialogFormVisible"
-      class="reset-pwd-dialog"
-      :show-close="false"
-      :center="true"
-      @close="handleClose"
-      :close-on-click-modal="false"
-      width="470px">
-      <el-form :model="form" ref="resetForm" :rules="rules" label-width="145px">
-        <el-form-item label="原密码" prop="oldPwd">
-          <el-input v-model="form.oldPwd" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="新密码" prop="newPwd">
-          <el-input type="password" v-model="form.newPwd" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="checkPass">
-          <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确 定</el-button>
-        <el-button @click="handleClose" class="btn-cancel">取 消</el-button>
-      </div>
-    </el-dialog>
+    :visible.sync="dialogFormVisible"
+    class="reset-pwd-dialog"
+    :show-close="false"
+    :center="true"
+    @close="handleClose"
+    :close-on-click-modal="false"
+    width="470px">
+    <el-form :model="form" ref="resetForm" :rules="rules" label-width="145px">
+      <el-form-item label="原密码" prop="oldPwd">
+        <el-input v-model="form.oldPwd" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="新密码" prop="newPwd">
+        <el-input type="password" v-model="form.newPwd" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="checkPass">
+        <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="handleSubmit">确 定</el-button>
+      <el-button @click="handleClose" class="btn-cancel">取 消</el-button>
+    </div>
+  </el-dialog>
 </template>
 <script>
 import { mapActions } from 'vuex';
@@ -88,12 +88,22 @@ export default {
           this.handleClose();
           this.resetPwd(this.form).then(res => {
             if (this.isSuccess(res)) {
-              this.$message('修改密码成功');
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.dialogFormVisible = false;
+                  this.$nextTick(() => {
+                    this.logout();
+                  })
+                }
+              });
             } else {
-              this.$message(res.msg);
+              this.$message.error(res.msg);
             }
           }, () => {
-            this.$message('修改密码失败');
+            this.$message.error('修改密码失败');
           });
         } else {
           return false;
@@ -112,7 +122,7 @@ export default {
         this.$refs.resetForm.resetFields();
       });
     },
-    ...mapActions(['resetPwd'])
+    ...mapActions(['resetPwd', 'logout'])
   }
 };
 </script>

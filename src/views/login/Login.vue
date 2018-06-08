@@ -69,7 +69,7 @@ export default {
           pwd
         }).then((res) => {
           if (isSuccess(res)) {
-            this.$store.commit(types.SET_LOGIN_USER, res);
+            this.$store.commit(types.SET_LOGIN_USER, res.data);
             this.$router.replace('/');
           } else {
             this.errorMsg = res.msg;
