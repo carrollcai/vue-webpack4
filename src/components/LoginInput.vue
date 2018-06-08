@@ -9,6 +9,8 @@
       auto-complete="off"
       :placeholder="placeholder"
       ref="loginInput"
+      @focus="handleFocus"
+      @blur="handleBlur"
     >
     </el-input>
   </div>
@@ -65,6 +67,14 @@ export default {
 
     initializeValue() {
       this.internalValue = this.getInitializeValue(this.value);
+    },
+
+    handleFocus() {
+      this.$emit('focus');
+    },
+
+    handleBlur() {
+      this.$emit('blur');
     }
   },
   created() {
