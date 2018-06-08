@@ -1,5 +1,21 @@
 [
   {
+    "url": "/active/dailyLive",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": {
+        "activeUserNum": 5000,
+        "mobileAccount": 4000,
+        "mobileIp": 3000,
+        "unmobileIp": 3000,
+        "newMembers": 3000
+      }
+    }
+  },
+  {
     "url": "/trend/list",
     "desc": "测试接口",
     "mock": true,
@@ -8,35 +24,35 @@
       "msg": "success",
       "data": [
         {
-          "date": "2018年1月12日",
-          "activeUserNum": "366535",
+          "date": "2018-1-12",
+          "activeUserNum": "316535",
           "mobileAccount": "366535",
           "mobileIp": "366535",
           "unmobileIp": "366535",
           "newMembers": "366535"
         },
         {
-          "date": "2018年1月12日",
-          "activeUserNum": "366535",
+          "date": "2018-1-13",
+          "activeUserNum": "32535",
           "mobileAccount": "366535",
           "mobileIp": "366535",
           "unmobileIp": "366535",
           "newMembers": "366535"
         },
         {
-          "date": "2018年1月12日",
-          "activeUserNum": "366535",
+          "date": "2018-1-14",
+          "activeUserNum": "336535",
           "mobileAccount": "366535",
           "mobileIp": "366535",
           "unmobileIp": "366535",
           "newMembers": "366535"
         },
         {
-          "date": "2018年1月12日",
-          "activeUserNum": "366535",
+          "date": "2018-1-15",
+          "activeUserNum": "34535",
           "mobileAccount": "366535",
           "mobileIp": "366535",
-          "unmobileIp": "366535",
+          "unmobileIp": "36655",
           "newMembers": "366535"
         }
       ]
@@ -51,23 +67,23 @@
       "msg": "success",
       "data": [
         {
-          "item": "事例一",
+          "item": "咪咕世界杯权益包B",
           "count": 40
         },
         {
-          "item": "事例二",
+          "item": "黄金",
           "count": 21
         },
         {
-          "item": "事例三",
+          "item": "钻石",
           "count": 17
         },
         {
-          "item": "事例四",
+          "item": "19.9会员",
           "count": 13
         },
         {
-          "item": "事例五",
+          "item": "咪咕世界杯权益包A",
           "count": 9
         }
       ]

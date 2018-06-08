@@ -17,7 +17,7 @@
           <el-input class="form-input" v-model="userCreate.account"></el-input>
         </el-form-item>
         <el-form-item label="用户角色：">
-          <el-select class="form-input" v-model="userCreate.role">
+          <el-select class="form-input" v-model="userCreate.role" multiple>
             <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
           </el-select>
         </el-form-item>

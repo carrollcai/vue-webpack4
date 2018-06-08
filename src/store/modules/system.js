@@ -9,7 +9,7 @@ const roleCreate = {
 const userCreate = {
   name: '',
   account: '',
-  role: null,
+  role: [],
   province: ''
 };
 

@@ -2,24 +2,34 @@ import * as types from '../types';
 
 const state = {
   client: [],
+  // 省份和客户端对象
   activeObj: {
     provincedSelected: [],
     clientSelected: []
   },
+  // 第一模块
+  dailyUser: {
+    activeUserNum: 1,
+    mobileAccount: 1,
+    mobileIp: 1,
+    unmobileIp: 1,
+    newMembers: 1
+  },
+  members: [],
+  // 第二模块
   trend: {
     dateType: 0,
     date: '',
     mode: 0,
     chartRadio: 0
   },
+  trendList: [],
+  // 第三模块
   provinceUser: {
     data: ''
   },
-  userdata: [],
-  dailyUser: [],
-  trendList: [],
   provinceUserList: [],
-  members: [],
+  // 中国地图数据
   mapData: [],
   // 留存流失
   retentionObj: {
@@ -43,21 +53,49 @@ const mutations = {
   [types.CLIENT_GET](state, data) {
     state.client = data;
   },
-  [types.ACTIVE_QUERY_FORM](state, data) {
-    state.userdata = data;
-  },
   [types.ACTIVE_GET_DAILY_USER](state, data) {
     state.dailyUser = data;
   },
   [types.TREND_GET_LIST](state, data) {
-    state.trendList = data;
+    state.trendList = data.map(val => {
+      val.value = parseInt(val.activeUserNum);
+      return val;
+    });
   },
-  [types.TREND_GET_ACTIVE](state, data) {
-    state.trendList = data;
+  [types.ACTIVE_UPDATE_TREND](state, data) {
+    switch (data.chartRadio) {
+      case 0:
+        state.trendList = state.trendList.map(val => {
+          val.value = parseInt(val.activeUserNum);
+          return val;
+        });
+        break;
+      case 1:
+        state.trendList = state.trendList.map(val => {
+          val.value = parseInt(val.mobileAccount);
+          return val;
+        });
+        break;
+      case 2:
+        state.trendList = state.trendList.map(val => {
+          val.value = parseInt(val.mobileIp);
+          return val;
+        });
+        break;
+      case 3:
+        state.trendList = state.trendList.map(val => {
+          val.value = parseInt(val.newMembers);
+          return val;
+        });
+        break;
+      default:
+        console.error('类型不支持');
+    }
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {
     state.members = data;
   },
+  // 从本地获取中国地图json数据
   [types.PROVINCE_GET_MAP_JSON](state, data) {
     state.mapData = data;
   },

@@ -3,13 +3,14 @@
     <div class="trend-header">
       <div class="trend-header-title">活跃度分析</div>
       <div class="trend-header-right">
-        <el-radio-group v-model="trend.dateType" size="small" @change="query">
+        <el-radio-group v-model="trend.dateType" size="small">
           <el-radio-button :label="0">按日</el-radio-button>
           <el-radio-button :label="1">按月</el-radio-button>
         </el-radio-group>
         <div class="trend-header-right__query">
           <span>查询：</span>
-          <el-date-picker type="date" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
+          <el-date-picker v-if="trend.dateType" type="month" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
+          <el-date-picker v-if="!trend.dateType" type="date" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
         </div>
         <div class="trend-header-divider">
           |
@@ -28,7 +29,7 @@
     </div>
     <div class="trend-sub">
       <div class="trend-sub__radio">
-        <el-radio v-if="!trend.mode" v-for="i in Object.keys(trendRadio)" :key="i" v-model="trend.chartRadio" :label="Number(i)" @change="query">
+        <el-radio v-if="!trend.mode" v-for="i in Object.keys(trendRadio)" :key="i" v-model="trend.chartRadio" :label="Number(i)" @change="changeRadio">
           {{trendRadio[i]}}
         </el-radio>
       </div>
@@ -38,10 +39,10 @@
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
-        <line-chart :charData="serverData" :id="'line'" />
+        <line-chart :charData="trendList" :id="'line'" />
       </div>
       <div v-else>
-        <wm-table :source="trendList">
+        <wm-table :source="trendList" :max-height="500">
           <el-table-column label="日期" property="date" />
           <el-table-column label="日活跃用户数" property="activeUserNum" />
           <el-table-column label="手机账号登录用户" property="mobileAccount" />
@@ -57,7 +58,7 @@
 <script>
 import LineChart from 'components/chart/Line.vue';
 import { TREND_RADIO } from '@/config';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
 
 export default {
@@ -67,17 +68,7 @@ export default {
   },
   data() {
     return {
-      dateType: 0,
-      radio: '1',
-      trendRadio: TREND_RADIO,
-      serverData: [
-        { 'mzkId': 113, 'strftime': '01-11', 'value': 9275501 },
-        { 'mzkId': 112, 'strftime': '01-12', 'value': 9281904 },
-        { 'mzkId': 112, 'strftime': '01-13', 'value': 9290777 },
-        { 'mzkId': 112, 'strftime': '01-14', 'value': 9297913 },
-        { 'mzkId': 112, 'strftime': '01-15', 'value': 9306918 },
-        { 'mzkId': 112, 'strftime': '01-16', 'value': 9290777 }
-      ]
+      trendRadio: TREND_RADIO
     };
   },
   computed: {
@@ -92,10 +83,15 @@ export default {
   methods: {
     query() {
       const { trend } = this;
-      this.getActiveTrend(trend);
+      this.getTrendList(trend);
     },
+    changeRadio(val) {
+      this.updateTrendList({ chartRadio: val });
+    },
+    ...mapMutations({
+      updateTrendList: 'ACTIVE_UPDATE_TREND'
+    }),
     ...mapActions([
-      'getActiveTrend',
       'getTrendList'
     ])
   }

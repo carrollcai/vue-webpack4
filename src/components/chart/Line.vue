@@ -37,6 +37,7 @@ export default {
     }
   },
   methods: {
+    // 注意点，图表的排序顺序需要是Number类型的，String默认不排序
     drawChart(data) {
       const { height, id } = this;
       this.chart && this.chart.destroy();
@@ -49,9 +50,7 @@ export default {
       this.chart.source(data);
 
       this.chart.line().position('date*value').size(1).shape('smooth');
-      this.chart.point().position('date*value').color('#757373')
-        .shape('circle')
-        .label('value', { offset: 20, label: { fill: '#000' } });
+      this.chart.point().position('date*value').color('#757373').shape('circle');
 
       this.chart.render();
     }

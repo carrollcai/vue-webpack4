@@ -17,11 +17,9 @@ export default {
   getClientAPI: API('/client'),
 
   /* 数据分析 */
-  queryActiveFormAPI: API('/client'),
   getDailyActiveUserAPI: API('/active/dailyLive'),
   getTrendListAPI: API('/trend/list'),
   getMembersAPI: API('/member'),
-  getActiveTrendAPI: API('/member'),
   getProvinceUserAPI: API('/province/user'),
   getRetentionLossUserAPI: API('/retention/user'),
   getRetTrendListAPI: API('/retention/trend'),

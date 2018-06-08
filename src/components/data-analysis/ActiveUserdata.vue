@@ -11,19 +11,19 @@
       <div class="userdata-main-left">
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">日活跃用户数</div>
-          <div class="userdata-main-left__num">728972</div>
+          <div class="userdata-main-left__num">{{dailyUser.activeUserNum}}</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">日活跃用户数</div>
-          <div class="userdata-main-left__num">728972</div>
+          <div class="userdata-main-left__title ellipsis">手机账号登录用户</div>
+          <div class="userdata-main-left__num">{{dailyUser.mobileAccount}}</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">移动IP用户/非移动IP用户</div>
-          <div class="userdata-main-left__num">24255/21333</div>
+          <div class="userdata-main-left__title ellipsis">移动IP用户 / 非移动IP用户</div>
+          <div class="userdata-main-left__num">{{dailyUser.mobileIp + ' / ' + dailyUser.unmobileIp}}</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">日活跃用户数</div>
-          <div class="userdata-main-left__num">728972</div>
+          <div class="userdata-main-left__title ellipsis">新增会员用户</div>
+          <div class="userdata-main-left__num">{{dailyUser.newMembers}}</div>
         </div>
       </div>
       <div class="userdata-main-right">
@@ -50,7 +50,8 @@ export default {
   },
   computed: {
     ...mapState({
-      members: ({ dataAnalysis }) => dataAnalysis.members
+      members: ({ dataAnalysis }) => dataAnalysis.members,
+      dailyUser: ({ dataAnalysis }) => dataAnalysis.dailyUser
     })
   },
   beforeMount() {
@@ -58,7 +59,6 @@ export default {
   },
   methods: {
     dataChange(val) {
-      console.log(val);
       this.getDailyActiveUser({ val });
     },
     ...mapActions([

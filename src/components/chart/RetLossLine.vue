@@ -63,9 +63,7 @@ export default {
         }
       });
       this.chart.line().position('date*value').size(1).shape('smooth');
-      this.chart.point().position('date*value').color('#757373')
-        .shape('circle')
-        .label('value', { offset: 20, label: { fill: '#000' } });
+      this.chart.point().position('date*value').color('#757373').shape('circle');
 
       this.chart.render();
     }
