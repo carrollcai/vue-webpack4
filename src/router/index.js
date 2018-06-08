@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import Cookies from 'js-cookie';
+import store from '@/store';
+import { SESSION_DURATION } from '@/config';
 
 import Login from '@/views/login/Login.vue';
 import CommonView from '@/views/CommonView.vue';
@@ -26,11 +29,14 @@ import UserCreate from '@/views/system/UserCreate.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/login',
       name: 'login',
+      meta: {
+        skipAuth: true
+      },
       component: Login
     },
     {
@@ -133,3 +139,32 @@ export default new Router({
     }
   ]
 });
+
+/*
+router.beforeEach((to, from, next) => {
+  if (!to.meta.skipAuth) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (store.getters.isLoggedIn) {
+      let token = Cookies.get('token');
+
+      // token 对应的cookie在有效期内
+      if (token) {
+        // 每次跳转路由，刷新token cookie
+        Cookies.set('token', token, { expires: SESSION_DURATION });
+        next();
+      } else {
+        // 当页面长时间没操作时， state中的登录状态还存在，但是，token对应的cookie已经失效
+        // cookie失效后，跳转到登录页面
+        store.dispatch('toLoginPage');
+      }
+    } else {
+      store.dispatch('toLoginPage');
+    }
+  } else {
+    next();
+  }
+});
+*/
+
+export default router;

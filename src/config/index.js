@@ -4,6 +4,11 @@
  */
 export const BASE_URL = 'http://localhost:3618';
 
+/**
+ * session持续时间。单位：天
+ */
+export const SESSION_DURATION = 1 / 72;
+
 export const SIDEBAR_DATA = {
   dashboard: {
     name: '首页',

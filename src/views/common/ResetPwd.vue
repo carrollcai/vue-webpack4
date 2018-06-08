@@ -96,7 +96,7 @@ export default {
                   this.dialogFormVisible = false;
                   this.$nextTick(() => {
                     this.logout();
-                  })
+                  });
                 }
               });
             } else {

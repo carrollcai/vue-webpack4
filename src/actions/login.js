@@ -12,13 +12,13 @@ const actions = {
       });
     });
   },
-  logout({ commit }, params = {}) {
+  logout({ commit, dispatch }, params = {}) {
     API.logoutApi(params).then((res) => {
       commit(types.LOG_OUT);
-      router.replace('/login');
+      dispatch('toLoginPage');
     }, () => {
       commit(types.LOG_OUT);
-      router.replace('/login');
+      dispatch('toLoginPage');
     });
   },
   resetPwd: ({ commit }, params = {}) => {
@@ -29,6 +29,9 @@ const actions = {
         reject(err);
       });
     });
+  },
+  toLoginPage() {
+    router.replace('/login');
   }
 };
 
