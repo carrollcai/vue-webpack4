@@ -4,7 +4,7 @@
       <div class="trend-header-title">各省日活跃用户情况</div>
       <div>
         <span>查询：</span>
-        <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" :clearable="false" @change="query" />
+        <el-date-picker v-if="!provinceUser.dateType" type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" :clearable="false" @change="query" />
       </div>
     </div>
     <div class="province-user-chart">

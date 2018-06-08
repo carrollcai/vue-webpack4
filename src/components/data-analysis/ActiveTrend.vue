@@ -86,7 +86,8 @@ export default {
   methods: {
     dateTypeChange() {
       const { trend } = this;
-
+      // 初始化区间段 日最近7天，月最近半年
+      this.getTrendList(trend);
     },
     query() {
       const { trend } = this;
