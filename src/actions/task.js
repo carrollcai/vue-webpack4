@@ -3,6 +3,18 @@ import * as types from '../store/types';
 import API from '../utils/api';
 const actions = {
   /**
+   * 查询“任务查询”列表
+   */
+  queryTaskList: ({ commit }, params) => {
+    return API.getRoleListAPI(params).then(res => {
+      commit(types.SET_TASK_LIST, res.data);
+    }, err => {
+      if (err) {
+        commit(types.SET_TASK_LIST, {});
+      }
+    });
+  },
+  /**
    * 查询 “我的申请” 列表
    */
   queryPushList: ({ commit }, params) => {
