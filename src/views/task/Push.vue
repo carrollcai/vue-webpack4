@@ -20,6 +20,13 @@
         <el-button type="primary" @click="query">查询</el-button>
       </el-form-item>
     </el-form>
+    <el-tabs v-model="status">
+      <el-tab-pane label="全部"></el-tab-pane>
+      <el-tab-pane label="处理中"></el-tab-pane>
+      <el-tab-pane label="通过"></el-tab-pane>
+      <el-tab-pane label="不通过"></el-tab-pane>
+      <el-tab-pane label="撤销"></el-tab-pane>
+    </el-tabs>
 
     <wm-table :source="pushList.list" :pageNo="pageNo" :pageSize="pageSize" :total="totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" property="name" />
@@ -65,8 +72,14 @@ export default {
       },
       pageNo: 1,
       pageSize: 10,
-      totalCount: 1
+      totalCount: 1,
+      status: 0
     };
+  },
+  watch: {
+    status() {
+      this.query()
+    }
   },
   beforeMount() {
     this.query();
@@ -98,8 +111,16 @@ export default {
     handleCopy(row) {
 
     },
+    getParams() {
+      let params = Object.assign({}, this.taskForm);
+      params.pageNo = this.pageNo;
+      params.pageSize = this.pageSize;
+      params.status = this.status;
+
+      return params;
+    },
     query() {
-      this.queryPushList(this.taskForm);
+      this.queryPushList(this.getParams());
     },
     ...mapActions([
       'queryPushList',
