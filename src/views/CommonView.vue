@@ -1,5 +1,5 @@
 <template>
-  <div class="common-view">
+  <div class="common-view" v-loading.fullscreen.lock="pageLoading">
     <el-container class="app-container">
       <el-header class="app-header">
         <Header />
@@ -20,12 +20,18 @@
 import Main from './Main.vue';
 import Aside from './Aside.vue';
 import Header from './Header.vue';
+import { mapState } from 'vuex';
 export default {
   name: 'CommonView',
   components: {
     Main,
     Aside,
     Header
+  },
+  computed: {
+    ...mapState({
+      pageLoading: ({ root }) => root.pageLoading
+    })
   }
 };
 </script>

@@ -1,9 +1,12 @@
+/* root */
 export const DEMO_LIST = 'DEMO_LIST';
-
+export const SHOW_PAGE_LOADING = 'SHOW_PAGE_LOADING';
+export const HIDE_PAGE_LOADING = 'HIDE_PAGE_LOADING';
 export const PROVINCE = 'PROVINCE';
 export const PERMISSIONS = 'PERMISSIONS';
 export const USER_ROLE_LIST = 'USER_ROLE_LIST';
 export const ROUTE_CHANGE = 'ROUTE_CHANGE';
+
 /* login */
 export const SET_LOGIN_USER = 'SET_LOGIN_USER';
 export const LOG_OUT = 'LOG_OUT';

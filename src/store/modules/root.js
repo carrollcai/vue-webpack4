@@ -5,7 +5,8 @@ const state = {
   userRoleList: [],
   currentRoute: {
     path: ''
-  }
+  },
+  pageLoading: false
 };
 
 const mutations = {
@@ -18,6 +19,12 @@ const mutations = {
   // 改变当前路由
   [types.ROUTE_CHANGE](state, data) {
     state.currentRoute = data;
+  },
+  [types.SHOW_PAGE_LOADING](state) {
+    state.pageLoading = true;
+  },
+  [types.HIDE_PAGE_LOADING](state) {
+    state.pageLoading = false;
   }
 };
 
