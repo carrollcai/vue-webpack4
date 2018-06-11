@@ -1,5 +1,21 @@
 <template>
   <div class="login">
+    <div class="login-desc">
+      <div class="login-desc__title">
+        <i class="title-icon"></i>咪咕销售管理平台
+      </div>
+      <div class="login-line"></div>
+      <div class="login-desc__detail">
+        <ul>
+          <li><i class="list-icon"></i>客户端数据查看，清晰准确</li>
+          <li><i class="list-icon"></i>集团客户信息共享，便捷可靠</li>
+          <li><i class="list-icon"></i>订单跟踪管理，高效清晰</li>
+        </ul>
+        <div class="desc-btn">
+          立即体验
+        </div>
+      </div>
+    </div>
     <div class="login-form">
       <div class="title">
         欢迎登录销售管理平台
@@ -99,27 +115,90 @@ $padding-left: 46px;
   background-size: 100% 100%;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+
+  *{
+    box-sizing: border-box;
+  }
+
+  .login-desc{
+    width: 752px;
+    margin: 88px 0 0 68px;
+  }
+
+  .login-desc__title{
+    display: flex;
+    align-items: center;
+    font-size: 36px;
+    color: #FFFFFF;
+
+    .title-icon{
+      background: url('~@/assets/images/login-icon.png') no-repeat;
+      width: 34px;
+      height: 34px;
+      margin-right: 16px;
+      display: inline-block;
+    }
+  }
+
+  .login-line{
+    background: url('~@/assets/images/line.png') no-repeat;
+    margin: 37px 0;
+    height: 1px;
+  }
+
+  .login-desc__detail{
+    margin-left: 49px;
+    ul {
+      li{
+        color: #FFFFFF;
+        .list-icon{
+          background: url('~@/assets/images/check.png') no-repeat;
+          width: 15px;
+          height: 11px;
+          margin-right: 16px;
+          display: inline-block;
+        }
+
+        &:not(:last-child){
+          margin-bottom: 16px;
+        }
+      }
+    }
+  }
+
+  .desc-btn{
+    width: 267px;
+    height: 40px;
+    line-height: 40px;
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.56);
+    margin-top: 32px;
+  }
 
   .login-form{
-    width: 510px;
+    width: 470px;
     background: #FFFFFF;
     box-sizing: border-box;
     height: auto;
+    align-self: center;
+    margin-right: 170px;
+    padding: 0 53px;
 
     .title{
-      padding-left: $padding-left;
-      height: 56px;
       box-sizing: border-box;
-      border-bottom: 1px solid rgba(230, 230, 230, 1);
       color: rgba(0, 0, 0, 0.85);
-      font-size: 20px;
-      line-height: 56px;
+      font-size: 24px;
+      height: 33px;
+      line-height: 33px;
+      text-align: center;
+      margin-top: 33px;
     }
 
     .body{
-      padding-left: $padding-left;
+      width: 100%;
       .input-wrapper{
         height: 70px;
         display: flex;
@@ -129,7 +208,6 @@ $padding-left: 46px;
       .btn-group{
         display: flex;
         justify-content: center;
-        padding-right: 37px;
         margin: 40px 0 24px 0;
         .el-button{
           width: 130px;

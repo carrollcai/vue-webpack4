@@ -89,6 +89,8 @@ export default {
 <style lang="scss">
 @import "scss/variables.scss";
 .login-input{
+  width: 100%;
+
   .placeholder{
     color: rgba(0, 0, 0, 0.25);
     margin-bottom: $fontWidth;
@@ -99,7 +101,7 @@ export default {
     border-bottom: 1px solid rgba(163, 195, 254, 1);
     height: 24px;
     line-height: 24px;
-    width: 429px;
+    width: 100%;
     font-size: 18px;
     border-radius: 0;
     padding: 0;
