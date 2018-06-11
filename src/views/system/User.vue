@@ -1,20 +1,21 @@
 <template>
   <div class="m-container">
-    <el-form class="user-form" ref="userManageForm">
+    <el-form class="user-form" ref="userManageForm" :model="userForm" :rules="userManageRules">
       <el-form-item>用户角色：</el-form-item>
-      <el-form-item class="user-form-item__input">
+      <el-form-item class="user-form-item__input" prop="role">
         <el-select v-model="userForm.role">
+          <el-option :key="null" label="全部类型" :value="null"></el-option>
           <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
         </el-select>
       </el-form-item>
 
       <el-form-item class="user-form-item__lable">用户姓名：</el-form-item>
-      <el-form-item class="user-form-item__input">
+      <el-form-item class="user-form-item__input" prop="name">
         <el-input v-model="userForm.name" />
       </el-form-item>
 
       <el-form-item class="user-form-item__lable">登录账号：</el-form-item>
-      <el-form-item class="user-form-item__input">
+      <el-form-item class="user-form-item__input" prop="account">
         <el-input v-model="userForm.account" />
       </el-form-item>
 
@@ -56,6 +57,21 @@ import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     WmTable
+  },
+  data() {
+    return {
+      userManageRules: {
+        role: [
+          { required: true, message: '请输入用户角色：', trigger: 'change' }
+        ],
+        name: [
+          { required: true, message: '请输入用户姓名', trigger: 'blur' }
+        ],
+        account: [
+          { required: true, message: '请输入登录账号', trigger: 'blur' }
+        ]
+      }
+    };
   },
   computed: {
     ...mapState({

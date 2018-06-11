@@ -9,19 +9,19 @@
       </div>
     </div>
     <div class="m-container user-create">
-      <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm">
-        <el-form-item label="用户姓名：">
+      <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm" :rules="userCreateRules">
+        <el-form-item label="用户姓名：" prop="name">
           <el-input class="form-input" v-model="userCreate.name"></el-input>
         </el-form-item>
-        <el-form-item label="登录账号：">
+        <el-form-item label="登录账号：" prop="account">
           <el-input class="form-input" v-model="userCreate.account"></el-input>
         </el-form-item>
-        <el-form-item label="用户角色：">
+        <el-form-item label="用户角色：" prop="role">
           <el-select class="form-input" v-model="userCreate.role" multiple>
             <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
           </el-select>
         </el-form-item>
-        <el-form-item label="省份权限：">
+        <el-form-item label="省份权限：" prop="province">
           <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.province" placeholder="请选择" multiple>
             <el-option v-for="item in province" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
@@ -40,6 +40,24 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 export default {
+  data() {
+    return {
+      userCreateRules: {
+        name: [
+          { required: true, message: '请输入用户姓名', trigger: 'blur' }
+        ],
+        account: [
+          { required: true, message: '请输入登录账号', trigger: 'blur' }
+        ],
+        role: [
+          { required: true, message: '请输入用户角色', trigger: 'change' }
+        ],
+        province: [
+          { required: true, message: '请输入省份权限', trigger: 'change' }
+        ]
+      }
+    };
+  },
   computed: {
     ...mapState({
       userCreate: ({ system }) => system.userCreate,

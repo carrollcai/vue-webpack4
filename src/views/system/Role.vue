@@ -1,8 +1,8 @@
 <template>
   <div class="m-container">
-    <el-form class="role-form" ref="roleManageForm" :model="roleForm" >
+    <el-form class="role-form" ref="roleManageForm" :model="roleForm" :rules="roleManageRules">
       <el-form-item>角色名称：</el-form-item>
-      <el-form-item class="role-form-item__input">
+      <el-form-item class="role-form-item__input" prop="name">
         <el-input v-model="roleForm.name" />
       </el-form-item>
       <el-form-item class="role-form-item">
@@ -42,6 +42,11 @@ import { mapActions, mapState } from 'vuex';
 export default {
   data() {
     return {
+      roleManageRules: {
+        name: [
+          { required: true, message: '请输入角色名称', trigger: 'blur' }
+        ]
+      }
     };
   },
   components: {
@@ -107,7 +112,6 @@ export default {
   align-items: center;
 }
 .role-form-item__input {
-  // margin-left: $blockWidth;
   width: $inputWidthQuery;
 }
 .role-form-item {

@@ -1,9 +1,16 @@
-import { INPUT_NUM_MAX } from '../config';
-
 /**
  * element-ui表单验证的规则
  * @author carroll
  */
+
+import {
+  INPUT_NUM_MAX,
+  DATE_LIMIT,
+  MONTH_LIMIT,
+  INPUT_TEXT_LIMIT,
+  INPUT_TEXTAREA_LIMIT
+} from '../config';
+import moment from 'moment';
 
 // 输入内容不能为空格
 export const isEmpty = (rule, value, callback) => {
@@ -38,6 +45,62 @@ export const isPositive = (rule, value, callback) => {
 export const maxLimit = (rule, value, callback) => {
   if (Number(value) > INPUT_NUM_MAX) {
     callback(new Error(`输入内容不能超过${INPUT_NUM_MAX}`));
+  } else {
+    callback();
+  }
+};
+
+// 时间段校校验
+// 两种形式，日时间段和月时间段，日时间段不得超过1个月，月时间段不得超过12个月
+export const timeRange = (rule, value, callback) => {
+  // 按日
+  const startDate = value[0].getTime();
+  const endDate = value[1].getTime();
+  const delta = parseInt(endDate - startDate) / 1000 / 60 / 60 / 24;
+  if (delta > DATE_LIMIT) {
+    callback(new Error(`时间跨度不能超过${DATE_LIMIT}天`));
+  } else {
+    callback();
+  }
+  console.log(startDate, endDate);
+  console.log(delta);
+
+  // 按月
+  const startDatefFormat = moment(startDate).format('YYYY-MM');
+  const endDatefFormat = moment(endDate).format('YYYY-MM');
+  const startArr = startDatefFormat.split('-');
+  const endArr = endDatefFormat.split('-');
+
+  if (parseInt(endArr[0] - startArr[0]) > 1) {
+    callback(new Error(`时间跨度不能超过${MONTH_LIMIT}月`));
+  } else if (parseInt(endArr[0] - startArr[0]) === 1) {
+    if (parseInt(endArr[1] - startArr[0]) < 0) {
+      callback(new Error(`时间跨度不能超过${MONTH_LIMIT}月`));
+    } else {
+      callback();
+    }
+  } else {
+    callback();
+  }
+};
+
+// text input最大字符校验
+export const textLimit = (rule, value, callback) => {
+  if (String(value).trim() === '') {
+    callback(new Error('输入内容不能为空'));
+  } else if (String(value).trim().length > INPUT_TEXT_LIMIT) {
+    callback(new Error(`输入内容字符不能超过${INPUT_TEXT_LIMIT}`));
+  } else {
+    callback();
+  }
+};
+
+// textarea 最大字符校验
+export const textareaLimit = (rule, value, callback) => {
+  if (String(value).trim() === '') {
+    callback(new Error('输入内容不能为空'));
+  } else if (String(value).trim().length > INPUT_TEXTAREA_LIMIT) {
+    callback(new Error(`输入内容字符不能超过${INPUT_TEXTAREA_LIMIT}`));
   } else {
     callback();
   }

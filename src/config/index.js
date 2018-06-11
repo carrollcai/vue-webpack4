@@ -66,8 +66,6 @@ export const SIDEBAR_DATA = {
   }
 };
 
-export const INPUT_NUM_MAX = 2000;
-
 export const PAGE_NO = 1;
 export const PAGE_SIZE = 20;
 
@@ -82,3 +80,12 @@ export const RETENTION_TREND_RADIO = {
   0: '新增用户留存率',
   1: '留存用户流失率'
 };
+
+/* rules 限制 */
+// 时间限制
+export const DATE_LIMIT = 30;
+export const MONTH_LIMIT = 12;
+
+export const INPUT_NUM_MAX = 2000;
+export const INPUT_TEXT_LIMIT = 80;
+export const INPUT_TEXTAREA_LIMIT = 100;

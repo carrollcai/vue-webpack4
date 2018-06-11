@@ -1,19 +1,24 @@
 <template>
-  <div class="active-search block-containter">
+  <el-form ref="activeSearchForm" :model="activeObj" :rules="activeSearchRules" class="active-search block-containter">
     <div class="active-search__select">
       <div class="active-search__province">
-        省份：
-        <el-select v-if="province.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
-          <el-option v-for="item in province" :key="item.key" :label="item.value" :value="item.key">
-          </el-option>
-        </el-select>
+        <el-form-item class="normalize-form-item">省份：</el-form-item>
+        <el-form-item class="normalize-form-item" prop="provinceSelected">
+          <el-select v-if="province.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
+            <el-option v-for="item in province" :key="item.key" :label="item.value" :value="item.key">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
       </div>
       <div class="active-search__client">
-        客户端：
-        <el-select v-if="client.length" v-model="activeObj.clientSelected" placeholder="请选择" multiple @change="clientChange" collapse-tags>
-          <el-option v-for="item in client" :key="item.key" :label="item.value" :value="item.key">
-          </el-option>
-        </el-select>
+        <el-form-item class="normalize-form-item">客户端：</el-form-item>
+        <el-form-item class="normalize-form-item" prop="clientSelected">
+          <el-select v-if="client.length" v-model="activeObj.clientSelected" placeholder="请选择" multiple @change="clientChange" collapse-tags>
+            <el-option v-for="item in client" :key="item.key" :label="item.value" :value="item.key">
+            </el-option>
+          </el-select>
+        </el-form-item>
       </div>
     </div>
     <div class="province-operate">
@@ -24,7 +29,7 @@
         <i class="el-icon-download">申请日活明细下载</i>
       </div>
     </div>
-  </div>
+  </el-form>
 </template>
 
 <script>
@@ -34,7 +39,15 @@ export default {
   data() {
     return {
       provinceSelected: [],
-      clientSelected: []
+      clientSelected: [],
+      activeSearchRules: {
+        provinceSelected: [
+          { required: true, message: '请选择省份', trigger: 'change' },
+        ],
+        clientSelected: [
+          { required: true, message: '请选择客户端', trigger: 'change' },
+        ]
+      }
     };
   },
   computed: {

@@ -4,8 +4,14 @@
       <div class="trend-header-title">留存流失分析</div>
       <div class="trend-header-right">
         <div class="trend-header-right__query">
-          <span>查询：</span>
-          <el-date-picker type="date" placeholder="选择日期" v-model="retTrend.date" :editable="false" @change="query" />
+          <el-form ref="retTrendForm" :model="retTrend" :rules="retTrendTrendRules" class="flex">
+            <el-form-item class="normalize-form-item">
+              查询：
+            </el-form-item>
+            <el-form-item prop="date" class="normalize-form-item">
+              <el-date-picker type="daterange" placeholder="选择日期" v-model="retTrend.date" :editable="false" @change="query" />
+            </el-form-item>
+          </el-form>
         </div>
         <div class="trend-header-divider">
           |
@@ -56,6 +62,7 @@ import RetLossLine from 'components/chart/RetLossLine.vue';
 import { RETENTION_TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
+import { timeRange } from '@/utils/rules';
 
 export default {
   components: {
@@ -64,7 +71,13 @@ export default {
   },
   data() {
     return {
-      trendRadio: RETENTION_TREND_RADIO
+      trendRadio: RETENTION_TREND_RADIO,
+      retTrendTrendRules: {
+        date: [
+          { required: true, message: '请选择时间范围', trigger: 'change' },
+          { validator: timeRange, trigger: 'change' }
+        ]
+      }
     };
   },
   computed: {
@@ -82,7 +95,11 @@ export default {
     },
     query() {
       const { retTrend } = this;
-      this.getRetTrendList(retTrend);
+      this.$refs['retTrendForm'].validate(valid => {
+        if (valid) {
+          this.getRetTrendList(retTrend);
+        }
+      });
     },
     ...mapMutations({
       updateRetTrendList: 'RETENTION_UPDATE_TREND_LIST'

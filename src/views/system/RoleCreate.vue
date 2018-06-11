@@ -9,14 +9,14 @@
       </div>
     </div>
     <div class="m-container role-create">
-      <el-form :label-position="'right'" label-width="120px" :model="roleCreate" ref="roleForm">
-        <el-form-item label="角色名称：">
+      <el-form :label-position="'right'" label-width="120px" :model="roleCreate" ref="roleForm" :rules="roleRules">
+        <el-form-item label="角色名称：" prop="name">
           <el-input class="form-input" v-model="roleCreate.name"></el-input>
         </el-form-item>
-        <el-form-item label="角色描述：">
-          <el-input class="form-input" v-model="roleCreate.desc"></el-input>
+        <el-form-item label="角色描述：" prop="desc">
+          <el-input class="form-input" type="textarea" v-model="roleCreate.desc"></el-input>
         </el-form-item>
-        <el-form-item label="菜单权限：" v-if="!Object.isNullArray(permissions)">
+        <el-form-item label="菜单权限：" v-if="!Object.isNullArray(permissions)" prop="permissions">
           <el-select class="form-input" multiple v-model="roleCreate.permissions" placeholder="选择菜单权限">
             <div v-for="group in permissions" :key="group.menuId">
               <el-option-group v-if="group.children" :label="group.name">
@@ -44,6 +44,21 @@ export default {
       roleCreate: ({ system }) => system.roleCreate,
       permissions: ({ system }) => system.permissions
     })
+  },
+  data() {
+    return {
+      roleRules: {
+        name: [
+          { required: true, message: '请输入角色名称', trigger: 'blur' }
+        ],
+        desc: [
+          { required: true, message: '请输入角色描述', trigger: 'blur' }
+        ],
+        permissions: [
+          { required: true, message: '请输入菜单权限', trigger: 'change' }
+        ]
+      }
+    };
   },
   beforeMount() {
     this.resetForm();

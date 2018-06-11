@@ -30,8 +30,8 @@ $menu-active-color: #FFFFFF;
 
 /* 重置input框高度 */
 .el-input__inner {
-  line-height: $buttonLineHeight;
-  height: $buttonLineHeight;
+  line-height: $buttonLineHeight !important;
+  height: $buttonLineHeight !important;
 }
 
 /* input框的icon */
@@ -73,6 +73,10 @@ $menu-active-color: #FFFFFF;
 }
 
 .el-date-editor .el-range__icon, .el-date-editor .el-range__close-icon {
+  line-height: 24px;
+}
+
+.el-date-editor .el-range-separator {
   line-height: 24px;
 }
 
