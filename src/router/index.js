@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Cookies from 'js-cookie';
-import store from '@/store';
-import { SESSION_DURATION } from '@/config';
+// import Cookies from 'js-cookie';
+// import store from '@/store';
+// import { SESSION_DURATION } from '@/config';
 
 import Login from '@/views/login/Login.vue';
 import CommonView from '@/views/CommonView.vue';
