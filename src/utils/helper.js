@@ -44,7 +44,8 @@ Object.isObject = (obj) => {
 
 /* 按日默认展示7天，按月默认展示半年 */
 export const nowDay = moment().format('YYYY-MM-DD');
-export const sevenDaysAgo = moment(moment().subtract(6, 'days').calendar()).format('YYYY-MM-DD');
-
+export const sevenDaysAgo = moment().subtract(6, 'days').format('YYYY-MM-DD');
+console.log(sevenDaysAgo);
 export const nowMonth = moment().format('YYYY-MM');
-export const halfYearsAgo = moment(moment().subtract(5, 'months').calendar()).format('YYYY-MM');
+export const halfYearsAgo = moment().subtract(5, 'months').format('YYYY-MM');
+console.log(halfYearsAgo);

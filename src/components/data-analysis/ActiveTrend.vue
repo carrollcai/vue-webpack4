@@ -104,7 +104,7 @@ export default {
         if (valid) {
           this.getTrendList(trend);
         }
-      })
+      });
     },
     changeRadio(val) {
       this.updateTrendList({ chartRadio: val });

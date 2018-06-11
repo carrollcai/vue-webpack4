@@ -51,7 +51,7 @@ export default {
         if (valid) {
           this.getProvinceUser();
         }
-      })
+      });
     },
     ...mapActions([
       'getProvinceUser'
