@@ -47,8 +47,9 @@ export default {
 @import "scss/index.scss";
 @import "scss/views/active.scss";
 @import "scss/views/retention.scss";
+@import "scss/views/page-error.scss";
+
 .app {
   height: 100vh;
 }
 </style>
-<style lang="scss" src="@/assets/scss/views/page-error.scss"></style>
