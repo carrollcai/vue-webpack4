@@ -78,7 +78,7 @@ export default {
   },
   watch: {
     status() {
-      this.query()
+      this.query();
     }
   },
   beforeMount() {
