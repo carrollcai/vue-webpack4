@@ -19,7 +19,7 @@ $menu-active-color: #FFFFFF;
 }
 
 /* 重置普通按钮宽度为96 */
-.el-button {
+.el-button--primary, .el-button--default {
   line-height: $buttonLineHeight;
   padding: 0;
   width: 96px;
@@ -74,4 +74,8 @@ $menu-active-color: #FFFFFF;
 
 .el-date-editor .el-range__icon, .el-date-editor .el-range__close-icon {
   line-height: 24px;
+}
+
+.normalize-form-item {
+  margin-bottom: 0;
 }

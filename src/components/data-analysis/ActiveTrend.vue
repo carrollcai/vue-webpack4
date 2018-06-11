@@ -1,6 +1,6 @@
 <template>
   <div class="active-trend block-containter">
-    <el-form ref="activeTrendForm" :model="trend">
+    <el-form ref="activeTrendForm" :model="trend" :rules="activeTrendRules">
       <div class="trend-header">
         <div class="trend-header-title">活跃度分析</div>
         <div class="trend-header-right">
@@ -9,10 +9,14 @@
             <el-radio-button :label="1">按月</el-radio-button>
           </el-radio-group>
           <div class="trend-header-right__query">
-            <span>查询：</span>
             <!-- 这里的切换需要重置或者默认选项 -->
-            <el-date-picker v-if="trend.dateType" type="monthrange" placeholder="选择日期" v-model="trend.date" :editable="false" :clearable="false" />
-            <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" :clearable="false" />
+            <el-form-item class="normalize-form-item">
+              查询：
+            </el-form-item>
+            <el-form-item prop="date" class="normalize-form-item">
+              <el-date-picker v-if="trend.dateType" type="monthrange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
+              <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
+            </el-form-item>
           </div>
           <div class="trend-header-divider">
             |
@@ -71,7 +75,12 @@ export default {
   },
   data() {
     return {
-      trendRadio: TREND_RADIO
+      trendRadio: TREND_RADIO,
+      activeTrendRules: {
+        date: [
+          { required: true, message: '请选择时间范围', trigger: 'change' }
+        ]
+      }
     };
   },
   computed: {
@@ -91,7 +100,11 @@ export default {
     },
     query() {
       const { trend } = this;
-      this.getTrendList(trend);
+      this.$refs['activeTrendForm'].validate(valid => {
+        if (valid) {
+          this.getTrendList(trend);
+        }
+      });
     },
     changeRadio(val) {
       this.updateTrendList({ chartRadio: val });

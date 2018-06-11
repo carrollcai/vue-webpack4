@@ -2,10 +2,12 @@
   <div class="province-user block-containter">
     <div class="province-user-header">
       <div class="trend-header-title">各省日活跃用户情况</div>
-      <div>
-        <span>查询：</span>
-        <el-date-picker v-if="!provinceUser.dateType" type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" :clearable="false" @change="query" />
-      </div>
+      <el-form ref="provinceUserForm" :model="provinceUser" :rules="provinceUserRules" class="flex">
+        <el-form-item class="normalize-form-item">查询：</el-form-item>
+        <el-form-item class="normalize-form-item" prop="date">
+          <el-date-picker type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" @change="query" />
+        </el-form-item>
+      </el-form>
     </div>
     <div class="province-user-chart">
       <div class="province-user-chart__map">
@@ -33,6 +35,11 @@ export default {
   },
   data() {
     return {
+      provinceUserRules: {
+        date: [
+          { required: true, message: '请选择时间范围', trigger: 'change' }
+        ]
+      }
     };
   },
   beforeMount() {
@@ -40,7 +47,11 @@ export default {
   },
   methods: {
     query() {
-      this.getProvinceUser();
+      this.$refs['provinceUserForm'].validate(valid => {
+        if (valid) {
+          this.getProvinceUser();
+        }
+      });
     },
     ...mapActions([
       'getProvinceUser'

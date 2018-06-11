@@ -74,7 +74,7 @@ export const PAGE_SIZE = 20;
 export const TREND_RADIO = {
   0: '日活跃用户数',
   1: '手机账号登录用户',
-  2: '移动IP用户/非移动IP用户',
+  2: '移动IP用户 / 非移动IP用户',
   3: '新增会员用户'
 };
 

@@ -5476,6 +5476,10 @@ mockjs@^1.0.1-beta2:
   dependencies:
     commander "*"
 
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "http://r.cnpmjs.org/moment/download/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "http://r.cnpmjs.org/move-concurrently/download/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
