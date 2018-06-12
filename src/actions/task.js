@@ -1,6 +1,7 @@
 import { Message } from 'element-ui';
 import * as types from '../store/types';
 import API from '../utils/api';
+
 const actions = {
   /**
    * 查询“任务查询”列表
@@ -34,6 +35,20 @@ const actions = {
         type: 'success',
         duration: 3000
       });
+    });
+  },
+  /**
+   * 查询 “我的代办” 列表
+   */
+  queryTodoList: ({ commit }, params) => {
+    return API.getRoleListAPI(params).then(res => {
+      commit(types.SET_TODO_LIST, res.data);
+    }, err => {
+      if (err) {
+        commit(types.SET_TODO_LIST, {
+          list: []
+        });
+      }
     });
   }
 };
