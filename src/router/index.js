@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import Cookies from 'js-cookie';
-// import store from '@/store';
-// import { SESSION_DURATION } from '@/config';
+import Cookies from 'js-cookie';
+import store from '@/store';
 
 import Login from '@/views/login/Login.vue';
 import CommonView from '@/views/CommonView.vue';
@@ -141,28 +140,12 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  // window.scrollTo(0, 0);
-  next();
-});
-
-/*
-router.beforeEach((to, from, next) => {
   if (!to.meta.skipAuth) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (store.getters.isLoggedIn) {
-      let token = Cookies.get('token');
-
-      // token 对应的cookie在有效期内
-      if (token) {
-        // 每次跳转路由，刷新token cookie
-        Cookies.set('token', token, { expires: SESSION_DURATION });
-        next();
-      } else {
-        // 当页面长时间没操作时， state中的登录状态还存在，但是，token对应的cookie已经失效
-        // cookie失效后，跳转到登录页面
-        store.dispatch('toLoginPage');
-      }
+    let token = Cookies.get('loginToken');
+    if (token) {
+      next();
     } else {
       store.dispatch('toLoginPage');
     }
@@ -170,6 +153,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-*/
 
 export default router;
