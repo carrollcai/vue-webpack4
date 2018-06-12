@@ -25,7 +25,7 @@
           <login-input type="text" v-model="loginName" placeholder="账号" @focus="clearError"></login-input>
         </div>
         <div class="input-wrapper">
-          <login-input type="password" v-model="pwd" placeholder="密码"></login-input>
+          <login-input type="password" v-model="pwd" placeholder="密码" @focus="clearError"></login-input>
         </div>
         <div class="error-msg" v-if="!!errorMsg">
           {{errorMsg}}
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     isSuccess(res) {
-      return res && res.code === 1;
+      return res && res.errorInfo && res.errorInfo.code === '200';
     },
 
     validateForm() {
@@ -81,14 +81,14 @@ export default {
         let {loginName, pwd} = this;
 
         this.login({
-          loginName,
-          pwd
+          username: loginName,
+          password: pwd
         }).then((res) => {
           if (isSuccess(res)) {
             this.$store.commit(types.SET_LOGIN_USER, res.data);
             this.$router.replace('/');
           } else {
-            this.errorMsg = res.msg;
+            this.errorMsg = res.errorInfo.message;
           }
         }, err => {
           console.log(err);
