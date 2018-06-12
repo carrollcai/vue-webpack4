@@ -14,7 +14,7 @@
               查询：
             </el-form-item>
             <el-form-item prop="date" class="normalize-form-item">
-              <el-date-picker v-if="trend.dateType" type="monthrange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
+              <el-date-picker v-if="trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" format="yyyy-MM" />
               <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
             </el-form-item>
           </div>
@@ -46,7 +46,8 @@
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
-        <line-chart :charData="trendList" :id="'line'" />
+        <line-chart v-if="trend.chartRadio !== 2" :charData="trendList" :id="'line'" />
+        <multi-line v-else :charData="trendList" :id="'line'" :fields="['mobileIp', 'unmobileIp']" />
       </div>
       <div v-else>
         <wm-table :source="trendList" :max-height="500">
@@ -63,6 +64,7 @@
 </template>
 
 <script>
+import MultiLine from 'components/chart/MultiLine.vue';
 import LineChart from 'components/chart/Line.vue';
 import { TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
@@ -70,8 +72,9 @@ import WmTable from 'components/Table.vue';
 
 export default {
   components: {
-    LineChart,
-    WmTable
+    WmTable,
+    MultiLine,
+    LineChart
   },
   data() {
     return {
@@ -96,7 +99,8 @@ export default {
     dateTypeChange() {
       const { trend } = this;
       // 初始化区间段 日最近7天，月最近半年
-      this.getTrendList(trend);
+      this.initDate(trend);
+      this.query();
     },
     query() {
       const { trend } = this;
@@ -110,7 +114,8 @@ export default {
       this.updateTrendList({ chartRadio: val });
     },
     ...mapMutations({
-      updateTrendList: 'ACTIVE_UPDATE_TREND'
+      updateTrendList: 'ACTIVE_UPDATE_TREND',
+      initDate: 'ACTIVE_INIT_DATE'
     }),
     ...mapActions([
       'getTrendList'

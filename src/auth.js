@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueAuth from '@/plugins/auth';
+import VueAuth from '@/utils/plugins/auth';
 
 Vue.use(VueAuth);
 

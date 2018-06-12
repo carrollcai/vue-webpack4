@@ -40,7 +40,7 @@
     </div>
     <div class="trend-mode">
       <div v-if="!retTrend.mode" class="trend-chart">
-        <ret-loss-line :charData="retTrendList" :id="'line'" />
+        <line-chart :charData="retTrendList" :id="'line'" :temperature="true" />
       </div>
       <div v-else>
         <wm-table :source="retTrendList">
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import RetLossLine from 'components/chart/RetLossLine.vue';
+import LineChart from 'components/chart/Line.vue';
 import { RETENTION_TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
@@ -66,7 +66,7 @@ import { timeRange } from '@/utils/rules';
 
 export default {
   components: {
-    RetLossLine,
+    LineChart,
     WmTable
   },
   data() {

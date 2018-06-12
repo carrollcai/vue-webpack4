@@ -19,7 +19,7 @@ const fetch = (url, params, method) => {
 
     ajx.then(res => {
       store.commit('HIDE_PAGE_LOADING');
-      
+
       if (res.code === 1) {
         resolve(res);
       } else {

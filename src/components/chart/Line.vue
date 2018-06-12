@@ -26,7 +26,8 @@ export default {
       type: Number,
       default: 500
     },
-    id: String
+    id: String,
+    temperature: Boolean
   },
   mounted() {
     this.drawChart(this.charData);
@@ -49,8 +50,25 @@ export default {
       });
       this.chart.source(data);
 
+      if (this.temperature) {
+        this.chart.axis('value', {
+          label: {
+            formatter: function formatter(val) {
+              return val + '%';
+            }
+          }
+        });
+        this.chart.source(data, {
+          // 这边的value对应数据中的value
+          value: {
+            max: 100,
+            min: 0
+          }
+        });
+      }
+
       this.chart.line().position('date*value').size(1).shape('smooth');
-      this.chart.point().position('date*value').color('#757373').shape('circle');
+      this.chart.point().position('date*value').shape('circle');
 
       this.chart.render();
     }
@@ -59,5 +77,4 @@ export default {
 </script>
 
 <style>
-
 </style>

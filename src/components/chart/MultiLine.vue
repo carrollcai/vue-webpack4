@@ -4,6 +4,7 @@
 
 <script>
 import G2 from '@antv/g2';
+import DataSet from '@antv/data-set';
 
 export default {
   data() {
@@ -26,7 +27,13 @@ export default {
       type: Number,
       default: 500
     },
-    id: String
+    id: String,
+    fields: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    }
   },
   mounted() {
     this.drawChart(this.charData);
@@ -38,32 +45,34 @@ export default {
   },
   methods: {
     drawChart(data) {
-      const { height, id } = this;
+      const { height, id, fields } = this;
       this.chart && this.chart.destroy();
+
       this.chart = new G2.Chart({
         id: id,
         forceFit: true,
         height: height,
-        padding: 40
+        padding: [40, 80]
       });
 
-      this.chart.source(data, {
-        // 这边的value对应数据中的value
-        value: {
-          max: 100,
-          min: 0
+      const ds = new DataSet();
+      const dv = ds.createView().source(data);
+      dv.transform({
+        type: 'fold',
+        fields: fields, // 展开字段集
+        key: 'which', // key字段
+        value: 'value' // value字段
+      });
+
+      this.chart.source(dv, {
+        date: {
+          range: [0, 1]
         }
       });
 
-      this.chart.axis('value', {
-        label: {
-          formatter: function formatter(val) {
-            return val + '%';
-          }
-        }
-      });
-      this.chart.line().position('date*value').size(1).shape('smooth');
-      this.chart.point().position('date*value').color('#757373').shape('circle');
+      // 这里必须在line里加color，否则曲线会有问题
+      this.chart.line().position('date*value').color('which').size(1).shape('smooth');
+      this.chart.point().position('date*value').color('which').shape('circle');
 
       this.chart.render();
     }

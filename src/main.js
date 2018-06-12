@@ -13,7 +13,7 @@ import EsopButton from 'components/EsopButton.vue';
 import FormCancel from 'components/FormCancel.vue';
 import '@/assets/font/style.css';
 
-import './http';
+import './utils/http';
 
 // 这里不能通过import直接引入scss，不支持这个scss后缀格式，需要在App组件style中引入
 // import 'scss/index.scss';

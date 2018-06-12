@@ -1,4 +1,5 @@
 import * as types from '../types';
+import { nowDay, sevenDaysAgo, nowMonth, halfYearsAgo } from '@/utils/helper';
 
 const state = {
   client: [],
@@ -125,6 +126,15 @@ const mutations = {
         val.value = parseFloat(val.newUserRetPer.replace('%', ''));
         return val;
       });
+    }
+  },
+  [types.ACTIVE_INIT_DATE](state, data) {
+    // if (!state.trend.date) return false;
+    // console.log(state.trend.date);
+    if (!state.trend.dateType) {
+      state.trend.date = [new Date(sevenDaysAgo), new Date(nowDay)];
+    } else {
+      state.trend.date = [new Date(halfYearsAgo), new Date(nowMonth)];
     }
   }
 };
