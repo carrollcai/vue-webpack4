@@ -1,10 +1,7 @@
 module.exports = {
   '/esop/*':{
-    target: 'http://localhost:8090',
+    target: 'http://10.21.20.234',
     changeOrigin: true,
-    pathRewrite: {
-      '^/esop': '/'
-    },
     secure: false,
   }
 };

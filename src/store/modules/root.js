@@ -6,7 +6,9 @@ const state = {
   currentRoute: {
     path: ''
   },
-  pageLoading: false
+  pageLoading: false,
+  // 全局message状态控制
+  globalMessageStatus: false
 };
 
 const mutations = {

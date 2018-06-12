@@ -2,8 +2,11 @@ import axios from 'axios';
 import store from '../store';
 import { Message } from 'element-ui';
 import { errorHandle } from '@/utils/common';
-
+import qs from 'qs';
 const fetch = (url, params, method) => {
+  // stringify会自动转码
+  params = qs.parse('beginDate=2018-06-01&endDate=2018-06-01&clientType=咪咕阅读&memberType=黄金&startRow=0&pageSize=10&provinces=江苏&provinces=安徽&provinces=广东');
+
   store.commit('SHOW_PAGE_LOADING');
   return new Promise((resolve, reject) => {
     let ajx;
@@ -18,19 +21,19 @@ const fetch = (url, params, method) => {
     }
 
     ajx.then(res => {
+      // console.log(res.data);
       store.commit('HIDE_PAGE_LOADING');
-
-      if (res.code === 1) {
-        resolve(res);
+      if (res.data.code !== 1) {
+        resolve(res.data);
       } else {
         // 防止防止多次执行Message，需要加一个全局message的状态
 
         Message({
           showClose: true,
-          message: res.errorCode,
+          message: res.data.errorInfo.message,
           type: 'error'
         });
-        reject(res);
+        reject(res.data);
       }
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
@@ -40,8 +43,8 @@ const fetch = (url, params, method) => {
     });
   });
 };
-// http://10.21.20.234
-const development = 'http://localhost:3618';
+// const development = 'http://localhost:3618';
+const development = '';
 const API = (url, method) => params => fetch(development + url, params, method || 'post');
 
 // const API = (url, method = 'post') => (params = {}, config = {}) => axios[method](url, params, config);

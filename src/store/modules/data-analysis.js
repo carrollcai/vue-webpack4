@@ -87,7 +87,6 @@ const mutations = {
         [val.memberType]: val.newMembersNum
       });
     });
-    console.log(uniqueMembers);
     state.trendNewMembers = uniqueMembers;
   },
   [types.ACTIVE_UPDATE_TREND](state, data) {
