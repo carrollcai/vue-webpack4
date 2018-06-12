@@ -84,7 +84,7 @@ export default {
   getRetentionLossUserAPI: API('/retention/user'),
   getRetTrendListAPI: API('/retention/trend'),
 
-  loginApi: API('/login'),
-  logoutApi: API('/logout'),
+  loginApi: API('/esop/login/server'),
+  logoutApi: API('/esop/login/logout'),
   resetPwdApi: API('/resetPwd')
 };
