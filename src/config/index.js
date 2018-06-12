@@ -89,3 +89,42 @@ export const MONTH_LIMIT = 12;
 export const INPUT_NUM_MAX = 2000;
 export const INPUT_TEXT_LIMIT = 80;
 export const INPUT_TEXTAREA_LIMIT = 100;
+
+export const CLIENT = [
+  {
+    'key': 1,
+    'value': '视频'
+  },
+  {
+    'key': 2,
+    'value': '直播'
+  },
+  {
+    'key': 3,
+    'value': '影视'
+  },
+  {
+    'key': 4,
+    'value': '阅读'
+  },
+  {
+    'key': 5,
+    'value': '音乐'
+  },
+  {
+    'key': 6,
+    'value': '游戏'
+  },
+  {
+    'key': 7,
+    'value': '圈圈'
+  },
+  {
+    'key': 8,
+    'value': '善跑'
+  },
+  {
+    'key': 9,
+    'value': '灵犀'
+  }
+];

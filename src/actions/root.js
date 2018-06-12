@@ -4,8 +4,9 @@ import API from '../utils/api';
 const actions = {
   // 获取getDemo列表
   getProvince: ({ commit }, params) => {
-    return API.getProvinceAPI(params).then(res => {
-      commit(types.PROVINCE, res.data);
+    const req = { codeType: 'PROVINCE' };
+    return API.getProvinceAPI(req).then(res => {
+      commit(types.PROVINCE, res.data.province);
     }, err => {
       if (err) {
         commit(types.PROVINCE, {});
