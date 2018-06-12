@@ -86,7 +86,7 @@ export default {
 
       dv.source(data).transform({
         type: 'percent',
-        field: 'count',
+        field: 'value',
         dimension: 'item',
         as: 'percent'
       });
@@ -101,7 +101,7 @@ export default {
       this.chart.source(dv, {
         percent: {
           formatter: function formatter(val) {
-            val = val * 100 + '%';
+            val = (val * 100).toFixed(2) + '%';
             return '';
           }
         }
@@ -116,7 +116,7 @@ export default {
       });
       // this.chart.tooltip(false);
       this.chart.intervalStack().position('percent').color('item').label('percent').tooltip('item*percent', function(item, percent) {
-        percent = percent * 100 + '%';
+        percent = (percent * 100).toFixed(2) + '%';
         return {
           name: item,
           value: percent

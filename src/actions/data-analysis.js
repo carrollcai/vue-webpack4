@@ -13,17 +13,22 @@ const actions = {
   },
   getDailyActiveUser: ({ commit }, params) => {
     return API.getDailyActiveUserAPI(params).then(res => {
-      commit(types.ACTIVE_GET_DAILY_USER, res.data);
+      commit(types.ACTIVE_GET_DAILY_USER, res.data.reportList);
     });
   },
   getTrendList: ({ commit }, params) => {
     return API.getTrendListAPI(params).then(res => {
-      commit(types.TREND_GET_LIST, res.data);
+      commit(types.TREND_GET_LIST, res.data.reportList);
+    });
+  },
+  getTrendNewMembers: ({ commit }, params) => {
+    return API.getTrendNewMembersAPI(params).then(res => {
+      commit(types.TREND_GET_NEW_MEMBERS, res.data.reportList);
     });
   },
   getMembers: ({ commit }, params) => {
     return API.getMembersAPI(params).then(res => {
-      commit(types.ACTIVE_GET_MEMBERS, res.data);
+      commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
     });
   },
   getMapJson: ({ commit }, params) => {

@@ -46,8 +46,9 @@
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
-        <line-chart v-if="trend.chartRadio !== 2" :charData="trendList" :id="'line'" />
-        <multi-line v-else :charData="trendList" :id="'line'" :fields="['mobileIp', 'unmobileIp']" />
+        <line-chart v-if="trend.chartRadio === 0 || trend.chartRadio === 1" :charData="trendList" :id="'line'" />
+        <multi-line v-else-if="trend.chartRadio === 2" :charData="addFieldsTrendList()" :id="'line'" :fields="mobileIpArr" />
+        <multi-line v-else-if="trend.chartRadio === 3" :charData="trendNewMembers" :id="'line'" :fields="newMembersFields()" />
       </div>
       <div v-else>
         <wm-table :source="trendList" :max-height="500">
@@ -79,6 +80,7 @@ export default {
   data() {
     return {
       trendRadio: TREND_RADIO,
+      mobileIpArr: ['移动IP用户', '非移动IP用户'],
       activeTrendRules: {
         date: [
           { required: true, message: '请选择时间范围', trigger: 'change' }
@@ -89,13 +91,26 @@ export default {
   computed: {
     ...mapState({
       trend: ({ dataAnalysis }) => dataAnalysis.trend,
-      trendList: ({ dataAnalysis }) => dataAnalysis.trendList
+      trendList: ({ dataAnalysis }) => dataAnalysis.trendList,
+      trendNewMembers: ({ dataAnalysis }) => dataAnalysis.trendNewMembers,
+      members: ({ dataAnalysis }) => dataAnalysis.members
     })
   },
   beforeMount() {
     this.getTrendList();
+    this.getTrendNewMembers();
   },
   methods: {
+    newMembersFields() {
+      return this.members.map(val => val.item);
+    },
+    addFieldsTrendList() {
+      return this.trendList.map(val => {
+        val[this.mobileIpArr[0]] = val.msisdnNum;
+        val[this.mobileIpArr[1]] = val.chinaMobileIpNum;
+        return val;
+      });
+    },
     dateTypeChange() {
       const { trend } = this;
       // 初始化区间段 日最近7天，月最近半年
@@ -118,7 +133,8 @@ export default {
       initDate: 'ACTIVE_INIT_DATE'
     }),
     ...mapActions([
-      'getTrendList'
+      'getTrendList',
+      'getTrendNewMembers'
     ])
   }
 };

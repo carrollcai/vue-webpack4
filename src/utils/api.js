@@ -40,6 +40,7 @@ const fetch = (url, params, method) => {
     });
   });
 };
+// http://10.21.20.234
 const development = 'http://localhost:3618';
 const API = (url, method) => params => fetch(development + url, params, method || 'post');
 
@@ -60,10 +61,21 @@ export default {
   getClientAPI: API('/client'),
 
   /* 数据分析 */
-  getDailyActiveUserAPI: API('/active/dailyLive'),
-  getTrendListAPI: API('/trend/list'),
-  getMembersAPI: API('/member'),
-  getProvinceUserAPI: API('/province/user'),
+
+  // 查询分月新增会员活跃用户数
+  getMembersAPI: API('/esop/analysisReport/queryPDNNs'),
+  // 分省日活跃用户数
+  getDailyActiveUserAPI: API('/esop/analysisReport/queryPDARs'),
+
+  // 活跃度分析日活跃数查询
+  getTrendListAPI: API('/esop/analysisReport/queryPDARs'),
+  // 活跃度分析新增会员查询
+  getTrendNewMembersAPI: API('/esop/analysisReport/queryPDNNs'),
+
+  // 各省日活跃用户情况
+  getProvinceUserAPI: API('/esop/analysisReport/queryPDARs'),
+
+  // getProvinceUserAPI: API('/province/user'),
   getRetentionLossUserAPI: API('/retention/user'),
   getRetTrendListAPI: API('/retention/trend'),
 

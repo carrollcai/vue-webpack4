@@ -52,7 +52,7 @@ export default {
         id: id,
         forceFit: true,
         height: height,
-        padding: [40, 80]
+        padding: [40, 80, 80]
       });
 
       const ds = new DataSet();
@@ -65,14 +65,14 @@ export default {
       });
 
       this.chart.source(dv, {
-        date: {
+        periodId: {
           range: [0, 1]
         }
       });
 
       // 这里必须在line里加color，否则曲线会有问题
-      this.chart.line().position('date*value').color('which').size(1).shape('smooth');
-      this.chart.point().position('date*value').color('which').shape('circle');
+      this.chart.line().position('periodId*value').color('which').size(1).shape('smooth');
+      this.chart.point().position('periodId*value').color('which').shape('circle');
 
       this.chart.render();
     }

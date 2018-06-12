@@ -67,8 +67,8 @@ export default {
         });
       }
 
-      this.chart.line().position('date*value').size(1).shape('smooth');
-      this.chart.point().position('date*value').shape('circle');
+      this.chart.line().position('periodId*value').size(1).shape('smooth');
+      this.chart.point().position('periodId*value').shape('circle');
 
       this.chart.render();
     }
