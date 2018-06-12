@@ -1,7 +1,7 @@
 <template>
   <div class="active-userdata block-containter">
     <div class="userdata-header">
-      <el-radio-group v-model="dateType" size="small" @change="dataChange">
+      <el-radio-group v-model="activeObj.dateType" size="small" @change="dataChange">
         <el-radio-button :label="0">按日</el-radio-button>
         <el-radio-button :label="1">按月</el-radio-button>
       </el-radio-group>
@@ -42,7 +42,6 @@ import { mapActions, mapState } from 'vuex';
 export default {
   data() {
     return {
-      dateType: 0
     };
   },
   components: {
@@ -51,15 +50,17 @@ export default {
   computed: {
     ...mapState({
       members: ({ dataAnalysis }) => dataAnalysis.members,
-      dailyUser: ({ dataAnalysis }) => dataAnalysis.dailyUser
+      dailyUser: ({ dataAnalysis }) => dataAnalysis.dailyUser,
+      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj
     })
   },
   beforeMount() {
     this.getMembers();
   },
   methods: {
-    dataChange(val) {
-      this.getDailyActiveUser({ val });
+    dataChange() {
+      this.getMembers();
+      this.getDailyActiveUser();
     },
     ...mapActions([
       'getDailyActiveUser',

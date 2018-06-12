@@ -2,11 +2,12 @@ import * as types from '../types';
 import { nowDay, sevenDaysAgo, nowMonth, halfYearsAgo } from '@/utils/helper';
 
 const state = {
-  client: [],
+  // client: [],
   // 省份和客户端对象
   activeObj: {
-    provincedSelected: [],
-    clientSelected: []
+    provinceSelected: [],
+    clientSelected: '',
+    dateType: 0
   },
   // 第一模块
   dailyUser: {
@@ -36,7 +37,7 @@ const state = {
 
   // 留存流失
   retentionObj: {
-    provincedSelected: [],
+    provinceSelected: [],
     clientSelected: []
   },
   retentionLossUser: {

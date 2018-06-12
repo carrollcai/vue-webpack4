@@ -1,18 +1,12 @@
 import * as types from '../store/types';
 import API from 'utils/api';
+import { nowDay, oneMonthAgo } from '@/utils/helper';
 
 const actions = {
-  getClient: ({ commit }, params) => {
-    return API.getClientAPI(params).then(res => {
-      commit(types.CLIENT_GET, res.data);
-    }, err => {
-      if (err) {
-        commit(types.CLIENT_GET, {});
-      }
-    });
-  },
-  getDailyActiveUser: ({ commit }, params) => {
-    return API.getDailyActiveUserAPI(params).then(res => {
+  getDailyActiveUser: ({ commit, state }, params) => {
+    const req = activeReq(state);
+
+    return API.getDailyActiveUserAPI(req).then(res => {
       commit(types.ACTIVE_GET_DAILY_USER, res.data.reportList);
     });
   },
@@ -26,8 +20,10 @@ const actions = {
       commit(types.TREND_GET_NEW_MEMBERS, res.data.reportList);
     });
   },
-  getMembers: ({ commit }, params) => {
-    return API.getMembersAPI(params).then(res => {
+  getMembers: ({ commit, state }, params) => {
+    const req = activeReq(state);
+
+    return API.getMembersAPI(req).then(res => {
       commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
     });
   },
@@ -52,5 +48,15 @@ const actions = {
     });
   }
 };
+
+function activeReq(state) {
+  const req = {};
+  const { trend, activeObj } = state.dataAnalysis;
+  req.beginDate = nowDay;
+  req.endDate = !trend.dateType ? nowDay : oneMonthAgo;
+  req.clientType = activeObj.clientSelected;
+  req.provinces = activeObj.provinceSelected;
+  return req;
+}
 
 export default actions;

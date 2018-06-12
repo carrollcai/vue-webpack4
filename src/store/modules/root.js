@@ -13,7 +13,12 @@ const state = {
 
 const mutations = {
   [types.PROVINCE](state, data) {
-    state.province = data;
+    state.province = data.map(val => {
+      return {
+        key: val.codeValue,
+        value: val.codeName
+      };
+    });
   },
   [types.USER_ROLE_LIST](state, data) {
     state.userRoleList = data;

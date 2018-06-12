@@ -2,10 +2,10 @@ import axios from 'axios';
 import store from '../store';
 import { Message } from 'element-ui';
 import { errorHandle } from '@/utils/common';
-import qs from 'qs';
+// import qs from 'qs';
 const fetch = (url, params, method) => {
   // stringify会自动转码
-  params = qs.parse('beginDate=2018-06-01&endDate=2018-06-01&clientType=咪咕阅读&memberType=黄金&startRow=0&pageSize=10&provinces=江苏&provinces=安徽&provinces=广东');
+  // params = qs.parse('beginDate=2018-06-01&endDate=2018-06-01&clientType=咪咕阅读&memberType=黄金&startRow=0&pageSize=10&provinces=江苏&provinces=安徽&provinces=广东');
 
   store.commit('SHOW_PAGE_LOADING');
   return new Promise((resolve, reject) => {
@@ -50,8 +50,10 @@ const API = (url, method) => params => fetch(development + url, params, method |
 // const API = (url, method = 'post') => (params = {}, config = {}) => axios[method](url, params, config);
 
 export default {
-  getDemoAPI: API('/2'),
-  getProvinceAPI: API('/province/list'),
+  getDemoAPI: API('/demo'),
+
+  getProvinceAPI: API('/esop/secBranch/queryStaticData'),
+
   getRoleListAPI: API('/role/list'),
   getRoleInfoAPI: API('/role/info'),
   createRoleAPI: API('/role/info'),
@@ -61,7 +63,7 @@ export default {
   getUserRoleAPI: API('/user/role/list'),
   createUserAPI: API('/user/role/list'),
   deleteUserAPI: API('/user/role/list'),
-  getClientAPI: API('/client'),
+  // getClientAPI: API('/client'),
 
   /* 数据分析 */
 
