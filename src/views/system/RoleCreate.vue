@@ -10,14 +10,14 @@
     </div>
     <div class="m-container role-create">
       <el-form :label-position="'right'" label-width="120px" :model="roleCreate" ref="roleForm" :rules="roleRules">
-        <el-form-item label="角色名称：" prop="name">
-          <el-input class="form-input" v-model="roleCreate.name"></el-input>
+        <el-form-item label="角色名称：" prop="roleName">
+          <el-input class="form-input" v-model="roleCreate.roleName"></el-input>
         </el-form-item>
         <el-form-item label="角色描述：" prop="desc">
-          <el-input class="form-input" type="textarea" v-model="roleCreate.desc"></el-input>
+          <el-input class="form-input" type="textarea" v-model="roleCreate.notes"></el-input>
         </el-form-item>
-        <el-form-item label="菜单权限：" v-if="!Object.isNullArray(permissions)" prop="permissions">
-          <el-select class="form-input" multiple v-model="roleCreate.permissions" placeholder="选择菜单权限">
+        <el-form-item label="菜单权限：" v-if="!Object.isNullArray(permissions)" prop="menuIds">
+          <el-select class="form-input" multiple v-model="roleCreate.menuIds" placeholder="选择菜单权限">
             <div v-for="group in permissions" :key="group.menuId">
               <el-option-group v-if="group.children" :label="group.name">
                 <el-option v-for="item in group.children" :key="item.menuId" :label="item.name" :value="item.menuId"></el-option>
@@ -38,23 +38,26 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
+import { MENU_PERMISSIONS } from '@/config';
+
 export default {
   computed: {
     ...mapState({
       roleCreate: ({ system }) => system.roleCreate,
-      permissions: ({ system }) => system.permissions
+      // permissions: ({ system }) => system.permissions
     })
   },
   data() {
     return {
+      permissions: MENU_PERMISSIONS,
       roleRules: {
-        name: [
+        roleName: [
           { required: true, message: '请输入角色名称', trigger: 'blur' }
         ],
-        desc: [
+        notes: [
           { required: true, message: '请输入角色描述', trigger: 'blur' }
         ],
-        permissions: [
+        menuIds: [
           { required: true, message: '请输入菜单权限', trigger: 'change' }
         ]
       }
@@ -63,28 +66,36 @@ export default {
   beforeMount() {
     this.resetForm();
 
-    Object.isNullArray(this.permissions) && this.getPermissions();
+    // Object.isNullArray(this.permissions) && this.getPermissions();
   },
   methods: {
     submitForm() {
+      const { type, id } = this.$route.params;
       const params = this.roleCreate;
       this.$refs['roleForm'].validate(valid => {
-        if (valid) {
+        if (!valid) return false;
+
+        if (type === 'create') {
           this.createRole(params);
+        } else {
+          this.updateRole(Object.assign(params, {
+            roldId: id
+          }));
         }
       });
     },
     resetForm() {
-      const { type } = this.$route.params;
+      const { type, id } = this.$route.params;
       if (type === 'create') {
         this.initForm();
       } else {
-        this.getRoleInfo();
+        this.getRoleInfo({ roldId: id });
       }
     },
     ...mapActions([
       'getRoleInfo',
       'createRole',
+      'updateRole',
       'getPermissions'
     ]),
     ...mapMutations({

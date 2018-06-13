@@ -59,16 +59,17 @@ export default {
 
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
 
-  getRoleListAPI: API('/role/list'),
-  getRoleInfoAPI: API('/role/info'),
-  createRoleAPI: API('/role/info'),
-  deleteRoleAPI: API('/role/info'),
+  getRoleListAPI: API('/esop/role/queryRole'),
+  getRoleInfoAPI: API('/esop/role/getRoleById'),
+  createRoleAPI: API('/esop/role/createRole'),
+  updateRoleAPI: API('/esop/role/updateRoleById'),
+  deleteRoleAPI: API('/esop/role/deleteRoleById'),
   getPermissionsAPI: API('/permissions'),
+
   getUserListAPI: API('/user/list'),
   getUserRoleAPI: API('/user/role/list'),
-  createUserAPI: API('/user/role/list'),
+  createUserAPI: API('/esop/operator/saveOperator'),
   deleteUserAPI: API('/user/role/list'),
-  // getClientAPI: API('/client'),
 
   /* 数据分析 */
 

@@ -51,7 +51,24 @@ const actions = {
   },
   createRole: ({ commit }, params) => {
     return API.createRoleAPI(params).then(res => {
+      Message({
+        message: '创建成功',
+        type: 'success',
+        duration: 3000
+      });
       // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/system/role/management'
+      });
+    });
+  },
+  updateRole: ({ commit }, params) => {
+    return API.updateRoleAPI(params).then(res => {
+      Message({
+        message: '更新成功',
+        type: 'success',
+        duration: 3000
+      });
       commit(types.ROUTE_CHANGE, {
         path: '/system/role/management'
       });

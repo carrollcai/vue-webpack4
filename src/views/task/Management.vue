@@ -31,7 +31,7 @@
       <el-tab-pane label="已处理"></el-tab-pane>
     </el-tabs>
 
-    <wm-table :source="taskList.list" :pageNo="pageNo" :pageSize="pageSize" :total="totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="taskList.list" :pageNo="pageNo" :pageSize="pageSize" :total="totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" property="name" />
       <el-table-column label="任务类型" property="account" />
       <el-table-column label="提交时间" property="role" />
@@ -70,7 +70,7 @@ export default {
       },
       pageNo: 1,
       pageSize: 10,
-      totalCount: 1,
+      totalcount: 1,
       status: 0
     };
   },

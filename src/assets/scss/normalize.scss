@@ -28,10 +28,10 @@ $menu-active-color: #FFFFFF;
   width: 120px;
 }
 
-/* 重置input框高度 */
+/* 重置input框高度，这里不能写成!important，select多选框会出问题 */
 .el-input__inner {
-  line-height: $buttonLineHeight !important;
-  height: $buttonLineHeight !important;
+  line-height: $buttonLineHeight;
+  height: $buttonLineHeight;
 }
 
 /* input框的icon */

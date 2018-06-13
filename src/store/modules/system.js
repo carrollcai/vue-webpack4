@@ -2,15 +2,15 @@ import * as types from '../types';
 import { PAGE_NO, PAGE_SIZE } from '@/config';
 
 const roleCreate = {
-  name: '',
-  desc: '',
-  permissions: []
+  roleName: '',
+  notes: '',
+  menuIds: []
 };
 const userCreate = {
-  name: '',
-  account: '',
-  role: [],
-  province: ''
+  staffName: '',
+  code: '',
+  roleId: [],
+  provinces: []
 };
 
 const state = {
@@ -19,15 +19,15 @@ const state = {
   roleForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    totalCount: 1,
-    name: ''
+    totalcount: 1,
+    roleName: ''
   },
   roleCreate: Object.cloneDeep(roleCreate),
   userList: [],
   userForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    totalCount: 1,
+    totalcount: 1,
     role: '',
     name: '',
     account: ''
@@ -38,7 +38,7 @@ const state = {
 const mutations = {
   [types.ROLE_LIST](state, data) {
     state.roleObj = data;
-    state.roleForm.totalCount = data.totalCount;
+    state.roleForm.totalcount = data.totalcount;
   },
   [types.ROLE_INIT_FORM](state, data) {
     state.roleCreate = Object.cloneDeep(roleCreate);

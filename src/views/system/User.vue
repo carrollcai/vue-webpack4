@@ -27,7 +27,7 @@
       </el-form-item>
     </el-form>
 
-    <wm-table :source="userList.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userForm.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="userList.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户姓名" property="name" />
       <el-table-column label="登录账号" property="account" />
       <el-table-column label="用户角色" property="role" />

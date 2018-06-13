@@ -9,7 +9,7 @@
       "data": {
         "pageSize": 10,
         "pageNo": 1,
-        "totalCount": 92,
+        "totalcount": 92,
         "list": [
           {
             "id": 1,
@@ -64,7 +64,7 @@
       "data": {
         "pageSize": 10,
         "pageNo": 1,
-        "totalCount": 92,
+        "totalcount": 92,
         "list": [
           {
             "id": 1,

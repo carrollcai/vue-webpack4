@@ -2,8 +2,8 @@
   <div class="m-container">
     <el-form class="role-form" ref="roleManageForm" :model="roleForm" :rules="roleManageRules">
       <el-form-item>角色名称：</el-form-item>
-      <el-form-item class="role-form-item__input" prop="name">
-        <el-input v-model="roleForm.name" />
+      <el-form-item class="role-form-item__input" prop="roleName">
+        <el-input v-model="roleForm.roleName" />
       </el-form-item>
       <el-form-item class="role-form-item">
         <el-button type="primary" @click="query">查询</el-button>
@@ -12,10 +12,10 @@
         <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">创建角色</el-button>
       </el-form-item>
     </el-form>
-    <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="用户角色" property="role" />
-      <el-table-column label="用户描述" property="desc" />
-      <el-table-column label="用户数" property="num" />
+    <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+      <el-table-column label="用户角色" property="roleName" />
+      <el-table-column label="用户描述" property="notes" />
+      <el-table-column label="用户数" property="opreatorNum" />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <span class="btnLists">
@@ -43,8 +43,8 @@ export default {
   data() {
     return {
       roleManageRules: {
-        name: [
-          { required: true, message: '请输入角色名称', trigger: 'blur' }
+        roleName: [
+          // { required: true, message: '请输入角色名称', trigger: 'blur' }
         ]
       }
     };
@@ -59,7 +59,7 @@ export default {
     })
   },
   beforeMount() {
-    this.getRoleList();
+    this.getRoleList(this.roleForm);
   },
   methods: {
     onPagination(value) {
@@ -73,7 +73,7 @@ export default {
       this.$router.push(path);
     },
     handleEdit(row) {
-      const path = `/system/role/edit/${row.id}`;
+      const path = `/system/role/edit/${row.roleId}`;
       this.$router.push(path);
     },
     handleDelete(row) {
@@ -82,7 +82,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteRole({ id: row.id }).then(res => {
+        this.deleteRole({ roleId: row.id }).then(res => {
           this.query();
         });
       }).catch(() => {

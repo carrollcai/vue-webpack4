@@ -128,3 +128,63 @@ export const CLIENT = [
     'value': '咪咕灵犀'
   }
 ];
+
+export const MENU_PERMISSIONS = [
+  {
+    'menuId': 1,
+    'name': '首页'
+  },
+  {
+    'menuId': 2,
+    'name': '数据分析',
+    'children': [
+      {
+        'menuId': 3,
+        'parentId': 2,
+        'name': '活跃度分析'
+      },
+      {
+        'menuId': 4,
+        'parentId': 2,
+        'name': '留存流失分析'
+      }
+    ]
+  },
+  {
+    'menuId': 5,
+    'name': '任务管理',
+    'children': [
+      {
+        'menuId': 6,
+        'parentId': 5,
+        'name': '任务查询'
+      },
+      {
+        'menuId': 7,
+        'parentId': 5,
+        'name': '我的申请'
+      },
+      {
+        'menuId': 8,
+        'parentId': 5,
+        'name': '我的待办'
+      }
+    ]
+  },
+  {
+    'menuId': 9,
+    'name': '系统配置',
+    'children': [
+      {
+        'menuId': 10,
+        'parentId': 9,
+        'name': '角色管理'
+      },
+      {
+        'menuId': 11,
+        'parentId': 9,
+        'name': '用户管理'
+      }
+    ]
+  }
+];

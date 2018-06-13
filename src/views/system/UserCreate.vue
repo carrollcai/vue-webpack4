@@ -10,19 +10,21 @@
     </div>
     <div class="m-container user-create">
       <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm" :rules="userCreateRules">
-        <el-form-item label="用户姓名：" prop="name">
-          <el-input class="form-input" v-model="userCreate.name"></el-input>
+        <el-form-item label="用户姓名：" prop="staffName">
+          <el-input class="form-input" v-model="userCreate.staffName"></el-input>
         </el-form-item>
         <el-form-item label="登录账号：" prop="account">
-          <el-input class="form-input" v-model="userCreate.account"></el-input>
+          <el-input class="form-input" v-model="userCreate.code"></el-input>
         </el-form-item>
         <el-form-item label="用户角色：" prop="role">
-          <el-select class="form-input" v-model="userCreate.role" multiple>
+          <el-select class="form-input" v-model="userCreate.roleId" multiple>
             <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
           </el-select>
         </el-form-item>
+        
+        <!-- 省份这里需要做key的处理 -->
         <el-form-item label="省份权限：" prop="province">
-          <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.province" placeholder="请选择" multiple>
+          <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.provinces" placeholder="请选择" multiple>
             <el-option v-for="item in province" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
           </el-select>
@@ -43,16 +45,16 @@ export default {
   data() {
     return {
       userCreateRules: {
-        name: [
+        staffName: [
           { required: true, message: '请输入用户姓名', trigger: 'blur' }
         ],
-        account: [
+        code: [
           { required: true, message: '请输入登录账号', trigger: 'blur' }
         ],
-        role: [
+        roleId: [
           { required: true, message: '请输入用户角色', trigger: 'change' }
         ],
-        province: [
+        provinces: [
           { required: true, message: '请输入省份权限', trigger: 'change' }
         ]
       }
