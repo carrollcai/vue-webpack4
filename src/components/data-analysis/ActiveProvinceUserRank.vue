@@ -72,9 +72,10 @@ export default {
   text-align: center;
 }
 .dailyLive-rank__name {
-  margin: 0 $blockWidth;
+  margin: 0 4px 0 $blockWidth;
+  width: 42px;
 }
-.dailyLive-rank__num{
+.dailyLive-rank__num {
   margin-left: $blockWidth;
 }
 </style>

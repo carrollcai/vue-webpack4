@@ -6,7 +6,7 @@ const state = {
   // 省份和客户端对象
   activeObj: {
     provinceSelected: [],
-    clientSelected: '',
+    clientSelected: '咪咕视频', // 默认咪咕视频
     dateType: 0
   },
   // 第一模块
@@ -73,6 +73,17 @@ const mutations = {
   },
   [types.TREND_GET_NEW_MEMBERS](state, data) {
     let uniqueMembers = [];
+
+    // 将新增会员用户添加到表格里
+    state.trendList = state.trendList.map(val => {
+      data.map(cval => {
+        if (val.periodId === cval.periodId) {
+          val.newMembersNum = cval.newMembersNum;
+        }
+      });
+      return val;
+    });
+
     data.map(val => {
       let flag = false;
       uniqueMembers.map(cval => {
@@ -148,7 +159,12 @@ const mutations = {
     state.mapData = data;
   },
   [types.PROVINCE_GET_USER](state, data) {
-    state.provinceUserList = data;
+    state.provinceUserList = data.map(val => {
+      return {
+        name: val.province,
+        value: val.activeNum
+      };
+    });
   },
   [types.RETENTION_GET_USER](state, data) {
     state.retentionLossUser = data;

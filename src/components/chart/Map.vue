@@ -7,7 +7,8 @@ import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
 import { mapData } from '@/config/china.js';
 
-const colorRange = '#0087F5-#4A9EF7-#79B6F6-#A7CEF6-#D7E6FD';
+const colorRange = '#A7CEF6-#79B6F6-#4A9EF7-#0087F5';
+// const colorRange = '#D7E6FD-#A7CEF6-#79B6F6-#4A9EF7-#0087F5';
 
 export default {
   data() {
@@ -100,7 +101,7 @@ export default {
       var userView = this.chart.view();
       userView.source(userDv, {
         'trend': {
-          alias: '每100位女性对应的男性数量'
+          // alias: '每100位女性对应的男性数量'
         }
       });
       userView.polygon().position('longitude*latitude').opacity('value').tooltip('name*trend').animate({

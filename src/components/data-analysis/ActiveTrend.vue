@@ -52,11 +52,11 @@
       </div>
       <div v-else>
         <wm-table :source="trendList" :max-height="500">
-          <el-table-column label="日期" property="date" />
-          <el-table-column label="日活跃用户数" property="activeUserNum" />
-          <el-table-column label="手机账号登录用户" property="mobileAccount" />
-          <el-table-column label="移动IP用户" property="mobileIp" />
-          <el-table-column label="非移动IP用户" property="unmobileIp" />
+          <el-table-column label="日期" property="periodId" />
+          <el-table-column label="日活跃用户数" property="activeNum" />
+          <el-table-column label="手机账号登录用户" property="msisdnNum" />
+          <el-table-column label="移动IP用户" property="chinaMobileIpNum" />
+          <el-table-column label="非移动IP用户" property="otherIpNum" />
           <el-table-column label="新增会员用户" property="newMembers" />
         </wm-table>
       </div>

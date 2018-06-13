@@ -40,8 +40,11 @@ const actions = {
   getProvinceUser: ({ commit, state }, params) => {
     const req = activeProvinceUserReq(state);
 
+    const data = { 'errorInfo': { 'message': '请求成功', 'code': '200' }, 'data': { 'total': 15, 'reportList': [{ 'periodId': '2018-06-12', 'province': '江苏', 'clientType': '咪咕阅读', 'activeNum': 4440, 'msisdnNum': 2775, 'chinaMobileIpNum': 1665, 'otherIpNum': 555 }, { 'periodId': '2018-06-12', 'province': '浙江', 'clientType': '咪咕阅读', 'activeNum': 4440, 'msisdnNum': 2775, 'chinaMobileIpNum': 1665, 'otherIpNum': 555 }, { 'periodId': '2018-06-12', 'province': '天津', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '福建', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '山西', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '海南', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '辽宁', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '北京', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '黑龙江', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '四川', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '云南', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '陕西', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '吉林', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '河北', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '广西', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }] } };
+
     return API.getProvinceUserAPI(req).then(res => {
-      commit(types.PROVINCE_GET_USER, res.data);
+      // commit(types.PROVINCE_GET_USER, res.data);
+      commit(types.PROVINCE_GET_USER, data.data.reportList);
     });
   },
   getRetentionLossUser: ({ commit }, params) => {
@@ -72,11 +75,11 @@ function activeTrendReq(state) {
   if (trend.date.length) {
     let beginDate, endDate;
     if (trend.dateType) {
-      beginDate = moment(trend.date[1]).format('YYYY-MM') + '-01';
-      endDate = moment(trend.date[0]).format('YYYY-MM') + '-01';
+      beginDate = moment(trend.date[0]).format('YYYY-MM') + '-01';
+      endDate = moment(trend.date[1]).format('YYYY-MM') + '-01';
     } else {
-      beginDate = moment(trend.date[1]).format('YYYY-MM-DD');
-      endDate = moment(trend.date[0]).format('YYYY-MM-DD');
+      beginDate = moment(trend.date[0]).format('YYYY-MM-DD');
+      endDate = moment(trend.date[1]).format('YYYY-MM-DD');
     }
 
     req.beginDate = beginDate;
@@ -92,8 +95,8 @@ function activeProvinceUserReq(state) {
   const { provinceUser, activeObj } = state.dataAnalysis;
   console.log(provinceUser);
   if (provinceUser.date.length) {
-    req.beginDate = moment(provinceUser.date[1]).format('YYYY-MM-DD');
-    req.endDate = moment(provinceUser.date[0]).format('YYYY-MM-DD');
+    req.beginDate = moment(provinceUser.date[0]).format('YYYY-MM-DD');
+    req.endDate = moment(provinceUser.date[1]).format('YYYY-MM-DD');
   }
   req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
