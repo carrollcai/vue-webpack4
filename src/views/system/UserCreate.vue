@@ -21,7 +21,6 @@
             <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
           </el-select>
         </el-form-item>
-        
         <!-- 省份这里需要做key的处理 -->
         <el-form-item label="省份权限：" prop="province">
           <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.provinces" placeholder="请选择" multiple>

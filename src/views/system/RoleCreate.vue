@@ -43,8 +43,7 @@ import { MENU_PERMISSIONS } from '@/config';
 export default {
   computed: {
     ...mapState({
-      roleCreate: ({ system }) => system.roleCreate,
-      // permissions: ({ system }) => system.permissions
+      roleCreate: ({ system }) => system.roleCreate
     })
   },
   data() {

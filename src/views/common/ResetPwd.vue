@@ -8,14 +8,14 @@
     :close-on-click-modal="false"
     width="470px">
     <el-form :model="form" ref="resetForm" :rules="rules" label-width="145px">
-      <el-form-item label="原密码" prop="oldPwd">
-        <el-input v-model="form.oldPwd" auto-complete="off"></el-input>
+      <el-form-item label="原密码" prop="oldPassword">
+        <el-input v-model="form.oldPassword" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="新密码" prop="newPwd">
-        <el-input type="password" v-model="form.newPwd" auto-complete="off"></el-input>
+      <el-form-item label="新密码" prop="newPassword">
+        <el-input type="password" v-model="form.newPassword" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="checkPass">
-        <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
+      <el-form-item label="确认密码" prop="cNewPassword">
+        <el-input type="password" v-model="form.cNewPassword" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -40,8 +40,8 @@ export default {
       if (value === '') {
         callback(new Error('请输入新密码'));
       } else {
-        if (this.form.checkPass !== '') {
-          this.$refs.resetForm.validateField('checkPass');
+        if (this.form.cNewPassword !== '') {
+          this.$refs.resetForm.validateField('cNewPassword');
         }
         callback();
       }
@@ -50,7 +50,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== this.form.newPwd) {
+      } else if (value !== this.form.newPassword) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
@@ -59,19 +59,19 @@ export default {
 
     return {
       form: {
-        oldPwd: '',
-        newPwd: '',
-        checkPass: ''
+        oldPassword: '',
+        newPassword: '',
+        cNewPassword: ''
       },
       dialogFormVisible: false,
       rules: {
-        oldPwd: [
+        oldPassword: [
           { validator: validateOldPass, trigger: 'blur' }
         ],
-        newPwd: [
+        newPassword: [
           { validator: validatePass, trigger: 'blur' }
         ],
-        checkPass: [
+        cNewPassword: [
           { validator: validatePass2, trigger: 'blur' }
         ]
       }
