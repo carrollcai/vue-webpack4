@@ -48,7 +48,7 @@ export function checkMultRules(ref) {
 
 // 错误码处理
 export function errorHandle(err) {
-  switch (err.status) {
+  switch (err.response.status) {
     case 400:
       _Message('请求错误');
       break;

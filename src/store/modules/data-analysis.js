@@ -38,10 +38,11 @@ const state = {
   // 留存流失
   retentionObj: {
     provinceSelected: [],
-    clientSelected: []
+    clientSelected: '咪咕视频'
   },
   retentionLossUser: {
     newUser: 1,
+    newRetainNum: 1,
     retentionUser: 1,
     lossUser: 1
   },
@@ -167,26 +168,32 @@ const mutations = {
     });
   },
   [types.RETENTION_GET_USER](state, data) {
-    state.retentionLossUser = data;
+    state.retentionLossUser = Object.assign(state.retentionLossUser, {
+      newUser: data.reduce((prev, cur) => prev + cur.newMembersNum, 0),
+      newRetainNum: data.reduce((prev, cur) => prev + cur.newRetainNum, 0),
+      retentionUser: data.reduce((prev, cur) => prev + cur.retainNum, 0),
+      lossUser: data.reduce((prev, cur) => prev + cur.dropoutNum, 0)
+    });
   },
   [types.RETENTION_GET_TREND_LIST](state, data) {
+    console.log(data);
     state.retTrendList = data.map(val => {
-      val.newUserRetPer = (val.retentionUser / val.newUser * 100).toFixed(1) + '%';
-      val.retLossPer = (val.lossUser / val.retentionUser * 100).toFixed(1) + '%';
+      val.newUserRetPer = (val.newRetainNum / val.newMembersNum * 100).toFixed(1) + '%';
+      val.retLossPer = (val.dropoutNum / val.retainNum * 100).toFixed(1) + '%';
       // 方便图表字段展示, toFix()返回的是string。
-      val.value = parseFloat(val.newUserRetPer.replace('%', ''));
+      val.value = parseFloat(val.newUserRetPer.replace('%', '')) | 0;
       return val;
     });
   },
   [types.RETENTION_UPDATE_TREND_LIST](state, data) {
     if (data.chartRadio) {
       state.retTrendList = state.retTrendList.map(val => {
-        val.value = parseFloat(val.retLossPer.replace('%', ''));
+        val.value = parseFloat(val.retLossPer.replace('%', '')) | 0;
         return val;
       });
     } else {
       state.retTrendList = state.retTrendList.map(val => {
-        val.value = parseFloat(val.newUserRetPer.replace('%', ''));
+        val.value = parseFloat(val.newUserRetPer.replace('%', '')) | 0;
         return val;
       });
     }

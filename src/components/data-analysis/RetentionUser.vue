@@ -10,12 +10,12 @@
       <el-progress :stroke-width="16" type="circle" :percentage="circlePercent()"></el-progress>
       <ul class="retention-user-data">
         <li>
-          <p class="retention-user-data__title">{{ !type ? '上月新增用户数' : '上月流失用户数' }}</p>
-          <p class="retention-user-data__num">{{ !type ? retentionLossUser.newUser : retentionLossUser.lossUser}}</p>
+          <p class="retention-user-data__title">{{ !type ? '上月留存用户数' : '上月流失用户数' }}</p>
+          <p class="retention-user-data__num">{{ !type ? retentionLossUser.newRetainNum : retentionLossUser.lossUser}}</p>
         </li>
         <li>
-          <p class="retention-user-data__title">上月留存用户数</p>
-          <p class="retention-user-data__num">{{retentionLossUser.retentionUser}}</p>
+          <p class="retention-user-data__title">{{ !type ? '上月新增用户数' : '上月留存用户数' }}</p>
+          <p class="retention-user-data__num">{{ !type ? retentionLossUser.newUser : retentionLossUser.retentionUser}}</p>
         </li>
       </ul>
     </div>
@@ -37,7 +37,8 @@ export default {
   methods: {
     circlePercent() {
       const { type, retentionLossUser } = this;
-      return !type ? parseInt(retentionLossUser.retentionUser / retentionLossUser.newUser * 100) : parseInt(retentionLossUser.lossUser / retentionLossUser.retentionUser * 100);
+      let percent = !type ? parseInt(retentionLossUser.newRetainNum / retentionLossUser.newUser * 100) : parseInt(retentionLossUser.lossUser / retentionLossUser.retentionUser * 100);
+      return percent | 0;
     }
   }
 };

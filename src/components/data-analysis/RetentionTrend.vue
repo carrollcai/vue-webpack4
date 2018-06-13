@@ -9,7 +9,7 @@
               查询：
             </el-form-item>
             <el-form-item prop="date" class="normalize-form-item">
-              <el-date-picker type="daterange" placeholder="选择日期" v-model="retTrend.date" :editable="false" @change="query" />
+              <el-date-picker type="daterange" placeholder="选择日期" v-model="retTrend.date" :editable="false" @change="query" format="yyyy-MM" />
             </el-form-item>
           </el-form>
         </div>
@@ -40,15 +40,16 @@
     </div>
     <div class="trend-mode">
       <div v-if="!retTrend.mode" class="trend-chart">
-        <line-chart :charData="retTrendList" :id="'line'" :temperature="true" />
+        <div class="no-data" v-if="Object.isNullArray(retTrendList)">暂无数据</div>
+        <line-chart v-else :charData="retTrendList" :id="'line'" :temperature="true" />
       </div>
       <div v-else>
-        <wm-table :source="retTrendList">
+        <wm-table :source="retTrendList" :max-height="500">
           <el-table-column label="月份" property="date" />
-          <el-table-column label="本月新增用户" property="newUser" />
-          <el-table-column label="本月留存客户" property="retentionUser" />
-          <el-table-column label="本月流失用户" property="lossUser" />
-          <el-table-column label="上月新增本月留存" property="lastMonthRentention" />
+          <el-table-column label="本月新增用户" property="newMembersNum" />
+          <el-table-column label="本月留存客户" property="retainNum" />
+          <el-table-column label="本月流失用户" property="dropoutNum" />
+          <el-table-column label="上月新增本月留存" property="newRetainNum" />
           <el-table-column label="新增用户留存率" property="newUserRetPer" />
           <el-table-column label="留存用户流失率" property="retLossPer" />
         </wm-table>
@@ -62,7 +63,7 @@ import LineChart from 'components/chart/Line.vue';
 import { RETENTION_TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
-import { timeRange } from '@/utils/rules';
+// import { timeRange } from '@/utils/rules';
 
 export default {
   components: {
@@ -74,8 +75,8 @@ export default {
       trendRadio: RETENTION_TREND_RADIO,
       retTrendTrendRules: {
         date: [
-          { required: true, message: '请选择时间范围', trigger: 'change' },
-          { validator: timeRange, trigger: 'change' }
+          { required: true, message: '请选择时间范围', trigger: 'change' }
+          // { validator: timeRange, trigger: 'change' }
         ]
       }
     };

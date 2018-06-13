@@ -47,16 +47,34 @@ const actions = {
       commit(types.PROVINCE_GET_USER, data.data.reportList);
     });
   },
-  getRetentionLossUser: ({ commit }, params) => {
-    return API.getRetentionLossUserAPI(params).then(res => {
-      commit(types.RETENTION_GET_USER, res.data);
+
+  getRetentionLossUser: ({ commit, state }, params) => {
+    const req = {};
+    const { retentionObj } = state.dataAnalysis;
+    req.beginDate = oneMonthAgo;
+    req.endDate = oneMonthAgo;
+    req.clientType = retentionObj.clientSelected;
+    req.provinces = retentionObj.provinceSelected;
+
+    return API.getRetentionLossUserAPI(req).then(res => {
+      commit(types.RETENTION_GET_USER, res.data.reportList);
     });
   },
-  getRetTrendList: ({ commit }, params) => {
-    return API.getRetTrendListAPI(params).then(res => {
-      commit(types.RETENTION_GET_TREND_LIST, res.data);
+  getRetTrendList: ({ commit, state }, params) => {
+    const req = {};
+    const { retentionObj, retTrend } = state.dataAnalysis;
+    if (retTrend.date.length) {
+      req.beginDate = moment(retTrend.date[0]).format('YYYY-MM') + '-01';
+      req.endDate = moment(retTrend.date[1]).format('YYYY-MM') + '-01';
+    }
+    req.clientType = retentionObj.clientSelected;
+    req.provinces = retentionObj.provinceSelected;
+
+    return API.getRetentionLossUserAPI(req).then(res => {
+      commit(types.RETENTION_GET_TREND_LIST, res.data.reportList);
     });
   }
+
 };
 
 function activeReq(state) {

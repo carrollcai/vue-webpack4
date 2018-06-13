@@ -85,8 +85,14 @@ export default {
   // 各省日活跃用户情况
   getProvinceUserAPI: API('/esop/analysisReport/queryPDARs'),
 
-  getRetentionLossUserAPI: API('/retention/user'),
-  getRetTrendListAPI: API('/retention/trend'),
+  // 上个月新增本月存留
+  // getLastMonthRetLossUserAPI: ('/esop/analysisReport/queryMNRNs'),
+  // 上个月新增本月
+
+  // 月留存流失
+  getRetentionLossUserAPI: API('/esop/analysisReport/queryMDRs'),
+
+  // getRetTrendListAPI: API('/retention/trend'),
 
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),

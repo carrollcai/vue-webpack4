@@ -43,7 +43,7 @@ export default {
       client: CLIENT,
       activeSearchRules: {
         provinceSelected: [
-          { required: true, message: '请选择省份', trigger: 'change' }
+          // { required: true, message: '请选择省份', trigger: 'change' }
         ],
         clientSelected: [
           { required: true, message: '请选择客户端', trigger: 'change' }
