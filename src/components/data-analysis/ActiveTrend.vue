@@ -97,8 +97,8 @@ export default {
     })
   },
   beforeMount() {
-    this.getTrendList();
-    this.getTrendNewMembers();
+    // this.getTrendList();
+    // this.getTrendNewMembers();
   },
   methods: {
     newMembersFields() {
@@ -122,6 +122,7 @@ export default {
       this.$refs['activeTrendForm'].validate(valid => {
         if (valid) {
           this.getTrendList(trend);
+          this.getTrendNewMembers();
         }
       });
     },

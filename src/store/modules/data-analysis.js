@@ -29,7 +29,7 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
-    data: ''
+    date: ''
   },
   provinceUserList: [],
   // 中国地图数据

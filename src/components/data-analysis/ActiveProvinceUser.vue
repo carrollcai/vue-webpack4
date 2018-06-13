@@ -43,7 +43,7 @@ export default {
     };
   },
   beforeMount() {
-    this.getProvinceUser();
+    // this.getProvinceUser();
   },
   methods: {
     query() {

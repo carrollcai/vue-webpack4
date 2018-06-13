@@ -5,6 +5,7 @@
         <el-form-item class="normalize-form-item">省份：</el-form-item>
         <el-form-item class="normalize-form-item" prop="provinceSelected">
           <el-select v-if="province.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
+            <el-option :key="null" label="全部" :value="null"></el-option>
             <el-option v-for="item in province" :key="item.value" :label="item.value" :value="item.value">
             </el-option>
           </el-select>

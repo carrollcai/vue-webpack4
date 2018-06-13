@@ -55,7 +55,7 @@ export default {
     })
   },
   beforeMount() {
-    this.getMembers();
+    // this.getMembers();
   },
   methods: {
     dataChange() {

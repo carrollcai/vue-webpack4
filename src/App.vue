@@ -24,7 +24,6 @@ export default {
   beforeMount() {
     this.getProvince();
     this.getUserRole();
-    // this.getClient();
   },
   methods: {
     changeRoute(obj) {
@@ -32,8 +31,7 @@ export default {
     },
     ...mapActions([
       'getProvince',
-      'getUserRole',
-      // 'getClient'
+      'getUserRole'
     ])
   },
   watch: {

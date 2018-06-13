@@ -6,7 +6,7 @@ const actions = {
   getProvince: ({ commit }, params) => {
     const req = { codeType: 'PROVINCE' };
     return API.getProvinceAPI(req).then(res => {
-      commit(types.PROVINCE, res.data.province);
+      commit(types.PROVINCE, res.data.PROVINCE);
     }, err => {
       if (err) {
         commit(types.PROVINCE, {});

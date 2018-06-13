@@ -93,38 +93,38 @@ export const INPUT_TEXTAREA_LIMIT = 100;
 export const CLIENT = [
   {
     'key': 1,
-    'value': '视频'
+    'value': '咪咕视频'
   },
   {
     'key': 2,
-    'value': '直播'
+    'value': '咪咕直播'
   },
   {
     'key': 3,
-    'value': '影视'
+    'value': '咪咕影视'
   },
   {
     'key': 4,
-    'value': '阅读'
+    'value': '咪咕阅读'
   },
   {
     'key': 5,
-    'value': '音乐'
+    'value': '咪咕音乐'
   },
   {
     'key': 6,
-    'value': '游戏'
+    'value': '咪咕游戏'
   },
   {
     'key': 7,
-    'value': '圈圈'
+    'value': '咪咕圈圈'
   },
   {
     'key': 8,
-    'value': '善跑'
+    'value': '咪咕善跑'
   },
   {
     'key': 9,
-    'value': '灵犀'
+    'value': '咪咕灵犀'
   }
 ];
