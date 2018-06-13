@@ -1,16 +1,20 @@
 <template>
   <div class="m-container">
     <el-form class="role-form" ref="roleManageForm" :model="roleForm" :rules="roleManageRules">
-      <el-form-item>角色名称：</el-form-item>
-      <el-form-item class="role-form-item__input" prop="roleName">
-        <el-input v-model="roleForm.roleName" />
-      </el-form-item>
-      <el-form-item class="role-form-item">
-        <el-button type="primary" @click="query">查询</el-button>
-      </el-form-item>
-      <el-form-item class="role-form-item">
-        <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">创建角色</el-button>
-      </el-form-item>
+      <div class="flex">
+        <el-form-item>角色名称：</el-form-item>
+        <el-form-item class="role-form-item__input" prop="roleName">
+          <el-input v-model="roleForm.roleName" />
+        </el-form-item>
+      </div>
+      <div class="flex">
+        <el-form-item class="role-form-item">
+          <el-button type="primary" @click="query">查询</el-button>
+        </el-form-item>
+        <el-form-item class="role-form-item">
+          <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">创建角色</el-button>
+        </el-form-item>
+      </div>
     </el-form>
     <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户角色" property="roleName" />
@@ -77,12 +81,12 @@ export default {
       this.$router.push(path);
     },
     handleDelete(row) {
-      this.$confirm('删除兑换码, 是否继续?', ' ', {
+      this.$confirm('删除角色, 是否继续?', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteRole({ roleId: row.id }).then(res => {
+        this.deleteRole({ roleId: row.roleId }).then(res => {
           this.query();
         });
       }).catch(() => {
@@ -99,7 +103,8 @@ export default {
     },
     ...mapActions([
       'getRoleList',
-      'queryRole'
+      'queryRole',
+      'deleteRole'
     ])
   }
 };
@@ -110,6 +115,7 @@ export default {
 .role-form {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .role-form-item__input {
   width: $inputWidthQuery;

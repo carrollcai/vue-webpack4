@@ -64,12 +64,15 @@ export default {
   createRoleAPI: API('/esop/role/createRole'),
   updateRoleAPI: API('/esop/role/updateRoleById'),
   deleteRoleAPI: API('/esop/role/deleteRoleById'),
-  getPermissionsAPI: API('/permissions'),
 
-  getUserListAPI: API('/user/list'),
-  getUserRoleAPI: API('/user/role/list'),
+  // getPermissionsAPI: API('/permissions'),
+  getUserRoleAPI: API('/esop/role/queryRoleAll'),
+
+  getUserListAPI: API('/esop/operator/queryOperator'),
+  getUserInfoAPI: API('/esop/operator/queryById'),
   createUserAPI: API('/esop/operator/saveOperator'),
-  deleteUserAPI: API('/user/role/list'),
+  updateUserAPI: API('/esop/operator/updateInfo'),
+  deleteUserAPI: API('/esop/operator/deleteInfo'),
 
   /* 数据分析 */
 
@@ -97,5 +100,5 @@ export default {
 
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),
-  resetPwdApi: API('/resetPwd')
+  resetPwdApi: API('/esop/secBranch/editPassword')
 };

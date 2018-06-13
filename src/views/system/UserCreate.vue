@@ -13,10 +13,10 @@
         <el-form-item label="用户姓名：" prop="staffName">
           <el-input class="form-input" v-model="userCreate.staffName"></el-input>
         </el-form-item>
-        <el-form-item label="登录账号：" prop="account">
+        <el-form-item label="登录账号：" prop="code">
           <el-input class="form-input" v-model="userCreate.code"></el-input>
         </el-form-item>
-        <el-form-item label="用户角色：" prop="role">
+        <el-form-item label="用户角色：" prop="roleId">
           <el-select class="form-input" v-model="userCreate.roleId" multiple>
             <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
           </el-select>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -67,18 +67,43 @@ export default {
       province: ({ root }) => root.province
     })
   },
+  beforeMount() {
+    this.resetForm();
+  },
   methods: {
+    resetForm() {
+      const { type, id } = this.$route.params;
+      if (type === 'create') {
+        this.initForm();
+      } else {
+        this.getUserInfo({ roleId: id });
+      }
+    },
     submitForm() {
-      const params = this.createUser;
+      const { type, id } = this.$route.params;
+      const params = this.userCreate;
       this.$refs['userForm'].validate(valid => {
-        if (valid) {
+        if (!valid) return false;
+
+        if (type === 'create') {
           this.createUser(params);
+        } else {
+          this.updateUser(Object.assign(params, {
+            operatorId: id
+          }));
         }
       });
     },
+    ...mapMutations({
+      initForm: 'USER_INIT_FORM'
+    }),
     ...mapActions([
-      'createUser'
+      'createUser',
+      'updateUser'
     ])
+  },
+  watch: {
+    $route: 'resetForm'
   }
 };
 </script>

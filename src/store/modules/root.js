@@ -21,7 +21,8 @@ const mutations = {
     });
   },
   [types.USER_ROLE_LIST](state, data) {
-    state.userRoleList = data;
+    console.log(data);
+    state.userRoleList = data.list;
   },
   // 改变当前路由
   [types.ROUTE_CHANGE](state, data) {

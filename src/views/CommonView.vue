@@ -9,7 +9,8 @@
           <Aside style="height: 100%" />
         </el-aside>
         <el-main class="app-menu">
-          <Main style="height: 100%" />
+           <!-- style="height: 100%" -->
+          <Main />
         </el-main>
       </el-container>
     </el-container>

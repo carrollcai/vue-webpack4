@@ -79,7 +79,7 @@ export default {
           this.createRole(params);
         } else {
           this.updateRole(Object.assign(params, {
-            roldId: id
+            roleId: id
           }));
         }
       });
@@ -89,7 +89,7 @@ export default {
       if (type === 'create') {
         this.initForm();
       } else {
-        this.getRoleInfo({ roldId: id });
+        this.getRoleInfo({ roleId: id });
       }
     },
     ...mapActions([

@@ -28,9 +28,9 @@ const state = {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
     totalcount: 1,
-    role: '',
-    name: '',
-    account: ''
+    staffName: '',
+    code: '',
+    roleId: ''
   },
   userCreate: Object.cloneDeep(userCreate)
 };
@@ -46,11 +46,17 @@ const mutations = {
   [types.ROLE_GET_INFO](state, data) {
     state.roleCreate = data;
   },
-  [types.PERMISSIONS](state, data) {
-    state.permissions = data;
+  // [types.PERMISSIONS](state, data) {
+  //   state.permissions = data;
+  // },
+  [types.USER_INIT_FORM](state, data) {
+    state.userCreate = Object.cloneDeep(roleCreate);
   },
   [types.USER_GET_LIST](state, data) {
     state.userList = data;
+  },
+  [types.USER_GET_INFO](state, data) {
+    state.userCreate = data;
   }
 };
 

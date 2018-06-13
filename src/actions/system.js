@@ -30,8 +30,24 @@ const actions = {
       commit(types.USER_GET_LIST, res.data);
     });
   },
+
+  getUserInfo: ({ commit }, params) => {
+    return API.getUserInfoAPI(params).then(res => {
+      commit(types.USER_GET_INFO, res.data);
+    }, err => {
+      if (err) commit(types.USER_GET_INFO, {});
+    });
+  },
   createUser: ({ commit }, params) => {
     return API.createUserAPI(params).then(res => {
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/system/user/management'
+      });
+    });
+  },
+  updateUser: ({ commit }, params) => {
+    return API.updateUserAPI(params).then(res => {
       // 创建成功
       commit(types.ROUTE_CHANGE, {
         path: '/system/user/management'

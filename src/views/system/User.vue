@@ -1,36 +1,40 @@
 <template>
   <div class="m-container">
     <el-form class="user-form" ref="userManageForm" :model="userForm" :rules="userManageRules">
-      <el-form-item>用户角色：</el-form-item>
-      <el-form-item class="user-form-item__input" prop="role">
-        <el-select v-model="userForm.role">
-          <el-option :key="null" label="全部类型" :value="null"></el-option>
-          <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
-        </el-select>
-      </el-form-item>
+      <div class="flex">
+        <el-form-item>用户角色：</el-form-item>
+        <el-form-item class="user-form-item__input" prop="roleId">
+          <el-select v-model="userForm.roleId">
+            <el-option :key="null" label="全部类型" :value="null"></el-option>
+            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
+          </el-select>
+        </el-form-item>
 
-      <el-form-item class="user-form-item__lable">用户姓名：</el-form-item>
-      <el-form-item class="user-form-item__input" prop="name">
-        <el-input v-model="userForm.name" />
-      </el-form-item>
+        <el-form-item class="user-form-item__lable">用户姓名：</el-form-item>
+        <el-form-item class="user-form-item__input" prop="staffName">
+          <el-input v-model="userForm.staffName" />
+        </el-form-item>
 
-      <el-form-item class="user-form-item__lable">登录账号：</el-form-item>
-      <el-form-item class="user-form-item__input" prop="account">
-        <el-input v-model="userForm.account" />
-      </el-form-item>
+        <el-form-item class="user-form-item__lable">登录账号：</el-form-item>
+        <el-form-item class="user-form-item__input" prop="code">
+          <el-input v-model="userForm.code" />
+        </el-form-item>
+      </div>
 
-      <el-form-item class="role-form-item">
-        <el-button type="primary" @click="query">查询</el-button>
-      </el-form-item>
-      <el-form-item class="role-form-item">
-        <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建用户</el-button>
-      </el-form-item>
+      <div class="flex">
+        <el-form-item class="role-form-item">
+          <el-button type="primary" @click="query">查询</el-button>
+        </el-form-item>
+        <el-form-item class="role-form-item">
+          <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建用户</el-button>
+        </el-form-item>
+      </div>
     </el-form>
 
     <wm-table :source="userList.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="用户姓名" property="name" />
-      <el-table-column label="登录账号" property="account" />
-      <el-table-column label="用户角色" property="role" />
+      <el-table-column label="用户姓名" property="staffName" />
+      <el-table-column label="登录账号" property="code" />
+      <el-table-column label="用户角色" property="roleId" />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <span class="btnLists">
@@ -81,7 +85,7 @@ export default {
     })
   },
   beforeMount() {
-    this.getUserList();
+    this.getUserList(this.userForm);
   },
   methods: {
     onPagination(value) {
@@ -95,7 +99,7 @@ export default {
       this.$router.push(path);
     },
     handleEdit(row) {
-      const path = `/system/user/edit/${row.id}`;
+      const path = `/system/user/edit/${row.operatorId}`;
       this.$router.push(path);
     },
     handleDelete(row) {
@@ -104,7 +108,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteUser({ id: row.id }).then(res => {
+        this.deleteUser({ operatorId: row.operatorId }).then(res => {
           this.query();
         });
       }).catch(() => {
@@ -131,6 +135,7 @@ export default {
 .user-form {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .user-form-item__input {
   width: $inputWidthQuery;
