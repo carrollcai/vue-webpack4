@@ -6,11 +6,11 @@
 import { mapActions } from 'vuex';
 export default {
   beforeMount() {
-    this.getDemo();
+    // this.getDemo();
   },
   methods: {
     ...mapActions([
-      'getDemo'
+      // 'getDemo'
     ])
   }
 };

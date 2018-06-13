@@ -47,7 +47,7 @@ export default {
     },
 
     handleLogout() {
-      this.logout();
+      this.logout({});
     },
     ...mapActions(['logout'])
   }

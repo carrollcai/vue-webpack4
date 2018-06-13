@@ -9,7 +9,7 @@
           <Aside style="height: 100%" />
         </el-aside>
         <el-main class="app-menu">
-           <!-- style="height: 100%" -->
+          <!-- style="height: 100%" -->
           <Main />
         </el-main>
       </el-container>
@@ -21,7 +21,7 @@
 import Main from './Main.vue';
 import Aside from './Aside.vue';
 import Header from './Header.vue';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
   name: 'CommonView',
   components: {
@@ -29,10 +29,20 @@ export default {
     Aside,
     Header
   },
+  beforeMount() {
+    this.getProvince();
+    this.getUserRole({});
+  },
   computed: {
     ...mapState({
       pageLoading: ({ root }) => root.pageLoading
     })
+  },
+  methods: {
+    ...mapActions([
+      'getProvince',
+      'getUserRole'
+    ])
   }
 };
 </script>

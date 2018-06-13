@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item label="用户角色：" prop="roleId">
           <el-select class="form-input" v-model="userCreate.roleId" multiple>
-            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.key" :label="item.name" />
+            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
           </el-select>
         </el-form-item>
         <!-- 省份这里需要做key的处理 -->

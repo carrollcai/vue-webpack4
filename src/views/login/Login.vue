@@ -86,7 +86,8 @@ export default {
         }).then((res) => {
           if (isSuccess(res)) {
             this.$store.commit(types.SET_LOGIN_USER, res.data);
-            this.$router.replace('/');
+            // this.$router.replace('/');
+            this.$router.replace('/analysis/active');
           } else {
             this.errorMsg = res.errorInfo.message;
           }

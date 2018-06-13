@@ -22,7 +22,7 @@ const mutations = {
   },
   [types.USER_ROLE_LIST](state, data) {
     console.log(data);
-    state.userRoleList = data.list;
+    state.userRoleList = data;
   },
   // 改变当前路由
   [types.ROUTE_CHANGE](state, data) {

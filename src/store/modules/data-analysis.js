@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { nowDay, sevenDaysAgo, nowMonth, halfYearsAgo } from '@/utils/helper';
+import { nowDay, sevenDaysAgo, nowMonth, halfYearsAgo, oneMonthAgo } from '@/utils/helper';
 
 const state = {
   // client: [],
@@ -21,7 +21,7 @@ const state = {
   // 第二模块
   trend: {
     dateType: 0,
-    date: '',
+    date: [new Date(sevenDaysAgo), new Date(nowDay)],
     mode: 0,
     chartRadio: 0
   },
@@ -29,7 +29,7 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
-    date: ''
+    date: [new Date(oneMonthAgo), new Date(oneMonthAgo)]
   },
   provinceUserList: [],
   // 中国地图数据

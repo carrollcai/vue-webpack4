@@ -95,7 +95,7 @@ export default {
                 onClose: () => {
                   this.dialogFormVisible = false;
                   this.$nextTick(() => {
-                    this.logout();
+                    this.logout({});
                   });
                 }
               });
