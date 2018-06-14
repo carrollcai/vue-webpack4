@@ -18,7 +18,7 @@ $menu-active-color: #FFFFFF;
   color: $menu-active-color;
 }
 
-/* 重置普通按钮宽度为96 */
+/* 重置普通按钮宽度为96，加图标设置为120 */
 .el-button--primary, .el-button--default {
   line-height: $buttonLineHeight;
   padding: 0;
@@ -72,14 +72,15 @@ $menu-active-color: #FFFFFF;
   font-size: 28px !important;
 }
 
+/* 时间弹窗的优化 */
 .el-date-editor .el-range__icon, .el-date-editor .el-range__close-icon {
   line-height: 24px;
 }
-
 .el-date-editor .el-range-separator {
   line-height: 24px;
 }
 
-.normalize-form-item {
-  margin-bottom: 0;
+/* sidebar选中状态加背景 */
+.el-menu-item.is-active {
+  background-color: #ecf5ff;
 }

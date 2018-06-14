@@ -5,17 +5,9 @@
 </template>
 
 <script>
-import Main from './views/Main.vue';
-import Aside from './views/Aside.vue';
-import Header from './views/Header.vue';
 import { mapState } from 'vuex';
 export default {
   name: 'App',
-  components: {
-    Main,
-    Aside,
-    Header
-  },
   computed: {
     ...mapState({
       currentRoute: ({ root }) => root.currentRoute

@@ -9,8 +9,7 @@
           <Aside style="height: 100%" />
         </el-aside>
         <el-main class="app-menu">
-          <!-- style="height: 100%" -->
-          <Main />
+          <router-view />
         </el-main>
       </el-container>
     </el-container>
@@ -18,14 +17,12 @@
 </template>
 
 <script>
-import Main from './Main.vue';
 import Aside from './Aside.vue';
 import Header from './Header.vue';
 import { mapState, mapActions } from 'vuex';
 export default {
-  name: 'CommonView',
+  name: 'Container',
   components: {
-    Main,
     Aside,
     Header
   },

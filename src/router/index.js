@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import store from '@/store';
 
 import Login from '@/views/login/Login.vue';
-import CommonView from '@/views/CommonView.vue';
+import Container from '@/views/Container.vue';
 
 import Page404 from '@/views/common/Page404.vue';
 import Page403 from '@/views/common/Page403.vue';
@@ -40,7 +40,7 @@ const router = new Router({
     },
     {
       path: '/',
-      component: CommonView,
+      component: Container,
       children: [
         {
           path: '/',
@@ -112,11 +112,6 @@ const router = new Router({
           name: 'role-create',
           component: RoleCreate
         },
-        // {
-        //   path: '/system/role/edit/:id',
-        //   name: 'role-edit',
-        //   component: RoleCreate
-        // },
         {
           path: '/system/user/:type/:id?',
           name: 'user-create',
