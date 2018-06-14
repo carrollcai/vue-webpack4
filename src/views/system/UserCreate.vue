@@ -72,6 +72,8 @@ export default {
   methods: {
     resetForm() {
       const { type, id } = this.$route.params;
+      // 需要重新获取角色。
+      this.getUserRole({});
       if (type === 'create') {
         this.initForm();
       } else {
@@ -99,7 +101,8 @@ export default {
     ...mapActions([
       'createUser',
       'updateUser',
-      'getUserInfo'
+      'getUserInfo',
+      'getUserRole'
     ])
   },
   watch: {

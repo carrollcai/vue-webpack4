@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       client: CLIENT,
+      localProvinceSelected: [],
       activeSearchRules: {
         provinceSelected: [
           // { required: true, message: '请选择省份', trigger: 'change' }
@@ -63,8 +64,34 @@ export default {
     this.query();
   },
   methods: {
-    provinceChange() {
-
+    provinceChange(val) {
+      // console.log(val);
+      // let isSelectedAll = val.some(val => val === null);
+      // let provinceNames = this.province.map(val => val.value);
+      // //是否点击全部
+      // let isClickAll = this.localProvinceSelected.some(val => val === null) === isSelectedAll;
+      // debugger;
+      // // if (isSelectedAll) {
+      //   // 选择全部，且子选项未全选
+      //   if (!isClickAll) {
+      //     if (val.length !== provinceNames.length + 1) {
+      //       this.activeObj.provinceSelected = provinceNames;
+      //       this.activeObj.provinceSelected.push(null);
+      //     } else {
+      //       this.activeObj.provinceSelected = [];
+      //       // this.activeObj.provinceSelected = this.activeObj.provinceSelected.filter(val => val !== null);
+      //     }
+      //   } else {
+      //     this.activeObj.provinceSelected = this.activeObj.provinceSelected.filter(val => val !== null);
+      //   }
+      // // } else {
+      // //   // if (val.length === provinceNames.length) {
+      // //   //   this.activeObj.provinceSelected = [];
+      // //   // }
+      // //   return val;
+      // // }
+      // this.localProvinceSelected = this.activeObj.provinceSelected;
+      // console.log(val);
     },
     clientChange() {
 

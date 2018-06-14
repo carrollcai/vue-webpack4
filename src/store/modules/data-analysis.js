@@ -6,7 +6,7 @@ const state = {
   // 省份和客户端对象
   activeObj: {
     provinceSelected: [],
-    clientSelected: '咪咕视频', // 默认咪咕视频
+    clientSelected: '咪咕阅读', // 默认咪咕视频
     dateType: 0
   },
   // 第一模块
@@ -38,7 +38,7 @@ const state = {
   // 留存流失
   retentionObj: {
     provinceSelected: [],
-    clientSelected: '咪咕视频'
+    clientSelected: '咪咕阅读'
   },
   retentionLossUser: {
     newUser: 1,
