@@ -1,55 +1,64 @@
 @import "scss/variables.scss";
-
 $menu-active-color: #FFFFFF;
-
 /* 充值侧边栏的右边线为0 */
+
 .el-menu {
   border-right: 0 !important;
 }
 
 /* 重置头部 用户名菜单 选中的颜色 */
+
 .el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
   border-bottom: none;
   color: $menu-active-color;
 }
 
 .el-menu--horizontal .el-menu .el-menu-item.is-active,
-.el-menu--horizontal .el-menu .el-submenu__title.is-active{
+.el-menu--horizontal .el-menu .el-submenu__title.is-active {
   color: $menu-active-color;
 }
 
 /* 重置普通按钮宽度为96，加图标设置为120 */
-.el-button--primary, .el-button--default {
+
+.el-button--primary,
+.el-button--default {
   line-height: $buttonLineHeight;
   padding: 0;
   width: 96px;
 }
+
 .el-button--have-icon {
   width: 120px;
 }
 
 /* 重置input框高度，这里不能写成!important，select多选框会出问题 */
+
 .el-input__inner {
   line-height: $buttonLineHeight;
   height: $buttonLineHeight;
 }
 
 /* input框的icon */
+
 .el-input__icon {
   line-height: $buttonLineHeight;
 }
 
 /* 重置外部引用icon */
-.el-submenu [class^=icon-], .el-menu-item [class^=icon-] {
+
+.el-submenu [class^=icon-],
+.el-menu-item [class^=icon-] {
   vertical-align: middle;
   margin-right: 5px;
   width: 24px;
-  text-align: center;
-  // font-size: 18px;
+  text-align: center; // font-size: 18px;
   font-size: 16px;
 }
 
-[class*=" icon-"], [class^=icon-] {
+/* 导入icon和element icon的样式同步 */
+
+[class*=" icon-"],
+[class^=icon-] {
   speak: none;
   font-style: normal;
   font-weight: 400;
@@ -63,24 +72,35 @@ $menu-active-color: #FFFFFF;
 }
 
 /* 左侧菜单栏二级目录间距 */
+
 .sub-menu {
   padding-left: 52px !important;
 }
 
 /* 重置进度条内的字体大小 */
+
 .el-progress__text {
   font-size: 28px !important;
 }
 
 /* 时间弹窗的优化 */
-.el-date-editor .el-range__icon, .el-date-editor .el-range__close-icon {
+
+.el-date-editor .el-range__icon,
+.el-date-editor .el-range__close-icon {
   line-height: 24px;
 }
+
 .el-date-editor .el-range-separator {
   line-height: 24px;
 }
 
 /* sidebar选中状态加背景 */
+
 .el-menu-item.is-active {
   background-color: #ecf5ff;
+}
+
+/* 去除el-scrollbar滚动条 */ 
+.el-scrollbar__wrap {
+  overflow-x: hidden;
 }

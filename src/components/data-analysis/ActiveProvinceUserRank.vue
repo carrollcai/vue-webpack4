@@ -1,20 +1,23 @@
 <template>
   <div class="p-user-rank">
     <div>日活排名情况：</div>
-    <ul class="dailyLive-rank">
-      <li class="dailyLive-rank-item" v-for="(item, i) in provinceUserList" :key="i">
-        <div class="dailyLive-rank__circle" :style="{backgroundColor: filterTop3(i)}">
-          {{i + 1}}
-        </div>
-        <div class="dailyLive-rank__name">
-          {{item.name}}
-        </div>
-        <el-progress :style="{width: `${calcPercentWidth(item.value)}px`}" :percentage="100" :show-text="false" :stroke-width="10" :status="i <= 2 ? 'exception' : ''"></el-progress>
-        <div class="dailyLive-rank__num">
-          {{item.value}}
-        </div>
-      </li>
-    </ul>
+
+    <div class="dailyLive-rank">
+      <el-scrollbar style="height: 100%;">
+        <li class="dailyLive-rank-item" v-for="(item, i) in provinceUserList" :key="i">
+          <div class="dailyLive-rank__circle" :style="{backgroundColor: filterTop3(i)}">
+            {{i + 1}}
+          </div>
+          <div class="dailyLive-rank__name">
+            {{item.name}}
+          </div>
+          <el-progress :style="{width: `${calcPercentWidth(item.value)}px`}" :percentage="100" :show-text="false" :stroke-width="10" :status="i <= 2 ? 'exception' : ''"></el-progress>
+          <div class="dailyLive-rank__num">
+            {{item.value}}
+          </div>
+        </li>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -49,7 +52,6 @@ export default {
 }
 .dailyLive-rank {
   height: 450px;
-  overflow-y: auto;
   margin: $blockWidth 0 0;
   padding: 0;
   list-style: none;

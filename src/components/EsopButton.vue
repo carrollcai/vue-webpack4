@@ -5,6 +5,7 @@
 </template>
 
 <script>
+/* 这个组件已废弃 */
 export default {
   props: {
     value: {

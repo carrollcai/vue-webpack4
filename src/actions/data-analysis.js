@@ -44,7 +44,6 @@ const actions = {
 
     return API.getProvinceUserAPI(req).then(res => {
       commit(types.PROVINCE_GET_USER, res.data.reportList);
-      // commit(types.PROVINCE_GET_USER, data.data.reportList);
     });
   },
 

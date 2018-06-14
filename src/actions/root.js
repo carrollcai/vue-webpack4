@@ -17,6 +17,11 @@ const actions = {
     return API.getUserRoleAPI(params).then(res => {
       commit(types.USER_ROLE_LIST, res.data);
     });
+  },
+  getCurrentUserInfo: ({ commit }, params) => {
+    return API.getCurrentUserInfoAPI(params).then(res => {
+      commit(types.CURRENT_USER_GET_INFO, res.data);
+    });
   }
 };
 

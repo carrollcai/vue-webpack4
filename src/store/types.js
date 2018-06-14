@@ -6,6 +6,7 @@ export const PROVINCE = 'PROVINCE';
 export const PERMISSIONS = 'PERMISSIONS';
 export const USER_ROLE_LIST = 'USER_ROLE_LIST';
 export const ROUTE_CHANGE = 'ROUTE_CHANGE';
+export const CURRENT_USER_GET_INFO = 'CURRENT_USER_GET_INFO';
 
 /* login */
 export const SET_LOGIN_USER = 'SET_LOGIN_USER';

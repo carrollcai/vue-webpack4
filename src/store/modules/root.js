@@ -32,6 +32,9 @@ const mutations = {
   },
   [types.HIDE_PAGE_LOADING](state) {
     state.pageLoading = false;
+  },
+  [types.CURRENT_USER_GET_INFO](state, data) {
+    //
   }
 };
 
