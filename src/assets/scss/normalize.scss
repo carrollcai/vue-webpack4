@@ -104,3 +104,8 @@ $menu-active-color: #FFFFFF;
 .el-scrollbar__wrap {
   overflow-x: hidden;
 }
+
+/* table tr 背景颜色 */
+.el-table thead tr th {
+  background-color: #F7F8FC;
+}
