@@ -45,7 +45,7 @@
       </div>
       <div v-else>
         <wm-table :source="retTrendList" :max-height="500">
-          <el-table-column label="月份" property="date" />
+          <el-table-column label="月份" property="periodId" />
           <el-table-column label="本月新增用户" property="newMembersNum" />
           <el-table-column label="本月留存客户" property="retainNum" />
           <el-table-column label="本月流失用户" property="dropoutNum" />

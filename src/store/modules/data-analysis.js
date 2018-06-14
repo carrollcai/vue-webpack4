@@ -29,7 +29,7 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
-    date: [new Date(oneMonthAgo), new Date(oneMonthAgo)]
+    date: [new Date(sevenDaysAgo), new Date(nowDay)]
   },
   provinceUserList: [],
   // 中国地图数据
@@ -74,7 +74,6 @@ const mutations = {
   },
   [types.TREND_GET_NEW_MEMBERS](state, data) {
     let uniqueMembers = [];
-
     // 将新增会员用户添加到表格里
     state.trendList = state.trendList.map(val => {
       data.map(cval => {
@@ -84,6 +83,7 @@ const mutations = {
       });
       return val;
     });
+    console.log(state.trendList);
 
     data.map(val => {
       let flag = false;
@@ -129,7 +129,7 @@ const mutations = {
       //   });
       //   break;
       default:
-        console.error('类型不支持');
+        // console.error('类型不支持');
     }
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {
@@ -176,7 +176,7 @@ const mutations = {
     });
   },
   [types.RETENTION_GET_TREND_LIST](state, data) {
-    console.log(data);
+    // console.log(data);
     state.retTrendList = data.map(val => {
       val.newUserRetPer = (val.newRetainNum / val.newMembersNum * 100).toFixed(1) + '%';
       val.retLossPer = (val.dropoutNum / val.retainNum * 100).toFixed(1) + '%';

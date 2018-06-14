@@ -19,6 +19,7 @@ const mutations = {
         value: val.codeName
       };
     });
+    console.log(state.province);
   },
   [types.USER_ROLE_LIST](state, data) {
     console.log(data);

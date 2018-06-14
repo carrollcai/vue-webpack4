@@ -23,10 +23,10 @@ const fetch = (url, params, method) => {
     }
 
     ajx.then(res => {
-      // console.log(res.data);
       store.commit('HIDE_PAGE_LOADING');
+      
       if (res.data.errorInfo.code === '401') {
-        // store.commit('ROUTE_CHANGE', { path: '/login' });
+        store.commit('ROUTE_CHANGE', { path: '/login' });
       }
       if (res.data.errorInfo.code !== 1) {
         resolve(res.data);

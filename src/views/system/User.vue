@@ -34,7 +34,7 @@
     <wm-table :source="userList.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户姓名" property="staffName" />
       <el-table-column label="登录账号" property="code" />
-      <el-table-column label="用户角色" property="roleId" />
+      <el-table-column label="用户角色" property="roleNames" show-overflow-tooltip />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <span class="btnLists">

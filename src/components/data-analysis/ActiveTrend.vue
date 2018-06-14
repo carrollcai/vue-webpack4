@@ -57,7 +57,7 @@
           <el-table-column label="手机账号登录用户" property="msisdnNum" />
           <el-table-column label="移动IP用户" property="chinaMobileIpNum" />
           <el-table-column label="非移动IP用户" property="otherIpNum" />
-          <el-table-column label="新增会员用户" property="newMembers" />
+          <el-table-column label="新增会员用户" property="newMembersNum" />
         </wm-table>
       </div>
     </div>
@@ -97,8 +97,6 @@ export default {
     })
   },
   beforeMount() {
-    // this.getTrendList();
-    // this.getTrendNewMembers();
   },
   methods: {
     newMembersFields() {
@@ -118,12 +116,12 @@ export default {
       this.query();
     },
     query() {
-      const { trend } = this;
       this.$refs['activeTrendForm'].validate(valid => {
-        if (valid) {
-          this.getTrendList(trend);
+        if (!valid) return false;
+
+        this.getTrendList().then(() => {
           this.getTrendNewMembers();
-        }
+        });
       });
     },
     changeRadio(val) {

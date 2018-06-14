@@ -75,7 +75,7 @@ export default {
       if (type === 'create') {
         this.initForm();
       } else {
-        this.getUserInfo({ roleId: id });
+        this.getUserInfo({ operatorId: id });
       }
     },
     submitForm() {
@@ -98,7 +98,8 @@ export default {
     }),
     ...mapActions([
       'createUser',
-      'updateUser'
+      'updateUser',
+      'getUserInfo'
     ])
   },
   watch: {

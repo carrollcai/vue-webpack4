@@ -75,7 +75,9 @@ export default {
       this.getMembers(activeObj);
       this.getDailyActiveUser(activeObj);
       // 第二模块
-      this.getTrendList();
+      this.getTrendList().then(() => {
+        this.getTrendNewMembers();
+      });
       // 第三模块
       this.getProvinceUser();
     },
@@ -83,7 +85,8 @@ export default {
       'getMembers',
       'getDailyActiveUser',
       'getTrendList',
-      'getProvinceUser'
+      'getProvinceUser',
+      'getTrendNewMembers'
     ])
   }
 };
