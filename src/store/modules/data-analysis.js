@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { nowDay, sevenDaysAgo, nowMonth, halfYearsAgo, oneMonthAgo } from '@/utils/helper';
+import { nowDay, sevenDaysAgo, nowMonth, halfYearsAgo } from '@/utils/helper';
 
 const state = {
   // client: [],
@@ -83,7 +83,7 @@ const mutations = {
       });
       return val;
     });
-    console.log(state.trendList);
+    // console.log(state.trendList);
 
     data.map(val => {
       let flag = false;
