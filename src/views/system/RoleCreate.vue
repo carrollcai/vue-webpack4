@@ -87,8 +87,9 @@ export default {
       const { type, id } = this.$route.params;
       const params = Object.cloneDeep(this.roleCreate);
 
-      // 选择二级之后，将一级的menuId带入
+      // 菜单选择选择二级之后，将一级的menuId带入
       params.menuIds = this.changeMendIds(params.menuIds);
+
       this.$refs['roleForm'].validate(valid => {
         if (!valid) return false;
 
