@@ -1,6 +1,6 @@
 <template>
   <div class="m-container">
-    <el-form class="task-form" ref="taskManageForm">
+    <!-- <el-form class="task-form" ref="taskManageForm">
       <el-form-item>查询时间：</el-form-item>
       <el-form-item>
         <el-date-picker
@@ -46,7 +46,7 @@
           </span>
         </template>
       </el-table-column>
-    </wm-table>
+    </wm-table> -->
   </div>
 </template>
 

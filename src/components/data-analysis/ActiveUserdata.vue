@@ -5,7 +5,7 @@
         <el-radio-button :label="0">按日</el-radio-button>
         <el-radio-button :label="1">按月</el-radio-button>
       </el-radio-group>
-      <span class="userdata-header-quote">{{nowDay}}日关键指标（展示“T-2”日关键指标数据，”T“为今日数据）</span>
+      <span class="userdata-header-quote">{{twoDaysAgo}}日关键指标（展示“T-2”日关键指标数据，”T“为今日数据）</span>
     </div>
     <div class="userdata-main">
       <div class="userdata-main-left">
@@ -38,12 +38,12 @@
 <script>
 import Pie from 'components/chart/Pie.vue';
 import { mapActions, mapState } from 'vuex';
-import { nowDay } from '@/utils/helper';
+import { twoDaysAgo } from '@/utils/helper';
 
 export default {
   data() {
     return {
-      nowDay
+      twoDaysAgo
     };
   },
   components: {

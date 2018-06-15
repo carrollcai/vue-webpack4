@@ -11,56 +11,78 @@ export const SESSION_DURATION = 1 / 72;
 
 export const SIDEBAR_DATA = {
   dashboard: {
+    menuId: 1,
     name: '首页',
     url: '/dashboard',
-    icon: 'icon-home'
+    icon: 'icon-home',
+    enable: false
   },
   analysis: {
+    menuId: 2,
     name: '数据分析',
     url: '/analysis',
     icon: 'icon-data',
+    enable: false,
     children: [
       {
+        menuId: 3,
         name: '活跃度分析',
-        url: '/analysis/active'
+        url: '/analysis/active',
+        enable: false
       },
       {
+        menuId: 4,
         name: '留存流失分析',
-        url: '/analysis/retention-loss'
+        url: '/analysis/retention-loss',
+        enable: false
       }
     ]
   },
   task: {
+    menuId: 5,
     name: '任务管理',
     url: '/task',
     icon: 'icon-task',
+    enable: false,
     children: [
       {
+        menuId: 6,
         name: '任务查询',
-        url: '/task/management'
+        url: '/task/management',
+        enable: false
       },
       {
+        menuId: 7,
         name: '我的申请',
-        url: '/task/push'
+        url: '/task/push',
+        enable: false
       },
       {
+        menuId: 8,
         name: '我的待办',
-        url: '/task/todo'
+        url: '/task/todo',
+        enable: false
       }
     ]
   },
   system: {
+    menuId: 9,
     name: '系统配置',
     url: '/system',
     icon: 'el-icon-setting',
+    enable: false,
     children: [
       {
+        menuId: 10,
         name: '角色管理',
-        url: '/system/role/management'
+        url: '/system/role/management',
+        enable: false
       },
       {
+        menuId: 11,
         name: '用户管理',
-        url: '/system/user/management'
+        url: '/system/user/management',
+        enable: false
       }
     ]
   }

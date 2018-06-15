@@ -4,9 +4,9 @@
       <div class="active-search__province">
         <el-form-item class="normalize-form-item">省份：</el-form-item>
         <el-form-item class="normalize-form-item" prop="provinceSelected">
-          <el-select v-if="province.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
+          <el-select v-if="currentUser.operator.provinces.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
             <el-option :key="null" label="全部" :value="null"></el-option>
-            <el-option v-for="item in province" :key="item.value" :label="item.value" :value="item.value">
+            <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -54,9 +54,9 @@ export default {
   },
   computed: {
     ...mapState({
-      province: ({ root }) => root.province,
-      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj
-      // client: ({ dataAnalysis }) => dataAnalysis.client
+      // province: ({ root }) => root.province,
+      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj,
+      currentUser: ({ root }) => root.currentUser
     })
   },
   beforeMount() {
@@ -65,33 +65,29 @@ export default {
   },
   methods: {
     provinceChange(val) {
-      // console.log(val);
-      // let isSelectedAll = val.some(val => val === null);
-      // let provinceNames = this.province.map(val => val.value);
-      // //是否点击全部
-      // let isClickAll = this.localProvinceSelected.some(val => val === null) === isSelectedAll;
-      // debugger;
-      // // if (isSelectedAll) {
-      //   // 选择全部，且子选项未全选
-      //   if (!isClickAll) {
-      //     if (val.length !== provinceNames.length + 1) {
-      //       this.activeObj.provinceSelected = provinceNames;
-      //       this.activeObj.provinceSelected.push(null);
-      //     } else {
-      //       this.activeObj.provinceSelected = [];
-      //       // this.activeObj.provinceSelected = this.activeObj.provinceSelected.filter(val => val !== null);
-      //     }
-      //   } else {
-      //     this.activeObj.provinceSelected = this.activeObj.provinceSelected.filter(val => val !== null);
-      //   }
-      // // } else {
-      // //   // if (val.length === provinceNames.length) {
-      // //   //   this.activeObj.provinceSelected = [];
-      // //   // }
-      // //   return val;
-      // // }
-      // this.localProvinceSelected = this.activeObj.provinceSelected;
-      // console.log(val);
+      const { provinces } = this.currentUser.operator;
+      let isSelectedAll = val.some(val => val === null);
+      let provinceNames = provinces.map(val => val.value);
+
+      // 是否点击全部
+      let isNotClickAll = this.localProvinceSelected.some(val => val === null) === isSelectedAll;
+
+      // 选择全部，且子选项未全选
+      if (!isNotClickAll) {
+        if (val.length !== provinceNames.length) {
+          this.activeObj.provinceSelected = provinceNames;
+          this.activeObj.provinceSelected.push(null);
+        } else {
+          this.activeObj.provinceSelected = [];
+        }
+      } else {
+        if (!isSelectedAll && val.length === provinceNames.length) {
+          this.activeObj.provinceSelected.push(null);
+        } else {
+          this.activeObj.provinceSelected = this.activeObj.provinceSelected.filter(val => val !== null);
+        }
+      }
+      this.localProvinceSelected = Object.cloneDeep(this.activeObj.provinceSelected);
     },
     clientChange() {
 

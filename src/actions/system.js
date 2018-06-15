@@ -40,6 +40,11 @@ const actions = {
   },
   createUser: ({ commit }, params) => {
     return API.createUserAPI(params).then(res => {
+      Message({
+        message: '创建成功',
+        type: 'success',
+        duration: 3000
+      });
       // 创建成功
       commit(types.ROUTE_CHANGE, {
         path: '/system/user/management'
@@ -48,6 +53,11 @@ const actions = {
   },
   updateUser: ({ commit }, params) => {
     return API.updateUserAPI(params).then(res => {
+      Message({
+        message: '更新成功',
+        type: 'success',
+        duration: 3000
+      });
       // 创建成功
       commit(types.ROUTE_CHANGE, {
         path: '/system/user/management'

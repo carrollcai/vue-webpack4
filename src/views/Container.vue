@@ -4,7 +4,7 @@
       <el-header class="app-header">
         <Header />
       </el-header>
-      <el-container class="app-content">
+      <el-container v-if="currentUser.menuList" class="app-content">
         <!-- <el-aside width="200px" height="100%">
           <Aside style="height: 100%" />
         </el-aside> -->
@@ -39,12 +39,14 @@ export default {
     Header
   },
   beforeMount() {
-    this.getCurrentUserInfo({});
-    this.getProvince();
+    this.getProvince({}).then(() => {
+      this.getCurrentUserInfo();
+    });
     this.getUserRole({});
   },
   computed: {
     ...mapState({
+      currentUser: ({ root }) => root.currentUser,
       pageLoading: ({ root }) => root.pageLoading
     })
   },
@@ -54,6 +56,9 @@ export default {
       'getProvince',
       'getUserRole'
     ])
+  },
+  beforeDestroy() {
+    window.location.reload();
   }
 };
 </script>

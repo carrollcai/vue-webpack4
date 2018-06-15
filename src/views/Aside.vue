@@ -1,16 +1,16 @@
 <template>
   <el-menu :default-active="$route.path" :router="true">
-    <div v-for="(item, i) in SIDEBAR_DATA" :key="i">
+    <div v-if="item.enable" v-for="(item, i) in currentUser.menuList" :key="i">
       <el-menu-item v-if="!item.children" :index="item.url">
         <i :class="item.icon"></i>
         <span slot="title">{{item.name}}</span>
       </el-menu-item>
-      <el-submenu v-else  :index="i">
+      <el-submenu v-else :index="i">
         <template slot="title">
           <i :class="item.icon"></i>
           <span slot="title">{{item.name}}</span>
         </template>
-        <el-menu-item class="sub-menu" v-for="(subItem, subI) in item.children" :key="subI" :index="subItem.url">
+        <el-menu-item v-if="subItem.enable" class="sub-menu" v-for="(subItem, subI) in item.children" :key="subI" :index="subItem.url">
           {{subItem.name}}
         </el-menu-item>
       </el-submenu>
@@ -20,7 +20,7 @@
 
 <script>
 import { SIDEBAR_DATA } from '../config/index.js';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 export default {
   data() {
     return {
@@ -30,10 +30,13 @@ export default {
   computed: {
     ...mapGetters([
       'getActiveNav'
-    ])
+    ]),
+    ...mapState({
+      currentUser: ({ root }) => root.currentUser
+    })
   },
   beforeMount() {
-    console.log(this.$route.path);
+    console.log(this.currentUser);
   },
   methods: {
   }

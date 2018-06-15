@@ -4,9 +4,9 @@
       <div class="active-search__province">
         <el-form-item class="normalize-form-item">省份：</el-form-item>
         <el-form-item class="normalize-form-item" prop="provinceSelected">
-          <el-select v-if="province.length" v-model="retentionObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
+          <el-select v-if="currentUser.operator.provinces.length" v-model="retentionObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
             <el-option :key="null" label="全部" :value="null"></el-option>
-            <el-option v-for="item in province" :key="item.value" :label="item.value" :value="item.value">
+            <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       client: CLIENT,
+      localProvinceSelected: [],
       retSearchRules: {
         provinceSelected: [
           // { required: true, message: '请选择省份', trigger: 'change' }
@@ -50,15 +51,38 @@ export default {
   },
   computed: {
     ...mapState({
-      province: ({ root }) => root.province,
-      retentionObj: ({ dataAnalysis }) => dataAnalysis.retentionObj
+      // province: ({ root }) => root.province,
+      retentionObj: ({ dataAnalysis }) => dataAnalysis.retentionObj,
+      currentUser: ({ root }) => root.currentUser
     })
   },
   beforeMount() {
   },
   methods: {
-    provinceChange() {
-      // 如果为全部，改变数据全选，否则不选
+    provinceChange(val) {
+      const { provinces } = this.currentUser.operator;
+      let isSelectedAll = val.some(val => val === null);
+      let provinceNames = provinces.map(val => val.value);
+
+      // 是否点击全部
+      let isNotClickAll = this.localProvinceSelected.some(val => val === null) === isSelectedAll;
+
+      // 选择全部，且子选项未全选
+      if (!isNotClickAll) {
+        if (val.length !== provinceNames.length) {
+          this.retentionObj.provinceSelected = provinceNames;
+          this.retentionObj.provinceSelected.push(null);
+        } else {
+          this.retentionObj.provinceSelected = [];
+        }
+      } else {
+        if (!isSelectedAll && val.length === provinceNames.length) {
+          this.retentionObj.provinceSelected.push(null);
+        } else {
+          this.retentionObj.provinceSelected = this.retentionObj.provinceSelected.filter(val => val !== null);
+        }
+      }
+      this.localProvinceSelected = Object.cloneDeep(this.retentionObj.provinceSelected);
     },
     clientChange() {
 
