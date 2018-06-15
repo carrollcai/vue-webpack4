@@ -8,16 +8,16 @@
         <div>
           <li v-for="(item, i) in legendData" :key="i" v-if="i <= 2">
             <span class="dot" :style="{backgroundColor: item.color}" />
-            <el-tooltip class="item" effect="dark" :content="item.item" placement="top-start">
-              <span class="legend-title">{{ item.item.length >= 4 ? `${item.item.substring(0, 4)}...` : item.item }}</span>
+            <el-tooltip class="item" :disabled="item.item.length <= 4" effect="dark" :content="item.item" placement="top-start">
+              <span class="legend-title">{{ item.item.length > 4 ? `${item.item.substring(0, 4)}...` : item.item }}</span>
             </el-tooltip>
           </li>
         </div>
         <div class="pie-item">
           <li v-for="(item, i) in legendData" :key="i" v-if="i > 2">
             <span class="dot" :style="{backgroundColor: item.color}" />
-            <el-tooltip class="item" effect="dark" :content="item.item" placement="top-start">
-              <span class="legend-title">{{ item.item.length >= 4 ? `${item.item.substring(0, 4)}...` : item.item }}</span>
+            <el-tooltip class="item" :disabled="item.item.length <= 4" effect="dark" :content="item.item" placement="top-start">
+              <span class="legend-title">{{ item.item.length > 4 ? `${item.item.substring(0, 4)}...` : item.item }}</span>
             </el-tooltip>
           </li>
         </div>
@@ -39,7 +39,7 @@ export default {
   props: {
     charData: {
       type: Array,
-      default: function() {
+      default: () => {
         return [];
       }
     },
@@ -115,7 +115,7 @@ export default {
         itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
       });
       // this.chart.tooltip(false);
-      this.chart.intervalStack().position('percent').color('item').label('percent').tooltip('item*percent', function(item, percent) {
+      this.chart.intervalStack().position('percent').color('item').label('percent').tooltip('item*percent', (item, percent) => {
         percent = (percent * 100).toFixed(2) + '%';
         return {
           name: item,

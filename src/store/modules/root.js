@@ -42,11 +42,14 @@ const mutations = {
     state.pageLoading = false;
   },
   [types.CURRENT_USER_GET_INFO](state, data) {
+    let menuIds = [];
     let sidebars = Object.cloneDeep(SIDEBAR_DATA);
+    const provinces = data.secOperatorDTO.provinces.split(',');
+
     state.currentUser.menuList = Object.cloneDeep(SIDEBAR_DATA);
     state.currentUser.operator.code = data.secOperatorDTO.code;
-    const provinces = data.secOperatorDTO.provinces.split(',');
-    let menuIds = [];
+
+    // 用户拥有的菜单权限
     data.secMenuDTOList.map(val => {
       menuIds.push(val.menuId);
       val.children && val.children.map(cval => {
@@ -66,7 +69,7 @@ const mutations = {
       }
     });
     state.currentUser.menuList = sidebars;
-    console.log(state.currentUser.menuList);
+    // 用户拥有的省份权限
     state.currentUser.operator.provinces = provinces.map(val => {
       let obj = {};
       state.province.map(cval => {
@@ -77,10 +80,8 @@ const mutations = {
           };
         }
       });
-
       return obj;
     });
-    console.log(state.currentUser.operator.provinces);
   }
 };
 

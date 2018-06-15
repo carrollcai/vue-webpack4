@@ -58,6 +58,7 @@ export default {
     ])
   },
   beforeDestroy() {
+    // 退出登录之后需要重置store里的state，可以用一个resetState的方法，初始化state，现在先用reload方法代替。
     window.location.reload();
   }
 };

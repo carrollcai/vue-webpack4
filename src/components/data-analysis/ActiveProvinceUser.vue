@@ -13,7 +13,7 @@
       <div class="province-user-chart__map">
         <Map :id="'map'" :charData="provinceUserList" :width="700" :height="500" />
       </div>
-      <active-province-user-rank v-if="Object.isExistArray(provinceUserList)" :provinceUserList="provinceUserList" />
+      <active-province-user-rank v-if="Object.isExistArray(provinceUserList)" :provinceUserList="provinceUserList" :maxNum="provinceUserList[0].value" />
     </div>
   </div>
 </template>

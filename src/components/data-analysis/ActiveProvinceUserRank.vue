@@ -25,13 +25,12 @@
 const defaultWidth = 160;
 export default {
   props: {
-    provinceUserList: Array
-  },
-  data() {
-    const maxNum = this.provinceUserList[0] ? this.provinceUserList[0].value : 10000;
-    return {
-      maxNum
-    };
+    provinceUserList: Array,
+    maxNum: {
+      type: Number,
+      default: 10000,
+      required: true
+    }
   },
   methods: {
     calcPercentWidth(val) {

@@ -77,16 +77,17 @@ export default {
             if (Number(val) === Number(gval.menuId)) {
               flag = true;
             }
-          })
+          });
           flag && arr.push(cval.menuId);
         });
       });
-      console.log(this.roleCreate.menuIds.concat(arr));
       return [...new Set(this.roleCreate.menuIds.concat(arr))];
     },
     submitForm() {
       const { type, id } = this.$route.params;
       const params = Object.cloneDeep(this.roleCreate);
+
+      // 选择二级之后，将一级的menuId带入
       params.menuIds = this.changeMendIds(params.menuIds);
       this.$refs['roleForm'].validate(valid => {
         if (!valid) return false;

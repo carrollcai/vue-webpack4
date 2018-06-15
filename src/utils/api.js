@@ -2,14 +2,9 @@ import axios from 'axios';
 import store from '../store';
 import { Message } from 'element-ui';
 import { errorHandle } from '@/utils/common';
-// import qs from 'qs';
 const fetch = (url, params, method) => {
-  // stringify会自动转码
-  // params = qs.parse('beginDate=2018-06-01&endDate=2018-06-01&clientType=咪咕阅读&memberType=黄金&startRow=0&pageSize=10&provinces=江苏&provinces=安徽&provinces=广东');
-
-  // params = qs.stringify(params);
-
   store.commit('SHOW_PAGE_LOADING');
+
   return new Promise((resolve, reject) => {
     let ajx;
     if (method === 'get') {
