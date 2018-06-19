@@ -27,7 +27,6 @@ const fetch = (url, params, method) => {
         resolve(res.data);
       } else {
         // 防止防止多次执行Message，需要加一个全局message的状态
-
         Message({
           showClose: true,
           message: res.data.errorInfo.message,

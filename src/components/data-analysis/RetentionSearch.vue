@@ -5,9 +5,8 @@
         <el-form-item class="normalize-form-item">省份：</el-form-item>
         <el-form-item class="normalize-form-item" prop="provinceSelected">
           <el-select v-if="currentUser.operator.provinces.length" v-model="retentionObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
-            <el-option :key="null" label="全部" :value="null"></el-option>
-            <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value">
-            </el-option>
+            <el-option v-if="currentUser.operator.provinces.length > 1" :key="null" label="全部" :value="null" />
+            <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
 
@@ -15,7 +14,7 @@
       <div class="active-search__client">
         <el-form-item class="normalize-form-item">客户端：</el-form-item>
         <el-form-item class="normalize-form-item" prop="clientSelected">
-          <el-select v-if="client.length" v-model="retentionObj.clientSelected" placeholder="请选择" @change="clientChange">
+          <el-select v-if="client.length" v-model="retentionObj.clientSelected" placeholder="请选择">
             <el-option v-for="item in client" :key="item.value" :label="item.value" :value="item.value">
             </el-option>
           </el-select>
@@ -57,6 +56,10 @@ export default {
     })
   },
   beforeMount() {
+    if (this.retentionObj.provinceSelected) {
+      this.localProvinceSelected = Object.cloneDeep(this.retentionObj.provinceSelected);
+    }
+    this.query();
   },
   methods: {
     provinceChange(val) {
@@ -65,10 +68,10 @@ export default {
       let provinceNames = provinces.map(val => val.value);
 
       // 是否点击全部
-      let isNotClickAll = this.localProvinceSelected.some(val => val === null) === isSelectedAll;
+      let isClickAll = !(this.localProvinceSelected.some(val => val === null) === isSelectedAll);
 
       // 选择全部，且子选项未全选
-      if (!isNotClickAll) {
+      if (isClickAll) {
         if (val.length !== provinceNames.length) {
           this.retentionObj.provinceSelected = provinceNames;
           this.retentionObj.provinceSelected.push(null);
@@ -83,9 +86,6 @@ export default {
         }
       }
       this.localProvinceSelected = Object.cloneDeep(this.retentionObj.provinceSelected);
-    },
-    clientChange() {
-
     },
     query() {
       this.getRetentionLossUser();

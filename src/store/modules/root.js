@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { SIDEBAR_DATA } from '@/config';
+import { MENU_PERMISSIONS } from '@/config';
 
 const state = {
   province: [],
@@ -8,7 +8,7 @@ const state = {
     path: ''
   },
   currentUser: {
-    menuList: Object.cloneDeep(SIDEBAR_DATA),
+    menuList: [],
     operator: {
       code: '',
       provinces: []
@@ -43,10 +43,9 @@ const mutations = {
   },
   [types.CURRENT_USER_GET_INFO](state, data) {
     let menuIds = [];
-    let sidebars = Object.cloneDeep(SIDEBAR_DATA);
+    let sidebars = Object.cloneDeep(MENU_PERMISSIONS);
     const provinces = data.secOperatorDTO.provinces.split(',');
 
-    state.currentUser.menuList = Object.cloneDeep(SIDEBAR_DATA);
     state.currentUser.operator.code = data.secOperatorDTO.code;
 
     // 用户拥有的菜单权限
@@ -57,16 +56,16 @@ const mutations = {
       });
     });
     menuIds.map(val => {
-      for (let x in sidebars) {
-        if (Number(sidebars[x].menuId) === Number(val)) {
-          sidebars[x].enable = true;
+      sidebars.map(cval => {
+        if (Number(cval.menuId) === Number(val)) {
+          cval.enable = true;
         }
-        sidebars[x].children && sidebars[x].children.map(gval => {
+        cval.children && cval.children.map(gval => {
           if (Number(gval.menuId) === Number(val)) {
             gval.enable = true;
           }
         });
-      }
+      });
     });
     state.currentUser.menuList = sidebars;
     // 用户拥有的省份权限

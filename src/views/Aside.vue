@@ -5,7 +5,7 @@
         <i :class="item.icon"></i>
         <span slot="title">{{item.name}}</span>
       </el-menu-item>
-      <el-submenu v-else :index="i">
+      <el-submenu v-else :index="String(i)">
         <template slot="title">
           <i :class="item.icon"></i>
           <span slot="title">{{item.name}}</span>
@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import { SIDEBAR_DATA } from '../config/index.js';
+// import { SIDEBAR_DATA } from '../config/index.js';
 import { mapGetters, mapState } from 'vuex';
 export default {
   data() {
     return {
-      SIDEBAR_DATA
+      // SIDEBAR_DATA
     };
   },
   computed: {

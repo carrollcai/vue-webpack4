@@ -5,17 +5,15 @@
         <el-form-item class="normalize-form-item">省份：</el-form-item>
         <el-form-item class="normalize-form-item" prop="provinceSelected">
           <el-select v-if="currentUser.operator.provinces.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
-            <el-option :key="null" label="全部" :value="null"></el-option>
-            <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value">
-            </el-option>
+            <el-option v-if="currentUser.operator.provinces.length > 1" :key="null" label="全部" :value="null" />
+            <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
-
       </div>
       <div class="active-search__client">
         <el-form-item class="normalize-form-item">客户端：</el-form-item>
         <el-form-item class="normalize-form-item" prop="clientSelected">
-          <el-select v-if="client.length" v-model="activeObj.clientSelected" placeholder="请选择" @change="clientChange">
+          <el-select v-if="client.length" v-model="activeObj.clientSelected" placeholder="请选择">
             <el-option v-for="item in client" :key="item.value" :label="item.value" :value="item.value">
             </el-option>
           </el-select>
@@ -60,37 +58,39 @@ export default {
     })
   },
   beforeMount() {
-    // this.provinceSelected
+    if (this.activeObj.provinceSelected) {
+      this.localProvinceSelected = Object.cloneDeep(this.activeObj.provinceSelected);
+    }
     this.query();
   },
   methods: {
     provinceChange(val) {
+      debugger;
       const { provinces } = this.currentUser.operator;
-      let isSelectedAll = val.some(val => val === null);
+      let isExistAll = val.some(val => val === null);
       let provinceNames = provinces.map(val => val.value);
 
       // 是否点击全部
-      let isNotClickAll = this.localProvinceSelected.some(val => val === null) === isSelectedAll;
+      let isClickAll = !(isExistAll === this.localProvinceSelected.some(val => val === null));
 
-      // 选择全部，且子选项未全选
-      if (!isNotClickAll) {
+      // 点击全部
+      if (isClickAll) {
+        // 子选项未全选
         if (val.length !== provinceNames.length) {
           this.activeObj.provinceSelected = provinceNames;
           this.activeObj.provinceSelected.push(null);
         } else {
+          // 子选项已全选
           this.activeObj.provinceSelected = [];
         }
       } else {
-        if (!isSelectedAll && val.length === provinceNames.length) {
+        if (!isExistAll && val.length === provinceNames.length) {
           this.activeObj.provinceSelected.push(null);
         } else {
           this.activeObj.provinceSelected = this.activeObj.provinceSelected.filter(val => val !== null);
         }
       }
       this.localProvinceSelected = Object.cloneDeep(this.activeObj.provinceSelected);
-    },
-    clientChange() {
-
     },
     query() {
       const { activeObj } = this;
