@@ -105,3 +105,23 @@ export const textareaLimit = (rule, value, callback) => {
     callback();
   }
 };
+
+/**
+* 时间验证
+* @param {String} effectiveDate
+* @param {String} expireDate
+* @param {Function} callback
+*/
+export const startDateBeforeEndDate = (effectiveDate, expireDate, callback) => {
+  if (effectiveDate && expireDate) {
+    const at = new Date(effectiveDate);
+    const et = new Date(expireDate);
+    if (at.getTime() > et.getTime()) {
+      callback(new Error('开始时间不能大于结束时间'));
+    } else {
+      callback();
+    }
+  } else {
+    callback();
+  }
+};

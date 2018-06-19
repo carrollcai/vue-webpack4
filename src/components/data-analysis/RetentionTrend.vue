@@ -8,8 +8,14 @@
             <el-form-item class="normalize-form-item">
               查询：
             </el-form-item>
-            <el-form-item prop="date" class="normalize-form-item">
-              <el-date-picker type="daterange" placeholder="选择日期" v-model="retTrend.date" :editable="false" @change="query" format="yyyy-MM" />
+            <el-form-item class="normalize-form-item" prop="checkDate">
+              <el-form-item class="normalize-form-item float-left" prop="startDate">
+                <el-date-picker type="month" placeholder="选择开始日期" v-model="retTrend.startDate" @change="triggerValidate()" />
+              </el-form-item>
+              <span class="date-connect-line float-left">-</span>
+              <el-form-item class="normalize-form-item float-left" prop="endDate">
+                <el-date-picker type="month" placeholder="选择结束日期" v-model="retTrend.endDate" @change="triggerValidate()" />
+              </el-form-item>
             </el-form-item>
           </el-form>
         </div>
@@ -63,7 +69,7 @@ import LineChart from 'components/chart/Line.vue';
 import { RETENTION_TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
-// import { timeRange } from '@/utils/rules';
+import { startDateBeforeEndDate } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -71,12 +77,23 @@ export default {
     WmTable
   },
   data() {
+    const checkDate = (rule, value, callback) => {
+      const { startDate, endDate } = this.retTrend;
+      if (startDate && endDate) {
+        startDateBeforeEndDate(startDate, endDate, callback);
+      }
+    };
     return {
       trendRadio: RETENTION_TREND_RADIO,
       retTrendTrendRules: {
-        date: [
-          { required: true, message: '请选择时间范围', trigger: 'change' }
-          // { validator: timeRange, trigger: 'change' }
+        startDate: [
+          { required: true, message: '请选择开始时间', trigger: 'change' }
+        ],
+        endDate: [
+          { required: true, message: '请选择结束范围', trigger: 'change' }
+        ],
+        checkDate: [
+          { validator: checkDate, trigger: 'change' }
         ]
       }
     };
@@ -90,6 +107,11 @@ export default {
   beforeMount() {
   },
   methods: {
+    triggerValidate() {
+      if (this.retTrend.startDate && this.retTrend.endDate) {
+        this.query();
+      }
+    },
     changeRadio(val) {
       // 留存用户流失率
       this.updateRetTrendList({ chartRadio: val });

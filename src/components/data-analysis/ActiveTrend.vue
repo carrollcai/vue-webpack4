@@ -13,9 +13,19 @@
             <el-form-item class="normalize-form-item">
               查询：
             </el-form-item>
-            <el-form-item prop="date" class="normalize-form-item">
-              <el-date-picker v-if="trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" format="yyyy-MM" />
-              <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
+            <el-form-item v-if="!trend.dateType" prop="date" class="normalize-form-item">
+              <el-date-picker type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
+              <!-- <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" /> -->
+            </el-form-item>
+
+            <el-form-item v-if="trend.dateType" class="normalize-form-item" prop="checkDate">
+              <el-form-item class="normalize-form-item float-left" prop="startDate">
+                <el-date-picker type="month" placeholder="选择开始日期" v-model="trend.startDate" @change="triggerValidate()" />
+              </el-form-item>
+              <span class="date-connect-line float-left">-</span>
+              <el-form-item class="normalize-form-item float-left" prop="endDate">
+                <el-date-picker type="month" placeholder="选择结束日期" v-model="trend.endDate" @change="triggerValidate()" />
+              </el-form-item>
             </el-form-item>
           </div>
           <div class="trend-header-divider">
@@ -70,6 +80,7 @@ import LineChart from 'components/chart/Line.vue';
 import { TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
+import { startDateBeforeEndDate } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -78,12 +89,27 @@ export default {
     LineChart
   },
   data() {
+    const checkDate = (rule, value, callback) => {
+      const { startDate, endDate } = this.trend;
+      if (startDate && endDate) {
+        startDateBeforeEndDate(startDate, endDate, callback);
+      }
+    };
     return {
       trendRadio: TREND_RADIO,
       mobileIpArr: ['移动IP用户', '非移动IP用户'],
       activeTrendRules: {
         date: [
           { required: true, message: '请选择时间范围', trigger: 'change' }
+        ],
+        startDate: [
+          { required: true, message: '请选择开始时间', trigger: 'change' }
+        ],
+        endDate: [
+          { required: true, message: '请选择结束范围', trigger: 'change' }
+        ],
+        checkDate: [
+          { validator: checkDate, trigger: 'change' }
         ]
       }
     };
@@ -99,6 +125,11 @@ export default {
   beforeMount() {
   },
   methods: {
+    triggerValidate() {
+      if (this.trend.startDate && this.trend.endDate) {
+        this.query();
+      }
+    },
     newMembersFields() {
       return this.members.map(val => val.item);
     },

@@ -73,13 +73,17 @@ export default {
   getMembersAPI: API('/esop/analysisReport/queryPDNNs'),
   // 分省日活跃用户数
   getDailyActiveUserAPI: API('/esop/analysisReport/queryPDARs'),
+  // 按月分省日活跃用户数
+  getMonthDailyActiveUserAPI: API('/esop/analysisReport/queryMANs'),
 
   // 活跃度分析日活跃数查询
   getTrendListAPI: API('/esop/analysisReport/queryPDARs'),
+  // 活跃度分析月活跃数查询
+  getMonthTrendListAPI: API('/esop/analysisReport/queryMANs'),
   // 活跃度分析新增会员查询
   getTrendNewMembersAPI: API('/esop/analysisReport/queryPDNNs'),
 
-  // 各省日活跃用户情况
+  // 各省日活跃用户情况，按月份查询
   getProvinceUserAPI: API('/esop/analysisReport/queryPDARs'),
 
   // 月留存流失

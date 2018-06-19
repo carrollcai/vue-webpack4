@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { nowDay, sevenDaysAgo, nowMonth, halfYearsAgo } from '@/utils/helper';
+import { nowDay, sevenDaysAgo, nowMonth } from '@/utils/helper';
 
 const state = {
   // client: [],
@@ -22,6 +22,8 @@ const state = {
   trend: {
     dateType: 0,
     date: [new Date(sevenDaysAgo), new Date(nowDay)],
+    startDate: new Date(nowMonth),
+    endDate: new Date(nowMonth),
     mode: 0,
     chartRadio: 0
   },
@@ -29,7 +31,8 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
-    date: [new Date(sevenDaysAgo), new Date(nowDay)]
+    startDate: new Date(nowMonth),
+    endDate: new Date(nowMonth)
   },
   provinceUserList: [],
   // 中国地图数据
@@ -47,7 +50,8 @@ const state = {
     lossUser: 1
   },
   retTrend: {
-    date: '',
+    startDate: new Date(nowMonth),
+    endDate: new Date(nowMonth),
     mode: 0,
     chartRadio: 0
   },
@@ -83,7 +87,6 @@ const mutations = {
       });
       return val;
     });
-    // console.log(state.trendList);
 
     data.map(val => {
       let flag = false;
@@ -199,12 +202,12 @@ const mutations = {
     }
   },
   [types.ACTIVE_INIT_DATE](state, data) {
-    // if (!state.trend.date) return false;
-    if (!state.trend.dateType) {
-      state.trend.date = [new Date(sevenDaysAgo), new Date(nowDay)];
-    } else {
-      state.trend.date = [new Date(halfYearsAgo), new Date(nowMonth)];
-    }
+    state.trend.date = [new Date(sevenDaysAgo), new Date(nowDay)];
+    // if (!state.trend.dateType) {
+    //   state.trend.date = [new Date(sevenDaysAgo), new Date(nowDay)];
+    // } else {
+    //   state.trend.date = [new Date(halfYearsAgo), new Date(nowMonth)];
+    // }
   }
 };
 

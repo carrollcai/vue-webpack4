@@ -4,9 +4,17 @@
       <div class="trend-header-title">各省日活跃用户情况</div>
       <el-form ref="provinceUserForm" :model="provinceUser" :rules="provinceUserRules" class="flex">
         <el-form-item class="normalize-form-item">查询：</el-form-item>
-        <el-form-item class="normalize-form-item" prop="date">
-          <el-date-picker type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" @change="query" />
+
+        <el-form-item class="normalize-form-item" prop="checkDate">
+          <el-form-item class="normalize-form-item float-left" prop="startDate">
+            <el-date-picker type="month" placeholder="选择开始日期" v-model="provinceUser.startDate" @change="triggerValidate()" />
+          </el-form-item>
+          <span class="date-connect-line float-left">-</span>
+          <el-form-item class="normalize-form-item float-left" prop="endDate">
+            <el-date-picker type="month" placeholder="选择结束日期" v-model="provinceUser.endDate" @change="triggerValidate()" />
+          </el-form-item>
         </el-form-item>
+
       </el-form>
     </div>
     <div class="province-user-chart">
@@ -22,6 +30,7 @@
 import { mapState, mapActions } from 'vuex';
 import Map from 'components/chart/Map.vue';
 import ActiveProvinceUserRank from 'components/data-analysis/ActiveProvinceUserRank.vue';
+import { startDateBeforeEndDate } from '@/utils/rules.js';
 export default {
   components: {
     Map,
@@ -34,18 +43,32 @@ export default {
     })
   },
   data() {
+    const checkDate = (rule, value, callback) => {
+      const { startDate, endDate } = this.provinceUser;
+      if (startDate && endDate) {
+        startDateBeforeEndDate(startDate, endDate, callback);
+      }
+    };
     return {
       provinceUserRules: {
-        date: [
-          { required: true, message: '请选择时间范围', trigger: 'change' }
+        startDate: [
+          { required: true, message: '请选择开始时间', trigger: 'change' }
+        ],
+        endDate: [
+          { required: true, message: '请选择结束范围', trigger: 'change' }
+        ],
+        checkDate: [
+          { validator: checkDate, trigger: 'change' }
         ]
       }
     };
   },
-  beforeMount() {
-    // this.getProvinceUser();
-  },
   methods: {
+    triggerValidate() {
+      if (this.provinceUser.startDate && this.provinceUser.endDate) {
+        this.query();
+      }
+    },
     query() {
       this.$refs['provinceUserForm'].validate(valid => {
         if (valid) {

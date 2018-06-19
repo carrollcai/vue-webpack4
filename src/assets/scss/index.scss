@@ -26,3 +26,14 @@
 .normalize-form-item {
   margin-bottom: 0;
 }
+
+.date-connect-line {
+  line-height: 32px;
+  margin: 0 8px;
+}
+.form-item__input {
+  width: $inputWidthQuery;
+}
+.float-left {
+  float: left;
+}

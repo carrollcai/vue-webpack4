@@ -6,17 +6,28 @@ import moment from 'moment';
 const actions = {
   getDailyActiveUser: ({ commit, state }, params) => {
     const req = activeReq(state);
-
-    return API.getDailyActiveUserAPI(req).then(res => {
-      commit(types.ACTIVE_GET_DAILY_USER, res.data.reportList);
-    });
+    if (req.dateType) {
+      return API.getMonthDailyActiveUserAPI(req).then(res => {
+        commit(types.ACTIVE_GET_DAILY_USER, res.data.reportList);
+      });
+    } else {
+      return API.getDailyActiveUserAPI(req).then(res => {
+        commit(types.ACTIVE_GET_DAILY_USER, res.data.reportList);
+      });
+    }
   },
   getTrendList: ({ commit, state }, params) => {
     const req = activeTrendReq(state);
-
-    return API.getTrendListAPI(req).then(res => {
-      commit(types.TREND_GET_LIST, res.data.reportList);
-    });
+    // 按月查询
+    if (req.dateType) {
+      return API.getMonthTrendListAPI(req).then(res => {
+        commit(types.TREND_GET_LIST, res.data.reportList);
+      });
+    } else {
+      return API.getTrendListAPI(req).then(res => {
+        commit(types.TREND_GET_LIST, res.data.reportList);
+      });
+    }
   },
   getTrendNewMembers: ({ commit, state }, params) => {
     const req = activeTrendReq(state);
@@ -57,13 +68,12 @@ const actions = {
       commit(types.RETENTION_GET_USER, res.data.reportList);
     });
   },
+
   getRetTrendList: ({ commit, state }, params) => {
     const req = {};
     const { retentionObj, retTrend } = state.dataAnalysis;
-    if (retTrend.date.length) {
-      req.beginDate = moment(retTrend.date[0]).format('YYYY-MM') + '-01';
-      req.endDate = moment(retTrend.date[1]).format('YYYY-MM') + '-01';
-    }
+    req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
+    req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
     req.clientType = retentionObj.clientSelected;
     req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : null;
 
@@ -77,6 +87,7 @@ const actions = {
 function activeReq(state) {
   const req = {};
   const { activeObj } = state.dataAnalysis;
+  req.dateType = activeObj.dateType;
   req.beginDate = twoDaysAgo;
   req.endDate = !activeObj.dateType ? twoDaysAgo : oneMonthAgo;
   req.clientType = activeObj.clientSelected;
@@ -90,13 +101,13 @@ function activeTrendReq(state) {
   if (trend.date.length) {
     let beginDate, endDate;
     if (trend.dateType) {
-      beginDate = moment(trend.date[0]).format('YYYY-MM') + '-01';
-      endDate = moment(trend.date[1]).format('YYYY-MM') + '-01';
+      beginDate = moment(trend.startDate).format('YYYY-MM') + '-01';
+      endDate = moment(trend.endDate).format('YYYY-MM') + '-01';
     } else {
       beginDate = moment(trend.date[0]).format('YYYY-MM-DD');
       endDate = moment(trend.date[1]).format('YYYY-MM-DD');
     }
-
+    req.dateType = trend.dateType;
     req.beginDate = beginDate;
     req.endDate = endDate;
   }
@@ -108,10 +119,8 @@ function activeTrendReq(state) {
 function activeProvinceUserReq(state) {
   const req = {};
   const { provinceUser, activeObj } = state.dataAnalysis;
-  if (provinceUser.date.length) {
-    req.beginDate = moment(provinceUser.date[0]).format('YYYY-MM-DD');
-    req.endDate = moment(provinceUser.date[1]).format('YYYY-MM-DD');
-  }
+  req.beginDate = moment(provinceUser.startDate).format('YYYY-MM') + '-01';
+  req.endDate = moment(provinceUser.endDate).format('YYYY-MM') + '-01';
   req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
   req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
