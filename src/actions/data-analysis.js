@@ -40,8 +40,6 @@ const actions = {
   getProvinceUser: ({ commit, state }, params) => {
     const req = activeProvinceUserReq(state);
 
-    // const data = { 'errorInfo': { 'message': '请求成功', 'code': '200' }, 'data': { 'total': 15, 'reportList': [{ 'periodId': '2018-06-12', 'province': '江苏', 'clientType': '咪咕阅读', 'activeNum': 4440, 'msisdnNum': 2775, 'chinaMobileIpNum': 1665, 'otherIpNum': 555 }, { 'periodId': '2018-06-12', 'province': '浙江', 'clientType': '咪咕阅读', 'activeNum': 4440, 'msisdnNum': 2775, 'chinaMobileIpNum': 1665, 'otherIpNum': 555 }, { 'periodId': '2018-06-12', 'province': '天津', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '福建', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '山西', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '海南', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '辽宁', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '北京', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '黑龙江', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '四川', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '云南', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '陕西', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '吉林', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '河北', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }, { 'periodId': '2018-06-12', 'province': '广西', 'clientType': '咪咕阅读', 'activeNum': 888, 'msisdnNum': 555, 'chinaMobileIpNum': 333, 'otherIpNum': 111 }] } };
-
     return API.getProvinceUserAPI(req).then(res => {
       commit(types.PROVINCE_GET_USER, res.data.reportList);
     });
@@ -53,7 +51,7 @@ const actions = {
     req.beginDate = oneMonthAgo;
     req.endDate = oneMonthAgo;
     req.clientType = retentionObj.clientSelected;
-    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected : null;
+    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : null;
 
     return API.getRetentionLossUserAPI(req).then(res => {
       commit(types.RETENTION_GET_USER, res.data.reportList);
@@ -67,7 +65,7 @@ const actions = {
       req.endDate = moment(retTrend.date[1]).format('YYYY-MM') + '-01';
     }
     req.clientType = retentionObj.clientSelected;
-    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected : null;
+    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : null;
 
     return API.getRetentionLossUserAPI(req).then(res => {
       commit(types.RETENTION_GET_TREND_LIST, res.data.reportList);
@@ -82,7 +80,7 @@ function activeReq(state) {
   req.beginDate = twoDaysAgo;
   req.endDate = !activeObj.dateType ? twoDaysAgo : oneMonthAgo;
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected : null;
+  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
   return req;
 }
 
@@ -103,7 +101,7 @@ function activeTrendReq(state) {
     req.endDate = endDate;
   }
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected : null;
+  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
   return req;
 }
 
@@ -116,7 +114,7 @@ function activeProvinceUserReq(state) {
   }
   req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected : null;
+  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
   return req;
 }
 
