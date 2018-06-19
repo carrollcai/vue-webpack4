@@ -22,7 +22,6 @@
           </el-select>
         </el-form-item>
         <!-- 省份这里需要做key的处理 -->
-        {{userCreate.provinces}}
         <!-- 指定key为null或者0，会报错。选择 collapse-tags就没问题。解决方式改为null字符串 -->
         <el-form-item label="省份权限：" prop="province">
           <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.provinces" placeholder="请选择" multiple @change="provinceChange">
