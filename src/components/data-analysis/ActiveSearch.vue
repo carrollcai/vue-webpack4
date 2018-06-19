@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     provinceChange(val) {
-      debugger;
       const { provinces } = this.currentUser.operator;
       let isExistAll = val.some(val => val === null);
       let provinceNames = provinces.map(val => val.value);
