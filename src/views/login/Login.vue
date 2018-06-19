@@ -25,7 +25,7 @@
           <login-input type="text" v-model="loginName" placeholder="账号" @focus="clearError"></login-input>
         </div>
         <div class="input-wrapper">
-          <login-input type="password" v-model="pwd" placeholder="密码" @focus="clearError"></login-input>
+          <login-input type="password" v-model="pwd" placeholder="密码" @focus="clearError" @keyup="handleLogin"></login-input>
         </div>
         <div class="error-msg" v-if="!!errorMsg">
           {{errorMsg}}

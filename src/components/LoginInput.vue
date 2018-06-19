@@ -11,6 +11,7 @@
       ref="loginInput"
       @focus="handleFocus"
       @blur="handleBlur"
+      @keyup.enter.native="handleKeyup"
     >
     </el-input>
   </div>
@@ -75,6 +76,9 @@ export default {
 
     handleBlur() {
       this.$emit('blur');
+    },
+    handleKeyup() {
+      this.$emit('keyup');
     }
   },
   created() {
