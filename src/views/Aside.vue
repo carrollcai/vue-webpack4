@@ -19,14 +19,8 @@
 </template>
 
 <script>
-// import { SIDEBAR_DATA } from '../config/index.js';
 import { mapGetters, mapState } from 'vuex';
 export default {
-  data() {
-    return {
-      // SIDEBAR_DATA
-    };
-  },
   computed: {
     ...mapGetters([
       'getActiveNav'
@@ -34,11 +28,6 @@ export default {
     ...mapState({
       currentUser: ({ root }) => root.currentUser
     })
-  },
-  beforeMount() {
-    console.log(this.currentUser);
-  },
-  methods: {
   }
 };
 </script>

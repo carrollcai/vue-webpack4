@@ -18,6 +18,7 @@ const state = {
     newMembers: 1
   },
   members: [],
+  membersList: [],
   // 第二模块
   trend: {
     dateType: 0,
@@ -31,8 +32,7 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
-    startDate: new Date(nowMonth),
-    endDate: new Date(nowMonth)
+    date: [new Date(sevenDaysAgo), new Date(nowDay)]
   },
   provinceUserList: [],
   // 中国地图数据
@@ -78,6 +78,7 @@ const mutations = {
   },
   [types.TREND_GET_NEW_MEMBERS](state, data) {
     let uniqueMembers = [];
+    let membersList = [];
     // 将新增会员用户添加到表格里
     state.trendList = state.trendList.map(val => {
       data.map(cval => {
@@ -87,6 +88,21 @@ const mutations = {
       });
       return val;
     });
+
+    // 查询重新生成新的会员名称
+    data.map(val => {
+      let flag = false;
+      membersList.map(cval => {
+        if (cval.item === val.memberType) {
+          flag = true;
+        }
+      });
+      if (flag) return false;
+      membersList.push({
+        item: val.memberType
+      });
+    });
+    state.membersList = membersList;
 
     data.map(val => {
       let flag = false;

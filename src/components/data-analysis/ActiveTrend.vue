@@ -119,7 +119,7 @@ export default {
       trend: ({ dataAnalysis }) => dataAnalysis.trend,
       trendList: ({ dataAnalysis }) => dataAnalysis.trendList,
       trendNewMembers: ({ dataAnalysis }) => dataAnalysis.trendNewMembers,
-      members: ({ dataAnalysis }) => dataAnalysis.members
+      membersList: ({ dataAnalysis }) => dataAnalysis.membersList
     })
   },
   beforeMount() {
@@ -131,7 +131,7 @@ export default {
       }
     },
     newMembersFields() {
-      return this.members.map(val => val.item);
+      return this.membersList.map(val => val.item);
     },
     addFieldsTrendList() {
       return this.trendList.map(val => {

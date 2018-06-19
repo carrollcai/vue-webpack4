@@ -80,8 +80,11 @@ export default {
   getTrendListAPI: API('/esop/analysisReport/queryPDARs'),
   // 活跃度分析月活跃数查询
   getMonthTrendListAPI: API('/esop/analysisReport/queryMANs'),
+
   // 活跃度分析新增会员查询
   getTrendNewMembersAPI: API('/esop/analysisReport/queryPDNNs'),
+  // 活跃度分析新增会员查询，按月查询
+  getTrendNewMembersMonthAPI: API('/esop/analysisReport/queryMNANs'),
 
   // 各省日活跃用户情况，按月份查询
   getProvinceUserAPI: API('/esop/analysisReport/queryPDARs'),

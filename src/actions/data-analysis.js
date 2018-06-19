@@ -31,11 +31,18 @@ const actions = {
   },
   getTrendNewMembers: ({ commit, state }, params) => {
     const req = activeTrendReq(state);
-
-    return API.getTrendNewMembersAPI(req).then(res => {
-      commit(types.TREND_GET_NEW_MEMBERS, res.data.reportList);
-    });
+    // 按月查询
+    if (req.dateType) {
+      return API.getTrendNewMembersMonthAPI(req).then(res => {
+        commit(types.TREND_GET_NEW_MEMBERS, res.data.reportList);
+      });
+    } else {
+      return API.getTrendNewMembersAPI(req).then(res => {
+        commit(types.TREND_GET_NEW_MEMBERS, res.data.reportList);
+      });
+    }
   },
+
   getMembers: ({ commit, state }, params) => {
     const req = activeReq(state);
 
@@ -119,8 +126,10 @@ function activeTrendReq(state) {
 function activeProvinceUserReq(state) {
   const req = {};
   const { provinceUser, activeObj } = state.dataAnalysis;
-  req.beginDate = moment(provinceUser.startDate).format('YYYY-MM') + '-01';
-  req.endDate = moment(provinceUser.endDate).format('YYYY-MM') + '-01';
+  if (provinceUser.date.length) {
+    req.beginDate = moment(provinceUser.date[0]).format('YYYY-MM-DD');
+    req.endDate = moment(provinceUser.date[1]).format('YYYY-MM-DD');
+  }
   req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
   req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
