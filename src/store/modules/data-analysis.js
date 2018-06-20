@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { nowDay, sevenDaysAgo, nowMonth } from '@/utils/helper';
+import { oneMonthAgo, nineDaysAgo, twoDaysAgo, sixMonthsAgo } from '@/utils/helper';
 
 const state = {
   // client: [],
@@ -22,9 +22,9 @@ const state = {
   // 第二模块
   trend: {
     dateType: 0,
-    date: [new Date(sevenDaysAgo), new Date(nowDay)],
-    startDate: new Date(nowMonth),
-    endDate: new Date(nowMonth),
+    date: [new Date(nineDaysAgo), new Date(twoDaysAgo)],
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
     mode: 0,
     chartRadio: 0
   },
@@ -32,7 +32,7 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
-    date: [new Date(sevenDaysAgo), new Date(nowDay)]
+    date: [new Date(nineDaysAgo), new Date(twoDaysAgo)]
   },
   provinceUserList: [],
   // 中国地图数据
@@ -50,8 +50,8 @@ const state = {
     lossUser: 0
   },
   retTrend: {
-    startDate: new Date(nowMonth),
-    endDate: new Date(nowMonth),
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
     mode: 0,
     chartRadio: 0
   },
@@ -200,7 +200,7 @@ const mutations = {
     }
   },
   [types.ACTIVE_INIT_DATE](state, data) {
-    state.trend.date = [new Date(sevenDaysAgo), new Date(nowDay)];
+    // state.trend.date = [new Date(nineDaysAgo), new Date(twoDaysAgo)];
   }
 };
 
