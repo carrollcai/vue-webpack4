@@ -79,15 +79,6 @@ const mutations = {
   [types.TREND_GET_NEW_MEMBERS](state, data) {
     let uniqueMembers = [];
     let membersList = [];
-    // 将新增会员用户添加到表格里
-    state.trendList = state.trendList.map(val => {
-      data.map(cval => {
-        if (val.periodId === cval.periodId) {
-          val.newMembersNum = cval.newMembersNum;
-        }
-      });
-      return val;
-    });
 
     // 查询重新生成新的会员名称
     data.map(val => {
@@ -136,16 +127,8 @@ const mutations = {
         });
         break;
       case 2:
-        // state.trendList = state.trendList.map(val => {
-        //   val.value = parseInt(val.mobileIp);
-        //   return val;
-        // });
         break;
       case 3:
-        // state.trendList = state.trendList.map(val => {
-        //   val.value = parseInt(val.newMembers);
-        //   return val;
-        // });
         break;
       default:
         console.error('类型不支持');
@@ -218,11 +201,6 @@ const mutations = {
   },
   [types.ACTIVE_INIT_DATE](state, data) {
     state.trend.date = [new Date(sevenDaysAgo), new Date(nowDay)];
-    // if (!state.trend.dateType) {
-    //   state.trend.date = [new Date(sevenDaysAgo), new Date(nowDay)];
-    // } else {
-    //   state.trend.date = [new Date(halfYearsAgo), new Date(nowMonth)];
-    // }
   }
 };
 
