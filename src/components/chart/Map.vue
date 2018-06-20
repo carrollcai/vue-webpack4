@@ -20,7 +20,7 @@ export default {
   props: {
     charData: {
       type: Array,
-      default: function () {
+      default: () => {
         return [];
       }
     },

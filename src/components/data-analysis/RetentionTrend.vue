@@ -69,7 +69,7 @@ import LineChart from 'components/chart/Line.vue';
 import { RETENTION_TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
-import { startDateBeforeEndDate } from '@/utils/rules.js';
+import { startDateBeforeEndDate, monthRange } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -83,6 +83,12 @@ export default {
         startDateBeforeEndDate(startDate, endDate, callback);
       }
     };
+    const checkRangeDate = (rule, value, callback) => {
+      const { startDate, endDate } = this.retTrend;
+      if (startDate && endDate) {
+        monthRange(startDate, endDate, callback);
+      }
+    };
     return {
       trendRadio: RETENTION_TREND_RADIO,
       retTrendTrendRules: {
@@ -93,7 +99,8 @@ export default {
           { required: true, message: '请选择结束范围', trigger: 'change' }
         ],
         checkDate: [
-          { validator: checkDate, trigger: 'change' }
+          { validator: checkDate, trigger: 'change' },
+          { validator: checkRangeDate, trigger: 'change' }
         ]
       }
     };

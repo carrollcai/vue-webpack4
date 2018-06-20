@@ -9,7 +9,7 @@ import {
   MONTH_LIMIT,
   INPUT_TEXT_LIMIT,
   INPUT_TEXTAREA_LIMIT
-} from '../config';
+} from '@/config';
 import moment from 'moment';
 
 // 输入内容不能为空格
@@ -52,7 +52,7 @@ export const maxLimit = (rule, value, callback) => {
 
 // 时间段校校验
 // 两种形式，日时间段和月时间段，日时间段不得超过1个月，月时间段不得超过12个月
-export const timeRange = (rule, value, callback) => {
+export const dateRange = (rule, value, callback) => {
   // 按日
   const startDate = value[0].getTime();
   const endDate = value[1].getTime();
@@ -62,8 +62,10 @@ export const timeRange = (rule, value, callback) => {
   } else {
     callback();
   }
+};
 
-  // 按月
+// 月时间校验
+export const monthRange = (startDate, endDate, callback) => {
   const startDatefFormat = moment(startDate).format('YYYY-MM');
   const endDatefFormat = moment(endDate).format('YYYY-MM');
   const startArr = startDatefFormat.split('-');
@@ -72,7 +74,7 @@ export const timeRange = (rule, value, callback) => {
   if (parseInt(endArr[0] - startArr[0]) > 1) {
     callback(new Error(`时间跨度不能超过${MONTH_LIMIT}月`));
   } else if (parseInt(endArr[0] - startArr[0]) === 1) {
-    if (parseInt(endArr[1] - startArr[0]) < 0) {
+    if (parseInt(endArr[1] - startArr[1]) > 0) {
       callback(new Error(`时间跨度不能超过${MONTH_LIMIT}月`));
     } else {
       callback();

@@ -88,7 +88,7 @@ import LineChart from 'components/chart/Line.vue';
 import { TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
-import { startDateBeforeEndDate } from '@/utils/rules.js';
+import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -103,12 +103,19 @@ export default {
         startDateBeforeEndDate(startDate, endDate, callback);
       }
     };
+    const checkRangeDate = (rule, value, callback) => {
+      const { startDate, endDate } = this.trend;
+      if (startDate && endDate) {
+        monthRange(startDate, endDate, callback);
+      }
+    };
     return {
       trendRadio: TREND_RADIO,
       mobileIpArr: ['移动IP用户', '非移动IP用户'],
       activeTrendRules: {
         date: [
-          { required: true, message: '请选择时间范围', trigger: 'change' }
+          { required: true, message: '请选择时间范围', trigger: 'change' },
+          { validator: dateRange, trigger: 'change' }
         ],
         startDate: [
           { required: true, message: '请选择开始时间', trigger: 'change' }
@@ -117,7 +124,8 @@ export default {
           { required: true, message: '请选择结束范围', trigger: 'change' }
         ],
         checkDate: [
-          { validator: checkDate, trigger: 'change' }
+          { validator: checkDate, trigger: 'change' },
+          { validator: checkRangeDate, trigger: 'change' }
         ]
       }
     };

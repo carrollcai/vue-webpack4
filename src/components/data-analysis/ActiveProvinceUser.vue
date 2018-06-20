@@ -5,7 +5,7 @@
       <el-form ref="provinceUserForm" :model="provinceUser" :rules="provinceUserRules" class="flex">
         <el-form-item class="normalize-form-item">查询：</el-form-item>
 
-       <el-form-item class="normalize-form-item" prop="date">
+        <el-form-item class="normalize-form-item" prop="date">
           <el-date-picker type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" @change="query" />
         </el-form-item>
 
@@ -27,6 +27,8 @@
 import { mapState, mapActions } from 'vuex';
 import Map from 'components/chart/Map.vue';
 import ActiveProvinceUserRank from 'components/data-analysis/ActiveProvinceUserRank.vue';
+import { dateRange } from '@/utils/rules.js';
+
 export default {
   components: {
     Map,
@@ -42,7 +44,8 @@ export default {
     return {
       provinceUserRules: {
         date: [
-          { required: true, message: '请选择时间范围', trigger: 'change' }
+          { required: true, message: '请选择时间范围', trigger: 'change' },
+          { validator: dateRange, trigger: 'change' }
         ]
       }
     };
