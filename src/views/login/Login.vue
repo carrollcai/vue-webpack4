@@ -11,9 +11,6 @@
           <li><i class="list-icon"></i>集团客户信息共享，便捷可靠</li>
           <li><i class="list-icon"></i>订单跟踪管理，高效清晰</li>
         </ul>
-        <div class="desc-btn">
-          立即体验
-        </div>
       </div>
     </div>
     <div class="login-form">
@@ -166,17 +163,6 @@ $padding-left: 46px;
         }
       }
     }
-  }
-
-  .desc-btn{
-    width: 267px;
-    height: 40px;
-    line-height: 40px;
-    color: #FFFFFF;
-    text-align: center;
-    border-radius: 3px;
-    border: 1px solid rgba(255, 255, 255, 0.56);
-    margin-top: 32px;
   }
 
   .login-form{
