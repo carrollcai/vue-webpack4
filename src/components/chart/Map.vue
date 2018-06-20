@@ -20,7 +20,7 @@ export default {
   props: {
     charData: {
       type: Array,
-      default: function() {
+      default: function () {
         return [];
       }
     },
@@ -104,11 +104,12 @@ export default {
           // alias: '每100位女性对应的男性数量'
         }
       });
-      userView.polygon().position('longitude*latitude').opacity('value').tooltip('name*trend').animate({
+      userView.polygon().position('longitude*latitude').opacity('value').tooltip('name*value').animate({
         leave: {
           animation: 'fadeOut'
         }
       }).color('value', colorRange);
+
       this.chart.render();
     }
   }
