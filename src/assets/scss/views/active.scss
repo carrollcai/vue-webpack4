@@ -86,7 +86,7 @@
   align-items: center;
 }
 .trend-chart {
-  // margin-top: $formWidth;
+  height: 100%;
 }
 .trend-header {
   display: flex;
@@ -123,6 +123,7 @@
   align-items: center;
 }
 .province-user-chart {
+  height: 518px;
   display: flex;
   justify-content: space-between;
   align-items: center;

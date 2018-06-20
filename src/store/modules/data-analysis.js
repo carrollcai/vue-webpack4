@@ -11,11 +11,11 @@ const state = {
   },
   // 第一模块
   dailyUser: {
-    activeUserNum: 1,
-    mobileAccount: 1,
-    mobileIp: 1,
-    unmobileIp: 1,
-    newMembers: 1
+    activeUserNum: 0,
+    mobileAccount: 0,
+    mobileIp: 0,
+    unmobileIp: 0,
+    newMembers: 0
   },
   members: [],
   membersList: [],
@@ -44,10 +44,10 @@ const state = {
     clientSelected: '咪咕阅读'
   },
   retentionLossUser: {
-    newUser: 1,
-    newRetainNum: 1,
-    retentionUser: 1,
-    lossUser: 1
+    newUser: 0,
+    newRetainNum: 0,
+    retentionUser: 0,
+    lossUser: 0
   },
   retTrend: {
     startDate: new Date(nowMonth),
@@ -195,7 +195,6 @@ const mutations = {
     });
   },
   [types.RETENTION_GET_TREND_LIST](state, data) {
-    // console.log(data);
     state.retTrendList = data.map(val => {
       val.newUserRetPer = (val.newRetainNum / val.newMembersNum * 100).toFixed(1) + '%';
       val.retLossPer = (val.dropoutNum / val.retainNum * 100).toFixed(1) + '%';

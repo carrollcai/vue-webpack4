@@ -35,7 +35,6 @@ export default {
   },
   beforeMount() {
     this.selected = Object.cloneDeep(this.data.slice(0, 1));
-    console.log(this.selected);
   },
   methods: {
     itemClick(item) {

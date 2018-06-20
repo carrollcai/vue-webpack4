@@ -66,7 +66,6 @@ const actions = {
   },
   deleteUser: ({ commit }, params) => {
     return API.deleteUserAPI(params).then(res => {
-      console.log('删除成功');
       Message({
         showClose: true,
         message: '删除成功',

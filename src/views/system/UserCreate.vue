@@ -41,19 +41,24 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
+import { textLimit } from '@/utils/rules.js';
+
 export default {
   data() {
     return {
       localProvinceSelected: [],
       userCreateRules: {
         staffName: [
-          { required: true, message: '请输入用户姓名', trigger: 'blur' }
+          { required: true, message: '请输入用户姓名', trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '请输入登录账号', trigger: 'blur' }
+          { required: true, message: '请输入登录账号', trigger: 'blur' },
+          { max: 20, message: '登录账号不能超过20个字符', trigger: 'blur' }
         ],
         roleId: [
-          { required: true, message: '请输入用户角色', trigger: 'change' }
+          { required: true, message: '请输入用户角色', trigger: 'change' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         provinces: [
           { required: true, message: '请输入省份权限', trigger: 'change' }

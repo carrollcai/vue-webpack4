@@ -45,10 +45,16 @@ const actions = {
 
   getMembers: ({ commit, state }, params) => {
     const req = activeReq(state);
-
-    return API.getMembersAPI(req).then(res => {
-      commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
-    });
+    // 按月查询
+    if (req.dateType) {
+      return API.getTrendNewMembersMonthAPI(req).then(res => {
+        commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
+      });
+    } else {
+      return API.getMembersAPI(req).then(res => {
+        commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
+      });
+    }
   },
   getMapJson: ({ commit }, params) => {
     return API.getMapJsonAPI(params).then(res => {
@@ -95,7 +101,7 @@ function activeReq(state) {
   const req = {};
   const { activeObj } = state.dataAnalysis;
   req.dateType = activeObj.dateType;
-  req.beginDate = twoDaysAgo;
+  req.beginDate = !activeObj.dateType ? twoDaysAgo : oneMonthAgo;
   req.endDate = !activeObj.dateType ? twoDaysAgo : oneMonthAgo;
   req.clientType = activeObj.clientSelected;
   req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;

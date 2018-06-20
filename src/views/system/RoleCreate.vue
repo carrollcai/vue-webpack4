@@ -39,6 +39,7 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 import { MENU_PERMISSIONS } from '@/config';
+import { textLimit, textareaLimit } from '@/utils/rules.js';
 
 export default {
   computed: {
@@ -51,10 +52,12 @@ export default {
       permissions: MENU_PERMISSIONS,
       roleRules: {
         roleName: [
-          { required: true, message: '请输入角色名称', trigger: 'blur' }
+          { required: true, message: '请输入角色名称', trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         notes: [
-          { required: true, message: '请输入角色描述', trigger: 'blur' }
+          { required: true, message: '请输入角色描述', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         menuIds: [
           { required: true, message: '请输入菜单权限', trigger: 'change' }

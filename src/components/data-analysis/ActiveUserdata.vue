@@ -1,7 +1,7 @@
 <template>
   <div class="active-userdata block-containter">
     <div class="userdata-header">
-      <el-radio-group v-model="activeObj.dateType" size="small" @change="dataChange">
+      <el-radio-group v-model="activeObj.dateType" size="small" @change="dateChange">
         <el-radio-button :label="0">按日</el-radio-button>
         <el-radio-button :label="1">按月</el-radio-button>
       </el-radio-group>
@@ -56,17 +56,14 @@ export default {
       activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj
     })
   },
-  beforeMount() {
-    // this.getMembers();
-  },
   methods: {
-    dataChange() {
+    dateChange() {
       this.getMembers();
       this.getDailyActiveUser();
     },
     ...mapActions([
-      'getDailyActiveUser',
-      'getMembers'
+      'getMembers',
+      'getDailyActiveUser'
     ])
   }
 };

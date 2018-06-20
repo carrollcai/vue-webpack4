@@ -15,7 +15,6 @@
             </el-form-item>
             <el-form-item v-if="!trend.dateType" prop="date" class="normalize-form-item">
               <el-date-picker type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" />
-              <!-- <el-date-picker v-if="!trend.dateType" type="daterange" placeholder="选择日期" v-model="trend.date" :editable="false" @change="query" /> -->
             </el-form-item>
 
             <el-form-item v-if="trend.dateType" class="normalize-form-item" prop="checkDate">
@@ -56,9 +55,18 @@
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
-        <line-chart v-if="trend.chartRadio === 0 || trend.chartRadio === 1" :charData="trendList" :id="'line'" />
-        <multi-line v-else-if="trend.chartRadio === 2" :charData="addFieldsTrendList()" :id="'line'" :fields="mobileIpArr" />
-        <multi-line v-else-if="trend.chartRadio === 3" :charData="trendNewMembers" :id="'line'" :fields="newMembersFields()" />
+        <div class="no-data" v-if="trend.chartRadio === 0 || trend.chartRadio === 1">
+          <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
+          <line-chart v-else :charData="trendList" :id="'line'" />
+        </div>
+        <div class="no-data" v-else-if="trend.chartRadio === 2">
+          <div class="no-data" v-if="Object.isNullArray(addFieldsTrendList())">暂无数据</div>
+          <multi-line v-else :charData="addFieldsTrendList()" :id="'line'" :fields="mobileIpArr" />
+        </div>
+        <div class="no-data" v-else-if="trend.chartRadio === 3">
+          <div class="no-data" v-if="Object.isNullArray(trendNewMembers)">暂无数据</div>
+          <multi-line v-else :charData="trendNewMembers" :id="'line'" :fields="newMembersFields()" />
+        </div>
       </div>
       <div v-else>
         <wm-table :source="trendList" :max-height="500">

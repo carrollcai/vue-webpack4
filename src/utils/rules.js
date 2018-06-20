@@ -62,8 +62,6 @@ export const timeRange = (rule, value, callback) => {
   } else {
     callback();
   }
-  console.log(startDate, endDate);
-  console.log(delta);
 
   // 按月
   const startDatefFormat = moment(startDate).format('YYYY-MM');

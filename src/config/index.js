@@ -116,8 +116,8 @@ export const DATE_LIMIT = 30;
 export const MONTH_LIMIT = 12;
 
 export const INPUT_NUM_MAX = 2000;
-export const INPUT_TEXT_LIMIT = 80;
-export const INPUT_TEXTAREA_LIMIT = 100;
+export const INPUT_TEXT_LIMIT = 15;
+export const INPUT_TEXTAREA_LIMIT = 50;
 
 export const CLIENT = [
   {

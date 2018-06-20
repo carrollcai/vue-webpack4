@@ -11,11 +11,14 @@
 
       </el-form>
     </div>
-    <div class="province-user-chart">
+    <div v-if="Object.isExistArray(provinceUserList)" class="province-user-chart">
       <div class="province-user-chart__map">
         <Map :id="'map'" :charData="provinceUserList" :width="700" :height="500" />
       </div>
-      <active-province-user-rank v-if="Object.isExistArray(provinceUserList)" :provinceUserList="provinceUserList" :maxNum="provinceUserList[0].value" />
+      <active-province-user-rank :provinceUserList="provinceUserList" :maxNum="provinceUserList[0].value" />
+    </div>
+    <div v-else class="province-user-chart">
+      <div class="no-data">暂无数据</div>
     </div>
   </div>
 </template>
