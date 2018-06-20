@@ -6,7 +6,7 @@ const state = {
   // 省份和客户端对象
   activeObj: {
     provinceSelected: [],
-    clientSelected: '咪咕阅读', // 默认咪咕视频
+    clientSelected: '咪咕视频', // 默认咪咕视频
     dateType: 0
   },
   // 第一模块
@@ -41,7 +41,7 @@ const state = {
   // 留存流失
   retentionObj: {
     provinceSelected: [],
-    clientSelected: '咪咕阅读'
+    clientSelected: '咪咕视频'
   },
   retentionLossUser: {
     newUser: 0,
@@ -135,20 +135,20 @@ const mutations = {
           return val;
         });
         break;
-      // case 2:
-      //   state.trendList = state.trendList.map(val => {
-      //     val.value = parseInt(val.mobileIp);
-      //     return val;
-      //   });
-      //   break;
-      // case 3:
-      //   state.trendList = state.trendList.map(val => {
-      //     val.value = parseInt(val.newMembers);
-      //     return val;
-      //   });
-      //   break;
+      case 2:
+        // state.trendList = state.trendList.map(val => {
+        //   val.value = parseInt(val.mobileIp);
+        //   return val;
+        // });
+        break;
+      case 3:
+        // state.trendList = state.trendList.map(val => {
+        //   val.value = parseInt(val.newMembers);
+        //   return val;
+        // });
+        break;
       default:
-        // console.error('类型不支持');
+        console.error('类型不支持');
     }
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {

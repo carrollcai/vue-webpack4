@@ -4,16 +4,10 @@
       <el-header class="app-header">
         <Header />
       </el-header>
-      <el-container v-if="currentUser.menuList" class="app-content">
-        <!-- <el-aside width="200px" height="100%">
-          <Aside style="height: 100%" />
-        </el-aside> -->
+      <el-container v-if="currentUser.menuList.length" class="app-content">
         <aside class="app-aside">
           <el-scrollbar class="app-aside-scroll">
-            <div class="">
-
-              <Aside style="height: 100%" />
-            </div>
+            <Aside style="height: 100%" />
           </el-scrollbar>
         </aside>
         <main class="app-main">

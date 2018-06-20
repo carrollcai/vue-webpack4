@@ -66,7 +66,7 @@ export function errorHandle(err) {
 
     case 404:
       _Message(`请求地址出错: ${err.config.url}`);
-      store.commit('ROUTE_CHANGE', { path: '/404' });
+      // store.commit('ROUTE_CHANGE', { path: '/404' });
       break;
 
     case 408:

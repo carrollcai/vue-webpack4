@@ -21,7 +21,6 @@
 import { mapActions } from 'vuex';
 export default {
   data() {
-
     const validatePass = (rule, value, callback) => {
       if (this.form.cNewPassword !== '') {
         this.$refs.resetForm.validateField('cNewPassword');
@@ -47,7 +46,7 @@ export default {
       rules: {
         oldPassword: [
           { required: true, message: '请输入原密码', trigger: 'blur' },
-          { min: 6, max: 20, message: '原密码需要在6-20字符内', trigger: 'blur' },
+          { min: 6, max: 20, message: '原密码需要在6-20字符内', trigger: 'blur' }
         ],
         newPassword: [
           { required: true, message: '请输入新密码', trigger: 'blur' },
