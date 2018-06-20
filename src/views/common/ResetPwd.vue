@@ -1,15 +1,8 @@
 <template>
-  <el-dialog title="修改密码"
-    :visible.sync="dialogFormVisible"
-    class="reset-pwd-dialog"
-    :show-close="false"
-    :center="true"
-    @close="handleClose"
-    :close-on-click-modal="false"
-    width="470px">
+  <el-dialog title="修改密码" :visible.sync="dialogFormVisible" class="reset-pwd-dialog" :show-close="false" :center="true" @close="handleClose" :close-on-click-modal="false" width="470px">
     <el-form :model="form" ref="resetForm" :rules="rules" label-width="145px">
       <el-form-item label="原密码" prop="oldPassword">
-        <el-input v-model="form.oldPassword" auto-complete="off"></el-input>
+        <el-input type="password" v-model="form.oldPassword" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="newPassword">
         <el-input type="password" v-model="form.newPassword" auto-complete="off"></el-input>
@@ -28,29 +21,16 @@
 import { mapActions } from 'vuex';
 export default {
   data() {
-    const validateOldPass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入旧密码'));
-      } else {
-        callback();
-      }
-    };
 
     const validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入新密码'));
-      } else {
-        if (this.form.cNewPassword !== '') {
-          this.$refs.resetForm.validateField('cNewPassword');
-        }
-        callback();
+      if (this.form.cNewPassword !== '') {
+        this.$refs.resetForm.validateField('cNewPassword');
       }
+      callback();
     };
 
     const validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.form.newPassword) {
+      if (value !== this.form.newPassword) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
@@ -66,12 +46,17 @@ export default {
       dialogFormVisible: false,
       rules: {
         oldPassword: [
-          { validator: validateOldPass, trigger: 'blur' }
+          { required: true, message: '请输入原密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '原密码需要在6-20字符内', trigger: 'blur' },
         ],
         newPassword: [
+          { required: true, message: '请输入新密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '新密码原密码需要在6-20字符内', trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ],
         cNewPassword: [
+          { required: true, message: '请输入确认密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '确认密码原密码需要在6-20字符内', trigger: 'blur' },
           { validator: validatePass2, trigger: 'blur' }
         ]
       }
@@ -85,8 +70,8 @@ export default {
     handleSubmit() {
       this.$refs.resetForm.validate((valid) => {
         if (valid) {
-          this.handleClose();
           this.resetPwd(this.form).then(res => {
+            this.handleClose();
             if (this.isSuccess(res)) {
               this.$message({
                 message: '操作成功',
@@ -127,24 +112,24 @@ export default {
 };
 </script>
 <style lang="scss">
-.reset-pwd-dialog{
+.reset-pwd-dialog {
   line-height: 1;
-  .el-dialog__header{
+  .el-dialog__header {
     padding: 24px;
   }
 
-  .el-dialog__body{
+  .el-dialog__body {
     padding: 0 25px;
 
-    .el-input__inner{
+    .el-input__inner {
       width: 208px;
     }
   }
 
-  .el-dialog__footer{
+  .el-dialog__footer {
     padding-top: 10px;
 
-    .btn-cancel{
+    .btn-cancel {
       margin-left: 24px;
     }
   }

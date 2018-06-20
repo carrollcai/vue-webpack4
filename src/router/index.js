@@ -136,8 +136,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.skipAuth) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
+    // this route requires auth, check if logged in,if not, redirect to login page.
     let token = Cookies.get('loginToken');
     if (token) {
       next();

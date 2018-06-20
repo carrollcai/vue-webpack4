@@ -4,6 +4,8 @@
  */
 
 import { Message } from 'element-ui';
+import store from '../store';
+
 const _Message = msg => Message({
   showClose: true,
   message: msg,
@@ -64,6 +66,7 @@ export function errorHandle(err) {
 
     case 404:
       _Message(`请求地址出错: ${err.config.url}`);
+      store.commit('ROUTE_CHANGE', { path: '/404' });
       break;
 
     case 408:
@@ -72,6 +75,7 @@ export function errorHandle(err) {
 
     case 500:
       _Message('服务器内部错误');
+      store.commit('ROUTE_CHANGE', { path: '/500' });
       break;
 
     case 501:
