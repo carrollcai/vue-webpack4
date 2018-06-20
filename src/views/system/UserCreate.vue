@@ -121,7 +121,9 @@ export default {
     },
     submitForm() {
       const { type, id } = this.$route.params;
-      const params = this.userCreate;
+      const params = Object.cloneDeep(this.userCreate);
+
+      params.provinces = params.provinces.filter(val => val !== 'null');
       this.$refs['userForm'].validate(valid => {
         if (!valid) return false;
 
