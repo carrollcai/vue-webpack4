@@ -25,7 +25,7 @@
 <script>
 import Aside from './Aside.vue';
 import Header from './Header.vue';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 export default {
   name: 'Container',
   components: {
@@ -33,9 +33,6 @@ export default {
     Header
   },
   beforeMount() {
-    this.getProvince({}).then(() => {
-      this.getCurrentUserInfo();
-    });
     this.getUserRole({});
   },
   computed: {
@@ -49,7 +46,10 @@ export default {
       'getCurrentUserInfo',
       'getProvince',
       'getUserRole'
-    ])
+    ]),
+    ...mapMutations({
+      _addRoutes: 'ADD_ROUTES'
+    })
   },
   beforeDestroy() {
     // 退出登录之后需要重置store里的state，可以用一个resetState的方法，初始化state，现在先用reload方法代替。

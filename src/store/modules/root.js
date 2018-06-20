@@ -1,5 +1,7 @@
 import * as types from '../types';
 import { MENU_PERMISSIONS } from '@/config';
+import AddRoutes from '@/router/AddRoutes';
+import router from '@/router/';
 
 const state = {
   province: [],
@@ -8,6 +10,7 @@ const state = {
     path: ''
   },
   currentUser: {
+    menuIds: [], // 扁平化的menuId数组
     menuList: [],
     operator: {
       code: '',
@@ -67,6 +70,8 @@ const mutations = {
         });
       });
     });
+
+    state.currentUser.menuIds = menuIds;
     state.currentUser.menuList = sidebars;
     // 用户拥有的省份权限
     state.currentUser.operator.provinces = provinces.map(val => {
@@ -81,6 +86,11 @@ const mutations = {
       });
       return obj;
     });
+  },
+
+  [types.ADD_ROUTES](state, data) {
+    const routes = new AddRoutes();
+    router.addRoutes(routes.addDynamicRoutes(state.currentUser.menuIds));
   }
 };
 
