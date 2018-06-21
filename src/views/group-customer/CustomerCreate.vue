@@ -87,7 +87,7 @@
           <el-button type="primary" @click="toSecondStep">下一步</el-button>
         </el-form-item>
     </el-form>
-    <el-form label-width="120px" v-if="isSecondStep()">
+    <div class="second-step" v-if="isSecondStep()">
       {{customer}}
       <el-table
         border
@@ -115,13 +115,13 @@
           prop="address"
           label="上级设置">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.parent" clearable placeholder="请选择" @change="changeContactParent(scope.$index)">
+            <el-select v-model="scope.row.parentId" clearable placeholder="请选择" @change="changeContactParent(scope.$index, scope.row.id)">
               <el-option
                 v-for="item in customer.list"
-                :key="item.mobile"
+                :key="item.id"
                 :label="item.name"
-                :value="item.mobile"
-                :disabled="item.mobile === scope.row.mobile">
+                :value="item.id"
+                v-if="item.id !== scope.row.id">
               </el-option>
             </el-select>
           </template>
@@ -134,23 +134,21 @@
                 <i class="el-icon-edit-outline" @click="handleEditContact(scope.row, scope.$index)"></i>
               </el-tooltip>
               <el-tooltip effect="dark" content="删除" placement="bottom">
-                <i class="el-icon-delete" @click="handleDeleteContact(scope.$index)"></i>
+                <i class="el-icon-delete" @click="handleDeleteContact(scope.$index, scope.row.id)"></i>
               </el-tooltip>
             </span>
         </template>
         </el-table-column>
       </el-table>
-      <div v-if="!isAddingContact">
-        <el-button  @click="addContact">
-          添加联系人
-        </el-button>
+      <div class="btn_add-contact" v-if="!isAddingContact" @click="addContact">
+        添加联系人
       </div>
       <customer-contacts ref="customerContacts" v-if="isAddingContact" @cancel="cancelAddingContact" :list="customer.list"></customer-contacts>
-      <el-form-item>
+      <div>
         <el-button type="primary" @click="toThirdStep" :disabled="isNotAbleToThirdStep()">下一步</el-button>
         <el-button type="primary" @click="toFirstStep">上一步</el-button>
-      </el-form-item>
-    </el-form>
+      </div>
+    </div>
     <el-form :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
       <el-form-item label="客户经理" prop="manager" required key="manager">
         <el-input v-model="customer.manager" placeholder="请输入客户经理" style="width:420px" key="manager-input"></el-input>
@@ -176,6 +174,7 @@
   </div>
 </template>
 <script>
+import _ from 'lodash';
 // import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
@@ -292,8 +291,16 @@ export default {
     cancelAddingContact() {
       this.isAddingContact = false;
     },
-    handleDeleteContact(index) {
-      this.customer.list.splice(index, 1);
+    handleDeleteContact(index, id) {
+      let filters = _.filter(this.customer.list, {'parentId': id});
+      if (filters.length) {
+        this.$message({
+          message: `已经被选为“${filters[0].name}”上级，不可删除`,
+          type: 'warning'
+        });
+      } else {
+        this.customer.list.splice(index, 1);
+      }
     },
     handleEditContact(contact, index) {
       this.isAddingContact = true;
@@ -301,9 +308,16 @@ export default {
         this.$refs.customerContacts.init(contact, index);
       });
     },
-    changeContactParent(index) {
-      console.log(index);
-      this.customer.list[index].parent = '';
+    changeContactParent(index, id) {
+      let filters = _.filter(this.customer.list, {'parentId': id});
+
+      if (filters.length) {
+        this.$message({
+          message: `不能与“${filters[0].name}”互选为上级`,
+          type: 'warning'
+        });
+        this.customer.list[index].parentId = '';
+      }
     }
   }
 };
@@ -335,6 +349,23 @@ export default {
         font-size: 12px;
         color: #C2C2C2;
     }
+  }
+
+  .second-step{
+    width: 800px;
+    margin: 0 auto;
+  }
+
+  .btn_add-contact{
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px dashed rgba(217, 217, 217, 1);
+    text-align: center;
+    margin: 24px 0;
+    cursor: pointer;
   }
 }
 </style>

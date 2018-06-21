@@ -6,45 +6,47 @@
     </div>
     <div class="form-wrapper">
       <el-form  :model="contact" :rules="rules" ref="baseForm" label-width="120px">
-        <el-form-item label="姓名" prop="name" required key="contact-name">
-          <el-input v-model="contact.name" placeholder="请输入姓名" style="width:420px" key="contact-name-input"></el-input>
-        </el-form-item>
-        <el-form-item label="部门" prop="dept" required key="contact-dept">
-          <el-input v-model="contact.dept" placeholder="请输入部门" style="width:420px" key="contact-dept-input"></el-input>
-        </el-form-item>
-        <el-form-item label="年龄" prop="age" required key="contact-age">
-          <el-input v-model.number="contact.age" placeholder="请输入年龄" style="width:420px" key="contact-age-input"></el-input>
-        </el-form-item>
-        <el-form-item label="职位" prop="job" required key="contact-job">
-          <el-input v-model="contact.job" placeholder="请输入职位" style="width:420px" key="contact-duty-input"></el-input>
-        </el-form-item>
-        <el-form-item label="手机" prop="mobile" required key="contact-mobile">
-          <el-input v-model="contact.mobile" placeholder="请输入手机" style="width:420px" key="contact-mobile-input"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email" required key="contact-email">
-          <el-input v-model="contact.email" placeholder="请输入邮箱" style="width:420px" key="contact-email-input"></el-input>
-        </el-form-item>
-        <el-form-item label="性别" prop="gender" required key="contact-gender">
-          <el-radio-group v-model="contact.gender" key="contact-gender-radio">
-            <el-radio label="M">男</el-radio>
-            <el-radio label="F">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="婚姻状况" prop="marriage" required key="contact-marriage">
-          <el-radio-group v-model="contact.marriage" key="contact-marriage-radio">
-            <el-radio label="Y">已婚</el-radio>
-            <el-radio label="N">未婚</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="管理范畴" prop="management" required key="business-scope">
-          <el-input v-model="contact.management" placeholder="请输入管理范畴" style="width:420px" key="contact-management-input"></el-input>
-        </el-form-item>
-        <el-form-item label="工作职责" prop="duty" required key="contact-duty">
-          <el-input v-model="contact.duty" placeholder="请输入工作职责" style="width:420px" key="contact-duty-input"></el-input>
-        </el-form-item>
-        <el-form-item label="兴趣爱好" key="contact-hobby">
-          <el-input v-model="contact.hobby" placeholder="请输入兴趣爱好" :maxlength="512" style="width:420px" key="contact-hobby-input"></el-input>
-        </el-form-item>
+        <div>
+          <el-form-item label="姓名" prop="name" required key="contact-name">
+            <el-input v-model="contact.name" placeholder="请输入姓名" style="width:420px" key="contact-name-input"></el-input>
+          </el-form-item>
+          <el-form-item label="部门" prop="dept" required key="contact-dept">
+            <el-input v-model="contact.dept" placeholder="请输入部门" style="width:420px" key="contact-dept-input"></el-input>
+          </el-form-item>
+          <el-form-item label="年龄" prop="age" required key="contact-age">
+            <el-input v-model.number="contact.age" placeholder="请输入年龄" style="width:420px" key="contact-age-input"></el-input>
+          </el-form-item>
+          <el-form-item label="职位" prop="job" required key="contact-job">
+            <el-input v-model="contact.job" placeholder="请输入职位" style="width:420px" key="contact-duty-input"></el-input>
+          </el-form-item>
+          <el-form-item label="手机" prop="mobile" required key="contact-mobile">
+            <el-input v-model="contact.mobile" placeholder="请输入手机" style="width:420px" key="contact-mobile-input"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email" required key="contact-email">
+            <el-input v-model="contact.email" placeholder="请输入邮箱" style="width:420px" key="contact-email-input"></el-input>
+          </el-form-item>
+          <el-form-item label="性别" prop="gender" required key="contact-gender">
+            <el-radio-group v-model="contact.gender" key="contact-gender-radio">
+              <el-radio label="M">男</el-radio>
+              <el-radio label="F">女</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="婚姻状况" prop="marriage" required key="contact-marriage">
+            <el-radio-group v-model="contact.marriage" key="contact-marriage-radio">
+              <el-radio label="Y">已婚</el-radio>
+              <el-radio label="N">未婚</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="管理范畴" prop="management" required key="business-scope">
+            <el-input v-model="contact.management" placeholder="请输入管理范畴" style="width:420px" key="contact-management-input"></el-input>
+          </el-form-item>
+          <el-form-item label="工作职责" prop="duty" required key="contact-duty">
+            <el-input v-model="contact.duty" placeholder="请输入工作职责" style="width:420px" key="contact-duty-input"></el-input>
+          </el-form-item>
+          <el-form-item label="兴趣爱好" key="contact-hobby">
+            <el-input v-model="contact.hobby" placeholder="请输入兴趣爱好" :maxlength="512" style="width:420px" key="contact-hobby-input"></el-input>
+          </el-form-item>
+        </div>
         <div class="split-line"></div>
         <div>
           <div class="family-contact_title">
@@ -164,6 +166,8 @@ export default {
           if (this.index > -1) {
             this.list[this.index] = Object.assign({}, this.contact);
           } else {
+            let id = new Date().getTime();
+            this.contact.id = id;
             this.list.push(this.contact);
           }
           this.cancel();
@@ -180,8 +184,8 @@ export default {
 .contact_create{
 
   border: 1px solid #E9E9E9;
-  width: 747px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0 auto 24px;
 
   *{
     box-sizing: border-box;
