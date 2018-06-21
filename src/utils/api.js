@@ -1,10 +1,12 @@
 import qs from 'qs';
-import { fetch } from './http';
+import {fetch} from './http';
 
 // const development = 'http://localhost:3618';
 const development = '';
 const API = (url, method) => params => fetch(development + url, params, method || 'post');
-const download = url => params => { window.location.href = `${url}?${qs.stringify(params)}`; };
+const download = url => params => {
+  window.location.href = `${url}?${qs.stringify(params)}`;
+};
 
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
@@ -58,5 +60,9 @@ export default {
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),
   resetPwdApi: API('/esop/secBranch/editPassword'),
-  getCurrentUserInfoAPI: API('/esop/login/queryCurrentOperator')
+  getCurrentUserInfoAPI: API('/esop/login/queryCurrentOperator'),
+
+  /* 集团客户管理 */
+  // 获取集团客户概览列表
+  getGroupCustomerListAPI: API('/esop/operator/queryOperator')
 };

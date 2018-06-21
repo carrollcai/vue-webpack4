@@ -71,6 +71,36 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
+    menuId: 12,
+    name: '集团客户管理',
+    url: '/group-customer',
+    icon: 'el-icon-service',
+    enable: false,
+    children: [
+      {
+        menuId: 13,
+        parentId: 12,
+        name: '集团客户总览',
+        url: '/group-customer/overview',
+        enable: false
+      },
+      {
+        menuId: 14,
+        parentId: 12,
+        name: '集团客户创建',
+        url: '/group-customer/create-manage',
+        enable: false
+      },
+      {
+        menuId: 15,
+        parentId: 12,
+        name: '集团客户审核',
+        url: '/group-customer/audit-manage',
+        enable: false
+      }
+    ]
+  },
+  {
     menuId: 9,
     name: '系统配置',
     url: '/system',
