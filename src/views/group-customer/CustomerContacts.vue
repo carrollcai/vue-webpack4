@@ -10,14 +10,14 @@
           <el-form-item label="姓名" prop="name" required key="contact-name">
             <el-input v-model="contact.name" placeholder="请输入姓名" style="width:420px" key="contact-name-input"></el-input>
           </el-form-item>
-          <el-form-item label="部门" prop="dept" required key="contact-dept">
-            <el-input v-model="contact.dept" placeholder="请输入部门" style="width:420px" key="contact-dept-input"></el-input>
+          <el-form-item label="部门" prop="department" required key="contact-dept">
+            <el-input v-model="contact.department" placeholder="请输入部门" style="width:420px" key="contact-dept-input"></el-input>
           </el-form-item>
           <el-form-item label="年龄" prop="age" required key="contact-age">
             <el-input v-model.number="contact.age" placeholder="请输入年龄" style="width:420px" key="contact-age-input"></el-input>
           </el-form-item>
-          <el-form-item label="职位" prop="job" required key="contact-job">
-            <el-input v-model="contact.job" placeholder="请输入职位" style="width:420px" key="contact-duty-input"></el-input>
+          <el-form-item label="职位" prop="position" required key="contact-position">
+            <el-input v-model="contact.position" placeholder="请输入职位" style="width:420px" key="contact-duty-input"></el-input>
           </el-form-item>
           <el-form-item label="手机" prop="mobile" required key="contact-mobile">
             <el-input v-model="contact.mobile" placeholder="请输入手机" style="width:420px" key="contact-mobile-input"></el-input>
@@ -31,20 +31,20 @@
               <el-radio label="F">女</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="婚姻状况" prop="marriage" required key="contact-marriage">
-            <el-radio-group v-model="contact.marriage" key="contact-marriage-radio">
+          <el-form-item label="婚姻状况" prop="maritalStatus" required key="contact-maritalStatus">
+            <el-radio-group v-model="contact.maritalStatus" key="contact-maritalStatus-radio">
               <el-radio label="Y">已婚</el-radio>
               <el-radio label="N">未婚</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="管理范畴" prop="management" required key="business-scope">
-            <el-input v-model="contact.management" placeholder="请输入管理范畴" style="width:420px" key="contact-management-input"></el-input>
+          <el-form-item label="管理范畴" prop="manageScope" required key="manageScope-scope">
+            <el-input v-model="contact.manageScope" placeholder="请输入管理范畴" style="width:420px" key="manageScope-input"></el-input>
           </el-form-item>
-          <el-form-item label="工作职责" prop="duty" required key="contact-duty">
-            <el-input v-model="contact.duty" placeholder="请输入工作职责" style="width:420px" key="contact-duty-input"></el-input>
+          <el-form-item label="工作职责" prop="responsibility" required key="contact-responsibility">
+            <el-input v-model="contact.responsibility" placeholder="请输入工作职责" style="width:420px" key="contact-responsibility-input"></el-input>
           </el-form-item>
-          <el-form-item label="兴趣爱好" key="contact-hobby">
-            <el-input v-model="contact.hobby" placeholder="请输入兴趣爱好" :maxlength="512" style="width:420px" key="contact-hobby-input"></el-input>
+          <el-form-item label="兴趣爱好" key="contact-interests">
+            <el-input v-model="contact.interests" placeholder="请输入兴趣爱好" :maxlength="512" style="width:420px" key="contact-interests-input"></el-input>
           </el-form-item>
         </div>
         <div class="split-line"></div>
@@ -53,12 +53,12 @@
             <span>家庭成员：</span>
             <span>（如集团内有家属员工，请填写此项，无则不填）</span>
           </div>
-          <div class="family-contact" v-for="(familyContact, index) of contact.familyContacts" :key="index">
+          <div class="family-contact" v-for="(familyContact, index) of contact.contactFamilyDtoList" :key="index">
             <el-input v-model="familyContact.name" placeholder="姓名" key="name"></el-input>
-            <el-input v-model="familyContact.relation" placeholder="与本人关系" key="relation"></el-input>
-            <el-input v-model="familyContact.job" placeholder="工作职务" key="job"></el-input>
+            <el-input v-model="familyContact.relationship" placeholder="与本人关系" key="relation"></el-input>
+            <el-input v-model="familyContact.jobDuty" placeholder="工作职务" key="job"></el-input>
             <el-input v-model="familyContact.mobile" placeholder="联系电话" key="mobile"></el-input>
-            <i v-if="contact.familyContacts.length > 1" class="el-icon-delete" @click="removeFamilyContact(index)"></i>
+            <i v-if="contact.contactFamilyDtoList.length > 1" class="el-icon-delete" @click="removeFamilyContact(index)"></i>
           </div>
           <div @click="addFamilyContact" class="btn_add_family-contact">
             新增家庭成员
@@ -103,8 +103,8 @@ export default {
       index: -1,
       contact: {
         gender: 'M',
-        marriage: 'N',
-        familyContacts: [
+        maritalStatus: 'N',
+        contactFamilyDtoList: [
           {}
         ]
       },
@@ -113,13 +113,13 @@ export default {
           { required: true, message: '请输入姓名', trigger: 'blur' },
           { min: 1, max: 50, message: '姓名过长，长度 50 个字符内', trigger: 'blur' }
         ],
-        dept: [
+        department: [
           { required: true, message: '请输入部门', trigger: 'blur' }
         ],
         age: [
           { validator: checkAge, trigger: 'blur' }
         ],
-        job: [
+        position: [
           { required: true, message: '请输入职位', trigger: 'blur' }
         ],
         mobile: [
@@ -131,13 +131,13 @@ export default {
         gender: [
           { required: true, message: '请选择性别', trigger: 'blur' }
         ],
-        marriage: [
+        maritalStatus: [
           { required: true, message: '请选择婚姻状况', trigger: 'blur' }
         ],
-        management: [
+        manageScope: [
           { required: true, message: '请输入管理范畴', trigger: 'blur' }
         ],
-        duty: [
+        responsibility: [
           { required: true, message: '请输入工作职责', trigger: 'blur' }
         ]
       }
@@ -154,11 +154,11 @@ export default {
       });
     },
     addFamilyContact() {
-      this.contact.familyContacts.push({
+      this.contact.contactFamilyDtoList.push({
       });
     },
     removeFamilyContact(index) {
-      this.contact.familyContacts.splice(index, 1);
+      this.contact.contactFamilyDtoList.splice(index, 1);
     },
     saveContact() {
       this.$refs.baseForm.validate((valid) => {
@@ -167,7 +167,7 @@ export default {
             this.list[this.index] = Object.assign({}, this.contact);
           } else {
             let id = new Date().getTime();
-            this.contact.id = id;
+            this.contact.contactId = id;
             this.list.push(this.contact);
           }
           this.cancel();
