@@ -159,7 +159,7 @@ class AddRoutes {
     }];
     const routeArr = [];
 
-    // 已经扁平化具有menuId的路由
+    // list为已经扁平化具有menuId的路由
     this._dynamicRoutes.map(val => {
       if (!val.meta || (val.meta && !val.meta.menuId)) {
         routeArr.push(val);

@@ -23,7 +23,7 @@ export function isRepeat(arr, key) {
   }
 };
 
-// 判断多个规则校验是否都通过
+// 当表单为Array，判断多个规则校验是否都通过
 export function checkMultRules(ref) {
   let count = 0;
   if (ref.length) {

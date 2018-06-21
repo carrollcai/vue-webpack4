@@ -11,30 +11,26 @@ const router = new Router({
   routes: new AddRoutes().staticRoutes
 });
 
-// router.addRoutes(dynamicRoutes);
-
 router.beforeEach((to, from, next) => {
   if (!to.meta.skipAuth) {
     // this route requires auth, check if logged in,if not, redirect to login page.
     let token = Cookies.get('loginToken');
-    if (!store.state.root.currentUser.menuList.length) {
-      store.dispatch('getProvince').then(() => {
-        store.dispatch('getCurrentUserInfo').then(() => {
-          store.commit('ADD_ROUTES');
-          if (token) {
-            // replace重新获取route对象
-            next({ ...to, replace: true });
-          } else {
-            store.dispatch('toLoginPage');
-          }
-        });
-      });
-    } else {
-      if (token) {
-        next();
+
+    if (token) {
+      if (!store.state.root.currentUser.menuList.length) {
+        (async() => {
+          await store.dispatch('getProvince');
+          await store.dispatch('getCurrentUserInfo');
+          await store.commit('ADD_ROUTES');
+
+          // replace重新获取route对象
+          await next({ ...to, replace: true });
+        })();
       } else {
-        store.dispatch('toLoginPage');
+        next();
       }
+    } else {
+      store.dispatch('toLoginPage');
     }
   } else {
     next();
