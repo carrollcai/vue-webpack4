@@ -24,9 +24,9 @@
       <div class="search-btn">
         <el-button type="primary" @click="query">查询</el-button>
       </div>
-      <div class="daliy-download">
+      <!-- <div class="daliy-download">
         <i class="el-icon-download">申请日活明细下载</i>
-      </div>
+      </div> -->
     </div>
   </el-form>
 </template>

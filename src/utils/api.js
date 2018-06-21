@@ -2,6 +2,7 @@ import axios from 'axios';
 import store from '../store';
 import { Message } from 'element-ui';
 import { errorHandle } from '@/utils/common';
+import qs from 'qs';
 const fetch = (url, params, method) => {
   store.commit('SHOW_PAGE_LOADING');
 
@@ -44,12 +45,11 @@ const fetch = (url, params, method) => {
 // const development = 'http://localhost:3618';
 const development = '';
 const API = (url, method) => params => fetch(development + url, params, method || 'post');
+const download = url => params => { window.location.href = `${url}?${qs.stringify(params)}`; };
 
 // const API = (url, method = 'post') => (params = {}, config = {}) => axios[method](url, params, config);
 
 export default {
-  getDemoAPI: API('/demo'),
-
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
 
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -91,6 +91,12 @@ export default {
   // 月留存流失
   getRetentionLossUserAPI: API('/esop/analysisReport/queryMDRs'),
 
+  // 下载数据分析,按日
+  downloadTrendDataAnalysisAPI: download('/esop/analysisReport/downloadPDARs'),
+  // 下载数据分析，按月
+  downloadMonthTrendDataAnalysisAPI: download('/esop/analysisReport/downloadMANs'),
+
+  /* 登录相关 */
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),
   resetPwdApi: API('/esop/secBranch/editPassword'),

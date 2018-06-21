@@ -16,6 +16,7 @@ const actions = {
       });
     }
   },
+
   getTrendList: ({ commit, state }, params) => {
     const req = activeTrendReq(state);
     // 按月查询
@@ -56,11 +57,13 @@ const actions = {
       });
     }
   },
+
   getMapJson: ({ commit }, params) => {
     return API.getMapJsonAPI(params).then(res => {
       commit(types.PROVINCE_GET_MAP_JSON, res.data);
     });
   },
+
   getProvinceUser: ({ commit, state }, params) => {
     const req = activeProvinceUserReq(state);
 
@@ -93,6 +96,14 @@ const actions = {
     return API.getRetentionLossUserAPI(req).then(res => {
       commit(types.RETENTION_GET_TREND_LIST, res.data.reportList);
     });
+  },
+  downloadTrendDataAnalysis: ({ commit, state }, params) => {
+    const req = activeTrendReq(state);
+    if (req.dateType) {
+      return API.downloadMonthTrendDataAnalysisAPI(req);
+    } else {
+      return API.downloadTrendDataAnalysisAPI(req);
+    }
   }
 
 };

@@ -49,7 +49,7 @@
           {{trendRadio[i]}}
         </el-radio>
       </div>
-      <div>
+      <div @click="downloadDataAnalysis" class="cursor-pointer">
         <i class="el-icon-download"></i>下载此数据分析
       </div>
     </div>
@@ -141,6 +141,9 @@ export default {
   beforeMount() {
   },
   methods: {
+    downloadDataAnalysis() {
+      this.downloadTrendDataAnalysis();
+    },
     triggerValidate() {
       if (this.trend.startDate && this.trend.endDate) {
         this.query();
@@ -180,7 +183,8 @@ export default {
     }),
     ...mapActions([
       'getTrendList',
-      'getTrendNewMembers'
+      'getTrendNewMembers',
+      'downloadTrendDataAnalysis'
     ])
   }
 };
