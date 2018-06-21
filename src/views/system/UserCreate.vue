@@ -23,7 +23,7 @@
         </el-form-item>
         <!-- 省份这里需要做key的处理 -->
         <!-- 指定key为null或者0，会报错。选择 collapse-tags就没问题。解决方式改为null字符串 -->
-        <el-form-item label="省份权限：" prop="province">
+        <el-form-item label="省份权限：" prop="provinces">
           <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.provinces" placeholder="请选择" multiple @change="provinceChange">
             <el-option v-if="province.length > 1" :key="'null'" label="全部" :value="'null'" />
             <el-option v-for="(item, i) in province" :key="i" :label="item.value" :value="item.key" />
@@ -57,8 +57,7 @@ export default {
           { max: 20, message: '登录账号不能超过20个字符', trigger: 'blur' }
         ],
         roleId: [
-          { required: true, message: '请输入用户角色', trigger: 'change' },
-          { validator: textLimit, trigger: 'blur' }
+          { required: true, message: '请输入用户角色', trigger: 'change' }
         ],
         provinces: [
           { required: true, message: '请输入省份权限', trigger: 'change' }

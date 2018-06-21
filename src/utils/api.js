@@ -22,8 +22,7 @@ const fetch = (url, params, method) => {
 
       if (res.data.errorInfo.code === '401') {
         store.commit('ROUTE_CHANGE', { path: '/login' });
-      }
-      if (String(res.data.errorInfo.code) === '200') {
+      } else if (String(res.data.errorInfo.code) === '200') {
         resolve(res.data);
       } else {
         // 防止防止多次执行Message，需要加一个全局message的状态
