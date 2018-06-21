@@ -130,7 +130,7 @@ const dynamicRoutes = [
         path: '/system/user/management',
         name: 'user',
         component: User,
-        meta: { menuId: 10 }
+        meta: { menuId: 11 }
       },
       {
         path: '/system/user/:type/:id?',
