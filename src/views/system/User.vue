@@ -30,7 +30,6 @@
         </el-form-item>
       </div>
     </el-form>
-
     <wm-table :source="userList.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户姓名" property="staffName" />
       <el-table-column label="登录账号" property="code" />
@@ -90,9 +89,11 @@ export default {
   methods: {
     onPagination(value) {
       this.userForm.pageNo = value;
+      this.query();
     },
     onSizePagination(value) {
       this.userForm.pageSize = value;
+      this.query();
     },
     handleCreate() {
       const path = `/system/user/create`;

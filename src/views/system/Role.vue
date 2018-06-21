@@ -68,9 +68,11 @@ export default {
   methods: {
     onPagination(value) {
       this.roleForm.pageNo = value;
+      this.query();
     },
     onSizePagination(value) {
       this.roleForm.pageSize = value;
+      this.query();
     },
     handleCreate() {
       const path = `/system/role/create`;
