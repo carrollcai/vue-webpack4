@@ -1,164 +1,340 @@
 <template>
-  <div>
-    <div class="m-container">
-      <div class="breadcrumb">
-        <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/system/user/management' }">用户管理</el-breadcrumb-item>
-          <el-breadcrumb-item>创建用户</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
-    </div>
-    <div class="m-container user-create">
-      <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm" :rules="userCreateRules">
-        <el-form-item label="用户姓名：" prop="staffName">
-          <el-input class="form-input" v-model="userCreate.staffName"></el-input>
-        </el-form-item>
-        <el-form-item label="登录账号：" prop="code">
-          <el-input class="form-input" v-model="userCreate.code"></el-input>
-        </el-form-item>
-        <el-form-item label="用户角色：" prop="roleId">
-          <el-select class="form-input" v-model="userCreate.roleId" multiple>
-            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
-          </el-select>
-        </el-form-item>
-        <!-- 省份这里需要做key的处理 -->
-        <!-- 指定key为null或者0，会报错。选择 collapse-tags就没问题。解决方式改为null字符串 -->
-        <el-form-item label="省份权限：" prop="provinces">
-          <el-select v-if="Object.isExistArray(province)" class="form-input" v-model="userCreate.provinces" placeholder="请选择" multiple @change="provinceChange">
-            <el-option v-if="province.length > 1" :key="'null'" label="全部" :value="'null'" />
-            <el-option v-for="(item, i) in province" :key="i" :label="item.value" :value="item.key" />
-          </el-select>
-        </el-form-item>
-
+  <div class="customer-create">
+    <steps :active="step">
+      <step title="集团基本信息"></step>
+      <step title="集团联系人"></step>
+      <step title="指定客户经理"></step>
+    </steps>
+    <el-form :model="customer"
+      v-if="isFirstStep()"
+      ref="baseForm"
+      :rules="baseInfoRules"
+      label-width="120px"
+      key="baseForm">
+        <div class="base-info">
+          <el-form-item label="集团名称" prop="name" required key="name">
+            <el-input v-model="customer.name" placeholder="请输入集团名称" style="width:420px" key="name-input"></el-input>
+          </el-form-item>
+          <el-form-item label="集团属性" prop="groupType" required key="group-type">
+            <el-input v-model="customer.groupType" placeholder="请输入集团属性" style="width:420px" key="groupType-input"></el-input>
+          </el-form-item>
+          <el-form-item label="成立日期" prop="foundDate" required key="foundDate">
+            <el-date-picker
+              v-model="customer.foundDate"
+              type="date"
+              :editable="false"
+              placeholder="请选择成立日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="所属省份" prop="province" required key="province">
+            <el-input v-model="customer.province" placeholder="请选择所属省份" style="width:420px" key="province-input"></el-input>
+          </el-form-item>
+          <el-form-item label="机构类型" prop="type" required key="type">
+            <el-input v-model="customer.type" placeholder="请输入机构类型" style="width:420px" key="type-input"></el-input>
+          </el-form-item>
+          <el-form-item label="行业级别" prop="level" required key="level">
+            <el-input v-model="customer.level" placeholder="请输入行业级别" style="width:420px" key="level-input"></el-input>
+          </el-form-item>
+          <el-form-item label="集团客户规模" prop="scale" required key="scale">
+            <el-input v-model="customer.scale" placeholder="请选择集团客户规模" style="width:420px" key="scale-input"></el-input>
+          </el-form-item>
+          <el-form-item label="优势能力" prop="advantage" required key="advantage">
+            <el-input v-model="customer.advantage" placeholder="请输入优势能力" style="width:420px" key="advantage-input"></el-input>
+          </el-form-item>
+          <el-form-item label="经营范围" prop="businessScope" required key="Business-Scope">
+            <el-input v-model="customer.businessScope" placeholder="请输入经营范围" style="width:420px" key="businessScope-input"></el-input>
+          </el-form-item>
+        </div>
+        <div class="not-required">
+          <span class="not-required_text">以下为非必填项</span>
+        </div>
+        <div class="base-info">
+          <el-form-item label="工商注册号" key="companyNo">
+            <el-input v-model="customer.companyNo" placeholder="请输入工商注册号" style="width:420px" key="companyNo-input"></el-input>
+          </el-form-item>
+          <el-form-item label="证件类型" key="IDtype">
+            <el-input v-model="customer.idType" placeholder="请输入证件类型" style="width:420px" key="idType-input"></el-input>
+          </el-form-item>
+          <el-form-item label="组织机构代表" key="delegate">
+            <el-input v-model="customer.delegate" placeholder="请输入组织机构代表" style="width:420px" key="delegate-input"></el-input>
+          </el-form-item>
+          <el-form-item label="注册资金" key="capital">
+            <el-input v-model="customer.capital" placeholder="请输入注册资金" style="width:420px" key="capital-input">
+              <template slot="append">万元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="经营期限" key="operation-term">
+            <el-input v-model="customer.operation" placeholder="请输入经营期限" style="width:420px" key="operation-input">
+              <template slot="append">年</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="登记机关" key="Registrar">
+            <el-input v-model="customer.registrar" placeholder="请输入登记机关" style="width:420px" key="registrar-input"></el-input>
+          </el-form-item>
+          <el-form-item label="发证日期" key="Licence-date">
+            <el-date-picker
+              v-model="customer.licenceDate"
+              type="date"
+              :editable="false"
+              placeholder="请选择发证日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="证件地址" key="Licence-address">
+            <el-input v-model="customer.licenceAddress" placeholder="请输入证件地址" style="width:420px" key="licenceAddress-input"></el-input>
+          </el-form-item>
+        </div>
         <el-form-item>
-          <el-button type="primary" @click="submitForm()">提交</el-button>
-          <form-cancel :path="'/system/user/management'">取消</form-cancel>
+          <el-button type="primary" @click="toSecondStep">下一步</el-button>
         </el-form-item>
-      </el-form>
-    </div>
+    </el-form>
+    <el-form label-width="120px" v-if="isSecondStep()">
+      {{customer}}
+      <el-table
+        border
+        v-if="!isAddingContact"
+        :data="customer.list">
+        <el-table-column
+          prop="name"
+          label="姓名"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="mobile"
+          label="手机"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="gender"
+          label="性别">
+        </el-table-column>
+        <el-table-column
+          prop="dept"
+          label="部门">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="上级设置">
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.parent" clearable placeholder="请选择" @change="changeContactParent(scope.$index)">
+              <el-option
+                v-for="item in customer.list"
+                :key="item.mobile"
+                :label="item.name"
+                :value="item.mobile"
+                :disabled="item.mobile === scope.row.mobile">
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <span class="btnLists">
+              <el-tooltip effect="dark" content="修改" placement="bottom">
+                <i class="el-icon-edit-outline" @click="handleEditContact(scope.row, scope.$index)"></i>
+              </el-tooltip>
+              <el-tooltip effect="dark" content="删除" placement="bottom">
+                <i class="el-icon-delete" @click="handleDeleteContact(scope.$index)"></i>
+              </el-tooltip>
+            </span>
+        </template>
+        </el-table-column>
+      </el-table>
+      <div v-if="!isAddingContact">
+        <el-button  @click="addContact">
+          添加联系人
+        </el-button>
+      </div>
+      <customer-contacts ref="customerContacts" v-if="isAddingContact" @cancel="cancelAddingContact" :list="customer.list"></customer-contacts>
+      <el-form-item>
+        <el-button type="primary" @click="toThirdStep" :disabled="isNotAbleToThirdStep()">下一步</el-button>
+        <el-button type="primary" @click="toFirstStep">上一步</el-button>
+      </el-form-item>
+    </el-form>
+    <el-form :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
+      <el-form-item label="客户经理" prop="manager" required key="manager">
+        <el-input v-model="customer.manager" placeholder="请输入客户经理" style="width:420px" key="manager-input"></el-input>
+      </el-form-item>
+      <el-form-item label="手机号码" prop="managerMobile" required key="managerMobile">
+        <el-input v-model="customer.managerMobile" placeholder="请输入手机号码" style="width:420px" key="managerMobile-input"></el-input>
+      </el-form-item>
+      <el-form-item label="员工工号" prop="idNo" required key="managerId">
+        <el-input v-model="customer.idNo" placeholder="请输入员工工号" style="width:420px" key="managerId-input"></el-input>
+      </el-form-item>
+      <el-form-item label="所在部门" prop="managerDept" required key="managerDept">
+        <el-input v-model="customer.managerDept" placeholder="请输入所在部门" style="width:420px" key="managerDept-input"></el-input>
+      </el-form-item>
+      <el-form-item label="所在职位" prop="managerJob" required key="managerJob">
+        <el-input v-model="customer.managerJob" placeholder="请输入所在职位" style="width:420px" key="managerJob-input"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="saveCustomer">立即提审</el-button>
+        <el-button type="primary" @click="saveCustomer">保存草稿</el-button>
+        <el-button type="primary" @click="toSecondStepFromThird">上一步</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
-
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
-import { textLimit } from '@/utils/rules.js';
-
+// import {mapActions} from 'vuex';
+import Steps from '@/components/Steps.vue';
+import Step from '@/components/Step.vue';
+import CustomerContacts from './CustomerContacts.vue';
 export default {
+  name: 'CustomerCreate',
+  components: {
+    CustomerContacts,
+    Steps,
+    Step
+  },
   data() {
     return {
-      localProvinceSelected: [],
-      userCreateRules: {
-        staffName: [
-          { required: true, message: '请输入用户姓名', trigger: 'blur' },
-          { validator: textLimit, trigger: 'blur' }
+      step: 1,
+      isAddingContact: false,
+      customer: {
+        name: '',
+        list: []
+      },
+      baseInfoRules: {
+        name: [
+          { required: true, message: '请输入集团名称', trigger: 'blur' },
+          { min: 1, max: 50, message: '集团名称过长，长度 50 个字符内', trigger: 'blur' }
         ],
-        code: [
-          { required: true, message: '请输入登录账号', trigger: 'blur' },
-          { max: 20, message: '登录账号不能超过20个字符', trigger: 'blur' }
+        groupType: [
+          { required: true, message: '请输入集团属性', trigger: 'blur' }
         ],
-        roleId: [
-          { required: true, message: '请输入用户角色', trigger: 'change' }
+        foundDate: [
+          { required: true, message: '请选择成立日期', trigger: 'blur' }
         ],
-        provinces: [
-          { required: true, message: '请输入省份权限', trigger: 'change' }
+        province: [
+          { required: true, message: '请选择所属省份', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '请输入机构类型', trigger: 'blur' }
+        ],
+        level: [
+          { required: true, message: '请输入行业级别', trigger: 'blur' }
+        ],
+        scale: [
+          { required: true, message: '请选择集团客户规模', trigger: 'blur' }
+        ],
+        advantage: [
+          { required: true, message: '请输入优势能力', trigger: 'blur' }
+        ],
+        businessScope: [
+          { required: true, message: '请输入经营范围', trigger: 'blur' }
+        ]
+      },
+      managerRules: {
+        manager: [
+          { required: true, message: '请输入客户经理', trigger: 'blur' }
+        ],
+        managerMobile: [
+          { required: true, message: '请输入手机号码', trigger: 'blur' }
+        ],
+        idNo: [
+          { required: true, message: '请输入员工工号', trigger: 'blur' }
+        ],
+        managerDept: [
+          { required: true, message: '请输入所在部门', trigger: 'blur' }
+        ],
+        managerJob: [
+          { required: true, message: '请输入所在职位', trigger: 'blur' }
         ]
       }
     };
   },
-  computed: {
-    ...mapState({
-      userCreate: ({ system }) => system.userCreate,
-      userRoleList: ({ root }) => root.userRoleList,
-      province: ({ root }) => root.province
-    })
-  },
-  beforeMount() {
-    this.resetForm();
-  },
   methods: {
-    provinceChange(val) {
-      const { province } = this;
-      let isExistAll = val.some(val => val === 'null');
-      let provinceNames = province.map(val => val.key);
-
-      // 是否点击全部
-      let isClickAll = !(isExistAll === this.localProvinceSelected.some(val => val === 'null'));
-
-      // 点击全部
-      if (isClickAll) {
-        // 子选项未全选
-        if (isExistAll) {
-          this.userCreate.provinces = provinceNames;
-          this.userCreate.provinces.push('null');
-        } else {
-          // 子选项已全选
-          this.userCreate.provinces = [];
-        }
-      } else {
-        if (!isExistAll && val.length === provinceNames.length) {
-          this.userCreate.provinces.push('null');
-        } else {
-          this.userCreate.provinces = this.userCreate.provinces.filter(val => val !== 'null');
-        }
-      }
-      this.localProvinceSelected = Object.cloneDeep(this.userCreate.provinces);
+    isFirstStep() {
+      return this.step === 0;
     },
-    resetForm() {
-      const { type, id } = this.$route.params;
-      // 需要重新获取角色。
-      this.getUserRole({});
-      if (type === 'create') {
-        this.initForm();
-      } else {
-        this.getUserInfo({ operatorId: id }).then(() => {
-          // 重新赋值本地数据
-          if (this.userCreate.provinces) {
-            this.localProvinceSelected = Object.cloneDeep(this.userCreate.provinces);
+    isSecondStep() {
+      return this.step === 1;
+    },
+    isThirdStep() {
+      return this.step === 2;
+    },
+    toFirstStep() {
+      this.step = 0;
+    },
+    toSecondStep() {
+      this.$refs.baseForm.validate((valid) => {
+        if (valid) {
+          this.step = 1;
+          if (!this.customer.list.length) {
+            this.isAddingContact = true;
           }
-        });
-      }
-    },
-    submitForm() {
-      const { type, id } = this.$route.params;
-      const params = Object.cloneDeep(this.userCreate);
-
-      params.provinces = params.provinces.filter(val => val !== 'null');
-      this.$refs['userForm'].validate(valid => {
-        if (!valid) return false;
-
-        if (type === 'create') {
-          this.createUser(params);
-        } else {
-          this.updateUser(Object.assign(params, {
-            operatorId: id
-          }));
         }
       });
     },
-    ...mapMutations({
-      initForm: 'USER_INIT_FORM'
-    }),
-    ...mapActions([
-      'createUser',
-      'updateUser',
-      'getUserInfo',
-      'getUserRole'
-    ])
-  },
-  watch: {
-    $route: 'resetForm'
+    toSecondStepFromThird() {
+      this.step = 1;
+      if (!this.customer.list.length) {
+        this.isAddingContact = true;
+      }
+    },
+    isNotAbleToThirdStep() {
+      return this.isAddingContact || !this.customer.list.length;
+    },
+    toThirdStep() {
+      this.step = 2;
+    },
+    saveCustomer() {
+      this.$refs.managerForm.validate((valid) => {
+        if (valid) {
+          console.log(valid);
+        }
+      });
+    },
+    addContact() {
+      this.isAddingContact = true;
+    },
+    cancelAddingContact() {
+      this.isAddingContact = false;
+    },
+    handleDeleteContact(index) {
+      this.customer.list.splice(index, 1);
+    },
+    handleEditContact(contact, index) {
+      this.isAddingContact = true;
+      this.$nextTick(() => {
+        this.$refs.customerContacts.init(contact, index);
+      });
+    },
+    changeContactParent(index) {
+      console.log(index);
+      this.customer.list[index].parent = '';
+    }
   }
 };
 </script>
-
 <style lang="scss">
-@import "scss/variables.scss";
-.user-create {
-  margin-top: $blockWidth;
+.customer-create{
   display: flex;
-  justify-content: center;
-}
-.form-input {
-  width: 468px;
+  flex-direction: column;
+  background: #FFF;
+
+  .base-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .not-required {
+    border-top: 1px solid #E6E6E6;
+    height: 1px;
+    margin: 32px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    .not-required_text {
+        padding: 0 20px;
+        line-height: 24px;
+        background: #ffffff;
+        font-size: 12px;
+        color: #C2C2C2;
+    }
+  }
 }
 </style>
