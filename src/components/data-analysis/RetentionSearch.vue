@@ -4,7 +4,7 @@
       <div class="active-search__province">
         <el-form-item class="normalize-form-item">省份：</el-form-item>
         <el-form-item class="normalize-form-item" prop="provinceSelected">
-          <el-select v-if="currentUser.operator.provinces.length" v-model="retentionObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
+          <el-select class="user-form-item__input" v-if="currentUser.operator.provinces.length" v-model="retentionObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
             <el-option v-if="currentUser.operator.provinces.length > 1" :key="null" label="全部" :value="null" />
             <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value" />
           </el-select>
@@ -14,7 +14,7 @@
       <div class="active-search__client">
         <el-form-item class="normalize-form-item">客户端：</el-form-item>
         <el-form-item class="normalize-form-item" prop="clientSelected">
-          <el-select v-if="client.length" v-model="retentionObj.clientSelected" placeholder="请选择">
+          <el-select class="user-form-item__input" v-if="client.length" v-model="retentionObj.clientSelected" placeholder="请选择">
             <el-option v-for="item in client" :key="item.value" :label="item.value" :value="item.value">
             </el-option>
           </el-select>
