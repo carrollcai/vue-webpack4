@@ -142,7 +142,11 @@ export default {
   },
   methods: {
     downloadDataAnalysis() {
-      this.downloadTrendDataAnalysis();
+      this.$refs['activeTrendForm'].validate(valid => {
+        if (!valid) return false;
+        
+        this.downloadTrendDataAnalysis();
+      });
     },
     triggerValidate() {
       if (this.trend.startDate && this.trend.endDate) {

@@ -115,7 +115,11 @@ export default {
   },
   methods: {
     downloadDataAnalysis() {
-      this.downloadRetTrendDataAnalysis();
+      this.$refs['retTrendForm'].validate(valid => {
+        if (valid) {
+          this.downloadRetTrendDataAnalysis();
+        }
+      });
     },
     triggerValidate() {
       if (this.retTrend.startDate && this.retTrend.endDate) {
