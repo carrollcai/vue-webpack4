@@ -15,6 +15,10 @@ import TaskApprove from '@/views/task/Approve.vue';
 import TaskPushDetail from '@/views/task/PushDetail.vue';
 import TaskTodoDetail from '@/views/task/TodoDetail.vue';
 
+import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
+import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
+import GroupCustomerAuditManage from '@/views/group-customer/CustomerAuditManage.vue';
+
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
 import User from '@/views/system/User.vue';
@@ -112,6 +116,24 @@ const dynamicRoutes = [
         name: 'task-approve',
         component: TaskApprove,
         meta: { menuId: 8 }
+      },
+      {
+        path: '/group-customer/overview',
+        name: 'group-customer-overview',
+        component: GroupCustomerOverview,
+        meta: { menuId: 13 }
+      },
+      {
+        path: '/group-customer/create-manage',
+        name: 'group-customer-create-manage',
+        component: GroupCustomerCreateManage,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/group-customer/audit-manage',
+        name: 'group-customer-audit-manage',
+        component: GroupCustomerAuditManage,
+        meta: { menuId: 15 }
       },
       {
         path: '/system/role/management',
