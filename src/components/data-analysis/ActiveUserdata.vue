@@ -6,7 +6,7 @@
         <el-radio-button :label="1">按月</el-radio-button>
       </el-radio-group>
       <span class="userdata-header-quote">
-        {{!activeObj.dateType ? `${twoDaysAgo}日关键指标（展示“T-2”日关键指标数据，”T“为今日数据）` : `${oneMonthAgoNoDay}月关键指标`}}
+        {{!activeObj.dateType ? `${twoDaysAgo}日关键指标` : `${oneMonthAgoNoDay}月关键指标`}}
       </span>
     </div>
     <div class="userdata-main">
