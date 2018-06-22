@@ -7,6 +7,9 @@ const actions = {
     return API.getGroupCustomerListAPI(params).then(res => {
       commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
     });
+  },
+  generateContactId: () => {
+    return API.generateContactIdAPI();
   }
 };
 

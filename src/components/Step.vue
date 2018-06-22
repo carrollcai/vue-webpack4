@@ -14,7 +14,7 @@
         </slot>
         <i
           v-else
-          :class="['icon-' + (currentStatus === 'success' ? 'checkpx' : 'close')]">
+          :class="['el-icon-' + (currentStatus === 'success' ? 'check' : 'close')]">
         </i>
       </span>
     </div>
@@ -193,7 +193,7 @@ $icon-height: 26px;
   .step__icon{
     display: block;
     line-height:$icon-height;
-    .icon-checkpx{
+    .el-icon-check{
       font-size: 14px;
     }
   }

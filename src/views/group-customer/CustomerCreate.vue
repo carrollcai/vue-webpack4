@@ -13,92 +13,95 @@
       key="baseForm">
         <div class="base-info">
           <el-form-item label="集团名称" prop="organizeName" required key="name">
-            <el-input v-model="customer.organizeName" placeholder="请输入集团名称" style="width:420px" key="name-input"></el-input>
+            <el-input v-model="customer.organizeName" placeholder="请输入集团名称" key="name-input"></el-input>
           </el-form-item>
           <el-form-item label="集团属性" prop="groupType" required key="group-type">
-            <el-input v-model="customer.groupType" placeholder="请输入集团属性" style="width:420px" key="groupType-input"></el-input>
+            <el-input v-model="customer.groupType" placeholder="请输入集团属性" key="groupType-input"></el-input>
           </el-form-item>
           <el-form-item label="成立日期" prop="establishTime" required key="establishTime">
             <el-date-picker
               v-model="customer.establishTime"
               type="date"
               :editable="false"
+              :clearable="false"
+              :picker-options="dateOptions"
               placeholder="请选择成立日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="所属省份" prop="provinceId" required key="provinceId">
-            <el-input v-model="customer.provinceId" placeholder="请选择所属省份" style="width:420px" key="province-input"></el-input>
+            <el-input v-model="customer.provinceId" placeholder="请选择所属省份" key="province-input"></el-input>
           </el-form-item>
           <el-form-item label="机构类型" prop="orgIndustryType" required key="orgIndustryType">
-            <el-input v-model="customer.orgIndustryType" placeholder="请输入机构类型" style="width:420px" key="orgIndustryType-input"></el-input>
+            <el-input v-model="customer.orgIndustryType" placeholder="请输入机构类型" key="orgIndustryType-input"></el-input>
           </el-form-item>
           <el-form-item label="行业类别" prop="industryType" required key="industryType">
-            <el-input v-model="customer.industryType" placeholder="请输入行业类别" style="width:420px" key="industryType-input"></el-input>
+            <el-input v-model="customer.industryType" placeholder="请输入行业类别" key="industryType-input"></el-input>
           </el-form-item>
           <el-form-item label="集团客户规模" prop="memberNum" required key="memberNum">
-            <el-input v-model="customer.memberNum" placeholder="请选择集团客户规模" style="width:420px" key="memberNum-input"></el-input>
+            <el-input v-model="customer.memberNum" placeholder="请选择集团客户规模" key="memberNum-input"></el-input>
           </el-form-item>
           <el-form-item label="优势能力" prop="orgAdvantage" required key="orgAdvantage">
-            <el-input v-model="customer.orgAdvantage" placeholder="请输入优势能力" style="width:420px" key="orgAdvantage-input"></el-input>
+            <el-input v-model="customer.orgAdvantage" placeholder="请输入优势能力" key="orgAdvantage-input"></el-input>
           </el-form-item>
           <el-form-item label="经营范围" prop="businessScope" required key="Business-Scope">
-            <el-input v-model="customer.businessScope" placeholder="请输入经营范围" style="width:420px" key="businessScope-input"></el-input>
+            <el-input v-model="customer.businessScope" placeholder="请输入经营范围" key="businessScope-input"></el-input>
           </el-form-item>
           <el-form-item label="详细地址" prop="orgAddress" required key="orgAddress">
-            <el-input v-model="customer.orgAddress" placeholder="请输入经营范围" style="width:420px" key="orgAddress-input"></el-input>
+            <el-input v-model="customer.orgAddress" placeholder="请输入经营范围" key="orgAddress-input"></el-input>
           </el-form-item>
         </div>
         <div class="not-required">
           <span class="not-required_text">以下为非必填项</span>
         </div>
-        <div class="base-info">
+        <div class="base-optional-info">
           <el-form-item label="工商注册号" key="companyNo">
-            <el-input v-model="customer.registeNum" placeholder="请输入工商注册号" style="width:420px" key="companyNo-input"></el-input>
+            <el-input v-model="customer.registeNum" placeholder="请输入工商注册号" key="companyNo-input"></el-input>
           </el-form-item>
           <el-form-item label="证件类型" key="IDtype">
-            <el-input v-model="customer.idType" placeholder="请输入证件类型" style="width:420px" key="idType-input"></el-input>
+            <el-input v-model="customer.idType" placeholder="请输入证件类型" key="idType-input"></el-input>
           </el-form-item>
           <el-form-item label="组织机构代码" key="code">
-            <el-input v-model="customer.code" placeholder="请输入组织机构代码" style="width:420px" key="code-input"></el-input>
+            <el-input v-model="customer.code" placeholder="请输入组织机构代码" key="code-input"></el-input>
           </el-form-item>
           <el-form-item label="社会信用代码" key="socialCreditCode">
-            <el-input v-model="customer.socialCreditCode" placeholder="请输入社会信用代码" style="width:420px" key="socialCreditCode-input"></el-input>
+            <el-input v-model="customer.socialCreditCode" placeholder="请输入社会信用代码" key="socialCreditCode-input"></el-input>
           </el-form-item>
           <el-form-item label="注册资金" key="capital">
-            <el-input v-model="customer.registerFund" placeholder="请输入注册资金" style="width:420px" key="capital-input">
+            <el-input v-model="customer.registerFund" placeholder="请输入注册资金" key="capital-input">
               <template slot="append">万元</template>
             </el-input>
           </el-form-item>
           <el-form-item label="经营期限" key="operation-term">
-            <el-input v-model="customer.businessTerm" placeholder="请输入经营期限" style="width:420px" key="operation-input">
+            <el-input v-model="customer.businessTerm" placeholder="请输入经营期限" key="operation-input">
               <template slot="append">年</template>
             </el-input>
           </el-form-item>
           <el-form-item label="登记机关" key="Registrar">
-            <el-input v-model="customer.registerOrg" placeholder="请输入登记机关" style="width:420px" key="registrar-input"></el-input>
+            <el-input v-model="customer.registerOrg" placeholder="请输入登记机关" key="registrar-input"></el-input>
           </el-form-item>
           <el-form-item label="发证日期" key="Licence-date">
             <el-date-picker
               v-model="customer.openTime"
               type="date"
               :editable="false"
+              :picker-options="dateOptions"
               placeholder="请选择发证日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="证件地址" key="Licence-address">
-            <el-input v-model="customer.certificateAddress" placeholder="请输入证件地址" style="width:420px" key="licenceAddress-input"></el-input>
+            <el-input v-model="customer.certificateAddress" placeholder="请输入证件地址" key="licenceAddress-input"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="toSecondStep">下一步</el-button>
           </el-form-item>
         </div>
-        <el-form-item>
-          <el-button type="primary" @click="toSecondStep">下一步</el-button>
-        </el-form-item>
     </el-form>
     <div class="second-step" v-if="isSecondStep()">
       {{customer}}
       <el-table
         border
         v-if="!isAddingContact"
-        :data="customer.contactDtoList">
+        :data="contacts">
         <el-table-column
           prop="name"
           label="姓名"
@@ -121,9 +124,12 @@
           prop="address"
           label="上级设置">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.parentContactId" clearable placeholder="请选择" @change="changeContactParent(scope.$index, scope.row.contactId)">
+            <el-select v-model="scope.row.parentContactId"
+              clearable
+              placeholder="请选择"
+              @change="changeContactParent(scope.$index, scope.row.contactId)">
               <el-option
-                v-for="item in customer.contactDtoList"
+                v-for="item in contacts"
                 :key="item.contactId"
                 :label="item.name"
                 :value="item.contactId"
@@ -140,36 +146,36 @@
                 <i class="el-icon-edit-outline" @click="handleEditContact(scope.row, scope.$index)"></i>
               </el-tooltip>
               <el-tooltip effect="dark" content="删除" placement="bottom">
-                <i class="el-icon-delete" @click="handleDeleteContact(scope.$index, scope.row.id)"></i>
+                <i class="el-icon-delete" @click="handleDeleteContact(scope.$index, scope.row.contactId)"></i>
               </el-tooltip>
             </span>
         </template>
         </el-table-column>
       </el-table>
       <div class="btn_add-contact" v-if="!isAddingContact" @click="addContact">
-        添加联系人
+        <i class="el-icon-plus"></i> 添加联系人
       </div>
-      <customer-contacts ref="customerContacts" v-if="isAddingContact" @cancel="cancelAddingContact" :list="customer.contactDtoList"></customer-contacts>
+      <customer-contacts ref="customerContacts" v-if="isAddingContact" @cancel="cancelAddingContact" :list="contacts"></customer-contacts>
       <div>
         <el-button type="primary" @click="toThirdStep" :disabled="isNotAbleToThirdStep()">下一步</el-button>
         <el-button type="primary" @click="toFirstStep">上一步</el-button>
       </div>
     </div>
-    <el-form :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
+    <el-form class="customer-manager-info" :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
       <el-form-item label="客户经理" prop="managerName" required key="managerName">
-        <el-input v-model="customer.managerName" placeholder="请输入客户经理" style="width:420px" key="manager-input"></el-input>
+        <el-input v-model="customer.managerName" placeholder="请输入客户经理" key="manager-input"></el-input>
       </el-form-item>
       <el-form-item label="手机号码" prop="managerMobile" required key="managerMobile">
-        <el-input v-model="customer.managerMobile" placeholder="请输入手机号码" style="width:420px" key="managerMobile-input"></el-input>
+        <el-input v-model="customer.managerMobile" placeholder="请输入手机号码" key="managerMobile-input"></el-input>
       </el-form-item>
       <el-form-item label="员工工号" prop="managerNo" required key="managerNo">
-        <el-input v-model="customer.managerNo" placeholder="请输入员工工号" style="width:420px" key="managerId-input"></el-input>
+        <el-input v-model="customer.managerNo" placeholder="请输入员工工号" key="managerId-input"></el-input>
       </el-form-item>
       <el-form-item label="所在部门" prop="managerDepartment" required key="managerDepartment">
-        <el-input v-model="customer.managerDepartment" placeholder="请输入所在部门" style="width:420px" key="managerDept-input"></el-input>
+        <el-input v-model="customer.managerDepartment" placeholder="请输入所在部门" key="managerDept-input"></el-input>
       </el-form-item>
       <el-form-item label="所在职位" prop="managerPosition" required key="managerPosition">
-        <el-input v-model="customer.managerPosition" placeholder="请输入所在职位" style="width:420px" key="managerJob-input"></el-input>
+        <el-input v-model="customer.managerPosition" placeholder="请输入所在职位" key="managerJob-input"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="saveCustomer">立即提审</el-button>
@@ -198,7 +204,12 @@ export default {
       isAddingContact: false,
       customer: {
         name: '',
-        contactDtoList: []
+        contactDtoList: [ { "gender": "M", "maritalStatus": "N", "contactFamilyDtoList": [ {} ], "name": "1", "department": "1", "age": 1, "position": "1", "mobile": "1", "email": "1@173.com", "manageScope": "1", "responsibility": "1", "contactId": 1529630957203 }, { "gender": "M", "maritalStatus": "N", "contactFamilyDtoList": [ {} ], "name": "2", "department": "2", "age": 2, "position": "2", "mobile": "2", "email": "2@183.com", "manageScope": "2", "responsibility": "2", "contactId": 1529630969539 } ]
+      },
+      dateOptions: {
+        disabledDate(time) {
+          return time.getTime() > new Date().getTime();
+        }
       },
       baseInfoRules: {
         organizeName: [
@@ -253,6 +264,11 @@ export default {
       }
     };
   },
+  computed: {
+    contacts() {
+      return this.customer.contactDtoList;
+    }
+  },
   methods: {
     isFirstStep() {
       return this.step === 0;
@@ -270,7 +286,7 @@ export default {
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
           this.step = 1;
-          if (!this.customer.contactDtoList.length) {
+          if (!this.contacts.length) {
             this.isAddingContact = true;
           }
         }
@@ -278,12 +294,12 @@ export default {
     },
     toSecondStepFromThird() {
       this.step = 1;
-      if (!this.customer.contactDtoList.length) {
+      if (!this.contacts.length) {
         this.isAddingContact = true;
       }
     },
     isNotAbleToThirdStep() {
-      return this.isAddingContact || !this.customer.contactDtoList.length;
+      return this.isAddingContact || !this.contacts.length;
     },
     toThirdStep() {
       this.step = 2;
@@ -302,14 +318,14 @@ export default {
       this.isAddingContact = false;
     },
     handleDeleteContact(index, id) {
-      let filters = _.filter(this.customer.contactDtoList, {'parentContactId': id});
+      let filters = _.filter(this.contacts, {'parentContactId': id});
       if (filters.length) {
         this.$message({
-          message: `已经被选为“${filters[0].name}”上级，不可删除`,
+          message: `已经被选为上级，不可删除`,
           type: 'warning'
         });
       } else {
-        this.customer.contactDtoList.splice(index, 1);
+        this.contacts.splice(index, 1);
       }
     },
     handleEditContact(contact, index) {
@@ -319,14 +335,14 @@ export default {
       });
     },
     changeContactParent(index, id) {
-      let filters = _.filter(this.customer.contactDtoList, {'parentContactId': id});
+      let filters = _.filter(this.contacts, {'parentContactId': id});
 
       if (filters.length) {
         this.$message({
           message: `不能与“${filters[0].name}”互选为上级`,
           type: 'warning'
         });
-        this.customer.list[index].parentContactId = '';
+        this.contacts[index].parentContactId = '';
       }
     }
   }
@@ -334,20 +350,33 @@ export default {
 </script>
 <style lang="scss">
 .customer-create{
-  display: flex;
-  flex-direction: column;
   background: #FFF;
+  padding: 24px;
 
-  .base-info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .steps{
+    width: 620px;
+    margin: 16px auto 40px;
+
+    .step__line{
+      width: 120px;
+    }
+  }
+
+  .base-info,
+  .base-optional-info,
+  .customer-manager-info{
+    width: 550px;
+    margin: 0 auto;
+
+    .el-input{
+      width: 420px;
+    }
   }
 
   .not-required {
     border-top: 1px solid #E6E6E6;
     height: 1px;
-    margin: 32px 32px;
+    margin: 32px 0;
     display: flex;
     align-items: center;
     justify-content: center;

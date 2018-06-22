@@ -6,24 +6,24 @@
     </div>
     <div class="form-wrapper">
       <el-form  :model="contact" :rules="rules" ref="baseForm" label-width="120px">
-        <div>
+        <div class="contact-base-info">
           <el-form-item label="姓名" prop="name" required key="contact-name">
-            <el-input v-model="contact.name" placeholder="请输入姓名" style="width:420px" key="contact-name-input"></el-input>
+            <el-input v-model="contact.name" placeholder="请输入姓名" key="contact-name-input"></el-input>
           </el-form-item>
           <el-form-item label="部门" prop="department" required key="contact-dept">
-            <el-input v-model="contact.department" placeholder="请输入部门" style="width:420px" key="contact-dept-input"></el-input>
+            <el-input v-model="contact.department" placeholder="请输入部门" key="contact-dept-input"></el-input>
           </el-form-item>
           <el-form-item label="年龄" prop="age" required key="contact-age">
-            <el-input v-model.number="contact.age" placeholder="请输入年龄" style="width:420px" key="contact-age-input"></el-input>
+            <el-input v-model.number="contact.age" placeholder="请输入年龄" key="contact-age-input"></el-input>
           </el-form-item>
           <el-form-item label="职位" prop="position" required key="contact-position">
-            <el-input v-model="contact.position" placeholder="请输入职位" style="width:420px" key="contact-duty-input"></el-input>
+            <el-input v-model="contact.position" placeholder="请输入职位" key="contact-duty-input"></el-input>
           </el-form-item>
           <el-form-item label="手机" prop="mobile" required key="contact-mobile">
-            <el-input v-model="contact.mobile" placeholder="请输入手机" style="width:420px" key="contact-mobile-input"></el-input>
+            <el-input v-model="contact.mobile" placeholder="请输入手机" key="contact-mobile-input"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" prop="email" required key="contact-email">
-            <el-input v-model="contact.email" placeholder="请输入邮箱" style="width:420px" key="contact-email-input"></el-input>
+            <el-input v-model="contact.email" placeholder="请输入邮箱" key="contact-email-input"></el-input>
           </el-form-item>
           <el-form-item label="性别" prop="gender" required key="contact-gender">
             <el-radio-group v-model="contact.gender" key="contact-gender-radio">
@@ -38,13 +38,13 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="管理范畴" prop="manageScope" required key="manageScope-scope">
-            <el-input v-model="contact.manageScope" placeholder="请输入管理范畴" style="width:420px" key="manageScope-input"></el-input>
+            <el-input v-model="contact.manageScope" placeholder="请输入管理范畴" key="manageScope-input"></el-input>
           </el-form-item>
           <el-form-item label="工作职责" prop="responsibility" required key="contact-responsibility">
-            <el-input v-model="contact.responsibility" placeholder="请输入工作职责" style="width:420px" key="contact-responsibility-input"></el-input>
+            <el-input v-model="contact.responsibility" placeholder="请输入工作职责" key="contact-responsibility-input"></el-input>
           </el-form-item>
           <el-form-item label="兴趣爱好" key="contact-interests">
-            <el-input v-model="contact.interests" placeholder="请输入兴趣爱好" :maxlength="512" style="width:420px" key="contact-interests-input"></el-input>
+            <el-input v-model="contact.interests" placeholder="请输入兴趣爱好" :maxlength="512" key="contact-interests-input"></el-input>
           </el-form-item>
         </div>
         <div class="split-line"></div>
@@ -61,7 +61,7 @@
             <i v-if="contact.contactFamilyDtoList.length > 1" class="el-icon-delete" @click="removeFamilyContact(index)"></i>
           </div>
           <div @click="addFamilyContact" class="btn_add_family-contact">
-            新增家庭成员
+            <i class="el-icon-plus"></i> 新增家庭成员
           </div>
         </div>
         <el-form-item >
@@ -73,6 +73,7 @@
   </div>
 </template>
 <script>
+import {mapActions} from 'vuex';
 export default {
   name: 'CustomerContacts',
   props: {
@@ -166,8 +167,14 @@ export default {
           if (this.index > -1) {
             this.list[this.index] = Object.assign({}, this.contact);
           } else {
-            let id = new Date().getTime();
-            this.contact.contactId = id;
+            // TODO
+            /*
+            this.generateContactId().then((res) => {
+              this.contact.contactId = res.data;
+              this.list.push(this.contact);
+            });
+            */
+            this.contact.contactId = new Date().getTime();
             this.list.push(this.contact);
           }
           this.cancel();
@@ -176,7 +183,8 @@ export default {
     },
     cancel() {
       this.$emit('cancel');
-    }
+    },
+    ...mapActions(['generateContactId'])
   }
 };
 </script>
@@ -189,6 +197,12 @@ export default {
 
   *{
     box-sizing: border-box;
+  }
+
+  .contact-base-info{
+    .el-input{
+      width: 420px;
+    }
   }
 
   .comment-title{
