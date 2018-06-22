@@ -19,11 +19,11 @@
 
             <el-form-item v-if="trend.dateType" class="normalize-form-item" prop="checkDate">
               <el-form-item class="normalize-form-item float-left" prop="startDate">
-                <el-date-picker type="month" placeholder="选择开始日期" v-model="trend.startDate" @change="triggerValidate()" />
+                <el-date-picker class="user-form-item__input" type="month" placeholder="选择开始日期" v-model="trend.startDate" @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
               <el-form-item class="normalize-form-item float-left" prop="endDate">
-                <el-date-picker type="month" placeholder="选择结束日期" v-model="trend.endDate" @change="triggerValidate()" />
+                <el-date-picker class="user-form-item__input" type="month" placeholder="选择结束日期" v-model="trend.endDate" @change="triggerValidate()" />
               </el-form-item>
             </el-form-item>
           </div>
@@ -142,7 +142,11 @@ export default {
   },
   methods: {
     downloadDataAnalysis() {
-      this.downloadTrendDataAnalysis();
+      this.$refs['activeTrendForm'].validate(valid => {
+        if (!valid) return false;
+
+        this.downloadTrendDataAnalysis();
+      });
     },
     triggerValidate() {
       if (this.trend.startDate && this.trend.endDate) {

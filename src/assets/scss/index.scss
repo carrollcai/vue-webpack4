@@ -30,8 +30,11 @@
 }
 
 .date-connect-line {
+  // 让日选择和月选择区间width都为350px
+  display: inline-block;
   line-height: 32px;
-  margin: 0 8px;
+  width: 30px;
+  text-align: center;
 }
 .form-item__input {
   width: $inputWidthQuery;

@@ -55,6 +55,7 @@ export default {
 
   // 月留存流失
   getRetentionLossUserAPI: API('/esop/analysisReport/queryMDRs'),
+  downloadRetTrendDataAnalysisAPI: download('/esop/analysisReport/downloadMDRs'),
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),

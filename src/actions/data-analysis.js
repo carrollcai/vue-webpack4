@@ -71,6 +71,14 @@ const actions = {
       commit(types.PROVINCE_GET_USER, res.data.reportList);
     });
   },
+  downloadTrendDataAnalysis: ({ commit, state }, params) => {
+    const req = activeTrendReq(state);
+    if (req.dateType) {
+      return API.downloadMonthTrendDataAnalysisAPI(req);
+    } else {
+      return API.downloadTrendDataAnalysisAPI(req);
+    }
+  },
 
   getRetentionLossUser: ({ commit, state }, params) => {
     const req = {};
@@ -86,26 +94,16 @@ const actions = {
   },
 
   getRetTrendList: ({ commit, state }, params) => {
-    const req = {};
-    const { retentionObj, retTrend } = state.dataAnalysis;
-    req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
-    req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
-    req.clientType = retentionObj.clientSelected;
-    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : null;
+    const req = retTrendReq(state);
 
     return API.getRetentionLossUserAPI(req).then(res => {
       commit(types.RETENTION_GET_TREND_LIST, res.data.reportList);
     });
   },
-  downloadTrendDataAnalysis: ({ commit, state }, params) => {
-    const req = activeTrendReq(state);
-    if (req.dateType) {
-      return API.downloadMonthTrendDataAnalysisAPI(req);
-    } else {
-      return API.downloadTrendDataAnalysisAPI(req);
-    }
+  downloadRetTrendDataAnalysis: ({ commit, state }, params) => {
+    const req = retTrendReq(state);
+    return API.downloadRetTrendDataAnalysisAPI(req);
   }
-
 };
 
 function activeReq(state) {
@@ -150,6 +148,16 @@ function activeProvinceUserReq(state) {
   req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
   req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
+  return req;
+}
+
+function retTrendReq(state) {
+  const req = {};
+  const { retentionObj, retTrend } = state.dataAnalysis;
+  req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
+  req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
+  req.clientType = retentionObj.clientSelected;
+  req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : null;
   return req;
 }
 

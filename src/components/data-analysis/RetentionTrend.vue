@@ -40,7 +40,7 @@
           {{trendRadio[i]}}
         </el-radio>
       </div>
-      <div>
+      <div @click="downloadDataAnalysis" class="cursor-pointer">
         <i class="el-icon-download"></i>下载此数据分析
       </div>
     </div>
@@ -114,6 +114,13 @@ export default {
   beforeMount() {
   },
   methods: {
+    downloadDataAnalysis() {
+      this.$refs['retTrendForm'].validate(valid => {
+        if (valid) {
+          this.downloadRetTrendDataAnalysis();
+        }
+      });
+    },
     triggerValidate() {
       if (this.retTrend.startDate && this.retTrend.endDate) {
         this.query();
@@ -135,7 +142,8 @@ export default {
       updateRetTrendList: 'RETENTION_UPDATE_TREND_LIST'
     }),
     ...mapActions([
-      'getRetTrendList'
+      'getRetTrendList',
+      'downloadRetTrendDataAnalysis'
     ])
   }
 };

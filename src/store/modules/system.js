@@ -1,5 +1,9 @@
 import * as types from '../types';
-import { PAGE_NO, PAGE_SIZE } from '@/config';
+import {
+  PAGE_NO,
+  PAGE_SIZE,
+  MENU_PERMISSIONS
+} from '@/config/index.js';
 
 const roleCreate = {
   roleName: '',
@@ -43,7 +47,17 @@ const mutations = {
     state.roleCreate = Object.cloneDeep(roleCreate);
   },
   [types.ROLE_GET_INFO](state, data) {
+    let exceptFirstMendId = MENU_PERMISSIONS.filter(val => val.children).map(val => val.menuId);
     state.roleCreate = data;
+    // 将多余的一级菜单menuId剔除
+    state.roleCreate.menuIds = state.roleCreate.menuIds.filter(val => {
+      let flag = true;
+      exceptFirstMendId.map(cval => {
+        if (cval === val) flag = false;
+      });
+
+      return flag;
+    });
   },
   [types.USER_INIT_FORM](state, data) {
     state.userCreate = Object.cloneDeep(roleCreate);

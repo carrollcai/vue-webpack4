@@ -108,3 +108,8 @@ $menu-active-color: #FFFFFF;
 .el-table thead tr th {
   background-color: #F7F8FC;
 }
+
+/* 重置时间选择框大小 */
+.el-date-editor.el-input{
+  width: 160px;
+}
