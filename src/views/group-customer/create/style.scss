@@ -1,0 +1,51 @@
+.customer-create {
+  background: #FFF;
+  padding: 24px;
+  .steps {
+    width: 620px;
+    margin: 16px auto 40px;
+    .step__line {
+      width: 120px;
+    }
+  }
+  .base-info,
+  .base-optional-info,
+  .customer-manager-info {
+    width: 550px;
+    margin: 0 auto;
+    .el-input {
+      width: 420px;
+    }
+  }
+  .not-required {
+    border-top: 1px solid #E6E6E6;
+    height: 1px;
+    margin: 32px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    .not-required_text {
+      padding: 0 20px;
+      line-height: 24px;
+      background: #ffffff;
+      font-size: 12px;
+      color: #C2C2C2;
+    }
+  }
+  .second-step {
+    width: 800px;
+    margin: 0 auto;
+  }
+  .btn_add-contact {
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px dashed rgba(217, 217, 217, 1);
+    text-align: center;
+    margin: 24px 0;
+    cursor: pointer;
+  }
+}

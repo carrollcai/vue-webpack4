@@ -15,8 +15,18 @@
           <el-form-item label="集团名称" prop="organizeName" required key="name">
             <el-input v-model="customer.organizeName" placeholder="请输入集团名称" key="name-input"></el-input>
           </el-form-item>
-          <el-form-item label="集团属性" prop="groupType" required key="group-type">
-            <el-input v-model="customer.groupType" placeholder="请输入集团属性" key="groupType-input"></el-input>
+          <el-form-item label="集团属性" prop="organizeType" required key="organizeType">
+            <el-select v-model="customer.organizeType"
+              clearable
+              key="organizeType-select"
+              placeholder="请选择集团属性">
+              <el-option
+                v-for="item in ORGANIZE_TYPE"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="成立日期" prop="establishTime" required key="establishTime">
             <el-date-picker
@@ -29,16 +39,56 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="所属省份" prop="provinceId" required key="provinceId">
-            <el-input v-model="customer.provinceId" placeholder="请选择所属省份" key="province-input"></el-input>
+            <el-select
+              key="province-select"
+              v-model="customer.provinceId"
+              placeholder="请选择所属省份">
+              <el-option
+                v-for="(item, i) in provinces"
+                :key="i"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="机构类型" prop="orgIndustryType" required key="orgIndustryType">
-            <el-input v-model="customer.orgIndustryType" placeholder="请输入机构类型" key="orgIndustryType-input"></el-input>
+            <el-select
+              key="orgIndustryType-select"
+              v-model="customer.orgIndustryType"
+              placeholder="请选择机构类型">
+              <el-option
+                v-for="item in ORG_INDUSTRY_TYPE"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="行业类别" prop="industryType" required key="industryType">
-            <el-input v-model="customer.industryType" placeholder="请输入行业类别" key="industryType-input"></el-input>
+            <el-select
+              key="industryType-select"
+              v-model="customer.industryType"
+              placeholder="请选择行业类别">
+              <el-option
+                v-for="item in INDUSTRY_TYPE"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="集团客户规模" prop="memberNum" required key="memberNum">
-            <el-input v-model="customer.memberNum" placeholder="请选择集团客户规模" key="memberNum-input"></el-input>
+            <el-select v-model="customer.memberNum"
+              clearable
+              key="memberNum-select"
+              placeholder="请选择集团客户规模">
+              <el-option
+                v-for="item in MEMBER_NUM"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="优势能力" prop="orgAdvantage" required key="orgAdvantage">
             <el-input v-model="customer.orgAdvantage" placeholder="请输入优势能力" key="orgAdvantage-input"></el-input>
@@ -54,25 +104,57 @@
           <span class="not-required_text">以下为非必填项</span>
         </div>
         <div class="base-optional-info">
-          <el-form-item label="工商注册号" key="companyNo">
-            <el-input v-model="customer.registeNum" placeholder="请输入工商注册号" key="companyNo-input"></el-input>
+          <el-form-item label="工商注册号" prop="registeNum" key="registeNum">
+            <el-input v-model="customer.registeNum"
+              placeholder="请输入工商注册号"
+              :maxlength="13"
+              key="companyNo-input"></el-input>
           </el-form-item>
-          <el-form-item label="证件类型" key="IDtype">
-            <el-input v-model="customer.idType" placeholder="请输入证件类型" key="idType-input"></el-input>
+          <el-form-item label="证件类型" key="certificateType">
+            <el-select v-model="customer.certificateType"
+              clearable
+              key="certificateType-select"
+              placeholder="请选择证件类型">
+              <el-option
+                v-for="item in CERTIFICATE_TYPE"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="组织机构代码" key="code">
             <el-input v-model="customer.code" placeholder="请输入组织机构代码" key="code-input"></el-input>
           </el-form-item>
-          <el-form-item label="社会信用代码" key="socialCreditCode">
-            <el-input v-model="customer.socialCreditCode" placeholder="请输入社会信用代码" key="socialCreditCode-input"></el-input>
+          <el-form-item label="社会信用代码" prop="socialCreditCode" key="socialCreditCode">
+            <el-input
+            v-model="customer.socialCreditCode"
+            placeholder="请输入社会信用代码"
+            :maxlength="18"
+            key="socialCreditCode-input"></el-input>
           </el-form-item>
-          <el-form-item label="注册资金" key="capital">
-            <el-input v-model="customer.registerFund" placeholder="请输入注册资金" key="capital-input">
+          <el-form-item label="注册基金类型" key="registerFundType">
+            <el-select v-model="customer.registerFundType"
+              clearable
+              key="registerFundType-select"
+              placeholder="请选择注册基金类型">
+              <el-option
+                v-for="item in REGISTER_FUND_TYPE"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="注册基金" prop="registerFund" key="registerFund">
+            <el-input v-model="customer.registerFund" placeholder="请输入注册基金" key="registerFund-input">
               <template slot="append">万元</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="经营期限" key="operation-term">
-            <el-input v-model="customer.businessTerm" placeholder="请输入经营期限" key="operation-input">
+          <el-form-item label="经营期限" prop="businessTerm" key="operation-term">
+            <el-input v-model="customer.businessTerm"
+              :maxlength="3"
+              placeholder="请输入经营期限" key="operation-input">
               <template slot="append">年</template>
             </el-input>
           </el-form-item>
@@ -184,225 +266,20 @@
   </div>
 </template>
 <script>
-import _ from 'lodash';
-// import {mapActions} from 'vuex';
-import Steps from '@/components/Steps.vue';
-import Step from '@/components/Step.vue';
-import CustomerContacts from './CustomerContacts.vue';
+import mixins from './mixins';
 export default {
   name: 'CustomerCreate',
-  components: {
-    CustomerContacts,
-    Steps,
-    Step
-  },
-  data() {
-    return {
-      step: 1,
-      isAddingContact: false,
-      customer: {
-        name: '',
-        contactDtoList: [ { "gender": "M", "maritalStatus": "N", "contactFamilyDtoList": [ {} ], "name": "1", "department": "1", "age": 1, "position": "1", "mobile": "1", "email": "1@173.com", "manageScope": "1", "responsibility": "1", "contactId": 1529630957203 }, { "gender": "M", "maritalStatus": "N", "contactFamilyDtoList": [ {} ], "name": "2", "department": "2", "age": 2, "position": "2", "mobile": "2", "email": "2@183.com", "manageScope": "2", "responsibility": "2", "contactId": 1529630969539 } ]
-      },
-      dateOptions: {
-        disabledDate(time) {
-          return time.getTime() > new Date().getTime();
-        }
-      },
-      baseInfoRules: {
-        organizeName: [
-          { required: true, message: '请输入集团名称', trigger: 'blur' },
-          { min: 1, max: 50, message: '集团名称过长，长度 50 个字符内', trigger: 'blur' }
-        ],
-        // TODO
-        groupType: [
-          { required: true, message: '请输入集团属性', trigger: 'blur' }
-        ],
-        establishTime: [
-          { required: true, message: '请选择成立日期', trigger: 'blur' }
-        ],
-        provinceId: [
-          { required: true, message: '请选择所属省份', trigger: 'blur' }
-        ],
-        orgIndustryType: [
-          { required: true, message: '请输入机构类型', trigger: 'blur' }
-        ],
-        level: [
-          { required: true, message: '请输入行业类别', trigger: 'blur' }
-        ],
-        memberNum: [
-          { required: true, message: '请选择集团客户规模', trigger: 'blur' }
-        ],
-        orgAdvantage: [
-          { required: true, message: '请输入优势能力', trigger: 'blur' }
-        ],
-        businessScope: [
-          { required: true, message: '请输入经营范围', trigger: 'blur' }
-        ],
-        orgAddress: [
-          { required: true, message: '请输入详细地址', trigger: 'blur' }
-        ]
-      },
-      managerRules: {
-        managerName: [
-          { required: true, message: '请输入客户经理', trigger: 'blur' }
-        ],
-        managerMobile: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' }
-        ],
-        managerNo: [
-          { required: true, message: '请输入员工工号', trigger: 'blur' }
-        ],
-        managerDepartment: [
-          { required: true, message: '请输入所在部门', trigger: 'blur' }
-        ],
-        managerPosition: [
-          { required: true, message: '请输入所在职位', trigger: 'blur' }
-        ]
-      }
-    };
-  },
-  computed: {
-    contacts() {
-      return this.customer.contactDtoList;
-    }
-  },
+  mixins: [mixins],
   methods: {
-    isFirstStep() {
-      return this.step === 0;
-    },
-    isSecondStep() {
-      return this.step === 1;
-    },
-    isThirdStep() {
-      return this.step === 2;
-    },
-    toFirstStep() {
-      this.step = 0;
-    },
-    toSecondStep() {
-      this.$refs.baseForm.validate((valid) => {
-        if (valid) {
-          this.step = 1;
-          if (!this.contacts.length) {
-            this.isAddingContact = true;
-          }
-        }
-      });
-    },
-    toSecondStepFromThird() {
-      this.step = 1;
-      if (!this.contacts.length) {
-        this.isAddingContact = true;
-      }
-    },
-    isNotAbleToThirdStep() {
-      return this.isAddingContact || !this.contacts.length;
-    },
-    toThirdStep() {
-      this.step = 2;
-    },
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
           console.log(valid);
         }
       });
-    },
-    addContact() {
-      this.isAddingContact = true;
-    },
-    cancelAddingContact() {
-      this.isAddingContact = false;
-    },
-    handleDeleteContact(index, id) {
-      let filters = _.filter(this.contacts, {'parentContactId': id});
-      if (filters.length) {
-        this.$message({
-          message: `已经被选为上级，不可删除`,
-          type: 'warning'
-        });
-      } else {
-        this.contacts.splice(index, 1);
-      }
-    },
-    handleEditContact(contact, index) {
-      this.isAddingContact = true;
-      this.$nextTick(() => {
-        this.$refs.customerContacts.init(contact, index);
-      });
-    },
-    changeContactParent(index, id) {
-      let filters = _.filter(this.contacts, {'parentContactId': id});
-
-      if (filters.length) {
-        this.$message({
-          message: `不能与“${filters[0].name}”互选为上级`,
-          type: 'warning'
-        });
-        this.contacts[index].parentContactId = '';
-      }
     }
   }
 };
 </script>
-<style lang="scss">
-.customer-create{
-  background: #FFF;
-  padding: 24px;
-
-  .steps{
-    width: 620px;
-    margin: 16px auto 40px;
-
-    .step__line{
-      width: 120px;
-    }
-  }
-
-  .base-info,
-  .base-optional-info,
-  .customer-manager-info{
-    width: 550px;
-    margin: 0 auto;
-
-    .el-input{
-      width: 420px;
-    }
-  }
-
-  .not-required {
-    border-top: 1px solid #E6E6E6;
-    height: 1px;
-    margin: 32px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    .not-required_text {
-        padding: 0 20px;
-        line-height: 24px;
-        background: #ffffff;
-        font-size: 12px;
-        color: #C2C2C2;
-    }
-  }
-
-  .second-step{
-    width: 800px;
-    margin: 0 auto;
-  }
-
-  .btn_add-contact{
-    width: 100%;
-    height: 32px;
-    line-height: 32px;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 1);
-    border: 1px dashed rgba(217, 217, 217, 1);
-    text-align: center;
-    margin: 24px 0;
-    cursor: pointer;
-  }
-}
+<style lang="scss" src="./style.scss">
 </style>
