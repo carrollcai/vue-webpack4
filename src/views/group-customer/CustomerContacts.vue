@@ -5,7 +5,7 @@
       <span class="comment-title_sub">（可添加多个联系人，且多个联系人之间需要设置上下级关系）</span>
     </div>
     <div class="form-wrapper">
-      <el-form  :model="contact" :rules="rules" ref="baseForm" label-width="120px">
+      <el-form  :model="contact" :rules="rules" ref="baseForm" label-width="80px">
         <div class="contact-base-info">
           <el-form-item label="姓名" prop="name" required key="contact-name">
             <el-input v-model="contact.name" placeholder="请输入姓名" key="contact-name-input"></el-input>
@@ -50,13 +50,15 @@
         <div class="split-line"></div>
         <div>
           <div class="family-contact_title">
-            <span>家庭成员：</span>
-            <span>（如集团内有家属员工，请填写此项，无则不填）</span>
+            <span>家庭成员：</span><span class="family-contact_title-sub">（如集团内有家属员工，请填写此项，无则不填）</span>
           </div>
           <div class="family-contact" v-for="(familyContact, index) of contact.contactFamilyDtoList" :key="index">
             <el-input v-model="familyContact.name" placeholder="姓名" key="name"></el-input>
+            <span class="family-contact_split"></span>
             <el-input v-model="familyContact.relationship" placeholder="与本人关系" key="relation"></el-input>
+            <span class="family-contact_split"></span>
             <el-input v-model="familyContact.jobDuty" placeholder="工作职务" key="job"></el-input>
+            <span class="family-contact_split"></span>
             <el-input v-model="familyContact.mobile" placeholder="联系电话" key="mobile"></el-input>
             <i v-if="contact.contactFamilyDtoList.length > 1" class="el-icon-delete" @click="removeFamilyContact(index)"></i>
           </div>
@@ -64,10 +66,8 @@
             <i class="el-icon-plus"></i> 新增家庭成员
           </div>
         </div>
-        <el-form-item >
-          <el-button size="mini" type="primary" @click="saveContact">确定</el-button>
-          <el-button size="mini" type="primary" @click="cancel">取消</el-button>
-        </el-form-item>
+        <el-button size="mini" type="primary" @click="saveContact">确定</el-button>
+        <el-button size="mini" type="primary" @click="cancel">取消</el-button>
       </el-form>
     </div>
   </div>
@@ -227,6 +227,7 @@ export default {
   .form-wrapper{
     display: flex;
     justify-content: center;
+    padding-bottom: 24px;
   }
 
   .split-line{
@@ -245,8 +246,20 @@ export default {
       text-align: center;
       margin: 24px auto;
       cursor: pointer;
+      color: rgba(0, 0, 0, 0.65);
   }
 }
+
+.family-contact_title {
+  margin: 24px 0;
+
+  .family-contact_title-sub{
+    height: 20px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+
 .family-contact{
   display: flex;
   align-items: center;
@@ -255,5 +268,16 @@ export default {
   .el-input{
     width: 112px;
   }
+
+  .family-contact_split{
+    width: 13px;
+    height: 2px;
+    border-top: 2px solid rgba(0, 0, 0, 0.25);
+  }
+
+  .el-icon-delete{
+    margin-left: 16px;
+  }
+
 }
 </style>

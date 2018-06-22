@@ -97,7 +97,6 @@
         </div>
     </el-form>
     <div class="second-step" v-if="isSecondStep()">
-      {{customer}}
       <el-table
         border
         v-if="!isAddingContact"
@@ -117,11 +116,10 @@
           label="性别">
         </el-table-column>
         <el-table-column
-          prop="dept"
+          prop="department"
           label="部门">
         </el-table-column>
         <el-table-column
-          prop="address"
           label="上级设置">
           <template slot-scope="scope">
             <el-select v-model="scope.row.parentContactId"
