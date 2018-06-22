@@ -50,9 +50,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-
-    /* 20180622修改打包路径为相对 */
-    assetsSubDirectory: './static',
+    assetsSubDirectory: 'static',
 
     /* 20180622修改打包路径为相对 */
     assetsPublicPath: './',
