@@ -13,7 +13,7 @@ const state = {
     menuIds: [], // 扁平化的menuId数组
     menuList: [],
     operator: {
-      code: '',
+      staffName: '',
       provinces: []
     }
   },
@@ -49,7 +49,7 @@ const mutations = {
     let sidebars = Object.cloneDeep(MENU_PERMISSIONS);
     const provinces = data.secOperatorDTO.provinces.split(',');
 
-    state.currentUser.operator.code = data.secOperatorDTO.code;
+    state.currentUser.operator.staffName = data.secOperatorDTO.staffName;
 
     // 用户拥有的菜单权限
     data.secMenuDTOList.map(val => {
