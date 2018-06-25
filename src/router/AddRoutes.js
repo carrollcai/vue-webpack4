@@ -8,10 +8,11 @@ import Dashboard from '@/views/dashboard/Dashboard.vue';
 import Active from '@/views/data-analysis/Active.vue';
 import RetentionLoss from '@/views/data-analysis/RetentionLoss.vue';
 import DailyLive from '@/views/data-analysis/DailyLive.vue';
-import TaskManagement from '@/views/task/Management.vue';
+import TaskManagement from '@/views/task/Query.vue';
 import TaskPush from '@/views/task/Push.vue';
 import TaskTodo from '@/views/task/Todo.vue';
 import TaskApprove from '@/views/task/Approve.vue';
+import TaskQueryDetail from '@/views/task/QueryDetail.vue';
 import TaskPushDetail from '@/views/task/PushDetail.vue';
 import TaskTodoDetail from '@/views/task/TodoDetail.vue';
 
@@ -85,6 +86,12 @@ const dynamicRoutes = [
         path: '/task/management',
         name: 'task-management',
         component: TaskManagement,
+        meta: { menuId: 6 }
+      },
+      {
+        path: '/task/query/detail/:id',
+        name: 'task-query-detail',
+        component: TaskQueryDetail,
         meta: { menuId: 6 }
       },
       {
