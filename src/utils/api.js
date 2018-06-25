@@ -46,6 +46,7 @@ export default {
 
   /* 任务管理 */
   getTaskQueryListAPI: API('http://localhost:3618/task/management'), // 任务查询列表
+  queryPushListAPI: API('http://localhost:3618/task/push/list'), // 我的申请列表
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),

@@ -30,5 +30,39 @@
         ]
       }
     }
+  },
+  {
+    "url": "/task/push/list",
+    "desc": "任务管理查询",
+    "mock": true,
+    "res": {
+      "errorInfo": {
+        "code": "200",
+        "message": "请求成功"
+      },
+      "data": {
+        "totalcount": 2,
+        "list": [
+          {
+            "id": 1,
+            "name": "安徽省日活明细下载啦啦",
+            "type": "日活明细下载",
+            "date": "2018-5-5",
+            "submitter": "张小明",
+            "status": "待处理",
+            "downloadUrl": "www.baidu.com"
+          },
+          {
+            "id": 1,
+            "name": "安徽省日活明细下载啦啦",
+            "type": "日活明细下载",
+            "date": "2018-5-5",
+            "submitter": "张小明",
+            "status": "待处理",
+            "downloadUrl": "www.baidu.com"
+          }
+        ]
+      }
+    }
   }
 ]

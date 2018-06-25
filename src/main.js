@@ -12,6 +12,7 @@ import auth from './auth';
 import EsopButton from 'components/EsopButton.vue';
 import FormCancel from 'components/FormCancel.vue';
 import '@/assets/font/style.css';
+import VueClipboard from 'vue-clipboard2';
 
 import './utils/http';
 
@@ -19,6 +20,7 @@ import './utils/http';
 // import 'scss/index.scss';
 
 Vue.use(ElementUI);
+Vue.use(VueClipboard);
 Vue.config.productionTip = false;
 Vue.component('esop-button', EsopButton);
 Vue.component('form-cancel', FormCancel);

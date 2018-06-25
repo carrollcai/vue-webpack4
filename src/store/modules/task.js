@@ -15,7 +15,15 @@ const state = {
   },
   taskList: [],
 
-  pushList: {},
+  pushForm: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    totalcount: 1,
+    date: [],
+    name: ''
+  },
+  pushList: [],
+
   todoList: {}
 };
 
@@ -25,7 +33,8 @@ const mutations = {
     state.taskForm.totalcount = data.totalcount;
   },
   [types.SET_PUSH_LIST](state, data) {
-    state.pushList = data;
+    state.pushList = data.list;
+    state.pushForm.totalcount = data.totalcount;
   },
   [types.SET_TODO_LIST](state, data) {
     state.todoList = data;

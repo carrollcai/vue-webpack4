@@ -15,7 +15,7 @@ const actions = {
    * 查询 “我的申请” 列表
    */
   queryPushList: ({ commit }, params) => {
-    return API.getRoleListAPI(params).then(res => {
+    return API.queryPushListAPI(params).then(res => {
       commit(types.SET_PUSH_LIST, res.data);
     }, err => {
       if (err) {

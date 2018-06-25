@@ -1,25 +1,28 @@
 <template>
   <div class="m-container">
     <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
-      <el-form-item>查询时间：</el-form-item>
-      <el-form-item prop="date">
-        <el-date-picker v-model="taskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker>
-      </el-form-item>
+      <div class="flex">
+        <el-form-item>查询时间：</el-form-item>
+        <el-form-item prop="date">
+          <el-date-picker v-model="taskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
 
-      <el-form-item class="task-form-item__lable">提交人：</el-form-item>
-      <el-form-item class="task-form-item__input">
-        <el-input v-model="taskForm.name" />
-      </el-form-item>
+        <el-form-item class="task-form-item__lable">提交人：</el-form-item>
+        <el-form-item class="task-form-item__input">
+          <el-input v-model="taskForm.name" />
+        </el-form-item>
 
-      <el-form-item class="task-form-item__lable">任务名称：</el-form-item>
-      <el-form-item class="task-form-item__input">
-        <el-input v-model="taskForm.name" />
-      </el-form-item>
-
-      <el-form-item class="task-form-item">
-        <el-button type="primary" @click="query">查询</el-button>
-      </el-form-item>
+        <el-form-item class="task-form-item__lable">任务名称：</el-form-item>
+        <el-form-item class="task-form-item__input">
+          <el-input v-model="taskForm.name" />
+        </el-form-item>
+      </div>
+      <div class="flex">
+        <el-form-item class="task-form-item">
+          <el-button type="primary" @click="query">查询</el-button>
+        </el-form-item>
+      </div>
     </el-form>
     <el-tabs v-model="status">
       <el-tab-pane label="全部"></el-tab-pane>
@@ -62,7 +65,6 @@ export default {
     return {
       status: 0,
       taskManageRules: {
-        // date: 
       }
     };
   },
@@ -110,6 +112,7 @@ export default {
 .task-form {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .task-form-item__input {
   width: $inputWidthQuery;
