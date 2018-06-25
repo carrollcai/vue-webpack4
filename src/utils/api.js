@@ -65,5 +65,8 @@ export default {
 
   /* 集团客户管理 */
   // 获取集团客户概览列表
-  getGroupCustomerListAPI: API('/esop/operator/queryOperator')
+  getGroupCustomerListAPI: API('/esop/operator/queryOperator'),
+
+  // 生成集团客户联系人ID
+  generateContactIdAPI: API('/esop/organize/contactId')
 };
