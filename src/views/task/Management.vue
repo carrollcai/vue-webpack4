@@ -1,13 +1,9 @@
 <template>
   <div class="m-container">
-    <!-- <el-form class="task-form" ref="taskManageForm">
+    <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
       <el-form-item>查询时间：</el-form-item>
-      <el-form-item>
-        <el-date-picker
-          v-model="taskForm.date"
-          type="daterange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期">
+      <el-form-item prop="date">
+        <el-date-picker v-model="taskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
 
@@ -30,13 +26,12 @@
       <el-tab-pane label="处理中"></el-tab-pane>
       <el-tab-pane label="已处理"></el-tab-pane>
     </el-tabs>
-
-    <wm-table :source="taskList.list" :pageNo="pageNo" :pageSize="pageSize" :total="totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="taskList" :pageNo="taskForm.pageNo" :pageSize="taskForm.pageSize" :total="taskForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" property="name" />
-      <el-table-column label="任务类型" property="account" />
-      <el-table-column label="提交时间" property="role" />
-      <el-table-column label="提交人" property="role" />
-      <el-table-column label="处理状态" property="role" />
+      <el-table-column label="任务类型" property="type" />
+      <el-table-column label="提交时间" property="date" />
+      <el-table-column label="提交人" property="submitter" />
+      <el-table-column label="处理状态" property="status" />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <span class="btnLists">
@@ -46,7 +41,7 @@
           </span>
         </template>
       </el-table-column>
-    </wm-table> -->
+    </wm-table>
   </div>
 </template>
 
@@ -59,19 +54,16 @@ export default {
   },
   computed: {
     ...mapState({
-      taskList: ({ task }) => task.taskList
+      taskList: ({ task }) => task.taskList,
+      taskForm: ({ task }) => task.taskForm
     })
   },
   data() {
     return {
-      taskForm: {
-        date: [],
-        name: ''
-      },
-      pageNo: 1,
-      pageSize: 10,
-      totalcount: 1,
-      status: 0
+      status: 0,
+      taskManageRules: {
+        // date: 
+      }
     };
   },
   watch: {
@@ -84,28 +76,24 @@ export default {
   },
   methods: {
     onPagination(value) {
-      this.pageNo = value;
+      this.taskForm.pageNo = value;
+      this.query();
     },
     onSizePagination(value) {
-      this.pageSize = value;
+      this.taskForm.pageSize = value;
+      this.query();
     },
     handleDetail(row) {
-      const path = `/system/user/edit/${row.id}`;
+      const path = `/task/todo/detail/${row.id}`;
       this.$router.push(path);
     },
-    getParams() {
-      let params = Object.assign({}, this.taskForm);
-      params.pageNo = this.pageNo;
-      params.pageSize = this.pageSize;
-      params.status = this.status;
-
-      return params;
-    },
     query() {
-      this.queryTaskList(this.getParams());
+      const params = this.taskForm;
+      params.status = this.status;
+      this.getTaskQueryList(params);
     },
     ...mapActions([
-      'queryTaskList'
+      'getTaskQueryList'
     ])
   }
 };
@@ -113,7 +101,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.task-header{
+.task-header {
   margin-bottom: 16px;
 }
 .task-form-item__lable {

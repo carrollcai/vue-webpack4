@@ -6,13 +6,9 @@ const actions = {
   /**
    * 查询“任务查询”列表
    */
-  queryTaskList: ({ commit }, params) => {
-    return API.getRoleListAPI(params).then(res => {
-      commit(types.SET_TASK_LIST, res.data);
-    }, err => {
-      if (err) {
-        commit(types.SET_TASK_LIST, {});
-      }
+  getTaskQueryList: ({ commit }, params) => {
+    return API.getTaskQueryListAPI(params).then(res => {
+      commit(types.TASK_QUERY_LIST, res.data);
     });
   },
   /**

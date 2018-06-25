@@ -1,50 +1,34 @@
 [
   {
-    "url": "/demo",
-    "desc": "测试接口",
+    "url": "/task/management",
+    "desc": "任务管理查询",
     "mock": true,
     "res": {
-      "code": 1,
-      "msg": "success",
-      "data": [{
-        "id": 1,
-        "title": "篮球体育馆",
-        "description": "篮球体育馆",
-        "html": "篮球体育馆",
-        "addr": "北京西路",
-        "rank": 4,
-        "time_type": 0,
-        "status": 0,
-        "logo": null,
-        "price": "11",
-        "limit_num": 11,
-        "buy_limit_num": 11,
-        "open_time": null,
-        "limit_time": null,
-        "ref_type": 1,
-        "ref_area": 1,
-        "ref_sport": 1
+      "errorInfo": {
+        "code": "200",
+        "message": "请求成功"
       },
-      {
-        "id": 2,
-        "title": "足球体育馆",
-        "description": "足球体育馆",
-        "html": "足球体育馆",
-        "addr": "北京西路",
-        "rank": 4,
-        "time_type": 0,
-        "status": 0,
-        "logo": null,
-        "price": "11",
-        "limit_num": 11,
-        "buy_limit_num": 11,
-        "open_time": null,
-        "limit_time": null,
-        "ref_type": 1,
-        "ref_area": 1,
-        "ref_sport": 1
+      "data": {
+        "totalcount": 2,
+        "list": [
+          {
+            "id": 1,
+            "name": "安徽省日活明细下载啦啦",
+            "type": "日活明细下载",
+            "date": "2018-5-5",
+            "submitter": "张小明",
+            "status": "待处理"
+          },
+          {
+            "id": 1,
+            "name": "安徽省日活明细下载啦啦",
+            "type": "日活明细下载",
+            "date": "2018-5-5",
+            "submitter": "张小明",
+            "status": "待处理"
+          }
+        ]
       }
-      ]
     }
   }
 ]
