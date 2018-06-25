@@ -8,6 +8,7 @@ yarn-error.log*
 /test/e2e/reports/
 selenium-debug.log
 /src/components/chart/readme.md
+/test/test.html
 
 # Editor directories and files
 .idea
