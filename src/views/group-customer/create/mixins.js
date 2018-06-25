@@ -101,7 +101,7 @@ export default {
           value: '3'
         }
       ],
-      // 注册基金类型
+      // 注册资金类型
       REGISTER_FUND_TYPE: [
         {
           label: '人民币',
