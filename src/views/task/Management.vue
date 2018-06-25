@@ -37,11 +37,9 @@
       <el-table-column label="处理状态" property="status" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <span class="btnLists">
-            <el-tooltip effect="dark" content="查看详情" placement="bottom">
-              <i class="el-icon-edit-outline" @click="handleDetail(scope.row)"></i>
-            </el-tooltip>
-          </span>
+          <el-button type="text" @click="handleDetail(scope.row)">
+            查看详情
+          </el-button>
         </template>
       </el-table-column>
     </wm-table>

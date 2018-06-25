@@ -35,18 +35,15 @@
       <el-table-column label="处理状态" property="status" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <span class="btnLists">
-            <el-tooltip effect="dark" content="查看详情" placement="bottom">
-              <i class="el-icon-edit-outline" @click="handleDetail(scope.row)"></i>
-            </el-tooltip>
-            <el-tooltip effect="dark" content="删除" placement="bottom">
-              <i class="el-icon-delete" @click="handleDelete(scope.row)"></i>
-            </el-tooltip>
-            <el-tooltip effect="dark" content="复制下载地址" placement="bottom">
-              <!-- 复制暂时支持基本类型，不支持对象 -->
-              <i class="el-icon-delete" v-clipboard:copy="scope.row.downloadUrl" v-clipboard:success="handleCopy" v-clipboard:error="handleErrorCopy"></i>
-            </el-tooltip>
-          </span>
+          <el-button type="text" @click="handleDetail(scope.row)">
+            查看详情
+          </el-button>
+          <el-button type="text" @click="handleDelete(scope.row)">
+            删除
+          </el-button>
+          <el-button type="text" v-clipboard:copy="scope.row.downloadUrl" v-clipboard:success="handleCopy" v-clipboard:error="handleErrorCopy">
+            复制链接
+          </el-button>
         </template>
       </el-table-column>
     </wm-table>
@@ -81,10 +78,12 @@ export default {
   },
   methods: {
     onPagination(value) {
-      this.pageNo = value;
+      this.taskForm.pageNo = value;
+      this.query();
     },
     onSizePagination(value) {
-      this.pageSize = value;
+      this.taskForm.pageSize = value;
+      this.query();
     },
     handleDetail(row) {
       const path = `/task/todo/detail/${row.id}`;

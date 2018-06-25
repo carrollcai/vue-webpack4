@@ -36,18 +36,12 @@
       <el-table-column label="用户角色" property="roleNames" show-overflow-tooltip />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <span class="btnLists">
-            <el-tooltip effect="dark" content="编辑" placement="bottom">
-              <el-button type="text" @click="handleEdit(scope.row)">
-                <i class="el-icon-edit-outline"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip effect="dark" content="删除" placement="bottom">
-              <el-button type="text" @click="handleDelete(scope.row)">
-                <i class="el-icon-delete"></i>
-              </el-button>
-            </el-tooltip>
-          </span>
+          <el-button type="text" @click="handleEdit(scope.row)">
+            编辑
+          </el-button>
+          <el-button type="text" @click="handleDelete(scope.row)">
+            删除
+          </el-button>
         </template>
       </el-table-column>
     </wm-table>

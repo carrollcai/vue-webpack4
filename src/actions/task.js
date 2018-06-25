@@ -17,14 +17,10 @@ const actions = {
   queryPushList: ({ commit }, params) => {
     return API.queryPushListAPI(params).then(res => {
       commit(types.SET_PUSH_LIST, res.data);
-    }, err => {
-      if (err) {
-        commit(types.SET_PUSH_LIST, {});
-      }
     });
   },
   deletePush: ({ commit }, params) => {
-    return API.deleteRoleAPI(params).then(res => {
+    return API.deletePushAPI(params).then(res => {
       Message({
         showClose: true,
         message: '删除成功',
@@ -34,17 +30,11 @@ const actions = {
     });
   },
   /**
-   * 查询 “我的代办” 列表
+   * 查询 “我的待办” 列表
    */
   queryTodoList: ({ commit }, params) => {
-    return API.getRoleListAPI(params).then(res => {
+    return API.queryTodoListAPI(params).then(res => {
       commit(types.SET_TODO_LIST, res.data);
-    }, err => {
-      if (err) {
-        commit(types.SET_TODO_LIST, {
-          list: []
-        });
-      }
     });
   }
 };
