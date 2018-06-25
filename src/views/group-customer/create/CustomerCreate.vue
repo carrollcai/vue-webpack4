@@ -9,11 +9,14 @@
       v-if="isFirstStep()"
       ref="baseForm"
       :rules="baseInfoRules"
-      label-width="120px"
+      label-width="130px"
       key="baseForm">
         <div class="base-info">
           <el-form-item label="集团名称" prop="organizeName" required key="name">
-            <el-input v-model="customer.organizeName" placeholder="请输入集团名称" key="name-input"></el-input>
+            <el-input v-model="customer.organizeName"
+              :maxlength="25"
+              placeholder="请输入集团名称"
+              key="name-input"></el-input>
           </el-form-item>
           <el-form-item label="集团属性" prop="organizeType" required key="organizeType">
             <el-select v-model="customer.organizeType"
@@ -91,13 +94,22 @@
             </el-select>
           </el-form-item>
           <el-form-item label="优势能力" prop="orgAdvantage" required key="orgAdvantage">
-            <el-input v-model="customer.orgAdvantage" placeholder="请输入优势能力" key="orgAdvantage-input"></el-input>
+            <el-input v-model="customer.orgAdvantage"
+              :maxlength="500"
+              placeholder="请输入优势能力"
+              key="orgAdvantage-input"></el-input>
           </el-form-item>
           <el-form-item label="经营范围" prop="businessScope" required key="Business-Scope">
-            <el-input v-model="customer.businessScope" placeholder="请输入经营范围" key="businessScope-input"></el-input>
+            <el-input v-model="customer.businessScope"
+              :maxlength="500"
+              placeholder="请输入经营范围"
+              key="businessScope-input"></el-input>
           </el-form-item>
           <el-form-item label="详细地址" prop="orgAddress" required key="orgAddress">
-            <el-input v-model="customer.orgAddress" placeholder="请输入经营范围" key="orgAddress-input"></el-input>
+            <el-input v-model="customer.orgAddress"
+              :maxlength="50"
+              placeholder="请输入详细地址"
+              key="orgAddress-input"></el-input>
           </el-form-item>
         </div>
         <div class="not-required">
@@ -123,21 +135,18 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="组织机构代码" key="code">
-            <el-input v-model="customer.code" placeholder="请输入组织机构代码" key="code-input"></el-input>
-          </el-form-item>
-          <el-form-item label="社会信用代码" prop="socialCreditCode" key="socialCreditCode">
+          <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
             <el-input
             v-model="customer.socialCreditCode"
-            placeholder="请输入社会信用代码"
+            placeholder="请输入统一社会信用代码"
             :maxlength="18"
             key="socialCreditCode-input"></el-input>
           </el-form-item>
-          <el-form-item label="注册基金类型" key="registerFundType">
+          <el-form-item label="注册资金类型" key="registerFundType">
             <el-select v-model="customer.registerFundType"
               clearable
               key="registerFundType-select"
-              placeholder="请选择注册基金类型">
+              placeholder="请选择注册资金类型">
               <el-option
                 v-for="item in REGISTER_FUND_TYPE"
                 :key="item.value"
@@ -146,8 +155,8 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="注册基金" prop="registerFund" key="registerFund">
-            <el-input v-model="customer.registerFund" placeholder="请输入注册基金" key="registerFund-input">
+          <el-form-item label="注册资金" prop="registerFund" key="registerFund">
+            <el-input v-model="customer.registerFund" placeholder="请输入注册资金" key="registerFund-input">
               <template slot="append">万元</template>
             </el-input>
           </el-form-item>
@@ -159,7 +168,10 @@
             </el-input>
           </el-form-item>
           <el-form-item label="登记机关" key="Registrar">
-            <el-input v-model="customer.registerOrg" placeholder="请输入登记机关" key="registrar-input"></el-input>
+            <el-input v-model="customer.registerOrg"
+              :maxlength="20"
+              placeholder="请输入登记机关"
+              key="registrar-input"></el-input>
           </el-form-item>
           <el-form-item label="发证日期" key="Licence-date">
             <el-date-picker
@@ -171,7 +183,10 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="证件地址" key="Licence-address">
-            <el-input v-model="customer.certificateAddress" placeholder="请输入证件地址" key="licenceAddress-input"></el-input>
+            <el-input v-model="customer.certificateAddress"
+              :maxlength="50"
+              placeholder="请输入证件地址"
+              key="licenceAddress-input"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="toSecondStep">下一步</el-button>
