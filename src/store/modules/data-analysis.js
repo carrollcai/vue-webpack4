@@ -2,7 +2,6 @@ import * as types from '../types';
 import { oneMonthAgo, nineDaysAgo, twoDaysAgo, sixMonthsAgo } from '@/utils/helper';
 
 const state = {
-  // client: [],
   // 省份和客户端对象
   activeObj: {
     provinceSelected: [],

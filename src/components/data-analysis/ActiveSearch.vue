@@ -25,7 +25,7 @@
         <el-button type="primary" @click="query">查询</el-button>
       </div>
       <!-- <div class="daliy-download">
-        <i class="el-icon-download">申请日活明细下载</i>
+        <el-button style="width: 120px;" @click="redirectDailyLive">申请日活下载</el-button>
       </div> -->
     </div>
   </el-form>
@@ -64,6 +64,10 @@ export default {
     this.query();
   },
   methods: {
+    redirectDailyLive() {
+      const path = `/analysis/daily-live`;
+      this.$router.push(path);
+    },
     provinceChange(val) {
       const { provinces } = this.currentUser.operator;
       let isExistAll = val.some(val => val === null);

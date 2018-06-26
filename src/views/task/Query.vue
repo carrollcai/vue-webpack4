@@ -84,7 +84,7 @@ export default {
       this.query();
     },
     handleDetail(row) {
-      const path = `/task/todo/detail/${row.id}`;
+      const path = `/task/query/detail/${row.id}`;
       this.$router.push(path);
     },
     query() {
