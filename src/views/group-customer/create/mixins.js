@@ -9,7 +9,7 @@ import {
   REGISTER_FUND_TYPE,
   ORG_INDUSTRY_TYPE,
   INDUSTRY_TYPE
-} from '@/config'
+} from '@/config';
 export default {
   components: {
     CustomerContacts,
@@ -147,6 +147,23 @@ export default {
       this.step = 0;
     },
     toSecondStep() {
+      this.$msgbox({
+        message: '恭喜您，集团客户提审成功',
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'success'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
           this.step = 1;
@@ -201,6 +218,21 @@ export default {
         });
         this.contacts[index].parentContactId = '';
       }
+    },
+    querySearchAsync(queryString, cb) {
+      console.log(queryString);
+      let result = [
+        { 'value': '阳阳麻辣烫', 'address': '天山西路389号' },
+        { 'value': '南拳妈妈龙虾盖浇饭', 'address': '普陀区金沙江路1699号鑫乐惠美食广场A13' }
+      ];
+      cb(result);
+    },
+    handleSelect(item) {
+      this.customer.managerName = item.value;
+      this.customer.managerMobile = item.value;
+      this.customer.managerNo = item.value;
+      this.customer.managerDepartment = item.value;
+      this.customer.managerPosition = item.value;
     }
   }
 };

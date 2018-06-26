@@ -252,12 +252,10 @@ export default {
             this.list[this.index] = Object.assign({}, this.contact);
           } else {
             // TODO
-            /*
             this.generateContactId().then((res) => {
               this.contact.contactId = res.data;
               this.list.push(this.contact);
             });
-            */
             this.contact.contactId = new Date().getTime();
             this.list.push(this.contact);
           }

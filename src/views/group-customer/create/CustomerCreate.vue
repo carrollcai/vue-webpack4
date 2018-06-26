@@ -258,7 +258,13 @@
     </div>
     <el-form class="customer-manager-info" :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
       <el-form-item label="客户经理" prop="managerName" required key="managerName">
-        <el-input v-model="customer.managerName" placeholder="请输入客户经理" key="manager-input"></el-input>
+        <el-autocomplete
+          key="manager-input"
+          v-model="customer.managerName"
+          :fetch-suggestions="querySearchAsync"
+          placeholder="请输入客户经理"
+          @select="handleSelect"
+        ></el-autocomplete>
       </el-form-item>
       <el-form-item label="手机号码" prop="managerMobile" required key="managerMobile">
         <el-input v-model="customer.managerMobile" placeholder="请输入手机号码" key="managerMobile-input"></el-input>
@@ -289,7 +295,6 @@ export default {
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
-          console.log(valid);
         }
       });
     }

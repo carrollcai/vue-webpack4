@@ -210,6 +210,9 @@ export const MEMBER_NUM = [
   }
 ];
 
+/**
+ * 性别
+ */
 export const GENDER = [
   {
     label: '男',
@@ -221,6 +224,9 @@ export const GENDER = [
   }
 ];
 
+/**
+ * 年龄
+ */
 export const AGE_GROUPS = [
   {
     label: '25以下',
