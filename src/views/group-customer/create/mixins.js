@@ -2,6 +2,14 @@ import _ from 'lodash';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
+import {
+  MEMBER_NUM,
+  CERTIFICATE_TYPE,
+  ORGANIZE_TYPE,
+  REGISTER_FUND_TYPE,
+  ORG_INDUSTRY_TYPE,
+  INDUSTRY_TYPE
+} from '@/config';
 export default {
   components: {
     CustomerContacts,
@@ -21,6 +29,7 @@ export default {
           return time.getTime() > new Date().getTime();
         }
       },
+      MEMBER_NUM,
       // TODO
       provinces: [
         {
@@ -40,100 +49,16 @@ export default {
           value: '4'
         }
       ],
-      // 集团客户规模
-      MEMBER_NUM: [
-        {
-          label: '0-20人',
-          value: '1'
-        },
-        {
-          label: '20-200人',
-          value: '2'
-        },
-        {
-          label: '200-1000人',
-          value: '3'
-        },
-        {
-          label: '1000人以上',
-          value: '4'
-        }
-      ],
       // 证件类型
-      CERTIFICATE_TYPE: [
-        {
-          label: '营业执照',
-          value: '1'
-        },
-        {
-          label: '组织机构代码证',
-          value: '2'
-        },
-        {
-          label: '法人登记证书',
-          value: '3'
-        },
-        {
-          label: '税务登记证',
-          value: '4'
-        },
-        {
-          label: '社会保险登记证',
-          value: '5'
-        },
-        {
-          label: '统计登记证',
-          value: '6'
-        }
-      ],
+      CERTIFICATE_TYPE,
       // 集团属性
-      ORGANIZE_TYPE: [
-        {
-          label: '军政企业',
-          value: '1'
-        },
-        {
-          label: '省公司',
-          value: '2'
-        },
-        {
-          label: '中国移动专业公司',
-          value: '3'
-        }
-      ],
+      ORGANIZE_TYPE,
       // 注册资金类型
-      REGISTER_FUND_TYPE: [
-        {
-          label: '人民币',
-          value: '1'
-        },
-        {
-          label: '美元',
-          value: '2'
-        }
-      ],
-      // TODO 机构类型
-      ORG_INDUSTRY_TYPE: [
-        {
-          label: '人民币',
-          value: '1'
-        },
-        {
-          label: '美元',
-          value: '2'
-        }
-      ],
-      // TODO 行业类别
-      INDUSTRY_TYPE: [
-        {
-          label: '人民币',
-          value: '1'
-        },
-        {
-          label: '美元',
-          value: '2'
-        }
-      ],
+      REGISTER_FUND_TYPE,
+      // 机构类型
+      ORG_INDUSTRY_TYPE,
+      // 行业类别
+      INDUSTRY_TYPE,
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: 'blur' },
@@ -146,16 +71,16 @@ export default {
           { required: true, message: '请选择成立日期', trigger: 'blur' }
         ],
         provinceId: [
-          { required: true, message: '请选择所属省份', trigger: 'blur' }
+          { required: true, message: '请选择所属省份', trigger: 'change' }
         ],
         orgIndustryType: [
-          { required: true, message: '请选择机构类型', trigger: 'blur' }
+          { required: true, message: '请选择机构类型', trigger: 'change' }
         ],
         industryType: [
-          { required: true, message: '请选择行业类别', trigger: 'blur' }
+          { required: true, message: '请选择行业类别', trigger: 'change' }
         ],
         memberNum: [
-          { required: true, message: '请选择集团客户规模', trigger: 'blur' }
+          { required: true, message: '请选择集团客户规模', trigger: 'change' }
         ],
         orgAdvantage: [
           { required: true, message: '请输入优势能力', trigger: 'blur' }
@@ -222,6 +147,23 @@ export default {
       this.step = 0;
     },
     toSecondStep() {
+      this.$msgbox({
+        message: '恭喜您，集团客户提审成功',
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'success'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
           this.step = 1;
@@ -276,6 +218,21 @@ export default {
         });
         this.contacts[index].parentContactId = '';
       }
+    },
+    querySearchAsync(queryString, cb) {
+      console.log(queryString);
+      let result = [
+        { 'value': '阳阳麻辣烫', 'address': '天山西路389号' },
+        { 'value': '南拳妈妈龙虾盖浇饭', 'address': '普陀区金沙江路1699号鑫乐惠美食广场A13' }
+      ];
+      cb(result);
+    },
+    handleSelect(item) {
+      this.customer.managerName = item.value;
+      this.customer.managerMobile = item.value;
+      this.customer.managerNo = item.value;
+      this.customer.managerDepartment = item.value;
+      this.customer.managerPosition = item.value;
     }
   }
 };

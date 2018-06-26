@@ -1,67 +1,110 @@
 <template>
-  <div class="customer-detail">
-    <div class="customer-detail_info">
+  <div class="customer-detail_info">
+      <activity></activity>
       <div class="block-title base-info_title">
         基本信息
-        <span class="base-info_title-sub">更多信息</span>
+        <span class="base-info_title-sub" @click="showMore = !showMore">更多信息</span>
       </div>
       <div class="block-info">
         <el-row>
           <el-col :span="8">
             <span class="info_label">集团名称：</span>
-            <span class="info_content">1111</span>
+            <span class="info_content">{{customer.organizeName}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">集团属性：</span>
-            <span class="info_content">18756996633</span>
+            <span class="info_content">{{customer.organizeType}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">所属省份：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.provinceId}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="info_label">成立时间：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.establishTime}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">机关类型：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.orgIndustryType}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">行业类别：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.industryType}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="info_label">集团规模：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.memberNum}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">经营范围：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.businessScope}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <span class="info_label">办公地址：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.orgAddress}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <span class="info_label">优势能力：</span>
-            <div class="info_content">公司是多家行业内世界知名企业的产品经销商，公司自行生产了较先进的电子工具系列产品，并与国内一些生产厂商建立了稳固的合作关系。 丰富的产品线不仅有利于公司提供解决方案，而且为公司积累行业经验提供了极佳的条件。</div>
+            <div class="info_content">{{customer.orgAdvantage}}</div>
           </el-col>
         </el-row>
+        <div v-if="showMore" class="more-info">
+          <el-row>
+            <el-col :span="8">
+              <span class="info_label">工商注册号：</span>
+              <span class="info_content">{{customer.registeNum}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="info_label">证件类型：</span>
+              <span class="info_content">{{customer.certificateType}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="info_label">统一社会信用代码：</span>
+              <span class="info_content">{{customer.socialCreditCode}}</span>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <span class="info_label">注册资金类型：</span>
+              <span class="info_content">{{customer.registerFundType}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="info_label">注册资金：</span>
+              <span class="info_content">{{customer.registerFund}}万元</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="info_label">经营期限：</span>
+              <span class="info_content">{{customer.businessTerm}}年</span>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <span class="info_label">登记机关：</span>
+              <span class="info_content">{{customer.registerOrg}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="info_label">发证日期：</span>
+              <span class="info_content">{{customer.openTime}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="info_label">证件地址：</span>
+              <span class="info_content">{{customer.certificateAddress}}</span>
+            </el-col>
+          </el-row>
+        </div>
       </div>
       <div class="block-title">
         联系人
       </div>
       <div>
-
         <el-table
           border
           :data="contacts">
@@ -86,7 +129,7 @@
           <el-table-column
             label="上级领导">
           </el-table-column>
-          <el-table-column type="expand" label="操作" width="100px" :formatter="formatter">
+          <el-table-column type="expand" label="操作" width="100px">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="姓名">
@@ -137,62 +180,44 @@
         <el-row>
           <el-col :span="8">
             <span class="info_label">客户经理：</span>
-            <span class="info_content">1111</span>
+            <span class="info_content">{{customer.managerName}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">手机号码：</span>
-            <span class="info_content">18756996633</span>
+            <span class="info_content">{{customer.managerMobile}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">员工编号：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.managerNo}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="info_label">所在部门：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.managerDepartment}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">所在职位：</span>
-            <span class="info_content"></span>
+            <span class="info_content">{{customer.managerPosition}}</span>
           </el-col>
         </el-row>
       </div>
     </div>
-    <div class="customer-detail_audit">
-      <el-form class="customer-manager-info" :model="auditInfo" ref="managerForm" :rules="auditRules" label-width="120px" key="managerForm">
-        <el-form-item label="审核结果" prop="status" required key="status">
-          <el-radio-group v-model="auditInfo.status" key="status-radio">
-            <el-radio label="Y">通过</el-radio>
-            <el-radio label="N">不通过</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="审核建议" prop="desc" required key="desc">
-          <el-input v-model="customer.desc" placeholder="如审核不通过，请填写原因供创建者查看" key="desc-input"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="saveCustomer">确认审核</el-button>
-          <el-button @click="back">取消</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-  </div>
 </template>
 <script>
+import Activity from './Activity.vue';
 export default {
-  name: 'CustomerDetail',
-  data() {
-    return {
-      customer: {
-      },
-      auditInfo: {
-        status: 'Y'
-      },
-      auditRules: {
-
+  name: 'DetailInfo',
+  components: {
+    Activity
+  },
+  props: {
+    customer: {
+      type: Object,
+      default() {
+        return {};
       }
-    };
+    }
   },
   computed: {
     contacts() {
@@ -201,102 +226,117 @@ export default {
       }];
     }
   },
+  data() {
+    return {
+      showMore: false
+    };
+  },
   mounted() {
     this.$nextTick(() => {
-      document.querySelector('.el-table__expand-icon ').innerHTML = '详情<i class="el-icon el-icon-arrow-right"></i>';
+      document.querySelector('.el-table__expand-icon').innerHTML = '详情<i class="el-icon el-icon-arrow-right"></i>';
     });
   },
   methods: {
-    saveCustomer() {
-    },
-    back() {
-
-    },
-    formatter() {
-      return '111';
-    }
   }
 };
 </script>
 <style lang="scss">
-.customer-detail{
   .customer-detail_audit,
   .customer-detail_info{
     background: #FFFFFF;
   }
 
-  .customer-detail_info{
-    padding: 32px;
-  }
   .customer-detail_audit{
     margin-top: 16px;
   }
 
-  .base-info_title{
-    display: flex;
-    justify-content: space-between;
-  }
+  .customer-detail_info{
+    padding: 32px;
 
-  .base-info_title-sub{
-    color: rgba(55, 120, 255, 1);
-    font-size: 14px;
-    cursor: pointer;
-  }
+    .base-info_title{
+      display: flex;
+      justify-content: space-between;
+    }
 
-  .block-title{
-    margin: 32px  0 16px 0 ;
-    height: 24px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.85);
-    font-size: 16px;
-  }
+    .base-info_title-sub{
+      color: rgba(55, 120, 255, 1);
+      font-size: 14px;
+      cursor: pointer;
+    }
 
-  .block-info{
-    .el-row{
-      height: 20px;
-      line-height: 20px;
-      margin-bottom: 16px;
-      &:last-child{
-        margin-bottom: 0;
+    .block-title{
+      margin: 32px  0 16px 0 ;
+      height: 24px;
+      line-height: 24px;
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 16px;
+    }
+
+    .block-info{
+      .el-row{
+        height: 20px;
+        line-height: 20px;
+        margin-bottom: 16px;
+        &:last-child{
+          margin-bottom: 0;
+        }
+      }
+
+      .el-col{
+        display: flex;
+      }
+
+      .info_label{
+        min-width: 90px;
+        max-width: 130px;
+        height: 20px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 14px;
+      }
+
+      .info_content{
+        flex: 1;
+        height: 20px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.85);
+        font-size: 14px;
       }
     }
 
-    .el-col{
-      display: flex;
+    .demo-table-expand label {
+      width: 90px;
+      color: #99a9bf;
+    }
+    .demo-table-expand .el-form-item {
+      margin-right: 0;
+      margin-bottom: 0;
+      width: 50%;
     }
 
-    .info_label{
-      width: 70px;
-      height: 20px;
-      line-height: 20px;
-      color: rgba(0, 0, 0, 0.45);
-      font-size: 14px;
+    .demo-table-expand {
+      font-size: 0;
+
+      .full-desc{
+        width: 100%;
+      }
     }
 
-    .info_content{
-      flex: 1;
-      height: 20px;
-      line-height: 20px;
-      color: rgba(0, 0, 0, 0.85);
-      font-size: 14px;
+    .el-table__expand-column{
+      .el-icon{
+        margin-left: 16px;
+        transform: rotate(90deg);
+        transition: transform .2s ease-in-out;
+      }
+
+      .el-table__expand-icon--expanded {
+        transform: rotate(0);
+
+        .el-icon{
+          transform: rotate(-90deg);
+          transition: transform .2s ease-in-out;
+        }
+      }
     }
   }
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
-
-  .demo-table-expand {
-    font-size: 0;
-
-  .full-desc{
-    width: 100%;
-  }
-}
 </style>
