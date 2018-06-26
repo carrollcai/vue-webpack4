@@ -67,8 +67,6 @@ export default {
   },
   beforeMount() {
     this.resetForm();
-
-    // Object.isNullArray(this.permissions) && this.getPermissions();
   },
   methods: {
     changeMendIds(val) {

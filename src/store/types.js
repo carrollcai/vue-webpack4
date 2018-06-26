@@ -37,6 +37,7 @@ export const ACTIVE_INIT_DATE = 'ACTIVE_INIT_DATE';
 
 /* task */
 export const TASK_QUERY_LIST = 'TASK_QUERY_LIST';
+export const TASK_GET_DETAIL = 'TASK_GET_DETAIL';
 export const SET_PUSH_LIST = 'SET_PUSH_LIST';
 export const SET_TODO_LIST = 'SET_TODO_LIST';
 

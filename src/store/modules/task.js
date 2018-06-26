@@ -15,6 +15,9 @@ const state = {
   },
   taskList: [],
 
+  // 详情对象
+  taskDetail: {},
+
   pushForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
@@ -47,6 +50,9 @@ const mutations = {
   [types.SET_TODO_LIST](state, data) {
     state.todoList = data.list;
     state.todoForm.totalcount = data.totalcount;
+  },
+  [types.TASK_GET_DETAIL](state, data) {
+    state.taskDetail = data;
   }
 };
 
