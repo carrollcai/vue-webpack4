@@ -164,6 +164,7 @@ const mutations = {
   [types.PROVINCE_GET_USER](state, data) {
     state.provinceUserList = data.map(val => {
       return {
+        orderNum: val.orderNum,
         name: val.province,
         value: val.activeNum
       };
