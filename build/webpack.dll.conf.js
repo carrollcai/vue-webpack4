@@ -2,6 +2,7 @@
  * @author carro
  * 实现第三库单独打包压缩，加入hash防止缓存。打包中如果vendor内容没有改变，hash不变改变。
  * webpack也会自动剔除已打包，不需要手动配置externals。
+ * 每次跟新执行 `yarn run dll`，详情可查看package.json配置
 */
 const path = require('path');
 const webpack = require('webpack');
