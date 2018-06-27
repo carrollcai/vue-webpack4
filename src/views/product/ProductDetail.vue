@@ -9,7 +9,7 @@
 <script>
 import baseInfo from 'components/product/BaseInfo.vue';
 import SaleDome from 'components/product/SaleDome.vue';
-import { mapState, mapActions } from 'vuex';
+// import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -19,24 +19,9 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    ...mapState({
-      productBaseInfo: ({ product }) => product.productBaseInfo,
-      productSaleDemo: ({ product }) => product.productSaleDemo
-    })
-  },
-  beforeMount() {
-    this.getProductDetail();
-  },
-  methods: {
-    ...mapActions([
-      'getProductDetail'
-    ])
-  },
-  onload() {
-    console.log(this.productBaseInfo);
-    console.log(this.productSaleDemo);
-  }
+  computed: {},
+  beforeMount() {},
+  methods: {}
 };
 </script>
 

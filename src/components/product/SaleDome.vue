@@ -3,7 +3,7 @@
   <h3>产品销售案例</h3>
   <div class="b-i-table">
     <el-table
-      :data="tableData5"
+      :data="productSaleDemo"
       row-key="id" :expand-row-keys="entexpands" @row-click="rowExpand"
       style="width: 100%">
       <el-table-column
@@ -34,25 +34,25 @@
           <el-form label-position="left" inline class="demo-table-expand">
             <p class="sale-type">
               <el-form-item label="销售类型">
-              <span>: {{ props.row.name }}</span>
+              <span>: {{ props.row.state }}</span>
               </el-form-item>
               <el-form-item label="销售数量">
-                <span>: {{ props.row.shop }}</span>
+                <span>: {{ props.row.salesNumber }}</span>
               </el-form-item>
             </p>
             <p>
               <el-form-item label="创新点/借鉴点">
-                <span>: {{ props.row.id }}</span>
+                <span>: {{ props.row.keypoint }}</span>
               </el-form-item>
             </p>
             <p>
               <el-form-item label="销售方案">
-                <span>: {{ props.row.shopId }}</span>
+                <span>: {{ props.row.salesType }}</span>
               </el-form-item>
             </p>
             <p>
               <el-form-item label="经验教训">
-                <span>: {{ props.row.category }}</span>
+                <span>: {{ props.row.experience }}</span>
               </el-form-item>
             </p>
           </el-form>
@@ -67,20 +67,20 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: {
-    ...mapState({
-      productBaseInfo: ({ product }) => product.productBaseInfo,
-      productSaleDemo: ({ product }) => product.productSaleDemo
-    })
+  data() {
+    return {
+      currIndex: -1,
+      entexpands: [],
+      productSaleDemo: []
+    };
   },
   beforeMount() {
     this.getProductDetail();
   },
-  data() {
-    return {
-      currIndex: -1,
-      entexpands: []
-    };
+  cumputed: {
+    ...mapState({
+      // productSaleDemo: ({ product }) => product.productSaleDemo.List
+    })
   },
   methods: {
     rowExpand(row, event, column) {
