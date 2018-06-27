@@ -8,12 +8,18 @@ import Dashboard from '@/views/dashboard/Dashboard.vue';
 import Active from '@/views/data-analysis/Active.vue';
 import RetentionLoss from '@/views/data-analysis/RetentionLoss.vue';
 import DailyLive from '@/views/data-analysis/DailyLive.vue';
-import TaskManagement from '@/views/task/Management.vue';
+import TaskManagement from '@/views/task/Query.vue';
 import TaskPush from '@/views/task/Push.vue';
 import TaskTodo from '@/views/task/Todo.vue';
 import TaskApprove from '@/views/task/Approve.vue';
+import TaskQueryDetail from '@/views/task/QueryDetail.vue';
 import TaskPushDetail from '@/views/task/PushDetail.vue';
 import TaskTodoDetail from '@/views/task/TodoDetail.vue';
+
+import Business from '@/views/business-manage/Business.vue';
+import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';
+import BusinessTask from '@/views/business-manage/BusinessTask.vue';
+import BusinessDetail from '@/views/business-manage/BusinessDetail.vue';
 
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
 import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
@@ -125,6 +131,12 @@ const dynamicRoutes = [
         meta: { menuId: 6 }
       },
       {
+        path: '/task/query/detail/:id',
+        name: 'task-query-detail',
+        component: TaskQueryDetail,
+        meta: { menuId: 6 }
+      },
+      {
         path: '/task/push',
         name: 'task-push',
         component: TaskPush,
@@ -153,6 +165,30 @@ const dynamicRoutes = [
         name: 'task-approve',
         component: TaskApprove,
         meta: { menuId: 8 }
+      },
+      {
+        path: '/business-manage/business',
+        name: 'business',
+        component: Business,
+        meta: { menuId: 8 }
+      },
+      {
+        path: '/business-manage/business-detail/:id',
+        name: 'business-detail',
+        component: BusinessDetail,
+        meta: { menuId: 8 }
+      },
+      {
+        path: '/business-manage/business-create-manage',
+        name: 'business-create-manage',
+        component: BusinessCreateManage,
+        meta: { menuId: 9 }
+      },
+      {
+        path: '/business-manage/business-task',
+        name: 'business-task',
+        component: BusinessTask,
+        meta: { menuId: 10 }
       },
       {
         path: '/group-customer/overview',

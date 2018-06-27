@@ -96,7 +96,7 @@ export default {
       });
     },
     onSubmit() {
-      this.$message('恭喜您，产品创建成功！');
+      this.$message({showClose: true, message: '恭喜您，产品创建成功！', type: 'success'});
     }
   },
   onload() {

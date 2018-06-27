@@ -1,29 +1,29 @@
 <template>
   <div class="m-container">
-    <!-- <el-form class="todo-form" ref="taskManageForm">
-      <el-form-item>查询时间：</el-form-item>
-      <el-form-item>
-        <el-date-picker
-          v-model="taskForm.date"
-          type="daterange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期">
-        </el-date-picker>
-      </el-form-item>
+    <el-form class="todo-form" ref="taskManageForm">
+      <div class="flex">
+        <el-form-item>查询时间：</el-form-item>
+        <el-form-item>
+          <el-date-picker v-model="todoForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
 
-      <el-form-item class="todo-form-item__lable">提交人：</el-form-item>
-      <el-form-item class="todo-form-item__input">
-        <el-input v-model="taskForm.submitter" />
-      </el-form-item>
+        <el-form-item class="todo-form-item__lable">提交人：</el-form-item>
+        <el-form-item class="todo-form-item__input">
+          <el-input v-model="todoForm.submitter" />
+        </el-form-item>
 
-      <el-form-item class="todo-form-item__lable">任务名称：</el-form-item>
-      <el-form-item class="todo-form-item__input">
-        <el-input v-model="taskForm.name" />
-      </el-form-item>
+        <el-form-item class="todo-form-item__lable">任务名称：</el-form-item>
+        <el-form-item class="todo-form-item__input">
+          <el-input v-model="todoForm.name" />
+        </el-form-item>
+      </div>
 
-      <el-form-item class="todo-form-item">
-        <el-button type="primary" @click="query">查询</el-button>
-      </el-form-item>
+      <div class="flex">
+        <el-form-item class="todo-form-item">
+          <el-button type="primary" @click="query">查询</el-button>
+        </el-form-item>
+      </div>
     </el-form>
     <el-tabs v-model="status">
       <el-tab-pane label="全部"></el-tab-pane>
@@ -31,25 +31,23 @@
       <el-tab-pane label="已处理"></el-tab-pane>
     </el-tabs>
 
-    <wm-table :source="todoList.list" :pageNo="pageNo" :pageSize="pageSize" :total="totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="todoList" :pageNo="todoForm.pageNo" :pageSize="todoForm.pageSize" :total="todoForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" property="name" />
-      <el-table-column label="任务类型" property="account" />
-      <el-table-column label="提交时间" property="role" />
-      <el-table-column label="提交人" property="role" />
-      <el-table-column label="处理状态" property="role" />
+      <el-table-column label="任务类型" property="type" />
+      <el-table-column label="提交时间" property="date" />
+      <el-table-column label="提交人" property="submitter" />
+      <el-table-column label="处理状态" property="status" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <span class="btnLists">
-            <el-tooltip effect="dark" content="查看详情" placement="bottom">
-              <i class="el-icon-edit-outline" @click="handleDetail(scope.row)"></i>
-            </el-tooltip>
-            <el-tooltip effect="dark" content="去处理" placement="bottom">
-              <i class="el-icon-delete" @click="handle(scope.row)"></i>
-            </el-tooltip>
-          </span>
+          <el-button type="text" @click="handleDetail(scope.row)">
+            查看详情
+          </el-button>
+          <el-button type="text" @click="handle(scope.row)">
+            去处理
+          </el-button>
         </template>
       </el-table-column>
-    </wm-table> -->
+    </wm-table>
   </div>
 </template>
 
@@ -62,19 +60,12 @@ export default {
   },
   computed: {
     ...mapState({
-      todoList: ({ task }) => task.todoList
+      todoList: ({ task }) => task.todoList,
+      todoForm: ({ task }) => task.todoForm
     })
   },
   data() {
     return {
-      taskForm: {
-        date: [],
-        name: '',
-        submitter: ''
-      },
-      pageNo: 1,
-      pageSize: 10,
-      totalcount: 1,
       status: 0
     };
   },
@@ -88,38 +79,25 @@ export default {
   },
   methods: {
     onPagination(value) {
-      this.pageNo = value;
+      this.todoForm.pageNo = value;
+      this.query();
     },
     onSizePagination(value) {
-      this.pageSize = value;
+      this.todoForm.pageSize = value;
+      this.query();
     },
     handleDetail(row) {
-      const path = `/system/user/edit/${row.id}`;
+      const path = `/task/todo/detail/${row.id}`;
       this.$router.push(path);
     },
     handle(row) {
-      this.$confirm('删除申请, 是否继续?', ' ', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.deletePush({ id: row.id }).then(res => {
-          this.query();
-        });
-      }).catch(() => {
-        this.$message('已取消删除');
-      });
-    },
-    getParams() {
-      let params = Object.assign({}, this.taskForm);
-      params.pageNo = this.pageNo;
-      params.pageSize = this.pageSize;
-      params.status = this.status;
-
-      return params;
+      const path = `/task/todo/detail/${row.id}`;
+      this.$router.push(path);
     },
     query() {
-      this.queryTodoList(this.getParams());
+      const params = this.todoForm;
+      params.status = this.status;
+      this.queryTodoList(params);
     },
     ...mapActions([
       'queryTodoList'
@@ -136,6 +114,7 @@ export default {
 .todo-form {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .todo-form-item__input {
   width: $inputWidthQuery;

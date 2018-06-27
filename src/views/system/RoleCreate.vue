@@ -67,8 +67,6 @@ export default {
   },
   beforeMount() {
     this.resetForm();
-
-    // Object.isNullArray(this.permissions) && this.getPermissions();
   },
   methods: {
     changeMendIds(val) {
@@ -135,8 +133,5 @@ export default {
   margin-top: $blockWidth;
   display: flex;
   justify-content: center;
-}
-.form-input {
-  width: 468px;
 }
 </style>

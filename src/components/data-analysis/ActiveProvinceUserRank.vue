@@ -6,7 +6,7 @@
       <el-scrollbar style="height: 100%;">
         <li class="dailyLive-rank-item" v-for="(item, i) in provinceUserList" :key="i">
           <div class="dailyLive-rank__circle" :style="{backgroundColor: filterTop3(i)}">
-            {{i + 1}}
+            {{item.orderNum}}
           </div>
           <div class="dailyLive-rank__name">
             {{item.name}}

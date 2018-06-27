@@ -33,10 +33,10 @@
           <el-form-item label="创新点/借鉴点：" label-width="130px">
             <el-input v-model="formData.productDesc" placeholder="请输入" type="textarea" :rows="4"></el-input>
           </el-form-item>
-          <el-form-item class="mt28 mb10">
-            <el-button type="primary" size="mini" @click="onSubmit">确定</el-button>
-            <el-button type="primary" size="mini" @click="onSubmit">取消</el-button>
-          </el-form-item>
+          <el-row class="mt28 mb10">
+            <el-button type="primary" round size="mini" @click="onSubmit">确定</el-button>
+            <el-button round size="mini" @click="onSubmit">取消</el-button>
+          </el-row>
         </el-form>
       </div>
       <div class="add-demo">+ 添加销售案例</div>
@@ -91,7 +91,7 @@ export default {
 .el-step__icon.is-text {border-width: 1px;}
 .creat-content {background: #fff; margin-top: 16px; height: 832px;}
 .el-steps--simple {background: none;}
-.add-content {width: 430px; margin: 0 auto;}
+.add-content {width: 430px; margin: 0 auto; padding: 33px 0 20px;}
 .el-form-item {margin-bottom: 10px;}
 .creat-model {
   width: 587px;
@@ -119,6 +119,9 @@ export default {
     margin-top: 16px;
     text-align: center;
     color: #595959
+  }
+  .el-button--mini, .el-button--mini {
+    line-height: 1;
   }
 }
 </style>

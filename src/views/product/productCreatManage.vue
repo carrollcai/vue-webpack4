@@ -3,20 +3,22 @@
   <el-form :inline="true" :model="formData" class="demo-form-inline box">
     <el-form-item>
       <el-col>
-        <el-date-picker v-model="formData.time" type="date" placeholder="创建时间范围" style="width: 100%;"></el-date-picker>
+        <!-- <el-date-picker v-model="formData.time" type="date" placeholder="创建时间范围" style="width: 100%;"></el-date-picker> -->
+        <el-date-picker style="width: 200px" format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="formData.time" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+        </el-date-picker>
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-select v-model="formData.type" placeholder="产品类型">
+      <el-select style="width: 130px" v-model="formData.type" placeholder="产品类型">
         <el-option label="产品类型一" value="shanghai"></el-option>
         <el-option label="产品类型二" value="beijing"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-input v-model="formData.create" placeholder="创建人"></el-input>
+      <el-input style="width: 130px" v-model="formData.create" placeholder="创建人"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-input v-model="formData.code" placeholder="产品名称/编码"></el-input>
+      <el-input style="width: 130px" v-model="formData.code" placeholder="产品名称/编码"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -30,20 +32,15 @@
     :pageNo="formData.pageNo"
     :pageSize="formData.pageSize"
   >
-      <el-table-column label="产品编码" property="scope">
+      <el-table-column label="产品编码" property="productId">
       </el-table-column>
       <el-table-column label="产品名称" property="productName">
       </el-table-column>
       <el-table-column label="产品类别" property="productType">
       </el-table-column>
-      <el-table-column label="创建时间" property="creatTime">
+      <el-table-column label="创建时间" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" property="updateTime">
-        <template slot-scope="updateTime">
-          <span class="btnLists">
-            最近更新时间
-          </span>
-        </template>
+      <el-table-column label="最近更新时间" property="updatedate">
       </el-table-column>
       <el-table-column label="操作" property="">
         <template slot-scope="operation">
@@ -57,7 +54,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import {mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
 
 export default {
@@ -74,26 +71,16 @@ export default {
         productName: '',
         pageNo: 1,
         pageSize: 20
-      },
-      productList: [
-        {
-          scope: 1,
-          productName: 'name',
-          productType: 'type',
-          creatTime: 'createTime',
-          updateTime: '更新Time',
-          operation: '操作'
-        }
-      ]
+      }
     };
   },
   beforeMount() {
     this.getProductCreatList(this.formData);
   },
   computed: {
-    /* ...mapState({
-      productList: ({ product }) => product.productList
-    }) */
+    ...mapState({
+      productList: ({ product }) => product.productList.List
+    })
   },
   methods: {
     query() {
@@ -107,7 +94,7 @@ export default {
       this.$router.push({path: '/product/create-base-info'});
     },
     toPageDetail() {
-      this.$router.push({path: '/product/product-detail', params: {}});
+      this.$router.push({path: '/product/product-detail', params: {productId: 1}});
     },
     toPageModefiy() {
       this.$router.push({path: '/product/create-base-info', params: {}});

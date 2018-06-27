@@ -11,7 +11,8 @@
       <el-menu mode="horizontal" :default-active="'1'" background-color="#292c31" text-color="#fff">
         <el-submenu :index="'1'">
           <template slot="title">
-            <i class="el-icon-service"></i>{{currentUser.operator.code}}
+            <!-- <i class="el-icon-service"></i> -->
+            {{currentUser.operator.staffName}}
           </template>
           <el-menu-item index="2-1" @click="handleResetPwd">修改密码</el-menu-item>
           <el-menu-item index="2-2" @click="handleLogout">退出</el-menu-item>
@@ -73,5 +74,4 @@ export default {
 .header-func__split {
   margin: 0 16px;
 }
-
 </style>

@@ -11,7 +11,7 @@
         <el-input v-model="formData.productName" placeholder="请输入名称"></el-input>
       </el-form-item>
       <el-form-item label="产品类别：" label-width="90px">
-        <el-select v-model="formData.productType" placeholder="请选择类别">
+        <el-select style="width: 100%;" v-model="formData.productType" placeholder="请选择类别">
           <el-option
             v-for="item in options"
             :key="item.value"

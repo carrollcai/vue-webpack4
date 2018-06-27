@@ -1,63 +1,62 @@
-[{
+[
+  {
     "url": "/esop/product/productDetail",
     "desc": "测试接口",
     "mock": true,
     "res": {
-      "code": 1,
-      "msg": "success",
+      "errorInfo": {
+        "message": "请求成功",
+        "code": "200"
+      },
       "data": {
-        "total": 14,
-        "List": [
+        "productId": 2,
+        "productName": "产品二",
+        "productType": "个人市场",
+        "insertdate": "2018-06-27 15:14:14",
+        "updatedate": "2018-06-27 15:14:14",
+        "price": 202,
+        "description": "这是对产品2进行的一番介绍",
+        "username": "胡",
+        "deptment": "软研",
+        "position": "开发",
+        "version": "2.0",
+        "state": 1,
+        "operatorId": 10066,
+        "salesList": [
           {
-            "creatTime": "2012-08-01",
-            "productName": "咪咕动漫",
-            "scope": 1,
-            "productType": 9,
-            "updateTime": 333,
-            "operation": "2017-08-11"
+            "salesId": 3,
+            "productId": 2,
+            "salesType": "组合销售",
+            "scheme": "2 这是销售实例的一个方案",
+            "salesNumber": 2,
+            "keypoint": "2 这是销售实例的创新点和借鉴点",
+            "experience": "2 这是销售实例的一个经验教训",
+            "state": 1,
+            "fileId": 35331
           },
           {
-            "creatTime": "2014-03-27",
-            "productName": "咪咕动漫",
-            "scope": 2,
-            "productType": 4,
-            "updateTime": 333,
-            "operation": "2017-05-11"
+            "salesId": 4,
+            "productId": 2,
+            "salesType": "单品销售",
+            "scheme": "2 这是销售实例的一个方案",
+            "salesNumber": 29,
+            "keypoint": "2 这是销售实例的创新点和借鉴点",
+            "experience": "2 这是销售实例的一个经验教训",
+            "state": 1,
+            "fileId": 35333
           },
           {
-            "creatTime": "2018-05-11",
-            "productName": "咪咕动漫",
-            "scope": 3,
-            "productType": 6,
-            "updateTime": 333,
-            "operation": "2017-05-11"
-          },
-          {
-            "creatTime": "2018-05-11",
-            "productName": "咪咕动漫",
-            "scope": 4,
-            "productType": 13,
-            "updateTime": "2018-05-31",
-            "operation": 111
-          },
-          {
-            "creatTime": "2016-05-11",
-            "productName": "咪咕动漫",
-            "scope": 5,
-            "productType": 8,
-            "updateTime": "2017-03-21",
-            "operation": 111
-          },
-          {
-            "creatTime": "2017-05-11",
-            "productName": "咪咕动漫",
-            "scope": 6,
-            "productType": 6,
-            "updateTime": "2017-06-11",
-            "operation": 111
+            "salesId": 5,
+            "productId": 2,
+            "salesType": "单品销售",
+            "scheme": "2 这是销售实例的一个方案",
+            "salesNumber": 82,
+            "keypoint": "2 这是销售实例的创新点和借鉴点",
+            "experience": "2 这是销售实例的一个经验教训",
+            "state": 1
           }
         ]
-      }
+      }   
     }
   },
   {
@@ -65,60 +64,84 @@
     "desc": "测试接口",
     "mock": true,
     "res": {
-      "code": 1,
-      "msg": "success",
+      "errorInfo": {
+        "code": "200",
+        "message": "请求成功"
+      },
       "data": {
         "total": 14,
         "List": [
           {
-            "creatTime": "2012-08-01",
-            "productName": "咪咕动漫",
-            "scope": 1,
-            "productType": 9,
-            "updateTime": 333,
-            "operation": "2017-08-11"
+            "productId": 2,
+            "description": "修改1726 这是对产品2进行的一番介绍",
+            "version": "修改1726 2.0",
+            "productName": "edit2028 产品2",
+            "updatedate": "2018-06-25 20:47:46",
+            "price": 122,
+            "insertdate": "2018-06-25 19:20:39",
+            "position": "修改1726 开发",
+            "state": 0,
+            "deptment": "修改1726 软研",
+            "operatorId": 10070,
+            "productType": "政企市场",
+            "username": "修改1726 胡"
           },
           {
-            "creatTime": "2014-03-27",
+            "insertdate": "2014-03-27",
             "productName": "咪咕动漫",
-            "scope": 2,
-            "productType": 4,
-            "updateTime": 333,
+            "productId": 1,
+            "productType": "个人市场",
+            "updateTime": "2018-5-5",
+            "operatorId": 90383,
+            "operation": 2
+          },
+          {
+            "insertdate": "2018-05-11",
+            "productName": "咪咕动漫",
+            "productId": 1654687113,
+            "productType": "个人市场",
+            "updateTime": "2018-5-5",
+            "operatorId": 90383,
             "operation": "2017-05-11"
           },
           {
-            "creatTime": "2018-05-11",
+            "insertdate": "2018-05-11",
             "productName": "咪咕动漫",
-            "scope": 3,
-            "productType": 6,
-            "updateTime": 333,
-            "operation": "2017-05-11"
-          },
-          {
-            "creatTime": "2018-05-11",
-            "productName": "咪咕动漫",
-            "scope": 4,
+            "productId": 4,
             "productType": 13,
+            "operatorId": 100383,
             "updateTime": "2018-05-31",
             "operation": 111
           },
           {
-            "creatTime": "2016-05-11",
+            "insertdate": "2016-05-11",
             "productName": "咪咕动漫",
-            "scope": 5,
+            "productId": 5,
             "productType": 8,
+            "operatorId": 10003,
             "updateTime": "2017-03-21",
             "operation": 111
           },
           {
-            "creatTime": "2017-05-11",
+            "insertdate": "2016-05-11",
             "productName": "咪咕动漫",
-            "scope": 6,
-            "productType": 6,
-            "updateTime": "2017-06-11",
+            "productId": 5,
+            "productType": 8,
+            "operatorId": 10003,
+            "updateTime": "2017-03-21",
+            "operation": 111
+          },
+          {
+            "insertdate": "2016-05-11",
+            "productName": "咪咕动漫",
+            "productId": 5,
+            "productType": 8,
+            "operatorId": 10003,
+            "updateTime": "2017-03-21",
             "operation": 111
           }
         ]
       }
     }
-  }]
+  }
+]

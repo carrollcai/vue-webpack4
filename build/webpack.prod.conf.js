@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const bundleConfig = require("./bundle-config.json");
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -68,6 +69,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         : config.build.index,
       template: 'index.html',
       inject: true,
+      // 加载dll文件
+      vendorJsName: bundleConfig.vendor.js,
       minify: {
         removeComments: true,
         collapseWhitespace: true,

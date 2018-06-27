@@ -1,7 +1,6 @@
 import axios from 'axios';
 import store from '../../store';
 import { Message } from 'element-ui';
-// import { errorHandle } from '@/utils/common';
 
 export const fetch = (url, params, method) => {
   store.commit('SHOW_PAGE_LOADING');

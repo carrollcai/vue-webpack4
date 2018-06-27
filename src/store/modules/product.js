@@ -7,10 +7,13 @@ const state = {
 
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
+    console.log('PRODUCT_DETAIL');
+    console.log(data);
     state.productSaleDemo = 1;
   },
   [types.PRODUCT_CREAT_LIST](state, data) {
-    debugger;
+    console.log('PRODUCT_CREAT_LIST');
+    console.log(data);
     state.productList = data;
   }
 };

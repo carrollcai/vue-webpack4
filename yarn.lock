@@ -402,6 +402,16 @@ assertion-error@1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/assertion-error/download/assertion-error-1.0.0.tgz#c7f85438fdd466bc7ca16ab90c81513797a5d23b"
 
+assets-webpack-plugin@^3.8.4:
+  version "3.8.4"
+  resolved "http://r.cnpmjs.org/assets-webpack-plugin/download/assets-webpack-plugin-3.8.4.tgz#4b96a69850563ab36b54206741ef372901569597"
+  dependencies:
+    camelcase "^5.0.0"
+    escape-string-regexp "^1.0.3"
+    lodash.assign "^4.2.0"
+    lodash.merge "^4.6.1"
+    mkdirp "^0.5.1"
+
 assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/assign-symbols/download/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
@@ -1515,6 +1525,10 @@ camelcase@^4.1.0:
   version "4.1.0"
   resolved "http://registry.npm.taobao.org/camelcase/download/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
 
+camelcase@^5.0.0:
+  version "5.0.0"
+  resolved "http://r.cnpmjs.org/camelcase/download/camelcase-5.0.0.tgz#03295527d58bd3cd4aa75363f35b2e8d97be2f42"
+
 caniuse-api@^1.5.2:
   version "1.6.1"
   resolved "http://registry.npm.taobao.org/caniuse-api/download/caniuse-api-1.6.1.tgz#b534e7c734c4f81ec5fbe8aca2ad24354b962c6c"
@@ -1672,6 +1686,14 @@ cli-width@^2.0.0:
 clipboard@^2.0.0:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/clipboard/download/clipboard-2.0.1.tgz#a12481e1c13d8a50f5f036b0560fe5d16d74e46a"
+  dependencies:
+    good-listener "^1.2.2"
+    select "^1.1.2"
+    tiny-emitter "^2.0.0"
+
+clipboard@^2.0.0:
+  version "2.0.1"
+  resolved "http://r.cnpmjs.org/clipboard/download/clipboard-2.0.1.tgz#a12481e1c13d8a50f5f036b0560fe5d16d74e46a"
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -2432,6 +2454,10 @@ delegate@^3.1.2:
   version "3.2.0"
   resolved "http://registry.npm.taobao.org/delegate/download/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
 
+delegate@^3.1.2:
+  version "3.2.0"
+  resolved "http://r.cnpmjs.org/delegate/download/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
+
 delegates@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/delegates/download/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
@@ -2764,7 +2790,7 @@ escape-html@~1.0.3:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/escape-html/download/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
-escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
+escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.3, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "http://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
@@ -3470,10 +3496,13 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/functional-red-black-tree/download/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
 
+<<<<<<< HEAD
 g2@^2.3.13:
   version "2.3.13"
   resolved "http://registry.npm.taobao.org/g2/download/g2-2.3.13.tgz#ca4478230f3292bd3b9a972da63616980b8f6ce9"
 
+=======
+>>>>>>> 5075a0fb3b9242722ef302eb5d0c3e00ecd2a110
 gauge@~2.7.3:
   version "2.7.4"
   resolved "http://registry.npm.taobao.org/gauge/download/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"
@@ -3646,7 +3675,11 @@ globule@^1.0.0:
 
 good-listener@^1.2.2:
   version "1.2.2"
+<<<<<<< HEAD
   resolved "http://registry.npm.taobao.org/good-listener/download/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
+=======
+  resolved "http://r.cnpmjs.org/good-listener/download/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
+>>>>>>> 5075a0fb3b9242722ef302eb5d0c3e00ecd2a110
   dependencies:
     delegate "^3.1.2"
 
@@ -5128,6 +5161,10 @@ lodash.keysin@^4.0.0:
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "http://registry.npm.taobao.org/lodash.memoize/download/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
+
+lodash.merge@^4.6.1:
+  version "4.6.1"
+  resolved "http://r.cnpmjs.org/lodash.merge/download/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
 
 lodash.mergewith@^4.0.0, lodash.mergewith@^4.6.0:
   version "4.6.1"
@@ -7226,6 +7263,10 @@ select@^1.1.2:
   version "1.1.2"
   resolved "http://registry.npm.taobao.org/select/download/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
 
+select@^1.1.2:
+  version "1.1.2"
+  resolved "http://r.cnpmjs.org/select/download/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
+
 selenium-server@^3.0.1:
   version "3.12.0"
   resolved "http://registry.npm.taobao.org/selenium-server/download/selenium-server-3.12.0.tgz#3ab2ef979afa058590850a1da34ffee140620f42"
@@ -7896,7 +7937,11 @@ timers-browserify@^2.0.4:
 
 tiny-emitter@^2.0.0:
   version "2.0.2"
+<<<<<<< HEAD
   resolved "http://registry.npm.taobao.org/tiny-emitter/download/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
+=======
+  resolved "http://r.cnpmjs.org/tiny-emitter/download/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
+>>>>>>> 5075a0fb3b9242722ef302eb5d0c3e00ecd2a110
 
 tmp@^0.0.33:
   version "0.0.33"
@@ -8248,7 +8293,11 @@ vm-browserify@0.0.4:
 
 vue-clipboard2@^0.2.0:
   version "0.2.0"
+<<<<<<< HEAD
   resolved "http://registry.npm.taobao.org/vue-clipboard2/download/vue-clipboard2-0.2.0.tgz#7ed413bef09c25481f6b56301a1e618c37786d55"
+=======
+  resolved "http://r.cnpmjs.org/vue-clipboard2/download/vue-clipboard2-0.2.0.tgz#7ed413bef09c25481f6b56301a1e618c37786d55"
+>>>>>>> 5075a0fb3b9242722ef302eb5d0c3e00ecd2a110
   dependencies:
     clipboard "^2.0.0"
 

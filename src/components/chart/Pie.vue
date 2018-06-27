@@ -151,7 +151,6 @@ export default {
   margin-left: 16px;
 }
 .has-legend li {
-  cursor: pointer;
   margin-bottom: 4px;
   height: 22px;
   line-height: 22px;

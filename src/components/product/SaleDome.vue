@@ -8,11 +8,11 @@
       style="width: 100%">
       <el-table-column
         label="销售类型" width="150"
-        prop="id">
+        prop="productType">
       </el-table-column>
       <el-table-column
         label="组合产品" width="180"
-        prop="name">
+        prop="deptment">
       </el-table-column>
       <el-table-column
         label="销售方案"
@@ -64,49 +64,21 @@
 </template>
 
 <script>
-// import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
+    ...mapState({
+      productBaseInfo: ({ product }) => product.productBaseInfo,
+      productSaleDemo: ({ product }) => product.productSaleDemo
+    })
   },
-  computed: {
+  beforeMount() {
+    this.getProductDetail();
   },
   data() {
     return {
       currIndex: -1,
-      tableData5: [{
-        id: '1',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '2',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '3',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '4',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }],
       entexpands: []
     };
   },
@@ -119,7 +91,10 @@ export default {
         this.entexpands.push(row.id);
       }
       this.currIndex = row.id;
-    }
+    },
+    ...mapActions([
+      'getProductDetail'
+    ])
   }
 };
 </script>
