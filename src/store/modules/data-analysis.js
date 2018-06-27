@@ -32,6 +32,9 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
+    dateType: 0,
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
     date: [new Date(nineDaysAgo), new Date(twoDaysAgo)]
   },
   provinceUserList: [],
@@ -202,6 +205,9 @@ const mutations = {
   },
   [types.ACTIVE_INIT_DATE](state, data) {
     // state.trend.date = [new Date(nineDaysAgo), new Date(twoDaysAgo)];
+  },
+  [types.PROVINCER_USER_INIT_DATE](state, data) {
+
   }
 };
 

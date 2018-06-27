@@ -67,9 +67,15 @@ const actions = {
   getProvinceUser: ({ commit, state }, params) => {
     const req = activeProvinceUserReq(state);
 
-    return API.getProvinceUserAPI(req).then(res => {
-      commit(types.PROVINCE_GET_USER, res.data.reportList);
-    });
+    if (req.dateType) {
+      return API.getMonthDailyActiveUserAPI(req).then(res => {
+        commit(types.PROVINCE_GET_USER, res.data.reportList);
+      });
+    } else {
+      return API.getProvinceUserAPI(req).then(res => {
+        commit(types.PROVINCE_GET_USER, res.data.reportList);
+      });
+    }
   },
   downloadTrendDataAnalysis: ({ commit, state }, params) => {
     const req = activeTrendReq(state);
@@ -142,9 +148,19 @@ function activeProvinceUserReq(state) {
   const req = {};
   const { provinceUser, activeObj } = state.dataAnalysis;
   if (provinceUser.date.length) {
-    req.beginDate = moment(provinceUser.date[0]).format('YYYY-MM-DD');
-    req.endDate = moment(provinceUser.date[1]).format('YYYY-MM-DD');
+    let beginDate, endDate;
+    if (provinceUser.dateType) {
+      beginDate = moment(provinceUser.startDate).format('YYYY-MM') + '-01';
+      endDate = moment(provinceUser.endDate).format('YYYY-MM') + '-01';
+    } else {
+      beginDate = moment(provinceUser.date[0]).format('YYYY-MM-DD');
+      endDate = moment(provinceUser.date[1]).format('YYYY-MM-DD');
+    }
+    req.dateType = provinceUser.dateType;
+    req.beginDate = beginDate;
+    req.endDate = endDate;
   }
+
   req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
   req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
