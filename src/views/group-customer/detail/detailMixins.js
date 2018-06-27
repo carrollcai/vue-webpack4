@@ -1,8 +1,7 @@
 import DetailInfo from './DetailInfo.vue';
 import {mapActions} from 'vuex';
-import filters from '../filters';
+
 export default {
-  mixins: [filters],
   components: {
     DetailInfo
   },

@@ -11,6 +11,7 @@ const download = url => params => {
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
+  queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
