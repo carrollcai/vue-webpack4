@@ -13,11 +13,11 @@
           </el-col>
           <el-col :span="8">
             <span class="info_label">集团属性：</span>
-            <span class="info_content">{{customer.organizeType}}</span>
+            <span class="info_content">{{customer.organizeType | orgTypeFilter}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">所属省份：</span>
-            <span class="info_content">{{customer.provinceId}}</span>
+            <span class="info_content">{{customer.provinceId | provinceFilter}}</span>
           </el-col>
         </el-row>
         <el-row>
@@ -26,18 +26,18 @@
             <span class="info_content">{{customer.establishTime}}</span>
           </el-col>
           <el-col :span="8">
-            <span class="info_label">机关类型：</span>
-            <span class="info_content">{{customer.orgIndustryType}}</span>
+            <span class="info_label">机构类型：</span>
+            <span class="info_content">{{customer.orgIndustryType | orgIndustryTypeFilter}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">行业类别：</span>
-            <span class="info_content">{{customer.industryType}}</span>
+            <span class="info_content">{{customer.industryType | industryTypeFilter}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="info_label">集团规模：</span>
-            <span class="info_content">{{customer.memberNum}}</span>
+            <span class="info_content">{{customer.memberNum | memberNumFilter}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">经营范围：</span>
@@ -64,7 +64,7 @@
             </el-col>
             <el-col :span="8">
               <span class="info_label">证件类型：</span>
-              <span class="info_content">{{customer.certificateType}}</span>
+              <span class="info_content">{{customer.certificateType | certificateTypeFilter}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">统一社会信用代码：</span>
@@ -74,7 +74,7 @@
           <el-row>
             <el-col :span="8">
               <span class="info_label">注册资金类型：</span>
-              <span class="info_content">{{customer.registerFundType}}</span>
+              <span class="info_content">{{customer.registerFundType | registerFundTypeFilter}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">注册资金：</span>
@@ -139,19 +139,19 @@
                   <span>{{ props.row.department }}</span>
                 </el-form-item>
                 <el-form-item label="年龄">
-                  <span>{{ props.row.age }}</span>
+                  <span>{{ props.row.age | ageFilter}}</span>
                 </el-form-item>
                 <el-form-item label="职位">
                   <span>{{ props.row.position }}</span>
                 </el-form-item>
                 <el-form-item label="性别">
-                  <span>{{ props.row.gender }}</span>
+                  <span>{{ props.row.gender | genderFilter}}</span>
                 </el-form-item>
                 <el-form-item label="手机号">
                   <span>{{ props.row.mobile }}</span>
                 </el-form-item>
                 <el-form-item label="婚姻状况">
-                  <span>{{ props.row.maritalStatus }}</span>
+                  <span>{{ props.row.maritalStatus | maritalFilter}}</span>
                 </el-form-item>
                 <el-form-item label="邮箱">
                   <span>{{ props.row.email }}</span>
@@ -221,20 +221,13 @@ export default {
   },
   computed: {
     contacts() {
-      return this.customer.contactDtoList || [{
-        name: '111'
-      }];
+      return this.customer.contactDtoList || [];
     }
   },
   data() {
     return {
       showMore: false
     };
-  },
-  mounted() {
-    this.$nextTick(() => {
-      document.querySelector('.el-table__expand-icon').innerHTML = '详情<i class="el-icon el-icon-arrow-right"></i>';
-    });
   },
   methods: {
   }
@@ -306,7 +299,7 @@ export default {
 
     .demo-table-expand label {
       width: 90px;
-      color: #99a9bf;
+      color: rgba(0, 0, 0, 0.45);
     }
     .demo-table-expand .el-form-item {
       margin-right: 0;

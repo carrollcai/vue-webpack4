@@ -13,7 +13,8 @@ module.exports = {
       'vue',
       'vue-router',
       'vuex',
-      'element-ui',
+      /* element-ui打包的时候有问题，是element-ui不兼容当前vue.esm.js版本，解决方式，应该是指定打包版本  */
+      // 'element-ui',
       'axios',
       '@antv/g2',
       '@antv/data-set',
