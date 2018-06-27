@@ -13,12 +13,14 @@ const state = {
   groupCustomerForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    totalcount: 1,
-    staffName: '',
-    code: '',
-    roleId: ''
+    organizeType: '',
+    provinceId: '',
+    managerName: '',
+    otherField: ''
   },
-  groupCustomerCreate: Object.cloneDeep(groupCustomerCreate)
+  groupCustomerCreate: Object.cloneDeep(groupCustomerCreate),
+  customerManagers: [],
+  groupCustomer: {}
 };
 
 const mutations = {
@@ -27,14 +29,26 @@ const mutations = {
   },
   [types.GROUP_CUSTOMER_GET_LIST](state, data) {
     state.groupCustomerList = data;
-    state.groupCustomerForm.totalcount = data.totalcount;
   },
   [types.GROUP_CUSTOMER_GET_INFO](state, data) {
     state.groupCustomerCreate = data;
+  },
+  [types.GROUP_CUSTOMER_MANAGERS](state, data) {
+    state.customerManagers = data;
+  },
+  [types.GROUP_CUSTOMER_DETAIL](state, data) {
+    state.groupCustomer = data;
+  }
+};
+
+const getters = {
+  groupCustomer(state) {
+    return state.groupCustomer;
   }
 };
 
 export default {
   state,
-  mutations
+  mutations,
+  getters
 };

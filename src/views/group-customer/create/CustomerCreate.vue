@@ -37,6 +37,7 @@
               type="date"
               :editable="false"
               :clearable="false"
+              value-format="yyyy-MM-dd HH:mm:ss"
               :picker-options="dateOptions"
               placeholder="请选择成立日期">
             </el-date-picker>
@@ -49,8 +50,8 @@
               <el-option
                 v-for="(item, i) in provinces"
                 :key="i"
-                :label="item.label"
-                :value="item.value">
+                :label="item.value"
+                :value="item.key">
               </el-option>
             </el-select>
           </el-form-item>
@@ -96,12 +97,14 @@
           <el-form-item label="优势能力" prop="orgAdvantage" required key="orgAdvantage">
             <el-input v-model="customer.orgAdvantage"
               :maxlength="500"
+              type="textarea"
               placeholder="请输入优势能力"
               key="orgAdvantage-input"></el-input>
           </el-form-item>
           <el-form-item label="经营范围" prop="businessScope" required key="Business-Scope">
             <el-input v-model="customer.businessScope"
               :maxlength="500"
+              type="textarea"
               placeholder="请输入经营范围"
               key="businessScope-input"></el-input>
           </el-form-item>
@@ -179,6 +182,7 @@
               type="date"
               :editable="false"
               :picker-options="dateOptions"
+              value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="请选择发证日期">
             </el-date-picker>
           </el-form-item>
@@ -263,23 +267,37 @@
           v-model="customer.managerName"
           :fetch-suggestions="querySearchAsync"
           placeholder="请输入客户经理"
+          :trigger-on-focus="false"
+          value-key="staffName"
+          label="operatorId"
           @select="handleSelect"
         ></el-autocomplete>
       </el-form-item>
       <el-form-item label="手机号码" prop="managerMobile" required key="managerMobile">
-        <el-input v-model="customer.managerMobile" placeholder="请输入手机号码" key="managerMobile-input"></el-input>
+        <el-input v-model="customer.managerMobile"
+          placeholder="请输入手机号码"
+          :maxlength="11"
+          key="managerMobile-input"></el-input>
       </el-form-item>
       <el-form-item label="员工工号" prop="managerNo" required key="managerNo">
-        <el-input v-model="customer.managerNo" placeholder="请输入员工工号" key="managerId-input"></el-input>
+        <el-input v-model="customer.managerNo"
+          placeholder="请输入员工工号"
+          key="managerId-input"></el-input>
       </el-form-item>
       <el-form-item label="所在部门" prop="managerDepartment" required key="managerDepartment">
-        <el-input v-model="customer.managerDepartment" placeholder="请输入所在部门" key="managerDept-input"></el-input>
+        <el-input v-model="customer.managerDepartment"
+          :maxlength="15"
+          placeholder="请输入所在部门"
+          key="managerDept-input"></el-input>
       </el-form-item>
       <el-form-item label="所在职位" prop="managerPosition" required key="managerPosition">
-        <el-input v-model="customer.managerPosition" placeholder="请输入所在职位" key="managerJob-input"></el-input>
+        <el-input v-model="customer.managerPosition"
+          :maxlength="15"
+          placeholder="请输入所在职位"
+          key="managerJob-input"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="saveCustomer">立即提审</el-button>
+        <el-button type="primary" @click="createApproveCustomer">立即提审</el-button>
         <el-button type="primary" @click="saveCustomer">保存草稿</el-button>
         <el-button type="primary" @click="toSecondStepFromThird">上一步</el-button>
       </el-form-item>
@@ -287,6 +305,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 import mixins from './mixins';
 export default {
   name: 'CustomerCreate',
@@ -295,9 +314,18 @@ export default {
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
+          this.createCustomer(this.customer);
         }
       });
-    }
+    },
+    createApproveCustomer() {
+      this.$refs.managerForm.validate((valid) => {
+        if (valid) {
+          this.createApproveCustomer(this.customer);
+        }
+      });
+    },
+    ...mapActions(['createCustomer', 'createApproveCustomer'])
   }
 };
 </script>

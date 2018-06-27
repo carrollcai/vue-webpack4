@@ -60,10 +60,33 @@ export default {
 
   /* 集团客户管理 */
   // 获取集团客户概览列表
-  getGroupCustomerListAPI: API('/esop/operator/queryOperator'),
+  getGroupCustomerListAPI: API('/esop/organize/queryMyOrganize'),
 
   // 生成集团客户联系人ID
   generateContactIdAPI: API('/esop/organize/contactId'),
+  // 新增集团客户
+  createCustomerAPI: API('/esop/organize/create'),
+  // 新增、提审集团客户
+  createApproveCustomerAPI: API('/esop/organize/createApprove'),
+  /**
+   * 查询客户经理
+   */
+  queryCustomerManagerAPI: API('esop/operator/queryManager'),
+
+  /**
+   * 查询集团客户
+   */
+  queryCustomerAPI: API('/esop/organize/queryOrganizeById'),
+
+  /**
+   * 删除集团客户
+   */
+  deleteCustomerAPI: API('/esop/organize/deleteById'),
+
+  /**
+   * 提审集团客户
+   */
+  approveCustomerAPI: API('/esop/organize/startProcess'),
 
   /* 商机管理 */
   // 获取合作集团/编码列表

@@ -246,11 +246,11 @@ export const MEMBER_NUM = [
 export const GENDER = [
   {
     label: '男',
-    value: 'M'
+    value: 1
   },
   {
     label: '女',
-    value: 'F'
+    value: 2
   }
 ];
 
