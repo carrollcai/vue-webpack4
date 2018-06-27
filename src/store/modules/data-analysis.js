@@ -2,7 +2,6 @@ import * as types from '../types';
 import { oneMonthAgo, nineDaysAgo, twoDaysAgo, sixMonthsAgo } from '@/utils/helper';
 
 const state = {
-  // client: [],
   // 省份和客户端对象
   activeObj: {
     provinceSelected: [],
@@ -32,6 +31,9 @@ const state = {
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
+    dateType: 0,
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
     date: [new Date(nineDaysAgo), new Date(twoDaysAgo)]
   },
   provinceUserList: [],
@@ -164,6 +166,7 @@ const mutations = {
   [types.PROVINCE_GET_USER](state, data) {
     state.provinceUserList = data.map(val => {
       return {
+        orderNum: val.orderNum,
         name: val.province,
         value: val.activeNum
       };
@@ -201,6 +204,9 @@ const mutations = {
   },
   [types.ACTIVE_INIT_DATE](state, data) {
     // state.trend.date = [new Date(nineDaysAgo), new Date(twoDaysAgo)];
+  },
+  [types.PROVINCER_USER_INIT_DATE](state, data) {
+
   }
 };
 

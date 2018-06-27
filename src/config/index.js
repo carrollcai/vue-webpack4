@@ -217,3 +217,271 @@ export const CLIENT = [
     'value': '咪咕灵犀'
   }
 ];
+
+/**
+ * 集团客户规模
+ */
+export const MEMBER_NUM = [
+  {
+    label: '0-20人',
+    value: '1'
+  },
+  {
+    label: '20-200人',
+    value: '2'
+  },
+  {
+    label: '200-1000人',
+    value: '3'
+  },
+  {
+    label: '1000人以上',
+    value: '4'
+  }
+];
+
+/**
+ * 性别
+ */
+export const GENDER = [
+  {
+    label: '男',
+    value: 'M'
+  },
+  {
+    label: '女',
+    value: 'F'
+  }
+];
+
+/**
+ * 年龄
+ */
+export const AGE_GROUPS = [
+  {
+    label: '25以下',
+    value: '1'
+  },
+  {
+    label: '25-30',
+    value: '2'
+  },
+  {
+    label: '30-40',
+    value: '3'
+  },
+  {
+    label: '40-50',
+    value: '4'
+  },
+  {
+    label: '50以上',
+    value: '5'
+  }
+];
+
+/**
+ * 证件类型
+ */
+export const CERTIFICATE_TYPE = [
+  {
+    label: '营业执照',
+    value: '1'
+  },
+  {
+    label: '组织机构代码证',
+    value: '2'
+  },
+  {
+    label: '法人登记证书',
+    value: '3'
+  },
+  {
+    label: '税务登记证',
+    value: '4'
+  },
+  {
+    label: '社会保险登记证',
+    value: '5'
+  },
+  {
+    label: '统计登记证',
+    value: '6'
+  }
+];
+
+/**
+ * 集团属性
+ */
+export const ORGANIZE_TYPE = [
+  {
+    label: '军政企业',
+    value: '1'
+  },
+  {
+    label: '省公司',
+    value: '2'
+  },
+  {
+    label: '中国移动专业公司',
+    value: '3'
+  }
+];
+
+/**
+ * 注册资金类型
+ */
+export const REGISTER_FUND_TYPE = [
+  {
+    label: '人民币',
+    value: '1'
+  },
+  {
+    label: '美元',
+    value: '2'
+  }
+];
+
+/**
+ * 机构类型
+ */
+export const ORG_INDUSTRY_TYPE = [
+  {
+    label: '机关法人',
+    value: '1'
+  },
+  {
+    label: '机关非法人',
+    value: '2'
+  },
+  {
+    label: '企业非法人',
+    value: '3'
+  },
+  {
+    label: '社会团体非法人',
+    value: '4'
+  },
+  {
+    label: '工会法人',
+    value: '5'
+  },
+  {
+    label: '民办非企业单位',
+    value: '6'
+  },
+  {
+    label: '企业法人',
+    value: '7'
+  },
+  {
+    label: '事业法人',
+    value: '8'
+  },
+  {
+    label: '社会团体法人',
+    value: '9'
+  },
+  {
+    label: '其他机构',
+    value: '10'
+  },
+  {
+    label: '个体工商户',
+    value: '11'
+  },
+  {
+    label: '聚类客户',
+    value: '12'
+  },
+  {
+    label: '虚拟客户',
+    value: '13'
+  }
+];
+
+/**
+ * 行业类别
+ */
+export const INDUSTRY_TYPE = [
+  {
+    label: '农、林、牧、渔业',
+    value: '1'
+  },
+  {
+    label: '采矿业',
+    value: '2'
+  },
+  {
+    label: '制造业',
+    value: '3'
+  },
+  {
+    label: '电力、燃气及水的生产和供应业',
+    value: '4'
+  },
+  {
+    label: '建筑业',
+    value: '5'
+  },
+  {
+    label: '交通运输、仓储和邮政业',
+    value: '6'
+  },
+  {
+    label: '信息传输、计算机服务和软件业',
+    value: '7'
+  },
+  {
+    label: '批发和零售业',
+    value: '8'
+  },
+  {
+    label: '住宿和餐饮业',
+    value: '9'
+  },
+  {
+    label: '金融业',
+    value: '10'
+  },
+  {
+    label: '房地产业',
+    value: '11'
+  },
+  {
+    label: '租赁和商务服务业',
+    value: '12'
+  },
+  {
+    label: '科学研究、技术服务和地址勘查业',
+    value: '13'
+  },
+  {
+    label: '水利、环境和公共设施管理业',
+    value: '14'
+  },
+  {
+    label: '居民服务和其他服务业',
+    value: '15'
+  },
+  {
+    label: '教育',
+    value: '16'
+  },
+  {
+    label: '卫生、社会保障和社会福利业',
+    value: '17'
+  },
+  {
+    label: '文化、教育和娱乐业',
+    value: '18'
+  },
+  {
+    label: '公共管理和社会组织',
+    value: '19'
+  },
+  {
+    label: '国际组织',
+    value: '20'
+  }
+];

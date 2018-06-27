@@ -35,10 +35,11 @@
         </div>
       </el-form>
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="用户管理" name="first"></el-tab-pane>
-        <el-tab-pane label="配置管理" name="second"></el-tab-pane>
-        <el-tab-pane label="角色管理" name="third"></el-tab-pane>
-        <el-tab-pane label="定时任务补偿" name="fourth"></el-tab-pane>
+        <el-tab-pane label="全部" name="first"></el-tab-pane>
+        <el-tab-pane label="草稿" name="second"></el-tab-pane>
+        <el-tab-pane label="审核中" name="third"></el-tab-pane>
+        <el-tab-pane label="审核通过" name="fourth"></el-tab-pane>
+        <el-tab-pane label="审核不通过" name="fifth"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container user-create">
@@ -51,7 +52,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="集团属性" property="" >
+        <el-table-column label="集团属性" property="organizeType" >
           <template slot-scope="scope">
             <span class="btnLists">
               省公司
@@ -65,11 +66,11 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="客户经理" property="staffName" />
+        <el-table-column label="客户经理" property="managerName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleEdit(scope.row)">
-              查看主页
+            <el-button type="text" @click="handleDetail(scope.row)">
+              详情
             </el-button>
           </template>
         </el-table-column>
@@ -112,11 +113,15 @@ export default {
       this.query();
     },
     handleCreate() {
-      const path = `/system/user/create`;
+      const path = `/group-customer/create`;
       this.$router.push(path);
     },
     handleEdit(row) {
-      const path = `/system/user/edit/${row.operatorId}`;
+      const path = `/group-customer/edit/${row.operatorId}`;
+      this.$router.push(path);
+    },
+    handleDetail(row) {
+      const path = `/group-customer/detail`;
       this.$router.push(path);
     },
     handleDelete(row) {
