@@ -1,16 +1,8 @@
 import _ from 'lodash';
-import {mapActions, mapState} from 'vuex';
+import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
-import {
-  MEMBER_NUM,
-  CERTIFICATE_TYPE,
-  ORGANIZE_TYPE,
-  REGISTER_FUND_TYPE,
-  ORG_INDUSTRY_TYPE,
-  INDUSTRY_TYPE
-} from '@/config';
 export default {
   components: {
     CustomerContacts,
@@ -29,17 +21,6 @@ export default {
           return time.getTime() > new Date().getTime();
         }
       },
-      MEMBER_NUM,
-      // 证件类型
-      CERTIFICATE_TYPE,
-      // 集团属性
-      ORGANIZE_TYPE,
-      // 注册资金类型
-      REGISTER_FUND_TYPE,
-      // 机构类型
-      ORG_INDUSTRY_TYPE,
-      // 行业类别
-      INDUSTRY_TYPE,
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: 'blur' },
@@ -114,10 +95,7 @@ export default {
   computed: {
     contacts() {
       return this.customer.contactDtoList;
-    },
-    ...mapState({
-      provinces: ({ root }) => root.province
-    })
+    }
   },
   methods: {
     isFirstStep() {

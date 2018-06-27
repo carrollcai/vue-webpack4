@@ -307,9 +307,10 @@
 <script>
 import { mapActions } from 'vuex';
 import mixins from './mixins';
+import filters from '../filters';
 export default {
   name: 'CustomerCreate',
-  mixins: [mixins],
+  mixins: [mixins, filters],
   methods: {
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {

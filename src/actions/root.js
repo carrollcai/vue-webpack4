@@ -22,6 +22,22 @@ const actions = {
     return API.getCurrentUserInfoAPI(params).then(res => {
       commit(types.CURRENT_USER_GET_INFO, res.data);
     });
+  },
+  queryStaticData({commit}) {
+    let params = {
+      'codeTypeList': [
+        'ORGANIZE_TYPE',
+        'ORG_INDUSTRY_TYPE',
+        'industryType',
+        'MEMBER_NUM',
+        'CERTIFICATE_TYPE',
+        'CM_MONEY_TYPE'
+      ]
+    };
+
+    return API.queryStaticDataAPI(params).then(res => {
+      commit(types.STATIC_DATA, res.data);
+    });
   }
 };
 

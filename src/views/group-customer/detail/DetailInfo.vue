@@ -13,11 +13,11 @@
           </el-col>
           <el-col :span="8">
             <span class="info_label">集团属性：</span>
-            <span class="info_content">{{customer.organizeType | orgTypeFilter}}</span>
+            <span class="info_content">{{orgTypeFilter(customer.organizeType)}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">所属省份：</span>
-            <span class="info_content">{{customer.provinceId | provinceFilter}}</span>
+            <span class="info_content">{{provinceFilter(customer.provinceId)}}</span>
           </el-col>
         </el-row>
         <el-row>
@@ -27,17 +27,17 @@
           </el-col>
           <el-col :span="8">
             <span class="info_label">机构类型：</span>
-            <span class="info_content">{{customer.orgIndustryType | orgIndustryTypeFilter}}</span>
+            <span class="info_content">{{orgIndustryTypeFilter(customer.orgIndustryType)}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">行业类别：</span>
-            <span class="info_content">{{customer.industryType | industryTypeFilter}}</span>
+            <span class="info_content">{{industryTypeFilter(customer.industryType)}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="info_label">集团规模：</span>
-            <span class="info_content">{{customer.memberNum | memberNumFilter}}</span>
+            <span class="info_content">{{memberNumFilter(customer.memberNum)}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">经营范围：</span>
@@ -64,7 +64,7 @@
             </el-col>
             <el-col :span="8">
               <span class="info_label">证件类型：</span>
-              <span class="info_content">{{customer.certificateType | certificateTypeFilter}}</span>
+              <span class="info_content">{{certificateTypeFilter(customer.certificateType)}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">统一社会信用代码：</span>
@@ -74,7 +74,7 @@
           <el-row>
             <el-col :span="8">
               <span class="info_label">注册资金类型：</span>
-              <span class="info_content">{{customer.registerFundType | registerFundTypeFilter}}</span>
+              <span class="info_content">{{registerFundTypeFilter(customer.registerFundType)}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">注册资金：</span>
@@ -139,19 +139,19 @@
                   <span>{{ props.row.department }}</span>
                 </el-form-item>
                 <el-form-item label="年龄">
-                  <span>{{ props.row.age | ageFilter}}</span>
+                  <span>{{ ageFilter(props.row.age) }}</span>
                 </el-form-item>
                 <el-form-item label="职位">
                   <span>{{ props.row.position }}</span>
                 </el-form-item>
                 <el-form-item label="性别">
-                  <span>{{ props.row.gender | genderFilter}}</span>
+                  <span>{{ genderFilter(props.row.gender)}}</span>
                 </el-form-item>
                 <el-form-item label="手机号">
                   <span>{{ props.row.mobile }}</span>
                 </el-form-item>
                 <el-form-item label="婚姻状况">
-                  <span>{{ props.row.maritalStatus | maritalFilter}}</span>
+                  <span>{{ maritalFilter(props.row.maritalStatus)}}</span>
                 </el-form-item>
                 <el-form-item label="邮箱">
                   <span>{{ props.row.email }}</span>
@@ -206,8 +206,10 @@
 </template>
 <script>
 import Activity from './Activity.vue';
+import filters from '../filters.js';
 export default {
   name: 'DetailInfo',
+  mixins: [filters],
   components: {
     Activity
   },

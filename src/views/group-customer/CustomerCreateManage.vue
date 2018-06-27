@@ -30,7 +30,6 @@
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
           <el-form-item class="role-form-item">
-            {{groupCustomerList.totalcount}}
             <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建集团客户</el-button>
           </el-form-item>
         </div>
