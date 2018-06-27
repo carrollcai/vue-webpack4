@@ -16,6 +16,11 @@ import TaskQueryDetail from '@/views/task/QueryDetail.vue';
 import TaskPushDetail from '@/views/task/PushDetail.vue';
 import TaskTodoDetail from '@/views/task/TodoDetail.vue';
 
+import Business from '@/views/business-manage/Business.vue';
+import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';
+import BusinessTask from '@/views/business-manage/BusinessTask.vue';
+import BusinessDetail from '@/views/business-manage/BusinessDetail.vue';
+
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
 import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
 import GroupCustomerAuditManage from '@/views/group-customer/CustomerAuditManage.vue';
@@ -126,6 +131,30 @@ const dynamicRoutes = [
         name: 'task-approve',
         component: TaskApprove,
         meta: { menuId: 8 }
+      },
+      {
+        path: '/business-manage/business',
+        name: 'business',
+        component: Business,
+        meta: { menuId: 8 }
+      },
+      {
+        path: '/business-manage/business-detail/:id',
+        name: 'business-detail',
+        component: BusinessDetail,
+        meta: { menuId: 8 }
+      },
+      {
+        path: '/business-manage/business-create-manage',
+        name: 'business-create-manage',
+        component: BusinessCreateManage,
+        meta: { menuId: 9 }
+      },
+      {
+        path: '/business-manage/business-task',
+        name: 'business-task',
+        component: BusinessTask,
+        meta: { menuId: 10 }
       },
       {
         path: '/group-customer/overview',

@@ -86,5 +86,13 @@ export default {
   /**
    * 提审集团客户
    */
-  approveCustomerAPI: API('/esop/organize/startProcess')
+  approveCustomerAPI: API('/esop/organize/startProcess'),
+
+  /* 商机管理 */
+  // 获取合作集团/编码列表
+  getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
+  // 查询商机列表
+  getBusinessListAPI: API('http://localhost:3618/business-manage/business'),
+  // 商机详情查询
+  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail')
 };

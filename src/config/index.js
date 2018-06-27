@@ -71,6 +71,36 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
+    menuId: 7,
+    name: '商机管理',
+    url: '/business',
+    icon: 'icon-business',
+    enable: false,
+    children: [
+      {
+        menuId: 8,
+        parentId: 7,
+        name: '商机总览',
+        url: '/business-manage/business',
+        enable: false
+      },
+      {
+        menuId: 9,
+        parentId: 7,
+        name: '商机创建管理',
+        url: '/business-manage/business-create-manage',
+        enable: false
+      },
+      {
+        menuId: 10,
+        parentId: 7,
+        name: '商机处理任务',
+        url: '/business-manage/business-task',
+        enable: false
+      }
+    ]
+  },
+  {
     menuId: 12,
     name: '集团客户管理',
     url: '/group-customer',
