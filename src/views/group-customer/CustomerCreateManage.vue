@@ -4,9 +4,9 @@
       <el-form class="group-form" :model="groupCustomerForm">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="groupCustomerForm.roleId" placeholder="集团属性">
+            <el-select v-model="groupCustomerForm.organizeType" placeholder="集团属性">
               <el-option :key="null" label="全部属性" :value="null"></el-option>
-              <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
+              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
@@ -17,11 +17,11 @@
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="groupCustomerForm.staffName" placeholder="客户经理" />
+            <el-input v-model="groupCustomerForm.managerName" placeholder="客户经理" clearable/>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
-            <el-input v-model="groupCustomerForm.code" placeholder="集团名称/编码" />
+            <el-input v-model="groupCustomerForm.otherField" placeholder="集团名称/编码" clearable/>
           </el-form-item>
         </div>
 
@@ -30,6 +30,7 @@
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
           <el-form-item class="role-form-item">
+            {{groupCustomerList.totalcount}}
             <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建集团客户</el-button>
           </el-form-item>
         </div>
@@ -43,34 +44,30 @@
       </el-tabs>
     </div>
     <div class="m-container user-create">
-      <wm-table :source="groupCustomerList.list" :pageNo="groupCustomerForm.pageNo" :pageSize="groupCustomerForm.pageSize" :total="groupCustomerForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="code" />
-        <el-table-column label="集团名称">
-          <template slot-scope="scope">
-            <span class="btnLists">
-              广东移动BOSS
-            </span>
-          </template>
+      <wm-table :source="groupCustomerList.list"
+        :pageNo="groupCustomerForm.pageNo"
+        :pageSize="groupCustomerForm.pageSize"
+        :total="groupCustomerList.totalCount"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="集团编码" property="organizeId" />
+        <el-table-column label="集团名称" property="organizeName">
         </el-table-column>
         <el-table-column label="集团属性" property="organizeType" >
-          <template slot-scope="scope">
-            <span class="btnLists">
-              省公司
-            </span>
-          </template>
         </el-table-column>
-        <el-table-column label="所属省份" >
-          <template slot-scope="scope">
-            <span class="btnLists">
-              广东省
-            </span>
-          </template>
+        <el-table-column label="所属省份" property="provinceName">
         </el-table-column>
         <el-table-column label="客户经理" property="managerName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">
               详情
+            </el-button>
+            <el-button type="text" @click="handleDelete(scope.row)">
+              删除
+            </el-button>
+            <el-button type="text" @click="handleApprove(scope.row)">
+              提审
             </el-button>
           </template>
         </el-table-column>
@@ -82,6 +79,9 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import {
+  ORGANIZE_TYPE
+} from '@/config';
 export default {
   components: {
     WmTable
@@ -89,7 +89,8 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      activeName: 'second'
+      activeName: 'second',
+      ORGANIZE_TYPE
     };
   },
   computed: {
@@ -121,20 +122,32 @@ export default {
       this.$router.push(path);
     },
     handleDetail(row) {
-      const path = `/group-customer/detail`;
-      this.$router.push(path);
+      this.$router.push(`/group-customer/detail/${row.organizeId}`);
     },
     handleDelete(row) {
-      this.$confirm('删除用户数据, 是否继续?', ' ', {
+      this.$confirm('删除集团客户数据, 是否继续?', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteUser({ operatorId: row.operatorId }).then(res => {
+        this.deleteCustomer(row.organizeId).then(res => {
           this.query();
         });
       }).catch(() => {
         this.$message('已取消删除');
+      });
+    },
+    handleApprove(row) {
+      this.$confirm('提审集团客户数据, 是否继续?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.approveCustomer(row.organizeId).then(res => {
+          this.query();
+        });
+      }).catch(() => {
+        this.$message('已取消提审');
       });
     },
     query() {
@@ -142,10 +155,21 @@ export default {
       this.getGroupCustomerList(params);
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      let STATUS = {
+        'first': [],
+        'second': ['1'],
+        'third': ['2', '5'],
+        'fourth': ['4'],
+        'fifth': ['3', '6']
+      };
+
+      this.groupCustomerForm.pageNo = 1;
+      this.groupCustomerForm.taskStatusList = STATUS[this.activeName];
+      this.query();
     },
     ...mapActions([
-      'getGroupCustomerList'
+      'getGroupCustomerList',
+      'deleteCustomer'
     ])
   }
 };

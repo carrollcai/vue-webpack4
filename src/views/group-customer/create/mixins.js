@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {mapActions, mapState} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
@@ -18,10 +19,9 @@ export default {
   },
   data() {
     return {
-      step: 1,
+      step: 0,
       isAddingContact: false,
       customer: {
-        name: '',
         contactDtoList: []
       },
       dateOptions: {
@@ -30,25 +30,6 @@ export default {
         }
       },
       MEMBER_NUM,
-      // TODO
-      provinces: [
-        {
-          label: '0-20人',
-          value: '1'
-        },
-        {
-          label: '20-200人',
-          value: '2'
-        },
-        {
-          label: '200-1000人',
-          value: '3'
-        },
-        {
-          label: '1000人以上',
-          value: '4'
-        }
-      ],
       // 证件类型
       CERTIFICATE_TYPE,
       // 集团属性
@@ -114,10 +95,12 @@ export default {
           { required: true, message: '请输入客户经理', trigger: 'blur' }
         ],
         managerMobile: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' }
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { type: 'string', pattern: /^1\d{10}$/, message: '请输入正确的手机号码', trigger: 'blur' }
         ],
         managerNo: [
-          { required: true, message: '请输入员工工号', trigger: 'blur' }
+          { required: true, message: '请输入员工工号', trigger: 'blur' },
+          { type: 'string', pattern: /^\d+$/, message: '请输入数字', trigger: 'blur' }
         ],
         managerDepartment: [
           { required: true, message: '请输入所在部门', trigger: 'blur' }
@@ -131,7 +114,10 @@ export default {
   computed: {
     contacts() {
       return this.customer.contactDtoList;
-    }
+    },
+    ...mapState({
+      provinces: ({ root }) => root.province
+    })
   },
   methods: {
     isFirstStep() {
@@ -220,19 +206,16 @@ export default {
       }
     },
     querySearchAsync(queryString, cb) {
-      console.log(queryString);
-      let result = [
-        { 'value': '阳阳麻辣烫', 'address': '天山西路389号' },
-        { 'value': '南拳妈妈龙虾盖浇饭', 'address': '普陀区金沙江路1699号鑫乐惠美食广场A13' }
-      ];
-      cb(result);
+      this.queryCustomerManagers(queryString).then((res) => {
+        cb(res.data);
+      });
     },
     handleSelect(item) {
-      this.customer.managerName = item.value;
-      this.customer.managerMobile = item.value;
-      this.customer.managerNo = item.value;
-      this.customer.managerDepartment = item.value;
-      this.customer.managerPosition = item.value;
-    }
+      this.customer.managerName = item.staffName;
+      this.customer.managerMobile = item.mobile;
+      this.customer.managerNo = item.operatorId;
+      this.customer.managerPosition = item.postion;
+    },
+    ...mapActions(['queryCustomerManagers'])
   }
 };

@@ -19,6 +19,9 @@ import TaskTodoDetail from '@/views/task/TodoDetail.vue';
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
 import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
 import GroupCustomerAuditManage from '@/views/group-customer/CustomerAuditManage.vue';
+import CustomerCreate from '@/views/group-customer/create/CustomerCreate.vue';
+import CustomerEdit from '@/views/group-customer/create/CustomerEdit.vue';
+import CustomerDetail from '@/views/group-customer/detail/CustomerDetail.vue';
 
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
@@ -186,7 +189,23 @@ class AddRoutes {
       component: Container,
       children: []
     }];
-    const routeArr = [];
+    const routeArr = [
+      {
+        path: '/group-customer/create',
+        name: 'group-customer-create',
+        component: CustomerCreate
+      },
+      {
+        path: '/group-customer/edit',
+        name: 'group-customer-edit',
+        component: CustomerEdit
+      },
+      {
+        path: '/group-customer/detail/:id',
+        name: 'group-customer-detail',
+        component: CustomerDetail
+      }
+    ];
 
     // list为已经扁平化具有menuId的路由
     this._dynamicRoutes.map(val => {
