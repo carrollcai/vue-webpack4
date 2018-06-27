@@ -1,7 +1,7 @@
 <template>
   <div class="province-user block-containter">
     <div class="province-user-header">
-      <div class="trend-header-title">各省日活跃用户情况</div>
+      <div class="provinceUser-header-title">各省日活跃用户情况</div>
       <el-form ref="provinceUserForm" :model="provinceUser" :rules="provinceUserRules" class="flex">
         <el-form-item>
           <el-radio-group v-model="provinceUser.dateType" size="small" @change="dateTypeChange">
@@ -58,13 +58,13 @@ export default {
   },
   data() {
     const checkDate = (rule, value, callback) => {
-      const { startDate, endDate } = this.trend;
+      const { startDate, endDate } = this.provinceUser;
       if (startDate && endDate) {
         startDateBeforeEndDate(startDate, endDate, callback);
       }
     };
     const checkRangeDate = (rule, value, callback) => {
-      const { startDate, endDate } = this.trend;
+      const { startDate, endDate } = this.provinceUser;
       if (startDate && endDate) {
         monthRange(startDate, endDate, callback);
       }
