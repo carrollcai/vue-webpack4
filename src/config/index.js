@@ -71,6 +71,28 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
+    menuId: 6,
+    name: '产品管理',
+    url: '/product',
+    enable: false,
+    children: [
+      {
+        menuId: 9,
+        // parentId: 2,
+        name: '产品总览',
+        url: '/product/product-view',
+        enable: false
+      },
+      {
+        menuId: 10,
+        // parentId: 2,
+        name: '产品创建管理',
+        url: '/product/product-creat-manage',
+        enable: false
+      }
+    ]
+  },
+  {
     menuId: 12,
     name: '集团客户管理',
     url: '/group-customer',

@@ -1,0 +1,124 @@
+[{
+    "url": "/esop/product/productDetail",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": {
+        "total": 14,
+        "List": [
+          {
+            "creatTime": "2012-08-01",
+            "productName": "咪咕动漫",
+            "scope": 1,
+            "productType": 9,
+            "updateTime": 333,
+            "operation": "2017-08-11"
+          },
+          {
+            "creatTime": "2014-03-27",
+            "productName": "咪咕动漫",
+            "scope": 2,
+            "productType": 4,
+            "updateTime": 333,
+            "operation": "2017-05-11"
+          },
+          {
+            "creatTime": "2018-05-11",
+            "productName": "咪咕动漫",
+            "scope": 3,
+            "productType": 6,
+            "updateTime": 333,
+            "operation": "2017-05-11"
+          },
+          {
+            "creatTime": "2018-05-11",
+            "productName": "咪咕动漫",
+            "scope": 4,
+            "productType": 13,
+            "updateTime": "2018-05-31",
+            "operation": 111
+          },
+          {
+            "creatTime": "2016-05-11",
+            "productName": "咪咕动漫",
+            "scope": 5,
+            "productType": 8,
+            "updateTime": "2017-03-21",
+            "operation": 111
+          },
+          {
+            "creatTime": "2017-05-11",
+            "productName": "咪咕动漫",
+            "scope": 6,
+            "productType": 6,
+            "updateTime": "2017-06-11",
+            "operation": 111
+          }
+        ]
+      }
+    }
+  },
+  {
+    "url": "/esop/product/productCreatList",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "code": 1,
+      "msg": "success",
+      "data": {
+        "total": 14,
+        "List": [
+          {
+            "creatTime": "2012-08-01",
+            "productName": "咪咕动漫",
+            "scope": 1,
+            "productType": 9,
+            "updateTime": 333,
+            "operation": "2017-08-11"
+          },
+          {
+            "creatTime": "2014-03-27",
+            "productName": "咪咕动漫",
+            "scope": 2,
+            "productType": 4,
+            "updateTime": 333,
+            "operation": "2017-05-11"
+          },
+          {
+            "creatTime": "2018-05-11",
+            "productName": "咪咕动漫",
+            "scope": 3,
+            "productType": 6,
+            "updateTime": 333,
+            "operation": "2017-05-11"
+          },
+          {
+            "creatTime": "2018-05-11",
+            "productName": "咪咕动漫",
+            "scope": 4,
+            "productType": 13,
+            "updateTime": "2018-05-31",
+            "operation": 111
+          },
+          {
+            "creatTime": "2016-05-11",
+            "productName": "咪咕动漫",
+            "scope": 5,
+            "productType": 8,
+            "updateTime": "2017-03-21",
+            "operation": 111
+          },
+          {
+            "creatTime": "2017-05-11",
+            "productName": "咪咕动漫",
+            "scope": 6,
+            "productType": 6,
+            "updateTime": "2017-06-11",
+            "operation": 111
+          }
+        ]
+      }
+    }
+  }]

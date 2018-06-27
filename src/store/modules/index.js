@@ -5,6 +5,7 @@ import groupCustomer from './group-customer';
 import system from './system';
 import task from './task';
 import login from './login';
+import product from './product';
 
 export default {
   root,
@@ -13,5 +14,6 @@ export default {
   groupCustomer,
   system,
   task,
-  login
+  login,
+  product
 };

@@ -24,6 +24,13 @@ import RoleCreate from '@/views/system/RoleCreate.vue';
 import User from '@/views/system/User.vue';
 import UserCreate from '@/views/system/UserCreate.vue';
 
+import ProductDetail from '@/views/product/ProductDetail.vue';
+import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
+import ProductView from '@/views/product/ProductView.vue';
+import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
+import CreateSaleStep01 from '@/views/product/create/CreateSaleStep01.vue';
+import CreateSaleStep02 from '@/views/product/create/CreateSaleStep02.vue';
+
 const staticRoutes = [
   {
     path: '/login',
@@ -80,6 +87,36 @@ const dynamicRoutes = [
         path: '/analysis/daily-live',
         name: 'daily-live',
         component: DailyLive
+      },
+      {
+        path: '/product/product-view',
+        name: 'product-view',
+        component: ProductView
+      },
+      {
+        path: '/product/product-detail',
+        name: 'product-detail',
+        component: ProductDetail
+      },
+      {
+        path: '/product/product-creat-manage',
+        name: 'product-creat-manage',
+        component: ProductCreatManage
+      },
+      {
+        path: '/product/create-base-info',
+        name: 'create-base-info',
+        component: createBaseInfo
+      },
+      {
+        path: '/product/create-sale-step01',
+        name: 'create-sale-step01',
+        component: CreateSaleStep01
+      },
+      {
+        path: '/product/create-sale-step02',
+        name: 'create-sale-step02',
+        component: CreateSaleStep02
       },
       {
         path: '/task/management',

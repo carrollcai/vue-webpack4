@@ -68,5 +68,9 @@ export default {
   getGroupCustomerListAPI: API('/esop/operator/queryOperator'),
 
   // 生成集团客户联系人ID
-  generateContactIdAPI: API('/esop/organize/contactId')
+  generateContactIdAPI: API('/esop/organize/contactId'),
+  // 产品总览
+  getProductDetailAPI: API('http://localhost:3618/esop/product/productDetail'),
+  getProductCreatListAPI: API('/esop/product/queryProductSelf')
+
 };
