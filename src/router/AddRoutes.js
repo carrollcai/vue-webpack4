@@ -20,6 +20,7 @@ import Business from '@/views/business-manage/Business.vue';
 import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';
 import BusinessTask from '@/views/business-manage/BusinessTask.vue';
 import BusinessDetail from '@/views/business-manage/BusinessDetail.vue';
+import CreateBusiness from '@/views/business-manage/CreateBusiness.vue';
 
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
 import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
@@ -145,6 +146,12 @@ const dynamicRoutes = [
         path: '/business-manage/business-create-manage',
         name: 'business-create-manage',
         component: BusinessCreateManage,
+        meta: { menuId: 9 }
+      },
+      {
+        path: '/business-manage/create-business',
+        name: 'create-business',
+        component: CreateBusiness,
         meta: { menuId: 9 }
       },
       {
