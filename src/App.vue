@@ -28,6 +28,7 @@ export default {
 @import "scss/reset.scss";
 @import "scss/index.scss";
 @import "scss/views/active.scss";
+@import "scss/views/product.scss";
 @import "scss/views/retention.scss";
 @import "scss/views/page-error.scss";
 

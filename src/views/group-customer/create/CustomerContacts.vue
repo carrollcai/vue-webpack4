@@ -46,7 +46,7 @@
                 v-model="contact.age"
                 placeholder="年龄"
                 key="contact-age-select">
-                <el-option v-for="item in AGE_GROUPS"
+                <el-option v-for="item in AGE"
                   :key="item.value"
                   :value="item.value"
                   :label="item.label" ></el-option>
@@ -78,10 +78,10 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <el-form-item label="手机" prop="mobile" required key="contact-mobile">
+          <el-form-item label="手机号码" prop="mobile" required key="contact-mobile">
             <el-input class="full-col"
               v-model="contact.mobile"
-              placeholder="请输入手机"
+              placeholder="请输入手机号码"
               :maxlength="11"
               key="contact-mobile-input"></el-input>
           </el-form-item>
@@ -92,11 +92,10 @@
               :maxlength="35"
               key="contact-email-input"></el-input>
           </el-form-item>
-          <el-form-item label="婚姻状况" prop="maritalStatus" required key="contact-maritalStatus">
+          <el-form-item label="婚姻状况" prop="maritalStatus" key="contact-maritalStatus">
             <el-radio-group v-model="contact.maritalStatus"
               key="contact-maritalStatus-radio">
-              <el-radio label="Y">已婚</el-radio>
-              <el-radio label="N">未婚</el-radio>
+              <el-radio :label="item.value" v-for="(item, index) in MARITAL_STATUS" :key="index">{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="管理范畴" prop="manageScope" required key="manageScope-scope">
@@ -131,26 +130,10 @@
             </template>
             <template v-else>
               <div class="family-contact" v-for="(familyContact, index) of contact.contactFamilyDtoList" :key="index">
-                <el-input v-model="familyContact.name"
-                  placeholder="姓名"
-                  key="name"
-                  :maxlength="6"></el-input>
-                <span class="line"></span>
-                <el-input v-model="familyContact.relationship"
-                  placeholder="与本人关系"
-                  key="relation"
-                  :maxlength="10"></el-input>
-                <span class="line"></span>
-                <el-input v-model="familyContact.jobDuty"
-                  placeholder="工作职务"
-                  key="job"
-                  :maxlength="15"></el-input>
-                <span class="line"></span>
-                <el-input v-model="familyContact.mobile"
-                  placeholder="联系电话"
-                  key="mobile"
-                  :maxlength="11"></el-input>
-                <i class="el-icon-delete" @click="removeFamilyContact(index)"></i>
+                <family-contact :family-contact="familyContact" :index="index"></family-contact>
+                <div>
+                  <i class="el-icon-delete" @click="removeFamilyContact(index)"></i>
+                </div>
               </div>
               <div @click="addFamilyContact" class="btn_add_family-contact">
                 <i class="el-icon-plus"></i> 继续添加成员
@@ -168,12 +151,14 @@
 </template>
 <script>
 import {mapActions} from 'vuex';
-import {
-  GENDER,
-  AGE_GROUPS
-} from '@/config';
+import filters from '../filters';
+import FamilyContact from './FamilyContact.vue';
 export default {
   name: 'CustomerContacts',
+  mixins: [filters],
+  components: {
+    FamilyContact
+  },
   props: {
     list: {
       type: Array,
@@ -184,12 +169,10 @@ export default {
   },
   data() {
     return {
-      GENDER,
-      AGE_GROUPS,
       index: -1,
       contact: {
         gender: '',
-        maritalStatus: 'N',
+        maritalStatus: '',
         contactFamilyDtoList: [
         ]
       },
@@ -211,13 +194,11 @@ export default {
           { required: true, message: '请输入职位', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: '请输入手机', trigger: 'blur' }
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { type: 'string', pattern: /^1\d{10}$/, message: '请输入正确的手机号码', trigger: 'blur' }
         ],
         email: [
           { type: 'email', required: true, message: '请输入邮箱', trigger: 'blur' }
-        ],
-        maritalStatus: [
-          { required: true, message: '请选择婚姻状况', trigger: 'blur' }
         ],
         manageScope: [
           { required: true, message: '请输入管理范畴', trigger: 'blur' }
@@ -251,13 +232,10 @@ export default {
           if (this.index > -1) {
             this.list[this.index] = Object.assign({}, this.contact);
           } else {
-            // TODO
             this.generateContactId().then((res) => {
               this.contact.contactId = res.data;
               this.list.push(this.contact);
             });
-            this.contact.contactId = new Date().getTime();
-            this.list.push(this.contact);
           }
           this.cancel();
         }
@@ -373,21 +351,11 @@ $form-item-width: 336px;
   .family-contact{
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
-
-    .el-input{
-      width: 112px;
-    }
-
-    .family-contact_split{
-      width: 13px;
-      height: 2px;
-      border-top: 2px solid rgba(0, 0, 0, 0.25);
-    }
-
     .el-icon-delete{
-      margin-left: 16px;
+      margin: 0 0 20px 16px;
       cursor: pointer;
+      color: rgba(0, 0, 0, 0.25);
+      font-size: 16px;
     }
   }
 }

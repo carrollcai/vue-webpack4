@@ -1,15 +1,8 @@
 import _ from 'lodash';
+import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
-import {
-  MEMBER_NUM,
-  CERTIFICATE_TYPE,
-  ORGANIZE_TYPE,
-  REGISTER_FUND_TYPE,
-  ORG_INDUSTRY_TYPE,
-  INDUSTRY_TYPE
-} from '@/config';
 export default {
   components: {
     CustomerContacts,
@@ -18,47 +11,13 @@ export default {
   },
   data() {
     return {
-      step: 1,
+      step: 0,
       isAddingContact: false,
-      customer: {
-        name: '',
-        contactDtoList: []
-      },
       dateOptions: {
         disabledDate(time) {
           return time.getTime() > new Date().getTime();
         }
       },
-      MEMBER_NUM,
-      // TODO
-      provinces: [
-        {
-          label: '0-20人',
-          value: '1'
-        },
-        {
-          label: '20-200人',
-          value: '2'
-        },
-        {
-          label: '200-1000人',
-          value: '3'
-        },
-        {
-          label: '1000人以上',
-          value: '4'
-        }
-      ],
-      // 证件类型
-      CERTIFICATE_TYPE,
-      // 集团属性
-      ORGANIZE_TYPE,
-      // 注册资金类型
-      REGISTER_FUND_TYPE,
-      // 机构类型
-      ORG_INDUSTRY_TYPE,
-      // 行业类别
-      INDUSTRY_TYPE,
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: 'blur' },
@@ -91,7 +50,7 @@ export default {
         orgAddress: [
           { required: true, message: '请输入详细地址', trigger: 'blur' }
         ],
-        registeNum: [
+        registerNum: [
           { type: 'string', pattern: /^\d{13}$/, message: '请输入13位数字', trigger: 'blur' }
         ],
         socialCreditCode: [
@@ -114,10 +73,12 @@ export default {
           { required: true, message: '请输入客户经理', trigger: 'blur' }
         ],
         managerMobile: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' }
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { type: 'string', pattern: /^1\d{10}$/, message: '请输入正确的手机号码', trigger: 'blur' }
         ],
         managerNo: [
-          { required: true, message: '请输入员工工号', trigger: 'blur' }
+          { required: true, message: '请输入员工工号', trigger: 'blur' },
+          { type: 'string', pattern: /^\d+$/, message: '请输入数字', trigger: 'blur' }
         ],
         managerDepartment: [
           { required: true, message: '请输入所在部门', trigger: 'blur' }
@@ -147,23 +108,6 @@ export default {
       this.step = 0;
     },
     toSecondStep() {
-      this.$msgbox({
-        message: '恭喜您，集团客户提审成功',
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'success'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
           this.step = 1;
@@ -220,19 +164,16 @@ export default {
       }
     },
     querySearchAsync(queryString, cb) {
-      console.log(queryString);
-      let result = [
-        { 'value': '阳阳麻辣烫', 'address': '天山西路389号' },
-        { 'value': '南拳妈妈龙虾盖浇饭', 'address': '普陀区金沙江路1699号鑫乐惠美食广场A13' }
-      ];
-      cb(result);
+      this.queryCustomerManagers(queryString).then((res) => {
+        cb(res.data);
+      });
     },
     handleSelect(item) {
-      this.customer.managerName = item.value;
-      this.customer.managerMobile = item.value;
-      this.customer.managerNo = item.value;
-      this.customer.managerDepartment = item.value;
-      this.customer.managerPosition = item.value;
-    }
+      this.customer.managerName = item.staffName;
+      this.customer.managerMobile = item.mobile;
+      this.customer.managerNo = `${item.operatorId}`;
+      this.customer.managerPosition = item.postion;
+    },
+    ...mapActions(['queryCustomerManagers'])
   }
 };

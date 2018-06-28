@@ -1,27 +1,27 @@
 <template>
-  <div>
+  <div class="group-customer">
     <div class="m-container">
-      <el-form class="group-form" :model="groupCustomerForm">
+      <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="groupCustomerForm.roleId" placeholder="集团属性">
+            <el-select v-model="params.organizeType" placeholder="集团属性">
               <el-option :key="null" label="全部属性" :value="null"></el-option>
-              <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
+              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="groupCustomerForm.roleId" placeholder="所属省份">
+            <el-select v-model="params.provinceId" placeholder="所属省份">
               <el-option :key="null" label="全部" :value="null"></el-option>
-              <el-option v-for="(item, i) in province" :key="i" :value="item.key" :label="item.value" />
+              <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="groupCustomerForm.staffName" placeholder="客户经理" />
+            <el-input v-model="params.managerName" placeholder="客户经理" clearable/>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
-            <el-input v-model="groupCustomerForm.code" placeholder="集团名称/编码" />
+            <el-input v-model="params.otherField" placeholder="集团名称/编码" clearable/>
           </el-form-item>
         </div>
 
@@ -42,29 +42,20 @@
         <el-tab-pane label="审核不通过" name="fifth"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container user-create">
-      <wm-table :source="groupCustomerList.list" :pageNo="groupCustomerForm.pageNo" :pageSize="groupCustomerForm.pageSize" :total="groupCustomerForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="code" />
-        <el-table-column label="集团名称">
-          <template slot-scope="scope">
-            <span class="btnLists">
-              广东移动BOSS
-            </span>
-          </template>
+    <div class="m-container group-customer-create-management">
+      <wm-table
+        :source="groupCustomerList.list"
+        :total="groupCustomerList.totalCount"
+        :pageNo="params.pageNo"
+        :pageSize="params.pageSize"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="集团编码" property="organizeId" />
+        <el-table-column label="集团名称" property="organizeName">
         </el-table-column>
-        <el-table-column label="集团属性" property="organizeType" >
-          <template slot-scope="scope">
-            <span class="btnLists">
-              省公司
-            </span>
-          </template>
+        <el-table-column label="集团属性" property="organizeTypeName">
         </el-table-column>
-        <el-table-column label="所属省份" >
-          <template slot-scope="scope">
-            <span class="btnLists">
-              广东省
-            </span>
-          </template>
+        <el-table-column label="所属省份" property="provinceName">
         </el-table-column>
         <el-table-column label="客户经理" property="managerName" />
         <el-table-column label="操作">
@@ -72,6 +63,18 @@
             <el-button type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
+            <template v-if="isDraft(scope.row)">
+              <el-dropdown @command="handleCommand(scope.row, $event)">
+                <span class="el-dropdown-link">
+                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="edit">修改</el-dropdown-item>
+                  <el-dropdown-item command="delete">删除</el-dropdown-item>
+                  <el-dropdown-item command="approve">提审</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </template>
           </template>
         </el-table-column>
       </wm-table>
@@ -82,34 +85,45 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import filters from './filters';
+import {PAGE_NO, PAGE_SIZE} from '@/config';
 export default {
   components: {
     WmTable
   },
+  mixins: [filters],
   data() {
     return {
       activeIndex: '1',
-      activeName: 'second'
+      activeName: 'second',
+      params: {
+        pageNo: PAGE_NO,
+        pageSize: PAGE_SIZE,
+        organizeType: '',
+        provinceId: '',
+        managerName: '',
+        otherField: ''
+      }
     };
   },
   computed: {
     ...mapState({
-      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList,
-      groupCustomerForm: ({ groupCustomer }) => groupCustomer.groupCustomerForm,
-      userRoleList: ({ root }) => root.userRoleList,
-      province: ({ root }) => root.province
+      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList
     })
   },
   beforeMount() {
-    this.getGroupCustomerList(this.groupCustomerForm);
+    this.query();
   },
   methods: {
+    isDraft(row) {
+      return row.orgTaskStatus === '1';
+    },
     onPagination(value) {
-      this.groupCustomerForm.pageNo = value;
+      this.params.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.groupCustomerForm.pageSize = value;
+      this.params.pageSize = value;
       this.query();
     },
     handleCreate() {
@@ -117,35 +131,72 @@ export default {
       this.$router.push(path);
     },
     handleEdit(row) {
-      const path = `/group-customer/edit/${row.operatorId}`;
+      const path = `/group-customer/edit/${row.organizeId}`;
       this.$router.push(path);
     },
     handleDetail(row) {
-      const path = `/group-customer/detail`;
-      this.$router.push(path);
+      this.$router.push(`/group-customer/detail/${row.organizeId}`);
     },
     handleDelete(row) {
-      this.$confirm('删除用户数据, 是否继续?', ' ', {
+      this.$confirm('删除集团客户数据, 是否继续?', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteUser({ operatorId: row.operatorId }).then(res => {
+        this.deleteCustomer(row.organizeId).then(res => {
           this.query();
         });
       }).catch(() => {
         this.$message('已取消删除');
       });
     },
+    handleApprove(row) {
+      this.$confirm('提审集团客户数据, 是否继续?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.approveCustomer(row.organizeId).then(res => {
+          this.query();
+        });
+      }).catch((e) => {
+        console.log(e);
+        this.$message('已取消提审');
+      });
+    },
+    getParams() {
+      const {params} = this;
+      let STATUS = {
+        'first': [],
+        'second': ['1'],
+        'third': ['2', '5'],
+        'fourth': ['4'],
+        'fifth': ['3', '6']
+      };
+
+      params.taskStatusList = STATUS[this.activeName];
+
+      return params;
+    },
     query() {
-      const params = this.groupCustomerForm;
-      this.getGroupCustomerList(params);
+      this.getGroupCustomerList(this.getParams());
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      this.params.pageNo = 1;
+      this.query();
+    },
+    handleCommand(row, command) {
+      let COMMANDS = {
+        'edit': 'handleEdit',
+        'delete': 'handleDelete',
+        'approve': 'handleApprove'
+      };
+      this[COMMANDS[command]](row);
     },
     ...mapActions([
-      'getGroupCustomerList'
+      'getGroupCustomerList',
+      'deleteCustomer',
+      'approveCustomer'
     ])
   }
 };
@@ -164,10 +215,19 @@ export default {
 .group-form-item__input {
   width: $inputWidthQuery;
 }
+
 .role-form-item {
   margin-left: $formWidth;
 }
-.user-create {
+
+.group-customer-create-management {
   margin-top: $blockWidth;
+}
+
+.group-customer {
+  .el-dropdown-link{
+    color: $buttonColor;
+    cursor: pointer;
+  }
 }
 </style>

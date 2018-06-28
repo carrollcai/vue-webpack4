@@ -71,6 +71,29 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
+    menuId: 6,
+    name: '产品管理',
+    icon: 'icon-product',
+    url: '/product',
+    enable: false,
+    children: [
+      {
+        menuId: 9,
+        parentId: 6,
+        name: '产品总览',
+        url: '/product/product-view',
+        enable: false
+      },
+      {
+        menuId: 10,
+        parentId: 6,
+        name: '产品创建管理',
+        url: '/product/product-creat-manage',
+        enable: false
+      }
+    ]
+  },
+  {
     menuId: 7,
     name: '商机管理',
     url: '/business',
@@ -246,11 +269,11 @@ export const MEMBER_NUM = [
 export const GENDER = [
   {
     label: '男',
-    value: 'M'
+    value: 1
   },
   {
     label: '女',
-    value: 'F'
+    value: 2
   }
 ];
 

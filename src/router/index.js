@@ -23,6 +23,8 @@ router.beforeEach((to, from, next) => {
           await store.dispatch('getCurrentUserInfo');
           await store.commit('ADD_ROUTES');
 
+          store.dispatch('queryStaticData');
+
           // replace重新获取route对象
           await next({ ...to, replace: true });
         })();

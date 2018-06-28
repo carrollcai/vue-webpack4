@@ -31,6 +31,7 @@ export const fetch = (url, params, method) => {
           message: res.data.errorInfo.message,
           type: 'error'
         });
+        resolve(res.data);
       }
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
