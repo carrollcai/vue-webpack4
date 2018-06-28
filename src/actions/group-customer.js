@@ -7,17 +7,59 @@ function isSuccess(res) {
 }
 
 const actions = {
+  /**
+   * 查询集团客户创建列表
+   *
+   * @param {Store} Store
+   * @param {String} staffName
+   */
+  queryCustomerOverviewList: ({commit}, params) => {
+    return API.queryCustomerOverviewListAPI(params).then(res => {
+      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    });
+  },
+  /**
+   * 查询集团客户创建列表
+   *
+   * @param {Store} Store
+   * @param {String} staffName
+   */
   getGroupCustomerList: ({commit}, params) => {
     return API.getGroupCustomerListAPI(params).then(res => {
       commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
     });
   },
+  /**
+   * 查询集团客户审核列表
+   *
+   * @param {Store} Store
+   * @param {String} staffName
+   */
+  queryCustomerAuditList: ({commit}, params) => {
+    return API.queryCustomerAuditListAPI(params).then(res => {
+      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    });
+  },
+  /**
+   * 生成 集团客户联系人ID
+   */
   generateContactId: () => {
     return API.generateContactIdAPI();
   },
+  /**
+   * 新增集团客户-查询客户经理
+   *
+   * @param {Store} Store
+   * @param {String} staffName
+   */
   queryCustomerManagers({commit}, staffName) {
     return API.queryCustomerManagerAPI({staffName});
   },
+  /**
+   * 新增集团客户-保存草稿
+   * @param {Store} Store
+   * @param {*} customer
+   */
   createCustomer({commit}, customer) {
     API.createCustomerAPI(customer).then((res) => {
       if (isSuccess(res)) {
@@ -33,6 +75,11 @@ const actions = {
       }
     });
   },
+  /**
+   *新增集团客户-提审
+   * @param {Store} Store
+   * @param {*} customer
+   */
   createApproveCustomer({commit}, customer) {
     API.createApproveCustomerAPI(customer).then((res) => {
       if (isSuccess(res)) {
@@ -48,6 +95,11 @@ const actions = {
       }
     });
   },
+  /**
+   * 修改集团客户-保存草稿
+   * @param {Store} Store
+   * @param {*} customer
+   */
   updateCustomer({commit}, customer) {
     // 删除不需要传的值
 
@@ -82,6 +134,11 @@ const actions = {
       }
     });
   },
+  /**
+   * 查询集团客户详情
+   * @param {Store} Store
+   * @param {Number} customerId 集团客户ID
+   */
   queryCustomer({commit}, customerId) {
     return API.queryCustomerAPI({
       organizeId: customerId
@@ -93,6 +150,11 @@ const actions = {
       }
     });
   },
+  /**
+   * 删除集团客户
+   * @param {Store} Store
+   * @param {Number} customerId 集团客户ID
+   */
   deleteCustomer({commit}, customerId) {
     return API.deleteCustomerAPI({
       organizeId: customerId
@@ -107,6 +169,11 @@ const actions = {
       }
     });
   },
+  /**
+   * 集团客户创建列表-提审
+   * @param {Store} Store
+   * @param {Number} customerId 集团客户ID
+   */
   approveCustomer({commit}, customerId) {
     return API.approveCustomerAPI({
       organizeId: customerId

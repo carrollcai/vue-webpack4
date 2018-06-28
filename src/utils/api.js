@@ -60,8 +60,19 @@ export default {
   getCurrentUserInfoAPI: API('/esop/login/queryCurrentOperator'),
 
   /* 集团客户管理 */
-  // 获取集团客户概览列表
+  /**
+   * 查询集团客户总览列表
+   */
+  queryCustomerOverviewListAPI: API('/esop/organize/queryOrganize'),
+
+  /**
+   * 查询集团客户创建列表
+   */
   getGroupCustomerListAPI: API('/esop/organize/queryMyOrganize'),
+  /**
+   * 查询集团客户审核列表
+   */
+  queryCustomerAuditListAPI: API('/esop/organize/queryTaskInfo'),
 
   // 生成集团客户联系人ID
   generateContactIdAPI: API('/esop/organize/contactId'),
