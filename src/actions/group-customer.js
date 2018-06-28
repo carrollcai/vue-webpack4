@@ -14,8 +14,12 @@ const actions = {
    * @param {String} staffName
    */
   queryCustomerOverviewList: ({commit}, params) => {
-    return API.queryCustomerOverviewListAPI(params).then(res => {
-      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    API.queryCustomerOverviewListAPI(params).then(res => {
+      if (isSuccess(res)) {
+        commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+      } else {
+        commit(types.GROUP_CUSTOMER_GET_LIST, {});
+      }
     });
   },
   /**
@@ -25,8 +29,12 @@ const actions = {
    * @param {String} staffName
    */
   getGroupCustomerList: ({commit}, params) => {
-    return API.getGroupCustomerListAPI(params).then(res => {
-      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    API.getGroupCustomerListAPI(params).then(res => {
+      if (isSuccess(res)) {
+        commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+      } else {
+        commit(types.GROUP_CUSTOMER_GET_LIST, {});
+      }
     });
   },
   /**
@@ -36,8 +44,13 @@ const actions = {
    * @param {String} staffName
    */
   queryCustomerAuditList: ({commit}, params) => {
-    return API.queryCustomerAuditListAPI(params).then(res => {
-      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    API.queryCustomerAuditListAPI(params).then(res => {
+      if (isSuccess(res)) {
+        commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+      } else {
+        console.log('---------');
+        commit(types.GROUP_CUSTOMER_GET_LIST, {});
+      }
     });
   },
   /**

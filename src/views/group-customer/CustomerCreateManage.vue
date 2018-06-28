@@ -164,11 +164,8 @@ export default {
         this.$message('已取消提审');
       });
     },
-    query() {
-      const params = this.params;
-      this.getGroupCustomerList(params);
-    },
-    handleClick(tab, event) {
+    getParams() {
+      const {params} = this;
       let STATUS = {
         'first': [],
         'second': ['1'],
@@ -177,8 +174,15 @@ export default {
         'fifth': ['3', '6']
       };
 
+      params.taskStatusList = STATUS[this.activeName];
+
+      return params;
+    },
+    query() {
+      this.getGroupCustomerList(this.getParams());
+    },
+    handleClick(tab, event) {
       this.params.pageNo = 1;
-      this.params.taskStatusList = STATUS[this.activeName];
       this.query();
     },
     handleCommand(row, command) {
@@ -187,7 +191,6 @@ export default {
         'delete': 'handleDelete',
         'approve': 'handleApprove'
       };
-      console.log(command);
       this[COMMANDS[command]](row);
     },
     ...mapActions([

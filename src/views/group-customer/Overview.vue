@@ -101,7 +101,7 @@ export default {
       this.query();
     },
     handleDetail(row) {
-      const path = `/system/user/edit/${row.operatorId}`;
+      const path = `/group-customer/overview/detail/${row.organizeId}`;
       this.$router.push(path);
     },
     query() {

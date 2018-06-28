@@ -117,7 +117,6 @@ export default {
         'third': '0'
       };
 
-      params.pageNo = 1;
       params.businessStatus = STATUS[this.activeName];
 
       return params;
@@ -127,6 +126,8 @@ export default {
       this.queryCustomerAuditList(params);
     },
     handleClick() {
+      this.params.pageNo = 1;
+      this.query();
     },
     ...mapActions([
       'queryCustomerAuditList'
