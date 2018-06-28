@@ -35,6 +35,7 @@
     <span class="line"></span>
     <el-form-item
       :prop="'contactFamilyDtoList.' + index + '.mobile'"
+      class="family-contact-mobile"
       :rules="{
         validator: familyMobileValidator, trigger: 'blur'
       }">
@@ -60,9 +61,28 @@ export default {
     }
   },
   methods: {
-    isNotEmpty() {
+    isEmpty() {
       const {familyContact} = this;
-      return !!familyContact.name || !!familyContact.relationship || !!familyContact.jobDuty || !!familyContact.mobile;
+      let count = 0;
+      if (familyContact.name) {
+        count += 1;
+      }
+
+      if (familyContact.relationship) {
+        count += 1;
+      }
+
+      if (familyContact.jobDuty) {
+        count += 1;
+      }
+
+      if (familyContact.mobile) {
+        count += 1;
+      }
+      return count === 0;
+    },
+    isNotEmpty() {
+      return this.isEmpty();
     },
     /**
      * 家庭成员-姓名 校验规则
@@ -72,10 +92,10 @@ export default {
      * @param {Function} callback 回调函数
      */
     familyNameValidator(rule, value, callback) {
-      if (this.isNotEmpty() && value) {
-        callback();
-      } else {
+      if (!this.isEmpty() && !value) {
         callback(new Error('请输入姓名'));
+      } else {
+        callback();
       }
     },
 
@@ -87,10 +107,10 @@ export default {
      * @param {Function} callback 回调函数
      */
     familyRelationshipValidator(rule, value, callback) {
-      if (this.isNotEmpty() && value) {
-        callback();
-      } else {
+      if (!this.isEmpty() && !value) {
         callback(new Error('请输入与本人关系'));
+      } else {
+        callback();
       }
     },
     /**
@@ -101,10 +121,10 @@ export default {
      * @param {Function} callback 回调函数
      */
     familyJobValidator(rule, value, callback) {
-      if (this.isNotEmpty() && value) {
-        callback();
-      } else {
+      if (!this.isEmpty() && !value) {
         callback(new Error('请输入工作职务'));
+      } else {
+        callback();
       }
     },
     /**
@@ -115,9 +135,9 @@ export default {
      * @param {Function} callback 回调函数
      */
     familyMobileValidator(rule, value, callback) {
-      if (this.isNotEmpty() && !value) {
+      if (!this.isEmpty() && !value) {
         callback(new Error('请输入联系电话'));
-      } else if (!/^1\d{10}$/.test(value)) {
+      } else if (!!value && !/^1\d{10}$/.test(value)) {
         callback(new Error('请输入正确的联系电话'));
       } else {
         callback();
@@ -133,7 +153,11 @@ export default {
   margin-bottom: 16px;
 
   .el-form-item{
-    width: 112px;
+    width: 106px;
+  }
+
+  .family-contact-mobile{
+    width: 120px;
   }
 
   .family-contact_split{

@@ -48,6 +48,40 @@ const actions = {
       }
     });
   },
+  updateCustomer({commit}, customer) {
+    // 删除不需要传的值
+
+    delete customer.organizeTypeValue;
+    delete customer.provinceName;
+    delete customer.orgIndustryTypeValue;
+    delete customer.industryTypeValue;
+    delete customer.memberNumValue;
+    delete customer.certificateTypeValue;
+    delete customer.registerFundTypeValue;
+
+    let contacts = customer.contactDtoList;
+    if (contacts && contacts.length) {
+      for (let contact of contacts) {
+        delete contact.ageValue;
+        delete contact.genderValue;
+        delete contact.genderValue;
+      }
+    }
+
+    API.updateCustomerAPI(customer).then((res) => {
+      if (isSuccess(res)) {
+        Message({
+          message: '修改成功',
+          type: 'success',
+          duration: 3000
+        });
+        // 创建成功
+        commit(types.ROUTE_CHANGE, {
+          path: '/group-customer/create-manage'
+        });
+      }
+    });
+  },
   queryCustomer({commit}, customerId) {
     return API.queryCustomerAPI({
       organizeId: customerId
@@ -74,7 +108,9 @@ const actions = {
     });
   },
   approveCustomer({commit}, customerId) {
-    return API.approveCustomerAPI(customerId).then((res) => {
+    return API.approveCustomerAPI({
+      organizeId: customerId
+    }).then((res) => {
       if (isSuccess(res)) {
         Message({
           showClose: true,

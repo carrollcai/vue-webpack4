@@ -13,9 +13,6 @@ export default {
     return {
       step: 0,
       isAddingContact: false,
-      customer: {
-        contactDtoList: []
-      },
       dateOptions: {
         disabledDate(time) {
           return time.getTime() > new Date().getTime();
@@ -53,7 +50,7 @@ export default {
         orgAddress: [
           { required: true, message: '请输入详细地址', trigger: 'blur' }
         ],
-        registeNum: [
+        registerNum: [
           { type: 'string', pattern: /^\d{13}$/, message: '请输入13位数字', trigger: 'blur' }
         ],
         socialCreditCode: [
@@ -111,23 +108,6 @@ export default {
       this.step = 0;
     },
     toSecondStep() {
-      this.$msgbox({
-        message: '恭喜您，集团客户提审成功',
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'success'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
           this.step = 1;
@@ -191,7 +171,7 @@ export default {
     handleSelect(item) {
       this.customer.managerName = item.staffName;
       this.customer.managerMobile = item.mobile;
-      this.customer.managerNo = item.operatorId;
+      this.customer.managerNo = `${item.operatorId}`;
       this.customer.managerPosition = item.postion;
     },
     ...mapActions(['queryCustomerManagers'])

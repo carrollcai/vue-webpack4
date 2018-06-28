@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import {mapState} from 'vuex';
 export default {
   computed: {
@@ -29,6 +30,15 @@ export default {
     // 行业类别
     INDUSTRY_TYPE() {
       return this.staticData.industryType || [];
+    },
+    GENDER() {
+      return this.staticData.SEX || [];
+    },
+    AGE() {
+      return this.staticData.AGE || [];
+    },
+    MARITAL_STATUS() {
+      return this.staticData.maritalStatus || [];
     }
   },
   methods: {
@@ -115,6 +125,9 @@ export default {
       let result = _.find(this.INDUSTRY_TYPE, {value});
 
       return result ? result.label : '';
+    },
+    formateDate(date) {
+      return moment(date).format('YYYY-MM-DD');
     }
   }
 };

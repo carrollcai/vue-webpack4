@@ -74,6 +74,11 @@ export default {
   createCustomerAPI: API('/esop/organize/create'),
   // 新增、提审集团客户
   createApproveCustomerAPI: API('/esop/organize/createApprove'),
+
+  /**
+   * 修改集团客户
+   */
+  updateCustomerAPI: API('/esop/organize/edit'),
   /**
    * 查询客户经理
    */

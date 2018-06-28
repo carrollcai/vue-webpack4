@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="group-customer">
     <div class="m-container">
       <el-form class="group-form" :model="groupCustomerForm">
         <div class="flex">
@@ -52,7 +52,10 @@
         <el-table-column label="集团编码" property="organizeId" />
         <el-table-column label="集团名称" property="organizeName">
         </el-table-column>
-        <el-table-column label="集团属性" property="organizeType" >
+        <el-table-column label="集团属性">
+          <template slot-scope="scope">
+             {{orgTypeFilter(scope.row.organizeType)}}
+          </template>
         </el-table-column>
         <el-table-column label="所属省份" property="provinceName">
         </el-table-column>
@@ -62,12 +65,18 @@
             <el-button type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-button type="text" @click="handleDelete(scope.row)">
-              删除
-            </el-button>
-            <el-button type="text" @click="handleApprove(scope.row)">
-              提审
-            </el-button>
+            <template v-if="isDraft(scope.row)">
+              <el-dropdown @command="handleCommand(scope.row, $event)">
+                <span class="el-dropdown-link">
+                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="edit">修改</el-dropdown-item>
+                  <el-dropdown-item command="delete">删除</el-dropdown-item>
+                  <el-dropdown-item command="approve">提审</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </template>
           </template>
         </el-table-column>
       </wm-table>
@@ -78,18 +87,16 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
-import {
-  ORGANIZE_TYPE
-} from '@/config';
+import filters from './filters';
 export default {
   components: {
     WmTable
   },
+  mixins: [filters],
   data() {
     return {
       activeIndex: '1',
-      activeName: 'second',
-      ORGANIZE_TYPE
+      activeName: 'second'
     };
   },
   computed: {
@@ -104,6 +111,9 @@ export default {
     this.getGroupCustomerList(this.groupCustomerForm);
   },
   methods: {
+    isDraft(row) {
+      return row.orgTaskStatus === '1';
+    },
     onPagination(value) {
       this.groupCustomerForm.pageNo = value;
       this.query();
@@ -117,7 +127,7 @@ export default {
       this.$router.push(path);
     },
     handleEdit(row) {
-      const path = `/group-customer/edit/${row.operatorId}`;
+      const path = `/group-customer/edit/${row.organizeId}`;
       this.$router.push(path);
     },
     handleDetail(row) {
@@ -145,7 +155,8 @@ export default {
         this.approveCustomer(row.organizeId).then(res => {
           this.query();
         });
-      }).catch(() => {
+      }).catch((e) => {
+        console.log(e);
         this.$message('已取消提审');
       });
     },
@@ -166,9 +177,19 @@ export default {
       this.groupCustomerForm.taskStatusList = STATUS[this.activeName];
       this.query();
     },
+    handleCommand(row, command) {
+      let COMMANDS = {
+        'edit': 'handleEdit',
+        'delete': 'handleDelete',
+        'approve': 'handleApprove'
+      };
+      console.log(command);
+      this[COMMANDS[command]](row);
+    },
     ...mapActions([
       'getGroupCustomerList',
-      'deleteCustomer'
+      'deleteCustomer',
+      'approveCustomer'
     ])
   }
 };
@@ -187,10 +208,19 @@ export default {
 .group-form-item__input {
   width: $inputWidthQuery;
 }
+
 .role-form-item {
   margin-left: $formWidth;
 }
+
 .user-create {
   margin-top: $blockWidth;
+}
+
+.group-customer {
+  .el-dropdown-link{
+    color: $buttonColor;
+    cursor: pointer;
+  }
 }
 </style>
