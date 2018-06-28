@@ -67,9 +67,13 @@ export default {
   generateContactIdAPI: API('/esop/organize/contactId'),
   /* 产品管理 */
   // 产品总览
-  getProductDetailAPI: API('http://localhost:3618/esop/product/productDetail'),
+  getProductListAPI: API('http://localhost:3618/esop/product/productCreatList'),
   // 产品创建管理
   getProductCreatListAPI: API('http://localhost:3618/esop/product/productCreatList'),
+  // 产品详情
+  getProductDetailAPI: API('http://localhost:3618/esop/product/productDetail'),
+  // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
+  getComposedProductAPI: API('http://localhost:3618/esop/product/queryComposedProduct'),
   // 新增集团客户
   createCustomerAPI: API('/esop/organize/create'),
   // 新增、提审集团客户

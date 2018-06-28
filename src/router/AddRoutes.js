@@ -103,8 +103,8 @@ const dynamicRoutes = [
         component: ProductView
       },
       {
-        path: '/product/product-detail',
-        name: 'product-detail',
+        path: '/product/product-detail/:id',
+        name: 'product-details',
         component: ProductDetail
       },
       {
@@ -113,7 +113,12 @@ const dynamicRoutes = [
         component: ProductCreatManage
       },
       {
-        path: '/product/create-base-info',
+        path: '/product/create-base-info/:id',
+        name: 'create-base-infos',
+        component: createBaseInfo
+      },
+      {
+        path: '/product/create-base-info/',
         name: 'create-base-info',
         component: createBaseInfo
       },
