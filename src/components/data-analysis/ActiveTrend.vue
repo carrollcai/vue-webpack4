@@ -44,9 +44,10 @@
       </div>
     </el-form>
     <div class="trend-sub">
-      <div class="trend-sub__radio">
-        <el-radio v-if="!trend.mode" v-for="i in Object.keys(trendRadio)" :key="i" v-model="trend.chartRadio" :label="Number(i)" @change="changeRadio">
-          {{trendRadio[i]}}
+      <div class="trend-sub__radio" v-if="!trend.mode">
+        <el-radio v-for="i in Object.keys(trendRadio)" :key="i" v-model="trend.chartRadio" :label="Number(i)" @change="changeRadio">
+          <span v-if="trend.dateType">{{radioTransformDate(i)}}</span>
+          <span v-else>{{radioTransformDate(i)}}</span>
         </el-radio>
       </div>
       <div @click="downloadDataAnalysis" class="cursor-pointer">
@@ -141,6 +142,10 @@ export default {
   beforeMount() {
   },
   methods: {
+    radioTransformDate(i) {
+      if (i !== '0') return this.trendRadio[i];
+      return !this.trend.dateType ? this.trendRadio[i] : this.trendRadio[i].replace('日', '月');
+    },
     downloadDataAnalysis() {
       this.$refs['activeTrendForm'].validate(valid => {
         if (!valid) return false;
