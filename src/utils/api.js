@@ -115,6 +115,15 @@ export default {
   getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
   getBusinessListAPI: API('http://localhost:3618/business-manage/business'),
+
   // 商机详情查询
-  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail')
+  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
+
+  // 新建商机
+  // 获取商机类别列表
+  getBusinessCategoryListAPI: API('http://localhost:3618/business-manage/getBusinessCategoryList'),
+  // 根据合作集团匹配办公地址
+  getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
+  // 提交商机
+  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority')
 };

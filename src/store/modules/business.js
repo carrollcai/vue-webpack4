@@ -16,7 +16,10 @@ const state = {
     status: null
   },
   businessList: [],
-  businessDetail: {}
+  businessDetail: {},
+  businessCategoryList: [],
+  officeAddress: '',
+  submitBusinessStatus: ''
 };
 
 const mutations = {
@@ -29,9 +32,17 @@ const mutations = {
   },
   [types.BUSINESS_DETAIL](state, data) {
     state.businessDetail = data.list;
+  },
+  [types.BUSINESS_CATEGORY_LIST](state, data) {
+    state.businessCategoryList = data.list;
+  },
+  [types.OFFICE_ADDRESS](state, data) {
+    state.officeAddress = data.list;
+  },
+  [types.SUBMIT_BUSINESS_STATUS](state, data) {
+    state.submitBusinessStatus = data.list;
   }
 };
-
 export default {
   state,
   mutations

@@ -3,7 +3,7 @@
     <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
       <div class="flex">
         <el-form-item prop="date">
-          <el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="businessForm.date" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
 
@@ -21,7 +21,7 @@
       </div>
       <div class="flex">
         <el-form-item class="task-form-item group-form-item__lable">
-          <el-button type="default">新建商机</el-button>
+          <el-button type="default" @click="createBusiness">新建商机</el-button>
         </el-form-item>
       </div>
     </el-form>
@@ -35,7 +35,12 @@
     <wm-table :source="businessList" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="商机编号" property="num" />
       <el-table-column label="商机描述" property="desc" />
-      <el-table-column label="合作集团" property="group" />
+      <el-table-column label="合作集团" property="group">
+        <template slot-scope="scope">
+          <span style="margin-right: 10px">{{ scope.row.group }}</span>
+          <i class="icon-info"></i>
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" property="time" />
       <el-table-column label="联系人" property="contacts" />
       <el-table-column label="处理人" property="process" />
@@ -45,9 +50,13 @@
           <el-button type="text" @click="handleDetail(scope.row)">
             详情
           </el-button>
-          <el-button type="text" @click="handleDetail(scope.row)">
+          <el-popover placement="bottom-start" style="min-width: 65px !important;" trigger="hover">
+            <p class="tipText" @click="handleSubmit(scope.row)">提交</p><p class="tipText">修改</p><p class="tipText">删除</p>
+            <el-button style="margin-left: 10px" type="text" slot="reference">更多</el-button>
+          </el-popover>
+          <!--<el-button type="text" @click="handleDetail(scope.row)">
             更多
-          </el-button>
+          </el-button>-->
         </template>
       </el-table-column>
     </wm-table>
@@ -103,6 +112,10 @@ export default {
       const path = `/business-manage/business-detail/${row.id}`;
       this.$router.push(path);
     },
+    createBusiness() {
+      const path = `/business-manage/create-business`;
+      this.$router.push(path);
+    },
     query() {
       const params = this.businessForm;
       params.status = this.status;
@@ -123,6 +136,17 @@ export default {
       };
     },
     handleSelect(item) {
+    },
+    handleSubmit(row) {
+      this.$confirm('您确定要提交该条商机信息?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message('您已成功提交该条商机！');
+      }).catch(() => {
+        this.$message('已取消提交');
+      });
     },
     ...mapActions([
       'getCooperationGroupList', 'getBusinessList'
@@ -152,5 +176,14 @@ export default {
 }
 .task-form-item {
   margin-left: $formWidth;
+}
+.el-popover {
+  min-width: 35px !important;
+}
+.tipText {
+  height: 25px;
+  line-height: 25px;
+  color: rgba(55, 120, 255, 1);
+  font-size: 14px;
 }
 </style>
