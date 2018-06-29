@@ -145,11 +145,13 @@ export default {
     };
   },
   beforeMount() {
+    this.getBusinessDetail();
     this.getBusinessCategoryList();
     this.getCooperationGroupList();
   },
   computed: {
     ...mapState({
+      businessDetail: ({ business }) => business.businessDetail,
       businessCategoryList: ({ business }) => business.businessCategoryList,
       officeAddress: ({ business }) => business.officeAddress,
       submitBusinessStatus: ({ business }) => business.submitBusinessStatus,
@@ -184,7 +186,7 @@ export default {
       this.submitBusinessOppority(params);
     },
     ...mapActions([
-      'getBusinessCategoryList', 'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList'
+      'getBusinessCategoryList', 'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList', 'getBusinessDetail'
     ])
   }
 };

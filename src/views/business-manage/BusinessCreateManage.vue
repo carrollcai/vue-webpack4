@@ -38,7 +38,11 @@
       <el-table-column label="合作集团" property="group">
         <template slot-scope="scope">
           <span style="margin-right: 10px">{{ scope.row.group }}</span>
-          <i class="icon-info"></i>
+          <el-popover placement="top" width="200" trigger="hover">
+            <div class="tipText1">系统暂未录入该集团，请尽快关联！</div>
+            <div class="tipText tipText1 el-dropdown-link" @click="handleAssociate(scope.row)">立即关联</div>
+            <i class="icon-info" slot="reference"></i>
+          </el-popover>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" property="time" />
@@ -47,16 +51,21 @@
       <el-table-column label="商机状态" property="result" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail(scope.row)">
+          <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">
             详情
           </el-button>
-          <el-popover placement="bottom-start" style="min-width: 65px !important;" trigger="hover">
-            <p class="tipText" @click="handleSubmit(scope.row)">提交</p><p class="tipText">修改</p><p class="tipText">删除</p>
-            <el-button style="margin-left: 10px" type="text" slot="reference">更多</el-button>
-          </el-popover>
-          <!--<el-button type="text" @click="handleDetail(scope.row)">
-            更多
-          </el-button>-->
+          <template v-if="isDraft(scope.row)">
+            <el-dropdown @command="handleCommand(scope.row, $event)">
+              <span class="el-dropdown-link">
+                更多<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item class="el-dropdown-link" command="submit">提交</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link" command="edit">修改</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link" command="delete">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
         </template>
       </el-table-column>
     </wm-table>
@@ -100,6 +109,18 @@ export default {
     this.query();
   },
   methods: {
+    isDraft(row) {
+      // return row.orgTaskStatus === '1';
+      return true;
+    },
+    handleCommand(row, command) {
+      let COMMANDS = {
+        'edit': 'handleEdit',
+        'delete': 'handleDelete',
+        'submit': 'handleSubmit'
+      };
+      this[COMMANDS[command]](row);
+    },
     onPagination(value) {
       this.businessForm.pageNo = value;
       this.query();
@@ -143,13 +164,49 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message('您已成功提交该条商机！');
+        this.$message({
+          dangerouslyUseHTMLString: true,
+          message: '<p>您已成功提交该条商机！</p><p>处理人：张三疯</p>'
+        });
       }).catch(() => {
         this.$message('已取消提交');
       });
     },
+    handleDelete(row) {
+      this.$confirm('您确定要删除该条商机信息?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message('您已成功删除该条商机！');
+      }).catch(() => {
+        this.$message('已取消删除');
+      });
+    },
+    handleEdit(row) {
+      const path = `/business-manage/update-business/${row.id}`;
+      this.$router.push(path);
+    },
+    handleAssociate(row) {
+      this.$prompt('关联集团名称/编码：', '立即关联', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPlaceholder: '请输入关联集团名称或编码'
+      }).then(({ value }) => {
+        this.groupAssociation();
+        this.$message({
+          type: 'success',
+          message: '您已成功关联: ' + value
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消关联'
+        });
+      });
+    },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessList'
+      'getCooperationGroupList', 'getBusinessList', 'groupAssociation', 'delBusinessOppority'
     ])
   }
 };
@@ -180,10 +237,16 @@ export default {
 .el-popover {
   min-width: 35px !important;
 }
+.el-dropdown-link{
+  color: $buttonColor;
+  cursor: pointer;
+}
 .tipText {
   height: 25px;
   line-height: 25px;
-  color: rgba(55, 120, 255, 1);
   font-size: 14px;
+}
+.tipText1{
+  font-size:11px;height: 22px;line-height:22px;
 }
 </style>

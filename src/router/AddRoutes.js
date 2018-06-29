@@ -21,6 +21,8 @@ import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.v
 import BusinessTask from '@/views/business-manage/BusinessTask.vue';
 import BusinessDetail from '@/views/business-manage/BusinessDetail.vue';
 import CreateBusiness from '@/views/business-manage/CreateBusiness.vue';
+import UpdateBusiness from '@/views/business-manage/UpdateBusiness.vue';
+import TransforOrder from '@/views/business-manage/TransforOrder.vue';
 
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
 import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
@@ -132,9 +134,21 @@ const dynamicRoutes = [
         meta: { menuId: 9 }
       },
       {
+        path: '/business-manage/update-business/:id',
+        name: 'update-business',
+        component: UpdateBusiness,
+        meta: { menuId: 9 }
+      },
+      {
         path: '/business-manage/business-task',
         name: 'business-task',
         component: BusinessTask,
+        meta: { menuId: 10 }
+      },
+      {
+        path: '/business-manage/transfor-order',
+        name: 'transfor-order',
+        component: TransforOrder,
         meta: { menuId: 10 }
       },
       {
