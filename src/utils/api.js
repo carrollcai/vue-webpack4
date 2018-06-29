@@ -134,5 +134,11 @@ export default {
   // 根据合作集团匹配办公地址
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 提交商机
-  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority')
+  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 集团关联商机
+  groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 删除商机
+  delBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 商机草稿详情查询
+  getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail')
 };

@@ -21,6 +21,8 @@ router.beforeEach((to, from, next) => {
         (async() => {
           await store.dispatch('getProvince');
           await store.dispatch('getCurrentUserInfo');
+
+          // 获取用户信息后添加动态路由
           await store.commit('ADD_ROUTES');
 
           store.dispatch('queryStaticData');

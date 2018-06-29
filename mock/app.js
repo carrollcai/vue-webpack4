@@ -4,48 +4,29 @@ const app = require('express')();
 const mock = require('mockjs');
 const glob = require('glob');
 
+// 存储所有的api路径
+let apiPathArr = [];
+// 存储所有的json内容
 let apiContArr = [];
-
-async function init() {
-  const apiPath = path.join(__dirname, './*.json');
-  let apiPathArr = await getPath(apiPath);
-  await getApis();
-
-  // 监听JSON文件的变化
-  apiPathArr.forEach(async val => {
-    await fs.watchFile(val, curr => {
-      console.log('API is updated.', curr.mtime);
-      getApis();
-    });
-  });
-
-  function getApis() {
-    apiPathArr.forEach(async val => {
-      await fs.readFile(val, 'utf-8', (err, cont) => {
-        if (err) throw err;
-        if (!cont) {
-          console.log('content must exsit.');
-          // return false;
-        }
-
-        apiContArr.push(JSON.parse(cont));
-      });
-    });
-  };
-};
 
 init();
 
-app.use((req, res) => {
+app.use(async(req, res) => {
   let data;
   let delay = 0;
+  // 检测是否有新文件变更
+  let isCheck = await isAddJsonFile();
+  if (isCheck) {
+    init(true);
+  }
+
   apiContArr.forEach(val => {
     val.forEach(reqData => {
       if (reqData.regexp) {
         if (!new RegExp(reqData.url).test(req.originalUrl)) {
           return false;
         }
-      } else if (req.originalUrl.indexOf(reqData.url) !== 0) {
+      } else if (req.originalUrl !== reqData.url) {
         return false;
       }
 
@@ -66,7 +47,54 @@ app.listen('3618', () => {
   console.info('Mock server is listening at 3618');
 });
 
-// 获取某一目录下所有文件名
+/* 初始化监听 */
+async function init(isCancelWatch) {
+  // 取消之前文件监听
+  if (isCancelWatch) {
+    await apiPathArr.forEach(async val => {
+      await fs.unwatchFile(val, curr => {
+        console.log('API is cancel watch.', curr.mtime);
+      });
+    });
+  }
+  let apiPath = path.join(__dirname, './*.json');
+  apiPathArr = await getPath(apiPath);
+  await getApiContent();
+  // 监听JSON文件的变化
+  await apiPathArr.forEach(async val => {
+    await fs.watchFile(val, curr => {
+      console.log('API is updated.', curr.mtime);
+      getApiContent();
+    });
+  });
+};
+
+/* 新增一个功能，每次新增文件的时候，需要检测变更文件，可以通过接口访问，重新获取所有json'文件 */
+async function isAddJsonFile() {
+  let newApiPathArr = await getPath(path.join(__dirname, './*.json'));
+  let flag = false;
+  for (let i = 0; i < newApiPathArr.length; i++) {
+    if (newApiPathArr[i] !== apiPathArr[i]) {
+      flag = true;
+    }
+  }
+  return flag;
+}
+
+/* 获取所有的json内容 */
+function getApiContent() {
+  apiPathArr.forEach(async val => {
+    await fs.readFile(val, 'utf-8', (err, cont) => {
+      if (err) throw err;
+      if (!cont) {
+        console.log('content must exsit.');
+      }
+      apiContArr.push(JSON.parse(cont));
+    });
+  });
+};
+
+/* 获取某一目录下所有文件名 */
 function getPath(path, options = {}) {
   return new Promise((resolve, reject) => {
     // options is optional
