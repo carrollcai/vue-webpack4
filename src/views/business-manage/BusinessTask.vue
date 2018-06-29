@@ -34,12 +34,27 @@
       <el-table-column label="处理结果" property="result" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-if="status === '0'" type="text" @click="handleDetail(scope.row)">
+          <el-button v-if="status === '0'" type="text" @click="handleSend(scope.row)">
             转订单
           </el-button>
-          <el-button v-if="status === '0'" type="text" @click="handleDetail(scope.row)">
+          <template v-if="status === '0'">
+            <el-dropdown @command="handleCommand(scope.row, $event)">
+              <el-button type="text">
+                更多<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <!--<span class="el-dropdown-link">
+                更多<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>-->
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item class="el-dropdown-link" command="detail">详情</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link" command="send">分派</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link" command="cancel">作废</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
+          <!--<el-button v-if="status === '0'" type="text" @click="handleDetail(scope.row)">
             更多
-          </el-button>
+          </el-button>-->
           <el-button v-if="status === '1'" type="text" @click="handleDetail(scope.row)">
             详情
           </el-button>
@@ -98,6 +113,28 @@ export default {
       const path = `/business-manage/business-detail/${row.id}`;
       this.$router.push(path);
     },
+    handleSend(row) {
+      const path = `/business-manage/transfor-order`;
+      this.$router.push(path);
+    },
+    handleCancel(row) {
+      this.$prompt('作废原因：', '作废', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPlaceholder: '请输入作废原因'
+      }).then(({ value }) => {
+        this.groupAssociation();
+        this.$message({
+          type: 'success',
+          message: '作废成功！' + value
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消作废'
+        });
+      });
+    },
     query() {
       const params = this.businessForm;
       params.status = this.status;
@@ -118,6 +155,14 @@ export default {
       };
     },
     handleSelect(item) {
+    },
+    handleCommand(row, command) {
+      let COMMANDS = {
+        'detail': 'handleDetail',
+        'send': 'handleSend',
+        'cancel': 'handleCancel'
+      };
+      this[COMMANDS[command]](row);
     },
     ...mapActions([
       'getCooperationGroupList', 'getBusinessList'

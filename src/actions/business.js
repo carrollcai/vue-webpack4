@@ -49,6 +49,30 @@ const actions = {
     return API.submitBusinessOpporityAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_STATUS, res.data);
     });
+  },
+  /**
+   * 获取 “集团关联商机” 状态
+   */
+  groupAssociation: ({ commit }, params) => {
+    return API.groupAssociationAPI(params).then(res => {
+      commit(types.GROUP_ASSOCIATION_STATUS, res.data);
+    });
+  },
+  /**
+   * 删除 “商机” 数据
+   */
+  delBusinessOppority: ({ commit }, params) => {
+    return API.delBusinessOpporityAPI(params).then(res => {
+      commit(types.DEL_BUSINESS_STATUS, res.data);
+    });
+  },
+  /**
+   * 查询 “商机草稿详情” 数据
+   */
+  getBusinessDraftDetail: ({ commit }, params) => {
+    return API.getBusinessDraftDetailAPI(params).then(res => {
+      commit(types.BUSINESS_DRAFT_DETAIL, res.data);
+    });
   }
 };
 
