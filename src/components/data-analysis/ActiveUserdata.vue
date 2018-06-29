@@ -12,7 +12,7 @@
     <div class="userdata-main">
       <div class="userdata-main-left">
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">日活跃用户数</div>
+          <div class="userdata-main-left__title ellipsis">{{!activeObj.dateType ? '日' : '月'}}活跃用户数</div>
           <div class="userdata-main-left__num">{{dailyUser.activeUserNum}}</div>
         </div>
         <div class="userdata-main-left__outer">

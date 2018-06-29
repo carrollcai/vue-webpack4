@@ -181,7 +181,7 @@ export default {
   },
   methods: {
     showMore() {
-      this.$router.push(`/group-customer/detail/${this.customer.organizeId}`);
+      this.$router.push(`/group-customer/overview/detail/${this.customer.organizeId}/more`);
     },
     onPagination(value) {
       this.params.pageNo = value;

@@ -1,6 +1,6 @@
 <template>
   <div class="p-user-rank">
-    <div>日活排名情况：</div>
+    <div>{{ !provinceUser.dateType ? '日' : '月'}}活全国排名情况：</div>
 
     <div class="dailyLive-rank">
       <el-scrollbar style="height: 100%;">
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 const defaultWidth = 160;
 export default {
   props: {
@@ -31,6 +32,11 @@ export default {
       default: 10000,
       required: true
     }
+  },
+  computed: {
+    ...mapState({
+      provinceUser: ({ dataAnalysis }) => dataAnalysis.provinceUser
+    })
   },
   methods: {
     calcPercentWidth(val) {
