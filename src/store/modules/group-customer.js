@@ -11,7 +11,8 @@ const state = {
   groupCustomerList: [],
   groupCustomerCreate: Object.cloneDeep(groupCustomerCreate),
   customerManagers: [],
-  groupCustomer: {}
+  groupCustomer: {},
+  customerSubscribeProducts: {}
 };
 
 const mutations = {
@@ -29,6 +30,9 @@ const mutations = {
   },
   [types.GROUP_CUSTOMER_DETAIL](state, data) {
     state.groupCustomer = data;
+  },
+  [types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS](state, data) {
+    state.customerSubscribeProducts = data;
   }
 };
 

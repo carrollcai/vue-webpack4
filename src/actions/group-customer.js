@@ -8,7 +8,7 @@ function isSuccess(res) {
 
 const actions = {
   /**
-   * 查询集团客户创建列表
+   * 查询集团客户总览列表
    *
    * @param {Store} Store
    * @param {String} staffName
@@ -48,7 +48,6 @@ const actions = {
       if (isSuccess(res)) {
         commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
       } else {
-        console.log('---------');
         commit(types.GROUP_CUSTOMER_GET_LIST, {});
       }
     });
@@ -198,6 +197,28 @@ const actions = {
           type: 'success',
           duration: 3000
         });
+      }
+    });
+  },
+  /**
+   * 审核集团客户
+   * @param {Object} Store
+   * @param {Object} params 参数
+   */
+  auditCustomer({commit}, params) {
+    return API.auditCustomerAPI(params);
+  },
+  /**
+   * 集团客户总览-查看主页-查询订购产品
+   * @param {Object} Store
+   * @param {Object} params 参数
+   */
+  querySubscribeProducts() {
+    API.querySubscribeProductsAPI(params).then(res => {
+      if (isSuccess(res)) {
+        commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, res.data);
+      } else {
+        commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, {});
       }
     });
   }
