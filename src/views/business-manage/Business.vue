@@ -2,9 +2,12 @@
   <div class="m-container">
     <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
       <div class="flex">
-        <el-form-item prop="date">
-          <el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="businessForm.date" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-form-item>
+          <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
+          <!--<el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" type="dates" v-model="businessForm.date" placeholder="创建时间范围"></el-date-picker>-->
+          <!--<el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="businessForm.date" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>-->
         </el-form-item>
 
         <el-form-item class="task-form-item__input group-form-item__lable">

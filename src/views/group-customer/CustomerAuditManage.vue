@@ -1,129 +1,136 @@
 <template>
-  <div class="m-container">
-    <el-form class="group-form" :model="groupCustomerForm">
-      <div class="flex">
-        <el-form-item class="user-form-item__input">
-          <el-select v-model="groupCustomerForm.roleId" placeholder="集团属性">
-            <el-option :key="null" label="全部属性" :value="null"></el-option>
-            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
-          </el-select>
-        </el-form-item>
-        <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-          <el-select v-model="groupCustomerForm.roleId" placeholder="所属省份">
-            <el-option :key="null" label="全部" :value="null"></el-option>
-            <el-option v-for="(item, i) in province" :key="i" :value="item.key" :label="item.value" />
-          </el-select>
-        </el-form-item>
+  <div>
+    <div class="m-container">
+      <el-form class="group-form" :model="params">
+        <div class="flex">
+          <el-form-item class="user-form-item__input">
+            <el-select v-model="params.organizeType" placeholder="集团属性">
+              <el-option :key="null" label="全部属性" :value="null"></el-option>
+              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
+            </el-select>
+          </el-form-item>
+          <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
+            <el-select v-model="params.provinceId" placeholder="所属省份">
+              <el-option :key="null" label="全部" :value="null"></el-option>
+              <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
+            </el-select>
+          </el-form-item>
 
-        <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-          <el-input v-model="groupCustomerForm.staffName" placeholder="客户经理" />
-        </el-form-item>
+          <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
+            <el-input v-model="params.managerName" placeholder="客户经理" />
+          </el-form-item>
 
-        <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
-          <el-input v-model="groupCustomerForm.code" placeholder="集团名称/编码" />
-        </el-form-item>
-      </div>
-
-      <div class="flex">
-        <el-form-item>
-          <el-button type="primary" @click="query">查询</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
-
-    <wm-table :source="groupCustomerList.list" :pageNo="groupCustomerForm.pageNo" :pageSize="groupCustomerForm.pageSize" :total="groupCustomerForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="集团编码" property="code" />
-      <el-table-column label="集团名称">
-        <template slot-scope="scope">
-          <span class="btnLists">
-            广东移动BOSS
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column label="集团属性" property="" >
-        <template slot-scope="scope">
-          <span class="btnLists">
-            省公司
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column label="所属省份" >
-        <template slot-scope="scope">
-          <span class="btnLists">
-            广东省
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column label="客户经理" property="staffName" />
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button type="text" @click="handleEdit(scope.row)">
-            查看主页
-          </el-button>
-        </template>
-      </el-table-column>
-    </wm-table>
+          <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
+            <el-input v-model="params.otherField" placeholder="集团名称/编码" />
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item>
+            <el-button type="primary" @click="query">查询</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="待审核" name="first"></el-tab-pane>
+        <el-tab-pane label="审核通过" name="second"></el-tab-pane>
+        <el-tab-pane label="审核不通过" name="third"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="m-container customer-audit-management">
+      <wm-table
+        :source="groupCustomerList.list"
+        :total="groupCustomerList.totalCount"
+        :pageNo="params.pageNo"
+        :pageSize="params.pageSize"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="集团编码" property="organizeId" />
+        <el-table-column label="集团名称" property="organizeName">
+        </el-table-column>
+        <el-table-column label="集团属性" property="organizeTypeValue" >
+        </el-table-column>
+        <el-table-column label="所属省份" property="provinceName">
+        </el-table-column>
+        <el-table-column label="客户经理" property="managerName" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="handleEdit(scope.row)">
+              查看主页
+            </el-button>
+          </template>
+        </el-table-column>
+      </wm-table>
+    </div>
   </div>
 </template>
 
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import filters from './filters';
+import {PAGE_NO, PAGE_SIZE} from '@/config';
 export default {
   components: {
     WmTable
   },
+  mixins: [filters],
   data() {
     return {
+      activeName: 'first',
+      params: {
+        pageNo: PAGE_NO,
+        pageSize: PAGE_SIZE,
+        organizeType: '',
+        provinceId: '',
+        managerName: '',
+        businessStatus: ''
+      }
     };
   },
   computed: {
     ...mapState({
-      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList,
-      groupCustomerForm: ({ groupCustomer }) => groupCustomer.groupCustomerForm,
-      userRoleList: ({ root }) => root.userRoleList,
-      province: ({ root }) => root.province
+      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList
     })
   },
   beforeMount() {
-    this.getGroupCustomerList(this.groupCustomerForm);
+    this.query();
   },
   methods: {
     onPagination(value) {
-      this.groupCustomerForm.pageNo = value;
+      this.params.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.groupCustomerForm.pageSize = value;
+      this.params.pageSize = value;
       this.query();
-    },
-    handleCreate() {
-      const path = `/system/user/create`;
-      this.$router.push(path);
     },
     handleEdit(row) {
       const path = `/system/user/edit/${row.operatorId}`;
       this.$router.push(path);
     },
-    handleDelete(row) {
-      this.$confirm('删除用户数据, 是否继续?', ' ', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.deleteUser({ operatorId: row.operatorId }).then(res => {
-          this.query();
-        });
-      }).catch(() => {
-        this.$message('已取消删除');
-      });
+    getParams() {
+      const {params} = this;
+
+      let STATUS = {
+        'first': '-1',
+        'second': '1',
+        'third': '0'
+      };
+
+      params.businessStatus = STATUS[this.activeName];
+
+      return params;
     },
     query() {
-      const params = this.groupCustomerForm;
-      this.getGroupCustomerList(params);
+      const params = this.getParams();
+      this.queryCustomerAuditList(params);
+    },
+    handleClick() {
+      this.params.pageNo = 1;
+      this.query();
     },
     ...mapActions([
-      'getGroupCustomerList'
+      'queryCustomerAuditList'
     ])
   }
 };
@@ -141,5 +148,9 @@ export default {
 }
 .group-form-item__input {
   width: $inputWidthQuery;
+}
+
+.customer-audit-management{
+  margin-top: $blockWidth;
 }
 </style>

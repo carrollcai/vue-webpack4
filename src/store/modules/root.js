@@ -19,7 +19,8 @@ const state = {
   },
   pageLoading: false,
   // 全局message状态控制
-  globalMessageStatus: false
+  globalMessageStatus: false,
+  staticData: {}
 };
 
 const mutations = {
@@ -43,6 +44,23 @@ const mutations = {
   },
   [types.HIDE_PAGE_LOADING](state) {
     state.pageLoading = false;
+  },
+  [types.STATIC_DATA](state, data) {
+    let result = {};
+    for (let key in data) {
+      let value = data[key];
+      let list = [];
+      for (let item of value) {
+        list.push({
+          label: item.codeName,
+          value: item.codeValue
+        });
+      }
+
+      result[key] = list;
+    }
+
+    state.staticData = result;
   },
   [types.CURRENT_USER_GET_INFO](state, data) {
     let menuIds = [12, 13, 14, 15];

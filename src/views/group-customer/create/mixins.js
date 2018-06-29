@@ -1,16 +1,8 @@
 import _ from 'lodash';
-import {mapActions, mapState} from 'vuex';
+import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
-import {
-  MEMBER_NUM,
-  CERTIFICATE_TYPE,
-  ORGANIZE_TYPE,
-  REGISTER_FUND_TYPE,
-  ORG_INDUSTRY_TYPE,
-  INDUSTRY_TYPE
-} from '@/config';
 export default {
   components: {
     CustomerContacts,
@@ -21,25 +13,11 @@ export default {
     return {
       step: 0,
       isAddingContact: false,
-      customer: {
-        contactDtoList: []
-      },
       dateOptions: {
         disabledDate(time) {
           return time.getTime() > new Date().getTime();
         }
       },
-      MEMBER_NUM,
-      // 证件类型
-      CERTIFICATE_TYPE,
-      // 集团属性
-      ORGANIZE_TYPE,
-      // 注册资金类型
-      REGISTER_FUND_TYPE,
-      // 机构类型
-      ORG_INDUSTRY_TYPE,
-      // 行业类别
-      INDUSTRY_TYPE,
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: 'blur' },
@@ -72,7 +50,7 @@ export default {
         orgAddress: [
           { required: true, message: '请输入详细地址', trigger: 'blur' }
         ],
-        registeNum: [
+        registerNum: [
           { type: 'string', pattern: /^\d{13}$/, message: '请输入13位数字', trigger: 'blur' }
         ],
         socialCreditCode: [
@@ -114,10 +92,7 @@ export default {
   computed: {
     contacts() {
       return this.customer.contactDtoList;
-    },
-    ...mapState({
-      provinces: ({ root }) => root.province
-    })
+    }
   },
   methods: {
     isFirstStep() {
@@ -133,23 +108,6 @@ export default {
       this.step = 0;
     },
     toSecondStep() {
-      this.$msgbox({
-        message: '恭喜您，集团客户提审成功',
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'success'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
           this.step = 1;
@@ -213,7 +171,7 @@ export default {
     handleSelect(item) {
       this.customer.managerName = item.staffName;
       this.customer.managerMobile = item.mobile;
-      this.customer.managerNo = item.operatorId;
+      this.customer.managerNo = `${item.operatorId}`;
       this.customer.managerPosition = item.postion;
     },
     ...mapActions(['queryCustomerManagers'])

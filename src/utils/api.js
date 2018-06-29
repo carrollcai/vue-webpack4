@@ -11,6 +11,7 @@ const download = url => params => {
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
+  queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -59,15 +60,36 @@ export default {
   getCurrentUserInfoAPI: API('/esop/login/queryCurrentOperator'),
 
   /* 集团客户管理 */
-  // 获取集团客户概览列表
+  /**
+   * 查询集团客户总览列表
+   */
+  queryCustomerOverviewListAPI: API('/esop/organize/queryOrganize'),
+
+  /**
+   * 查询集团客户创建列表
+   */
   getGroupCustomerListAPI: API('/esop/organize/queryMyOrganize'),
+  /**
+   * 查询集团客户审核列表
+   */
+  queryCustomerAuditListAPI: API('/esop/organize/queryTaskInfo'),
 
   // 生成集团客户联系人ID
   generateContactIdAPI: API('/esop/organize/contactId'),
+  /* 产品管理 */
+  // 产品总览
+  getProductDetailAPI: API('http://localhost:3618/esop/product/productDetail'),
+  // 产品创建管理
+  getProductCreatListAPI: API('http://localhost:3618/esop/product/productCreatList'),
   // 新增集团客户
   createCustomerAPI: API('/esop/organize/create'),
   // 新增、提审集团客户
   createApproveCustomerAPI: API('/esop/organize/createApprove'),
+
+  /**
+   * 修改集团客户
+   */
+  updateCustomerAPI: API('/esop/organize/edit'),
   /**
    * 查询客户经理
    */
@@ -93,6 +115,15 @@ export default {
   getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
   getBusinessListAPI: API('http://localhost:3618/business-manage/business'),
+
   // 商机详情查询
-  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail')
+  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
+
+  // 新建商机
+  // 获取商机类别列表
+  getBusinessCategoryListAPI: API('http://localhost:3618/business-manage/getBusinessCategoryList'),
+  // 根据合作集团匹配办公地址
+  getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
+  // 提交商机
+  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority')
 };

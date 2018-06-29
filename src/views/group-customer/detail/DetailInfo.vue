@@ -13,31 +13,31 @@
           </el-col>
           <el-col :span="8">
             <span class="info_label">集团属性：</span>
-            <span class="info_content">{{customer.organizeType | orgTypeFilter}}</span>
+            <span class="info_content">{{customer.organizeTypeValue}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">所属省份：</span>
-            <span class="info_content">{{customer.provinceId | provinceFilter}}</span>
+            <span class="info_content">{{customer.provinceName}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="info_label">成立时间：</span>
-            <span class="info_content">{{customer.establishTime}}</span>
+            <span class="info_content">{{formateDate(customer.establishTime)}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">机构类型：</span>
-            <span class="info_content">{{customer.orgIndustryType | orgIndustryTypeFilter}}</span>
+            <span class="info_content">{{customer.orgIndustryTypeValue}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">行业类别：</span>
-            <span class="info_content">{{customer.industryType | industryTypeFilter}}</span>
+            <span class="info_content">{{customer.industryTypeValue}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <span class="info_label">集团规模：</span>
-            <span class="info_content">{{customer.memberNum | memberNumFilter}}</span>
+            <span class="info_content">{{customer.memberNumValue}}</span>
           </el-col>
           <el-col :span="8">
             <span class="info_label">经营范围：</span>
@@ -60,11 +60,11 @@
           <el-row>
             <el-col :span="8">
               <span class="info_label">工商注册号：</span>
-              <span class="info_content">{{customer.registeNum}}</span>
+              <span class="info_content">{{customer.registerNum}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">证件类型：</span>
-              <span class="info_content">{{customer.certificateType | certificateTypeFilter}}</span>
+              <span class="info_content">{{customer.certificateTypeValue}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">统一社会信用代码：</span>
@@ -74,7 +74,7 @@
           <el-row>
             <el-col :span="8">
               <span class="info_label">注册资金类型：</span>
-              <span class="info_content">{{customer.registerFundType | registerFundTypeFilter}}</span>
+              <span class="info_content">{{customer.registerFundTypeValue}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">注册资金：</span>
@@ -88,11 +88,11 @@
           <el-row>
             <el-col :span="8">
               <span class="info_label">登记机关：</span>
-              <span class="info_content">{{customer.registerOrg}}</span>
+              <span class="info_content">{{customer.registrateOrg}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">发证日期：</span>
-              <span class="info_content">{{customer.openTime}}</span>
+              <span class="info_content">{{formateDate(customer.openTime)}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">证件地址：</span>
@@ -119,7 +119,7 @@
             width="180">
           </el-table-column>
           <el-table-column
-            prop="gender"
+            prop="genderValue"
             label="性别">
           </el-table-column>
           <el-table-column
@@ -127,7 +127,11 @@
             label="部门">
           </el-table-column>
           <el-table-column
+            prop="parentContactId"
             label="上级领导">
+            <template slot-scope="props">
+              {{parentContact(props.row.parentContactId)}}
+            </template>
           </el-table-column>
           <el-table-column type="expand" label="操作" width="100px">
             <template slot-scope="props">
@@ -139,19 +143,19 @@
                   <span>{{ props.row.department }}</span>
                 </el-form-item>
                 <el-form-item label="年龄">
-                  <span>{{ props.row.age | ageFilter}}</span>
+                  <span>{{ props.row.ageValue }}</span>
                 </el-form-item>
                 <el-form-item label="职位">
                   <span>{{ props.row.position }}</span>
                 </el-form-item>
                 <el-form-item label="性别">
-                  <span>{{ props.row.gender | genderFilter}}</span>
+                  <span>{{ props.row.genderValue}}</span>
                 </el-form-item>
                 <el-form-item label="手机号">
                   <span>{{ props.row.mobile }}</span>
                 </el-form-item>
                 <el-form-item label="婚姻状况">
-                  <span>{{ props.row.maritalStatus | maritalFilter}}</span>
+                  <span>{{ maritalFilter(props.row.maritalStatusValue)}}</span>
                 </el-form-item>
                 <el-form-item label="邮箱">
                   <span>{{ props.row.email }}</span>
@@ -166,7 +170,7 @@
                   <span>{{ props.row.interests }}</span>
                 </el-form-item>
                 <el-form-item label="家庭成员" class="full-desc">
-                  <span>{{ props.row.interests }}</span>
+                  <span>{{ familyContact(props.row.contactFamilyDtoList) }}</span>
                 </el-form-item>
               </el-form>
             </template>
@@ -206,8 +210,11 @@
 </template>
 <script>
 import Activity from './Activity.vue';
+import filters from '../filters.js';
+import find from 'lodash/find';
 export default {
   name: 'DetailInfo',
+  mixins: [filters],
   components: {
     Activity
   },
@@ -230,6 +237,26 @@ export default {
     };
   },
   methods: {
+    parentContact(parentId) {
+      let result = '-';
+      if (parentId) {
+        let contact = find(this.contacts, {contactId: parentId});
+
+        result = contact ? contact.name : result;
+      }
+
+      return result;
+    },
+    familyContact(contacts) {
+      let result = '';
+      if (contacts && contacts.length) {
+        for (let contact of contacts) {
+          result += `${contact.name}，${contact.relationship}，${contact.jobDuty}，${contact.mobile}；`;
+        }
+      }
+
+      return result;
+    }
   }
 };
 </script>
