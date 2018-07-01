@@ -8,7 +8,7 @@
         </el-breadcrumb>
       </div>
     </div>
-    <detail-head></detail-head>
+    <detail-head :type="types"></detail-head>
     <detail-body></detail-body>
     <div class="pl">
       <el-button type="primary">转订单</el-button>
@@ -29,13 +29,13 @@ export default {
   },
   data() {
     return {
-      form: {
-        approveStatus: 0
-      }
+      types: ''
     };
   },
   beforeMount() {
-    this.getBusinessDetail();
+    this.types = this.$route.params.id;
+    const { id } = this.$route.params;
+    this.getBusinessDetail({ id });
   },
   computed: {
     ...mapState({

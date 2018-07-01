@@ -50,6 +50,7 @@ export default {
 .container {
   background: #fff;
   padding-bottom: 40px;
+  margin-top: 0px;
 }
 .business-detail-item {
   display: flex;

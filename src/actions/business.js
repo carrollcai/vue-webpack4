@@ -73,6 +73,14 @@ const actions = {
     return API.getBusinessDraftDetailAPI(params).then(res => {
       commit(types.BUSINESS_DRAFT_DETAIL, res.data);
     });
+  },
+  /**
+   * 查询 “指派处理人” 数据
+   */
+  getDesignatePerson: ({ commit }, params) => {
+    return API.getDesignatePersonAPI(params).then(res => {
+      commit(types.DESIGNATE_PERSON, res.data);
+    });
   }
 };
 

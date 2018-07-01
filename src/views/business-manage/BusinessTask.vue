@@ -80,7 +80,8 @@ export default {
     ...mapState({
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       businessForm: ({ business }) => business.businessForm,
-      businessList: ({ business }) => business.businessList
+      businessList: ({ business }) => business.businessList,
+      designatePerson: ({business}) => business.designatePerson
     })
   },
   data() {
@@ -114,8 +115,21 @@ export default {
       this.$router.push(path);
     },
     handleSend(row) {
-      const path = `/business-manage/transfor-order`;
-      this.$router.push(path);
+      this.getDesignatePerson();
+      this.$prompt('指派处理人：', '分派', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        this.$message({
+          type: 'success',
+          message: '作废成功！' + value
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消作废'
+        });
+      });
     },
     handleCancel(row) {
       this.$prompt('作废原因：', '作废', {
@@ -165,7 +179,7 @@ export default {
       this[COMMANDS[command]](row);
     },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessList'
+      'getCooperationGroupList', 'getBusinessList', 'getDesignatePerson'
     ])
   }
 };
