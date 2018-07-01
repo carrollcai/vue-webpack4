@@ -43,31 +43,19 @@ import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
 import CreateSaleStep01 from '@/views/product/create/CreateSaleStep01.vue';
 import CreateSaleStep02 from '@/views/product/create/CreateSaleStep02.vue';
 
+import TaskCreateManage from '@/views/order/CreateManage.vue';
+import TaskHandleTask from '@/views/order/HandleTask.vue';
+import TaskOverview from '@/views/order/Overview.vue';
+
 const staticRoutes = [
-  {
-    path: '/login',
-    name: 'login',
-    meta: {
-      skipAuth: true
-    },
-    component: Login
-  },
+  { path: '/login', component: Login, meta: { skipAuth: true } },
   {
     path: '/',
     component: Container,
     children: [
-      {
-        path: '/',
-        redirect: '/dashboard'
-      },
-      {
-        path: '/500',
-        component: Page500
-      },
-      {
-        path: '/403',
-        component: Page403
-      }
+      { path: '/', redirect: '/dashboard' },
+      { path: '/500', component: Page500 },
+      { path: '/403', component: Page403 }
     ]
   }
 ];
@@ -77,29 +65,11 @@ const dynamicRoutes = [
     path: '/',
     component: Container,
     children: [
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard,
-        meta: { menuId: 1 }
-      },
-      {
-        path: '/analysis/active',
-        name: 'active',
-        component: Active,
-        meta: { menuId: 3 }
-      },
-      {
-        path: '/analysis/retention-loss',
-        name: 'retention-loss',
-        component: RetentionLoss,
-        meta: { menuId: 4 }
-      },
-      {
-        path: '/analysis/daily-live',
-        name: 'daily-live',
-        component: DailyLive
-      },
+      { path: '/dashboard', component: Dashboard, meta: { menuId: 1 } },
+      { path: '/analysis/active', component: Active, meta: { menuId: 3 } },
+      { path: '/analysis/retention-loss', component: RetentionLoss, meta: { menuId: 4 } },
+      { path: '/analysis/daily-live', component: DailyLive },
+
       {
         path: '/product/product-view',
         name: 'product-view',
@@ -130,48 +100,15 @@ const dynamicRoutes = [
         name: 'create-sale-step02',
         component: CreateSaleStep02
       },
-      {
-        path: '/task/management',
-        name: 'task-management',
-        component: TaskManagement,
-        meta: { menuId: 6 }
-      },
-      {
-        path: '/task/query/detail/:id',
-        name: 'task-query-detail',
-        component: TaskQueryDetail,
-        meta: { menuId: 6 }
-      },
-      {
-        path: '/task/push',
-        name: 'task-push',
-        component: TaskPush,
-        meta: { menuId: 7 }
-      },
-      {
-        path: '/task/todo/push/:id',
-        name: 'task-push-detail',
-        component: TaskPushDetail,
-        meta: { menuId: 7 }
-      },
-      {
-        path: '/task/todo',
-        name: 'task-todo',
-        component: TaskTodo,
-        meta: { menuId: 8 }
-      },
-      {
-        path: '/task/todo/detail/:id',
-        name: 'task-todo-detail',
-        component: TaskTodoDetail,
-        meta: { menuId: 8 }
-      },
-      {
-        path: '/task/approve',
-        name: 'task-approve',
-        component: TaskApprove,
-        meta: { menuId: 8 }
-      },
+
+      { path: '/task/management', component: TaskManagement, meta: { menuId: 6 } },
+      { path: '/task/query/detail/:id', component: TaskQueryDetail, meta: { menuId: 6 } },
+      { path: '/task/push', component: TaskPush, meta: { menuId: 7 } },
+      { path: '/task/todo/push/:id', component: TaskPushDetail, meta: { menuId: 7 } },
+      { path: '/task/todo', component: TaskTodo, meta: { menuId: 8 } },
+      { path: '/task/todo/detail/:id', component: TaskTodoDetail, meta: { menuId: 8 } },
+      { path: '/task/approve', component: TaskApprove, meta: { menuId: 8 } },
+
       {
         path: '/business-manage/business',
         name: 'business',
@@ -232,35 +169,18 @@ const dynamicRoutes = [
         component: GroupCustomerAuditManage,
         meta: { menuId: 15 }
       },
-      {
-        path: '/system/role/management',
-        name: 'role',
-        component: Role,
-        meta: { menuId: 10 }
-      },
+
+      { path: '/system/role/management', component: Role, meta: { menuId: 10 } },
       // type分为create / edit
-      {
-        path: '/system/role/:type/:id?',
-        name: 'role-create',
-        component: RoleCreate,
-        meta: { menuId: 10 }
-      },
-      {
-        path: '/system/user/management',
-        name: 'user',
-        component: User,
-        meta: { menuId: 11 }
-      },
-      {
-        path: '/system/user/:type/:id?',
-        name: 'user-create',
-        component: UserCreate,
-        meta: { menuId: 11 }
-      },
-      {
-        path: '*',
-        component: Page404
-      }
+      { path: '/system/role/:type/:id?', component: RoleCreate, meta: { menuId: 10 } },
+      { path: '/system/user/management', component: User, meta: { menuId: 11 } },
+      { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
+
+      { path: '/order/create-manage', component: TaskCreateManage },
+      { path: '/order/handle-task', component: TaskHandleTask },
+      { path: '/order/overview', component: TaskOverview },
+
+      { path: '*', component: Page404 }
     ]
   }
 ];

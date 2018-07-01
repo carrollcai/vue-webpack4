@@ -66,6 +66,11 @@ export default {
   queryCustomerOverviewListAPI: API('/esop/organize/queryOrganize'),
 
   /**
+   * 集团客户总览-查看主页-查询订购产品
+   */
+  querySubscribeProductsAPI: API('/esop/organize/queryOrganize'),
+
+  /**
    * 查询集团客户创建列表
    */
   getGroupCustomerListAPI: API('/esop/organize/queryMyOrganize'),
@@ -109,6 +114,10 @@ export default {
    * 提审集团客户
    */
   approveCustomerAPI: API('/esop/organize/startProcess'),
+  /**
+   * 审核集团客户
+   */
+  auditCustomerAPI: API('/esop/organize/moveNode'),
 
   /* 商机管理 */
   // 获取合作集团/编码列表

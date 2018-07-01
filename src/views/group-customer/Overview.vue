@@ -43,7 +43,7 @@
         <el-table-column label="集团编码" property="organizeId" />
         <el-table-column label="集团名称" property="organizeName">
         </el-table-column>
-        <el-table-column label="集团属性" property="organizeTypeValue" >
+        <el-table-column label="集团属性" property="organizeTypeName" >
         </el-table-column>
         <el-table-column label="所属省份" property="provinceName">
         </el-table-column>

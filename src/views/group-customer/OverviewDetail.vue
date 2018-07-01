@@ -1,7 +1,9 @@
 <template>
   <div class="customer-overview_detail">
     <div class="m-container info-block base-info">
-      <div class="base-info_image"></div>
+      <div class="base-info_image">
+        <div class="customer-log"></div>
+      </div>
       <div class="base-info_main">
         <div class="info_head">
           <span>
@@ -48,7 +50,7 @@
         <span class="info_head-title">订购产品</span>
       </div>
       <wm-table
-        :source="[]"
+        :source="customerSubscribeProducts.list"
         :total="0"
         :pageNo="params.pageNo"
         :pageSize="params.pageSize"
@@ -67,10 +69,10 @@
         <div class="info_head-sub">
           <el-radio-group v-model="activeName" size="mini">
             <el-radio-button  label="2">
-              <i class="el-icon el-icon-arrow-right"></i>
+              <i class="icon-tree"></i>
             </el-radio-button>
             <el-radio-button label="1">
-              <i class="el-icon el-icon-arrow-right"></i>
+              <i class="icon-date1"></i>
             </el-radio-button>
           </el-radio-group>
         </div>
@@ -136,20 +138,22 @@
         </wm-table>
       </template>
       <template v-else>
-        sss
+        <org-tree></org-tree>
       </template>
     </div>
   </div>
 </template>
 
 <script>
-import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import WmTable from 'components/Table.vue';
+import OrgTree from 'components/OrgTree.vue';
 import filters from './filters';
 import {PAGE_NO, PAGE_SIZE} from '@/config';
 export default {
   components: {
-    WmTable
+    WmTable,
+    OrgTree
   },
   mixins: [filters],
   data() {
@@ -167,7 +171,8 @@ export default {
   },
   computed: {
     ...mapState({
-      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList
+      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList,
+      customerSubscribeProducts: ({ groupCustomer }) => groupCustomer.customerSubscribeProducts
     }),
     customer() {
       return this.$store.getters.groupCustomer;
@@ -277,7 +282,18 @@ export default {
   }
 
   .base-info_image{
-    width: 200px;
+    width: 100px;
+  }
+
+  .customer-log{
+    margin: 16px 24px 0 0;
+    float: right;
+    height: 51px;
+    width: 51px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+    background-image: url('~@/assets/images/customer-logo.svg');
   }
 
   .base-info_main{

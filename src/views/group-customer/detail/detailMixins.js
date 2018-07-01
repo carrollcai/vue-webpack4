@@ -7,12 +7,6 @@ export default {
   },
   data() {
     return {
-      auditInfo: {
-        status: 'Y'
-      },
-      auditRules: {
-
-      },
       showMore: false
     };
   },
