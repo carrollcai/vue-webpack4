@@ -8,15 +8,16 @@
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-select v-if="composedProduct" style="width: 130px" v-model="formData.productType" placeholder="产品类型">
-        <el-option v-for="item in composedProduct" :key="item.productId" :label="item.productName" :value="item.productId" />
+      <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+        <el-option label="个人市场" value="0" />
+        <el-option label="政企市场" value="1" />
       </el-select>
     </el-form-item>
     <el-form-item>
       <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码"></el-input>
+      <el-input style="width: 130px" v-model="productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -35,7 +36,7 @@
       </el-table-column>
       <el-table-column label="创建时间" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" property="updateTime">
+      <el-table-column label="最近更新时间" property="updatedate">
       </el-table-column>
       <el-table-column label="操作" property="">
         <template slot-scope="operation">
@@ -57,31 +58,37 @@ export default {
   data() {
     return {
       timeRange: '',
+      productName: '',
       formData: {
         startDate: '',
         endDate: '',
         productType: '',
         operatorCn: '',
-        productName: '',
-        pageNo: 1,
-        pageSize: 20
+        pageNo: '1',
+        pageSize: '20'
       }
     };
   },
   beforeMount() {
     this.getProductList(this.formData);
-    this.getComposedProduct();
   },
   computed: {
     pageNo() {
       return Number(this.formData.pageNo);
     },
     ...mapState({
-      productList: ({ product }) => product.productList.List,
+      productList: ({ product }) => product.productList.list,
       composedProduct: ({ product }) => product.composedProduct
     })
   },
   methods: {
+    checkProductName() {
+      var data = {'productName': this.productName};
+      this.getComposedProduct(data).then((res) => {
+        console.log(res);
+      });
+      console.log(this.composedProduct);
+    },
     getTimeRange(time) {
       console.log(time);
       this.formData.startDate = time[0];

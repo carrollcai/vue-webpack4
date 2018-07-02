@@ -127,14 +127,12 @@ export default {
       }
     },
     addSaleDome() {
-      var flag = this.isState();
-      if ( this.isShow ) {
-        debugger;
+      // var flag = this.isState();
+      if (this.isShow) {
         this.$message({showClose: true, message: '请先保存产品案例', type: 'warning'});
       } else {
-        debugger;
         this.reset();
-      }      
+      }
       this.isShow = true;
     },
     onSubmit() {
@@ -154,8 +152,7 @@ export default {
     },
     isState() {
       for (var i in this.formData) {
-        debugger;
-        if (0 < i && this.formData[i] !== '') {
+        if (i > 0 && this.formData[i] !== '') {
           return true;
         }
       }
@@ -182,13 +179,11 @@ export default {
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
-        debugger;
         // 删除操作
         this.cacheData.splice(index, index + 1);
         this.params.salesList = this.cacheData;
         this.$message('已删除');
       }).catch(() => {
-        debugger;
         this.$message('已取消删除');
       });
     },

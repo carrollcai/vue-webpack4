@@ -19,10 +19,12 @@ const actions = {
   },
   getDetailSaleList: ({ commit }, params) => {
     return API.getDetailSaleListAPI(params).then((res) => {
+      debugger;
       commit(types.DETAIL_SALE, res.data);
     });
   },
   getComposedProduct: ({commit}, params) => {
+    debugger;
     return API.getComposedProductAPI(params).then((res) => {
       commit(types.COMPOSED_PRODUCT, res.data);
     });

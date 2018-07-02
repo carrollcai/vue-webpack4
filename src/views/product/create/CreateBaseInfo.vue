@@ -47,14 +47,14 @@ export default {
   components: {
   },
   data() {
-    function isChinese(str) {  
-      for (var i=0; i<str.length; i++) {  
+    function isChinese(str) {
+      for (var i = 0; i < str.length; i++) {
         if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
         } else {
           return false;
-        }  
+        }
       }
-      return true;  
+      return true;
     }
     var productNameFn = (rule, value, callback) => {
       var flag = isChinese(value);
@@ -76,7 +76,7 @@ export default {
     var priceFn = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入价格!'));
-      } else if (!Number.isInteger(value) || value.length > 9) {
+      } else if (!Number.isInteger(value) && Number(value) < 100000000) {
         callback(new Error('请输入9位以内的数字!'));
       } else {
         callback();
@@ -95,7 +95,7 @@ export default {
     return {
       formData: {
         productId: '',
-        productName: '',
+        // productName: '',
         productType: '',
         price: '',
         description: '',
@@ -107,19 +107,19 @@ export default {
       },
       formDataValid: {
         productName: [
-          {required: true, validator: productNameFn, trigger: 'blur' }
+          { required: true, validator: productNameFn, trigger: 'blur' }
         ],
         productType: [
-          {required: true, validator: productTypeFn, trigger: 'blur' }
+          { required: true, validator: productTypeFn, trigger: 'blur' }
         ],
         price: [
-          {required: true, validator: priceFn, type: 'number', trigger: 'blur' }
+          { required: true, validator: priceFn, type: 'number', trigger: 'blur' }
         ],
         wheelPople: [
           {required: true}
         ],
         description: [
-          {required: true, validator: descriptionFn, trigger: 'blur' }
+          { required: true, validator: descriptionFn, trigger: 'blur' }
         ]
       }
     };
@@ -139,19 +139,18 @@ export default {
           localStorage.setItem('params', JSON.stringify(_this.formData));
           this.$router.push({path: '/product/create-sale-step01'});
         } else {
-          $message('999')
           return false;
         }
       });
     },
-    isChinese(str){
-      for (var i=0; i<str.length; i++) {  
-        if (str.charCodeAt(i)>127 || str.charCodeAt(i)==94) {
+    isChinese(str) {
+      for (var i = 0; i < str.length; i++) {
+        if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
         } else {
-          return false 
-        }  
+          return false;
+        }
       }
-      return true;  
+      return true;
     }
   },
   onload() {
