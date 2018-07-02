@@ -1,12 +1,12 @@
 <template>
   <div class="m-container">
-    <el-form class="o-overview-form" ref="orderOverview" :rules="overviewRules">
+    <el-form class="o-overview-form" ref="orderOverview" :rules="overviewRules" :model="orderOverviewForm">
       <div class="flex">
         <el-form-item prop="date">
           <el-date-picker v-model="orderOverviewForm.date" type="daterange" placeholder="创建时间范围">
           </el-date-picker>
         </el-form-item>
-        <el-form-item class="">
+        <el-form-item class="o-form-item__input">
           <el-input v-model="orderOverviewForm.name" placeholder="合作集团/编码" />
         </el-form-item>
       </div>
@@ -16,6 +16,14 @@
         </el-form-item>
       </div>
     </el-form>
+
+    <el-tabs v-model="status">
+      <el-tab-pane label="全部"></el-tab-pane>
+      <el-tab-pane label="处理中"></el-tab-pane>
+      <el-tab-pane label="通过"></el-tab-pane>
+      <el-tab-pane label="不通过"></el-tab-pane>
+      <el-tab-pane label="撤销"></el-tab-pane>
+    </el-tabs>
 
     <wm-table :source="orderList" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="订单编号" property="code" />
@@ -40,6 +48,11 @@ import WmTable from 'components/Table.vue';
 import { mapActions, mapState } from 'vuex';
 
 export default {
+  data() {
+    return {
+      overviewRules: {}
+    };
+  },
   components: {
     WmTable
   },
@@ -80,5 +93,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "scss/variables.scss";
+.o-overview-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.o-form-item__input {
+  width: $inputWidthQuery;
+  margin-left: $blockWidth;
+}
 </style>
