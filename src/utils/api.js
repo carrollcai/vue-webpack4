@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { fetch } from './http';
+import { fetch } from './http/index.js';
 
 // const development = 'http://localhost:3618';
 const development = '';
@@ -53,6 +53,9 @@ export default {
   queryTodoListAPI: API('http://localhost:3618/task/todo/list'), // 我的待办列表
   taskSubmitAuditAPI: API('http://localhost:3618/task/todo/list'), // 审核接口
 
+  /* 订单管理 */
+  getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
+
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),
@@ -83,9 +86,13 @@ export default {
   generateContactIdAPI: API('/esop/organize/contactId'),
   /* 产品管理 */
   // 产品总览
-  getProductDetailAPI: API('http://localhost:3618/esop/product/productDetail'),
+  getProductListAPI: API('/esop/product/queryProduct'),
   // 产品创建管理
   getProductCreatListAPI: API('http://localhost:3618/esop/product/productCreatList'),
+  // 产品详情
+  getProductDetailAPI: API('http://localhost:3618/esop/product/productDetail'),
+  // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
+  getComposedProductAPI: API('/esop/product/queryComposedProduct'),
   // 新增集团客户
   createCustomerAPI: API('/esop/organize/create'),
   // 新增、提审集团客户
@@ -104,6 +111,10 @@ export default {
    * 查询集团客户
    */
   queryCustomerAPI: API('/esop/organize/queryOrganizeById'),
+  /**
+   * 查询集团客户 快照
+   */
+  queryCustomerSnapshotAPI: API('/esop/organize/querySnapShort'),
 
   /**
    * 删除集团客户

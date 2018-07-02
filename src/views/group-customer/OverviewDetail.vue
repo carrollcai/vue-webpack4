@@ -138,7 +138,7 @@
         </wm-table>
       </template>
       <template v-else>
-        <org-tree></org-tree>
+        <org-tree :contacts="contacts"></org-tree>
       </template>
     </div>
   </div>

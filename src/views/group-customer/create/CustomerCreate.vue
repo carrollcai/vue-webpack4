@@ -5,6 +5,7 @@
       <step title="集团联系人"></step>
       <step title="指定客户经理"></step>
     </steps>
+    {{customer}}
     <el-form :model="customer"
       v-if="isFirstStep()"
       ref="baseForm"
@@ -213,8 +214,10 @@
           width="180">
         </el-table-column>
         <el-table-column
-          prop="gender"
           label="性别">
+          <template slot-scope="scope">
+            {{genderFilter(scope.row.gender)}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="department"
@@ -246,7 +249,7 @@
             <el-button type="text" @click="handleDeleteContact(scope.$index, scope.row.contactId)">
               删除
             </el-button>
-        </template>
+          </template>
         </el-table-column>
       </el-table>
       <div class="btn_add-contact" v-if="!isAddingContact" @click="addContact">

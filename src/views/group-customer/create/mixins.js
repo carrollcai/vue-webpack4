@@ -153,7 +153,7 @@ export default {
       });
     },
     changeContactParent(index, id) {
-      let filters = _.filter(this.contacts, {'parentContactId': id});
+      let filters = _.filter(this.contacts, { 'parentContactId': id, 'contactId': this.contacts[index].parentContactId });
 
       if (filters.length) {
         this.$message({

@@ -3,30 +3,30 @@
   <h3>产品销售案例</h3>
   <div class="b-i-table">
     <el-table
-      :data="productSaleDemo"
-      row-key="id" :expand-row-keys="entexpands" @row-click="rowExpand"
+      v-if="data"
+      :data="data"
       style="width: 100%">
       <el-table-column
         label="销售类型" width="150"
-        prop="productType">
+        prop="state">
       </el-table-column>
       <el-table-column
         label="组合产品" width="180"
-        prop="deptment">
+        prop="salesType">
       </el-table-column>
       <el-table-column
         label="销售方案"
-        prop="desc">
+        prop="scheme">
       </el-table-column>
       <el-table-column
         label="销售数量" width="100"
-        prop="id">
+        prop="salesNumber">
       </el-table-column>
       <el-table-column
         label="操作" width="120"
         prop="name">
-        <template slot-scope="scope">
-          <div class="el-table__expand-icon blue">详细<i class="el-icon el-icon-arrow-right blue el-table__expand-icon--expanded"></i></div>
+        <template slot-scope="operation">
+          <div @click="openDetail(operation.$index, operation.row)" class="el-table__expand-icon blue">详细<i class="el-icon el-icon-arrow-right blue el-table__expand-icon--expanded"></i></div>
         </template>
       </el-table-column>
       <el-table-column type="expand">
@@ -64,37 +64,24 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 
 export default {
+  props: {
+    data: {
+      type: Array
+    }
+  },
   data() {
     return {
-      currIndex: -1,
-      entexpands: [],
-      productSaleDemo: []
+      currIndex: -1
     };
   },
-  beforeMount() {
-    this.getProductDetail();
-  },
-  cumputed: {
-    ...mapState({
-      // productSaleDemo: ({ product }) => product.productSaleDemo.List
-    })
-  },
   methods: {
-    rowExpand(row, event, column) {
-      this.entexpands.length = 0;
-      if (row.id === this.entexpands[0]) {
-        this.entexpands.length = 0;
-      } else {
-        this.entexpands.push(row.id);
-      }
-      this.currIndex = row.id;
-    },
-    ...mapActions([
-      'getProductDetail'
-    ])
+    openDetail(index, row) {
+      console.log(index);
+      console.log(row);
+      this.currIndex = index;
+    }
   }
 };
 </script>
