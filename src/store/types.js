@@ -43,6 +43,9 @@ export const TASK_GET_DETAIL = 'TASK_GET_DETAIL';
 export const SET_PUSH_LIST = 'SET_PUSH_LIST';
 export const SET_TODO_LIST = 'SET_TODO_LIST';
 
+/* order */
+export const ORDER_GET_LIST = 'ORDER_GET_LIST';
+
 /* group_customer */
 export const GROUP_CUSTOMER_INIT_FORM = 'GROUP_CUSTOMER_INIT_FORM';
 export const GROUP_CUSTOMER_GET_LIST = 'GROUP_CUSTOMER_GET_LIST';
@@ -52,8 +55,16 @@ export const GROUP_CUSTOMER_DETAIL = 'GROUP_CUSTOMER_DETAIL';
 export const GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS = 'GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS';
 
 /* product */
-export const PRODUCT_DETAIL = 'PRODUCT_DETAIL';
+// 查询产品（所以）
+export const PRODUCT_LIST = 'PRODUCT_LIST';
+// 查询产品（我的）
 export const PRODUCT_CREAT_LIST = 'PRODUCT_CREAT_LIST';
+// 查询产品（某个）
+export const PRODUCT_DETAIL = 'PRODUCT_DETAIL';
+// 产品的查询条件
+export const COMPOSED_PRODUCT = 'COMPOSED_PRODUCT';
+// 查询销售实例（某个）
+export const DETAIL_SALE = 'DETAIL_SALE';
 /* business */
 export const COOPERATION_GROUP = 'COOPERATION_GROUP';
 export const BUSINESS_OPPORTUNITY_LIST = 'BUSINESS_OPPORTUNITY_LIST';

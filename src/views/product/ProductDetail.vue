@@ -2,14 +2,14 @@
 <div class="p-content">
   <div class="crumb-bar"><span>产品总览 / </span>产品详情</div>
   <baseInfo></baseInfo>
-  <saleDome></saleDome>
+  <saleDome :data="productSaleDemo.salesList"></saleDome>
 </div>
 </template>
 
 <script>
 import baseInfo from 'components/product/BaseInfo.vue';
 import SaleDome from 'components/product/SaleDome.vue';
-// import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -17,11 +17,23 @@ export default {
     saleDome: SaleDome
   },
   data() {
-    return {};
+    return {
+      productId: this.$route.params.id
+    };
   },
-  computed: {},
-  beforeMount() {},
-  methods: {}
+  computed: {
+    ...mapState({
+      productSaleDemo: ({ product }) => product.productSaleDemo
+    })
+  },
+  beforeMount() {
+    this.getProductDetail({productId: this.$route.params.id});
+  },
+  methods: {
+    ...mapActions([
+      'getProductDetail'
+    ])
+  }
 };
 </script>
 

@@ -143,5 +143,34 @@
         ]
       }
     }
-  }
+  },
+  {
+    "url": "/esop/product/queryComposedProduct",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "errorInfo": {
+        "message": "请求成功",
+        "code": "200"
+      },
+      "data": [
+        {
+        "productId": 1,
+        "productName": "产品一"
+        },
+        {
+        "productId": 2,
+        "productName": "产品一2"
+        },
+        {
+        "productId": 3,
+        "productName": "产品一3"
+        },
+        {
+        "productId": 4,
+        "productName": "产品一4"
+        }
+      ]
+    }
+ }
 ]

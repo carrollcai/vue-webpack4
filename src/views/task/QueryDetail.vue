@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <audit-steps></audit-steps>
+      <audit-steps :title="'审核进度'"></audit-steps>
     </div>
     <div class="task-detail-form m-container">
       <el-form :model="form" label-width="112px" ref="approveRef" :rules="approveRules">
@@ -107,28 +107,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@import "scss/variables.scss";
-.task-detail,
-.task-detail-form {
-  margin-top: $blockWidth;
-}
-.task-detail-item {
-  display: flex;
-  margin-top: 16px;
-  & .left {
-    width: 100px;
-    text-align: right;
-    color: rgba(0, 0, 0, 0.45);
-    padding-right: 12px;
-  }
-  & .right {
-    flex: 1;
-    text-align: left;
-  }
-}
-.task-detail-form .el-form-item__label {
-  color: rgba(0, 0, 0, 0.45);
-}
-</style>

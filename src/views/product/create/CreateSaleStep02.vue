@@ -121,6 +121,7 @@ export default {
 .el-step__icon.is-text {border-width: 1px;}
 .creat-content {background: #fff; margin-top: 16px; height: 832px;}
 .el-steps--simple {background: none;}
+.el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
 .add-content {width: 430px; margin: 0 auto;}
 .el-form-item {margin-bottom: 10px;}
 .creat-model {

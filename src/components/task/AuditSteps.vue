@@ -1,6 +1,6 @@
 <template>
   <div class="audit-steps">
-    <div class="title">审核进度</div>
+    <div v-if="title" class="title">{{title}}</div>
     <div>
       <el-steps :active="1" align-center>
         <el-step title="曲丽丽" description="审核通过"></el-step>
@@ -14,7 +14,12 @@
 
 <script>
 export default {
-
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  }
 };
 </script>
 

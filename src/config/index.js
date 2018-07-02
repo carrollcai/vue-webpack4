@@ -79,7 +79,7 @@ export const MENU_PERMISSIONS = [
     children: [
       {
         menuId: 4,
-        name: '任务总览',
+        name: '订单总览',
         url: '/order/overview',
         enable: false
       },

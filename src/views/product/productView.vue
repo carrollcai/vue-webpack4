@@ -3,21 +3,21 @@
   <el-form :inline="true" :model="formData" class="demo-form-inline">
     <el-form-item>
       <el-col>
-        <el-date-picker style="width: 200px" format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="formData.time" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-select style="width: 130px" v-model="formData.type" placeholder="产品类型">
-        <el-option label="产品类型一" value="shanghai"></el-option>
-        <el-option label="产品类型二" value="beijing"></el-option>
+      <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+        <el-option label="个人市场" value="0" />
+        <el-option label="政企市场" value="1" />
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-input style="width: 130px" v-model="formData.create" placeholder="创建人"></el-input>
+      <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-input style="width: 130px" v-model="formData.code" placeholder="产品名称/编码"></el-input>
+      <el-input style="width: 130px" v-model="productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -36,11 +36,11 @@
       </el-table-column>
       <el-table-column label="创建时间" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" property="updateTime">
+      <el-table-column label="最近更新时间" property="updatedate">
       </el-table-column>
       <el-table-column label="操作" property="">
         <template slot-scope="operation">
-          <span class="blue hand" @click="toPageDetail">详情</span>
+          <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
         </template>
       </el-table-column>
   </wm-table>
@@ -57,46 +57,61 @@ export default {
   },
   data() {
     return {
+      timeRange: '',
+      productName: '',
       formData: {
         startDate: '',
         endDate: '',
-        productType: '0',
+        productType: '',
         operatorCn: '',
-        productName: '',
-        pageNo: 1,
-        pageSize: 20
+        pageNo: '1',
+        pageSize: '20'
       }
     };
   },
   beforeMount() {
-    this.getProductCreatList(this.formData);
+    this.getProductList(this.formData);
   },
   computed: {
+    pageNo() {
+      return Number(this.formData.pageNo);
+    },
     ...mapState({
-      productList: ({ product }) => product.productList.List
+      productList: ({ product }) => product.productList.list,
+      composedProduct: ({ product }) => product.composedProduct
     })
   },
   methods: {
+    checkProductName() {
+      var data = {'productName': this.productName};
+      this.getComposedProduct(data).then((res) => {
+        console.log(res);
+      });
+      console.log(this.composedProduct);
+    },
+    getTimeRange(time) {
+      console.log(time);
+      this.formData.startDate = time[0];
+      this.formData.endDate = time[1];
+    },
     query() {
       // 产品数据查询方法
-      this.getProductCreatList(this.formData);
+      this.getProductList(this.formData);
     },
     onSubmit() {
       console.log(this.formData);
     },
-    toCreatProduct() {
-      this.$router.push({path: '/product/product-creat'});
-    },
-    toPageDetail() {
-      this.$router.push({path: '/product/product-detail', params: {}});
+    toPageDetail(row) {
+      const path = `/product/product-detail/${row.productId}`;
+      this.$router.push(path);
     },
     ...mapActions([
-      'getProductCreatList'
+      'getProductList',
+      'getComposedProduct'
     ])
   },
   onload() {
     console.log(this.productList);
-    debugger;
   }
 };
 </script>
