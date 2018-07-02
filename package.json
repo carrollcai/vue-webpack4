@@ -14,7 +14,8 @@
     "build": "node build/build.js",
     "mock": "node mock/app.js",
     "analyz": "NODE_ENV=production npm_config_report=true npm run build",
-    "dll": "webpack -p --progress --config build/webpack.dll.conf.js"
+    "dll": "webpack -p --progress --config build/webpack.dll.conf.js",
+    "postinstall": "cp .hooks/* .git/hooks/"
   },
   "dependencies": {
     "@antv/data-set": "^0.8.9",
