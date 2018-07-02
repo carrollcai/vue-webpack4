@@ -43,10 +43,11 @@ import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
 import CreateSaleStep01 from '@/views/product/create/CreateSaleStep01.vue';
 import CreateSaleStep02 from '@/views/product/create/CreateSaleStep02.vue';
 
-import orderCreateManage from '@/views/order/CreateManage.vue';
-import orderHandleTask from '@/views/order/HandleTask.vue';
-import orderOverview from '@/views/order/Overview.vue';
-import orderDetail from '@/views/order/orderDetail.vue';
+import OrderCreateManage from '@/views/order/CreateManage.vue';
+import OrderHandleTask from '@/views/order/HandleTask.vue';
+import OrderOverview from '@/views/order/Overview.vue';
+import OrderDetail from '@/views/order/OrderDetail.vue';
+import OrderCreate from '@/views/order/OrderCreate.vue';
 
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
@@ -182,10 +183,11 @@ const dynamicRoutes = [
       { path: '/system/user/management', component: User, meta: { menuId: 11 } },
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
 
-      { path: '/order/create-manage', component: orderCreateManage },
-      { path: '/order/handle-task', component: orderHandleTask },
-      { path: '/order/overview', component: orderOverview },
-      { path: '/order/overview/detail/:id', component: orderDetail },
+      { path: '/order/create-manage', component: OrderCreateManage },
+      { path: 'order/manage/:type/:id?', commponent: OrderCreate },
+      { path: '/order/handle-task', component: OrderHandleTask },
+      { path: '/order/overview', component: OrderOverview },
+      { path: '/order/overview/detail/:id', component: OrderDetail },
 
       { path: '*', component: Page404 }
     ]
