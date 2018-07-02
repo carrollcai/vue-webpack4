@@ -43,6 +43,9 @@ export const TASK_GET_DETAIL = 'TASK_GET_DETAIL';
 export const SET_PUSH_LIST = 'SET_PUSH_LIST';
 export const SET_TODO_LIST = 'SET_TODO_LIST';
 
+/* order */
+export const ORDER_GET_LIST = 'ORDER_GET_LIST';
+
 /* group_customer */
 export const GROUP_CUSTOMER_INIT_FORM = 'GROUP_CUSTOMER_INIT_FORM';
 export const GROUP_CUSTOMER_GET_LIST = 'GROUP_CUSTOMER_GET_LIST';

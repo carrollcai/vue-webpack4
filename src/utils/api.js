@@ -53,6 +53,9 @@ export default {
   queryTodoListAPI: API('http://localhost:3618/task/todo/list'), // 我的待办列表
   taskSubmitAuditAPI: API('http://localhost:3618/task/todo/list'), // 审核接口
 
+  /* 订单管理 */
+  getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
+
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),
