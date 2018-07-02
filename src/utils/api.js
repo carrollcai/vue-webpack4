@@ -104,6 +104,10 @@ export default {
    * 查询集团客户
    */
   queryCustomerAPI: API('/esop/organize/queryOrganizeById'),
+  /**
+   * 查询集团客户 快照
+   */
+  queryCustomerSnapshotAPI: API('/esop/organize/querySnapShort'),
 
   /**
    * 删除集团客户

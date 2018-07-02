@@ -163,6 +163,22 @@ const actions = {
     });
   },
   /**
+   * 查询集团客户 快照
+   * @param {Store} Store
+   * @param {Number} customerId 集团客户ID
+   */
+  queryCustomerSnapshot({commit}, customerId) {
+    return API.queryCustomerSnapshotAPI({
+      organizeId: customerId
+    }).then((res) => {
+      if (isSuccess(res)) {
+        commit(types.GROUP_CUSTOMER_DETAIL, res.data);
+      } else {
+        commit(types.GROUP_CUSTOMER_DETAIL, {});
+      }
+    });
+  },
+  /**
    * 删除集团客户
    * @param {Store} Store
    * @param {Number} customerId 集团客户ID
