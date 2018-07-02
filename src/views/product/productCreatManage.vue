@@ -4,21 +4,20 @@
     <el-form-item>
       <el-col>
         <!-- <el-date-picker v-model="formData.time" type="date" placeholder="创建时间范围" style="width: 100%;"></el-date-picker> -->
-        <el-date-picker style="width: 200px" format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="formData.time" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-select style="width: 130px" v-model="formData.type" placeholder="产品类型">
-        <el-option label="产品类型一" value="shanghai"></el-option>
-        <el-option label="产品类型二" value="beijing"></el-option>
+      <el-select v-if="composedProduct" style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+        <el-option v-for="item in composedProduct" :key="item.productId" :label="item.productName" :value="item.productId" />
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-input style="width: 130px" v-model="formData.create" placeholder="创建人"></el-input>
+      <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-input style="width: 130px" v-model="formData.code" placeholder="产品名称/编码"></el-input>
+      <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -44,9 +43,9 @@
       </el-table-column>
       <el-table-column label="操作" property="">
         <template slot-scope="operation">
-          <span class="blue hand" @click="toPageDetail">详情</span>
-          <span class="blue hand" @click="toPageModefiy">修改</span>
-          <span class="blue hand" @click="deleteProduct">删除</span>
+          <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
+          <span class="blue hand" @click="toPageModefiy(operation.row)">修改</span>
+          <span class="blue hand" @click="deleteProduct(operation.row)">删除</span>
         </template>
       </el-table-column>
   </wm-table>
@@ -63,10 +62,11 @@ export default {
   },
   data() {
     return {
+      timeRange: '',
       formData: {
         startDate: '',
         endDate: '',
-        productType: '0',
+        productType: '',
         operatorCn: '',
         productName: '',
         pageNo: 1,
@@ -76,13 +76,20 @@ export default {
   },
   beforeMount() {
     this.getProductCreatList(this.formData);
+    this.getComposedProduct();
   },
   computed: {
     ...mapState({
-      productList: ({ product }) => product.productList.List
+      productList: ({ product }) => product.productCreatList.List,
+      composedProduct: ({ product }) => product.composedProduct
     })
   },
   methods: {
+    getTimeRange(time) {
+      console.log(time);
+      this.formData.startDate = time[0];
+      this.formData.endDate = time[1];
+    },
     query() {
       // 产品数据查询方法
       this.getProductCreatList(this.formData);
@@ -93,13 +100,17 @@ export default {
     toCreatProduct() {
       this.$router.push({path: '/product/create-base-info'});
     },
-    toPageDetail() {
-      this.$router.push({path: '/product/product-detail', params: {productId: 1}});
+    toPageDetail(row) {
+      const path = `/product/product-detail/${row.productId}`;
+      this.$router.push(path);
     },
-    toPageModefiy() {
-      this.$router.push({path: '/product/create-base-info', params: {}});
+    toPageModefiy(row) {
+      const path = `/product/create-base-info/${row.productId}`;
+      this.$router.push(path);
     },
-    deleteProduct() {
+    deleteProduct(row) {
+      var productId = row.productId;
+      console.log(productId);
       // 校验商机和订单是否有用到
       this.$confirm('删除该产品数据, 是否继续?', ' ', {
         confirmButtonText: '确定',
@@ -112,7 +123,8 @@ export default {
       });
     },
     ...mapActions([
-      'getProductCreatList'
+      'getProductCreatList',
+      'getComposedProduct'
     ])
   },
   onload() {
