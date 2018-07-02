@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { fetch } from './http';
+import { fetch } from './http/index.js';
 
 // const development = 'http://localhost:3618';
 const development = '';
