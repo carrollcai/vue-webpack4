@@ -75,11 +75,20 @@ const actions = {
     });
   },
   /**
+   * 查询 “提醒人” 数据
+   */
+  getRemindPerson: ({ commit }, params) => {
+    return API.getRemindPersonAPI(params).then(res => {
+      commit(types.REMIND_PERSON, res.data);
+    });
+  },
+  /**
    * 查询 “指派处理人” 数据
    */
   getDesignatePerson: ({ commit }, params) => {
     return API.getDesignatePersonAPI(params).then(res => {
-      commit(types.DESIGNATE_PERSON, res.data);
+      commit(types.DESIGNATE_PERSON, res.data.list);
+      return res.data.list;
     });
   }
 };

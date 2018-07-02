@@ -23,7 +23,8 @@ const state = {
   groupAssociationStatus: '',
   delBusinessStatus: '',
   businessDraftDetail: '',
-  designatePerson: ''
+  designatePerson: '',
+  remindPerson: []
 };
 
 const mutations = {
@@ -57,6 +58,9 @@ const mutations = {
   },
   [types.DESIGNATE_PERSON](state, data) {
     state.designatePerson = data.list;
+  },
+  [types.REMIND_PERSON](state, data) {
+    state.remindPerson = data.list;
   }
 };
 export default {

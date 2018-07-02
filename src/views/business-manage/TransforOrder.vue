@@ -25,112 +25,81 @@
       </div>
     </div>
     <div class="container">
-      <div class="business-detail-item">
-        <div class="left">订单名称：</div>
-        <div class="right">
-          <el-input v-model="form.income" class="commonWidth1" placeholder="请输入订单名称">
+      <el-form :rules="rules" ref="transForm" :model="form" label-width="330px">
+        <el-form-item label="订单名称：" prop="ordername">
+          <el-input maxlength="30" v-model="form.ordername" class="commonWidth1" placeholder="请输入订单名称">
           </el-input>
-            <!--<el-select class="commonWidth1" v-model="form.category" placeholder="请选择属性">
+        </el-form-item>
+        <el-form-item label="订购产品：" prop="orderproduct">
+          <el-input maxlength="25" v-model="form.orderproduct" class="commonWidth1" placeholder="请输入产品名称/编码">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="预计合同金额：" prop="conamount">
+          <el-input v-model="form.conamount" class="commonWidth1" placeholder="请输入合同金额">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="预计签约时间：" prop="signtime">
+          <el-date-picker class="commonWidth1" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.signTime" placeholder="请选择时间"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="预计协议期：" prop="protoTime">
+          <el-select class="commonWidth1" v-model="form.protoTime" placeholder="请选择">
+              <el-option
+              v-for="item in protoTimeList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="项目是否招标：" prop="tender">
+          <el-radio v-model="form.tender" label="1">是</el-radio>
+          <el-radio v-model="form.tender" label="2">否</el-radio>
+        </el-form-item>
+        <el-form-item label="联系人员：" prop="name">
+          <el-input maxlength="6" class="commonWidth2" v-model="form.name" placeholder="姓名"></el-input>
+          <span class="sep">-</span>
+          <el-form-item prop="sex" style="display: inline-block;">
+            <el-select class="commonWidth7" v-model="form.sex" placeholder="性别">
                 <el-option
-                v-for="item in businessCategoryList"
+                v-for="item in options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
                 </el-option>
-            </el-select>-->
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">订购产品：</div>
-        <div class="right">
-            <el-input v-model="form.income" class="commonWidth1" placeholder="请输入订购产品">
-            </el-input>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">预计合同金额：</div>
-        <div class="right">
-            <el-input v-model="form.income" class="commonWidth1" placeholder="请输入合同金额">
-            </el-input>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">预计签约时间：</div>
-        <div class="right">
-            <el-date-picker class="commonWidth1" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.signTime" placeholder="请选择时间"></el-date-picker>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">预计协议期：</div>
-        <div class="right">
-          <el-date-picker class="commonWidth1" v-model="form.protoTime" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
-          <!--<el-date-picker class="commonWidth1" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="dates" v-model="form.protoTime" placeholder="请选择日期"></el-date-picker>-->
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">项目是否招标：</div>
-        <div class="right">
-          <el-radio v-model="form.tender" label="1">是</el-radio>
-          <el-radio v-model="form.tender" label="2">否</el-radio>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">联系人员：</div>
-        <div class="right">
-          <el-input class="commonWidth2" v-model="form.name" placeholder="姓名"></el-input>
+            </el-select>
+          </el-form-item>
           <span class="sep">-</span>
-          <el-select class="commonWidth7" v-model="form.sex" placeholder="性别">
-              <!--<el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-              </el-option>-->
-          </el-select>
-            <span class="sep">-</span>
-          <el-input class="commonWidth3" v-model="form.tel" placeholder="手机号"></el-input>
-            <span class="sep">-</span>
-          <el-input class="commonWidth4" v-model="form.email" placeholder="邮箱"></el-input>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">合作集团：</div>
-        <div class="right">
-            <el-autocomplete class="commonWidth5" v-model="form.group" placeholder="合作集团/编码"></el-autocomplete>
-            <span class="sep">-</span>
-            <el-input class="commonWidth5" v-model="form.office" placeholder="办公地址"></el-input>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">订单描述：</div>
-        <div class="right">
-            <el-input class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.desc"></el-input>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">订单需求：</div>
-        <div class="right">
-            <el-input class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.command"></el-input>
-        </div>
-      </div>
-      <div class="business-detail-item">
-        <div class="left">需要协调的问题：</div>
-        <div class="right">
-            <el-input class="commonWidth6" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.problem"></el-input>
-        </div>
-      </div>
-      <div class="b-container">
-        <div class="business-detail-item">
-            <div class="left1"></div>
-            <div class="right">
-              <el-button type="primary">提交</el-button>
-              <el-button plain>保存为草稿</el-button>
-            </div>
-        </div>
+          <el-form-item prop="tel" style="display: inline-block;">
+            <el-input maxlength="11" class="commonWidth3" v-model="form.tel" placeholder="手机号"></el-input>
+          </el-form-item>
+          <span class="sep">-</span>
+          <el-form-item prop="email" style="display: inline-block;">
+            <el-input maxlength="35" class="commonWidth4" v-model="form.email" placeholder="邮箱"></el-input>
+          </el-form-item>
+        </el-form-item>
+        <el-form-item label="合作集团：" prop="group">
+          <el-autocomplete maxlength="25" class="commonWidth5" v-model="form.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <span class="sep">-</span>
+          <el-form-item prop="office" style="display:inline-block;">
+            <el-input maxlength="50" class="commonWidth5" v-model="form.office" placeholder="办公地址"></el-input>
+          </el-form-item>
+        </el-form-item>
+        <el-form-item label="订单描述：" prop="desc">
+          <el-input maxlength="500" class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.desc"></el-input>
+        </el-form-item>
+        <el-form-item label="订单需求：" prop="command">
+          <el-input class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.command"></el-input>
+        </el-form-item>
+        <el-form-item label="需要协调的问题：">
+          <el-input maxlength="500" class="commonWidth6" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.problem"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button type="primary" @click="submit">提交</el-button>
+          <!--<el-button plain>保存为草稿</el-button>-->
+        </el-form-item>
+      </el-form>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -141,8 +110,61 @@ export default {
   data() {
     return {
       form: {
-        approveStatus: 0
-      }
+        tender: '1'
+      },
+      rules: {
+        ordername: [
+          { required: true, message: '请输入订单名称', trigger: 'change' }
+        ],
+        group: [
+          { required: true, message: '请输入合作集团/编码', trigger: 'blur' }
+        ],
+        office: [
+          { required: true, message: '请输入办公地址', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '请输入姓名', trigger: 'blur' }
+        ],
+        sex: [
+          { required: true, message: '请选择性别', trigger: 'change' }
+        ],
+        tel: [
+          { required: true, message: '请输入手机号', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+        ],
+        desc: [
+          { required: true, message: '请输入业务描述', trigger: 'blur' }
+        ],
+        command: [
+          { required: true, message: '请输入业务需求', trigger: 'blur' }
+        ],
+        income: [
+          { required: true, message: '请输入预计收入', trigger: 'blur' }
+        ],
+        signTime: [
+          { required: true, message: '请选择预计签约时间', trigger: 'blur' }
+        ],
+        protoTime: [
+          { required: true, message: '请选择预计协议期', trigger: 'change' }
+        ],
+        tender: [
+          { required: true, message: '请选择项目是否招标', trigger: 'change' }
+        ],
+        orderproduct: [
+          { required: true, message: '请输入产品名称/编码', trigger: 'blur' }
+        ],
+        conamount: [
+          { required: true, message: '请输入预计合同金额', trigger: 'blur' }
+        ]
+      },
+      protoTimeList: [
+        { 'label': '1年', 'value': '0' },
+        { 'label': '2年', 'value': '1' },
+        { 'label': '3年（含）以上', 'value': '2' }
+      ]
     };
   },
   beforeMount() {
@@ -154,6 +176,11 @@ export default {
     })
   },
   methods: {
+    submit() {
+      this.$refs['transForm'].validate(valid => {
+        if (!valid) return false;
+      });
+    },
     ...mapActions([
       'getBusinessDetail'
     ])
