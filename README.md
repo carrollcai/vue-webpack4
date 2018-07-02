@@ -35,6 +35,8 @@
 ## Build Setup
 
 ``` bash
+# git hook,check eslint
+npm run postinstall
 # install dependencies
 npm install
 
