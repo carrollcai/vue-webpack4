@@ -213,7 +213,7 @@ const actions = {
    * @param {Object} Store
    * @param {Object} params 参数
    */
-  querySubscribeProducts() {
+  querySubscribeProducts({commit}, params) {
     API.querySubscribeProductsAPI(params).then(res => {
       if (isSuccess(res)) {
         commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, res.data);

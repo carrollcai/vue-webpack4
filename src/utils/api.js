@@ -140,5 +140,7 @@ export default {
   // 删除商机
   delBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 商机草稿详情查询
-  getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail')
+  getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
+  // 获取指派处理人
+  getDesignatePersonAPI: API('http://localhost:3618/business-manage/businessDetail')
 };

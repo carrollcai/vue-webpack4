@@ -22,7 +22,8 @@ const state = {
   submitBusinessStatus: '',
   groupAssociationStatus: '',
   delBusinessStatus: '',
-  businessDraftDetail: ''
+  businessDraftDetail: '',
+  designatePerson: ''
 };
 
 const mutations = {
@@ -53,6 +54,9 @@ const mutations = {
   },
   [types.BUSINESS_DRAFT_DETAIL](state, data) {
     state.businessDraftDetail = data.list;
+  },
+  [types.DESIGNATE_PERSON](state, data) {
+    state.designatePerson = data.list;
   }
 };
 export default {
