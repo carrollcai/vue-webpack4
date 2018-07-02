@@ -62,7 +62,6 @@ export default {
         endDate: '',
         productType: '',
         operatorCn: '',
-        productId: '',
         productName: '',
         pageNo: 1,
         pageSize: 20
@@ -74,6 +73,9 @@ export default {
     this.getComposedProduct();
   },
   computed: {
+    pageNo() {
+      return Number(this.formData.pageNo);
+    },
     ...mapState({
       productList: ({ product }) => product.productList.List,
       composedProduct: ({ product }) => product.composedProduct
@@ -103,7 +105,6 @@ export default {
   },
   onload() {
     console.log(this.productList);
-    debugger;
   }
 };
 </script>

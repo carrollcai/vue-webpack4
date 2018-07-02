@@ -67,7 +67,7 @@ export default {
   generateContactIdAPI: API('/esop/organize/contactId'),
   /* 产品管理 */
   // 产品总览
-  getProductListAPI: API('http://localhost:3618/esop/product/productCreatList'),
+  getProductListAPI: API('/esop-web-1.0.1/esop/product/queryProduct'),
   // 产品创建管理
   getProductCreatListAPI: API('http://localhost:3618/esop/product/productCreatList'),
   // 产品详情

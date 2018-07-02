@@ -19,7 +19,6 @@ export const fetch = (url, params, method) => {
 
     ajx.then(res => {
       store.commit('HIDE_PAGE_LOADING');
-
       if (res.data.errorInfo.code === '401') {
         store.commit('ROUTE_CHANGE', { path: '/login' });
       } else if (String(res.data.errorInfo.code) === '200') {
