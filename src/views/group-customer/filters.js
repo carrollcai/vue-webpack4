@@ -56,7 +56,9 @@ export default {
      * @param {String} value 原始值
      */
     genderFilter(value) {
-      return value;
+      let result = _.find(this.GENDER, {value});
+
+      return result ? result.label : '';
     },
     /**
      * 集团客户-年龄
