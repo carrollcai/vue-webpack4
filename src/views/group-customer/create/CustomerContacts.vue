@@ -46,7 +46,7 @@
                 v-model="contact.age"
                 placeholder="年龄"
                 key="contact-age-select">
-                <el-option v-for="item in AGE_GROUPS"
+                <el-option v-for="item in AGE"
                   :key="item.value"
                   :value="item.value"
                   :label="item.label" ></el-option>
@@ -95,8 +95,7 @@
           <el-form-item label="婚姻状况" prop="maritalStatus" key="contact-maritalStatus">
             <el-radio-group v-model="contact.maritalStatus"
               key="contact-maritalStatus-radio">
-              <el-radio label="Y">已婚</el-radio>
-              <el-radio label="N">未婚</el-radio>
+              <el-radio :label="item.value" v-for="(item, index) in MARITAL_STATUS" :key="index">{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="管理范畴" prop="manageScope" required key="manageScope-scope">
@@ -152,13 +151,11 @@
 </template>
 <script>
 import {mapActions} from 'vuex';
-import {
-  GENDER,
-  AGE_GROUPS
-} from '@/config';
+import filters from '../filters';
 import FamilyContact from './FamilyContact.vue';
 export default {
   name: 'CustomerContacts',
+  mixins: [filters],
   components: {
     FamilyContact
   },
@@ -172,8 +169,6 @@ export default {
   },
   data() {
     return {
-      GENDER,
-      AGE_GROUPS,
       index: -1,
       contact: {
         gender: '',
@@ -357,8 +352,10 @@ $form-item-width: 336px;
     display: flex;
     align-items: center;
     .el-icon-delete{
-      margin-left: 16px;
+      margin: 0 0 20px 16px;
       cursor: pointer;
+      color: rgba(0, 0, 0, 0.25);
+      font-size: 16px;
     }
   }
 }

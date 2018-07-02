@@ -71,6 +71,33 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
+    menuId: 4,
+    name: '订单管理',
+    url: '/order',
+    icon: 'icon-task',
+    enable: false,
+    children: [
+      {
+        menuId: 4,
+        name: '订单总览',
+        url: '/order/overview',
+        enable: false
+      },
+      {
+        menuId: 4,
+        name: '订单创建管理',
+        url: '/order/create-manage',
+        enable: false
+      },
+      {
+        menuId: 4,
+        name: '订单处理任务',
+        url: '/order/handle',
+        enable: false
+      }
+    ]
+  },
+  {
     menuId: 6,
     name: '产品管理',
     icon: 'icon-product',

@@ -25,6 +25,62 @@ const actions = {
     return API.getBusinessDetailAPI(params).then(res => {
       commit(types.BUSINESS_DETAIL, res.data);
     });
+  },
+  /**
+   * 查询 “获取商机类别列表” 数据
+   */
+  getBusinessCategoryList: ({ commit }, params) => {
+    return API.getBusinessCategoryListAPI(params).then(res => {
+      commit(types.BUSINESS_CATEGORY_LIST, res.data);
+    });
+  },
+  /**
+   * 根据 “合作集团匹配办公地址” 数据
+   */
+  getOfficeAddress: ({ commit }, params) => {
+    return API.getOfficeAddressAPI(params).then(res => {
+      commit(types.OFFICE_ADDRESS, res.data);
+    });
+  },
+  /**
+   * 提交 “商机” 数据
+   */
+  submitBusinessOppority: ({ commit }, params) => {
+    return API.submitBusinessOpporityAPI(params).then(res => {
+      commit(types.SUBMIT_BUSINESS_STATUS, res.data);
+    });
+  },
+  /**
+   * 获取 “集团关联商机” 状态
+   */
+  groupAssociation: ({ commit }, params) => {
+    return API.groupAssociationAPI(params).then(res => {
+      commit(types.GROUP_ASSOCIATION_STATUS, res.data);
+    });
+  },
+  /**
+   * 删除 “商机” 数据
+   */
+  delBusinessOppority: ({ commit }, params) => {
+    return API.delBusinessOpporityAPI(params).then(res => {
+      commit(types.DEL_BUSINESS_STATUS, res.data);
+    });
+  },
+  /**
+   * 查询 “商机草稿详情” 数据
+   */
+  getBusinessDraftDetail: ({ commit }, params) => {
+    return API.getBusinessDraftDetailAPI(params).then(res => {
+      commit(types.BUSINESS_DRAFT_DETAIL, res.data);
+    });
+  },
+  /**
+   * 查询 “指派处理人” 数据
+   */
+  getDesignatePerson: ({ commit }, params) => {
+    return API.getDesignatePersonAPI(params).then(res => {
+      commit(types.DESIGNATE_PERSON, res.data);
+    });
   }
 };
 

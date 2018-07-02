@@ -7,6 +7,7 @@ import task from './task';
 import login from './login';
 import product from './product';
 import business from './business';
+import order from './order';
 
 export default {
   ...root,
@@ -17,5 +18,6 @@ export default {
   ...task,
   ...login,
   ...product,
-  ...business
+  ...business,
+  ...order
 };

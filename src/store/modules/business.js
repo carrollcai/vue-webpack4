@@ -16,7 +16,14 @@ const state = {
     status: null
   },
   businessList: [],
-  businessDetail: {}
+  businessDetail: {},
+  businessCategoryList: [],
+  officeAddress: '',
+  submitBusinessStatus: '',
+  groupAssociationStatus: '',
+  delBusinessStatus: '',
+  businessDraftDetail: '',
+  designatePerson: ''
 };
 
 const mutations = {
@@ -29,9 +36,29 @@ const mutations = {
   },
   [types.BUSINESS_DETAIL](state, data) {
     state.businessDetail = data.list;
+  },
+  [types.BUSINESS_CATEGORY_LIST](state, data) {
+    state.businessCategoryList = data.list;
+  },
+  [types.OFFICE_ADDRESS](state, data) {
+    state.officeAddress = data.list;
+  },
+  [types.SUBMIT_BUSINESS_STATUS](state, data) {
+    state.submitBusinessStatus = data.list;
+  },
+  [types.GROUP_ASSOCIATION_STATUS](state, data) {
+    state.groupAssociationStatus = data.list;
+  },
+  [types.DEL_BUSINESS_STATUS](state, data) {
+    state.delBusinessStatus = data.list;
+  },
+  [types.BUSINESS_DRAFT_DETAIL](state, data) {
+    state.businessDraftDetail = data.list;
+  },
+  [types.DESIGNATE_PERSON](state, data) {
+    state.designatePerson = data.list;
   }
 };
-
 export default {
   state,
   mutations

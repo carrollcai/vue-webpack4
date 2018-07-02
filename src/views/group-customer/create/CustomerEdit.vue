@@ -119,11 +119,11 @@
           <span class="not-required_text">以下为非必填项</span>
         </div>
         <div class="base-optional-info">
-          <el-form-item label="工商注册号" prop="registeNum" key="registeNum">
-            <el-input v-model="customer.registeNum"
+          <el-form-item label="工商注册号" prop="registerNum" key="registeNum">
+            <el-input v-model="customer.registerNum"
               placeholder="请输入工商注册号"
               :maxlength="13"
-              key="companyNo-input"></el-input>
+              key="registerNum-input"></el-input>
           </el-form-item>
           <el-form-item label="证件类型" key="certificateType">
             <el-select v-model="customer.certificateType"
@@ -170,11 +170,11 @@
               <template slot="append">年</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="登记机关" key="Registrar">
-            <el-input v-model="customer.registerOrg"
+          <el-form-item label="登记机关" key="registrateOrg">
+            <el-input v-model="customer.registrateOrg"
               :maxlength="20"
               placeholder="请输入登记机关"
-              key="registrar-input"></el-input>
+              key="registrateOrg-input"></el-input>
           </el-form-item>
           <el-form-item label="发证日期" key="Licence-date">
             <el-date-picker
@@ -240,14 +240,12 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <span class="btnLists">
-              <el-tooltip effect="dark" content="修改" placement="bottom">
-                <i class="el-icon-edit-outline" @click="handleEditContact(scope.row, scope.$index)"></i>
-              </el-tooltip>
-              <el-tooltip effect="dark" content="删除" placement="bottom">
-                <i class="el-icon-delete" @click="handleDeleteContact(scope.$index, scope.row.contactId)"></i>
-              </el-tooltip>
-            </span>
+            <el-button type="text" @click="handleEditContact(scope.row, scope.$index)">
+              编辑
+            </el-button>
+            <el-button type="text" @click="handleDeleteContact(scope.$index, scope.row.contactId)">
+              删除
+            </el-button>
         </template>
         </el-table-column>
       </el-table>
@@ -307,14 +305,23 @@
 <script>
 import { mapActions } from 'vuex';
 import mixins from './mixins';
+import filters from '../filters';
 export default {
-  name: 'CustomerCreate',
-  mixins: [mixins],
+  name: 'CustomerEdit',
+  mixins: [mixins, filters],
+  created() {
+    this.init();
+  },
+  computed: {
+    customer() {
+      return this.$store.getters.groupCustomer;
+    }
+  },
   methods: {
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
-          this.createCustomer(this.customer);
+          this.updateCustomer(this.customer);
         }
       });
     },
@@ -325,7 +332,14 @@ export default {
         }
       });
     },
-    ...mapActions(['createCustomer', 'createApproveCustomer'])
+    init() {
+      this.queryCustomer(this.$route.params.id);
+    },
+    ...mapActions([
+      'updateCustomer',
+      'createApproveCustomer',
+      'queryCustomer'
+    ])
   }
 };
 </script>

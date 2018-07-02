@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { fetch } from './http';
+import { fetch } from './http/index.js';
 
 // const development = 'http://localhost:3618';
 const development = '';
@@ -53,6 +53,9 @@ export default {
   queryTodoListAPI: API('http://localhost:3618/task/todo/list'), // 我的待办列表
   taskSubmitAuditAPI: API('http://localhost:3618/task/todo/list'), // 审核接口
 
+  /* 订单管理 */
+  getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
+
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),
@@ -60,8 +63,24 @@ export default {
   getCurrentUserInfoAPI: API('/esop/login/queryCurrentOperator'),
 
   /* 集团客户管理 */
-  // 获取集团客户概览列表
+  /**
+   * 查询集团客户总览列表
+   */
+  queryCustomerOverviewListAPI: API('/esop/organize/queryOrganize'),
+
+  /**
+   * 集团客户总览-查看主页-查询订购产品
+   */
+  querySubscribeProductsAPI: API('/esop/organize/queryOrganize'),
+
+  /**
+   * 查询集团客户创建列表
+   */
   getGroupCustomerListAPI: API('/esop/organize/queryMyOrganize'),
+  /**
+   * 查询集团客户审核列表
+   */
+  queryCustomerAuditListAPI: API('/esop/organize/queryTaskInfo'),
 
   // 生成集团客户联系人ID
   generateContactIdAPI: API('/esop/organize/contactId'),
@@ -78,6 +97,11 @@ export default {
   createCustomerAPI: API('/esop/organize/create'),
   // 新增、提审集团客户
   createApproveCustomerAPI: API('/esop/organize/createApprove'),
+
+  /**
+   * 修改集团客户
+   */
+  updateCustomerAPI: API('/esop/organize/edit'),
   /**
    * 查询客户经理
    */
@@ -97,12 +121,33 @@ export default {
    * 提审集团客户
    */
   approveCustomerAPI: API('/esop/organize/startProcess'),
+  /**
+   * 审核集团客户
+   */
+  auditCustomerAPI: API('/esop/organize/moveNode'),
 
   /* 商机管理 */
   // 获取合作集团/编码列表
   getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
   getBusinessListAPI: API('http://localhost:3618/business-manage/business'),
+
   // 商机详情查询
-  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail')
+  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
+
+  // 新建商机
+  // 获取商机类别列表
+  getBusinessCategoryListAPI: API('http://localhost:3618/business-manage/getBusinessCategoryList'),
+  // 根据合作集团匹配办公地址
+  getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
+  // 提交商机
+  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 集团关联商机
+  groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 删除商机
+  delBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 商机草稿详情查询
+  getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
+  // 获取指派处理人
+  getDesignatePersonAPI: API('http://localhost:3618/business-manage/businessDetail')
 };

@@ -31,7 +31,10 @@ const actions = {
         'industryType',
         'MEMBER_NUM',
         'CERTIFICATE_TYPE',
-        'CM_MONEY_TYPE'
+        'CM_MONEY_TYPE',
+        'SEX',
+        'AGE',
+        'maritalStatus'
       ]
     };
 

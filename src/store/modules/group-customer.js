@@ -1,5 +1,4 @@
 import * as types from '../types';
-import {PAGE_NO, PAGE_SIZE} from '@/config';
 
 const groupCustomerCreate = {
   staffName: '',
@@ -10,17 +9,10 @@ const groupCustomerCreate = {
 
 const state = {
   groupCustomerList: [],
-  groupCustomerForm: {
-    pageNo: PAGE_NO,
-    pageSize: PAGE_SIZE,
-    organizeType: '',
-    provinceId: '',
-    managerName: '',
-    otherField: ''
-  },
   groupCustomerCreate: Object.cloneDeep(groupCustomerCreate),
   customerManagers: [],
-  groupCustomer: {}
+  groupCustomer: {},
+  customerSubscribeProducts: {}
 };
 
 const mutations = {
@@ -38,6 +30,9 @@ const mutations = {
   },
   [types.GROUP_CUSTOMER_DETAIL](state, data) {
     state.groupCustomer = data;
+  },
+  [types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS](state, data) {
+    state.customerSubscribeProducts = data;
   }
 };
 
