@@ -19,10 +19,10 @@
 
     <el-tabs v-model="status">
       <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="处理中"></el-tab-pane>
-      <el-tab-pane label="通过"></el-tab-pane>
-      <el-tab-pane label="不通过"></el-tab-pane>
-      <el-tab-pane label="撤销"></el-tab-pane>
+      <el-tab-pane label="待签约"></el-tab-pane>
+      <el-tab-pane label="待付款"></el-tab-pane>
+      <el-tab-pane label="已完成"></el-tab-pane>
+      <el-tab-pane label="已取消"></el-tab-pane>
     </el-tabs>
 
     <wm-table :source="orderList" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
