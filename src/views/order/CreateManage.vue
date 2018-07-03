@@ -81,7 +81,7 @@ export default {
       const path = `/order/overview/detail/${row.id}`;
       this.$router.push(path);
     },
-    handleCreate() {
+    handleCreate(row) {
       const path = `/order/create/${row.id}`;
       this.$router.push(path);
     },
