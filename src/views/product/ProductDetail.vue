@@ -1,7 +1,7 @@
 <template>
 <div class="p-content">
   <div class="crumb-bar"><span>产品总览 / </span>产品详情</div>
-  <baseInfo></baseInfo>
+  <baseInfo :product="productSaleDemo"></baseInfo>
   <saleDome :data="productSaleDemo.salesList"></saleDome>
 </div>
 </template>
@@ -27,7 +27,9 @@ export default {
     })
   },
   beforeMount() {
-    this.getProductDetail({productId: this.$route.params.id});
+    var data = {productId: Number(this.$route.params.id)};
+    console.log(data);
+    this.getProductDetail(data);
   },
   methods: {
     ...mapActions([

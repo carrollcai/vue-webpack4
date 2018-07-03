@@ -40,8 +40,7 @@ import ProductDetail from '@/views/product/ProductDetail.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
 import ProductView from '@/views/product/ProductView.vue';
 import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
-import CreateSaleStep01 from '@/views/product/create/CreateSaleStep01.vue';
-import CreateSaleStep02 from '@/views/product/create/CreateSaleStep02.vue';
+import CreateSaleStep from '@/views/product/create/CreateSaleStep.vue';
 
 import orderCreateManage from '@/views/order/CreateManage.vue';
 import orderHandleTask from '@/views/order/HandleTask.vue';
@@ -97,14 +96,14 @@ const dynamicRoutes = [
         component: createBaseInfo
       },
       {
-        path: '/product/create-sale-step01',
-        name: 'create-sale-step01',
-        component: CreateSaleStep01
+        path: '/product/create-sale-step/',
+        name: 'create-sale-step',
+        component: CreateSaleStep
       },
       {
-        path: '/product/create-sale-step02',
-        name: 'create-sale-step02',
-        component: CreateSaleStep02
+        path: '/product/create-sale-step/:id',
+        name: 'create-sale-step',
+        component: CreateSaleStep
       },
 
       { path: '/task/management', component: TaskManagement, meta: { menuId: 6 } },
