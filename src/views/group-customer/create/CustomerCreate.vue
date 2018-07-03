@@ -260,7 +260,13 @@
         <el-button type="primary" @click="toFirstStep">上一步</el-button>
       </div>
     </div>
-    <el-form class="customer-manager-info" :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
+    <el-form class="customer-manager-info"
+      :model="customer"
+      ref="managerForm"
+      :rules="managerRules"
+      label-width="120px"
+      v-if="isThirdStep()"
+      key="managerForm">
       <el-form-item label="客户经理" prop="managerName" required key="managerName">
         <el-autocomplete
           key="manager-input"
