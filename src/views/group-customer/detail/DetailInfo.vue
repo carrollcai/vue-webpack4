@@ -261,6 +261,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
   .customer-detail_audit,
   .customer-detail_info{
     background: #FFFFFF;
@@ -271,7 +272,7 @@ export default {
     padding: 24px 0 10px 0;
 
     .el-textarea{
-      width: 320px;
+      width: $formLargeWidth;
     }
   }
 
@@ -284,7 +285,7 @@ export default {
     }
 
     .base-info_title-sub{
-      color: rgba(55, 120, 255, 1);
+      color: $primary-color;
       font-size: 14px;
       cursor: pointer;
     }

@@ -66,6 +66,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
 .activity{
   border-radius: 2px;
   background-color: #FAFAFA;
@@ -77,7 +78,7 @@ export default {
     box-sizing: border-box;
   }
 
-  $active-color: #3778FF;
+  $active-color: $primary-color;
 
   .el-step{
     flex-basis: 25%; margin-right: 0px;
