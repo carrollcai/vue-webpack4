@@ -1,6 +1,6 @@
 <template>
   <div class="customer-detail_info">
-      <activity></activity>
+      <activity :process-id="customer.processInsId" v-if="customer.processInsId"></activity>
       <div class="block-title base-info_title">
         基本信息
         <span class="base-info_title-sub" @click="showMore = !showMore">更多信息</span>
@@ -268,6 +268,11 @@ export default {
 
   .customer-detail_audit{
     margin-top: 16px;
+    padding: 24px 0 10px 0;
+
+    .el-textarea{
+      width: 320px;
+    }
   }
 
   .customer-detail_info{

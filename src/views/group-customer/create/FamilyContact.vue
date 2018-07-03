@@ -153,7 +153,7 @@ export default {
   margin-bottom: 16px;
 
   .el-form-item{
-    width: 106px;
+    width: 101px;
   }
 
   .family-contact-mobile{

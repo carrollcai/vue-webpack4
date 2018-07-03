@@ -114,7 +114,6 @@ const actions = {
    */
   updateCustomer({commit}, customer) {
     // 删除不需要传的值
-
     delete customer.organizeTypeValue;
     delete customer.provinceName;
     delete customer.orgIndustryTypeValue;
@@ -122,6 +121,7 @@ const actions = {
     delete customer.memberNumValue;
     delete customer.certificateTypeValue;
     delete customer.registerFundTypeValue;
+    delete customer.processInsId;
 
     let contacts = customer.contactDtoList;
     if (contacts && contacts.length) {
@@ -139,7 +139,6 @@ const actions = {
           type: 'success',
           duration: 3000
         });
-        // 创建成功
         commit(types.ROUTE_CHANGE, {
           path: '/group-customer/create-manage'
         });
@@ -190,7 +189,7 @@ const actions = {
       if (isSuccess(res)) {
         Message({
           showClose: true,
-          message: '删除成功',
+          message: '您已成功删除该条集团客户信息！',
           type: 'success',
           duration: 3000
         });
@@ -204,12 +203,12 @@ const actions = {
    */
   approveCustomer({commit}, customerId) {
     return API.approveCustomerAPI({
-      organizeId: customerId
+      id: customerId
     }).then((res) => {
       if (isSuccess(res)) {
         Message({
           showClose: true,
-          message: '提审成功',
+          message: '您已成功提审该条集团客户信息！',
           type: 'success',
           duration: 3000
         });
@@ -222,7 +221,18 @@ const actions = {
    * @param {Object} params 参数
    */
   auditCustomer({commit}, params) {
-    return API.auditCustomerAPI(params);
+    return API.auditCustomerAPI(params).then((res) => {
+      if (isSuccess(res)) {
+        Message({
+          message: '审核成功',
+          type: 'success',
+          duration: 3000
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: '/group-customer/audit-manage'
+        });
+      }
+    });
   },
   /**
    * 集团客户总览-查看主页-查询订购产品
@@ -235,6 +245,20 @@ const actions = {
         commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, res.data);
       } else {
         commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, {});
+      }
+    });
+  },
+  /**
+   * 查询审核集团客户流程
+   */
+  queryProcesses({commit}, processInsId) {
+    API.queryCustomerProcessedAPI({
+      processInsId
+    }).then(res => {
+      if (isSuccess(res)) {
+        commit(types.GROUP_CUSTOMER_PROCESSES, res.data);
+      } else {
+        commit(types.GROUP_CUSTOMER_PROCESSES, []);
       }
     });
   }

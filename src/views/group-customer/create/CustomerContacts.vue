@@ -249,7 +249,7 @@ export default {
 };
 </script>
 <style lang="scss">
-$form-item-width: 336px;
+$form-item-width: 320px;
 
 .contact_create{
 
