@@ -22,6 +22,7 @@
 
     <el-tabs v-model="status">
       <el-tab-pane label="全部"></el-tab-pane>
+      <el-tab-pane label="草稿"></el-tab-pane>
       <el-tab-pane label="待签约"></el-tab-pane>
       <el-tab-pane label="待付款"></el-tab-pane>
       <el-tab-pane label="已完成"></el-tab-pane>

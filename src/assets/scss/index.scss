@@ -48,14 +48,14 @@
 .breadcrumb {
   padding-left: $blockWidth;
 }
-.form-input-320 {
-  width: 320px !important;
+.form-input-large {
+  width: $formLargeWidth !important;
 }
-.form-input-240 {
-  width: 240px !important;
+.form-input-medium {
+  width: $formMediumWidth !important;
 }
-.form-input-150 {
-  width: 150px !important;
+.form-input-half {
+  width: $formhalfWidth !important;
 }
 
 .form-input-100 {
@@ -73,7 +73,7 @@
   padding-right: 4px;
   display: inline-block;
 }
-.form-input-240 .el-input-group__append {
+.form-input-medium .el-input-group__append {
   background-color: #fff;
   padding: 0 5px;
 }

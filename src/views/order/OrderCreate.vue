@@ -9,20 +9,20 @@
       </div>
     </div>
     <div class="m-container order-create">
-      <el-form :label-position="'right'" label-width="200px" :model="orderCreate" ref="orderForm" :rules="orderCreateRules">
+      <el-form :label-position="'right'" label-width="140px" :model="orderCreate" ref="orderForm" :rules="orderCreateRules">
         <el-form-item label="订单名称：" prop="staffName">
-          <el-input class="form-input-240" v-model="orderCreate.staffName" placeholder="请输入名称" />
+          <el-input class="form-input-medium" v-model="orderCreate.staffName" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="预定合同金额：" prop="staffName">
-          <el-input class="form-input-240" v-model="orderCreate.staffName" placeholder="请输入合同金额">
+          <el-input class="form-input-medium" v-model="orderCreate.staffName" placeholder="请输入合同金额">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
         <el-form-item label="预定签约时间：" prop="staffName">
-          <el-date-picker class="form-input-240" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.date" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.date" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="staffName">
-          <el-input class="form-input-240" v-model="orderCreate.staffName" placeholder="请输入合同金额" />
+          <el-input class="form-input-medium" v-model="orderCreate.staffName" placeholder="请输入合同金额" />
         </el-form-item>
         <el-form-item label="项目是否招标：" prop="staffName">
           <el-radio v-model="orderCreate.radio" :label="1">是</el-radio>
@@ -41,16 +41,15 @@
           <el-form-item prop="tel" style="display: inline-block;">
             <el-input maxlength="11" class="form-input-120" v-model="orderCreate.tel" placeholder="手机号"></el-input>
           </el-form-item>
-          <!-- <div class="form-input-sep">-</div>
-          <el-form-item prop="email" style="display: inline-block;">
-            <el-input maxlength="35" class="form-input-132" v-model="orderCreate.email" placeholder="邮箱"></el-input>
-          </el-form-item> -->
+        </el-form-item>
+        <el-form-item label="联系邮箱：" prop="staffName">
+          <el-input class="form-input-320" v-model="orderCreate.email" placeholder="请输入邮箱" />
         </el-form-item>
         <el-form-item label="合作集团：" prop="group">
-          <el-autocomplete maxlength="25" class="form-input-150" v-model="orderCreate.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <el-autocomplete maxlength="25" class="form-input-half" v-model="orderCreate.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
           <div class="form-input-sep">-</div>
           <el-form-item prop="office" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-150" v-model="orderCreate.office" placeholder="办公地址"></el-input>
+            <el-input maxlength="50" class="form-input-half" v-model="orderCreate.office" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
 
@@ -77,7 +76,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -115,17 +114,5 @@ export default {
   margin-top: $blockWidth;
   display: flex;
   justify-content: center;
-}
-.form-input-70 {
-  width: 70px !important;
-}
-.form-input-112 {
-  width: 112px !important;
-}
-.form-input-132 {
-  width: 132px !important;
-}
-.form-input-216 {
-  width: 216px !important;
 }
 </style>
