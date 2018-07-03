@@ -146,6 +146,8 @@ export default {
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 提交商机
   submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 保存草稿商机
+  saveBusinessDraftAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 集团关联商机
   groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 删除商机
@@ -155,5 +157,9 @@ export default {
   // 获取提醒人
   getRemindPersonAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取指派处理人
-  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren')
+  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交分派
+  submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交作废
+  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren')
 };

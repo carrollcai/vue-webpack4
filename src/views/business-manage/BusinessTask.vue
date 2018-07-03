@@ -55,40 +55,34 @@
         </template>
       </el-table-column>
     </wm-table>
-    <el-dialog width="433px" height="312px" title="分派" :visible.sync="cancelDialogVisible">
+    <el-dialog width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
           <el-cascader style="width: 392px;" v-if="designPerson"
             :options="designPerson"
-            v-model="selectedDesignPerson"
+            v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
         </el-form-item>
         <el-form-item label="分派的原因：">
-          <el-input type="textarea" v-model="businessForm.businessName" placeholder="请输入优势能力"></el-input>
+          <el-input resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="cancelDialogVisible = false">确 定</el-button>
+        <el-button @click="sendCancel">取 消</el-button>
+        <el-button type="primary" @click="sendConfirm">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog width="433px" height="312px" title="分派" :visible.sync="cancelDialogVisible">
-      <el-form ref="form" :model="sendForm">
-        <el-form-item label="指派处理人：" prop="">
-          <el-cascader style="width: 392px;" v-if="designPerson"
-            :options="designPerson"
-            v-model="selectedDesignPerson"
-            @change="handleChange">
-          </el-cascader>
+    <el-dialog width="433px" height="312px" title="作废" :visible.sync="cancelDialogVisible">
+      <el-form ref="form" :model="cancelForm">
+        <el-form-item label="作废原因：">
+          <el-input resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
         </el-form-item>
-        <el-form-item label="分派的原因：">
-          <el-input type="textarea" v-model="businessForm.businessName" placeholder="请输入优势能力"></el-input>
-        </el-form-item>
+        <p class="tipsText">*如确定要作废该商机，请填写原因供创建者查看</p>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="cancelDialogVisible = false">确 定</el-button>
+        <el-button @click="cancelCancel">取 消</el-button>
+        <el-button type="primary" @click="cancelConfirm">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -122,9 +116,11 @@ export default {
       },
       cooperNum: '',
       cancelReason: '',
+      sendDialogVisible: false,
       cancelDialogVisible: false,
       sendForm: {
-        area: ''
+        person: [],
+        reason: ''
       },
       largeArea: [
         { 'label': '总部', 'value': '0' },
@@ -132,7 +128,10 @@ export default {
         { 'label': '销售大区', 'value': '2' }
       ],
       designPerson: [],
-      selectedDesignPerson: ''
+      selectedDesignPerson: '',
+      cancelForm: {
+        reason: ''
+      }
     };
   },
   watch: {
@@ -145,46 +144,80 @@ export default {
     this.query();
   },
   methods: {
+    // 分页
     onPagination(value) {
       this.businessForm.pageNo = value;
       this.query();
     },
+    // 改变页面展示条数
     onSizePagination(value) {
       this.businessForm.pageSize = value;
       this.query();
     },
+    // 查看详情
     handleDetail(row) {
       const path = `/business-manage/business-detail/${row.id}`;
       this.$router.push(path);
     },
+    // 点击转订单
     handleTrans(row) {
       const path = `/business-manage/transfor-order/${row.id}`;
       this.$router.push(path);
     },
+    // 点击分派
     handleSend(row) {
-      this.cancelDialogVisible = true;
+      this.sendDialogVisible = true;
       // 获取指派处理人
       this.getDesignatePerson().then((res) => {
         this.designPerson = res;
       });
     },
+    // 点击作废
     handleCancel(row) {
-      let option = '<p class="seTitle">作废的原因：</p>' +
-      '<textarea ref="cancelReason" class="zfinput" placeholder="请输入作废原因"></textarea>' +
-      '<p class="zftext">*如确定要作废该商机，请填写原因供创建者查看!</p>';
-      this.$prompt(option, '作废', {
-        dangerouslyUseHTMLString: true,
-        showInput: false
-      }).then(({ value }) => {
+      this.cancelDialogVisible = true;
+    },
+    // 分派取消
+    sendCancel() {
+      this.sendDialogVisible = false;
+      this.sendForm.person = [];
+      this.sendForm.reason = '';
+    },
+    // 分派确定
+    sendConfirm() {
+      let params = this.sendForm;
+      this.submitBusinessSend(params).then(res => {
         this.$message({
           type: 'success',
-          message: '作废成功！'
+          message: '您已成功分派！ '
         });
-      }).catch(() => {
+        // this.$message({
+        //   type: 'error',
+        //   message: '分派失败！ '
+        // });
+        this.sendDialogVisible = false;
+        this.sendForm.person = [];
+        this.sendForm.reason = '';
+      });
+    },
+    // 作废取消
+    cancelCancel() {
+      this.cancelDialogVisible = false;
+      this.cancelForm.reason = '';
+    },
+    // 作废确定
+    cancelConfirm() {
+      let params = this.cancelForm;
+      this.submitBusinessCancel(params).then(res => {
         this.$message({
-          type: 'info',
-          message: '取消作废'
+          type: 'success',
+          message: '作废成功！ '
         });
+        // this.$message({
+        //   type: 'error',
+        //   message: '作废失败！ '
+        // });
+        this.cancelDialogVisible = false;
+        this.cancelForm.reason = '';
       });
     },
     query() {
@@ -219,7 +252,7 @@ export default {
     handleChange(value) {
     },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessList', 'getDesignatePerson', 'getRemindPerson'
+      'getCooperationGroupList', 'getBusinessList', 'getDesignatePerson', 'getRemindPerson', 'submitBusinessSend', 'submitBusinessCancel'
     ])
   }
 };
@@ -242,31 +275,19 @@ export default {
   margin-left: $formWidth;
 }
 // 弹出框样式设置
-.seTitle {
-  color: rgba(0, 0, 0, 0.85);
-  font-size: 14px;
+.el-dialog__body {
+  padding: 0px 20px;
 }
-.select {
-  width: 390px;
-  height: 32px;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  color: #606266;
+.el-form-item {
+  margin-bottom: 13px;
 }
-.zfinput {
-  width:358px;
-  height: 68px;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  padding: 10px 15px;
-  font-size:14px;
-  color: rgba(0, 0, 0, 0.25);
-  resize: none;
+.el-textarea__inner {
+  height: 88px;
 }
-.zftext {
+.tipsText {
   height: 20px;
   line-height: 20px;
   color: rgba(0, 0, 0, 0.25);
-  font-size: 14px;
+  font-size: 14px;padding-bottom:0px;
 }
 </style>

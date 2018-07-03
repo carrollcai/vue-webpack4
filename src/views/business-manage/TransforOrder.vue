@@ -85,10 +85,10 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="订单描述：" prop="desc">
-          <el-input maxlength="500" class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.desc"></el-input>
+          <el-input maxlength="500" class="commonWidth6" type="textarea" :rows="3" placeholder="请输入订单描述" v-model="form.desc"></el-input>
         </el-form-item>
         <el-form-item label="订单需求：" prop="command">
-          <el-input class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.command"></el-input>
+          <el-input class="commonWidth6" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="form.command"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
           <el-input maxlength="500" class="commonWidth6" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.problem"></el-input>
@@ -114,75 +114,102 @@ export default {
       },
       rules: {
         ordername: [
-          { required: true, message: '请输入订单名称', trigger: 'change' }
+          { required: true, message: '请输入订单名称', trigger: ['blur', 'change'] }
         ],
         group: [
-          { required: true, message: '请输入合作集团/编码', trigger: 'blur' }
+          { required: true, message: '请输入合作集团/编码', trigger: ['blur', 'change'] }
         ],
         office: [
-          { required: true, message: '请输入办公地址', trigger: 'blur' }
+          { required: true, message: '请输入办公地址', trigger: ['blur', 'change'] }
         ],
         name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
         ],
         sex: [
-          { required: true, message: '请选择性别', trigger: 'change' }
+          { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
         tel: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
+          { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确' }
         ],
         email: [
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { required: true, message: '请输入邮箱地址', trigger: ['blur', 'change'] },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ],
         desc: [
-          { required: true, message: '请输入业务描述', trigger: 'blur' }
+          { required: true, message: '请输入订单描述', trigger: ['blur', 'change'] }
         ],
         command: [
-          { required: true, message: '请输入业务需求', trigger: 'blur' }
+          { required: true, message: '请输入订单需求', trigger: ['blur', 'change'] }
         ],
         income: [
-          { required: true, message: '请输入预计收入', trigger: 'blur' }
+          { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] },
+          { pattern: /^\d{1,5}(?:\.\d{1,4})?$/, message: '整数部分最多5位，小数部分最多4位' }
         ],
-        signTime: [
-          { required: true, message: '请选择预计签约时间', trigger: 'blur' }
+        signtime: [
+          { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
         ],
         protoTime: [
-          { required: true, message: '请选择预计协议期', trigger: 'change' }
+          { required: true, message: '请选择预计协议期', trigger: ['blur', 'change'] }
         ],
         tender: [
-          { required: true, message: '请选择项目是否招标', trigger: 'change' }
+          { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
         ],
         orderproduct: [
-          { required: true, message: '请输入产品名称/编码', trigger: 'blur' }
+          { required: true, message: '请输入产品名称/编码', trigger: ['blur', 'change'] }
         ],
         conamount: [
-          { required: true, message: '请输入预计合同金额', trigger: 'blur' }
+          { required: true, message: '请输入预计合同金额', trigger: ['blur', 'change'] },
+          { pattern: /^\d{1,5}(?:\.\d{1,4})?$/, message: '整数部分最多5位，小数部分最多4位' }
         ]
       },
       protoTimeList: [
         { 'label': '1年', 'value': '0' },
         { 'label': '2年', 'value': '1' },
         { 'label': '3年（含）以上', 'value': '2' }
+      ],
+      options: [
+        { 'label': '男', 'value': '0' },
+        { 'label': '女', 'value': '1' }
       ]
     };
   },
   beforeMount() {
     this.getBusinessDetail();
+    this.getCooperationGroupList();
   },
   computed: {
     ...mapState({
-      businessDetail: ({ business }) => business.businessDetail
+      businessDetail: ({ business }) => business.businessDetail,
+      cooperationGroupList: ({ business }) => business.cooperationGroupList
     })
   },
   methods: {
+    querySearchAsync(queryString, cb) {
+      var cooperationGroupList = this.cooperationGroupList;
+      var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 100 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
+    },
+    handleSelect(item) {
+      this.form.office = item.id;
+      this.getOfficeAddress();
+    },
     submit() {
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
       });
     },
     ...mapActions([
-      'getBusinessDetail'
+      'getBusinessDetail', 'getCooperationGroupList', 'getOfficeAddress'
     ])
   }
 };

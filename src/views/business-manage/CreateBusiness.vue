@@ -82,7 +82,7 @@
         </el-form-item>
         <div class="b-container">
           <el-form-item label="提醒人：">
-            <el-select class="commonWidth1" v-model="designatePerson" placeholder="请选择提醒人" multiple>
+            <el-select class="commonWidth1" v-model="form.linkman" placeholder="请选择提醒人" multiple>
                 <el-option
                 v-for="item in designatePerson"
                 :key="item.value"
@@ -125,6 +125,7 @@ export default {
         problem: '',
         linkman: ''
       },
+      resetForm: {},
       businessCategoryList: [
         { 'label': '公司级商机', 'value': '0' },
         { 'label': '分公司级商机', 'value': '1' },
@@ -141,50 +142,52 @@ export default {
       ],
       rules: {
         category: [
-          { required: true, message: '请选择商机类别', trigger: 'change' }
+          { required: true, message: '请选择商机类别', trigger: ['blur', 'change'] }
         ],
         group: [
-          { required: true, message: '请输入合作集团/编码', trigger: 'blur' }
+          { required: true, message: '请输入合作集团/编码', trigger: ['blur', 'change'] }
         ],
         office: [
-          { required: true, message: '请输入办公地址', trigger: 'blur' }
+          { required: true, message: '请输入办公地址', trigger: ['blur', 'change'] }
         ],
         name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
         ],
         sex: [
-          { required: true, message: '请选择性别', trigger: 'change' }
+          { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
         tel: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
-          // { validator: this.textLimit, trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
+          { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确' }
         ],
         email: [
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { required: true, message: '请输入邮箱地址', trigger: ['blur', 'change'] },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ],
         desc: [
-          { required: true, message: '请输入业务描述', trigger: 'blur' }
+          { required: true, message: '请输入业务描述', trigger: ['blur', 'change'] }
         ],
         command: [
-          { required: true, message: '请输入业务需求', trigger: 'blur' }
+          { required: true, message: '请输入业务需求', trigger: ['blur', 'change'] }
         ],
         income: [
-          { required: true, message: '请输入预计收入', trigger: 'blur' }
+          { pattern: /^\d{1,5}(?:\.\d{1,4})?$/, message: '整数部分最多5位，小数部分最多4位' },
+          { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] }
         ],
         signTime: [
-          { required: true, message: '请选择预计签约时间', trigger: 'blur' }
+          { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
         ],
         protoTime: [
-          { required: true, message: '请选择预计协议期', trigger: 'change' }
+          { required: true, message: '请选择预计协议期', trigger: ['blur', 'change'] }
         ],
         tender: [
-          { required: true, message: '请选择项目是否招标', trigger: 'change' }
+          { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
         ]
       }
     };
   },
   beforeMount() {
+    this.resetForm = Object.cloneDeep(this.form);
     // this.getBusinessCategoryList();
     this.getCooperationGroupList();
     // this.getDesignatePerson();
@@ -221,15 +224,25 @@ export default {
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
+        this.submitBusinessOppority(params).then(res => {
+          this.reset();
+        });
       });
-      this.submitBusinessOppority(params);
     },
     save() {
       const params = this.form;
-      this.submitBusinessOppority(params);
+      this.$refs['businessForm'].validate(valid => {
+        if (!valid) return false;
+        this.saveBusinessDraft(params).then(res => {
+          this.reset();
+        });
+      });
+    },
+    reset() {
+      this.form = this.resetForm;
     },
     ...mapActions([
-      'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList'
+      'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList', 'saveBusinessDraft'
     ])
   }
 };
