@@ -14,7 +14,7 @@
         <el-form-item class="task-form-item">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
-        <el-form-item class="role-form-item">
+        <el-form-item class="order-form-item">
           <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">新建订单</el-button>
         </el-form-item>
       </div>
@@ -81,8 +81,8 @@ export default {
       const path = `/order/overview/detail/${row.id}`;
       this.$router.push(path);
     },
-    handleCreate(row) {
-      const path = `/order/create/${row.id}`;
+    handleCreate() {
+      const path = `/order/manage/create`;
       this.$router.push(path);
     },
     query() {
@@ -110,5 +110,8 @@ export default {
 .o-form-item__input {
   width: $inputWidthQuery;
   margin-left: $blockWidth;
+}
+.order-form-item {
+  margin-left: $formWidth;
 }
 </style>

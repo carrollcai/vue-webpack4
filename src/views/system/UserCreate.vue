@@ -158,7 +158,4 @@ export default {
   display: flex;
   justify-content: center;
 }
-.form-input {
-  width: 468px;
-}
 </style>

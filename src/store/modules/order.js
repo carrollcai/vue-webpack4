@@ -12,7 +12,19 @@ const state = {
     date: [],
     nameOrCode: ''
   },
-  orderList: []
+  orderList: [],
+
+  orderCreate: {
+    staffName: '',
+    date: '',
+    name: '',
+    gender: '',
+    tel: null,
+    email: '',
+    group: '',
+    office: '',
+    radio: 1
+  }
 };
 
 const mutations = {
