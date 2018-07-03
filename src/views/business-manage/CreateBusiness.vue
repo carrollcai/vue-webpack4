@@ -22,6 +22,7 @@
         </el-form-item>
         <el-form-item label="预计收入：" prop="income">
           <el-input v-model="form.income" class="commonWidth1" placeholder="请输入预计收入">
+            <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="signTime">
@@ -155,7 +156,8 @@ export default {
           { required: true, message: '请选择性别', trigger: 'change' }
         ],
         tel: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: this.textLimit, trigger: 'blur' }
         ],
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -185,7 +187,7 @@ export default {
   beforeMount() {
     // this.getBusinessCategoryList();
     this.getCooperationGroupList();
-    this.getDesignatePerson();
+    // this.getDesignatePerson();
   },
   computed: {
     ...mapState({
@@ -225,6 +227,9 @@ export default {
     save() {
       const params = this.form;
       this.submitBusinessOppority(params);
+    },
+    textLimit() {
+      return '0'
     },
     ...mapActions([
       'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList'
@@ -270,5 +275,9 @@ export default {
   color: rgb(0, 0, 0) 25%;
   padding-left: 4px;
   padding-right: 4px;
+}
+.el-input-group__append {
+    background-color: #fff;
+    padding: 0 5px;
 }
 </style>
