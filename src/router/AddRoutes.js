@@ -46,8 +46,9 @@ import CreateSaleStep02 from '@/views/product/create/CreateSaleStep02.vue';
 import OrderCreateManage from '@/views/order/CreateManage.vue';
 import OrderHandleTask from '@/views/order/HandleTask.vue';
 import OrderOverview from '@/views/order/Overview.vue';
-import OrderDetail from '@/views/order/OrderDetail.vue';
 import OrderCreate from '@/views/order/OrderCreate.vue';
+import OrderOverviewDetail from '@/views/order/OrderOverviewDetail.vue';
+import OrderHandleTaskDetail from '@/views/order/HandleTaskDetail.vue';
 
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
@@ -187,7 +188,8 @@ const dynamicRoutes = [
       { path: '/order/manage/:type/:id?', component: OrderCreate },
       { path: '/order/handle-task', component: OrderHandleTask },
       { path: '/order/overview', component: OrderOverview },
-      { path: '/order/overview/detail/:id', component: OrderDetail },
+      { path: '/order/overview/detail/:id', component: OrderOverviewDetail },
+      { path: '/order/handle-task/detail/:id', component: OrderHandleTaskDetail },
 
       { path: '*', component: Page404 }
     ]

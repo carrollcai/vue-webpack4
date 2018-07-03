@@ -7,6 +7,14 @@ const API = (url, method) => params => fetch(development + url, params, method |
 const download = url => params => {
   window.location.href = `${url}?${qs.stringify(params)}`;
 };
+const upload = (url, method) => params => {
+  let config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  };
+  fetch(development + url, params, 'post', config);
+};
 
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
@@ -55,6 +63,7 @@ export default {
 
   /* 订单管理 */
   getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
+  uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),

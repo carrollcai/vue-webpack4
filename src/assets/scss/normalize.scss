@@ -121,3 +121,11 @@ $menu-active-color: #FFFFFF;
 .el-table td, .el-table th {
   padding: 8px 0;
 }
+
+/* dialog弹窗的按钮左对齐 */
+.el-dialog__footer {
+  text-align: left !important;
+}
+.el-dialog--center .el-dialog__body {
+  padding: 20px 20px 0 20px;
+}
