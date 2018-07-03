@@ -153,7 +153,7 @@ const dynamicRoutes = [
         meta: { menuId: 10 }
       },
       {
-        path: '/business-manage/transfor-order',
+        path: '/business-manage/transfor-order/:id',
         name: 'transfor-order',
         component: TransforOrder,
         meta: { menuId: 10 }
@@ -184,7 +184,7 @@ const dynamicRoutes = [
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
 
       { path: '/order/create-manage', component: OrderCreateManage },
-      { path: 'order/manage/:type/:id?', commponent: OrderCreate },
+      { path: '/order/manage/:type/:id?', component: OrderCreate },
       { path: '/order/handle-task', component: OrderHandleTask },
       { path: '/order/overview', component: OrderOverview },
       { path: '/order/overview/detail/:id', component: OrderDetail },

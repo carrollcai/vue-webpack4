@@ -158,6 +158,8 @@ export default {
   delBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 商机草稿详情查询
   getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
+  // 获取提醒人
+  getRemindPersonAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取指派处理人
-  getDesignatePersonAPI: API('http://localhost:3618/business-manage/businessDetail')
+  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren')
 };
