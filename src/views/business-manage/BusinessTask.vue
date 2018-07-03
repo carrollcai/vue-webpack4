@@ -166,7 +166,7 @@ export default {
       // 获取指派处理人
       this.getDesignatePerson().then((res) => {
         this.designPerson = res;
-      })
+      });
     },
     handleCancel(row) {
       let option = '<p class="seTitle">作废的原因：</p>' +

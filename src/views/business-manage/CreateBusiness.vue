@@ -156,8 +156,8 @@ export default {
           { required: true, message: '请选择性别', trigger: 'change' }
         ],
         tel: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          { validator: this.textLimit, trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: 'blur' }
+          // { validator: this.textLimit, trigger: 'blur' }
         ],
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -227,9 +227,6 @@ export default {
     save() {
       const params = this.form;
       this.submitBusinessOppority(params);
-    },
-    textLimit() {
-      return '0'
     },
     ...mapActions([
       'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList'
