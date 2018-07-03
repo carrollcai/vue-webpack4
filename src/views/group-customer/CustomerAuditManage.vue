@@ -44,7 +44,7 @@
         :pageSize="params.pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="organizeCode" />
+        <el-table-column label="集团编码" property="businessId" />
         <el-table-column label="集团名称" property="organizeName">
         </el-table-column>
         <el-table-column label="集团属性" property="organizeType" >
@@ -57,7 +57,7 @@
             <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
               去审核
             </el-button>
-            <el-button type="text" v-else @click="handleEdit(scope.row)">
+            <el-button type="text" v-else @click="handleDetail(scope.row)">
               查看主页
             </el-button>
           </template>
@@ -107,12 +107,11 @@ export default {
       this.params.pageSize = value;
       this.query();
     },
-    handleEdit(row) {
-      const path = `/system/user/edit/${row.operatorId}`;
-      this.$router.push(path);
+    handleDetail(row) {
+      this.$router.push(`/group-customer/overview/detail/${row.businessId}`);
     },
     handleAudit(row) {
-      this.$router.push(`/group-customer/audit/${row.organizeCode}`);
+      this.$router.push(`/group-customer/audit/${row.businessId}/${row.taskInsId}`);
     },
     getParams() {
       const {params} = this;

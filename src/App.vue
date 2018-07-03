@@ -32,6 +32,7 @@ export default {
 @import "scss/views/retention.scss";
 @import "scss/views/page-error.scss";
 @import "scss/views/task.scss";
+@import "scss/views/order.scss";
 
 .app {
   height: 100vh;

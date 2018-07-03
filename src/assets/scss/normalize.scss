@@ -96,11 +96,11 @@ $menu-active-color: #FFFFFF;
 /* sidebar选中状态加背景 */
 
 .el-menu-item.is-active {
-  background-color: #ecf5ff;
+  background-color: #e6f7ff;
 }
 
-/* 去除el-scrollbar滚动条 */ 
-.el-scrollbar__wrap {
+/* 去除整体布局el-scrollbar滚动条，并且不影响到其他el-scrollbar__wrap组件 */
+.app-aside-scroll > .el-scrollbar__wrap, .app-menu > .el-scrollbar__wrap {
   overflow-x: hidden;
 }
 
@@ -120,4 +120,100 @@ $menu-active-color: #FFFFFF;
 /* table th 高度设置为 50 */
 .el-table td, .el-table th {
   padding: 8px 0;
+}
+
+.el-button--primary{
+  background-color: $primary-background-color;
+  &.is-disabled{
+    background-color: $primary-disabled-border-color;
+    border-color: $primary-disabled-border-color;
+    &:active, &:focus, &:hover{
+      background-color: $primary-disabled-border-color;
+      border-color: $primary-disabled-border-color;
+    }
+  }
+}
+
+.el-button--default{
+  color: $primary-color;
+  border-color: $primary-border-color;
+
+  &:focus, &:hover {
+    color: #FFFFFF;
+    border-color: $primary-border-color;
+    background-color: $primary-background-color;
+  }
+}
+
+.el-button--text{
+  color: $primary-color;
+}
+
+.el-tabs__item{
+  &:hover, &.is-active{
+    color: $primary-color;
+  }
+}
+
+.el-tabs__active-bar{
+  background-color: $primary-background-color;
+}
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner{
+  background-color: $primary-background-color;
+  border-color: $primary-border-color;
+}
+
+.el-radio__input.is-checked{
+  &+.el-radio__label{
+    color: $primary-color;
+  }
+
+  .el-radio__inner{
+    border-color: $primary-border-color;
+    background: $primary-background-color;
+  }
+}
+
+.el-input.is-active .el-input__inner,
+.el-input__inner:focus,
+.el-select .el-input.is-focus .el-input__inner,
+.el-textarea__inner:focus,
+.el-pagination__sizes .el-input .el-input__inner:hover{
+  border-color: $primary-border-color;
+}
+
+.el-select-dropdown__item.selected{
+  color: $primary-color;
+}
+
+.el-form-item.is-error .el-input__inner,
+.el-form-item.is-error .el-input__inner:focus,
+.el-form-item.is-error .el-textarea__inner,
+.el-form-item.is-error .el-textarea__inner:focus,
+.el-message-box__input input.invalid,
+.el-message-box__input input.invalid:focus,{
+  border-color: $danger-color;
+}
+
+.el-form-item__error{
+  color: $danger-color;
+}
+
+/**日期选择器*/
+.el-date-table td{
+  &.current:not(.disabled) span, &.start-date span, &.end-date span{
+    background-color: $primary-background-color;
+  }
+  &.today span, &.available:hover {
+    color: $primary-color;
+  }
+}
+
+.el-range-editor.is-active, .el-range-editor.is-active:hover{
+  border-color: $primary-border-color;
+}
+
+.el-pager li.active{
+  color: $primary-color;
 }

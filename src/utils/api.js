@@ -95,7 +95,9 @@ export default {
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
   // 新增集团客户
   createCustomerAPI: API('/esop/organize/create'),
-  // 新增、提审集团客户
+  /**
+   * 新增集团客户-立即提审
+   */
   createApproveCustomerAPI: API('/esop/organize/createApprove'),
 
   /**
@@ -115,6 +117,10 @@ export default {
    * 查询集团客户 快照
    */
   queryCustomerSnapshotAPI: API('/esop/organize/querySnapShort'),
+  /**
+   * 查询审核集团客户的流程
+   */
+  queryCustomerProcessedAPI: API('/esop/processInfo/query'),
 
   /**
    * 删除集团客户

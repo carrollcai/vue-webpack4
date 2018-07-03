@@ -14,7 +14,7 @@
         <el-form-item class="task-form-item">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
-        <el-form-item class="role-form-item">
+        <el-form-item class="order-form-item">
           <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">新建订单</el-button>
         </el-form-item>
       </div>
@@ -22,6 +22,7 @@
 
     <el-tabs v-model="status">
       <el-tab-pane label="全部"></el-tab-pane>
+      <el-tab-pane label="草稿"></el-tab-pane>
       <el-tab-pane label="待签约"></el-tab-pane>
       <el-tab-pane label="待付款"></el-tab-pane>
       <el-tab-pane label="已完成"></el-tab-pane>
@@ -82,7 +83,7 @@ export default {
       this.$router.push(path);
     },
     handleCreate() {
-      const path = `/order/create/${row.id}`;
+      const path = `/order/manage/create`;
       this.$router.push(path);
     },
     query() {
@@ -110,5 +111,8 @@ export default {
 .o-form-item__input {
   width: $inputWidthQuery;
   margin-left: $blockWidth;
+}
+.order-form-item {
+  margin-left: $formWidth;
 }
 </style>

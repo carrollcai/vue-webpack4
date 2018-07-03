@@ -63,6 +63,9 @@
             <el-button type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
+            <el-button type="text" v-if="isPassed(scope.row)" @click="handleEdit(scope.row)">
+              修改
+            </el-button>
             <template v-if="isDraft(scope.row)">
               <el-dropdown @command="handleCommand(scope.row, $event)">
                 <span class="el-dropdown-link">
@@ -115,8 +118,17 @@ export default {
     this.query();
   },
   methods: {
+    /**
+     * 草稿状态
+     */
     isDraft(row) {
       return row.orgTaskStatus === '1';
+    },
+    /**
+     * 审核通过
+     */
+    isPassed(row) {
+      return row.orgTaskStatus === '4' || row.orgTaskStatus === '3' || row.orgTaskStatus === '6';
     },
     onPagination(value) {
       this.params.pageNo = value;
@@ -138,7 +150,7 @@ export default {
       this.$router.push(`/group-customer/detail/${row.organizeId}`);
     },
     handleDelete(row) {
-      this.$confirm('删除集团客户数据, 是否继续?', ' ', {
+      this.$confirm('您确定要删除该条集团客户信息？', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -151,7 +163,7 @@ export default {
       });
     },
     handleApprove(row) {
-      this.$confirm('提审集团客户数据, 是否继续?', ' ', {
+      this.$confirm('您确定要提审该条集团客户信息？', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
