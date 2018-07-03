@@ -7,6 +7,14 @@ const API = (url, method) => params => fetch(development + url, params, method |
 const download = url => params => {
   window.location.href = `${url}?${qs.stringify(params)}`;
 };
+const upload = (url, method) => params => {
+  let config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  };
+  fetch(development + url, params, 'post', config);
+};
 
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
@@ -55,6 +63,7 @@ export default {
 
   /* 订单管理 */
   getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
+  uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
@@ -152,6 +161,8 @@ export default {
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 提交商机
   submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 保存草稿商机
+  saveBusinessDraftAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 集团关联商机
   groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 删除商机
@@ -161,5 +172,9 @@ export default {
   // 获取提醒人
   getRemindPersonAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取指派处理人
-  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren')
+  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交分派
+  submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交作废
+  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren')
 };

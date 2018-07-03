@@ -2,19 +2,19 @@ import axios from 'axios';
 import store from '../../store';
 import { Message } from 'element-ui';
 
-export const fetch = (url, params, method) => {
+export const fetch = (url, params, method, config) => {
   store.commit('SHOW_PAGE_LOADING');
 
   return new Promise((resolve, reject) => {
     let ajx;
     if (method === 'get') {
-      ajx = axios.get(url, params);
+      ajx = axios.get(url, params, config);
     } else if (method === 'delete') {
-      ajx = axios.delete(url, params);
+      ajx = axios.delete(url, params, config);
     } else if (method === 'put') {
-      ajx = axios.put(url, params);
+      ajx = axios.put(url, params, config);
     } else {
-      ajx = axios.post(url, params);
+      ajx = axios.post(url, params, config);
     }
 
     ajx.then(res => {

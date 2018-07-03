@@ -41,6 +41,17 @@
           <el-button type="text" @click="handleDetail(scope.row)">
             详情
           </el-button>
+          <el-dropdown @command="handleCommand(scope.row, $event)">
+            <span class="el-dropdown-link">
+              更多
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item class="el-dropdown-link" command="submit">提交</el-dropdown-item>
+              <el-dropdown-item class="el-dropdown-link" command="edit">修改</el-dropdown-item>
+              <el-dropdown-item class="el-dropdown-link" command="delete">删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </wm-table>
@@ -70,6 +81,14 @@ export default {
     this.getOrderList(this.orderOverviewForm);
   },
   methods: {
+    handleCommand(row, command) {
+      let COMMANDS = {
+        'edit': 'handleEdit',
+        'delete': 'handleDelete',
+        'submit': 'handleSubmit'
+      };
+      this[COMMANDS[command]](row);
+    },
     onPagination(value) {
       this.orderOverviewForm.pageNo = value;
       this.query();
@@ -114,5 +133,9 @@ export default {
 }
 .order-form-item {
   margin-left: $formWidth;
+}
+.el-dropdown-link{
+  color: $buttonColor;
+  cursor: pointer;
 }
 </style>
