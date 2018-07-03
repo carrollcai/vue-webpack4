@@ -140,44 +140,45 @@ export default {
       ],
       rules: {
         category: [
-          { required: true, message: '请选择商机类别', trigger: 'change' }
+          { required: true, message: '请选择商机类别', trigger: ['blur', 'change'] }
         ],
         group: [
-          { required: true, message: '请输入合作集团/编码', trigger: 'blur' }
+          { required: true, message: '请输入合作集团/编码', trigger: ['blur', 'change'] }
         ],
         office: [
-          { required: true, message: '请输入办公地址', trigger: 'blur' }
+          { required: true, message: '请输入办公地址', trigger: ['blur', 'change'] }
         ],
         name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
         ],
         sex: [
-          { required: true, message: '请选择性别', trigger: 'change' }
+          { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
         tel: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
+          { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确' }
         ],
         email: [
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { required: true, message: '请输入邮箱地址', trigger: ['blur', 'change'] },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ],
         desc: [
-          { required: true, message: '请输入业务描述', trigger: 'blur' }
+          { required: true, message: '请输入业务描述', trigger: ['blur', 'change'] }
         ],
         command: [
-          { required: true, message: '请输入业务需求', trigger: 'blur' }
+          { required: true, message: '请输入业务需求', trigger: ['blur', 'change'] }
         ],
         income: [
-          { required: true, message: '请输入预计收入', trigger: 'blur' }
+          { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] }
         ],
         signTime: [
-          { required: true, message: '请选择预计签约时间', trigger: 'blur' }
+          { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
         ],
         protoTime: [
-          { required: true, message: '请选择预计协议期', trigger: 'change' }
+          { required: true, message: '请选择预计协议期', trigger: ['blur', 'change'] }
         ],
         tender: [
-          { required: true, message: '请选择项目是否招标', trigger: 'change' }
+          { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
         ]
       }
     };

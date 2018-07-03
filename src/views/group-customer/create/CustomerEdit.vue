@@ -297,8 +297,7 @@
           key="managerJob-input"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="createApproveCustomer">立即提审</el-button>
-        <el-button type="primary" @click="saveCustomer">保存草稿</el-button>
+        <el-button type="primary" @click="saveCustomer">立即提审</el-button>
         <el-button type="primary" @click="toSecondStepFromThird">上一步</el-button>
       </el-form-item>
     </el-form>
@@ -324,13 +323,6 @@ export default {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
           this.updateCustomer(this.customer);
-        }
-      });
-    },
-    createApproveCustomer() {
-      this.$refs.managerForm.validate((valid) => {
-        if (valid) {
-          this.createApproveCustomer(this.customer);
         }
       });
     },

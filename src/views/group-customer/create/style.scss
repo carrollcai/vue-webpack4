@@ -1,3 +1,5 @@
+@import '@/assets/scss/variables.scss';
+
 .customer-create {
   background: #FFF;
   padding: 24px;
@@ -14,7 +16,7 @@
     width: 550px;
     margin: 0 auto;
     .el-input, .el-textarea {
-      width: 336px;
+      width: $formLargeWidth;
     }
   }
   .not-required {

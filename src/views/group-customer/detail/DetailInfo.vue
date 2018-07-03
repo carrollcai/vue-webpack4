@@ -1,6 +1,6 @@
 <template>
   <div class="customer-detail_info">
-      <activity></activity>
+      <activity :process-id="customer.processInsId" v-if="customer.processInsId"></activity>
       <div class="block-title base-info_title">
         基本信息
         <span class="base-info_title-sub" @click="showMore = !showMore">更多信息</span>
@@ -261,6 +261,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
   .customer-detail_audit,
   .customer-detail_info{
     background: #FFFFFF;
@@ -268,6 +269,11 @@ export default {
 
   .customer-detail_audit{
     margin-top: 16px;
+    padding: 24px 0 10px 0;
+
+    .el-textarea{
+      width: $formLargeWidth;
+    }
   }
 
   .customer-detail_info{
@@ -279,7 +285,7 @@ export default {
     }
 
     .base-info_title-sub{
-      color: rgba(55, 120, 255, 1);
+      color: $primary-color;
       font-size: 14px;
       cursor: pointer;
     }

@@ -15,110 +15,7 @@ export default {
     contacts: {
       type: Array,
       default() {
-        return [
-          {
-            'contactId': 1021,
-            'name': '王成功',
-            'department': '技术部',
-            'age': '2',
-            'ageValue': '25-30',
-            'gender': '2',
-            'genderValue': '女',
-            'position': '总监',
-            'mobile': '18756944987',
-            'email': '18756944987@173.com',
-            'manageScope': '18756944987',
-            'responsibility': '18756944987',
-            'maritalStatus': '',
-            'contactFamilyDtoList': []
-          },
-          {
-            'contactId': 10013,
-            'name': 'BOSS',
-            'department': 'BOSS',
-            'age': '2',
-            'ageValue': '25-30',
-            'gender': '2',
-            'genderValue': '女',
-            'position': '总监',
-            'mobile': '18756944987',
-            'email': '18756944987@173.com',
-            'manageScope': '18756944987',
-            'responsibility': '18756944987',
-            'maritalStatus': '',
-            'contactFamilyDtoList': []
-          },
-          {
-            'contactId': 1019,
-            'name': '新联系人',
-            'department': '技术部',
-            'age': '3',
-            'ageValue': '30-40',
-            'gender': '0',
-            'genderValue': '未知',
-            'position': '很长的技术部你知道吗',
-            'mobile': '18756694498',
-            'email': '18756694498@173.com',
-            'manageScope': '18756694498',
-            'responsibility': '18756694498',
-            'maritalStatus': '',
-            'contactFamilyDtoList': [],
-            parentContactId: 1021
-          },
-          {
-            'contactId': 1020,
-            'name': '一一',
-            'department': '技术部',
-            'age': '3',
-            'ageValue': '30-40',
-            'gender': '1',
-            'genderValue': '男',
-            'position': '研发总监',
-            'mobile': '13589666999',
-            'email': '13589666999@173.com',
-            'manageScope': '打杂',
-            'responsibility': '打杂',
-            'interests': '打杂',
-            'maritalStatus': '1',
-            'maritalStatusValue': '已婚',
-            'contactFamilyDtoList': [],
-            parentContactId: 1021
-          },
-          {
-            'contactId': 10251,
-            'name': '王成功1',
-            'department': '技术部1',
-            'age': '2',
-            'ageValue': '25-30',
-            'gender': '2',
-            'genderValue': '女',
-            'position': '总监2',
-            'mobile': '18756944987',
-            'email': '18756944987@173.com',
-            'manageScope': '18756944987',
-            'responsibility': '18756944987',
-            'maritalStatus': '',
-            'contactFamilyDtoList': [],
-            parentContactId: 1019
-          },
-          {
-            'contactId': 10241,
-            'name': '王成功2',
-            'department': '技术部2',
-            'age': '2',
-            'ageValue': '25-30',
-            'gender': '2',
-            'genderValue': '女',
-            'position': '总监2',
-            'mobile': '18756944987',
-            'email': '18756944987@173.com',
-            'manageScope': '18756944987',
-            'responsibility': '18756944987',
-            'maritalStatus': '',
-            'contactFamilyDtoList': [],
-            parentContactId: 1020
-          }
-        ];
+        return [];
       }
     }
   },
@@ -133,17 +30,19 @@ export default {
       STEP: 20
     };
   },
+  watch: {
+    contacts() {
+      this.init();
+    }
+  },
   methods: {
-    demo() {
-
-    },
     list2Tree(data) {
       const fu = (dad, num, deep) => {
         const cd = dad.filter((item, index, array) => item.parentContactId === num);
         deep += 1;
         cd.map((item, index, array) => {
           const cc = fu(dad, item.contactId, deep);
-          array[index].children.push(cc);
+          array[index].children = cc;
           array[index].deep = deep;
         });
         return cd;
@@ -186,7 +85,7 @@ export default {
           parentContactId: contact.parentContactId,
           label: that.richLabel(contact)
         });
-        let children = contact.children[0];
+        let children = contact.children;
         if (children && children.length) {
           for (let item of children) {
             deepFn(item);

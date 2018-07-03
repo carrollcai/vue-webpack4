@@ -5,7 +5,6 @@
       <step title="集团联系人"></step>
       <step title="指定客户经理"></step>
     </steps>
-    {{customer}}
     <el-form :model="customer"
       v-if="isFirstStep()"
       ref="baseForm"

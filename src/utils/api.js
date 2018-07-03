@@ -104,7 +104,9 @@ export default {
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
   // 新增集团客户
   createCustomerAPI: API('/esop/organize/create'),
-  // 新增、提审集团客户
+  /**
+   * 新增集团客户-立即提审
+   */
   createApproveCustomerAPI: API('/esop/organize/createApprove'),
 
   /**
@@ -124,6 +126,10 @@ export default {
    * 查询集团客户 快照
    */
   queryCustomerSnapshotAPI: API('/esop/organize/querySnapShort'),
+  /**
+   * 查询审核集团客户的流程
+   */
+  queryCustomerProcessedAPI: API('/esop/processInfo/query'),
 
   /**
    * 删除集团客户
@@ -155,6 +161,8 @@ export default {
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 提交商机
   submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  // 保存草稿商机
+  saveBusinessDraftAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 集团关联商机
   groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 删除商机
@@ -164,5 +172,9 @@ export default {
   // 获取提醒人
   getRemindPersonAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取指派处理人
-  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren')
+  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交分派
+  submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交作废
+  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren')
 };

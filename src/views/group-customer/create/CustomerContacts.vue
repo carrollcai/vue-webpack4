@@ -249,7 +249,8 @@ export default {
 };
 </script>
 <style lang="scss">
-$form-item-width: 336px;
+@import '@/assets/scss/variables.scss';
+$form-item-width: $formLargeWidth;
 
 .contact_create{
 
