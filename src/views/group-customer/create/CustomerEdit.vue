@@ -213,8 +213,10 @@
           width="180">
         </el-table-column>
         <el-table-column
-          prop="gender"
           label="性别">
+          <template slot-scope="scope">
+            {{genderFilter(scope.row.gender)}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="department"

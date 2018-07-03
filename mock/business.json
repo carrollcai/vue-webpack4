@@ -154,5 +154,77 @@
       },
       "data": "success"
     }
+  },
+  {
+    "url": "/business-manage/chuliren",
+    "desc": "商机总览",
+    "mock": true,
+    "res": {
+      "errorInfo": {
+        "code": "200",
+        "message": "请求成功"
+      },
+      "data": {
+        "list": [{
+          "value": "zongbu",
+          "label": "总部",
+          "children": [{
+            "value": "zongbu1",
+            "label": "总部1",
+            "children": [{
+              "value": "yizhi",
+              "label": "一致"
+            }, {
+              "value": "fankui",
+              "label": "反馈"
+            }, {
+              "value": "xiaolv",
+              "label": "效率"
+            }, {
+              "value": "kekong",
+              "label": "可控"
+            }]
+          }]
+        },
+        {
+          "value": "miguzigongsi",
+          "label": "咪咕子公司",
+          "children": [{
+            "value": "miguyinyue",
+            "label": "咪咕音乐",
+            "children": [{
+              "value": "yizhi",
+              "label": "一致"
+            }, {
+              "value": "fankui",
+              "label": "反馈"
+            }, {
+              "value": "xiaolv",
+              "label": "效率"
+            }, {
+              "value": "kekong",
+              "label": "可控"
+            }]
+          },
+          {
+            "value": "migushipin",
+            "label": "咪咕视频",
+            "children": [{
+              "value": "yizhi",
+              "label": "一致"
+            }, {
+              "value": "fankui",
+              "label": "反馈"
+            }, {
+              "value": "xiaolv",
+              "label": "效率"
+            }, {
+              "value": "kekong",
+              "label": "可控"
+            }]
+          }]
+        }]
+      }
+    }
   }
 ]

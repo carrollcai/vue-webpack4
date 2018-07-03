@@ -153,7 +153,7 @@ const dynamicRoutes = [
         meta: { menuId: 10 }
       },
       {
-        path: '/business-manage/transfor-order',
+        path: '/business-manage/transfor-order/:id',
         name: 'transfor-order',
         component: TransforOrder,
         meta: { menuId: 10 }
