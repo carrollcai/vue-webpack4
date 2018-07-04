@@ -141,7 +141,6 @@ $menu-active-color: #FFFFFF;
 }
 
 /*Button*/
-
 .el-button--primary {
   background-color: $primary-background-color;
   &.is-disabled {
@@ -169,111 +168,4 @@ $menu-active-color: #FFFFFF;
 
 .el-button--text {
   color: $primary-color;
-}
-
-/*Tab*/
-
-.el-tabs__item {
-  &:hover,
-  &.is-active {
-    color: $primary-color;
-  }
-}
-
-.el-tabs__active-bar {
-  background-color: $primary-background-color;
-}
-
-/*表单 组件*/
-
-.el-radio-button__orig-radio:checked+.el-radio-button__inner {
-  background-color: $primary-background-color;
-  border-color: $primary-border-color;
-}
-
-.el-radio__input.is-checked {
-  &+.el-radio__label {
-    color: $primary-color;
-  }
-  .el-radio__inner {
-    border-color: $primary-border-color;
-    background: $primary-background-color;
-  }
-}
-
-.el-input.is-active .el-input__inner,
-.el-input__inner:focus,
-.el-textarea__inner:focus {
-  border-color: $primary-border-color;
-}
-
-.el-select {
-  .el-input__inner:focus,
-  .el-input.is-focus .el-input__inner{
-    border-color: $primary-border-color;
-  }
-}
-.el-select-dropdown__item.selected {
-  color: $primary-color;
-}
-
-/* 表单错误提示 */
-
-.el-form-item.is-error {
-  .el-input__inner,
-  .el-input__inner:focus,
-  .el-textarea__inner,
-  .el-textarea__inner:focus {
-    border-color: $danger-color;
-  }
-}
-
-.el-message-box__input input.invalid,
-.el-message-box__input input.invalid:focus {
-  border-color: $danger-color;
-}
-
-.el-form-item.is-success {
-  .el-input__inner,
-  .el-input__inner:focus,
-  .el-textarea__inner,
-  .el-textarea__inner:focus {
-    border-color: $success-color;
-  }
-}
-
-.el-form-item__error {
-  color: $danger-color;
-}
-
-/* 日期选择器 */
-
-.el-date-table td {
-  &.current:not(.disabled) span,
-  &.start-date span,
-  &.end-date span {
-    background-color: $primary-background-color;
-  }
-  &.today span,
-  &.available:hover {
-    color: $primary-color;
-  }
-}
-
-.el-range-editor.is-active,
-.el-range-editor.is-active:hover {
-  border-color: $primary-border-color;
-}
-
-/*分页*/
-
-.el-pager li {
-  &:hover,
-  &.active {
-    color: $primary-color;
-  }
-}
-
-.el-pagination__sizes .el-input .el-input__inner:hover {
-  border-color: $primary-border-color;
 }
