@@ -16,18 +16,17 @@
       </el-form-item>
       <el-form-item label="产品类别：" label-width="110px" prop="productType">
         <el-select style="width: 100%;" v-model="formData.productType" placeholder="请选择类别">
-          <el-option label="类别一" value="1"></el-option>
-          <el-option label="类别二" value="2"></el-option>
+          <el-option label="个人市场" value="0"></el-option>
+          <el-option label="政企市场" value="1"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="产品价格：" label-width="110px" prop="price">
         <el-input v-model="formData.price" placeholder="请输入价格"><template slot="append">元</template></el-input>
       </el-form-item>
-      <el-form-item label="负责人：" label-width="110px" class="demo-input-size" prop="wheelPople">
-        <el-input
-          v-model="formData.username" placeholder="姓名" style="width: 100px;"></el-input><span class="split">-</span>
-        <el-input v-model="formData.deptment" placeholder="部门" style="width: 100px;"></el-input><span class="split">-</span>
-        <el-input v-model="formData.position" placeholder="职业" style="width: 100px;"></el-input>
+      <el-form-item label="负责人：" required label-width="110px" class="col-item">
+        <el-col :span="8"><el-form-item prop="username"><el-input v-model="formData.username" placeholder="姓名" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
+        <el-col :span="8"><el-form-item prop="deptment"><el-input v-model="formData.deptment" placeholder="部门" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
+        <el-col :span="8"><el-form-item prop="position"><el-input v-model="formData.position" placeholder="职业" style="width: 100px;"></el-input></el-form-item></el-col>
       </el-form-item>
       <el-form-item label="产品介绍：" label-width="110px" prop="description">
         <el-input v-model="formData.description" placeholder="请输入介绍" type="textarea" :rows="3"></el-input>
@@ -41,26 +40,28 @@
 </template>
 
 <script>
-// import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
   },
   data() {
-    function isChinese(str) {
+    function getWordLen(str) {
+      var length = 0;
       for (var i = 0; i < str.length; i++) {
         if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
+          length += 2;
         } else {
-          return false;
+          length += 1;
         }
       }
-      return true;
+      return length;
     }
     var productNameFn = (rule, value, callback) => {
-      var flag = isChinese(value);
+      var len = getWordLen(value);
       if (value === '') {
         callback(new Error('请输入产品名称!'));
-      } else if (!flag || value.length > 15) {
+      } else if (len > 50) {
         callback(new Error('请输入在25个汉字以内产品名称!'));
       } else {
         callback();
@@ -74,28 +75,30 @@ export default {
       }
     };
     var priceFn = (rule, value, callback) => {
+      var vlaueNum = Number(value);
       if (value === '') {
         callback(new Error('请输入价格!'));
-      } else if (!Number.isInteger(value) && Number(value) < 100000000) {
+      } else if (!Number.isInteger(vlaueNum) || (Number.isInteger(vlaueNum) && vlaueNum > 100000000)) {
         callback(new Error('请输入9位以内的数字!'));
       } else {
         callback();
       }
     };
     var descriptionFn = (rule, value, callback) => {
-      var flag = isChinese(value);
+      var len = getWordLen(value);
       if (value === '') {
         callback(new Error('请输入产品介绍!'));
-      } else if (!flag || value.length > 500) {
+      } else if (len > 1000) {
         callback(new Error('请输入500个汉字以内产品介绍!'));
       } else {
         callback();
       }
     };
     return {
+      isAddProduct: this.$route.params.id | false,
       formData: {
         productId: '',
-        // productName: '',
+        productName: '',
         productType: '',
         price: '',
         description: '',
@@ -106,6 +109,18 @@ export default {
         salesList: []
       },
       formDataValid: {
+        username: [
+          { required: true, message: '请输入负责人姓名', trigger: 'blur' },
+          { min: 1, max: 6, message: '姓名过长，长度 6 个字符内', trigger: 'blur' }
+        ],
+        deptment: [
+          { required: true, message: '请输入部门名称', trigger: 'blur' },
+          { min: 1, max: 15, message: '部门名称过长，长度 15 个字符内', trigger: 'blur' }
+        ],
+        position: [
+          { required: true, message: '请输入岗位名称', trigger: 'blur' },
+          { min: 1, max: 15, message: '岗位过长，长度 6 个字符内', trigger: 'blur' }
+        ],
         productName: [
           { required: true, validator: productNameFn, trigger: 'blur' }
         ],
@@ -115,9 +130,6 @@ export default {
         price: [
           { required: true, validator: priceFn, type: 'number', trigger: 'blur' }
         ],
-        wheelPople: [
-          {required: true}
-        ],
         description: [
           { required: true, validator: descriptionFn, trigger: 'blur' }
         ]
@@ -125,8 +137,30 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      productSaleDemo: ({ product }) => product.productSaleDemo
+    })
   },
   beforeMount() {
+    if (this.isAddProduct) {
+      var _this = this;
+      var data = { productId: this.isAddProduct };
+      this.getProductDetail(data).then(() => {
+        var res = _this.productSaleDemo;
+        _this.formData = {
+          productId: res.productId,
+          productName: res.productName,
+          productType: res.productType,
+          price: res.price,
+          description: res.description,
+          username: res.username,
+          deptment: res.deptment,
+          version: res.version,
+          position: res.position,
+          salesList: []
+        };
+      });
+    }
   },
   methods: {
     query() {
@@ -137,23 +171,19 @@ export default {
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
           localStorage.setItem('params', JSON.stringify(_this.formData));
-          this.$router.push({path: '/product/create-sale-step01'});
+          if (this.isAddProduct) {
+            this.$router.push({path: `/product/create-sale-step/${this.isAddProduct}`});
+          } else {
+            this.$router.push({path: '/product/create-sale-step'});
+          }
         } else {
           return false;
         }
       });
     },
-    isChinese(str) {
-      for (var i = 0; i < str.length; i++) {
-        if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
-        } else {
-          return false;
-        }
-      }
-      return true;
-    }
-  },
-  onload() {
+    ...mapActions([
+      'getProductDetail'
+    ])
   }
 };
 </script>
@@ -164,7 +194,7 @@ export default {
 .el-step.is-simple .el-step__arrow::before, .el-step.is-simple  .el-step__arrow:before {display: none}
 .el-step.is-simple .el-step__arrow::after, .el-step.is-simple  .el-step__arrow:after {-webkit-transform: none; transform: none; height: 1px; width: 320px;}
 .el-step__icon.is-text {border-width: 1px;}
-.creat-content {background: #fff; margin-top: 16px; min-height: 812px; height: auto; padding-bottom: 20px;}
+.creat-content {background: #fff; margin-top: 16px; min-height: 812px; height: auto;}
 .el-steps--simple {background: none;}
 .el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
 .add-content {width: 460px; margin: 0 auto;}

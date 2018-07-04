@@ -67,6 +67,8 @@ export const PRODUCT_DETAIL = 'PRODUCT_DETAIL';
 export const COMPOSED_PRODUCT = 'COMPOSED_PRODUCT';
 // 查询销售实例（某个）
 export const DETAIL_SALE = 'DETAIL_SALE';
+// 产品新增
+export const ADD_PRODUCT = 'ADD_PRODUCT';
 /* business */
 export const COOPERATION_GROUP = 'COOPERATION_GROUP';
 export const BUSINESS_OPPORTUNITY_LIST = 'BUSINESS_OPPORTUNITY_LIST';

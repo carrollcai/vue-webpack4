@@ -2,20 +2,22 @@
 <div class="base-info">
   <h3>产品基本信息</h3>
   <ul class="b-i-list">
-    <li><span>产品名称：</span>咪咕纪念版Kindle</li>
-    <li><span>产品价格：</span>888元</li>
-    <li><span>产品类别：</span>政企市场产品</li>
-    <li><span>负责人员：</span>张小明-运营支撑部门-运营人员</li>
-    <li><span>负责介绍：</span>张小明-运营支撑部门-运营人员</li>
+    <li><span>产品名称：</span>{{product.productName}}</li>
+    <li><span>产品价格：</span>{{product.price}}元</li>
+    <li><span>产品类别：</span>{{product.productType}}</li>
+    <li><span>负责人员：</span>{{product.username}}-{{product.deptment}}-{{product.position}}</li>
+    <li><span>负责介绍：</span>{{product.username}}</li>
   </ul>
 </div>
 </template>
 
 <script>
-// import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: {
+  props: {
+    product: {
+      type: Object
+    }
   },
   computed: {
   },
@@ -52,6 +54,9 @@ export default {
       font-size: 14px;
       width: 33%;
       color: #262626;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       span {
         color: #c0c0c0;
       }

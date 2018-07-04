@@ -3,7 +3,7 @@
   <el-form :inline="true" :model="formData" class="demo-form-inline">
     <el-form-item>
       <el-col>
-        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-col>
     </el-form-item>
@@ -17,17 +17,19 @@
       <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-input style="width: 130px" v-model="productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
+      <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">查询</el-button>
     </el-form-item>
   </el-form>
   <wm-table
-    :source="productList"
+    :source="productList.list"
+    :total="productList.totalCount"
     :pageNo="formData.pageNo"
     :pageSize="formData.pageSize"
-  >
+    @onPagination="onPagination"
+    @onSizePagination="onSizePagination">
       <el-table-column label="产品编码" property="productId">
       </el-table-column>
       <el-table-column label="产品名称" property="productName">
@@ -58,14 +60,15 @@ export default {
   data() {
     return {
       timeRange: '',
-      productName: '',
+
       formData: {
         startDate: '',
         endDate: '',
+        productName: '',
         productType: '',
         operatorCn: '',
-        pageNo: '1',
-        pageSize: '20'
+        pageNo: 1,
+        pageSize: 10
       }
     };
   },
@@ -77,20 +80,27 @@ export default {
       return Number(this.formData.pageNo);
     },
     ...mapState({
-      productList: ({ product }) => product.productList.list,
+      productList: ({ product }) => product.productList,
       composedProduct: ({ product }) => product.composedProduct
     })
   },
   methods: {
+    onPagination(value) {
+      this.formData.pageNo = value;
+      this.query();
+    },
+    onSizePagination(value) {
+      this.formData.pageSize = value;
+      this.query();
+    },
     checkProductName() {
-      var data = {'productName': this.productName};
+      var data = {productName: this.formData.productName};
       this.getComposedProduct(data).then((res) => {
         console.log(res);
       });
       console.log(this.composedProduct);
     },
     getTimeRange(time) {
-      console.log(time);
       this.formData.startDate = time[0];
       this.formData.endDate = time[1];
     },
@@ -99,7 +109,7 @@ export default {
       this.getProductList(this.formData);
     },
     onSubmit() {
-      console.log(this.formData);
+      this.query();
     },
     toPageDetail(row) {
       const path = `/product/product-detail/${row.productId}`;
@@ -109,9 +119,6 @@ export default {
       'getProductList',
       'getComposedProduct'
     ])
-  },
-  onload() {
-    console.log(this.productList);
   }
 };
 </script>

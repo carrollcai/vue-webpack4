@@ -20,9 +20,6 @@ const mutations = {
   },
   [types.DETAIL_SALE](state, data) {
     state.detailSale = data;
-  },
-  [types.COMPOSED_PRODUCT](state, data) {
-    state.composedProduct = data;
   }
 };
 
