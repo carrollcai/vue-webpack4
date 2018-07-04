@@ -14,7 +14,10 @@ const userCreate = {
   staffName: '',
   code: '',
   roleId: [],
-  provinces: []
+  provinces: [],
+  opRegion: '',
+  mobile: '',
+  email: ''
 };
 
 const state = {
@@ -26,16 +29,20 @@ const state = {
     roleName: ''
   },
   roleCreate: Object.cloneDeep(roleCreate),
-  userList: [],
+  userObj: {
+    list: [],
+    totalcount: 1
+  },
   userForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    totalcount: 1,
-    staffName: '',
-    code: '',
-    roleId: ''
+    opRegion: 0,
+    otherField: '',
+    role: ''
   },
-  userCreate: Object.cloneDeep(userCreate)
+  userCreate: Object.cloneDeep(userCreate),
+
+  regionRelationList: []
 };
 
 const mutations = {
@@ -60,14 +67,27 @@ const mutations = {
     });
   },
   [types.USER_INIT_FORM](state, data) {
-    state.userCreate = Object.cloneDeep(roleCreate);
+    state.userCreate = Object.cloneDeep(userCreate);
   },
   [types.USER_GET_LIST](state, data) {
-    state.userList = data;
-    state.userForm.totalcount = data.totalcount;
+    state.userObj = data;
   },
   [types.USER_GET_INFO](state, data) {
     state.userCreate = data;
+  },
+  [types.SYSTEM_QUERY_REGION](state, data) {
+    state.regionRelationList = data.map(val => {
+      let _val = {};
+      _val.value = val.codeValue;
+      _val.label = val.codeName;
+      _val.children = val.staticDataDTOList.map(cval => {
+        let _cval = {};
+        _cval.value = val.codeValue;
+        _cval.label = val.codeName;
+        return _cval;
+      });
+      return _val;
+    });
   }
 };
 

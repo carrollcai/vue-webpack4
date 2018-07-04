@@ -43,7 +43,7 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="联系邮箱：" prop="staffName">
-          <el-input class="form-input-320" v-model="orderCreate.email" placeholder="请输入邮箱" />
+          <el-input class="form-input-large" v-model="orderCreate.email" placeholder="请输入邮箱" />
         </el-form-item>
         <el-form-item label="合作集团：" prop="group">
           <el-autocomplete maxlength="25" class="form-input-half" v-model="orderCreate.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
@@ -54,16 +54,16 @@
         </el-form-item>
 
         <el-form-item label="合作集团：" prop="staffName">
-          <el-input class="form-input-320" v-model="orderCreate.staffName" placeholder="集团编号/名称" />
+          <el-input class="form-input-large" v-model="orderCreate.staffName" placeholder="集团编号/名称" />
         </el-form-item>
         <el-form-item label="集团地址：" prop="staffName">
-          <el-input class="form-input-320" v-model="orderCreate.staffName" placeholder="办公地址" />
+          <el-input class="form-input-large" v-model="orderCreate.staffName" placeholder="办公地址" />
         </el-form-item>
         <el-form-item label="订单描述：" prop="staffName">
-          <el-input type="textarea" class="form-input-320" v-model="orderCreate.staffName" placeholder="请输入业务描述" />
+          <el-input type="textarea" class="form-input-large" v-model="orderCreate.staffName" placeholder="请输入业务描述" />
         </el-form-item>
         <el-form-item label="订单需求：" prop="staffName">
-          <el-input type="textarea" class="form-input-320" v-model="orderCreate.staffName" placeholder="请输入业务需求" />
+          <el-input type="textarea" class="form-input-large" v-model="orderCreate.staffName" placeholder="请输入业务需求" />
         </el-form-item>
 
         <el-form-item>

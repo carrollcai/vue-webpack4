@@ -88,8 +88,9 @@ const mutations = {
         });
       });
     });
-
+    // 当前用户拥有的菜单权限id列表
     state.currentUser.menuIds = menuIds;
+    // 当前用户拥有的菜单权限详情列表
     state.currentUser.menuList = sidebars;
     // 用户拥有的省份权限
     state.currentUser.operator.provinces = provinces.map(val => {
