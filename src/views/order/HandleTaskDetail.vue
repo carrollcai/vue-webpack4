@@ -25,7 +25,7 @@
           <el-radio v-model="form.radio" :label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="上传文件：">
-          <el-upload class="upload-demo" ref="upload" :before-upload="beforeUpload" :auto-upload="false" :on-change="fileChange" :multiple="false" :limit="1">
+          <el-upload class="upload-demo" ref="upload" :before-upload="beforeUpload" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           </el-upload>
         </el-form-item>
@@ -36,7 +36,7 @@
 
       </el-form>
       <div class="task-submit-button">
-        <el-button type="primary" @click="submit">签约处理</el-button>
+        <el-button type="primary" @click="submitSign">签约处理</el-button>
       </div>
 
     </div>
@@ -53,7 +53,7 @@ export default {
     return {
       form: {
         radio: 1,
-        file: ''
+        file: null
       }
     };
   },
@@ -62,17 +62,21 @@ export default {
     DetailContent
   },
   methods: {
-    fileChange(files) {
-      const fileValue = document.querySelector('.el-upload .el-upload__input');
-      this.form.file = fileValue.files[0];
+    fileChange(files, fileList) {
+      if (fileList.length > 1) {
+        fileList.splice(0, 1);
+      }
+      this.form.file = files.raw;
     },
-    submit() {
+    removeFile(files, fileList) {
+      this.form.file = null;
+    },
+    submitSign() {
       //
     },
-    beforeUpload() {
-
-    },
     submitForm() {
+      // 不能利用submit事件，因为会重复提交一次action
+      // this.$refs.upload.submit();
       let fileData = new FormData();
       fileData.append('radio', this.form.radio);
       fileData.append('file', this.form.file);
