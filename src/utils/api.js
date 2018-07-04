@@ -97,9 +97,12 @@ export default {
   // 产品总览
   getProductListAPI: API('/esop/product/queryProduct'),
   // 产品创建管理
-  getProductCreatListAPI: API('http://localhost:3618/esop/product/productCreatList'),
+  getProductCreatListAPI: API('/esop/product/queryProductSelf'),
   // 产品详情
-  getProductDetailAPI: API('http://localhost:3618/esop/product/productDetail'),
+  getProductDetailAPI: API('/esop/product/queryDetailProduct'),
+  setAddProductAPI: API('/esop/product/addProduct'),
+  setEditProductAPI: API('/esop/product/editProduct'),
+  deleteProductAPI: API('/esop/product/deleteProduct'),
   // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
   // 新增集团客户

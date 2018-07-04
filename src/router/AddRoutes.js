@@ -43,8 +43,7 @@ import ProductDetail from '@/views/product/ProductDetail.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
 import ProductView from '@/views/product/ProductView.vue';
 import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
-import CreateSaleStep01 from '@/views/product/create/CreateSaleStep01.vue';
-import CreateSaleStep02 from '@/views/product/create/CreateSaleStep02.vue';
+import CreateSaleStep from '@/views/product/create/CreateSaleStep.vue';
 
 import OrderCreateManage from '@/views/order/CreateManage.vue';
 import OrderHandleTask from '@/views/order/HandleTask.vue';
@@ -102,14 +101,14 @@ const dynamicRoutes = [
         component: createBaseInfo
       },
       {
-        path: '/product/create-sale-step01',
-        name: 'create-sale-step01',
-        component: CreateSaleStep01
+        path: '/product/create-sale-step/',
+        name: 'create-sale-step',
+        component: CreateSaleStep
       },
       {
-        path: '/product/create-sale-step02',
-        name: 'create-sale-step02',
-        component: CreateSaleStep02
+        path: '/product/create-sale-step/:id',
+        name: 'create-sale-step',
+        component: CreateSaleStep
       },
 
       { path: '/task/management', component: TaskManagement, meta: { menuId: 6 } },
@@ -228,7 +227,8 @@ const dynamicRoutes = [
       { path: '/order/handle-task', component: OrderHandleTask },
       { path: '/order/overview', component: OrderOverview },
       { path: '/order/overview/detail/:id', component: OrderOverviewDetail },
-      { path: '/order/handle-task/detail/:id', component: OrderHandleTaskDetail },
+      // type为detail，sign，pay，pedding，fulfilled
+      { path: '/order/handle-task/:type/:id', component: OrderHandleTaskDetail },
 
       { path: '*', component: Page404 }
     ]

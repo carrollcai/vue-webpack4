@@ -5,14 +5,22 @@
     <el-table
       v-if="data"
       :data="data"
+      row-key="salesId"
+      :expand-row-keys="expands"
+      @row-click="openDetail"
       style="width: 100%">
       <el-table-column
+        v-if="false"
+        label="产品ID" width="150"
+        prop="salesId">
+      </el-table-column>
+      <el-table-column
         label="销售类型" width="150"
-        prop="state">
+        prop="salesType">
       </el-table-column>
       <el-table-column
         label="组合产品" width="180"
-        prop="salesType">
+        prop="composedProduct" :formatter="composedProductFn">
       </el-table-column>
       <el-table-column
         label="销售方案"
@@ -34,7 +42,7 @@
           <el-form label-position="left" inline class="demo-table-expand">
             <p class="sale-type">
               <el-form-item label="销售类型">
-              <span>: {{ props.row.state }}</span>
+              <span>: {{ props.row.salesType }}</span>
               </el-form-item>
               <el-form-item label="销售数量">
                 <span>: {{ props.row.salesNumber }}</span>
@@ -47,7 +55,7 @@
             </p>
             <p>
               <el-form-item label="销售方案">
-                <span>: {{ props.row.salesType }}</span>
+                <span>: {{ props.row.scheme }}</span>
               </el-form-item>
             </p>
             <p>
@@ -73,14 +81,33 @@ export default {
   },
   data() {
     return {
-      currIndex: -1
+      currIndex: -1,
+      expands: []
     };
   },
   methods: {
     openDetail(index, row) {
-      console.log(index);
-      console.log(row);
+      var id = row.salesId;
+      Array.prototype.remove = function(val) {
+        let index = this.indexOf(val);
+        if (index > -1) {
+          this.splice(index, 1);
+        }
+      };
+
+      if (this.expands.indexOf(id) < 0) {
+        this.expands.push(id);
+      } else {
+        this.expands.remove(id);
+      }
       this.currIndex = index;
+    },
+    composedProductFn(row, column, columnValue) {
+      if (columnValue) {
+        return columnValue;
+      } else {
+        return '无';
+      }
     }
   }
 };

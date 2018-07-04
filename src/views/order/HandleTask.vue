@@ -78,6 +78,7 @@ export default {
       overviewRules: {},
       dialogVisible: false,
       currentRow: {},
+      status: 0,
       options: [
         {
           value: '选项1',
@@ -115,12 +116,12 @@ export default {
       this.query();
     },
     handleSign(row) {
-      this.dialogVisible = true;
-      this.currentRow = row;
+      const path = `/order/handle-task/sign/${row.id}`;
+      this.$router.push(path);
     },
     handleDispatch(row) {
-      const path = `/order/overview/detail/${row.id}`;
-      this.$router.push(path);
+      this.dialogVisible = true;
+      this.currentRow = row;
     },
     handleDetail(row) {
       const path = `/order/handle-task/detail/${row.id}`;
