@@ -97,6 +97,37 @@ export default {
       this.orderOverviewForm.pageSize = value;
       this.query();
     },
+    handleEdit(row) {
+      const path = `/order/manage/edit/${row.id}`;
+      this.$router.push(path);
+    },
+    handleDelete(row) {
+      this.$confirm('您确定要提交该条订单消息？', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteRole({ roleId: row.roleId }).then(res => {
+          this.query();
+        });
+      }).catch(() => {
+        this.$message('已取消删除');
+      });
+    },
+    handleSubmit(row) {
+      this.$confirm('您确定要提交该条商机信息?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          dangerouslyUseHTMLString: true,
+          message: '<p>您已成功提交该条商机！</p><p>处理人：张三疯</p>'
+        });
+      }).catch(() => {
+        this.$message('已取消提交');
+      });
+    },
     handleDetail(row) {
       const path = `/order/overview/detail/${row.id}`;
       this.$router.push(path);
