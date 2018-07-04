@@ -25,7 +25,7 @@
           <el-radio v-model="form.radio" :label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="上传文件：">
-          <el-upload class="upload-demo" ref="upload" :before-upload="beforeUpload" :auto-upload="false" :on-change="fileChange" :multiple="false" :limit="1">
+          <el-upload class="upload-demo" ref="upload" :before-upload="beforeUpload" :auto-upload="false" :on-change="fileChange" :multiple="false">
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           </el-upload>
         </el-form-item>
@@ -63,16 +63,19 @@ export default {
   },
   methods: {
     fileChange(files) {
+      // 仅支持单文件上传
       const fileValue = document.querySelector('.el-upload .el-upload__input');
+      if (this.$refs.upload.uploadFiles.length > 1) {
+        this.$refs.upload.uploadFiles.splice(0, 1);
+      }
       this.form.file = fileValue.files[0];
     },
     submit() {
       //
     },
-    beforeUpload() {
-
-    },
     submitForm() {
+      // 不能利用submit事件，因为会重复提交一次action
+      // this.$refs.upload.submit();
       let fileData = new FormData();
       fileData.append('radio', this.form.radio);
       fileData.append('file', this.form.file);
