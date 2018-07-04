@@ -25,11 +25,14 @@ import UpdateBusiness from '@/views/business-manage/UpdateBusiness.vue';
 import TransforOrder from '@/views/business-manage/TransforOrder.vue';
 
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
+import OverviewDetail from '@/views/group-customer/OverviewDetail.vue';
+import OverviewDetailMore from '@/views/group-customer/OverviewDetailMore.vue';
 import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
 import GroupCustomerAuditManage from '@/views/group-customer/CustomerAuditManage.vue';
 import CustomerCreate from '@/views/group-customer/create/CustomerCreate.vue';
 import CustomerEdit from '@/views/group-customer/create/CustomerEdit.vue';
 import CustomerDetail from '@/views/group-customer/detail/CustomerDetail.vue';
+import CustomerAudit from '@/views/group-customer/detail/CustomerAudit.vue';
 
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
@@ -166,15 +169,51 @@ const dynamicRoutes = [
         meta: { menuId: 13 }
       },
       {
+        path: '/group-customer/overview/detail/:id',
+        name: 'group-customer-overview-detail',
+        component: OverviewDetail,
+        meta: { menuId: 13 }
+      },
+      {
+        path: '/group-customer/overview/detail/:id/more',
+        name: 'group-customer-overview-detail-more',
+        component: OverviewDetailMore,
+        meta: { menuId: 13 }
+      },
+      {
         path: '/group-customer/create-manage',
         name: 'group-customer-create-manage',
         component: GroupCustomerCreateManage,
         meta: { menuId: 14 }
       },
       {
+        path: '/group-customer/create',
+        name: 'group-customer-create',
+        component: CustomerCreate,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/group-customer/edit/:id',
+        name: 'group-customer-edit',
+        component: CustomerEdit,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/group-customer/detail/:id',
+        name: 'group-customer-detail',
+        component: CustomerDetail,
+        meta: { menuId: 14 }
+      },
+      {
         path: '/group-customer/audit-manage',
         name: 'group-customer-audit-manage',
         component: GroupCustomerAuditManage,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/group-customer/audit/:id/:taskId',
+        name: 'group-customer-audit',
+        component: CustomerAudit,
         meta: { menuId: 15 }
       },
 
@@ -209,21 +248,6 @@ class AddRoutes {
       children: []
     }];
     const routeArr = [
-      {
-        path: '/group-customer/create',
-        name: 'group-customer-create',
-        component: CustomerCreate
-      },
-      {
-        path: '/group-customer/edit',
-        name: 'group-customer-edit',
-        component: CustomerEdit
-      },
-      {
-        path: '/group-customer/detail/:id',
-        name: 'group-customer-detail',
-        component: CustomerDetail
-      }
     ];
 
     // list为已经扁平化具有menuId的路由
