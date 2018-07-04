@@ -15,13 +15,11 @@
         </el-form-item>
       </div>
       <div class="flex">
-        <el-form-item class="task-form-item group-form-item__lable">
+        <el-form-item class="task-form-item">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
-      </div>
-      <div class="flex">
-        <el-form-item class="task-form-item group-form-item__lable">
-          <el-button type="default" @click="createBusiness">新建商机</el-button>
+        <el-form-item class="business-form-item">
+          <el-button class="el-button--have-icon" @click.prevent="createBusiness" icon="el-icon-plus">新建商机</el-button>
         </el-form-item>
       </div>
     </el-form>
@@ -69,10 +67,15 @@
         </template>
       </el-table-column>
     </wm-table>
-    <el-dialog width="433px" height="312px" title="立即关联" :visible.sync="relationDialogVisible">
+    <el-dialog class="business-create-manage-dialog" width="433px" height="312px" title="立即关联" :visible.sync="relationDialogVisible">
       <el-form ref="form">
         <el-form-item label="关联集团名称/编码：" prop="">
-          <el-autocomplete style="width: 390px;" v-model="relationcooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <el-autocomplete style="width: 390px;" v-model="relationcooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+          <el-card class="box-card" v-if="noData">
+            <div>
+              系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
+            </div>
+          </el-card>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -109,7 +112,8 @@ export default {
       },
       cooperNum: '',
       relationDialogVisible: false,
-      relationcooperName: ''
+      relationcooperName: '',
+      noData: false
     };
   },
   watch: {
@@ -158,7 +162,11 @@ export default {
     querySearchAsync(queryString, cb) {
       var cooperNumList = this.cooperNumList;
       var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
-
+      if (results.length === 0) {
+        this.noData = true;
+      } else {
+        this.noData = false;
+      };
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         cb(results);
@@ -201,6 +209,7 @@ export default {
       this.$router.push(path);
     },
     showAssociate(row) {
+      this.relationcooperName = '';
       this.relationDialogVisible = true;
     },
     relationConfirm() {
@@ -232,11 +241,8 @@ export default {
 .group-form-item__lable {
   margin-left: $blockWidth;
 }
-.task-header {
-  margin-bottom: 16px;
-}
-.task-form-item__lable {
-  margin-left: $blockWidth;
+.business-form-item {
+  margin-left: $formWidth;
 }
 .task-form {
   display: flex;
@@ -265,10 +271,17 @@ export default {
   font-size:11px;height: 22px;line-height:22px;
 }
 // 弹出框样式设置
-.el-dialog__body {
-  padding: 0px 20px;
-}
-.el-form-item {
-  margin-bottom: 13px;
+.business-create-manage-dialog{
+  .el-dialog__body {
+    padding: 0px 20px;
+  }
+  .box-card {
+    line-height: 20px;
+    position:absolute;
+    .el-card__body {
+      padding: 10px;
+      color: rgba(0,0,0,0.45);
+    }
+  }
 }
 </style>
