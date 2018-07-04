@@ -100,29 +100,39 @@ $menu-active-color: #FFFFFF;
 }
 
 /* 去除整体布局el-scrollbar滚动条，并且不影响到其他el-scrollbar__wrap组件 */
-.app-aside-scroll > .el-scrollbar__wrap, .app-menu > .el-scrollbar__wrap {
+
+.app-aside-scroll>.el-scrollbar__wrap,
+.app-menu>.el-scrollbar__wrap {
   overflow-x: hidden;
 }
 
 /* table tr 背景颜色 */
+
 .el-table thead tr th {
   background-color: #F7F8FC;
 }
 
 /* 重置时间选择框大小 */
-.el-date-editor.el-input{
+
+.el-date-editor.el-input {
   width: 160px;
 }
+
 /* table th 不加粗 */
+
 .el-table thead tr th {
   font-weight: 400;
 }
+
 /* table th 高度设置为 50 */
-.el-table td, .el-table th {
+
+.el-table td,
+.el-table th {
   padding: 8px 0;
 }
 
 /* dialog弹窗的按钮左对齐 */
+
 .el-dialog__footer {
   text-align: left !important;
 }
@@ -130,54 +140,62 @@ $menu-active-color: #FFFFFF;
   padding: 20px 20px 0 20px;
 }
 
-.el-button--primary{
+/*Button*/
+
+.el-button--primary {
   background-color: $primary-background-color;
-  &.is-disabled{
+  &.is-disabled {
     background-color: $primary-disabled-border-color;
     border-color: $primary-disabled-border-color;
-    &:active, &:focus, &:hover{
+    &:active,
+    &:focus,
+    &:hover {
       background-color: $primary-disabled-border-color;
       border-color: $primary-disabled-border-color;
     }
   }
 }
 
-.el-button--default{
+.el-button--default {
   color: $primary-color;
   border-color: $primary-border-color;
-
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     color: #FFFFFF;
     border-color: $primary-border-color;
     background-color: $primary-background-color;
   }
 }
 
-.el-button--text{
+.el-button--text {
   color: $primary-color;
 }
 
-.el-tabs__item{
-  &:hover, &.is-active{
+/*Tab*/
+
+.el-tabs__item {
+  &:hover,
+  &.is-active {
     color: $primary-color;
   }
 }
 
-.el-tabs__active-bar{
+.el-tabs__active-bar {
   background-color: $primary-background-color;
 }
 
-.el-radio-button__orig-radio:checked+.el-radio-button__inner{
+/*表单 组件*/
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
   background-color: $primary-background-color;
   border-color: $primary-border-color;
 }
 
-.el-radio__input.is-checked{
-  &+.el-radio__label{
+.el-radio__input.is-checked {
+  &+.el-radio__label {
     color: $primary-color;
   }
-
-  .el-radio__inner{
+  .el-radio__inner {
     border-color: $primary-border-color;
     background: $primary-background-color;
   }
@@ -185,43 +203,77 @@ $menu-active-color: #FFFFFF;
 
 .el-input.is-active .el-input__inner,
 .el-input__inner:focus,
-.el-select .el-input.is-focus .el-input__inner,
-.el-textarea__inner:focus,
-.el-pagination__sizes .el-input .el-input__inner:hover{
+.el-textarea__inner:focus {
   border-color: $primary-border-color;
 }
 
-.el-select-dropdown__item.selected{
+.el-select {
+  .el-input__inner:focus,
+  .el-input.is-focus .el-input__inner{
+    border-color: $primary-border-color;
+  }
+}
+.el-select-dropdown__item.selected {
   color: $primary-color;
 }
 
-.el-form-item.is-error .el-input__inner,
-.el-form-item.is-error .el-input__inner:focus,
-.el-form-item.is-error .el-textarea__inner,
-.el-form-item.is-error .el-textarea__inner:focus,
+/* 表单错误提示 */
+
+.el-form-item.is-error {
+  .el-input__inner,
+  .el-input__inner:focus,
+  .el-textarea__inner,
+  .el-textarea__inner:focus {
+    border-color: $danger-color;
+  }
+}
+
 .el-message-box__input input.invalid,
-.el-message-box__input input.invalid:focus,{
+.el-message-box__input input.invalid:focus {
   border-color: $danger-color;
 }
 
-.el-form-item__error{
+.el-form-item.is-success {
+  .el-input__inner,
+  .el-input__inner:focus,
+  .el-textarea__inner,
+  .el-textarea__inner:focus {
+    border-color: $success-color;
+  }
+}
+
+.el-form-item__error {
   color: $danger-color;
 }
 
-/**日期选择器*/
-.el-date-table td{
-  &.current:not(.disabled) span, &.start-date span, &.end-date span{
+/* 日期选择器 */
+
+.el-date-table td {
+  &.current:not(.disabled) span,
+  &.start-date span,
+  &.end-date span {
     background-color: $primary-background-color;
   }
-  &.today span, &.available:hover {
+  &.today span,
+  &.available:hover {
     color: $primary-color;
   }
 }
 
-.el-range-editor.is-active, .el-range-editor.is-active:hover{
+.el-range-editor.is-active,
+.el-range-editor.is-active:hover {
   border-color: $primary-border-color;
 }
 
-.el-pager li.active{
-  color: $primary-color;
+/*分页*/
+
+.el-pager li {
+  &:hover,
+  &.active {
+    color: $primary-color;
+  }
+}
+
+.el-pagination__sizes .el-input .el-input__inner:hover {
+  border-color: $primary-border-color;
 }
