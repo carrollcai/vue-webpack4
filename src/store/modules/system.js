@@ -4,7 +4,7 @@ import {
   PAGE_SIZE,
   MENU_PERMISSIONS
 } from '@/config/index.js';
-// import store from '@/store';
+import store from '@/store';
 
 const roleCreate = {
   roleName: '',
@@ -80,19 +80,19 @@ const mutations = {
   },
   [types.SYSTEM_QUERY_REGION](state, data) {
     let regionArr = [];
-    // data.map(val => {
-    //   if (String(val.codeValue) === String(store.state.root.currentUser.operator.opRegion)) {
-    //     regionArr.push(val);
-    //     return false;
-    //   }
-    //   val.children && val.children(cval => {
-    //     if (String(cval.codeValue) === String(store.state.root.currentUser.operator.opRegion)) {
-    //       val.children = [cval];
-    //       regionArr.push(val);
-    //       return false;
-    //     }
-    //   });
-    // });
+    data.map(val => {
+      if (String(val.codeValue) === String(store.state.root.currentUser.operator.opRegion)) {
+        regionArr.push(val);
+        return false;
+      }
+      val.children && val.children(cval => {
+        if (String(cval.codeValue) === String(store.state.root.currentUser.operator.opRegion)) {
+          val.children = [cval];
+          regionArr.push(val);
+          return false;
+        }
+      });
+    });
     regionArr = regionArr.length ? regionArr : data;
 
     state.regionRelationList = regionArr.map(val => {
