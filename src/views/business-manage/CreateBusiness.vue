@@ -9,9 +9,10 @@
       </div>
     </div>
     <div class="container">
-      <el-form :rules="rules" ref="businessForm" :model="form" label-width="318px">
+      <div>
+      <el-form :rules="rules" ref="businessForm" :model="form" label-width="140px">
         <el-form-item label="商机类别：" prop="category">
-          <el-select class="commonWidth1" v-model="form.category" placeholder="请选择属性">
+          <el-select class="form-input-medium" v-model="form.category" placeholder="请选择属性">
               <el-option
               v-for="item in businessCategoryList"
               :key="item.value"
@@ -21,15 +22,15 @@
           </el-select>
         </el-form-item>
         <el-form-item label="预计收入：" prop="income">
-          <el-input v-model="form.income" class="commonWidth1" placeholder="请输入预计收入">
+          <el-input v-model="form.income" class="form-input-medium" placeholder="请输入预计收入">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="signTime">
-          <el-date-picker class="commonWidth1" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.signTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.signTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="protoTime">
-          <el-select class="commonWidth1" v-model="form.protoTime" placeholder="请选择">
+          <el-select class="form-input-medium" v-model="form.protoTime" placeholder="请选择">
               <el-option
               v-for="item in protoTimeList"
               :key="item.value"
@@ -43,10 +44,10 @@
           <el-radio v-model="form.tender" label="2">否</el-radio>
         </el-form-item>
         <el-form-item label="联系人员：" prop="name">
-          <el-input maxlength="6" class="commonWidth2" v-model="form.name" placeholder="姓名"></el-input>
-          <span class="sep">-</span>
+          <el-input maxlength="6" class="form-input-80" v-model="form.name" placeholder="姓名"></el-input>
+          <span class="form-input-sep">-</span>
           <el-form-item prop="sex" style="display: inline-block;">
-            <el-select class="commonWidth7" v-model="form.sex" placeholder="性别">
+            <el-select class="form-input-80" v-model="form.sex" placeholder="性别">
                 <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -55,48 +56,58 @@
                 </el-option>
             </el-select>
           </el-form-item>
-          <span class="sep">-</span>
+          <span class="form-input-sep">-</span>
           <el-form-item prop="tel" style="display: inline-block;">
-            <el-input maxlength="11" class="commonWidth3" v-model="form.tel" placeholder="手机号"></el-input>
-          </el-form-item>
-          <span class="sep">-</span>
-          <el-form-item prop="email" style="display: inline-block;">
-            <el-input maxlength="35" class="commonWidth4" v-model="form.email" placeholder="邮箱"></el-input>
+            <el-input maxlength="11" class="form-input-120" v-model="form.tel" placeholder="手机号"></el-input>
           </el-form-item>
         </el-form-item>
+        <el-form-item label="联系邮箱：" prop="email">
+            <el-input maxlength="35" class="form-input-320" v-model="form.email" placeholder="请输入邮箱"></el-input>
+          </el-form-item>
         <el-form-item label="合作集团：" prop="group">
-          <el-autocomplete maxlength="25" class="commonWidth5" v-model="form.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
-          <span class="sep">-</span>
+          <el-autocomplete maxlength="25" class="form-input-half" v-model="form.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+          <el-card class="create-business-box-card" v-if="noData">
+            <div>
+              系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
+            </div>
+          </el-card>
+          <span class="form-input-sep">-</span>
           <el-form-item prop="office" style="display:inline-block;">
-            <el-input maxlength="50" class="commonWidth5" v-model="form.office" placeholder="办公地址"></el-input>
+            <el-input maxlength="50" class="form-input-half" v-model="form.office" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="业务描述：" prop="desc">
-          <el-input maxlength="500" resize="none" class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.desc"></el-input>
+          <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.desc"></el-input>
         </el-form-item>
         <el-form-item label="业务需求：" prop="command">
-          <el-input class="commonWidth6" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.command"></el-input>
+          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.command"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
-          <el-input maxlength="500" class="commonWidth6" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.problem"></el-input>
+          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.problem"></el-input>
         </el-form-item>
-        <div class="b-container">
-          <el-form-item label="提醒人：">
-            <el-select class="commonWidth1" v-model="form.linkman" placeholder="请选择提醒人" multiple>
-                <el-option
-                v-for="item in designatePerson"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-                </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="">
-            <el-button type="primary" @click="submit">提交</el-button>
-            <el-button plain @click="save">保存为草稿</el-button>
-          </el-form-item>
-        </div>
       </el-form>
+      </div>
+    </div>
+    <div style="background: #fff;">
+      <div class="hr"></div>
+      <div class="b-container">
+          <el-form label-width="140px" style="width: 460px;">
+            <el-form-item label="提醒人设置：">
+              <el-select class="form-input-medium" v-model="form.linkman" placeholder="请选择提醒人" multiple>
+                  <el-option
+                  v-for="item in designatePerson"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                  </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="">
+              <el-button type="primary" @click="submit">提交</el-button>
+              <el-button plain @click="save">保存为草稿</el-button>
+            </el-form-item>
+          </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -183,7 +194,8 @@ export default {
         tender: [
           { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
         ]
-      }
+      },
+      noData: false
     };
   },
   beforeMount() {
@@ -205,7 +217,11 @@ export default {
     querySearchAsync(queryString, cb) {
       var cooperationGroupList = this.cooperationGroupList;
       var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
-
+      if (results.length === 0) {
+        this.noData = true;
+      } else {
+        this.noData = false;
+      };
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         cb(results);
@@ -251,43 +267,28 @@ export default {
 <style lang="scss">
 @import "scss/variables.scss";
 .container {
-  padding-top: 16px;
+  padding: 16px;
   margin-top: 16px;
   background: #fff;
-  padding-bottom: 40px;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
 }
 .b-container {
-  padding-top: 18px;
-  border-top:1px solid #E5E5E5;
-}
-.commonWidth1 {
-  width: 229px !important;
-}
-.commonWidth2 {
-  width: 70px !important;
-}
-.commonWidth3 {
-  width: 112px !important;
-}
-.commonWidth4 {
-  width: 132px !important;
-}
-.commonWidth5 {
-  width: 217px !important;
-}
-.commonWidth6 {
-  width: 457px !important;
-}
-.commonWidth7 {
-  width: 75px !important;
-}
-.sep {
-  color: rgb(0, 0, 0) 25%;
-  padding-left: 4px;
-  padding-right: 4px;
+  display: flex;-webkit-box-pack: center;justify-content: center;margin-top:32px;
 }
 .el-input-group__append {
     background-color: #fff;
     padding: 0 5px;
+}
+.hr {
+  height:1px;background:#e5e5e5;margin: 0px 32px;
+}
+.create-business-box-card {
+  position:absolute;z-index:2;line-height:20px;
+  .el-card__body {
+    padding: 10px;
+    color: rgba(0,0,0,0.45);
+  }
 }
 </style>

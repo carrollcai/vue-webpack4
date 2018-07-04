@@ -27,7 +27,9 @@ const state = {
   remindPerson: [],
   submitBusinessSendStatus: '',
   submitBusinessCancelStatus: '',
-  saveBusinessDrafStatus: ''
+  saveBusinessDrafStatus: '',
+  saveBusinessOrder: '',
+  saveBusinessOrderDraft: ''
 };
 
 const mutations = {
@@ -73,6 +75,12 @@ const mutations = {
   },
   [types.SAVE_BUSINESS_DRAFT_STATUS](state, data) {
     state.saveBusinessDrafStatus = data.list;
+  },
+  [types.SAVE_BUSINESS_ORDER](state, data) {
+    state.saveBusinessOrder = data.list;
+  },
+  [types.SAVE_BUSINESS_ORDER_DRAFT](state, data) {
+    state.saveBusinessOrderDraft = data.list;
   }
 };
 export default {
