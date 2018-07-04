@@ -11,16 +11,12 @@
         </el-form-item>
 
         <el-form-item class="user-form-item__input" prop="otherField">
-          <el-cascader expand-trigger="hover" :options="regionRelationList" v-model="userForm.otherField" @change="handleChange" placeholder="用户归属">
+          <el-cascader expand-trigger="hover" :options="regionRelationList" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属">
           </el-cascader>
         </el-form-item>
 
-        <el-form-item class="user-form-item__input" prop="staffName">
-          <el-input v-model="userForm.staffName" placeholder="用户姓名" />
-        </el-form-item>
-
         <el-form-item class="user-form-item__input" prop="code">
-          <el-input v-model="userForm.code" placeholder="姓名/账号/手机" />
+          <el-input v-model="userForm.otherField" placeholder="姓名/账号/手机" />
         </el-form-item>
       </div>
 
@@ -109,7 +105,9 @@ export default {
       });
     },
     query() {
-      const params = this.userForm;
+      const params = Object.cloneDeep(this.userForm);
+
+      params.opRegion = params.opRegion.pop();
       this.getUserList(params);
     },
     ...mapActions([

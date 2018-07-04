@@ -146,7 +146,8 @@ export default {
       const params = Object.cloneDeep(this.userCreate);
 
       params.provinces = params.provinces.filter(val => val !== 'null');
-      params.opRegion = params.opRegion.length ? params.opRegion[0] : params.opRegion;
+      params.opRegion = params.opRegion.pop();
+
       this.$refs['userForm'].validate(valid => {
         if (!valid) return false;
 

@@ -13,6 +13,7 @@ const state = {
     menuIds: [], // 扁平化的menuId数组
     menuList: [],
     operator: {
+      opRegion: null,
       staffName: '',
       provinces: []
     }
@@ -68,6 +69,7 @@ const mutations = {
     const provinces = data.secOperatorDTO.provinces.split(',');
 
     state.currentUser.operator.staffName = data.secOperatorDTO.staffName;
+    state.currentUser.operator.opRegion = data.secOperatorDTO.opRegion;
 
     // 用户拥有的菜单权限
     data.secMenuDTOList.map(val => {
