@@ -4,24 +4,22 @@
       <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="params.organizeType" placeholder="集团属性">
-              <el-option :key="null" label="全部属性" :value="null"></el-option>
+            <el-select v-model="params.organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="params.provinceId" placeholder="所属省份">
-              <el-option :key="null" label="全部" :value="null"></el-option>
+            <el-select v-model="params.provinceId" clearable placeholder="所属省份">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="params.managerName" placeholder="客户经理" />
+            <el-input v-model="params.managerName" placeholder="客户经理" clearable/>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
-            <el-input v-model="params.otherField" placeholder="集团名称/编码" />
+            <el-input v-model="params.otherField" placeholder="集团名称/编码" clearable />
           </el-form-item>
         </div>
         <div class="flex">

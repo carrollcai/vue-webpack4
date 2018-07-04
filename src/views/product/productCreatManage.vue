@@ -10,11 +10,9 @@
     </el-form-item>
     <el-form-item>
       <el-select v-if="composedProduct" style="width: 130px" v-model="formData.productType" placeholder="产品类型">
-        <el-option v-for="item in composedProduct" :key="item.productId" :label="item.productName" :value="item.productId" />
+        <el-option label="个人市场" value="0"></el-option>
+        <el-option label="政企市场" value="1"></el-option>
       </el-select>
-    </el-form-item>
-    <el-form-item>
-      <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
     </el-form-item>
     <el-form-item>
       <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码"></el-input>
@@ -27,9 +25,12 @@
     </el-form-item>
   </el-form>
   <wm-table
-    :source="productList"
+    :source="productList.list"
+    :total="productList.totalCount"
     :pageNo="formData.pageNo"
     :pageSize="formData.pageSize"
+    @onPagination="onPagination"
+    @onSizePagination="onSizePagination"
   >
       <el-table-column label="产品编码" property="productId">
       </el-table-column>
@@ -67,24 +68,32 @@ export default {
         startDate: '',
         endDate: '',
         productType: '',
-        operatorCn: '',
         productName: '',
-        pageNo: 1,
-        pageSize: 20
+        pageNo: '1',
+        pageSize: '20'
       }
     };
   },
   beforeMount() {
-    this.getProductCreatList(this.formData);
-    this.getComposedProduct();
+    var data = { pageNo: '1', pageSize: '20' };
+    this.getProductCreatList(data);
+    // this.getComposedProduct();
   },
   computed: {
     ...mapState({
-      productList: ({ product }) => product.productCreatList.List,
+      productList: ({ product }) => product.productCreatList,
       composedProduct: ({ product }) => product.composedProduct
     })
   },
   methods: {
+    onPagination(value) {
+      this.formData.pageNo = value;
+      this.query();
+    },
+    onSizePagination(value) {
+      this.formData.pageSize = value;
+      this.query();
+    },
     getTimeRange(time) {
       console.log(time);
       this.formData.startDate = time[0];
@@ -95,7 +104,7 @@ export default {
       this.getProductCreatList(this.formData);
     },
     onSubmit() {
-      console.log(this.formData);
+      this.query();
     },
     toCreatProduct() {
       this.$router.push({path: '/product/create-base-info'});
@@ -110,21 +119,27 @@ export default {
     },
     deleteProduct(row) {
       var productId = row.productId;
-      console.log(productId);
       // 校验商机和订单是否有用到
       this.$confirm('删除该产品数据, 是否继续?', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // 删除操作
+        var _this = this;
+        this.setdeleteProduct({'productId': productId, 'state': 0}).then((res) => {
+          console.log(res);
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
+          }
+        });
       }).catch(() => {
         this.$message('已取消删除');
       });
     },
     ...mapActions([
       'getProductCreatList',
-      'getComposedProduct'
+      'getComposedProduct',
+      'setdeleteProduct'
     ])
   },
   onload() {

@@ -28,7 +28,8 @@ export default {
   border-radius: 2px;
   background-color: rgba(250, 250, 250, 1);
   margin-top: 32px;
-  padding-bottom: 32px;
+  padding-bottom: 24px;
+  padding-top: 24px;
   .title {
     height: 24px;
     line-height: 24px;

@@ -2,7 +2,9 @@
   <div
     class="login-input"
   >
-    <div v-if="showClear" class="placeholder">{{placeholder}}</div>
+    <transition name="el-fade-in">
+      <div v-if="showClear" class="placeholder">{{placeholder}}</div>
+    </transition>
     <el-input
       :type="type"
       v-model="internalValue"
