@@ -15,9 +15,6 @@
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
-    </el-form-item>
-    <el-form-item>
       <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码"></el-input>
     </el-form-item>
     <el-form-item>
@@ -71,7 +68,6 @@ export default {
         startDate: '',
         endDate: '',
         productType: '',
-        operatorCn: '',
         productName: '',
         pageNo: '1',
         pageSize: '20'
@@ -108,7 +104,7 @@ export default {
       this.getProductCreatList(this.formData);
     },
     onSubmit() {
-      console.log(this.formData);
+      this.query();
     },
     toCreatProduct() {
       this.$router.push({path: '/product/create-base-info'});
@@ -130,10 +126,10 @@ export default {
         type: 'warning'
       }).then(() => {
         var _this = this;
-        this.setdeleteProduct({'productId': productId}).then((res) => {
+        this.setdeleteProduct({'productId': productId, 'state': 0}).then((res) => {
           console.log(res);
           if (res.data && res.errorInfo.code === '200') {
-            _this.$message({showClose: true, message: '恭喜您，产品创建成功！', type: 'success'});
+            _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
           }
         });
       }).catch(() => {

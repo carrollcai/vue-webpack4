@@ -33,8 +33,8 @@
           :ref="formData"
           label-width="130px">
           <el-form-item label="销售类型：">
-            <el-radio v-model="formData.salesType" label="0">单品销售</el-radio>
-            <el-radio v-model="formData.salesType" label="1">组合销售</el-radio>
+            <el-radio v-model="formData.salesType" value="0" label="0">单品销售</el-radio>
+            <el-radio v-model="formData.salesType" value="1" label="1">组合销售</el-radio>
           </el-form-item>
           <el-form-item v-if="formData.salesType === '1'" label="组合产品：" prop="composedProduct" label-width="130px">
             <el-input v-model="formData.composedProduct" placeholder="产品名称/编码"></el-input>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
 
 export default {
@@ -151,6 +151,7 @@ export default {
       params: {},
       isShow: true,
       cacheData: [],
+      addItem: Number(this.$route.params.id) > 0,
       formData: {
         salesId: '',
         salesType: '0',
@@ -188,6 +189,25 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapState({
+      productSaleDemo: ({ product }) => product.productSaleDemo
+    })
+  },
+  beforeMount() {
+    if (this.isAddProduct) {
+      this.isShow = false;
+      var _this = this;
+      var data = { productId: this.isAddProduct };
+      this.getProductDetail(data).then(() => {
+        var res = _this.productSaleDemo.salesList;
+        for (var i in res) {
+          res[i].state = 3;
+        }
+        _this.cacheData = res;
+      });
+    }
+  },
   methods: {
     salesTypeFormat(row, column, cellValue) {
       if (cellValue === '0') {
@@ -207,6 +227,7 @@ export default {
       if (this.isShow) {
         this.$message({showClose: true, message: '请先保存产品案例', type: 'warning'});
       } else {
+        this.addItem = true;
         this.isShow = true;
         this.reset();
       }
@@ -215,6 +236,15 @@ export default {
       var _this = this;
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
+          if (_this.isAddProduct) {
+            if (_this.addItem) {
+              _this.formData.state = 2;
+            } else {
+              _this.formData.state = 3;
+            }
+          } else {
+            _this.formData.state = 2;
+          }
           if (_this.modefiyIndex !== -1) {
             _this.cacheData.splice(_this.modefiyIndex, _this.modefiyIndex + 1);
             _this.params.salesList = _this.cacheData;
@@ -226,30 +256,47 @@ export default {
         } else {
           return false;
         }
+        _this.addItem = false;
       });
     },
     creartProduct() {
       console.log(this.params);
       var _this = this;
-      this.setAddProduct(_this.params).then((res) => {
-        if (res.data && res.errorInfo.code === '200') {
-          _this.$message({showClose: true, message: '新增产品成功！', type: 'success'});
-          this.$router.push({path: '/product/product-creat-manage'});
-        }
-      });
+      if (this.isAddProduct) {
+        this.setEditProduct(_this.params).then((res) => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({showClose: true, message: '修改产品成功！', type: 'success'});
+            this.$router.push({path: '/product/product-creat-manage'});
+          }
+        });
+      } else {
+        this.setAddProduct(_this.params).then((res) => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({showClose: true, message: '新增产品成功！', type: 'success'});
+            this.$router.push({path: '/product/product-creat-manage'});
+          }
+        });
+      }
     },
     toPageModefiy(index, row) {
       this.modefiyIndex = index;
       this.isShow = true;
+      var type = row.salesType;
+      if (type === '单品销售') {
+        type = '0';
+      } else if (type === '组合销售') {
+        type = '1';
+      }
       this.formData = {
         salesId: row.salesId + '',
-        salesType: row.salesType + '',
+        salesType: type,
         scheme: row.scheme + '',
         salesNumber: row.salesNumber + '',
         keypoint: row.keypoint + '',
         experience: row.experience + '',
         composedProduct: row.composedProduct + ''
       };
+      console.log(row);
     },
     deleteProduct(index, row) {
       // 校验商机和订单是否有用到
@@ -270,7 +317,7 @@ export default {
       this.formData = {
         // productId: '',
         salesId: '',
-        salesType: '1',
+        salesType: '0',
         scheme: '',
         salesNumber: '',
         keypoint: '',
@@ -286,7 +333,9 @@ export default {
       this.$router.go(-1);
     },
     ...mapActions([
-      'setAddProduct'
+      'setAddProduct',
+      'getProductDetail',
+      'setEditProduct'
     ])
   }
 };

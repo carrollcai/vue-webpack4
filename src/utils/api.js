@@ -92,6 +92,7 @@ export default {
   // 产品详情
   getProductDetailAPI: API('/esop/product/queryDetailProduct'),
   setAddProductAPI: API('/esop/product/addProduct'),
+  setEditProductAPI: API('/esop/product/editProduct'),
   deleteProductAPI: API('/esop/product/deleteProduct'),
   // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),

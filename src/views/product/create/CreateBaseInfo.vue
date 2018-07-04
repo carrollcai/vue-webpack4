@@ -23,11 +23,10 @@
       <el-form-item label="产品价格：" label-width="110px" prop="price">
         <el-input v-model="formData.price" placeholder="请输入价格"><template slot="append">元</template></el-input>
       </el-form-item>
-      <el-form-item label="负责人：" label-width="110px" class="demo-input-size" prop="wheelPople">
-        <el-input
-          v-model="formData.username" placeholder="姓名" style="width: 100px;"></el-input><span class="split">-</span>
-        <el-input v-model="formData.deptment" placeholder="部门" style="width: 100px;"></el-input><span class="split">-</span>
-        <el-input v-model="formData.position" placeholder="职业" style="width: 100px;"></el-input>
+      <el-form-item label="负责人：" required label-width="110px" class="col-item">
+        <el-col :span="8"><el-form-item prop="username"><el-input v-model="formData.username" placeholder="姓名" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
+        <el-col :span="8"><el-form-item prop="deptment"><el-input v-model="formData.deptment" placeholder="部门" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
+        <el-col :span="8"><el-form-item prop="position"><el-input v-model="formData.position" placeholder="职业" style="width: 100px;"></el-input></el-form-item></el-col>
       </el-form-item>
       <el-form-item label="产品介绍：" label-width="110px" prop="description">
         <el-input v-model="formData.description" placeholder="请输入介绍" type="textarea" :rows="3"></el-input>
@@ -41,7 +40,7 @@
 </template>
 
 <script>
-// import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -110,6 +109,18 @@ export default {
         salesList: []
       },
       formDataValid: {
+        username: [
+          { required: true, message: '请输入负责人姓名', trigger: 'blur' },
+          { min: 1, max: 6, message: '姓名过长，长度 6 个字符内', trigger: 'blur' }
+        ],
+        deptment: [
+          { required: true, message: '请输入部门名称', trigger: 'blur' },
+          { min: 1, max: 15, message: '部门名称过长，长度 15 个字符内', trigger: 'blur' }
+        ],
+        position: [
+          { required: true, message: '请输入岗位名称', trigger: 'blur' },
+          { min: 1, max: 15, message: '岗位过长，长度 6 个字符内', trigger: 'blur' }
+        ],
         productName: [
           { required: true, validator: productNameFn, trigger: 'blur' }
         ],
@@ -119,9 +130,6 @@ export default {
         price: [
           { required: true, validator: priceFn, type: 'number', trigger: 'blur' }
         ],
-        wheelPople: [
-          // {required: true}
-        ],
         description: [
           { required: true, validator: descriptionFn, trigger: 'blur' }
         ]
@@ -129,8 +137,31 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      productSaleDemo: ({ product }) => product.productSaleDemo
+    })
   },
-  beforeMount() {},
+  beforeMount() {
+    if (this.isAddProduct) {
+      var _this = this;
+      var data = { productId: this.isAddProduct };
+      this.getProductDetail(data).then(() => {
+        var res = _this.productSaleDemo;
+        _this.formData = {
+          productId: res.productId,
+          productName: res.productName,
+          productType: res.productType,
+          price: res.price,
+          description: res.description,
+          username: res.username,
+          deptment: res.deptment,
+          version: res.version,
+          position: res.position,
+          salesList: []
+        };
+      });
+    }
+  },
   methods: {
     query() {
       // 产品数据查询方法
@@ -149,7 +180,10 @@ export default {
           return false;
         }
       });
-    }
+    },
+    ...mapActions([
+      'getProductDetail'
+    ])
   }
 };
 </script>

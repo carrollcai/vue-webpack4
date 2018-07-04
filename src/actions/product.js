@@ -32,6 +32,11 @@ const actions = {
       return res;
     });
   },
+  setEditProduct: ({ commit }, params) => {
+    return API.setEditProductAPI(params).then((res) => {
+      return res;
+    });
+  },
   setdeleteProduct: ({commit}, params) => {
     return API.deleteProductAPI(params).then((res) => {
       return res;
