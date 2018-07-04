@@ -265,6 +265,7 @@ export default {
   .customer-detail_audit,
   .customer-detail_info{
     background: #FFFFFF;
+    margin-top: 16px;
   }
 
   .customer-detail_audit{
