@@ -11,20 +11,32 @@
     <div class="m-container user-create">
       <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm" :rules="userCreateRules">
         <el-form-item label="用户姓名：" prop="staffName">
-          <el-input class="form-input-320" v-model="userCreate.staffName"></el-input>
+          <el-input class="form-input-large" v-model="userCreate.staffName"></el-input>
         </el-form-item>
         <el-form-item label="登录账号：" prop="code">
-          <el-input class="form-input-320" v-model="userCreate.code"></el-input>
+          <el-input class="form-input-large" v-model="userCreate.code"></el-input>
         </el-form-item>
+        <el-form-item label="手机号码：" prop="mobile">
+          <el-input class="form-input-large" v-model="userCreate.mobile"></el-input>
+        </el-form-item>
+        <el-form-item label="电子邮箱：" prop="email">
+          <el-input class="form-input-large" v-model="userCreate.email"></el-input>
+        </el-form-item>
+
+        <el-form-item label="用户归属：" prop="opRegion">
+          <el-cascader class="form-input-large" expand-trigger="hover" :options="regionRelationList" v-model="userCreate.opRegion" @change="handleChange" placeholder="用户归属">
+          </el-cascader>
+        </el-form-item>
+
         <el-form-item label="用户角色：" prop="roleId">
-          <el-select class="form-input-320" v-model="userCreate.roleId" multiple>
+          <el-select class="form-input-large" v-model="userCreate.roleId" multiple>
             <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
           </el-select>
         </el-form-item>
         <!-- 省份这里需要做key的处理 -->
         <!-- 指定key为null或者0，会报错。选择 collapse-tags就没问题。解决方式改为null字符串 -->
         <el-form-item label="省份权限：" prop="provinces">
-          <el-select v-if="Object.isExistArray(province)" class="form-input-320" v-model="userCreate.provinces" placeholder="请选择" multiple @change="provinceChange">
+          <el-select v-if="Object.isExistArray(province)" class="form-input-large" v-model="userCreate.provinces" placeholder="请选择" multiple @change="provinceChange">
             <el-option v-if="province.length > 1" :key="'null'" label="全部" :value="'null'" />
             <el-option v-for="(item, i) in province" :key="i" :label="item.value" :value="item.key" />
           </el-select>
@@ -56,8 +68,17 @@ export default {
           { required: true, message: '请输入登录账号', trigger: 'blur' },
           { max: 20, message: '登录账号不能超过20个字符', trigger: 'blur' }
         ],
+        mobile: [
+          { required: true, message: '请输入手机号码', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请输入电子邮箱', trigger: 'blur' }
+        ],
         roleId: [
           { required: true, message: '请输入用户角色', trigger: 'change' }
+        ],
+        opRegion: [
+          { required: true, message: '请输入用户归属', trigger: 'change' }
         ],
         provinces: [
           { required: true, message: '请输入省份权限', trigger: 'change' }
@@ -69,10 +90,12 @@ export default {
     ...mapState({
       userCreate: ({ system }) => system.userCreate,
       userRoleList: ({ root }) => root.userRoleList,
+      regionRelationList: ({ system }) => system.regionRelationList,
       province: ({ root }) => root.province
     })
   },
   beforeMount() {
+    !this.regionRelationList.length && this.queryRegionRelationList({});
     this.resetForm();
   },
   methods: {
@@ -123,6 +146,7 @@ export default {
       const params = Object.cloneDeep(this.userCreate);
 
       params.provinces = params.provinces.filter(val => val !== 'null');
+      params.opRegion = params.opRegion.length ? params.opRegion[0] : params.opRegion;
       this.$refs['userForm'].validate(valid => {
         if (!valid) return false;
 
@@ -142,7 +166,8 @@ export default {
       'createUser',
       'updateUser',
       'getUserInfo',
-      'getUserRole'
+      'getUserRole',
+      'queryRegionRelationList'
     ])
   },
   watch: {

@@ -108,6 +108,11 @@ const actions = {
         duration: 3000
       });
     });
+  },
+  queryRegionRelationList: ({ commit }, params) => {
+    return API.queryRegionRelationListAPI(params).then(res => {
+      commit(types.SYSTEM_QUERY_REGION, res.data);
+    });
   }
 };
 

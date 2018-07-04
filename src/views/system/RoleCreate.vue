@@ -11,14 +11,14 @@
     <div class="m-container role-create">
       <el-form :label-position="'right'" label-width="120px" :model="roleCreate" ref="roleForm" :rules="roleRules">
         <el-form-item label="角色名称：" prop="roleName">
-          <el-input class="form-input-320" v-model="roleCreate.roleName"></el-input>
+          <el-input class="form-input-large" v-model="roleCreate.roleName"></el-input>
         </el-form-item>
         <el-form-item label="角色描述：" prop="notes">
-          <el-input class="form-input-320" type="textarea" v-model="roleCreate.notes"></el-input>
+          <el-input class="form-input-large" type="textarea" v-model="roleCreate.notes"></el-input>
         </el-form-item>
-        <el-form-item label="菜单权限：" v-if="!Object.isNullArray(permissions)" prop="menuIds">
-          <el-select class="form-input-320" multiple v-model="roleCreate.menuIds" placeholder="选择菜单权限" @change="changeMendIds">
-            <div v-for="group in permissions" :key="group.menuId">
+        <el-form-item label="菜单权限：" v-if="!Object.isNullArray(menuList)" prop="menuIds">
+          <el-select class="form-input-large" multiple v-model="roleCreate.menuIds" placeholder="选择菜单权限" @change="changeMendIds">
+            <div v-for="group in menuList" :key="group.menuId">
               <el-option-group v-if="group.children" :label="group.name">
                 <el-option v-for="item in group.children" :key="item.menuId" :label="item.name" :value="item.menuId"></el-option>
               </el-option-group>
@@ -38,18 +38,17 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-import { MENU_PERMISSIONS } from '@/config';
 import { textLimit, textareaLimit } from '@/utils/rules.js';
 
 export default {
   computed: {
     ...mapState({
-      roleCreate: ({ system }) => system.roleCreate
+      roleCreate: ({ system }) => system.roleCreate,
+      menuList: ({ root }) => root.currentUser.menuList
     })
   },
   data() {
     return {
-      permissions: MENU_PERMISSIONS,
       roleRules: {
         roleName: [
           { required: true, message: '请输入角色名称', trigger: 'blur' },

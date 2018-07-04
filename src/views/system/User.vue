@@ -2,22 +2,25 @@
   <div class="m-container">
     <el-form class="user-form" ref="userManageForm" :model="userForm" :rules="userManageRules">
       <div class="flex">
-        <el-form-item>用户角色：</el-form-item>
-        <el-form-item class="user-form-item__input" prop="roleId">
-          <el-select v-model="userForm.roleId">
+        <!-- <el-form-item>用户角色：</el-form-item> -->
+        <el-form-item class="user-form-item__input" prop="role">
+          <el-select v-model="userForm.role" placeholder="用户角色">
             <el-option :key="null" label="全部类型" :value="null"></el-option>
-            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
+            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.role" :label="item.roleName" />
           </el-select>
         </el-form-item>
 
-        <el-form-item class="user-form-item__lable">用户姓名：</el-form-item>
-        <el-form-item class="user-form-item__input" prop="staffName">
-          <el-input v-model="userForm.staffName" />
+        <el-form-item class="user-form-item__input" prop="otherField">
+          <el-cascader expand-trigger="hover" :options="regionRelationList" v-model="userForm.otherField" @change="handleChange" placeholder="用户归属">
+          </el-cascader>
         </el-form-item>
 
-        <el-form-item class="user-form-item__lable">登录账号：</el-form-item>
+        <el-form-item class="user-form-item__input" prop="staffName">
+          <el-input v-model="userForm.staffName" placeholder="用户姓名" />
+        </el-form-item>
+
         <el-form-item class="user-form-item__input" prop="code">
-          <el-input v-model="userForm.code" />
+          <el-input v-model="userForm.code" placeholder="姓名/账号/手机" />
         </el-form-item>
       </div>
 
@@ -30,10 +33,12 @@
         </el-form-item>
       </div>
     </el-form>
-    <wm-table :source="userList.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="userObj.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户姓名" property="staffName" />
       <el-table-column label="登录账号" property="code" />
+      <el-table-column label="手机号" property="code" />
       <el-table-column label="用户角色" property="roleNames" show-overflow-tooltip />
+      <el-table-column label="用户归属" property="roleNames" />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="handleEdit(scope.row)">
@@ -58,26 +63,19 @@ export default {
   data() {
     return {
       userManageRules: {
-        role: [
-          { required: true, message: '请输入用户角色：', trigger: 'change' }
-        ],
-        name: [
-          { required: true, message: '请输入用户姓名', trigger: 'blur' }
-        ],
-        account: [
-          { required: true, message: '请输入登录账号', trigger: 'blur' }
-        ]
       }
     };
   },
   computed: {
     ...mapState({
-      userList: ({ system }) => system.userList,
+      userObj: ({ system }) => system.userObj,
       userForm: ({ system }) => system.userForm,
+      regionRelationList: ({ system }) => system.regionRelationList,
       userRoleList: ({ root }) => root.userRoleList
     })
   },
   beforeMount() {
+    !this.regionRelationList.length && this.queryRegionRelationList({});
     this.getUserList(this.userForm);
   },
   methods: {
@@ -116,7 +114,8 @@ export default {
     },
     ...mapActions([
       'getUserList',
-      'deleteUser'
+      'deleteUser',
+      'queryRegionRelationList'
     ])
   }
 };
@@ -134,6 +133,9 @@ export default {
 }
 .user-form-item__input {
   width: $inputWidthQuery;
+}
+.user-form-item__input:not(:first-child) {
+  margin-left: $blockWidth;
 }
 .role-form-item {
   margin-left: $formWidth;
