@@ -57,7 +57,7 @@ export default {
           { type: 'string', pattern: /^[A-Z\d]{18}$/, message: '请输入18位数字或大写英文字母', trigger: 'blur' }
         ],
         businessTerm: [
-          { type: 'string', pattern: /^[1-9]{1,3}$/, message: '请输入整数', trigger: 'blur' }
+          { type: 'string', pattern: /^[1-9]\d{1,2}$/, message: '请输入整数', trigger: 'blur' }
         ],
         registerFund: [
           {
@@ -153,7 +153,7 @@ export default {
       });
     },
     changeContactParent(index, id) {
-      let filters = _.filter(this.contacts, {'parentContactId': id});
+      let filters = _.filter(this.contacts, { 'parentContactId': id, 'contactId': this.contacts[index].parentContactId });
 
       if (filters.length) {
         this.$message({

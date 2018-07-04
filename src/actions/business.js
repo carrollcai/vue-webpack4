@@ -48,6 +48,16 @@ const actions = {
   submitBusinessOppority: ({ commit }, params) => {
     return API.submitBusinessOpporityAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_STATUS, res.data);
+      return res.data.list;
+    });
+  },
+  /**
+   * 保存 “商机草稿” 数据
+   */
+  saveBusinessDraft: ({ commit }, params) => {
+    return API.saveBusinessDraftAPI(params).then(res => {
+      commit(types.SAVE_BUSINESS_DRAFT_STATUS, res.data);
+      return res.data.list;
     });
   },
   /**
@@ -56,6 +66,7 @@ const actions = {
   groupAssociation: ({ commit }, params) => {
     return API.groupAssociationAPI(params).then(res => {
       commit(types.GROUP_ASSOCIATION_STATUS, res.data);
+      return res.data.list;
     });
   },
   /**
@@ -75,11 +86,38 @@ const actions = {
     });
   },
   /**
+   * 查询 “提醒人” 数据
+   */
+  getRemindPerson: ({ commit }, params) => {
+    return API.getRemindPersonAPI(params).then(res => {
+      commit(types.REMIND_PERSON, res.data);
+    });
+  },
+  /**
    * 查询 “指派处理人” 数据
    */
   getDesignatePerson: ({ commit }, params) => {
     return API.getDesignatePersonAPI(params).then(res => {
-      commit(types.DESIGNATE_PERSON, res.data);
+      commit(types.DESIGNATE_PERSON, res.data.list);
+      return res.data.list;
+    });
+  },
+  /**
+   * 提交 “商机指派” 数据
+   */
+  submitBusinessSend: ({ commit }, params) => {
+    return API.submitBusinessSendAPI(params).then(res => {
+      commit(types.SUBMIT_BUSINESS_SEND_STATUS, res.data);
+      return res.data.list;
+    });
+  },
+  /**
+   * 提交 “商机作废” 数据
+   */
+  submitBusinessCancel: ({ commit }, params) => {
+    return API.submitBusinessCancelAPI(params).then(res => {
+      commit(types.SUBMIT_BUSINESS_CANCEL_STATUS, res.data);
+      return res.data.list;
     });
   }
 };

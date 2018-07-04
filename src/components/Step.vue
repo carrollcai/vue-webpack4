@@ -114,17 +114,16 @@ export default {
 };
 </script>
 <style lang="scss">
-$active-color: #46BAFE;
-$process-color: #333333;
-$icon-height: 26px;
+  @import "@/assets/scss/variables.scss";
+  $active-color: $primary-color;
+  $process-color: #333333;
+  $icon-height: 24px;
 
   .step__head.is-text{
-    color: #FFFFFF;
-    background: #DCDCDC;
-    border: 2px solid #DCDCDC;
+    color: #DCDCDC;
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
     font-size: 14px;
-    border-width: 2px;
-    border-style: solid;
 
     &.is-success {
       color: #FFFFFF;
@@ -141,7 +140,7 @@ $icon-height: 26px;
 
   .step.is-horizontal, .step__line {
     display: inline-block;
-}
+  }
 
   .step.is-horizontal {
     display: inline-flex;

@@ -92,7 +92,7 @@ export const MENU_PERMISSIONS = [
       {
         menuId: 4,
         name: '订单处理任务',
-        url: '/order/handle',
+        url: '/order/handle-task',
         enable: false
       }
     ]

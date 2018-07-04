@@ -11,13 +11,13 @@
     <div class="m-container role-create">
       <el-form :label-position="'right'" label-width="120px" :model="roleCreate" ref="roleForm" :rules="roleRules">
         <el-form-item label="角色名称：" prop="roleName">
-          <el-input class="form-input" v-model="roleCreate.roleName"></el-input>
+          <el-input class="form-input-320" v-model="roleCreate.roleName"></el-input>
         </el-form-item>
         <el-form-item label="角色描述：" prop="notes">
-          <el-input class="form-input" type="textarea" v-model="roleCreate.notes"></el-input>
+          <el-input class="form-input-320" type="textarea" v-model="roleCreate.notes"></el-input>
         </el-form-item>
         <el-form-item label="菜单权限：" v-if="!Object.isNullArray(permissions)" prop="menuIds">
-          <el-select class="form-input" multiple v-model="roleCreate.menuIds" placeholder="选择菜单权限" @change="changeMendIds">
+          <el-select class="form-input-320" multiple v-model="roleCreate.menuIds" placeholder="选择菜单权限" @change="changeMendIds">
             <div v-for="group in permissions" :key="group.menuId">
               <el-option-group v-if="group.children" :label="group.name">
                 <el-option v-for="item in group.children" :key="item.menuId" :label="item.name" :value="item.menuId"></el-option>

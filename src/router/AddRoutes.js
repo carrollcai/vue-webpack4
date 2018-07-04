@@ -25,11 +25,14 @@ import UpdateBusiness from '@/views/business-manage/UpdateBusiness.vue';
 import TransforOrder from '@/views/business-manage/TransforOrder.vue';
 
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
+import OverviewDetail from '@/views/group-customer/OverviewDetail.vue';
+import OverviewDetailMore from '@/views/group-customer/OverviewDetailMore.vue';
 import GroupCustomerCreateManage from '@/views/group-customer/CustomerCreateManage.vue';
 import GroupCustomerAuditManage from '@/views/group-customer/CustomerAuditManage.vue';
 import CustomerCreate from '@/views/group-customer/create/CustomerCreate.vue';
 import CustomerEdit from '@/views/group-customer/create/CustomerEdit.vue';
 import CustomerDetail from '@/views/group-customer/detail/CustomerDetail.vue';
+import CustomerAudit from '@/views/group-customer/detail/CustomerAudit.vue';
 
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
@@ -42,10 +45,12 @@ import ProductView from '@/views/product/ProductView.vue';
 import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
 import CreateSaleStep from '@/views/product/create/CreateSaleStep.vue';
 
-import orderCreateManage from '@/views/order/CreateManage.vue';
-import orderHandleTask from '@/views/order/HandleTask.vue';
-import orderOverview from '@/views/order/Overview.vue';
-import orderDetail from '@/views/order/orderDetail.vue';
+import OrderCreateManage from '@/views/order/CreateManage.vue';
+import OrderHandleTask from '@/views/order/HandleTask.vue';
+import OrderOverview from '@/views/order/Overview.vue';
+import OrderCreate from '@/views/order/OrderCreate.vue';
+import OrderOverviewDetail from '@/views/order/OrderOverviewDetail.vue';
+import OrderHandleTaskDetail from '@/views/order/HandleTaskDetail.vue';
 
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
@@ -151,7 +156,7 @@ const dynamicRoutes = [
         meta: { menuId: 10 }
       },
       {
-        path: '/business-manage/transfor-order',
+        path: '/business-manage/transfor-order/:id',
         name: 'transfor-order',
         component: TransforOrder,
         meta: { menuId: 10 }
@@ -163,15 +168,51 @@ const dynamicRoutes = [
         meta: { menuId: 13 }
       },
       {
+        path: '/group-customer/overview/detail/:id',
+        name: 'group-customer-overview-detail',
+        component: OverviewDetail,
+        meta: { menuId: 13 }
+      },
+      {
+        path: '/group-customer/overview/detail/:id/more',
+        name: 'group-customer-overview-detail-more',
+        component: OverviewDetailMore,
+        meta: { menuId: 13 }
+      },
+      {
         path: '/group-customer/create-manage',
         name: 'group-customer-create-manage',
         component: GroupCustomerCreateManage,
         meta: { menuId: 14 }
       },
       {
+        path: '/group-customer/create',
+        name: 'group-customer-create',
+        component: CustomerCreate,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/group-customer/edit/:id',
+        name: 'group-customer-edit',
+        component: CustomerEdit,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/group-customer/detail/:id',
+        name: 'group-customer-detail',
+        component: CustomerDetail,
+        meta: { menuId: 14 }
+      },
+      {
         path: '/group-customer/audit-manage',
         name: 'group-customer-audit-manage',
         component: GroupCustomerAuditManage,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/group-customer/audit/:id/:taskId',
+        name: 'group-customer-audit',
+        component: CustomerAudit,
         meta: { menuId: 15 }
       },
 
@@ -181,10 +222,13 @@ const dynamicRoutes = [
       { path: '/system/user/management', component: User, meta: { menuId: 11 } },
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
 
-      { path: '/order/create-manage', component: orderCreateManage },
-      { path: '/order/handle-task', component: orderHandleTask },
-      { path: '/order/overview', component: orderOverview },
-      { path: '/order/overview/detail/:id', component: orderDetail },
+      { path: '/order/create-manage', component: OrderCreateManage },
+      { path: '/order/manage/:type/:id?', component: OrderCreate },
+      { path: '/order/handle-task', component: OrderHandleTask },
+      { path: '/order/overview', component: OrderOverview },
+      { path: '/order/overview/detail/:id', component: OrderOverviewDetail },
+      // type为detail，sign，pay，pedding，fulfilled
+      { path: '/order/handle-task/:type/:id', component: OrderHandleTaskDetail },
 
       { path: '*', component: Page404 }
     ]
@@ -203,21 +247,6 @@ class AddRoutes {
       children: []
     }];
     const routeArr = [
-      {
-        path: '/group-customer/create',
-        name: 'group-customer-create',
-        component: CustomerCreate
-      },
-      {
-        path: '/group-customer/edit',
-        name: 'group-customer-edit',
-        component: CustomerEdit
-      },
-      {
-        path: '/group-customer/detail/:id',
-        name: 'group-customer-detail',
-        component: CustomerDetail
-      }
     ];
 
     // list为已经扁平化具有menuId的路由

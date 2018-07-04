@@ -10,7 +10,11 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="auditInfo.flag === '0'" label="审核建议" prop="dealResult" required key="desc">
-          <el-input v-model="auditInfo.dealResult" type="textarea" placeholder="如审核不通过，请填写原因供创建者查看" key="desc-input"></el-input>
+          <el-input v-model="auditInfo.dealResult"
+            :rows="3"
+            type="textarea"
+            placeholder="如审核不通过，请填写原因供创建者查看"
+            key="desc-input"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm">确认审核</el-button>
@@ -29,7 +33,8 @@ export default {
   data() {
     return {
       auditInfo: {
-        status: '1'
+        flag: '1',
+        dealResult: ''
       },
       auditRules: {
         dealResult: [
@@ -42,7 +47,13 @@ export default {
     submitForm() {
       this.$refs.auditForm.validate((valid) => {
         if (valid) {
-          this.auditCustomer();
+          const {auditInfo} = this;
+          this.auditCustomer({
+            dealResult: auditInfo.dealResult,
+            flag: auditInfo.flag,
+            id: parseInt(this.$route.params.id),
+            taskInsId: parseInt(this.$route.params.taskId)
+          });
         }
       });
     },

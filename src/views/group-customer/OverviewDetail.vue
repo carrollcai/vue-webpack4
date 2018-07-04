@@ -67,7 +67,7 @@
       <div class="info_head">
         <span class="info_head-title">集团联系人</span>
         <div class="info_head-sub">
-          <el-radio-group v-model="activeName" size="mini">
+          <el-radio-group v-model="activeName" size="mini" @change="handleRadioChange">
             <el-radio-button  label="2">
               <i class="icon-tree"></i>
             </el-radio-button>
@@ -91,6 +91,7 @@
           <el-table-column label="上级领导">
             <template slot-scope="props">
               {{parentContact(props.row.parentContactId)}}
+              {{parentContactId}}
             </template>
           </el-table-column>
           <el-table-column type="expand" label="操作" width="100px">
@@ -138,7 +139,7 @@
         </wm-table>
       </template>
       <template v-else>
-        <org-tree></org-tree>
+        <org-tree :contacts="contacts"></org-tree>
       </template>
     </div>
   </div>
@@ -150,6 +151,7 @@ import WmTable from 'components/Table.vue';
 import OrgTree from 'components/OrgTree.vue';
 import filters from './filters';
 import {PAGE_NO, PAGE_SIZE} from '@/config';
+import find from 'lodash/find';
 export default {
   components: {
     WmTable,
@@ -158,7 +160,7 @@ export default {
   mixins: [filters],
   data() {
     return {
-      activeName: '1',
+      activeName: '2',
       params: {
         pageNo: PAGE_NO,
         pageSize: PAGE_SIZE,
@@ -203,7 +205,6 @@ export default {
       let result = '-';
       if (parentId) {
         let contact = find(this.contacts, {contactId: parentId});
-
         result = contact ? contact.name : result;
       }
 
@@ -230,21 +231,26 @@ export default {
       };
 
       params.taskStatusList = STATUS[this.activeName];
-
       return params;
     },
     query() {
       this.getGroupCustomerList(this.getParams());
     },
     init() {
-      this.queryCustomer(this.$route.params.id).then(() => {
+      this.queryCustomer(this.$route.params.id);
+    },
+    setDom() {
+      let list = document.querySelectorAll('.el-table__expand-icon');
+      for (let dom of list) {
+        dom.innerHTML = '详情<i class="el-icon el-icon-arrow-right"></i>';
+      }
+    },
+    handleRadioChange(val) {
+      if (val === '1') {
         this.$nextTick(() => {
-          let list = document.querySelectorAll('.el-table__expand-icon');
-          for (let dom of list) {
-            dom.innerHTML = '详情<i class="el-icon el-icon-arrow-right"></i>';
-          }
+          this.setDom();
         });
-      });
+      }
     },
     ...mapActions([
       'getGroupCustomerList',

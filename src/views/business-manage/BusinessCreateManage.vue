@@ -40,7 +40,7 @@
           <span style="margin-right: 10px">{{ scope.row.group }}</span>
           <el-popover placement="top" width="200" trigger="hover">
             <div class="tipText1">系统暂未录入该集团，请尽快关联！</div>
-            <div class="tipText tipText1 el-dropdown-link" @click="handleAssociate(scope.row)">立即关联</div>
+            <div class="tipText tipText1 el-dropdown-link" @click="showAssociate(scope.row)">立即关联</div>
             <i class="icon-info" slot="reference"></i>
           </el-popover>
         </template>
@@ -69,6 +69,17 @@
         </template>
       </el-table-column>
     </wm-table>
+    <el-dialog width="433px" height="312px" title="立即关联" :visible.sync="relationDialogVisible">
+      <el-form ref="form">
+        <el-form-item label="关联集团名称/编码：" prop="">
+          <el-autocomplete style="width: 390px;" v-model="relationcooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="relationCancel">取 消</el-button>
+        <el-button type="primary" @click="relationConfirm">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -96,7 +107,9 @@ export default {
       status: 0,
       taskManageRules: {
       },
-      cooperNum: ''
+      cooperNum: '',
+      relationDialogVisible: false,
+      relationcooperName: ''
     };
   },
   watch: {
@@ -187,23 +200,25 @@ export default {
       const path = `/business-manage/update-business/${row.id}`;
       this.$router.push(path);
     },
-    handleAssociate(row) {
-      this.$prompt('关联集团名称/编码：', '立即关联', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPlaceholder: '请输入关联集团名称或编码'
-      }).then(({ value }) => {
-        this.groupAssociation();
+    showAssociate(row) {
+      this.relationDialogVisible = true;
+    },
+    relationConfirm() {
+      this.groupAssociation().then(res => {
         this.$message({
           type: 'success',
-          message: '您已成功关联: ' + value
+          message: '您已成功关联: '
         });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消关联'
-        });
+        this.relationcooperName = '';
+        this.hideAssociate();
       });
+    },
+    relationCancel() {
+      this.relationcooperName = '';
+      this.hideAssociate();
+    },
+    hideAssociate() {
+      this.relationDialogVisible = false;
     },
     ...mapActions([
       'getCooperationGroupList', 'getBusinessList', 'groupAssociation', 'delBusinessOppority'
@@ -248,5 +263,12 @@ export default {
 }
 .tipText1{
   font-size:11px;height: 22px;line-height:22px;
+}
+// 弹出框样式设置
+.el-dialog__body {
+  padding: 0px 20px;
+}
+.el-form-item {
+  margin-bottom: 13px;
 }
 </style>

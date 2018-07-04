@@ -23,7 +23,7 @@ export default {
 
     },
     init() {
-      this.queryCustomer(this.$route.params.id).then(() => {
+      this.queryCustomerSnapshot(this.$route.params.id).then(() => {
         this.$nextTick(() => {
           let list = document.querySelectorAll('.el-table__expand-icon');
           for (let dom of list) {
@@ -32,6 +32,6 @@ export default {
         });
       });
     },
-    ...mapActions(['queryCustomer'])
+    ...mapActions(['queryCustomerSnapshot'])
   }
 };

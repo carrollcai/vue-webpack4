@@ -213,8 +213,10 @@
           width="180">
         </el-table-column>
         <el-table-column
-          prop="gender"
           label="性别">
+          <template slot-scope="scope">
+            {{genderFilter(scope.row.gender)}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="department"
@@ -246,7 +248,7 @@
             <el-button type="text" @click="handleDeleteContact(scope.$index, scope.row.contactId)">
               删除
             </el-button>
-        </template>
+          </template>
         </el-table-column>
       </el-table>
       <div class="btn_add-contact" v-if="!isAddingContact" @click="addContact">
@@ -258,7 +260,13 @@
         <el-button type="primary" @click="toFirstStep">上一步</el-button>
       </div>
     </div>
-    <el-form class="customer-manager-info" :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
+    <el-form class="customer-manager-info"
+      :model="customer"
+      ref="managerForm"
+      :rules="managerRules"
+      label-width="120px"
+      v-if="isThirdStep()"
+      key="managerForm">
       <el-form-item label="客户经理" prop="managerName" required key="managerName">
         <el-autocomplete
           key="manager-input"

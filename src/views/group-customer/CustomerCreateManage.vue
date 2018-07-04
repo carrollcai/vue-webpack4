@@ -4,24 +4,23 @@
       <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="params.organizeType" placeholder="集团属性">
-              <el-option :key="null" label="全部属性" :value="null"></el-option>
+            <el-select v-model="params.organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
+
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="params.provinceId" placeholder="所属省份">
-              <el-option :key="null" label="全部" :value="null"></el-option>
+            <el-select v-model="params.provinceId" clearable placeholder="所属省份">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="params.managerName" placeholder="客户经理" clearable/>
+            <el-input v-model="params.managerName" clearable placeholder="客户经理"/>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
-            <el-input v-model="params.otherField" placeholder="集团名称/编码" clearable/>
+            <el-input v-model="params.otherField" clearable placeholder="集团名称/编码"/>
           </el-form-item>
         </div>
 
@@ -62,6 +61,9 @@
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">
               详情
+            </el-button>
+            <el-button type="text" v-if="isPassed(scope.row)" @click="handleEdit(scope.row)">
+              修改
             </el-button>
             <template v-if="isDraft(scope.row)">
               <el-dropdown @command="handleCommand(scope.row, $event)">
@@ -115,8 +117,17 @@ export default {
     this.query();
   },
   methods: {
+    /**
+     * 草稿状态
+     */
     isDraft(row) {
       return row.orgTaskStatus === '1';
+    },
+    /**
+     * 审核通过
+     */
+    isPassed(row) {
+      return row.orgTaskStatus === '4' || row.orgTaskStatus === '3' || row.orgTaskStatus === '6';
     },
     onPagination(value) {
       this.params.pageNo = value;
@@ -138,7 +149,7 @@ export default {
       this.$router.push(`/group-customer/detail/${row.organizeId}`);
     },
     handleDelete(row) {
-      this.$confirm('删除集团客户数据, 是否继续?', ' ', {
+      this.$confirm('您确定要删除该条集团客户信息？', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -151,7 +162,7 @@ export default {
       });
     },
     handleApprove(row) {
-      this.$confirm('提审集团客户数据, 是否继续?', ' ', {
+      this.$confirm('您确定要提审该条集团客户信息？', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

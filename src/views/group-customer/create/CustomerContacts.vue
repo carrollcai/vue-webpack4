@@ -5,9 +5,17 @@
       <span class="comment-title_sub">（可添加多个联系人，且多个联系人之间需要设置上下级关系）</span>
     </div>
     <div class="form-wrapper">
-      <el-form  :model="contact" :rules="rules" ref="baseForm" label-width="80px">
+      <el-form
+        :model="contact"
+        :rules="rules"
+        ref="baseForm"
+        label-width="80px">
         <div class="contact-base-info">
-          <el-form-item label="基本信息" required key="contact-name" class="col-item">
+          <el-form-item
+            label="基本信息"
+            required
+            key="contact-name"
+            class="col-item">
             <el-col :span="8">
               <el-form-item prop="name" key="contact-name1">
                 <el-input class="col-input"
@@ -249,7 +257,8 @@ export default {
 };
 </script>
 <style lang="scss">
-$form-item-width: 336px;
+@import '@/assets/scss/variables.scss';
+$form-item-width: $formLargeWidth;
 
 .contact_create{
 
@@ -357,6 +366,12 @@ $form-item-width: 336px;
       color: rgba(0, 0, 0, 0.25);
       font-size: 16px;
     }
+  }
+
+  .el-button{
+    width: 58px;
+    height: 24px;
+    line-height: 24px;
   }
 }
 </style>

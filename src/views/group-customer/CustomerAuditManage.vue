@@ -4,24 +4,22 @@
       <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="params.organizeType" placeholder="集团属性">
-              <el-option :key="null" label="全部属性" :value="null"></el-option>
+            <el-select v-model="params.organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="params.provinceId" placeholder="所属省份">
-              <el-option :key="null" label="全部" :value="null"></el-option>
+            <el-select v-model="params.provinceId" clearable placeholder="所属省份">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="params.managerName" placeholder="客户经理" />
+            <el-input v-model="params.managerName" placeholder="客户经理" clearable/>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
-            <el-input v-model="params.otherField" placeholder="集团名称/编码" />
+            <el-input v-model="params.otherField" placeholder="集团名称/编码" clearable />
           </el-form-item>
         </div>
         <div class="flex">
@@ -44,7 +42,7 @@
         :pageSize="params.pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="organizeCode" />
+        <el-table-column label="集团编码" property="businessId" />
         <el-table-column label="集团名称" property="organizeName">
         </el-table-column>
         <el-table-column label="集团属性" property="organizeType" >
@@ -57,7 +55,7 @@
             <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
               去审核
             </el-button>
-            <el-button type="text" v-else @click="handleEdit(scope.row)">
+            <el-button type="text" v-else @click="handleDetail(scope.row)">
               查看主页
             </el-button>
           </template>
@@ -107,12 +105,11 @@ export default {
       this.params.pageSize = value;
       this.query();
     },
-    handleEdit(row) {
-      const path = `/system/user/edit/${row.operatorId}`;
-      this.$router.push(path);
+    handleDetail(row) {
+      this.$router.push(`/group-customer/overview/detail/${row.businessId}`);
     },
     handleAudit(row) {
-      this.$router.push(`/group-customer/audit/${row.organizeCode}`);
+      this.$router.push(`/group-customer/audit/${row.businessId}/${row.taskInsId}`);
     },
     getParams() {
       const {params} = this;

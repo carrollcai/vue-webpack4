@@ -23,7 +23,11 @@ const state = {
   groupAssociationStatus: '',
   delBusinessStatus: '',
   businessDraftDetail: '',
-  designatePerson: ''
+  designatePerson: '',
+  remindPerson: [],
+  submitBusinessSendStatus: '',
+  submitBusinessCancelStatus: '',
+  saveBusinessDrafStatus: ''
 };
 
 const mutations = {
@@ -57,6 +61,18 @@ const mutations = {
   },
   [types.DESIGNATE_PERSON](state, data) {
     state.designatePerson = data.list;
+  },
+  [types.REMIND_PERSON](state, data) {
+    state.remindPerson = data.list;
+  },
+  [types.SUBMIT_BUSINESS_SEND_STATUS](state, data) {
+    state.submitBusinessSendStatus = data.list;
+  },
+  [types.SUBMIT_BUSINESS_CANCEL_STATUS](state, data) {
+    state.submitBusinessCancelStatus = data.list;
+  },
+  [types.SAVE_BUSINESS_DRAFT_STATUS](state, data) {
+    state.saveBusinessDrafStatus = data.list;
   }
 };
 export default {

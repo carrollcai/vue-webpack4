@@ -30,11 +30,11 @@
       <el-table-column label="合作集团" property="group" />
       <el-table-column label="创建时间" property="time" />
       <el-table-column label="联系人" property="contacts" />
-      <el-table-column label="处理人" property="process" />
-      <el-table-column label="处理结果" property="result" />
+      <el-table-column v-if="status === '1'" label="处理人" property="process" />
+      <el-table-column v-if="status === '1'" label="处理结果" property="result" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-if="status === '0'" type="text" @click="handleSend(scope.row)">
+          <el-button v-if="status === '0'" type="text" @click="handleTrans(scope.row)">
             转订单
           </el-button>
           <template v-if="status === '0'">
@@ -42,9 +42,6 @@
               <el-button type="text">
                 更多<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
-              <!--<span class="el-dropdown-link">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>-->
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item class="el-dropdown-link" command="detail">详情</el-dropdown-item>
                 <el-dropdown-item class="el-dropdown-link" command="send">分派</el-dropdown-item>
@@ -52,15 +49,42 @@
               </el-dropdown-menu>
             </el-dropdown>
           </template>
-          <!--<el-button v-if="status === '0'" type="text" @click="handleDetail(scope.row)">
-            更多
-          </el-button>-->
           <el-button v-if="status === '1'" type="text" @click="handleDetail(scope.row)">
             详情
           </el-button>
         </template>
       </el-table-column>
     </wm-table>
+    <el-dialog width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
+      <el-form ref="form" :model="sendForm">
+        <el-form-item label="指派处理人：" prop="">
+          <el-cascader style="width: 392px;" v-if="designPerson"
+            :options="designPerson"
+            v-model="sendForm.person"
+            @change="handleChange">
+          </el-cascader>
+        </el-form-item>
+        <el-form-item label="分派的原因：">
+          <el-input resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="sendCancel">取 消</el-button>
+        <el-button type="primary" @click="sendConfirm">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog width="433px" height="312px" title="作废" :visible.sync="cancelDialogVisible">
+      <el-form ref="form" :model="cancelForm">
+        <el-form-item label="作废原因：">
+          <el-input resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
+        </el-form-item>
+        <p class="tipsText">*如确定要作废该商机，请填写原因供创建者查看</p>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelCancel">取 消</el-button>
+        <el-button type="primary" @click="cancelConfirm">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -81,7 +105,8 @@ export default {
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       businessForm: ({ business }) => business.businessForm,
       businessList: ({ business }) => business.businessList,
-      designatePerson: ({business}) => business.designatePerson
+      designatePerson: ({business}) => business.designatePerson,
+      remindPerson: ({business}) => business.remindPerson
     })
   },
   data() {
@@ -89,7 +114,24 @@ export default {
       status: 0,
       taskManageRules: {
       },
-      cooperNum: ''
+      cooperNum: '',
+      cancelReason: '',
+      sendDialogVisible: false,
+      cancelDialogVisible: false,
+      sendForm: {
+        person: [],
+        reason: ''
+      },
+      largeArea: [
+        { 'label': '总部', 'value': '0' },
+        { 'label': '咪咕子公司', 'value': '1' },
+        { 'label': '销售大区', 'value': '2' }
+      ],
+      designPerson: [],
+      selectedDesignPerson: '',
+      cancelForm: {
+        reason: ''
+      }
     };
   },
   watch: {
@@ -102,51 +144,80 @@ export default {
     this.query();
   },
   methods: {
+    // 分页
     onPagination(value) {
       this.businessForm.pageNo = value;
       this.query();
     },
+    // 改变页面展示条数
     onSizePagination(value) {
       this.businessForm.pageSize = value;
       this.query();
     },
+    // 查看详情
     handleDetail(row) {
       const path = `/business-manage/business-detail/${row.id}`;
       this.$router.push(path);
     },
+    // 点击转订单
+    handleTrans(row) {
+      const path = `/business-manage/transfor-order/${row.id}`;
+      this.$router.push(path);
+    },
+    // 点击分派
     handleSend(row) {
-      this.getDesignatePerson();
-      this.$prompt('指派处理人：', '分派', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消'
-      }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message: '作废成功！' + value
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消作废'
-        });
+      this.sendDialogVisible = true;
+      // 获取指派处理人
+      this.getDesignatePerson().then((res) => {
+        this.designPerson = res;
       });
     },
+    // 点击作废
     handleCancel(row) {
-      this.$prompt('作废原因：', '作废', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPlaceholder: '请输入作废原因'
-      }).then(({ value }) => {
-        this.groupAssociation();
+      this.cancelDialogVisible = true;
+    },
+    // 分派取消
+    sendCancel() {
+      this.sendDialogVisible = false;
+      this.sendForm.person = [];
+      this.sendForm.reason = '';
+    },
+    // 分派确定
+    sendConfirm() {
+      let params = this.sendForm;
+      this.submitBusinessSend(params).then(res => {
         this.$message({
           type: 'success',
-          message: '作废成功！' + value
+          message: '您已成功分派！ '
         });
-      }).catch(() => {
+        // this.$message({
+        //   type: 'error',
+        //   message: '分派失败！ '
+        // });
+        this.sendDialogVisible = false;
+        this.sendForm.person = [];
+        this.sendForm.reason = '';
+      });
+    },
+    // 作废取消
+    cancelCancel() {
+      this.cancelDialogVisible = false;
+      this.cancelForm.reason = '';
+    },
+    // 作废确定
+    cancelConfirm() {
+      let params = this.cancelForm;
+      this.submitBusinessCancel(params).then(res => {
         this.$message({
-          type: 'info',
-          message: '取消作废'
+          type: 'success',
+          message: '作废成功！ '
         });
+        // this.$message({
+        //   type: 'error',
+        //   message: '作废失败！ '
+        // });
+        this.cancelDialogVisible = false;
+        this.cancelForm.reason = '';
       });
     },
     query() {
@@ -178,8 +249,10 @@ export default {
       };
       this[COMMANDS[command]](row);
     },
+    handleChange(value) {
+    },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessList', 'getDesignatePerson'
+      'getCooperationGroupList', 'getBusinessList', 'getDesignatePerson', 'getRemindPerson', 'submitBusinessSend', 'submitBusinessCancel'
     ])
   }
 };
@@ -188,12 +261,6 @@ export default {
 <style lang="scss">
 @import "scss/variables.scss";
 .group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.task-header {
-  margin-bottom: 16px;
-}
-.task-form-item__lable {
   margin-left: $blockWidth;
 }
 .task-form {
@@ -206,5 +273,21 @@ export default {
 }
 .task-form-item {
   margin-left: $formWidth;
+}
+// 弹出框样式设置
+.el-dialog__body {
+  padding: 0px 20px;
+}
+.el-form-item {
+  margin-bottom: 13px;
+}
+.el-textarea__inner {
+  height: 88px;
+}
+.tipsText {
+  height: 20px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;padding-bottom:0px;
 }
 </style>
