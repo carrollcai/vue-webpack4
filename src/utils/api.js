@@ -13,7 +13,7 @@ const upload = (url, method) => params => {
       'Content-Type': 'multipart/form-data'
     }
   };
-  fetch(development + url, params, 'post', config);
+  return fetch(development + url, params, 'post', config);
 };
 
 export default {
