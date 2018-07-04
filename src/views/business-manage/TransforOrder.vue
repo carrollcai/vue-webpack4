@@ -223,7 +223,7 @@ export default {
     },
     save() {
       const params = this.form;
-      this.$refs['businessForm'].validate(valid => {
+      this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
         this.saveBusinessOrderDraft(params).then(res => {
           this.reset();
