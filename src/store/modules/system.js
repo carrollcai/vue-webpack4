@@ -57,7 +57,7 @@ const mutations = {
   [types.ROLE_GET_INFO](state, data) {
     let exceptFirstMendId = MENU_PERMISSIONS.filter(val => val.children).map(val => val.menuId);
 
-    state.roleCreate = Object.assign(state.roleCreate, { ...data });
+    state.roleCreate = Object.assign(state.roleCreate, data);
 
     // 将多余的一级菜单menuId剔除
     state.roleCreate.menuIds = state.roleCreate.menuIds.filter(val => {

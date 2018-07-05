@@ -1,5 +1,26 @@
 <template>
   <div class="m-container">
+    
+    <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
+      <el-form>
+        <div class="handler">指派处理人：</div>
+        <el-form-item prop="handler">
+          <el-select class="form-input-large" v-model="value" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div class="reason">分派的原因：</div>
+        <el-form-item prop="reason">
+          <el-input class="form-input-large" type="textarea" placeholder="请输入优势能力"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="dialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
+
     <el-form class="o-overview-form" ref="orderOverview" :rules="overviewRules" :model="orderOverviewForm">
       <div class="flex">
         <el-form-item prop="date">
@@ -30,7 +51,7 @@
       <el-table-column label="合作集团" property="cooperationCompany" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleSign(scope.row)">
+          <el-button class="table-button" type="text" @click="handleSign(scope.row)">
             签约处理
           </el-button>
           <el-dropdown @command="handleCommand(scope.row, $event)">
@@ -46,25 +67,6 @@
         </template>
       </el-table-column>
     </wm-table>
-    <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
-      <el-form>
-        <div class="handler">指派处理人：</div>
-        <el-form-item prop="handler">
-          <el-select class="form-input-large" v-model="value" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <div class="reason">分派的原因：</div>
-        <el-form-item prop="reason">
-          <el-input class="form-input-large" type="textarea" placeholder="请输入优势能力"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        <el-button @click="dialogVisible = false">取 消</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 

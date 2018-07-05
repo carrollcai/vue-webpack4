@@ -20,7 +20,7 @@
       </div>
     </el-form>
 
-    <el-tabs v-model="orderOverviewForm.status">
+    <el-tabs v-model="orderOverviewForm.status" @tab-click="tabChange">
       <el-tab-pane label="全部" :name="0"></el-tab-pane>
       <el-tab-pane label="草稿" :name="1"></el-tab-pane>
       <el-tab-pane label="待签约" :name="2"></el-tab-pane>
@@ -81,6 +81,9 @@ export default {
     this.getOrderList(this.orderOverviewForm);
   },
   methods: {
+    tabChange(val) {
+      this.query();
+    },
     handleCommand(row, command) {
       let COMMANDS = {
         'edit': 'handleEdit',

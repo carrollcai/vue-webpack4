@@ -1,22 +1,24 @@
 @import "scss/variables.scss";
-
 .block-containter {
   background-color: #fff;
   padding: $blockWidth;
 }
+
 .btnLists {
   & .el-button {
     font-size: 18px;
     color: #333333;
     &+.el-button {
-        margin-left: 10px;
+      margin-left: 10px;
     }
   }
 }
+
 .m-container {
   background-color: #fff;
   padding: 16px;
 }
+
 .no-data {
   width: 100%;
   height: 100%;
@@ -36,24 +38,31 @@
   width: 30px;
   text-align: center;
 }
+
 .form-item__input {
   width: $inputWidthQuery;
 }
+
 .float-left {
   float: left;
 }
+
 .cursor-pointer {
   cursor: pointer;
 }
+
 .breadcrumb {
   padding-left: $blockWidth;
 }
+
 .form-input-large {
   width: $formLargeWidth !important;
 }
+
 .form-input-medium {
   width: $formMediumWidth !important;
 }
+
 .form-input-half {
   width: $formhalfWidth !important;
 }
@@ -61,22 +70,33 @@
 .form-input-100 {
   width: 100px !important;
 }
+
 .form-input-80 {
   width: 80px !important;
 }
+
 .form-input-120 {
   width: 120px !important;
 }
+
 .form-input-320 {
   width: 320px !important;
 }
+
 .form-input-sep {
   color: rgb(0, 0, 0) 25%;
   padding-left: 4px;
   padding-right: 4px;
   display: inline-block;
 }
+
 .form-input-medium .el-input-group__append {
   background-color: #fff;
   padding: 0 5px;
+}
+
+.table-button {
+  font-size: 14px;
+  font-weight: initial;
+  font-family: "Microsoft YaHei"
 }
