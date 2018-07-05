@@ -23,7 +23,7 @@ export const isEmpty = (rule, value, callback) => {
 
 // 非负数，需要先经过非空检验（isEmpty）
 export const isNonnegative = (rule, value, callback) => {
-  const reg = /^[1-9]\d*$/; // 为什么不用/^\d+$/，因为这样也支持0001
+  const reg = /^[1-9]\d*$/; // 为什么不用/^\d+$/，因为它也支持0001
   if (reg.test(value) || value.toString() === '0') {
     callback();
   } else {
