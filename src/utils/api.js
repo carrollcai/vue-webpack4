@@ -20,6 +20,7 @@ export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
   queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
+  queryRegionRelationListAPI: API('/esop/operator/getRegionRelationList'),
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -179,5 +180,9 @@ export default {
   // 提交分派
   submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
   // 提交作废
-  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren')
+  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交商机转订单
+  saveBusinessOrderAPI: API(''),
+  // 提交商机转订单草稿
+  saveBusinessOrderDraftAPI: API('')
 };
