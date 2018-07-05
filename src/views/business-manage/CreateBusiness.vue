@@ -114,6 +114,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { checkPhone, emailCheck, inte5Deci4 } from '@/utils/rules.js';
 export default {
   components: {
   },
@@ -168,12 +169,12 @@ export default {
           { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
         tel: [
-          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
-          { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确' }
+          { required: true, message: '请输入手机号码', trigger: ['blur', 'change'] },
+          { validator: checkPhone, trigger: 'blur' }
         ],
         email: [
-          { required: true, message: '请输入邮箱地址', trigger: ['blur', 'change'] },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入电子邮箱', trigger: ['blur', 'change'] },
+          { validator: emailCheck, trigger: ['blur', 'change'] }
         ],
         desc: [
           { required: true, message: '请输入业务描述', trigger: ['blur', 'change'] }
@@ -182,8 +183,8 @@ export default {
           { required: true, message: '请输入业务需求', trigger: ['blur', 'change'] }
         ],
         income: [
-          { pattern: /^\d{1,5}(?:\.\d{1,4})?$/, message: '整数部分最多5位，小数部分最多4位' },
-          { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] },
+          { validator: inte5Deci4, trigger: ['blur', 'change'] }
         ],
         signTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }

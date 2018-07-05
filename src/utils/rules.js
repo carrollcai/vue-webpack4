@@ -128,20 +128,30 @@ export const startDateBeforeEndDate = (effectiveDate, expireDate, callback) => {
 
 // 手机号校验
 export const checkPhone = (rule, value, callback) => {
-  const reg = /^[1][0-9]{10}$/;
-  if (reg.test(checkPhone)) {
-    callback(new Error('请输入11位手机号码'));
-  } else {
+  const reg = /^1[34578]\d{9}$/;
+  if (reg.test(value)) {
     callback();
+  } else {
+    callback(new Error('请输入11位手机号码'));
   }
 };
 
 // 邮箱验证
 export const emailCheck = (rule, value, callback) => {
   const reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
-  if (reg.test(checkPhone)) {
-    callback(new Error('请输入正确邮件'));
-  } else {
+  if (reg.test(value)) {
     callback();
+  } else {
+    callback(new Error('请输入正确邮箱'));
+  }
+};
+
+// 整数部分最多5位，小数部分最多4位
+export const inte5Deci4 = (rule, value, callback) => {
+  const reg = /^\d{1,5}(?:\.\d{1,4})?$/;
+  if (reg.test(value)) {
+    callback();
+  } else {
+    callback(new Error('整数部分最多5位，小数部分最多4位'));
   }
 };
