@@ -125,3 +125,23 @@ export const startDateBeforeEndDate = (effectiveDate, expireDate, callback) => {
     callback();
   }
 };
+
+// 手机号校验
+export const checkPhone = (rule, value, callback) => {
+  const reg = /^[1][0-9]{10}$/;
+  if (reg.test(checkPhone)) {
+    callback(new Error('请输入11位手机号码'));
+  } else {
+    callback();
+  }
+};
+
+// 邮箱验证
+export const emailCheck = (rule, value, callback) => {
+  const reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+  if (reg.test(checkPhone)) {
+    callback(new Error('请输入正确邮件'));
+  } else {
+    callback();
+  }
+};
