@@ -163,8 +163,8 @@ export default {
     },
     addFieldsTrendList() {
       return this.trendList.map(val => {
-        val[this.mobileIpArr[0]] = val.msisdnNum;
-        val[this.mobileIpArr[1]] = val.chinaMobileIpNum;
+        val[this.mobileIpArr[0]] = val.chinaMobileIpNum;
+        val[this.mobileIpArr[1]] = val.otherIpNum;
         return val;
       });
     },

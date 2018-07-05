@@ -52,6 +52,12 @@ import OrderCreate from '@/views/order/OrderCreate.vue';
 import OrderOverviewDetail from '@/views/order/OrderOverviewDetail.vue';
 import OrderHandleTaskDetail from '@/views/order/HandleTaskDetail.vue';
 
+import MissionHandling from '@/views/visit/MissionHandling.vue';
+import MyVisitManage from '@/views/visit/MyVisitManage.vue';
+import VisitAppoint from '@/views/visit/VisitAppoint.vue';
+import CreateVisitApplication from '@/views/visit/CreateVisitApplication.vue';
+import ExecuteProcess from '@/views/visit/ExecuteProcess.vue';
+
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
   {
@@ -213,6 +219,43 @@ const dynamicRoutes = [
         path: '/group-customer/audit/:id/:taskId',
         name: 'group-customer-audit',
         component: CustomerAudit,
+        meta: { menuId: 15 }
+      },
+
+      {
+        path: '/visit/mission-handling',
+        name: 'visit-mission-handling',
+        component: MissionHandling,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/visit/my-visit-manage',
+        name: 'visit-my-manage',
+        component: MyVisitManage,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/visit/my-visit-manage',
+        name: 'visit-my-manage',
+        component: MyVisitManage,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/visit/visit-appoint',
+        name: 'visit-appoint',
+        component: VisitAppoint,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/visit/create-visit-application',
+        name: 'create-visit-application',
+        component: CreateVisitApplication,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/visit/execute-process',
+        name: 'execute-process',
+        component: ExecuteProcess,
         meta: { menuId: 15 }
       },
 

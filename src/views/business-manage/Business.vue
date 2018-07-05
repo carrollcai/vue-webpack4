@@ -1,6 +1,6 @@
 <template>
   <div class="m-container">
-    <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
+    <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
           <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -70,8 +70,6 @@ export default {
   data() {
     return {
       status: 0,
-      taskManageRules: {
-      },
       cooperNum: ''
     };
   },

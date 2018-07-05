@@ -181,6 +181,36 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
+    menuId: 14,
+    name: '走访管理',
+    url: '/visit',
+    icon: 'icon-business',
+    enable: false,
+    children: [
+      {
+        menuId: 15,
+        parentId: 14,
+        name: '我的走访管理',
+        url: '/visit/my-visit-manage',
+        enable: false
+      },
+      {
+        menuId: 14,
+        parentId: 14,
+        name: '走访指派',
+        url: '/visit/visit-appoint',
+        enable: false
+      },
+      {
+        menuId: 13,
+        parentId: 14,
+        name: '走访任务处理',
+        url: '/visit/mission-handling',
+        enable: false
+      }
+    ]
+  },
+  {
     menuId: 9,
     name: '系统配置',
     url: '/system',
@@ -240,32 +270,33 @@ export const CLIENT = [
   },
   {
     'key': 3,
-    'value': '咪咕影视'
-  },
-  {
-    'key': 4,
-    'value': '咪咕阅读'
-  },
-  {
-    'key': 5,
-    'value': '咪咕音乐'
-  },
-  {
-    'key': 6,
-    'value': '咪咕游戏'
-  },
-  {
-    'key': 7,
-    'value': '咪咕圈圈'
-  },
-  {
-    'key': 8,
-    'value': '咪咕善跑'
-  },
-  {
-    'key': 9,
-    'value': '咪咕灵犀'
+    'value': '咪咕影院'
   }
+  // 20180705，暂时屏蔽，客户端渠道还没
+  // {
+  //   'key': 4,
+  //   'value': '咪咕阅读'
+  // },
+  // {
+  //   'key': 5,
+  //   'value': '咪咕音乐'
+  // },
+  // {
+  //   'key': 6,
+  //   'value': '咪咕游戏'
+  // },
+  // {
+  //   'key': 7,
+  //   'value': '咪咕圈圈'
+  // },
+  // {
+  //   'key': 8,
+  //   'value': '咪咕善跑'
+  // },
+  // {
+  //   'key': 9,
+  //   'value': '咪咕灵犀'
+  // }
 ];
 
 /**
