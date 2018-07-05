@@ -1,6 +1,6 @@
 <template>
   <div class="m-container">
-    
+
     <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
       <el-form>
         <div class="handler">指派处理人：</div>
