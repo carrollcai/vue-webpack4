@@ -46,6 +46,9 @@ export const SET_TODO_LIST = 'SET_TODO_LIST';
 
 /* order */
 export const ORDER_GET_LIST = 'ORDER_GET_LIST';
+export const ORDER_CREATE = 'ORDER_CREATE';
+export const ORDER_QUERY_ORGANIZE_ADDRESS = 'ORDER_QUERY_ORGANIZE_ADDRESS';
+export const ORDER_GET_DETAIL = 'ORDER_GET_DETAIL';
 
 /* group_customer */
 export const GROUP_CUSTOMER_INIT_FORM = 'GROUP_CUSTOMER_INIT_FORM';
