@@ -4,6 +4,7 @@ import {
   PAGE_SIZE,
   MENU_PERMISSIONS
 } from '@/config/index.js';
+import store from '@/store';
 
 const roleCreate = {
   roleName: '',
@@ -36,7 +37,7 @@ const state = {
   userForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    opRegion: 0,
+    opRegion: null,
     otherField: '',
     role: ''
   },
@@ -55,7 +56,9 @@ const mutations = {
   },
   [types.ROLE_GET_INFO](state, data) {
     let exceptFirstMendId = MENU_PERMISSIONS.filter(val => val.children).map(val => val.menuId);
-    state.roleCreate = data;
+
+    state.roleCreate = Object.assign(state.roleCreate, { ...data });
+
     // 将多余的一级菜单menuId剔除
     state.roleCreate.menuIds = state.roleCreate.menuIds.filter(val => {
       let flag = true;
@@ -76,7 +79,23 @@ const mutations = {
     state.userCreate = data;
   },
   [types.SYSTEM_QUERY_REGION](state, data) {
-    state.regionRelationList = data.map(val => {
+    let regionArr = [];
+    data.map(val => {
+      if (String(val.codeValue) === String(store.state.root.currentUser.operator.opRegion)) {
+        regionArr.push(val);
+        return false;
+      }
+      val.children && val.children(cval => {
+        if (String(cval.codeValue) === String(store.state.root.currentUser.operator.opRegion)) {
+          val.children = [cval];
+          regionArr.push(val);
+          return false;
+        }
+      });
+    });
+    regionArr = regionArr.length ? regionArr : data;
+
+    state.regionRelationList = regionArr.map(val => {
       let _val = {};
       _val.value = val.codeValue;
       _val.label = val.codeName;

@@ -23,7 +23,7 @@ export const isEmpty = (rule, value, callback) => {
 
 // 非负数，需要先经过非空检验（isEmpty）
 export const isNonnegative = (rule, value, callback) => {
-  const reg = /^[1-9]\d*$/; // 为什么不用/^\d+$/，因为这样也支持0001
+  const reg = /^[1-9]\d*$/; // 为什么不用/^\d+$/，因为它也支持0001
   if (reg.test(value) || value.toString() === '0') {
     callback();
   } else {
@@ -121,6 +121,26 @@ export const startDateBeforeEndDate = (effectiveDate, expireDate, callback) => {
     } else {
       callback();
     }
+  } else {
+    callback();
+  }
+};
+
+// 手机号校验
+export const checkPhone = (rule, value, callback) => {
+  const reg = /^[1][0-9]{10}$/;
+  if (reg.test(checkPhone)) {
+    callback(new Error('请输入11位手机号码'));
+  } else {
+    callback();
+  }
+};
+
+// 邮箱验证
+export const emailCheck = (rule, value, callback) => {
+  const reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+  if (reg.test(checkPhone)) {
+    callback(new Error('请输入正确邮件'));
   } else {
     callback();
   }

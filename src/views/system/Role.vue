@@ -2,9 +2,8 @@
   <div class="m-container">
     <el-form class="role-form" ref="roleManageForm" :model="roleForm" :rules="roleManageRules">
       <div class="flex">
-        <el-form-item>角色名称：</el-form-item>
         <el-form-item class="role-form-item__input" prop="roleName">
-          <el-input v-model="roleForm.roleName" />
+          <el-input v-model="roleForm.roleName" placeholder="角色名称" />
         </el-form-item>
       </div>
       <div class="flex">

@@ -71,7 +71,7 @@ export default {
     changeMendIds(val) {
       let arr = [];
       val.map(val => {
-        this.permissions.map(cval => {
+        this.menuList.map(cval => {
           let flag = false;
           cval.children && cval.children.map(gval => {
             if (Number(val) === Number(gval.menuId)) {

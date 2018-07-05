@@ -53,7 +53,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-import { textLimit } from '@/utils/rules.js';
+import { textLimit, checkPhone, emailCheck } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -69,10 +69,12 @@ export default {
           { max: 20, message: '登录账号不能超过20个字符', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' }
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { validator: checkPhone, trigger: 'blur' }
         ],
         email: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' }
+          { required: true, message: '请输入电子邮箱', trigger: 'blur' },
+          { validator: emailCheck, trigger: 'blur' }
         ],
         roleId: [
           { required: true, message: '请输入用户角色', trigger: 'change' }
@@ -146,7 +148,8 @@ export default {
       const params = Object.cloneDeep(this.userCreate);
 
       params.provinces = params.provinces.filter(val => val !== 'null');
-      params.opRegion = params.opRegion.length ? params.opRegion[0] : params.opRegion;
+      params.opRegion = params.opRegion.pop();
+
       this.$refs['userForm'].validate(valid => {
         if (!valid) return false;
 
