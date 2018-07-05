@@ -1,5 +1,11 @@
 <template>
   <div class="customer-overview_detail">
+    <div class="m-container">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/group-customer/overview' }">集团客户纵览</el-breadcrumb-item>
+        <el-breadcrumb-item>查看主页</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <div class="m-container info-block base-info">
       <div class="base-info_image">
         <div class="customer-log"></div>

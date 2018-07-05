@@ -9,61 +9,61 @@
       </div>
     </div>
     <div class="m-container order-create">
-      <el-form :label-position="'right'" label-width="140px" :model="orderCreate" ref="orderForm" :rules="orderCreateRules">
-        <el-form-item label="订单名称：" prop="staffName">
-          <el-input class="form-input-medium" v-model="orderCreate.staffName" placeholder="请输入名称" />
+      <el-form :label-position="'right'" label-width="140px" :model="orderCreate" ref="orderCreateForm" :rules="orderCreateRules">
+        <el-form-item label="订单名称：" prop="ordName">
+          <el-input class="form-input-medium" v-model="orderCreate.ordName" placeholder="订单名称" />
         </el-form-item>
-        <el-form-item label="预定合同金额：" prop="staffName">
-          <el-input class="form-input-medium" v-model="orderCreate.staffName" placeholder="请输入合同金额">
+        <el-form-item label="预定合同金额：" prop="predictContactAmount">
+          <el-input class="form-input-medium" v-model="orderCreate.predictContactAmount" placeholder="合同金额">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="预定签约时间：" prop="staffName">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.date" placeholder="请选择时间"></el-date-picker>
+        <el-form-item label="预定签约时间：" prop="predictSignDate">
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.predictSignDate" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="预计协议期：" prop="staffName">
-          <el-input class="form-input-medium" v-model="orderCreate.staffName" placeholder="请输入合同金额" />
+        <el-form-item label="预计协议期：" prop="predictAgreement">
+          <el-input class="form-input-medium" v-model="orderCreate.predictAgreement" placeholder="合同金额" />
         </el-form-item>
-        <el-form-item label="项目是否招标：" prop="staffName">
-          <el-radio v-model="orderCreate.radio" :label="1">是</el-radio>
-          <el-radio v-model="orderCreate.radio" :label="0">否</el-radio>
+        <el-form-item label="项目是否招标：" prop="isProjectInvitation" required>
+          <el-radio v-model="orderCreate.isProjectInvitation" :label="1">是</el-radio>
+          <el-radio v-model="orderCreate.isProjectInvitation" :label="0">否</el-radio>
         </el-form-item>
 
-        <el-form-item label="联系人员：" prop="name">
-          <el-input maxlength="6" class="form-input-80" v-model="orderCreate.name" placeholder="姓名"></el-input>
+        <el-form-item label="联系人员：" required>
+          <el-form-item prop="contactName" style="display: inline-block;">
+            <el-input maxlength="6" class="form-input-80" v-model="orderCreate.contactName" placeholder="姓名"></el-input>
+          </el-form-item>
           <div class="form-input-sep">-</div>
-          <el-form-item prop="gender" style="display: inline-block;">
-            <el-select class="form-input-80" v-model="orderCreate.gender" placeholder="性别">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          <el-form-item prop="contactGender" style="display: inline-block;">
+            <el-select class="form-input-80" v-model="orderCreate.contactGender" placeholder="性别">
+              <el-option v-for="item in genderStatic" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
           <div class="form-input-sep">-</div>
-          <el-form-item prop="tel" style="display: inline-block;">
-            <el-input maxlength="11" class="form-input-120" v-model="orderCreate.tel" placeholder="手机号"></el-input>
-          </el-form-item>
-        </el-form-item>
-        <el-form-item label="联系邮箱：" prop="staffName">
-          <el-input class="form-input-large" v-model="orderCreate.email" placeholder="请输入邮箱" />
-        </el-form-item>
-        <el-form-item label="合作集团：" prop="group">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="orderCreate.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
-          <div class="form-input-sep">-</div>
-          <el-form-item prop="office" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="orderCreate.office" placeholder="办公地址"></el-input>
+          <el-form-item prop="contactMobile" style="display: inline-block;">
+            <el-input maxlength="11" class="form-input-120" v-model="orderCreate.contactMobile" placeholder="手机号"></el-input>
           </el-form-item>
         </el-form-item>
 
-        <el-form-item label="合作集团：" prop="staffName">
-          <el-input class="form-input-large" v-model="orderCreate.staffName" placeholder="集团编号/名称" />
+        <el-form-item label="联系邮箱：" prop="contactEmail">
+          <el-input class="form-input-large" v-model="orderCreate.contactEmail" placeholder="邮箱" />
         </el-form-item>
-        <el-form-item label="集团地址：" prop="staffName">
-          <el-input class="form-input-large" v-model="orderCreate.staffName" placeholder="办公地址" />
+
+        <el-form-item label="合作集团：" required>
+          <el-form-item prop="organizeName" style="display:inline-block;">
+            <el-autocomplete maxlength="25" class="form-input-half" v-model="orderCreate.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          </el-form-item>
+          <div class="form-input-sep">-</div>
+          <el-form-item prop="address" style="display:inline-block;">
+            <el-input maxlength="50" class="form-input-half" v-model="orderCreate.address" placeholder="办公地址"></el-input>
+          </el-form-item>
         </el-form-item>
-        <el-form-item label="订单描述：" prop="staffName">
-          <el-input type="textarea" class="form-input-large" v-model="orderCreate.staffName" placeholder="请输入业务描述" />
+
+        <el-form-item label="订单描述：" prop="busiDesc">
+          <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiDesc" placeholder="订单描述" />
         </el-form-item>
-        <el-form-item label="订单需求：" prop="staffName">
-          <el-input type="textarea" class="form-input-large" v-model="orderCreate.staffName" placeholder="请输入业务需求" />
+        <el-form-item label="订单需求：" prop="assignReason">
+          <el-input type="textarea" class="form-input-large" v-model="orderCreate.assignReason" placeholder="订单需求" />
         </el-form-item>
 
         <el-form-item>
@@ -76,33 +76,85 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import { checkPhone, emailCheck } from '@/utils/rules.js';
 
 export default {
   data() {
     return {
       orderCreateRules: {
-        staffName: [
-          { required: true, message: '请输入订单名称', trigger: 'change' }
+        ordName: [
+          { required: true, message: '请输入订单名称', trigger: 'blur' }
+        ],
+        predictContactAmount: [
+          { required: true, message: '请输入预定合同金额', trigger: 'blur' }
+        ],
+        predictSignDate: [
+          { required: true, message: '请输入预定签约时间', trigger: 'blur' }
+        ],
+        predictAgreement: [
+          { required: true, message: '请输入预计协议期', trigger: 'change' }
+        ],
+        contactName: [
+          { required: true, message: '请输入姓名', trigger: 'blur' }
+        ],
+        contactGender: [
+          { required: true, message: '请输入性别', trigger: 'change' }
+        ],
+        contactMobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkPhone, trigger: 'blur' }
+        ],
+        contactEmail: [
+          { required: true, message: '请输入联系邮箱', trigger: 'blur' },
+          { validator: emailCheck, trigger: 'blur' }
+        ],
+        organizeName: [
+          { required: true, message: '请输入合作集团/编码', trigger: 'blur' }
+        ],
+        address: [
+          { required: true, message: '请输入地址', trigger: 'change' }
+        ],
+        busiDesc: [
+          { required: true, message: '请输入订单描述', trigger: 'blur' }
+        ],
+        assignReason: [
+          { required: true, message: '请输入订单需求', trigger: 'blur' }
         ]
-      },
-      options: [
-        { 'label': '男', 'value': '0' },
-        { 'label': '女', 'value': '1' }
-      ]
+      }
     };
   },
   computed: {
     ...mapState({
-      orderCreate: ({ order }) => order.orderCreate
+      orderCreate: ({ order }) => order.orderCreate,
+      genderStatic: ({ root }) => root.staticData.SEX
     })
   },
   beforeMount() {
+    let { type, id } = this.$route.params;
+    if (type !== 'create') {
+      this.getOrderEdit({ id });
+    }
   },
   methods: {
+    querySearchAsync() {
+
+    },
+    handleSelect() {
+
+    },
     submitForm() {
-      console.log(12);
-    }
+      const params = this.orderCreate;
+      this.$refs.orderCreateForm.validate(valid => {
+        if (!valid) return false;
+
+        this.createOrder(params);
+      });
+    },
+    ...mapActions([
+      'getOrderEdit',
+      'createOrder'
+    ])
   }
 };
 </script>

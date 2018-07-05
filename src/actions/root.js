@@ -34,7 +34,11 @@ const actions = {
         'CM_MONEY_TYPE',
         'SEX',
         'AGE',
-        'maritalStatus'
+        'maritalStatus',
+        // 订单模块
+        'ORD_STATUS',
+        'PROJECT_INVITATION',
+        'PREDICT_AGREEMENT_TIME'
       ]
     };
 
