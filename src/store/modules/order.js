@@ -8,18 +8,21 @@ const state = {
   orderOverviewForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    totalcount: 1,
     date: [],
-    nameOrCode: ''
+    nameOrCode: '',
+    status: 0
   },
-  orderList: [],
+  orderOverviewObj: {
+    list: [],
+    totalcount: 1
+  },
 
   orderCreate: {
     ordName: '',
     predictContactAmount: null,
     predictSignDate: '',
     predictAgreement: '',
-    isProjectInvitation: 1,
+    isProjectInvitation: '1',
     organizeName: '',
     address: '',
     contactName: '',
@@ -33,8 +36,7 @@ const state = {
 
 const mutations = {
   [types.ORDER_GET_LIST](state, data) {
-    state.orderList = data.list;
-    state.orderOverviewForm.totalcount = data.totalcount;
+    state.orderOverviewObj = Object.assign(state.orderOverviewObj, data);
   },
   [types.ORDER_QUERY_ORGANIZE_ADDRESS](state, data) {
 

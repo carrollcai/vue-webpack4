@@ -4,7 +4,7 @@ import { Message } from 'element-ui';
 
 const actions = {
   getOrderList: ({ commit }, params) => {
-    return API.getOrderListAPI().then((res) => {
+    return API.getOrderListAPI(params).then((res) => {
       commit(types.ORDER_GET_LIST, res.data);
     });
   },

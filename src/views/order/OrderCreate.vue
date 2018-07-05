@@ -22,11 +22,12 @@
           <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.predictSignDate" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreement">
-          <el-input class="form-input-medium" v-model="orderCreate.predictAgreement" placeholder="合同金额" />
+          <el-select class="form-input-medium" v-model="orderCreate.predictAgreement" placeholder="合同金额">
+            <el-option v-for="item in agreementTimeStatic" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
         <el-form-item label="项目是否招标：" prop="isProjectInvitation" required>
-          <el-radio v-model="orderCreate.isProjectInvitation" :label="1">是</el-radio>
-          <el-radio v-model="orderCreate.isProjectInvitation" :label="0">否</el-radio>
+          <el-radio v-model="orderCreate.isProjectInvitation" :label="item.value" v-for="(item, i) in projectInvitationStatic" :key="i">{{item.label}}</el-radio>
         </el-form-item>
 
         <el-form-item label="联系人员：" required>
@@ -127,7 +128,9 @@ export default {
   computed: {
     ...mapState({
       orderCreate: ({ order }) => order.orderCreate,
-      genderStatic: ({ root }) => root.staticData.SEX
+      genderStatic: ({ root }) => root.staticData.SEX,
+      agreementTimeStatic: ({ root }) => root.staticData.PREDICT_AGREEMENT_TIME,
+      projectInvitationStatic: ({ root }) => root.staticData.PROJECT_INVITATION
     })
   },
   beforeMount() {
@@ -138,7 +141,7 @@ export default {
   },
   methods: {
     querySearchAsync() {
-
+      this.queryOrganizeAddress();
     },
     handleSelect() {
 
@@ -153,7 +156,8 @@ export default {
     },
     ...mapActions([
       'getOrderEdit',
-      'createOrder'
+      'createOrder',
+      'queryOrganizeAddress'
     ])
   }
 };

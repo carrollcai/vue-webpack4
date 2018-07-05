@@ -20,16 +20,16 @@
       </div>
     </el-form>
 
-    <el-tabs v-model="status">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="草稿"></el-tab-pane>
-      <el-tab-pane label="待签约"></el-tab-pane>
-      <el-tab-pane label="待付款"></el-tab-pane>
-      <el-tab-pane label="已完成"></el-tab-pane>
-      <el-tab-pane label="已取消"></el-tab-pane>
+    <el-tabs v-model="orderOverviewForm.status">
+      <el-tab-pane label="全部" :name="0"></el-tab-pane>
+      <el-tab-pane label="草稿" :name="1"></el-tab-pane>
+      <el-tab-pane label="待签约" :name="2"></el-tab-pane>
+      <el-tab-pane label="待付款" :name="3"></el-tab-pane>
+      <el-tab-pane label="已完成" :name="4"></el-tab-pane>
+      <el-tab-pane label="已取消" :name="5"></el-tab-pane>
     </el-tabs>
 
-    <wm-table :source="orderList" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="订单编号" property="code" />
       <el-table-column label="订单名称" property="name" />
       <el-table-column label="创建时间" property="date" />
@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     ...mapState({
-      orderList: ({ order }) => order.orderList,
+      orderOverviewObj: ({ order }) => order.orderOverviewObj,
       orderOverviewForm: ({ order }) => order.orderOverviewForm
     })
   },
