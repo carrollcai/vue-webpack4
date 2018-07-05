@@ -13,6 +13,8 @@
 
 <script>
 import { mapActions } from 'vuex';
+import HandleBar from 'components/visit/HandleBar.vue';
+import HandleContent from 'components/visit/HandleContent.vue';
 
 export default {
   data() {
@@ -20,6 +22,8 @@ export default {
     };
   },
   components: {
+    HandleBar,
+    HandleContent
   },
   created() {
   },
