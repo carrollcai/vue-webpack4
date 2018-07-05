@@ -8,6 +8,7 @@ import login from './login';
 import product from './product';
 import business from './business';
 import order from './order';
+import requirement from './requirement';
 
 export default {
   root,
@@ -19,5 +20,6 @@ export default {
   login,
   product,
   business,
-  order
+  order,
+  requirement
 };
