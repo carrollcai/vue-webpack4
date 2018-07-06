@@ -58,7 +58,6 @@
                   key="requirementDesc-input"></el-input>
               </el-form-item>
               <el-form-item label="需求附件" prop="uploadFiles" required key="provinceId1">
-                {{uploadFiles}}
                 <el-upload
                   :limit="1"
                   class="upload-demo"
@@ -80,18 +79,18 @@
             <template v-if="requirement.type === '9'">
               <el-form-item label="物料名称" prop="materialName" required key="materialName">
                 <el-input v-model="requirement.materialName"
-                  :maxlength="500"
-                  type="textarea"
+                  :maxlength="20"
                   placeholder="请输入物料名称"
                   key="materialName-input"></el-input>
               </el-form-item>
-              <el-form-item label="物料提供方式" prop="materialType" required key="materialType">
-                <el-select
+              <el-form-item label="物料格式要求" prop="materialType" required key="materialType">
+                <el-input
                     class="col-input"
                     v-model="requirement.materialType"
-                    placeholder="物料提供方式"
+                    placeholder="物料格式要求"
+                    :maxlength="50"
                     key="materialType-input">
-                  </el-select>
+                  </el-input>
               </el-form-item>
               <el-form-item label="物料使用时间" required key="materialTime">
                 <el-col :span="11">
@@ -154,6 +153,7 @@
                   <el-input class="col-input"
                     v-model="requirement.contactEmail"
                     placeholder="邮箱"
+                    :maxlength="35"
                     key="contact-email-input"></el-input>
                 </el-form-item>
               </el-col>

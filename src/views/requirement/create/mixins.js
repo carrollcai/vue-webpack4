@@ -33,7 +33,7 @@ export default {
           { required: true, message: '请输入物料名称', trigger: 'blur' }
         ],
         materialType: [
-          { required: true, message: '请选择物料提供方式', trigger: 'change' }
+          { required: true, message: '请选择物料格式要求', trigger: 'change' }
         ],
         materialStart: [
           { required: true, message: '请选开始时间', trigger: 'change' }
