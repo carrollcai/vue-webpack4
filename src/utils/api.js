@@ -63,9 +63,11 @@ export default {
   /* 订单管理 */
   getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
   uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
-  queryOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
+  getOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
   createOrderAPI: API('http://localhost:3618/order/overview'), // 新建订单,
-  getOrderDetailAPI: API('http://localhost:3618/order/overview'),
+  getOrderDetailAPI: API('http://localhost:3618/order/overview'), // 获取订单详情
+  getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
+  createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),

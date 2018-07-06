@@ -3,8 +3,8 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/order/handle-task' }">订单处理任务</el-breadcrumb-item>
-          <el-breadcrumb-item>详情</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/order/overview' }">订单总览</el-breadcrumb-item>
+          <el-breadcrumb-item>订单详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
@@ -25,6 +25,7 @@
 <script>
 import AuditSteps from 'components/task/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -33,8 +34,13 @@ export default {
   },
   methods: {
     submit() {
+      let { id } = this.$route.params;
+      this.overviewSignHandle(id);
       //
-    }
+    },
+    ...mapActions([
+      'overviewSignHandle'
+    ])
   }
 };
 </script>
