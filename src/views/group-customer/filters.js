@@ -29,7 +29,7 @@ export default {
     },
     // 行业类别
     INDUSTRY_TYPE() {
-      return this.staticData.industryType || [];
+      return this.staticData.INDUSTRY_TYPE || [];
     },
     GENDER() {
       return this.staticData.SEX || [];
@@ -38,7 +38,7 @@ export default {
       return this.staticData.AGE || [];
     },
     MARITAL_STATUS() {
-      return this.staticData.maritalStatus || [];
+      return this.staticData.MARITAL_STATUS || [];
     }
   },
   methods: {

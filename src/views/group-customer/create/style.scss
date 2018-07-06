@@ -1,14 +1,16 @@
 @import '@/assets/scss/variables.scss';
 
 .customer-create {
-  background: #FFF;
-  padding: 24px;
   .steps {
     width: 620px;
     margin: 16px auto 40px;
     .step__line {
       width: 120px;
     }
+  }
+
+  .info-block{
+    margin-top: 16px;
   }
   .base-info,
   .base-optional-info,

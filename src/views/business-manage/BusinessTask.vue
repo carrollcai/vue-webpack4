@@ -55,7 +55,7 @@
         </template>
       </el-table-column>
     </wm-table>
-    <el-dialog width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
+    <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
           <el-cascader style="width: 392px;" v-if="designPerson"
@@ -73,7 +73,7 @@
         <el-button type="primary" @click="sendConfirm">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog width="433px" height="312px" title="作废" :visible.sync="cancelDialogVisible">
+    <el-dialog class="business-task-dialog" width="433px" height="312px" title="作废" :visible.sync="cancelDialogVisible">
       <el-form ref="form" :model="cancelForm">
         <el-form-item label="作废原因：">
           <el-input resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
@@ -122,16 +122,16 @@ export default {
         person: [],
         reason: ''
       },
+      cancelForm: {
+        reason: ''
+      },
       largeArea: [
         { 'label': '总部', 'value': '0' },
         { 'label': '咪咕子公司', 'value': '1' },
         { 'label': '销售大区', 'value': '2' }
       ],
       designPerson: [],
-      selectedDesignPerson: '',
-      cancelForm: {
-        reason: ''
-      }
+      selectedDesignPerson: ''
     };
   },
   watch: {
@@ -275,14 +275,16 @@ export default {
   margin-left: $formWidth;
 }
 // 弹出框样式设置
-.el-dialog__body {
-  padding: 0px 20px;
-}
-.el-form-item {
-  margin-bottom: 13px;
-}
-.el-textarea__inner {
-  height: 88px;
+.business-task-dialog {
+  .el-dialog__body {
+    padding: 0px 20px;
+  }
+  .el-form-item {
+    margin-bottom: 13px;
+  }
+  .el-textarea__inner {
+    height: 88px;
+  }
 }
 .tipsText {
   height: 20px;

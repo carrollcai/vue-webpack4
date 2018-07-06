@@ -119,6 +119,24 @@ const actions = {
       commit(types.SUBMIT_BUSINESS_CANCEL_STATUS, res.data);
       return res.data.list;
     });
+  },
+  /**
+   * 提交 “商机转订单” 数据
+   */
+  saveBusinessOrder: ({ commit }, params) => {
+    return API.saveBusinessOrderAPI(params).then(res => {
+      commit(types.SAVE_BUSINESS_ORDER, res.data);
+      return res.data.list;
+    });
+  },
+  /**
+   * 提交 “商机转订单草稿” 数据
+   */
+  saveBusinessOrderDraft: ({ commit }, params) => {
+    return API.saveBusinessOrderDraftAPI(params).then(res => {
+      commit(types.SAVE_BUSINESS_ORDER_DRAFT, res.data);
+      return res.data.list;
+    });
   }
 };
 

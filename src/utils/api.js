@@ -8,18 +8,36 @@ const download = url => params => {
   window.location.href = `${url}?${qs.stringify(params)}`;
 };
 const upload = (url, method) => params => {
+  let formData = jsonToFormData(params);
   let config = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   };
-  return fetch(development + url, params, 'post', config);
+  return fetch(development + url, formData, 'post', config);
 };
+
+function jsonToFormData(json) {
+  if (Array.isArray(json)) throw 'jsonToFormData dont support Array';
+  let formData = new FormData();
+  for (let x in json) {
+    if (Array.isArray(json[x])) {
+      json[x].forEach(val => formData.append(`${x}[]`, val));
+    } else {
+      formData.append(`${x}`, json[x]);
+    }
+  }
+  return formData;
+}
 
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
   queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
+  queryRegionRelationListAPI: API('/esop/operator/getRegionRelationList'),
+
+  /* 附件 */
+  getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -39,12 +57,10 @@ export default {
   getMembersAPI: API('/esop/analysisReport/queryPDNNs'), // 查询新增会员活跃用户数，按日
   getDailyActiveUserAPI: API('/esop/analysisReport/queryPDARs'), // 分省日活跃用户数，按日
   getMonthDailyActiveUserAPI: API('/esop/analysisReport/queryMANs'), // 分省日活跃用户数，按月
-
   getTrendListAPI: API('/esop/analysisReport/queryPDARs'), // 活跃度分析日活跃数查询，按日
   getMonthTrendListAPI: API('/esop/analysisReport/queryMANs'), // 活跃度分析月活跃数查询，按月
   getTrendNewMembersAPI: API('/esop/analysisReport/queryPDNNs'), // 活跃度分析新增会员查询，按日
   getTrendNewMembersMonthAPI: API('/esop/analysisReport/queryMNANs'), // 活跃度分析新增会员查询，按月
-
   getProvinceUserAPI: API('/esop/analysisReport/queryPDARs'), // 各省日活跃用户情况，按日
 
   downloadTrendDataAnalysisAPI: download('/esop/analysisReport/downloadPDARs'), // 下载数据分析,按日
@@ -64,6 +80,13 @@ export default {
   /* 订单管理 */
   getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
   uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
+  getOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
+  createOrderAPI: API('http://localhost:3618/order/overview'), // 新建订单,
+  getOrderDetailAPI: API('http://localhost:3618/order/overview'), // 获取订单详情
+  getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
+  createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
+  submitOrderRowAPI: API('http://localhost:3618/order/overview'), // 提交订单
+  deleteOrderRowAPI: API('http://localhost:3618/order/overview'), // 删除订单
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
@@ -155,7 +178,7 @@ export default {
   // 获取合作集团/编码列表
   getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
-  getBusinessListAPI: API('http://localhost:3618/business-manage/business'),
+  getBusinessListAPI: API('/esop/bizOppor/List'),
 
   // 商机详情查询
   getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
@@ -166,9 +189,9 @@ export default {
   // 根据合作集团匹配办公地址
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 提交商机
-  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  submitBusinessOpporityAPI: API('/esop/bizOppor/createApprove'),
   // 保存草稿商机
-  saveBusinessDraftAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  saveBusinessDraftAPI: API('/esop/bizOppor/create'),
   // 集团关联商机
   groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 删除商机
@@ -182,5 +205,9 @@ export default {
   // 提交分派
   submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
   // 提交作废
-  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren')
+  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 提交商机转订单
+  saveBusinessOrderAPI: API(''),
+  // 提交商机转订单草稿
+  saveBusinessOrderDraftAPI: API('')
 };

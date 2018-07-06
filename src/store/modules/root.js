@@ -13,6 +13,7 @@ const state = {
     menuIds: [], // 扁平化的menuId数组
     menuList: [],
     operator: {
+      opRegion: null,
       staffName: '',
       provinces: []
     }
@@ -68,6 +69,7 @@ const mutations = {
     const provinces = data.secOperatorDTO.provinces.split(',');
 
     state.currentUser.operator.staffName = data.secOperatorDTO.staffName;
+    state.currentUser.operator.opRegion = data.secOperatorDTO.opRegion;
 
     // 用户拥有的菜单权限
     data.secMenuDTOList.map(val => {
@@ -88,8 +90,9 @@ const mutations = {
         });
       });
     });
-
+    // 当前用户拥有的菜单权限id列表
     state.currentUser.menuIds = menuIds;
+    // 当前用户拥有的菜单权限详情列表
     state.currentUser.menuList = sidebars;
     // 用户拥有的省份权限
     state.currentUser.operator.provinces = provinces.map(val => {

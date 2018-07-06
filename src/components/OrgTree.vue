@@ -118,8 +118,6 @@ export default {
           data = concat(data, arr);
         }
 
-        console.log(JSON.stringify(data));
-
         for (let contact of data) {
           if (contact.parentContactId) {
             links.push({

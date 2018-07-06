@@ -1,0 +1,31 @@
+@import '@/assets/scss/variables.scss';
+.requirement-create {
+  .info-block{
+    margin-top: 16px;
+
+    .el-form{
+      .el-select .el-input, .el-textarea {
+        width: $formLargeWidth;
+      }
+    }
+
+    .block{
+      width: 450px;
+      margin: 0 auto;
+    }
+
+    .processor-info{
+      margin-top: 16px;
+    }
+  }
+
+  .line{
+    height: 1px;
+    border-top: 1px solid $line-color;
+    margin-top: 20px;
+  }
+
+/*   .processor{
+    width: $formMediumWidth;
+  } */
+}

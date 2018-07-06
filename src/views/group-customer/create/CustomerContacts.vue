@@ -293,7 +293,7 @@ $form-item-width: $formLargeWidth;
   .line{
     width: 9px;
     height: 1px;
-    border-top: 1px solid  rgba(0, 0, 0, 0.25);
+    border-top: 1px solid  $line-color;
   }
 
   .comment-title{
