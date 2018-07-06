@@ -1,3 +1,4 @@
+import {Message} from 'element-ui';
 import * as types from '../store/types';
 import API from '../utils/api';
 
@@ -21,8 +22,8 @@ const actions = {
       }
     });
   },
-  saveRequirement({commit}, params) {
-    API.saveRequirementAPI(customer).then((res) => {
+  saveRequirement({commit}, requirement) {
+    API.saveRequirementAPI(requirement).then((res) => {
       if (isSuccess(res)) {
         Message({
           message: '新增成功',
