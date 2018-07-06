@@ -38,3 +38,17 @@ export function checkMultRules(ref) {
     return Boolean(count);
   }
 };
+
+// 将json对象转成FormData对象
+export function jsonToFormData(json) {
+  if (Array.isArray(json)) throw 'jsonToFormData dont support Array';
+  let formData = new FormData();
+  for (let x in json) {
+    if (Array.isArray(json[x])) {
+      json[x].forEach(val => formData.append(`${x}[]`, val));
+    } else {
+      formData.append(`${x}`, json[x]);
+    }
+  }
+  return formData;
+}

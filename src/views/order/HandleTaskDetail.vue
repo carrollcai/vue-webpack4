@@ -130,7 +130,10 @@ export default {
       this.$refs.assign.validate(valid => {
         if (!valid) return false;
 
-        this.uploadOrderHandleTask(this.assignForm);
+        // 先获取附件id再上传。
+        this.getNewFileInputId().then(() => {
+          this.uploadOrderHandleTask(this.assignForm);
+        });
 
         // 不能利用submit事件，因为会重复提交一次action
         // this.$refs.upload.submit();
