@@ -25,7 +25,7 @@
           <el-radio v-model="assignForm.radio" :label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="签约合同：" prop="file">
-          <el-upload class="upload-demo" ref="upload" :before-upload="beforeUpload" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
+          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
             <el-button slot="trigger" size="small">
               <i class="icon-up margin-right-8"></i>上传文件</el-button>
           </el-upload>
