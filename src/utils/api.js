@@ -63,9 +63,11 @@ export default {
   /* 订单管理 */
   getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
   uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
-  queryOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
+  getOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
   createOrderAPI: API('http://localhost:3618/order/overview'), // 新建订单,
-  getOrderDetailAPI: API('http://localhost:3618/order/overview'),
+  getOrderDetailAPI: API('http://localhost:3618/order/overview'), // 获取订单详情
+  getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
+  createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
@@ -154,7 +156,7 @@ export default {
   // 获取合作集团/编码列表
   getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
-  getBusinessListAPI: API('http://localhost:3618/business-manage/business'),
+  getBusinessListAPI: API('/esop/bizOppor/List'),
 
   // 商机详情查询
   getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
@@ -165,9 +167,9 @@ export default {
   // 根据合作集团匹配办公地址
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 提交商机
-  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  submitBusinessOpporityAPI: API('/esop/bizOppor/createApprove'),
   // 保存草稿商机
-  saveBusinessDraftAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  saveBusinessDraftAPI: API('/esop/bizOppor/create'),
   // 集团关联商机
   groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 删除商机

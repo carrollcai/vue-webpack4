@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     querySearchAsync() {
-      this.queryOrganizeAddress();
+      this.getOrganizeAddress();
     },
     handleSelect() {
 
@@ -157,7 +157,7 @@ export default {
     ...mapActions([
       'getOrderEdit',
       'createOrder',
-      'queryOrganizeAddress'
+      'getOrganizeAddress'
     ])
   }
 };

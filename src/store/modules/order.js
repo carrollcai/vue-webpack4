@@ -17,6 +17,17 @@ const state = {
     totalcount: 1
   },
 
+  orderCreateManageForm: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    date: [],
+    nameOrCode: '',
+    status: 0
+  },
+  orderCreateManageObj: {
+    list: [],
+    totalcount: 1
+  },
   orderCreate: {
     ordName: '',
     predictContactAmount: null,
@@ -31,7 +42,20 @@ const state = {
     contactEmail: '',
     busiDesc: '',
     assignReason: ''
-  }
+  },
+
+  orderHandleTaskForm: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    date: [],
+    nameOrCode: '',
+    status: 2
+  },
+  orderHandleTaskObj: {
+    list: [],
+    totalcount: 1
+  },
+  assignHandlers: []
 };
 
 const mutations = {
@@ -43,6 +67,15 @@ const mutations = {
   },
   [types.ORDER_CREATE](state, data) {
 
+  },
+  [types.ORDER_CM_GET_LIST](state, data) {
+    state.orderCreateManageObj = Object.assign(state.orderCreateManageObj, data);
+  },
+  [types.ORDER_HT_GET_LIST](state, data) {
+    state.orderHandleTaskObj = Object.assign(state.orderHandleTaskObj, data);
+  },
+  [types.ORDER_QUERY_ASSIGN_HANDLER](state, data) {
+    state.assignHandlers = data;
   }
 };
 

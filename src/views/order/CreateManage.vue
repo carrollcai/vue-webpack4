@@ -1,13 +1,13 @@
 <template>
   <div class="m-container">
-    <el-form class="o-overview-form" ref="orderOverview" :rules="overviewRules" :model="orderOverviewForm">
+    <el-form class="o-overview-form" ref="orderCreateManage" :rules="orderCreateManageRules" :model="orderCreateManageForm">
       <div class="flex">
         <el-form-item prop="date">
-          <el-date-picker v-model="orderOverviewForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
+          <el-date-picker v-model="orderCreateManageForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item class="o-form-item__input">
-          <el-input v-model="orderOverviewForm.name" placeholder="合作集团/编码" />
+          <el-input v-model="orderCreateManageForm.name" placeholder="合作集团/编码" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -20,7 +20,7 @@
       </div>
     </el-form>
 
-    <el-tabs v-model="orderOverviewForm.status" @tab-click="tabChange">
+    <el-tabs v-model="orderCreateManageForm.status" @tab-click="tabChange">
       <el-tab-pane label="全部" :name="0"></el-tab-pane>
       <el-tab-pane label="草稿" :name="1"></el-tab-pane>
       <el-tab-pane label="待签约" :name="2"></el-tab-pane>
@@ -29,7 +29,7 @@
       <el-tab-pane label="已取消" :name="5"></el-tab-pane>
     </el-tabs>
 
-    <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="orderCreateManageObj.list" :pageNo="orderCreateManageForm.pageNo" :pageSize="orderCreateManageForm.pageSize" :total="orderCreateManageObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="订单编号" property="code" />
       <el-table-column label="订单名称" property="name" />
       <el-table-column label="创建时间" property="date" />
@@ -38,7 +38,7 @@
       <el-table-column label="订单状态" property="status" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail(scope.row)">
+          <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
             详情
           </el-button>
           <el-dropdown @command="handleCommand(scope.row, $event)">
@@ -65,7 +65,7 @@ import { mapActions, mapState } from 'vuex';
 export default {
   data() {
     return {
-      overviewRules: {}
+      orderCreateManageRules: {}
     };
   },
   components: {
@@ -73,12 +73,12 @@ export default {
   },
   computed: {
     ...mapState({
-      orderOverviewObj: ({ order }) => order.orderOverviewObj,
-      orderOverviewForm: ({ order }) => order.orderOverviewForm
+      orderCreateManageObj: ({ order }) => order.orderCreateManageObj,
+      orderCreateManageForm: ({ order }) => order.orderCreateManageForm
     })
   },
   beforeMount() {
-    this.getOrderList(this.orderOverviewForm);
+    this.getCreateManageList(this.orderCreateManageForm);
   },
   methods: {
     tabChange(val) {
@@ -93,11 +93,11 @@ export default {
       this[COMMANDS[command]](row);
     },
     onPagination(value) {
-      this.orderOverviewForm.pageNo = value;
+      this.orderCreateManageForm.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.orderOverviewForm.pageSize = value;
+      this.orderCreateManageForm.pageSize = value;
       this.query();
     },
     handleEdit(row) {
@@ -140,15 +140,15 @@ export default {
       this.$router.push(path);
     },
     query() {
-      const params = this.orderOverviewForm;
-      this.$refs['orderOverview'].validate(valid => {
+      const params = this.orderCreateManageForm;
+      this.$refs['orderCreateManage'].validate(valid => {
         if (!valid) return false;
 
-        this.getOrderList(params);
+        this.getCreateManageList(params);
       });
     },
     ...mapActions([
-      'getOrderList'
+      'getCreateManageList'
     ])
   }
 };

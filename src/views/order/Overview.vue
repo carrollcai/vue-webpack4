@@ -17,12 +17,12 @@
       </div>
     </el-form>
 
-    <el-tabs v-model="status">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="待签约"></el-tab-pane>
-      <el-tab-pane label="待付款"></el-tab-pane>
-      <el-tab-pane label="已完成"></el-tab-pane>
-      <el-tab-pane label="已取消"></el-tab-pane>
+    <el-tabs v-model="orderOverviewForm.status" @tab-click="tabChange">
+      <el-tab-pane label="全部" :name="0"></el-tab-pane>
+      <el-tab-pane label="待签约" :name="2"></el-tab-pane>
+      <el-tab-pane label="待付款" :name="3"></el-tab-pane>
+      <el-tab-pane label="已完成" :name="4"></el-tab-pane>
+      <el-tab-pane label="已取消" :name="5"></el-tab-pane>
     </el-tabs>
 
     <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
@@ -34,7 +34,7 @@
       <el-table-column label="订单状态" property="status" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail(scope.row)">
+          <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
             详情
           </el-button>
         </template>
@@ -66,6 +66,9 @@ export default {
     this.getOrderList(this.orderOverviewForm);
   },
   methods: {
+    tabChange() {
+      this.query();
+    },
     handleDetail(row) {
       const path = `/order/overview/detail/${row.id}`;
       this.$router.push(path);
