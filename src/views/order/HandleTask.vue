@@ -57,14 +57,18 @@
           <el-button v-if="orderHandleTaskForm.status === 3" class="table-button" type="text" @click="handlePay(scope.row)">
             付款处理
           </el-button>
-          <el-dropdown @command="handleCommand(scope.row, $event)">
+          <el-button v-if="orderHandleTaskForm.status === 4" class="table-button" type="text" @click="handleDetail(scope.row)">
+            详情
+          </el-button>
+
+          <el-dropdown v-if="orderHandleTaskForm.status !== 4" @command="handleCommand(scope.row, $event)">
             <span class="el-dropdown-link">
               更多
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item class="el-dropdown-link" command="dispatch">分派</el-dropdown-item>
-              <el-dropdown-item class="el-dropdown-link" command="detail">详情</el-dropdown-item>
+              <el-dropdown-item class="el-dropdown-link" command="handleDispatch">分派</el-dropdown-item>
+              <el-dropdown-item class="el-dropdown-link" command="handleDetail">详情</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -131,8 +135,8 @@ export default {
     },
     handleCommand(row, command) {
       let COMMANDS = {
-        'dispatch': 'handleDispatch',
-        'detail': 'handleDetail'
+        'handleDispatch': 'handleDispatch',
+        'handleDetail': 'handleDetail'
       };
       this[COMMANDS[command]](row);
     },
@@ -155,6 +159,7 @@ export default {
     handleDispatch(row) {
       this.dialogVisible = true;
       this.currentRow = row;
+      // 初始化输入框内容部数据
       this.getAssignhandler(row.id);
     },
     handleDetail(row) {

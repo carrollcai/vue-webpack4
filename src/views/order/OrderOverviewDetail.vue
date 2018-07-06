@@ -14,9 +14,9 @@
 
         <detail-content />
       </div>
-      <div class="task-submit-button">
+      <!-- <div class="task-submit-button">
         <el-button type="primary" @click="submit">签约处理</el-button>
-      </div>
+      </div> -->
 
     </div>
   </div>

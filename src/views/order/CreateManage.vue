@@ -105,12 +105,16 @@ export default {
       this.$router.push(path);
     },
     handleDelete(row) {
-      this.$confirm('您确定要提交该条订单消息？', ' ', {
+      this.$confirm('您确定要删除该条订单消息？', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteRole({ roleId: row.roleId }).then(res => {
+        this.deleteOrderRow({ id: row.id }).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          });
           this.query();
         });
       }).catch(() => {
@@ -123,9 +127,13 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          dangerouslyUseHTMLString: true,
-          message: '<p>您已成功提交该条商机！</p><p>处理人：张三疯</p>'
+        this.submitOrderRow().then(() => {
+          this.$message({
+            type: 'success',
+            dangerouslyUseHTMLString: true,
+            message: `<p>您已成功提交该订单！</p><p>处理人：${row.submitter}</p>`
+          });
+          this.query();
         });
       }).catch(() => {
         this.$message('已取消提交');
@@ -148,7 +156,9 @@ export default {
       });
     },
     ...mapActions([
-      'getCreateManageList'
+      'getCreateManageList',
+      'submitOrderRow',
+      'deleteOrderRow'
     ])
   }
 };
