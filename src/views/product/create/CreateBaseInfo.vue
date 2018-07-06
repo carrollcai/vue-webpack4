@@ -2,10 +2,11 @@
 <div class="p-content">
   <div class="crumb-bar"><span>产品创建管理 / </span>新建产品</div>
   <div class="creat-content">
-    <el-steps :active="1" finish-status="success" align-center>
-      <el-step title="产品基本信息"></el-step>
-      <el-step title="产品销售案例"></el-step>
-    </el-steps>
+    <div class="steps-self w380 pt42 pb60">
+      <p class="steps current"><span>1</span><i class="el-step__icon-inner is-status el-icon-check" style="display:none"></i>产品基本信息</p>
+      <p class="line"></p>
+      <p class="steps"><span>2</span>产品销售案例</p>
+    </div>
     <el-form class="add-content" status-icon
       :model="formData"
       :rules="formDataValid"
@@ -41,6 +42,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+// import * from '@/utils/rules.js';
 
 export default {
   components: {
@@ -111,15 +113,15 @@ export default {
       formDataValid: {
         username: [
           { required: true, message: '请输入负责人姓名', trigger: 'blur' },
-          { min: 1, max: 6, message: '姓名过长，长度 6 个字符内', trigger: 'blur' }
+          { min: 1, max: 6, message: '长度6个字符内', trigger: 'blur' }
         ],
         deptment: [
           { required: true, message: '请输入部门名称', trigger: 'blur' },
-          { min: 1, max: 15, message: '部门名称过长，长度 15 个字符内', trigger: 'blur' }
+          { min: 1, max: 15, message: '长度15个字符内', trigger: 'blur' }
         ],
         position: [
           { required: true, message: '请输入岗位名称', trigger: 'blur' },
-          { min: 1, max: 15, message: '岗位过长，长度 6 个字符内', trigger: 'blur' }
+          { min: 1, max: 15, message: '长度15个字符内', trigger: 'blur' }
         ],
         productName: [
           { required: true, validator: productNameFn, trigger: 'blur' }
@@ -147,6 +149,11 @@ export default {
       var data = { productId: this.isAddProduct };
       this.getProductDetail(data).then(() => {
         var res = _this.productSaleDemo;
+        if (res.productType === '个人市场') {
+          res.productType = '0';
+        } else if (res.productType === '政企市场') {
+          res.productType = '1';
+        }
         _this.formData = {
           productId: res.productId,
           productName: res.productName,
@@ -199,4 +206,58 @@ export default {
 .el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
 .add-content {width: 460px; margin: 0 auto;}
 .demo-input-size .split {display: inline-block; width: 15px; color: #8c8c8c; text-align: center;}
+.w380 {width: 380px; margin: 0 auto;}
+.pt42 {padding-top: 42px;}
+.pb60 {padding-bottom: 60px;}
+.steps-self {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  .steps {
+    line-height: 25px;
+    color: #8C8C8C;
+    font-size: 14px;
+  }
+  .line {
+    display: block;
+    height: 1px;
+    background: #e9e9e9;
+    margin: 0 12px;
+    flex: 1;
+  }
+  span {
+    position: relative;
+    display: block;
+    width: 26px;
+    height:26px;
+    line-height: 26px;
+    text-align: center;
+    z-index: 10;
+    color: #3778FF;
+    float: left;
+    margin-right: 8px;
+    overflow: hidden;
+  }
+  span::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 24px;
+    height:24px;
+    border-radius: 12px;
+    color: #3778FF;
+    border: 1px #3778FF solid;
+    background: #fff;
+    z-index: -1;
+  }
+  i {color: #3778FF; display: none;}
+  .current {
+    span {color: #fff;}
+    span::before {background: #3778FF;}
+  }
+  .read {
+    i {display: block; font-size: 12px; line-height: 26px;}
+    span {font-size: 9999px;}
+  }
+}
 </style>

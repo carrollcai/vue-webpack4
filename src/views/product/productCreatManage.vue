@@ -3,13 +3,13 @@
   <el-form :inline="true" :model="formData" class="demo-form-inline box">
     <el-form-item>
       <el-col>
-        <!-- <el-date-picker v-model="formData.time" type="date" placeholder="创建时间范围" style="width: 100%;"></el-date-picker> -->
-        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-select v-if="composedProduct" style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+      <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+        <el-option label="全部" value=""></el-option>
         <el-option label="个人市场" value="0"></el-option>
         <el-option label="政企市场" value="1"></el-option>
       </el-select>
@@ -18,7 +18,7 @@
       <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">查询</el-button>
+      <el-button @click="onSubmit">查询</el-button>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="toCreatProduct">+ 新建产品</el-button>
@@ -34,7 +34,7 @@
   >
       <el-table-column label="产品编码" property="productId">
       </el-table-column>
-      <el-table-column label="产品名称" property="productName">
+      <el-table-column label="产品名称" show-overflow-tooltip property="productName">
       </el-table-column>
       <el-table-column label="产品类别" property="productType">
       </el-table-column>
@@ -67,7 +67,7 @@ export default {
       formData: {
         startDate: '',
         endDate: '',
-        productType: '',
+        productType: null,
         productName: '',
         pageNo: '1',
         pageSize: '20'
@@ -81,8 +81,7 @@ export default {
   },
   computed: {
     ...mapState({
-      productList: ({ product }) => product.productCreatList,
-      composedProduct: ({ product }) => product.composedProduct
+      productList: ({ product }) => product.productCreatList
     })
   },
   methods: {
@@ -95,9 +94,13 @@ export default {
       this.query();
     },
     getTimeRange(time) {
-      console.log(time);
-      this.formData.startDate = time[0];
-      this.formData.endDate = time[1];
+      if (time) {
+        this.formData.startDate = time[0];
+        this.formData.endDate = time[1];
+      } else {
+        this.formData.startDate = '';
+        this.formData.endDate = '';
+      }
     },
     query() {
       // 产品数据查询方法
@@ -149,6 +152,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "scss/variables.scss";
 .p-manage {
   padding: 24px; background: #fff;
 }

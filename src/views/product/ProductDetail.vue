@@ -9,6 +9,7 @@
 <script>
 import baseInfo from 'components/product/BaseInfo.vue';
 import SaleDome from 'components/product/SaleDome.vue';
+import _ from 'lodash';
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -28,7 +29,6 @@ export default {
   },
   beforeMount() {
     var data = {productId: Number(this.$route.params.id)};
-    console.log(data);
     this.getProductDetail(data);
   },
   methods: {
@@ -50,5 +50,8 @@ export default {
   span {
     color: #c0c0c0;
   }
+}
+.el-table__expand-column {
+  display: none;
 }
 </style>

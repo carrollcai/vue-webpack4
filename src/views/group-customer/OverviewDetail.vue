@@ -139,7 +139,7 @@
         </wm-table>
       </template>
       <template v-else>
-        <org-tree :contacts="contacts"></org-tree>
+        <!-- <org-tree :contacts="contacts"></org-tree> -->
       </template>
     </div>
   </div>
@@ -148,14 +148,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
-import OrgTree from 'components/OrgTree.vue';
+// import OrgTree from 'components/OrgTree.vue';
 import filters from './filters';
 import {PAGE_NO, PAGE_SIZE} from '@/config';
 import find from 'lodash/find';
 export default {
   components: {
-    WmTable,
-    OrgTree
+    WmTable
+    // OrgTree
   },
   mixins: [filters],
   data() {

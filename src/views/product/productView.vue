@@ -9,6 +9,7 @@
     </el-form-item>
     <el-form-item>
       <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+        <el-option label="全部" value="" />
         <el-option label="个人市场" value="0" />
         <el-option label="政企市场" value="1" />
       </el-select>
@@ -65,7 +66,7 @@ export default {
         startDate: '',
         endDate: '',
         productName: '',
-        productType: '',
+        productType: null,
         operatorCn: '',
         pageNo: 1,
         pageSize: 10
@@ -101,8 +102,13 @@ export default {
       console.log(this.composedProduct);
     },
     getTimeRange(time) {
-      this.formData.startDate = time[0];
-      this.formData.endDate = time[1];
+      if (time) {
+        this.formData.startDate = time[0];
+        this.formData.endDate = time[1];
+      } else {
+        this.formData.startDate = '';
+        this.formData.endDate = '';
+      }
     },
     query() {
       // 产品数据查询方法
@@ -116,8 +122,7 @@ export default {
       this.$router.push(path);
     },
     ...mapActions([
-      'getProductList',
-      'getComposedProduct'
+      'getProductList'
     ])
   }
 };

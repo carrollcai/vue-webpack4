@@ -1,20 +1,20 @@
 <template>
-<div class="p-content">
-  <div class="crumb-bar"><span>产品创建管理 / </span>新建产品</div>
-  <div class="creat-content">
-    <el-steps :active="2" finish-status="success" align-center>
-      <el-step title="产品基本信息"></el-step>
-      <el-step title="产品销售案例"></el-step>
-    </el-steps>
-    <div class="creat-model">
-      <wm-table
-        v-if="cacheData && cacheData.length > 0"
-        :source="cacheData">
+  <div class="p-content">
+    <div class="crumb-bar">
+      <span>产品创建管理 / </span>新建产品</div>
+    <div class="creat-content">
+      <div class="steps-self w380 pt42 pb60">
+        <p class="steps read"><span><i class="el-step__icon-inner is-status el-icon-check"></i>1</span>产品基本信息</p>
+        <p class="line"></p>
+        <p class="steps current"><span>2</span>产品销售案例</p>
+      </div>
+      <div class="creat-model">
+        <wm-table v-if="cacheData && cacheData.length > 0" :source="cacheData">
           <el-table-column label="销售类型" property="salesType" :formatter="salesTypeFormat">
           </el-table-column>
-          <el-table-column label="组合产品" property="composedProduct" :formatter="productNameFormat">
+          <el-table-column label="组合产品" property="composedProduct" width="120" :formatter="productNameFormat">
           </el-table-column>
-          <el-table-column label="方案介绍" property="scheme" prop="">
+          <el-table-column label="方案介绍" show-overflow-tooltip property="scheme" prop="">
           </el-table-column>
           <el-table-column label="销售数量" property="salesNumber">
           </el-table-column>
@@ -24,59 +24,71 @@
               <span class="blue hand" @click="deleteProduct(operation.$index ,operation.row)">删除</span>
             </template>
           </el-table-column>
-      </wm-table>
-      <div class="bor" v-if="isShow">
-        <h3 class="title">添加销售案例<span>（可添加多个销售案例）</span></h3>
-        <el-form class="add-content"
-          :model="formData"
-          :rules="formDataValid"
-          :ref="formData"
-          label-width="130px">
-          <el-form-item label="销售类型：">
-            <el-radio v-model="formData.salesType" value="0" label="0">单品销售</el-radio>
-            <el-radio v-model="formData.salesType" value="1" label="1">组合销售</el-radio>
-          </el-form-item>
-          <el-form-item v-if="formData.salesType === '1'" label="组合产品：" prop="composedProduct" label-width="130px">
-            <el-input v-model="formData.composedProduct" placeholder="产品名称/编码"></el-input>
-          </el-form-item>
-          <el-form-item label="方案介绍：" label-width="130px"  prop="scheme">
-            <el-input v-model="formData.scheme" placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
-          </el-form-item>
-          <el-form-item label="销售数量：" label-width="130px" prop="salesNumber">
-            <el-input v-model="formData.salesNumber" placeholder="请输入数量"></el-input>
-          </el-form-item>
-          <el-form-item label="创新点/借鉴点：" label-width="130px" prop="keypoint">
-            <el-input v-model="formData.keypoint" placeholder="请简要概述创新点或借鉴点" type="textarea" :rows="4"></el-input>
-          </el-form-item>
-          <el-form-item label="经验教训：" label-width="130px" prop="experience">
-            <el-input v-model="formData.experience" placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
-          </el-form-item>
-          <el-form-item label="经验教训：" label-width="130px">
-            <el-upload
-              label="方案附件："
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/">
-              <el-button size="small" type="primary">+上传附件</el-button>
-              <div slot="tip" class="el-upload__tip">
-                <p>1. 附件格式支持“word、excel、ppt、pdf、rar“格式</p>
-                <p>2. 附件大小不超过20M。</p>
-              </div>
-            </el-upload>
-          </el-form-item>
-          <el-row class="mt28 mb10">
-            <el-button type="primary" round size="mini" @click="onSubmit(formDataValid)">确定</el-button>
-            <el-button round size="mini" @click="reset(formDataValid)">取消</el-button>
-          </el-row>
-        </el-form>
+        </wm-table>
+        <div class="bor" v-if="isShow">
+          <h3 class="title">添加销售案例
+            <span>（可添加多个销售案例）</span>
+          </h3>
+          <el-form class="add-content" :model="formData" :rules="formDataValid" :ref="formData" label-width="130px">
+            <el-form-item label="销售类型：">
+              <el-radio v-model="formData.salesType" @change="getRadioValue" value="0" label="0">单品销售</el-radio>
+              <el-radio v-model="formData.salesType" @change="getRadioValue" value="1" label="1">组合销售</el-radio>
+            </el-form-item>
+            <el-form-item v-if="formData.salesType === '1'" label="组合产品：" prop="composedProduct" label-width="130px">
+              <!-- <el-input v-model="formData.composedProduct" placeholder="产品名称/编码"></el-input> -->
+              <el-select
+                v-model="formData.composedProduct"
+                multiple
+                filterable
+                allow-create
+                default-first-option
+                placeholder="产品名称/编码">
+                <el-option
+                v-for="item in composedProduct"
+                :key="item.productId"
+                :label="item.productName"
+                :value="item.productName"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="方案介绍：" label-width="130px" prop="scheme">
+              <el-input v-model="formData.scheme" placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
+            </el-form-item>
+            <el-form-item label="销售数量：" label-width="130px" prop="salesNumber">
+              <el-input v-model="formData.salesNumber" placeholder="请输入数量"></el-input>
+            </el-form-item>
+            <el-form-item label="创新点/借鉴点：" label-width="130px" prop="keypoint">
+              <el-input v-model="formData.keypoint" placeholder="请简要概述创新点或借鉴点" type="textarea" :rows="4"></el-input>
+            </el-form-item>
+            <el-form-item label="经验教训：" label-width="130px" prop="experience">
+              <el-input v-model="formData.experience" placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
+            </el-form-item>
+            <el-form-item label="经验教训：" label-width="130px">
+              <el-upload
+                action="/esop/elec/upload"
+                :data="uploadData"
+                :before-upload="beforeUpload"
+                multiple
+                :limit="3"
+                :file-list="fileList" name="files">
+                <el-button size="small" type="primary"><i class="icon-up margin-right-8"></i>点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
+            </el-form-item>
+            <el-row class="mt28 mb10">
+              <el-button type="primary" round size="mini" @click="onSubmit(formDataValid)">确定</el-button>
+              <el-button round size="mini" @click="reset(formDataValid)">取消</el-button>
+            </el-row>
+          </el-form>
+        </div>
+        <div class="add-demo" @click="addSaleDome">+ 添加销售案例</div>
+        <el-row class="mt28 mb10">
+          <el-button plain @click="prevStep">上一步</el-button>
+          <el-button type="primary" @click="creartProduct">确定</el-button>
+        </el-row>
       </div>
-      <div class="add-demo" @click="addSaleDome">+ 添加销售案例</div>
-      <el-row class="mt28 mb10">
-        <el-button plain @click="prevStep">上一步</el-button>
-        <el-button type="primary" @click="creartProduct">确定</el-button>
-      </el-row>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -151,7 +163,9 @@ export default {
       params: {},
       isShow: true,
       cacheData: [],
-      addItem: Number(this.$route.params.id) > 0,
+      cacheSalesList: [],
+      addItem: Number(this.$route.params.id) < 0,
+      fileList: [],
       formData: {
         salesId: '',
         salesType: '0',
@@ -159,7 +173,15 @@ export default {
         salesNumber: '',
         keypoint: '',
         experience: '',
-        composedProduct: ''
+        composedProduct: [],
+        fileInputId: null
+      },
+      uploadData: {
+        fileInputId: '',
+        fileTypeId: 502,
+        moduleId: 1,
+        expireDate: '',
+        effectiveDate: ''
       },
       formDataValid: {
         composedProduct: [
@@ -191,20 +213,26 @@ export default {
   },
   computed: {
     ...mapState({
+      composedProduct: ({ product }) => product.composedProduct,
       productSaleDemo: ({ product }) => product.productSaleDemo
     })
   },
   beforeMount() {
+    this.getComposedProduct({});
+    this.params = JSON.parse(localStorage.getItem('params'));
     if (this.isAddProduct) {
       this.isShow = false;
       var _this = this;
       var data = { productId: this.isAddProduct };
       this.getProductDetail(data).then(() => {
         var res = _this.productSaleDemo.salesList;
+        var salesListData = [];
         for (var i in res) {
           res[i].state = 3;
         }
-        _this.cacheData = res;
+        console.log(res);
+        _this.cacheSalesList = res;
+        _this.cacheData = res.concat();
       });
     }
   },
@@ -217,7 +245,7 @@ export default {
       }
     },
     productNameFormat(row, column, cellValue) {
-      if (row.salesType === '0') {
+      if (row.salesType === '0' || cellValue[0] === '无') {
         return '无';
       } else {
         return cellValue;
@@ -225,7 +253,7 @@ export default {
     },
     addSaleDome() {
       if (this.isShow) {
-        this.$message({showClose: true, message: '请先保存产品案例', type: 'warning'});
+        this.$message({ showClose: true, message: '请先保存产品案例', type: 'warning' });
       } else {
         this.addItem = true;
         this.isShow = true;
@@ -241,17 +269,16 @@ export default {
               _this.formData.state = 2;
             } else {
               _this.formData.state = 3;
+              _this.cacheData.splice(_this.modefiyIndex, _this.modefiyIndex + 1);
+              _this.cacheSalesList.splice(_this.modefiyIndex, _this.modefiyIndex + 1);
+              _this.params.salesList = _this.cacheSalesList;
             }
           } else {
             _this.formData.state = 2;
           }
-          if (_this.modefiyIndex !== -1) {
-            _this.cacheData.splice(_this.modefiyIndex, _this.modefiyIndex + 1);
-            _this.params.salesList = _this.cacheData;
-          }
-          _this.params = JSON.parse(localStorage.getItem('params'));
           _this.cacheData.push(_this.formData);
-          _this.params.salesList = _this.cacheData;
+          _this.cacheSalesList.push(_this.formData);
+          _this.params.salesList = _this.cacheSalesList;
           _this.isShow = false;
         } else {
           return false;
@@ -260,57 +287,75 @@ export default {
       });
     },
     creartProduct() {
-      console.log(this.params);
       var _this = this;
+      console.log(_this.params);
+      debugger;
       if (this.isAddProduct) {
         this.setEditProduct(_this.params).then((res) => {
           if (res.data && res.errorInfo.code === '200') {
-            _this.$message({showClose: true, message: '修改产品成功！', type: 'success'});
-            this.$router.push({path: '/product/product-creat-manage'});
+            _this.$message({ showClose: true, message: '修改产品成功！', type: 'success' });
+            this.$router.push({ path: '/product/product-creat-manage' });
           }
         });
       } else {
         this.setAddProduct(_this.params).then((res) => {
           if (res.data && res.errorInfo.code === '200') {
-            _this.$message({showClose: true, message: '新增产品成功！', type: 'success'});
-            this.$router.push({path: '/product/product-creat-manage'});
+            _this.$message({ showClose: true, message: '新增产品成功！', type: 'success' });
+            this.$router.push({ path: '/product/product-creat-manage' });
           }
         });
       }
     },
+    composedProduct() {
+      var data = { 'productName': this.formData.productName }
+      this.getComposedProduct(data);
+    },
     toPageModefiy(index, row) {
+      if (row.fileInputId) {
+        this.queryElec({'fileInputId': 1198}).then((res) => {
+          debugger;
+          if (res) {
+            _this.fileList = res;
+          }
+        });
+      }
+      var _this = this;
+      this.addItem = false;
       this.modefiyIndex = index;
       this.isShow = true;
-      var type = row.salesType;
-      if (type === '单品销售') {
-        type = '0';
-      } else if (type === '组合销售') {
-        type = '1';
+      if (row.salesType === '单品销售') {
+        row.salesType = '0';
+        row.composedProduct = [];
+      } else if (row.salesType === '组合销售') {
+        row.salesType = '1';
       }
       this.formData = {
         salesId: row.salesId + '',
-        salesType: type,
+        salesType: row.salesType + '',
         scheme: row.scheme + '',
         salesNumber: row.salesNumber + '',
         keypoint: row.keypoint + '',
         experience: row.experience + '',
-        composedProduct: row.composedProduct + ''
+        composedProduct: row.composedProduct,
+        fileInputId: row.fileInputId
       };
-      console.log(row);
     },
     deleteProduct(index, row) {
-      // 校验商机和订单是否有用到
-      this.$confirm('删除该产品数据, 是否继续?', '', {
+      var _this = this;
+      this.$confirm('删除该产品数据, 是否继续?', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'info'
+        type: 'warning'
       }).then(() => {
-        // 删除操作
-        this.cacheData.splice(index, index + 1);
-        this.params.salesList = this.cacheData;
-        this.$message('已删除');
+        _this.cacheData.splice(index, index + 1);
+        for (var i in _this.cacheSalesList) {
+          if (_this.cacheSalesList[i].salesId === row.salesId) {
+            _this.cacheSalesList[i].state = 0;
+          }
+        }
+        _this.params.salesList = _this.cacheSalesList;
       }).catch(() => {
-        this.$message('已取消删除');
+        _this.$message('已取消删除');
       });
     },
     reset(validData) {
@@ -322,41 +367,108 @@ export default {
         salesNumber: '',
         keypoint: '',
         experience: '',
-        composedProduct: ''
+        composedProduct: [],
+        fileInputId: null
       };
-      this.modefiyIndex = -1;
+      this.modefiyIndex = null;
       if (validData) {
         this.$refs[validData].resetFields();
+        this.isShow = false;
       }
+    },
+    removeFile(file, fileList) {
+      file.raw = null;
+    },
+    beforeUpload(file, fileList) {
+      var _this = this;
+      this.getProductFileId().then((res) => {
+        if (res.data) {
+          _this.uploadData.fileInputId = res.data;
+          _this.formData.fileInputId = res.data;
+        }
+      });
     },
     prevStep() {
       this.$router.go(-1);
     },
+    getRadioValue(value) {
+      this.formData.salesType = value;
+      if (value === '0') {
+        this.formData.composedProduct = [];
+      }
+    },
     ...mapActions([
       'setAddProduct',
       'getProductDetail',
-      'setEditProduct'
+      'setEditProduct',
+      'uploadProductScheme',
+      'getProductFileId',
+      'getComposedProduct',
+      'queryElec'
     ])
   }
 };
 </script>
 
 <style lang="scss">
-.el-step.is-horizontal .el-step__line {height: 1px; background: #c0c0c0}
-.el-step__head.is-process, .el-step__title.is-process {color: #8c8c8c; font-weight: 400;}
-.el-step.is-simple .el-step__arrow::before, .el-step.is-simple  .el-step__arrow:before {display: none}
-.el-step.is-simple .el-step__arrow::after, .el-step.is-simple  .el-step__arrow:after {-webkit-transform: none; transform: none; height: 1px; width: 320px;}
-.el-step__icon.is-text {border-width: 1px;}
-.creat-content {background: #fff; margin-top: 16px; min-height: 812px; height: auto;}
-.el-steps--simple {background: none;}
-.el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
-.add-content {width: 430px; margin: 0 auto; padding: 33px 0 20px;}
+@import "scss/variables.scss";
+.el-step.is-horizontal .el-step__line {
+  height: 1px;
+  background: #c0c0c0
+}
+
+.el-step__head.is-process,
+.el-step__title.is-process {
+  color: #8c8c8c;
+  font-weight: 400;
+}
+
+.el-step.is-simple .el-step__arrow::before,
+.el-step.is-simple .el-step__arrow:before {
+  display: none
+}
+
+.el-step.is-simple .el-step__arrow::after,
+.el-step.is-simple .el-step__arrow:after {
+  -webkit-transform: none;
+  transform: none;
+  height: 1px;
+  width: 320px;
+}
+
+.el-step__icon.is-text {
+  border-width: 1px;
+}
+
+.creat-content {
+  background: #fff;
+  margin-top: 16px;
+  min-height: 812px;
+  height: auto;
+}
+
+.el-steps--simple {
+  background: none;
+}
+
+.el-steps--horizontal {
+  width: 480px;
+  padding: 30px;
+  margin: 0 auto;
+}
+
+.add-content {
+  width: 430px;
+  margin: 0 auto;
+}
+
 .creat-model {
   width: 587px;
   margin: 0 auto;
   .bor {
     width: 100%;
     border: 1px #e7e7e7 solid;
+    margin-top: 16px;
   }
   .title {
     height: 44px;
@@ -378,8 +490,63 @@ export default {
     text-align: center;
     color: #595959
   }
-  .el-button--mini, .el-button--mini {
+  .el-button--mini,
+  .el-button--mini {
     line-height: 1;
+  }
+}
+.w380 {width: 380px; margin: 0 auto;}
+.pt42 {padding-top: 42px;}
+.pb60 {padding-bottom: 60px;}
+.steps-self {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  .steps {
+    line-height: 25px;
+    color: #8C8C8C;
+    font-size: 14px;
+  }
+  .line {
+    display: block;
+    height: 1px;
+    background: #e9e9e9;
+    margin: 0 12px;
+    flex: 1;
+  }
+  span {
+    position: relative;
+    display: block;
+    width: 26px;
+    height:26px;
+    line-height: 26px;
+    text-align: center;
+    z-index: 10;
+    color: #3778FF;
+    float: left;
+    margin-right: 8px;
+    overflow: hidden;
+  }
+  span::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 24px;
+    height:24px;
+    border-radius: 12px;
+    color: #3778FF;
+    border: 1px #3778FF solid;
+    background: #fff;
+    z-index: -1;
+  }
+  i {color: #3778FF; display: none;}
+  .current {
+    span {color: #fff;}
+    span::before {background: #3778FF;}
+  }
+  .read {
+    i {display: block; font-size: 12px; line-height: 26px;}
+    span {font-size: 9999px;}
   }
 }
 </style>
