@@ -51,8 +51,11 @@
       <el-table-column label="合作集团" property="cooperationCompany" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button class="table-button" type="text" @click="handleSign(scope.row)">
+          <el-button v-if="orderHandleTaskForm.status === 2" class="table-button" type="text" @click="handleSign(scope.row)">
             签约处理
+          </el-button>
+          <el-button v-if="orderHandleTaskForm.status === 3" class="table-button" type="text" @click="handlePay(scope.row)">
+            付款处理
           </el-button>
           <el-dropdown @command="handleCommand(scope.row, $event)">
             <span class="el-dropdown-link">
@@ -141,6 +144,10 @@ export default {
       this.orderHandleTaskForm.pageSize = value;
       this.query();
     },
+    handlePay() {
+      const path = `/order/handle-task/pay/${this.id}`;
+      this.$router.push(path);
+    },
     handleSign(row) {
       const path = `/order/handle-task/sign/${row.id}`;
       this.$router.push(path);
@@ -151,7 +158,16 @@ export default {
       this.getAssignhandler(row.id);
     },
     handleDetail(row) {
-      const path = `/order/handle-task/detail/${row.id}`;
+      const { status } = this.orderHandleTaskForm;
+      let path = '';
+      // 不同状态，详情页展示不一样
+      if (status === 2) {
+        path = `/order/handle-task/detail-sign/${row.id}`;
+      } else if (status === 3) {
+        path = `/order/handle-task/detail-pay/${row.id}`;
+      } else {
+        path = `/order/handle-task/detail/${row.id}`;
+      }
       this.$router.push(path);
     },
     handleCreate() {

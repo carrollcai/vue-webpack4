@@ -277,7 +277,7 @@ const dynamicRoutes = [
       { path: '/order/handle-task', component: OrderHandleTask },
       { path: '/order/overview', component: OrderOverview },
       { path: '/order/overview/detail/:id', component: OrderOverviewDetail },
-      // type为detail，sign，pay，pedding，fulfilled
+      // type为detail，sign，pay，detail-sign，detail-pay
       { path: '/order/handle-task/:type/:id', component: OrderHandleTaskDetail },
 
       { path: '*', component: Page404 }

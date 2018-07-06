@@ -22,6 +22,9 @@ export default {
   queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
   queryRegionRelationListAPI: API('/esop/operator/getRegionRelationList'),
 
+  /* 附件 */
+  getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
+
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
   getRoleInfoAPI: API('/esop/role/getRoleById'),

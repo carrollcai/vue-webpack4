@@ -45,6 +45,9 @@ const actions = {
     return API.queryStaticDataAPI(params).then(res => {
       commit(types.STATIC_DATA, res.data);
     });
+  },
+  getNewFileInputId: ({ commit }, params) => {
+    return API.getNewFileInputIdAPI(params);
   }
 };
 
