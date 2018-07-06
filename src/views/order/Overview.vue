@@ -25,7 +25,7 @@
       <el-tab-pane label="已取消"></el-tab-pane>
     </el-tabs>
 
-    <wm-table :source="orderList" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="订单编号" property="code" />
       <el-table-column label="订单名称" property="name" />
       <el-table-column label="创建时间" property="date" />
@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     ...mapState({
-      orderList: ({ order }) => order.orderList,
+      orderOverviewObj: ({ order }) => order.orderOverviewObj,
       orderOverviewForm: ({ order }) => order.orderOverviewForm
     })
   },

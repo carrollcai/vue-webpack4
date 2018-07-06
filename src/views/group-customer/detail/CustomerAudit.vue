@@ -1,5 +1,11 @@
 <template>
   <div class="customer-detail">
+    <div class="m-container">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/group-customer/audit-manage' }">集团客户审核</el-breadcrumb-item>
+        <el-breadcrumb-item>审核</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <detail-info :customer="customer"></detail-info>
     <div class="customer-detail_audit">
       <el-form class="customer-manager-info" :model="auditInfo" ref="auditForm" :rules="auditRules" label-width="120px" key="managerForm">
@@ -56,6 +62,9 @@ export default {
           });
         }
       });
+    },
+    back() {
+      this.$router.push('/group-customer/audit-manage');
     },
     ...mapActions([
       'auditCustomer'

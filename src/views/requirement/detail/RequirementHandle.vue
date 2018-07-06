@@ -1,49 +1,7 @@
 <template>
   <div class="requirement-detail-handle">
     <div class="m-container">
-      <el-form>
-        <el-form-item lable="需求客户">
-          {{requirement.name}}
-        </el-form-item>
-
-        <el-form-item lable="需求类型">
-          {{requirement.name}}
-        </el-form-item>
-
-        <!-- 日常、投诉需求 -->
-        <template>
-          <el-form-item lable="需求描述">
-            {{requirement.name}}
-          </el-form-item>
-
-          <el-form-item lable="需求附件">
-            {{requirement.name}}
-          </el-form-item>
-        </template>
-
-        <!-- 物料需求 -->
-        <template>
-          <el-form-item lable="物料名称">
-            {{requirement.name}}
-          </el-form-item>
-
-          <el-form-item lable="物料提供方式">
-            {{requirement.name}}
-          </el-form-item>
-
-          <el-form-item lable="物料使用时间">
-            {{requirement.name}}
-          </el-form-item>
-
-          <el-form-item lable="物料描述">
-            {{requirement.name}}
-          </el-form-item>
-        </template>
-
-        <el-form-item lable="联系人">
-          {{requirement.name}}
-        </el-form-item>
-      </el-form>
+      <detail-info :requirement="requirement"></detail-info>
     </div>
 
     <div class="m-container info-block">
@@ -51,10 +9,6 @@
         <!-- 物料需求处理 -->
         <template>
           <el-form-item lable="物料上传">
-            <el-radio-group v-model="handleType">
-              <el-radio label="3">本人处理</el-radio>
-              <el-radio label="6">投诉升级 <span>（转交给更高级级别的人处理）</span></el-radio>
-            </el-radio-group>
           </el-form-item>
           <el-form-item lable="备注">
             <el-input class="col-input"
@@ -77,7 +31,7 @@
             </el-radio-group>
           </el-form-item>
 
-          <template>
+          <template v-if="handleType === '3'">
             <el-form-item lable="处理方案">
               <el-input class="col-input"
                 type="textarea"
@@ -96,15 +50,12 @@
             </el-form-item>
           </template>
 
-          <template>
+          <template v-if="handleType === '6'">
             <el-form-item lable="指派处理人">
               <el-col :span="8">
                 <el-form-item prop="name" key="contact-name1">
-                  <el-input class="col-input"
-                    v-model="requirement.name"
-                    placeholder="姓名"
-                    :maxlength="6"
-                    key="contact-name-input"></el-input>
+                  <el-select>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col class="line-container" :span="8">
@@ -121,20 +72,17 @@
   </div>
 </template>
 <script>
+import mixins from './mixins';
 export default {
   name: 'RequirementHandle',
+  mixins: [mixins],
   data() {
     return {
-      requirement: {
-      },
       handleType: '',
       checked: false
     };
   },
   methods: {
-    handleDownload() {
-      window.open('');
-    }
   }
 };
 </script>
