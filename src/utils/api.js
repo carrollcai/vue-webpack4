@@ -156,7 +156,7 @@ export default {
   // 获取合作集团/编码列表
   getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
-  getBusinessListAPI: API('http://localhost:3618/business-manage/business'),
+  getBusinessListAPI: API('/esop/bizOppor/List'),
 
   // 商机详情查询
   getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
@@ -167,9 +167,9 @@ export default {
   // 根据合作集团匹配办公地址
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 提交商机
-  submitBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  submitBusinessOpporityAPI: API('/esop/bizOppor/createApprove'),
   // 保存草稿商机
-  saveBusinessDraftAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  saveBusinessDraftAPI: API('/esop/bizOppor/create'),
   // 集团关联商机
   groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
   // 删除商机

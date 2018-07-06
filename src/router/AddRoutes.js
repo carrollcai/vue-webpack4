@@ -57,6 +57,7 @@ import MyVisitManage from '@/views/visit/MyVisitManage.vue';
 import VisitAppoint from '@/views/visit/VisitAppoint.vue';
 import CreateVisitApplication from '@/views/visit/CreateVisitApplication.vue';
 import ExecuteProcess from '@/views/visit/ExecuteProcess.vue';
+import MyVisitView from '@/views/visit/MyVisitView.vue';
 
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
@@ -256,6 +257,12 @@ const dynamicRoutes = [
         path: '/visit/execute-process',
         name: 'execute-process',
         component: ExecuteProcess,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/visit/my-visit-view',
+        name: 'my-visit-view',
+        component: MyVisitView,
         meta: { menuId: 15 }
       },
 

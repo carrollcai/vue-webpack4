@@ -19,9 +19,6 @@ export default {
     this.init();
   },
   methods: {
-    back() {
-
-    },
     init() {
       this.queryCustomerSnapshot(this.$route.params.id).then(() => {
         this.$nextTick(() => {

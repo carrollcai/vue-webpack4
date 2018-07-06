@@ -31,7 +31,6 @@
       </el-form>
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first"></el-tab-pane>
         <el-tab-pane label="未处理" name="second"></el-tab-pane>
         <el-tab-pane label="已处理" name="third"></el-tab-pane>
       </el-tabs>
@@ -52,10 +51,11 @@
         <el-table-column label="客户类型" property="provinceName">
         </el-table-column>
         <el-table-column label="联系人" property="managerName" />
-        <el-table-column label="处理人" property="managerName" />
-        <el-table-column label="处理状态" property="managerName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
+            <el-button type="text" @click="handleDetail(scope.row)">
+              去处理
+            </el-button>
             <el-button type="text" @click="handleDetail(scope.row)">
               查看
             </el-button>
@@ -67,71 +67,19 @@
 </template>
 
 <script>
-import WmTable from 'components/Table.vue';
-import { mapState, mapActions } from 'vuex';
-import {PAGE_NO, PAGE_SIZE} from '@/config';
+import mixins from './mixins';
 export default {
-  components: {
-    WmTable
-  },
+  name: 'RequirementHandleList',
+  mixins: [mixins],
   data() {
     return {
-      activeName: 'second',
-      params: {
-        pageNo: PAGE_NO,
-        pageSize: PAGE_SIZE,
-        organizeType: '',
-        provinceId: '',
-        managerName: ''
-      }
+      activeName: 'second'
     };
   },
-  computed: {
-    ...mapState({
-      requirements: ({ requirement }) => requirement.requirementList
-    })
-  },
-  beforeMount() {
-    this.query();
-  },
   methods: {
-    onPagination(value) {
-      this.params.pageNo = value;
-      this.query();
-    },
-    onSizePagination(value) {
-      this.params.pageSize = value;
-      this.query();
-    },
-    handleCreate() {
-      const path = `/requirement/create`;
-      this.$router.push(path);
-    },
     handleDetail(row) {
       this.$router.push(`/requirement/detail/${row.organizeId}`);
-    },
-    getParams() {
-      const {params} = this;
-      let STATUS = {
-        'first': [],
-        'second': ['1'],
-        'third': ['2', '5']
-      };
-
-      params.taskStatusList = STATUS[this.activeName];
-
-      return params;
-    },
-    query() {
-      this.queryRequirementList(this.getParams());
-    },
-    handleClick(tab, event) {
-      this.params.pageNo = 1;
-      this.query();
-    },
-    ...mapActions([
-      'queryRequirementList'
-    ])
+    }
   }
 };
 </script>
