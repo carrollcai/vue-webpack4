@@ -1,6 +1,6 @@
 <template>
+<div>
   <div class="m-container">
-
     <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
       <el-form ref="assignHandle" :rules="assignHandleRules" :model="assignHandle">
         <div class="handler">指派处理人：</div>
@@ -43,7 +43,8 @@
       <el-tab-pane label="待付款处理" :name="3"></el-tab-pane>
       <el-tab-pane label="已处理" :name="4"></el-tab-pane>
     </el-tabs>
-
+  </div>
+  <div class="m-container table-container">
     <wm-table :source="orderHandleTaskObj.list" :pageNo="orderHandleTaskForm.pageNo" :pageSize="orderHandleTaskForm.pageSize" :total="orderHandleTaskObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="订单编号" property="code" />
       <el-table-column label="订单名称" property="name" />
@@ -75,6 +76,7 @@
       </el-table-column>
     </wm-table>
   </div>
+</div>
 </template>
 
 <script>

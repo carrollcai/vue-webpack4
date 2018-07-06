@@ -26,7 +26,7 @@
       </el-tabs>
     </div>
 
-    <div class="m-container o-overview-table">
+    <div class="m-container table-container">
       <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
         <el-table-column label="订单编号" property="code" />
         <el-table-column label="订单名称" property="name" />
