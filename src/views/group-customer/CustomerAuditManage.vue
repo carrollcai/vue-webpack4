@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="m-container">
+  <div class="customer-audit-management">
+    <div class="m-container query-block">
       <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
@@ -34,7 +34,7 @@
         <el-tab-pane label="审核不通过" name="third"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container customer-audit-management">
+    <div class="m-container customer-list">
       <wm-table
         :source="groupCustomerList.list"
         :total="groupCustomerList.totalCount"
@@ -154,6 +154,21 @@ export default {
 }
 
 .customer-audit-management{
-  margin-top: $blockWidth;
+
+  .el-tabs__header{
+    margin-bottom: 0;
+  }
+
+  .el-tabs__nav-wrap::after{
+    height: 0;
+  }
+
+  .query-block{
+    padding-bottom: 0;
+  }
+
+  .customer-list{
+    margin-top: $blockWidth;
+  }
 }
 </style>
