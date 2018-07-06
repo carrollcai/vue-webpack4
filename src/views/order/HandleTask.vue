@@ -121,7 +121,7 @@ export default {
           this.query();
           this.dialogVisible = false;
         });
-      })
+      });
     },
     tabChange() {
       this.query();
