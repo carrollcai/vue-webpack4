@@ -42,14 +42,14 @@
         :pageSize="params.pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="businessId" />
+        <el-table-column label="集团编码" property="organizeId" />
         <el-table-column label="集团名称" property="organizeName">
         </el-table-column>
         <el-table-column label="集团属性" property="organizeType" >
         </el-table-column>
-        <el-table-column label="所属省份" property="organizeProvinceId">
+        <el-table-column label="所属省份" property="provinceId">
         </el-table-column>
-        <el-table-column label="客户经理" property="organizeManagerName" />
+        <el-table-column label="客户经理" property="managerName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
@@ -106,10 +106,10 @@ export default {
       this.query();
     },
     handleDetail(row) {
-      this.$router.push(`/group-customer/overview/detail/${row.businessId}`);
+      this.$router.push(`/group-customer/overview/detail/${row.organizeId}`);
     },
     handleAudit(row) {
-      this.$router.push(`/group-customer/audit/${row.businessId}/${row.taskInsId}`);
+      this.$router.push(`/group-customer/audit/${row.organizeId}/${row.taskInsId}`);
     },
     getParams() {
       const {params} = this;
