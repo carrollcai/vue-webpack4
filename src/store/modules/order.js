@@ -55,7 +55,8 @@ const state = {
     list: [],
     totalcount: 1
   },
-  assignHandlers: []
+  assignHandlers: [],
+  handleTaskDetail: {}
 };
 
 const mutations = {
@@ -76,6 +77,9 @@ const mutations = {
   },
   [types.ORDER_QUERY_ASSIGN_HANDLER](state, data) {
     state.assignHandlers = data;
+  },
+  [types.ORDER_GET_HANDLE_TASK_DETAIL](state, data) {
+    state.handleTaskDetail = data;
   }
 };
 

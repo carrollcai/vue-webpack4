@@ -62,6 +62,11 @@ const actions = {
         type: 'success'
       });
     });
+  },
+  getHandleTaskDetail: ({ commit }, params) => {
+    return API.getOrderDetailAPI(params).then(res => {
+      commit(types.ORDER_GET_HANDLE_TASK_DETAIL, res.data);
+    });
   }
 };
 
