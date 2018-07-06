@@ -8,13 +8,27 @@ const download = url => params => {
   window.location.href = `${url}?${qs.stringify(params)}`;
 };
 const upload = (url, method) => params => {
+  let formData = jsonToFormData(params);
   let config = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   };
-  return fetch(development + url, params, 'post', config);
+  return fetch(development + url, formData, 'post', config);
 };
+
+function jsonToFormData(json) {
+  if (Array.isArray(json)) throw 'jsonToFormData dont support Array';
+  let formData = new FormData();
+  for (let x in json) {
+    if (Array.isArray(json[x])) {
+      json[x].forEach(val => formData.append(`${x}[]`, val));
+    } else {
+      formData.append(`${x}`, json[x]);
+    }
+  }
+  return formData;
+}
 
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
