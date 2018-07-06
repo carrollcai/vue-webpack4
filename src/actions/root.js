@@ -28,13 +28,13 @@ const actions = {
       'codeTypeList': [
         'ORGANIZE_TYPE',
         'ORG_INDUSTRY_TYPE',
-        'industryType',
+        'INDUSTRY_TYPE',
         'MEMBER_NUM',
         'CERTIFICATE_TYPE',
         'CM_MONEY_TYPE',
         'SEX',
         'AGE',
-        'maritalStatus',
+        'MARITAL_STATUS',
         // 订单模块
         'ORD_STATUS',
         'PROJECT_INVITATION',
