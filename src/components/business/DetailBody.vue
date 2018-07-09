@@ -2,46 +2,48 @@
   <div class="detail-container">
       <div class="business-detail-body-item">
         <span class="title">商机类别：</span>
-        <span class="content">普通商机</span>
+        <span class="content">{{detailData.opporType}}</span>
         <span class="title">预计协议期限：</span>
-        <span class="content">2年</span>
+        <span class="content">{{detailData.predictAgreementTime}}年</span>
         <span class="title">是否项目招标：</span>
-        <span class="content">是</span>
+        <span class="content">{{detailData.isProjectInvitation}}</span>
       </div>
       <div class="business-detail-body-item">
         <span class="title">预计收入：</span>
-        <span class="content">1000万/月</span>
+        <span class="content">{{detailData.predictContractAmount}}万/月</span>
         <span class="title">预计签约时间：</span>
-        <span class="content">2018-06-20</span>
+        <span class="content">{{detailData.predictSignTime}}</span>
         <span class="title">商机提供人员：</span>
         <span class="content">王老五（19089019820）</span>
       </div>
       <div class="business-detail-body-item">
         <div class="left">合作集团：</div>
-        <div class="right">3u93990403；广东移动Boss；广东省广州市万邦有限公司</div>
+        <div class="right">{{detailData.organizeName}}</div>
       </div>
       <div class="business-detail-body-item">
         <div class="left">联系人员：</div>
-        <div class="right">张三疯 ；男 ；19809209810 ；11920283@qq.com</div>
+        <div class="right">{{detailData.contactName}} ；{{detailData.contactGender}} ；{{detailData.contactMobile}} ；{{detailData.contactEmail}}</div>
       </div>
       <div class="business-detail-body-item">
         <div class="left">商机描述：</div>
-        <div class="right">作为“去中心化”传播环境下成长的一代人，这一代年轻人在消费选择上更注重个性化、社交化，以及从价格转向价值导向。这点我们可以从近年来火爆崛起的一些现象中得知。比如《王者荣耀》、拼多多，满足了年轻人在消费中进行社交的需求；一些小众品牌、独立原创设计作品的走红，反映了新消费群体追求的个性化体验。</div>
+        <div class="right">{{detailData.busiDesc}}</div>
       </div>
       <div class="business-detail-body-item">
         <div class="left">业务需求：</div>
-        <div class="right">基于LBS定位技术和大数据深度挖掘技术，以吃喝玩乐为切入口的爱草媒，完全可以化身他们旅行中的忠实助手和万能攻略，让消费者每到一个城市，都能以当地人的消费体验融入其中。想吃最地道的当地特色小吃，为消费者做出精准的推荐，匹配所需的优质店铺，甚至哪些店铺评分最高、口碑最好、优惠力度最大，都能在平台找到对应信息。</div>
+        <div class="right">{{detailData.busiRequire}}</div>
       </div>
       <div class="business-detail-body-item">
         <div class="left">需要协调处：</div>
-        <div class="right">除了通过分享获得精神上的愉悦之外，消费者在爱草媒的每一次消费都还能直接“变现”，即获得可以在平台无门槛使用的草莓豆。与此同时，消费者的每一次支付也并不意味着消费行为的结束，通过分享商品、服务、体验、技巧、优惠券等给他人，消费者还能变身“消费商”，直接参与利润分配，获得消费奖励。</div>
+        <div class="right">{{detailData.needCoordinationIssue}}</div>
       </div>
     </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+    detailData: JSON
+  }
 };
 </script>
 

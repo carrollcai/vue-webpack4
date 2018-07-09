@@ -8,8 +8,8 @@
         </el-breadcrumb>
       </div>
     </div>
-    <detail-head :type="types"></detail-head>
-    <detail-body></detail-body>
+    <detail-head :type="businessDetail.opporStatusName"></detail-head>
+    <detail-body :detailData="businessDetail"></detail-body>
     <div class="pl">
       <el-button type="primary" @click="handleTrans()">转订单</el-button>
       <el-button plain @click="handleSend()">分派</el-button>
@@ -73,9 +73,8 @@ export default {
     };
   },
   beforeMount() {
-    this.types = this.$route.params.id;
-    const { id } = this.$route.params;
-    this.getBusinessDetail({ id });
+    const { opporId } = this.$route.params;
+    this.getBusinessDetail({ opporId });
   },
   computed: {
     ...mapState({

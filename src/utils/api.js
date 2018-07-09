@@ -171,7 +171,7 @@ export default {
   getBusinessListAPI: API('/esop/bizOppor/allList'),
 
   // 商机详情查询
-  getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
+  getBusinessDetailAPI: API('/esop/bizOppor/detail'),
 
   // 新建商机
   // 获取商机类别列表

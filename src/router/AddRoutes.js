@@ -133,7 +133,7 @@ const dynamicRoutes = [
         meta: { menuId: 8 }
       },
       {
-        path: '/business-manage/business-detail/:id',
+        path: '/business-manage/business-detail/:opporId',
         name: 'business-detail',
         component: BusinessDetail,
         meta: { menuId: 8 }

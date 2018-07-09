@@ -1,20 +1,18 @@
 <template>
+<div>
   <div class="m-container">
     <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="businessForm.date" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
-          <!--<el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" type="dates" v-model="businessForm.date" placeholder="创建时间范围"></el-date-picker>-->
-          <!--<el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="businessForm.date" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>-->
         </el-form-item>
 
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-autocomplete v-model="businessForm.cooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <el-autocomplete v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
         </el-form-item>
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-input v-model="businessForm.businessName" placeholder="商机编码" />
+          <el-input v-model="businessForm.opporCode" placeholder="商机编码" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -29,23 +27,26 @@
       <el-tab-pane label="已转订单"></el-tab-pane>
       <el-tab-pane label="已作废"></el-tab-pane>
     </el-tabs>
-    <wm-table v-if="businessList.data" :source="businessList.data" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="商机编号" property="opporId" />
-      <el-table-column label="商机描述" property="busiDesc" />
-      <el-table-column label="合作集团" property="organizeName" />
-      <el-table-column label="创建时间" property="createDate" />
-      <el-table-column label="联系人" property="contactName" />
-      <el-table-column label="处理人" property="processor" />
-      <el-table-column label="处理结果" property="state" />
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail(scope.row)">
-            详情
-          </el-button>
-        </template>
-      </el-table-column>
-    </wm-table>
-  </div>
+    </div>
+    <div class="m-container table-container">
+      <wm-table :source="businessList.list" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+        <el-table-column label="商机编号" property="opporId" />
+        <el-table-column label="商机描述" property="busiDesc" />
+        <el-table-column label="合作集团" property="organizeName" />
+        <el-table-column label="创建时间" property="createDate" />
+        <el-table-column label="联系人" property="contactName" />
+        <el-table-column label="处理人" property="processor" />
+        <el-table-column label="处理结果" property="state" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="handleDetail(scope.row)">
+              详情
+            </el-button>
+          </template>
+        </el-table-column>
+      </wm-table>
+    </div>
+</div>
 </template>
 
 <script>
@@ -70,7 +71,8 @@ export default {
   data() {
     return {
       status: '',
-      cooperNum: ''
+      cooperNum: '',
+      timeRange: ''
     };
   },
   watch: {
@@ -92,13 +94,12 @@ export default {
       this.query();
     },
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.id}`;
+      const path = `/business-manage/business-detail/${row.opporId}`;
       this.$router.push(path);
     },
     query() {
       const params = this.businessForm;
       this.businessForm.opporStatus = parseInt(this.status);
-      // this.businessForm.opporStatus = '';
       this.getBusinessList(params);
     },
     querySearchAsync(queryString, cb) {
@@ -117,6 +118,15 @@ export default {
     },
     handleSelect(item) {
     },
+    getTimeRange(time) {
+      if (time) {
+        this.businessForm.startDate = time[0];
+        this.businessForm.endDate = time[1];
+      } else {
+        this.businessForm.startDate = '';
+        this.businessForm.endDate = '';
+      }
+    },
     ...mapActions([
       'getCooperationGroupList', 'getBusinessList'
     ])
@@ -126,6 +136,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+
 .group-form-item__lable {
   margin-left: $blockWidth;
 }
