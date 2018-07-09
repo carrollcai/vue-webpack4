@@ -94,25 +94,33 @@ export default {
       }
     };
   },
-  
   computed: {
     dataList() {
       if (this.data) {
+        return this.data;
+      }
+    }
+  },
+  mounted: function() {
+    this.getFileName();
+  },
+  methods: {
+    getFileName() {
+      var _this = this;
+      if (this.data) {
         for (var i in this.data) {
           if (this.data[i].fileInputId) {
-            this.queryElec({fileInputId: this.data[i].fileInputId}).then((res) => {
+            _this.queryElec({
+              fileInputId: (this.data[i].fileInputId)
+            }).then((res) => {
               if (res.data.length > 0) {
-                this.data[i].fileName = res.data[0].fileName;
+                _this.data[i].fileName = res.data[0].fileName;
               }
             });
           }
         }
-        return this.data
       }
-      
-    }
-  },
-  methods: {
+    },
     openDetail(index, row) {
       if (row.fileInputId) {
         this.queryElec({fileInputId: row.fileInputId}).then((res) => {
