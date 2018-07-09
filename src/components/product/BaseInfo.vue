@@ -22,20 +22,15 @@ export default {
   computed: {
     productList() {
       if (this.product) {
+        var product = this.product;
         if (this.product.productType === '0') {
-          this.product.productType = '个人市场';
+          product.productType = '个人市场';
         } else {
-          this.product.productType = '政企市场';
+          product.productType = '政企市场';
         }
         return this.product;
       }
     }
-  },
-  data() {
-    return {
-    };
-  },
-  methods: {
   }
 };
 </script>

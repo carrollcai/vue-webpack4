@@ -327,10 +327,6 @@ export default {
         });
       }
     },
-    composedProduct() {
-      var data = { 'productName': this.formData.productName };
-      this.getComposedProduct(data);
-    },
     toPageModefiy(index, row) {
       if (row.salesType === '单品销售') {
         row.salesType = '0';
@@ -407,9 +403,9 @@ export default {
     },
     fileChange(files, fileList) {
       var _this = this;
-      if (fileList.length > 1) {
+      /* if (fileList.length > 1) {
         fileList.splice(0, 1);
-      }
+      } */
       this.uploadData.files = files.raw;
       this.getProductFileId().then((res) => {
         _this.uploadData.fileInputId = res.data;

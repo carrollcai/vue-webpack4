@@ -69,13 +69,13 @@ export default {
         endDate: '',
         productType: null,
         productName: '',
-        pageNo: '1',
-        pageSize: '20'
+        pageNo: 1,
+        pageSize: 20
       }
     };
   },
   beforeMount() {
-    var data = { pageNo: '1', pageSize: '20' };
+    var data = { pageNo: 1, pageSize: 20 };
     this.getProductCreatList(data);
     // this.getComposedProduct();
   },

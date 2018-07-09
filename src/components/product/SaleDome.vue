@@ -15,7 +15,7 @@
         prop="salesId">
       </el-table-column>
       <el-table-column
-        label="销售类型" width="150" :formatter="salesTypeFn"
+        label="销售类型" width="150"
         prop="salesType">
       </el-table-column>
       <el-table-column
@@ -37,7 +37,7 @@
           <div @click="openDetail(operation.$index, operation.row)" class="el-table__expand-icon blue">详细<i class="el-icon el-icon-arrow-right blue el-table__expand-icon--expanded"></i></div>
         </template>
       </el-table-column>
-      <el-table-column type="expand" :formatter="downloadformater">
+      <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <p class="sale-type">
@@ -101,24 +101,32 @@ export default {
       }
     }
   },
-  mounted: function() {
-    this.getFileName();
+  beforeMount() {
+    return this.getFileName();
   },
   methods: {
     getFileName() {
       var _this = this;
       if (this.data) {
-        for (var i in this.data) {
+        for (let i in this.data) {
           if (this.data[i].fileInputId) {
             _this.queryElec({
               fileInputId: (this.data[i].fileInputId)
             }).then((res) => {
+              if (_this.data[i].salesType === '0') {
+                _this.data[i].salesType = '单品销售';
+              } else {
+                _this.data[i].salesType = '组合销售';
+              }
               if (res.data.length > 0) {
-                _this.data[i].fileName = res.data[0].fileName;
+                if (_this.data[i].fileInputId === res.data[0].fileInputId) {
+                  _this.data[i].fileName = res.data[0].fileName;
+                }
               }
             });
           }
         }
+        return this.data;
       }
     },
     openDetail(index, row) {
@@ -145,13 +153,6 @@ export default {
         return columnValue;
       } else {
         return '无';
-      }
-    },
-    salesTypeFn(row, column, columnValue) {
-      if (columnValue === '0') {
-        return '单品销售';
-      } else {
-        return '组合销售';
       }
     },
     dowloadFile() {
