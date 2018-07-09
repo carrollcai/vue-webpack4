@@ -1,6 +1,6 @@
 <template>
   <div class="requirement-management">
-    <div class="m-container">
+    <div class="m-container query-block">
       <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
@@ -36,7 +36,7 @@
         <el-tab-pane label="已处理" name="third"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container group-customer-create-management">
+    <div class="m-container requirement-list">
       <wm-table
         :source="requirements.list"
         :total="requirements.totalCount"
@@ -107,6 +107,20 @@ export default {
 }
 
 .requirement-management {
-  margin-top: $blockWidth;
+  .el-tabs__header{
+    margin-bottom: 0;
+  }
+
+  .el-tabs__nav-wrap::after{
+    height: 0;
+  }
+
+  .query-block{
+    padding-bottom: 0;
+  }
+
+  .requirement-list{
+    margin-top: $blockWidth;
+  }
 }
 </style>

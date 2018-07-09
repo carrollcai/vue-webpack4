@@ -169,7 +169,7 @@ export default {
   // 获取合作集团/编码列表
   getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
-  getBusinessListAPI: API('/esop/bizOppor/List'),
+  getBusinessListAPI: API('/esop/bizOppor/allList'),
 
   // 商机详情查询
   getBusinessDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
@@ -200,5 +200,10 @@ export default {
   // 提交商机转订单
   saveBusinessOrderAPI: API(''),
   // 提交商机转订单草稿
-  saveBusinessOrderDraftAPI: API('')
+  saveBusinessOrderDraftAPI: API(''),
+
+  // 我的商机查询
+  getMyBusinessListAPI: API('esop/bizOppor/list'),
+  // 商机处理任务查询
+  getBusinessTaskListAPI: API('esop/bizOppor/queryTaskInfo')
 };

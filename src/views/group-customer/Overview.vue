@@ -1,25 +1,25 @@
 <template>
   <div class="customer-overview">
     <div class="m-container">
-      <el-form class="group-form" :model="params">
+      <el-form class="group-form">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="params.organizeType" clearable placeholder="集团属性">
+            <el-select v-model="organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="params.provinceId" clearable placeholder="所属省份">
+            <el-select v-model="provinceId" clearable placeholder="所属省份">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="params.managerName" clearable placeholder="客户经理" />
+            <el-input v-model="managerName" clearable placeholder="客户经理" />
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
-            <el-input v-model="params.otherField" clearable placeholder="集团名称/编码" />
+            <el-input v-model="otherField" clearable placeholder="集团名称/编码" />
           </el-form-item>
         </div>
 
@@ -34,8 +34,8 @@
       <wm-table
         :source="groupCustomerList.list"
         :total="groupCustomerList.totalCount"
-        :pageNo="params.pageNo"
-        :pageSize="params.pageSize"
+        :pageNo="pageNo"
+        :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
         <el-table-column label="集团编码" property="organizeId" />
@@ -60,9 +60,15 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { createHelpers } from 'vuex-map-fields';
+
 import WmTable from 'components/Table.vue';
-import {PAGE_NO, PAGE_SIZE} from '@/config';
 import filters from './filters';
+
+const { mapFields } = createHelpers({
+  getterType: 'getCustomerField',
+  mutationType: 'updateCustomerField'
+});
 export default {
   name: 'CustomerOverview',
   mixins: [filters],
@@ -71,31 +77,31 @@ export default {
   },
   data() {
     return {
-      params: {
-        pageNo: PAGE_NO,
-        pageSize: PAGE_SIZE,
-        organizeType: '',
-        provinceId: '',
-        managerName: '',
-        otherField: ''
-      }
     };
   },
   computed: {
     ...mapState({
       groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList
-    })
+    }),
+    ...mapFields([
+      'overviewQuery.organizeType',
+      'overviewQuery.provinceId',
+      'overviewQuery.managerName',
+      'overviewQuery.otherField',
+      'overviewQuery.pageNo',
+      'overviewQuery.pageSize'
+    ])
   },
   beforeMount() {
     this.query();
   },
   methods: {
     onPagination(value) {
-      this.params.pageNo = value;
+      this.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.params.pageSize = value;
+      this.pageSize = value;
       this.query();
     },
     handleDetail(row) {
@@ -103,8 +109,27 @@ export default {
       this.$router.push(path);
     },
     query() {
-      const params = this.params;
+      const params = this.getParams();
       this.queryCustomerOverviewList(params);
+    },
+    getParams() {
+      const {
+        pageNo,
+        pageSize,
+        organizeType,
+        provinceId,
+        managerName,
+        otherField
+      } = this;
+
+      return {
+        pageNo,
+        pageSize,
+        organizeType,
+        provinceId,
+        managerName,
+        otherField
+      };
     },
     ...mapActions([
       'queryCustomerOverviewList'
