@@ -89,7 +89,7 @@ export default {
           { validator: fileCheck }
         ]
       },
-      // routeType和id不能直接通过在created创建，因为created生命周期里创建的对象不再Vue实例劫持对象里。
+      // routeType和id不能直接通过在created创建，因为created生命周期里创建的对象不在Vue实例劫持对象里。
       routeType: '',
       id: ''
     };
