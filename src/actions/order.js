@@ -67,6 +67,17 @@ const actions = {
     return API.getOrderDetailAPI(params).then(res => {
       commit(types.ORDER_GET_HANDLE_TASK_DETAIL, res.data);
     });
+  },
+  // 提交订单
+  submitOrderRow: ({ commit }, params) => {
+    return API.submitOrderRowAPI(params).then(res => {
+      commit(types.ORDER_SUBMIT_ORDER_ROW, res.data);
+    });
+  },
+  deleteOrderRow: ({ commit }, params) => {
+    return API.deleteOrderRowAPI(params).then(res => {
+      commit(types.ORDER_DELETE_ORDER_ROW, res.data);
+    });
   }
 };
 

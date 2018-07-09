@@ -1,6 +1,6 @@
 <template>
+<div>
   <div class="m-container">
-
     <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
       <el-form ref="assignHandle" :rules="assignHandleRules" :model="assignHandle">
         <div class="handler">指派处理人：</div>
@@ -43,7 +43,8 @@
       <el-tab-pane label="待付款处理" :name="3"></el-tab-pane>
       <el-tab-pane label="已处理" :name="4"></el-tab-pane>
     </el-tabs>
-
+  </div>
+  <div class="m-container table-container">
     <wm-table :source="orderHandleTaskObj.list" :pageNo="orderHandleTaskForm.pageNo" :pageSize="orderHandleTaskForm.pageSize" :total="orderHandleTaskObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="订单编号" property="code" />
       <el-table-column label="订单名称" property="name" />
@@ -57,20 +58,25 @@
           <el-button v-if="orderHandleTaskForm.status === 3" class="table-button" type="text" @click="handlePay(scope.row)">
             付款处理
           </el-button>
-          <el-dropdown @command="handleCommand(scope.row, $event)">
+          <el-button v-if="orderHandleTaskForm.status === 4" class="table-button" type="text" @click="handleDetail(scope.row)">
+            详情
+          </el-button>
+
+          <el-dropdown v-if="orderHandleTaskForm.status !== 4" @command="handleCommand(scope.row, $event)">
             <span class="el-dropdown-link">
               更多
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item class="el-dropdown-link" command="dispatch">分派</el-dropdown-item>
-              <el-dropdown-item class="el-dropdown-link" command="detail">详情</el-dropdown-item>
+              <el-dropdown-item class="el-dropdown-link" command="handleDispatch">分派</el-dropdown-item>
+              <el-dropdown-item class="el-dropdown-link" command="handleDetail">详情</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
       </el-table-column>
     </wm-table>
   </div>
+</div>
 </template>
 
 <script>
@@ -131,8 +137,8 @@ export default {
     },
     handleCommand(row, command) {
       let COMMANDS = {
-        'dispatch': 'handleDispatch',
-        'detail': 'handleDetail'
+        'handleDispatch': 'handleDispatch',
+        'handleDetail': 'handleDetail'
       };
       this[COMMANDS[command]](row);
     },
@@ -155,6 +161,7 @@ export default {
     handleDispatch(row) {
       this.dialogVisible = true;
       this.currentRow = row;
+      // 初始化输入框内容部数据
       this.getAssignhandler(row.id);
     },
     handleDetail(row) {

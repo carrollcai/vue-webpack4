@@ -25,7 +25,7 @@
           <el-radio v-model="assignForm.radio" :label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="签约合同：" prop="file">
-          <el-upload class="upload-demo" ref="upload" :before-upload="beforeUpload" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
+          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
             <el-button slot="trigger" size="small">
               <i class="icon-up margin-right-8"></i>上传文件</el-button>
           </el-upload>
@@ -115,11 +115,11 @@ export default {
       this.routeType = this.$route.params.type;
       this.id = this.$route.params.id;
     },
-    fileChange(files, fileList) {
+    fileChange(file, fileList) {
       if (fileList.length > 1) {
         fileList.splice(0, 1);
       }
-      this.assignForm.file = files.raw;
+      this.assignForm.file = file.raw;
       // 校验文件
       this.$refs.assign.validateField('file');
     },
@@ -130,16 +130,21 @@ export default {
       this.$refs.assign.validate(valid => {
         if (!valid) return false;
 
-        // 不能利用submit事件，因为会重复提交一次action
-        // this.$refs.upload.submit();
-        let fileData = new FormData();
-        fileData.append('radio', this.assignForm.radio);
-        fileData.append('file', this.assignForm.file);
-
         // 先获取附件id再上传。
         this.getNewFileInputId().then(() => {
-          this.uploadOrderHandleTask(fileData);
+          this.uploadOrderHandleTask(this.assignForm);
         });
+
+        // 不能利用submit事件，因为会重复提交一次action
+        // this.$refs.upload.submit();
+        // let fileData = new FormData();
+        // fileData.append('radio', this.assignForm.radio);
+        // fileData.append('file', this.assignForm.file);
+
+        // 先获取附件id再上传。
+        // this.getNewFileInputId().then(() => {
+        //   this.uploadOrderHandleTask(fileData);
+        // });
       });
     },
     submitSign() {

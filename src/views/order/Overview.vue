@@ -1,45 +1,48 @@
 <template>
-  <div class="m-container">
-    <el-form class="o-overview-form" ref="orderOverview" :rules="overviewRules" :model="orderOverviewForm">
-      <div class="flex">
-        <el-form-item prop="date">
-          <el-date-picker v-model="orderOverviewForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item class="o-form-item__input">
-          <el-input v-model="orderOverviewForm.name" placeholder="合作集团/编码" />
-        </el-form-item>
-      </div>
-      <div class="flex">
-        <el-form-item class="task-form-item">
-          <el-button type="primary" @click="query">查询</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
+  <div>
+    <div class="m-container">
+      <el-form class="o-overview-form" ref="orderOverview" :rules="overviewRules" :model="orderOverviewForm">
+        <div class="flex">
+          <el-form-item prop="date">
+            <el-date-picker v-model="orderOverviewForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item class="o-form-item__input">
+            <el-input v-model="orderOverviewForm.name" placeholder="合作集团/编码" />
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item class="task-form-item">
+            <el-button type="primary" @click="query">查询</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+      <el-tabs v-model="orderOverviewForm.status" @tab-click="tabChange">
+        <el-tab-pane label="全部" :name="0"></el-tab-pane>
+        <el-tab-pane label="待签约" :name="2"></el-tab-pane>
+        <el-tab-pane label="待付款" :name="3"></el-tab-pane>
+        <el-tab-pane label="已完成" :name="4"></el-tab-pane>
+        <el-tab-pane label="已取消" :name="5"></el-tab-pane>
+      </el-tabs>
+    </div>
 
-    <el-tabs v-model="orderOverviewForm.status" @tab-click="tabChange">
-      <el-tab-pane label="全部" :name="0"></el-tab-pane>
-      <el-tab-pane label="待签约" :name="2"></el-tab-pane>
-      <el-tab-pane label="待付款" :name="3"></el-tab-pane>
-      <el-tab-pane label="已完成" :name="4"></el-tab-pane>
-      <el-tab-pane label="已取消" :name="5"></el-tab-pane>
-    </el-tabs>
-
-    <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="订单编号" property="code" />
-      <el-table-column label="订单名称" property="name" />
-      <el-table-column label="创建时间" property="date" />
-      <el-table-column label="合作集团" property="cooperationCompany" />
-      <el-table-column label="处理人" property="submitter" />
-      <el-table-column label="订单状态" property="status" />
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
-            详情
-          </el-button>
-        </template>
-      </el-table-column>
-    </wm-table>
+    <div class="m-container table-container">
+      <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+        <el-table-column label="订单编号" property="code" />
+        <el-table-column label="订单名称" property="name" />
+        <el-table-column label="创建时间" property="date" />
+        <el-table-column label="合作集团" property="cooperationCompany" />
+        <el-table-column label="处理人" property="submitter" />
+        <el-table-column label="订单状态" property="status" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
+              详情
+            </el-button>
+          </template>
+        </el-table-column>
+      </wm-table>
+    </div>
   </div>
 </template>
 
@@ -98,6 +101,9 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+.o-overview-table {
+  margin-top: $blockWidth;
+}
 .o-overview-form {
   display: flex;
   align-items: center;

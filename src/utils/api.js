@@ -1,5 +1,6 @@
 import qs from 'qs';
 import { fetch } from './http/index.js';
+import { jsonToFormData } from './common.js';
 
 // const development = 'http://localhost:3618';
 const development = '';
@@ -8,12 +9,13 @@ const download = url => params => {
   window.location.href = `${url}?${qs.stringify(params)}`;
 };
 const upload = (url, method) => params => {
+  let formData = jsonToFormData(params);
   let config = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   };
-  return fetch(development + url, params, 'post', config);
+  return fetch(development + url, formData, 'post', config);
 };
 
 export default {
@@ -71,6 +73,8 @@ export default {
   getOrderDetailAPI: API('http://localhost:3618/order/overview'), // 获取订单详情
   getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
   createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
+  submitOrderRowAPI: API('http://localhost:3618/order/overview'), // 提交订单
+  deleteOrderRowAPI: API('http://localhost:3618/order/overview'), // 删除订单
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
