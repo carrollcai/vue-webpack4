@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb>
           <el-breadcrumb-item :to="{ path: '/system/user/management' }">用户管理</el-breadcrumb-item>
-          <el-breadcrumb-item>创建用户</el-breadcrumb-item>
+          <el-breadcrumb-item>{{routeType()}}用户</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
