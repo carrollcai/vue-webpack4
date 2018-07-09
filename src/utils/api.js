@@ -114,6 +114,11 @@ export default {
   setAddProductAPI: API('/esop/product/addProduct'),
   setEditProductAPI: API('/esop/product/editProduct'),
   deleteProductAPI: API('/esop/product/deleteProduct'),
+  uploadProductSchemeAPI: upload('/esop/elec/upload'), // 订单处理上传任务
+  uploadProductFileIdAPI: upload('/esop/elec/getNewFileInputId'),
+  queryElecAPI: upload('/esop/elec/queryElec'),
+  delUplodFileAPI: upload('/esop/elec/del'),
+  downloadUplodFileAPI: download('/esop/elec/download'),
   // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
   // 新增集团客户

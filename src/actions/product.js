@@ -41,6 +41,29 @@ const actions = {
     return API.deleteProductAPI(params).then((res) => {
       return res;
     });
+  },
+  uploadProductScheme: ({ commit }, params) => {
+    return API.uploadProductSchemeAPI(params).then((res) => {
+      return res.data;
+    });
+  },
+  getProductFileId: ({ commit }, params) => {
+    return API.uploadProductFileIdAPI(params).then((res) => {
+      return res;
+    });
+  },
+  queryElec: ({commit}, params) => {
+    return API.queryElecAPI(params).then((res) => {
+      return res;
+    });
+  },
+  delUplodFile: ({commit}, params) => {
+    return API.delUplodFileAPI(params).then((res) => {
+      return res;
+    });
+  },
+  downloadUplodFile: ({commit}, params) => {
+    return API.downloadUplodFileAPI(params);
   }
 };
 

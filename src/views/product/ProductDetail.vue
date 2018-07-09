@@ -28,7 +28,6 @@ export default {
   },
   beforeMount() {
     var data = {productId: Number(this.$route.params.id)};
-    console.log(data);
     this.getProductDetail(data);
   },
   methods: {
@@ -50,5 +49,8 @@ export default {
   span {
     color: #c0c0c0;
   }
+}
+.el-table__expand-column {
+  display: none;
 }
 </style>

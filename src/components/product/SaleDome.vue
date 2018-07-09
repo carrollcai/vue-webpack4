@@ -37,7 +37,7 @@
           <div @click="openDetail(operation.$index, operation.row)" class="el-table__expand-icon blue">详细<i class="el-icon el-icon-arrow-right blue el-table__expand-icon--expanded"></i></div>
         </template>
       </el-table-column>
-      <el-table-column type="expand">
+      <el-table-column type="expand" :formatter="downloadformater">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <p class="sale-type">
@@ -48,9 +48,12 @@
                 <span>: {{ props.row.salesNumber }}</span>
               </el-form-item>
             </p>
-            <p>
+            <p class="sale-type">
               <el-form-item label="创新点/借鉴点">
                 <span>: {{ props.row.keypoint }}</span>
+              </el-form-item>
+              <el-form-item v-if="false" label="附件下载">
+                <span class="blue" @click="dowloadFile()">: <i class="el-icon-download"></i>{{item.fileName}}</span>
               </el-form-item>
             </p>
             <p>
@@ -72,7 +75,8 @@
 </template>
 
 <script>
-
+import _ from 'lodash';
+import { mapActions } from 'vuex';
 export default {
   props: {
     data: {
@@ -82,23 +86,38 @@ export default {
   data() {
     return {
       currIndex: -1,
-      expands: []
+      expands: [],
+      uploadData: {
+        fileTypeId: 502,
+        fileSaveName: '',
+        fileName: ''
+      }
     };
   },
   methods: {
     openDetail(index, row) {
-      var id = row.salesId;
-      Array.prototype.remove = function(val) {
-        let index = this.indexOf(val);
-        if (index > -1) {
-          this.splice(index, 1);
+      this.fileArr = [];
+      for (var i in row.salesList) {
+        if (row.salesList[i].fileInputId) {
+          this.queryElec({fileInputId: row.salesList[i].fileInputId}).then((res) => {
+            if (res.data.length > 0) {
+              this.fileArr.push({
+                fileName: res.data[0].fileName,
+                fileInputId: res.data[0].fileInputId
+              });
+              this.uploadData.fileName = res.data[0].fileName;
+              this.uploadData.fileTypeId = res.data[0].fileTypeId;
+              this.uploadData.fileSaveName = res.data[0].fileSaveName;
+            }
+          });
         }
-      };
-
+      }
+      var id = row.salesId;
       if (this.expands.indexOf(id) < 0) {
         this.expands.push(id);
+        _.compact(this.expands);
       } else {
-        this.expands.remove(id);
+        this.expands = _.pullAll(this.expands, [id]);
       }
       this.currIndex = index;
     },
@@ -108,7 +127,14 @@ export default {
       } else {
         return '无';
       }
-    }
+    },
+    dowloadFile() {
+      this.downloadUplodFile(this.uploadData);
+    },
+    ...mapActions([
+      'queryElec',
+      'downloadUplodFile'
+    ])
   }
 };
 </script>
