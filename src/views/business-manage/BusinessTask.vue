@@ -3,15 +3,15 @@
     <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="businessTaskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
 
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-autocomplete v-model="businessForm.cooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <el-autocomplete v-model="businessTaskForm.cooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
         </el-form-item>
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-input v-model="businessForm.businessName" placeholder="商机编码" />
+          <el-input v-model="businessTaskForm.businessName" placeholder="商机编码" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -24,7 +24,7 @@
       <el-tab-pane label="待处理"></el-tab-pane>
       <el-tab-pane label="已处理"></el-tab-pane>
     </el-tabs>
-    <wm-table :source="businessList" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="businessList" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="商机编号" property="num" />
       <el-table-column label="商机描述" property="desc" />
       <el-table-column label="合作集团" property="group" />
@@ -103,7 +103,7 @@ export default {
     },
     ...mapState({
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
-      businessForm: ({ business }) => business.businessForm,
+      businessTaskForm: ({ business }) => business.businessTaskForm,
       businessList: ({ business }) => business.businessList,
       designatePerson: ({business}) => business.designatePerson,
       remindPerson: ({business}) => business.remindPerson
@@ -146,12 +146,12 @@ export default {
   methods: {
     // 分页
     onPagination(value) {
-      this.businessForm.pageNo = value;
+      this.businessTaskForm.pageNo = value;
       this.query();
     },
     // 改变页面展示条数
     onSizePagination(value) {
-      this.businessForm.pageSize = value;
+      this.businessTaskForm.pageSize = value;
       this.query();
     },
     // 查看详情
@@ -221,9 +221,9 @@ export default {
       });
     },
     query() {
-      const params = this.businessForm;
-      params.status = this.status;
-      this.getBusinessList(params);
+      const params = this.businessTaskForm;
+      params.taskHasComplete = this.status;
+      this.getBusinessTaskList(params);
     },
     querySearchAsync(queryString, cb) {
       var cooperNumList = this.cooperNumList;
@@ -252,7 +252,7 @@ export default {
     handleChange(value) {
     },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessList', 'getDesignatePerson', 'getRemindPerson', 'submitBusinessSend', 'submitBusinessCancel'
+      'getCooperationGroupList', 'getBusinessTaskList', 'getDesignatePerson', 'getRemindPerson', 'submitBusinessSend', 'submitBusinessCancel'
     ])
   }
 };

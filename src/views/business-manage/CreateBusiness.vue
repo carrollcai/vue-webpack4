@@ -27,7 +27,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
@@ -122,6 +122,8 @@ export default {
     return {
       form: {
         opporType: '',
+        organizeId: '',
+        organizeName: '',
         predictContractAmount: '',
         predictSignTime: '',
         predictAgreementTime: '',
@@ -130,7 +132,6 @@ export default {
         contactGender: '',
         contactMobile: '',
         contactEmail: '',
-        organizeName: '',
         address: '',
         busiDesc: '',
         busiRequire: '',
@@ -234,10 +235,11 @@ export default {
       };
     },
     handleSelect(item) {
-      this.form.office = item.id;
+      this.form.address = item.id;
       this.getOfficeAddress();
     },
     submit() {
+      this.form.reminders = this.form.reminders.join(',');
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
@@ -247,12 +249,11 @@ export default {
       });
     },
     save() {
+      this.form.reminders = this.form.reminders.join(',');
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
-        debugger;
         this.saveBusinessDraft(params).then(res => {
-          debugger;
           this.reset();
         });
       });
