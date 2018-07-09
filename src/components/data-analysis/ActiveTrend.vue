@@ -72,7 +72,7 @@
       <div v-else>
         <wm-table :source="trendList" :max-height="500">
           <el-table-column label="日期" property="periodId" />
-          <el-table-column label="日活跃用户数" property="activeNum" />
+          <el-table-column :label="!trend.dateType ? '日活跃用户数' : '月活跃用户数'" property="activeNum" />
           <el-table-column label="手机账号登录用户" property="msisdnNum" />
           <el-table-column label="移动IP用户" property="chinaMobileIpNum" />
           <el-table-column label="非移动IP用户" property="otherIpNum" />

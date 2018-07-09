@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb>
           <el-breadcrumb-item :to="{ path: '/system/role/management' }">角色管理</el-breadcrumb-item>
-          <el-breadcrumb-item>创建角色</el-breadcrumb-item>
+          <el-breadcrumb-item>{{routeType()}}角色</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
@@ -71,6 +71,10 @@ export default {
     // Object.isNullArray(this.permissions) && this.getPermissions();
   },
   methods: {
+    routeType() {
+      const { type } = this.$route.params;
+      return type === 'create' ? '创建' : '修改';
+    },
     changeMendIds(val) {
       let arr = [];
       val.map(val => {

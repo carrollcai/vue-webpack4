@@ -76,6 +76,10 @@ export default {
     this.resetForm();
   },
   methods: {
+    routeType() {
+      const { type } = this.$route.params;
+      return type === 'create' ? '创建' : '修改';
+    },
     provinceChange(val) {
       const { province } = this;
       let isExistAll = val.some(val => val === 'null');

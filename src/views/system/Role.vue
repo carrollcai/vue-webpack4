@@ -30,7 +30,7 @@
               </el-button>
             </el-tooltip>
             <el-tooltip effect="dark" content="删除" placement="bottom">
-              <el-button type="text" @click="handleDelete(scope.row)">
+              <el-button type="text" @click.prevent="handleDelete(scope.row)">
                 <i class="el-icon-delete"></i>
               </el-button>
             </el-tooltip>
@@ -90,6 +90,13 @@ export default {
         type: 'warning'
       }).then(() => {
         this.deleteRole({ roleId: row.roleId }).then(res => {
+
+          this.$message({
+            showClose: true,
+            message: '删除成功',
+            type: 'success',
+            duration: 3000
+          });
           this.query();
         });
       }).catch(() => {

@@ -100,14 +100,7 @@ const actions = {
     });
   },
   deleteRole: ({ commit }, params) => {
-    return API.deleteRoleAPI(params).then(res => {
-      Message({
-        showClose: true,
-        message: '删除成功',
-        type: 'success',
-        duration: 3000
-      });
-    });
+    return API.deleteRoleAPI(params);
   }
 };
 
