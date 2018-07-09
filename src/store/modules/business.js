@@ -7,19 +7,19 @@ import {
 const state = {
   cooperationGroupList: [],
   businessForm: {
+    startDate: '',
+    endDate: '',
+    organizeNameOrCode: '',
     opporCode: '',
-    orgFilter: '',
-    createStartDate: '',
-    createEndDate: '',
     opporStatus: 0,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
   myBusinessForm: {
+    startDate: '',
+    endDate: '',
+    organizeNameOrCode: '',
     opporCode: '',
-    orgFilter: '',
-    createStartDate: '',
-    createEndDate: '',
     opporStatus: 0,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
@@ -31,11 +31,10 @@ const state = {
     opporCode: '',
     taskHasComplete: '',
     pageNo: PAGE_NO,
-    pageSize: PAGE_SIZE,
-    businessStatus: '1'
+    pageSize: PAGE_SIZE
   },
-  businessTaskList: [],
-  businessList: {},
+  businessTaskList: '',
+  businessList: '',
   businessDetail: {},
   businessCategoryList: [],
   officeAddress: '',
@@ -58,11 +57,10 @@ const mutations = {
     state.cooperationGroupList = data.list;
   },
   [types.BUSINESS_OPPORTUNITY_LIST](state, data) {
-    state.businessList.data = data.list;
-    state.businessList.totalCount = data.totalCount;
+    state.businessList = data;
   },
   [types.BUSINESS_DETAIL](state, data) {
-    state.businessDetail = data.list;
+    state.businessDetail = data;
   },
   [types.BUSINESS_CATEGORY_LIST](state, data) {
     state.businessCategoryList = data.list;
@@ -104,10 +102,10 @@ const mutations = {
     state.saveBusinessOrderDraft = data.list;
   },
   [types.MY_BUSINESS_LIST](state, data) {
-    state.myBusinessList = data.list;
+    state.myBusinessList = data;
   },
   [types.BUSINESS_TASK_LIST](state, data) {
-    state.businessTaskList = data.list;
+    state.businessTaskList = data;
   }
 };
 export default {

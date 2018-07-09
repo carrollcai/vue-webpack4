@@ -1,60 +1,64 @@
 <template>
-  <div class="m-container">
-    <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
-      <div class="flex">
-        <el-form-item>
-          <el-date-picker v-model="businessTaskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
-        </el-form-item>
+  <div>
+    <div class="m-container">
+      <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
+        <div class="flex">
+          <el-form-item>
+            <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
 
-        <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-autocomplete v-model="businessTaskForm.cooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
-        </el-form-item>
-        <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-input v-model="businessTaskForm.businessName" placeholder="商机编码" />
-        </el-form-item>
-      </div>
-      <div class="flex">
-        <el-form-item class="task-form-item group-form-item__lable">
-          <el-button type="primary" @click="query">查询</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
-    <el-tabs v-model="status">
-      <el-tab-pane label="待处理"></el-tab-pane>
-      <el-tab-pane label="已处理"></el-tab-pane>
-    </el-tabs>
-    <wm-table :source="businessList" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="商机编号" property="num" />
-      <el-table-column label="商机描述" property="desc" />
-      <el-table-column label="合作集团" property="group" />
-      <el-table-column label="创建时间" property="time" />
-      <el-table-column label="联系人" property="contacts" />
-      <el-table-column v-if="status === '1'" label="处理人" property="process" />
-      <el-table-column v-if="status === '1'" label="处理结果" property="result" />
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button v-if="status === '0'" type="text" @click="handleTrans(scope.row)">
-            转订单
-          </el-button>
-          <template v-if="status === '0'">
-            <el-dropdown @command="handleCommand(scope.row, $event)">
-              <el-button type="text">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item class="el-dropdown-link" command="detail">详情</el-dropdown-item>
-                <el-dropdown-item class="el-dropdown-link" command="send">分派</el-dropdown-item>
-                <el-dropdown-item class="el-dropdown-link" command="cancel">作废</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+          <el-form-item class="task-form-item__input group-form-item__lable">
+            <el-autocomplete v-model="businessTaskForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          </el-form-item>
+          <el-form-item class="task-form-item__input group-form-item__lable">
+            <el-input v-model="businessTaskForm.opporCode" placeholder="商机编码" />
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item class="task-form-item group-form-item__lable">
+            <el-button type="primary" @click="query">查询</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+      <el-tabs v-model="status">
+        <el-tab-pane label="待处理"></el-tab-pane>
+        <el-tab-pane label="已处理"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="m-container table-container">
+      <wm-table :source="businessTaskList.list" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+        <el-table-column label="商机编号" property="num" />
+        <el-table-column label="商机描述" property="desc" />
+        <el-table-column label="合作集团" property="group" />
+        <el-table-column label="创建时间" property="time" />
+        <el-table-column label="联系人" property="contacts" />
+        <el-table-column v-if="status === '1'" label="处理人" property="process" />
+        <el-table-column v-if="status === '1'" label="处理结果" property="result" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button v-if="status === '0'" type="text" @click="handleTrans(scope.row)">
+              转订单
+            </el-button>
+            <template v-if="status === '0'">
+              <el-dropdown @command="handleCommand(scope.row, $event)">
+                <el-button type="text">
+                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item class="el-dropdown-link" command="detail">详情</el-dropdown-item>
+                  <el-dropdown-item class="el-dropdown-link" command="send">分派</el-dropdown-item>
+                  <el-dropdown-item class="el-dropdown-link" command="cancel">作废</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </template>
+            <el-button v-if="status === '1'" type="text" @click="handleDetail(scope.row)">
+              详情
+            </el-button>
           </template>
-          <el-button v-if="status === '1'" type="text" @click="handleDetail(scope.row)">
-            详情
-          </el-button>
-        </template>
-      </el-table-column>
-    </wm-table>
+        </el-table-column>
+      </wm-table>
+    </div>
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
@@ -104,13 +108,14 @@ export default {
     ...mapState({
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       businessTaskForm: ({ business }) => business.businessTaskForm,
-      businessList: ({ business }) => business.businessList,
+      businessTaskList: ({ business }) => business.businessTaskList,
       designatePerson: ({business}) => business.designatePerson,
       remindPerson: ({business}) => business.remindPerson
     })
   },
   data() {
     return {
+      timeRange: '',
       status: 0,
       taskManageRules: {
       },
@@ -144,6 +149,15 @@ export default {
     this.query();
   },
   methods: {
+    getTimeRange(time) {
+      if (time) {
+        this.businessTaskForm.startDate = time[0];
+        this.businessTaskForm.endDate = time[1];
+      } else {
+        this.businessTaskForm.startDate = '';
+        this.businessTaskForm.endDate = '';
+      }
+    },
     // 分页
     onPagination(value) {
       this.businessTaskForm.pageNo = value;

@@ -1,72 +1,78 @@
 <template>
-  <div class="m-container">
-    <el-form class="task-form" ref="taskManageForm">
-      <div class="flex">
-        <el-form-item prop="date">
-          <el-date-picker v-model="timeRange" @change="getTimeRange" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
-        </el-form-item>
+  <div>
+    <div class="m-container">
+      <el-form class="task-form" ref="taskManageForm">
+        <div class="flex">
+          <el-form-item prop="date">
+            <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+            </el-date-picker>
+            <!--<el-date-picker v-model="timeRange" @change="getTimeRange" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+            </el-date-picker>-->
+          </el-form-item>
 
-        <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-autocomplete v-model="myBusinessForm.orgFilter" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
-        </el-form-item>
-        <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-input v-model="myBusinessForm.opporCode" placeholder="商机编码" />
-        </el-form-item>
-      </div>
-      <div class="flex">
-        <el-form-item class="task-form-item">
-          <el-button type="primary" @click="query">查询</el-button>
-        </el-form-item>
-        <el-form-item class="business-form-item">
-          <el-button class="el-button--have-icon" @click.prevent="createBusiness" icon="el-icon-plus">新建商机</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
-    <el-tabs v-model="status">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="草稿"></el-tab-pane>
-      <el-tab-pane label="待处理"></el-tab-pane>
-      <el-tab-pane label="已转订单"></el-tab-pane>
-      <el-tab-pane label="已作废"></el-tab-pane>
-    </el-tabs>
-    <wm-table :source="businessList" :pageNo="myBusinessForm.pageNo" :pageSize="myBusinessForm.pageSize" :total="myBusinessForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="商机编号" property="num" />
-      <el-table-column label="商机描述" property="desc" />
-      <el-table-column label="合作集团" property="group">
-        <template slot-scope="scope">
-          <span style="margin-right: 10px">{{ scope.row.group }}</span>
-          <el-popover placement="top" width="200" trigger="hover">
-            <div class="tipText1">系统暂未录入该集团，请尽快关联！</div>
-            <div class="tipText tipText1 el-dropdown-link" @click="showAssociate(scope.row)">立即关联</div>
-            <i class="icon-info" slot="reference"></i>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" property="time" />
-      <el-table-column label="联系人" property="contacts" />
-      <el-table-column label="处理人" property="process" />
-      <el-table-column label="商机状态" property="result" />
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">
-            详情
-          </el-button>
-          <template v-if="isDraft(scope.row)">
-            <el-dropdown @command="handleCommand(scope.row, $event)">
-              <span class="el-dropdown-link">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item class="el-dropdown-link" command="submit">提交</el-dropdown-item>
-                <el-dropdown-item class="el-dropdown-link" command="edit">修改</el-dropdown-item>
-                <el-dropdown-item class="el-dropdown-link" command="delete">删除</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+          <el-form-item class="task-form-item__input group-form-item__lable">
+            <el-autocomplete v-model="myBusinessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          </el-form-item>
+          <el-form-item class="task-form-item__input group-form-item__lable">
+            <el-input v-model="myBusinessForm.opporCode" placeholder="商机编码" />
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item class="task-form-item">
+            <el-button type="primary" @click="query">查询</el-button>
+          </el-form-item>
+          <el-form-item class="business-form-item">
+            <el-button class="el-button--have-icon" @click.prevent="createBusiness" icon="el-icon-plus">新建商机</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+      <el-tabs v-model="status">
+        <el-tab-pane label="全部"></el-tab-pane>
+        <el-tab-pane label="草稿"></el-tab-pane>
+        <el-tab-pane label="待处理"></el-tab-pane>
+        <el-tab-pane label="已转订单"></el-tab-pane>
+        <el-tab-pane label="已作废"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="m-container table-container">
+      <wm-table :source="myBusinessList.list" :pageNo="myBusinessForm.pageNo" :pageSize="myBusinessForm.pageSize" :total="myBusinessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+        <el-table-column label="商机编号" property="num" />
+        <el-table-column label="商机描述" property="desc" />
+        <el-table-column label="合作集团" property="group">
+          <template slot-scope="scope">
+            <span style="margin-right: 10px">{{ scope.row.group }}</span>
+            <el-popover placement="top" width="200" trigger="hover">
+              <div class="tipText1">系统暂未录入该集团，请尽快关联！</div>
+              <div class="tipText tipText1 el-dropdown-link" @click="showAssociate(scope.row)">立即关联</div>
+              <i class="icon-info" slot="reference"></i>
+            </el-popover>
           </template>
-        </template>
-      </el-table-column>
-    </wm-table>
+        </el-table-column>
+        <el-table-column label="创建时间" property="time" />
+        <el-table-column label="联系人" property="contacts" />
+        <el-table-column label="处理人" property="process" />
+        <el-table-column label="商机状态" property="result" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">
+              详情
+            </el-button>
+            <template v-if="isDraft(scope.row)">
+              <el-dropdown @command="handleCommand(scope.row, $event)">
+                <span class="el-dropdown-link">
+                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item class="el-dropdown-link" command="submit">提交</el-dropdown-item>
+                  <el-dropdown-item class="el-dropdown-link" command="edit">修改</el-dropdown-item>
+                  <el-dropdown-item class="el-dropdown-link" command="delete">删除</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </template>
+          </template>
+        </el-table-column>
+      </wm-table>
+    </div>
     <el-dialog class="business-create-manage-dialog" width="433px" height="312px" title="立即关联" :visible.sync="relationDialogVisible">
       <el-form ref="form">
         <el-form-item label="关联集团名称/编码：" prop="">
@@ -146,8 +152,13 @@ export default {
       this.query();
     },
     getTimeRange(time) {
-      this.myBusinessForm.createStartDate = time[0];
-      this.myBusinessForm.createEndDate = time[1];
+      if (time) {
+        this.myBusinessForm.startDate = time[0];
+        this.myBusinessForm.endDate = time[1];
+      } else {
+        this.myBusinessForm.startDate = '';
+        this.myBusinessForm.endDate = '';
+      }
     },
     handleDetail(row) {
       const path = `/business-manage/business-detail/${row.id}`;
