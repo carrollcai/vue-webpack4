@@ -1,5 +1,6 @@
 import qs from 'qs';
 import { fetch } from './http/index.js';
+import { jsonToFormData } from './common.js';
 
 // const development = 'http://localhost:3618';
 const development = '';
@@ -16,19 +17,6 @@ const upload = (url, method) => params => {
   };
   return fetch(development + url, formData, 'post', config);
 };
-
-function jsonToFormData(json) {
-  if (Array.isArray(json)) throw 'jsonToFormData dont support Array';
-  let formData = new FormData();
-  for (let x in json) {
-    if (Array.isArray(json[x])) {
-      json[x].forEach(val => formData.append(`${x}[]`, val));
-    } else {
-      formData.append(`${x}`, json[x]);
-    }
-  }
-  return formData;
-}
 
 export default {
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
