@@ -20,9 +20,13 @@ module.exports = {
       * vue2核心文件介绍，主要分为https://mmxiaowu.com/article/58482558d4352863efb55475
       */
       'vue/dist/vue.esm.js',
+      /* 
+      * time 20180709
+      * element-ui放入dll打包，el-tooltip会失效，暂时没找到问题原因，https://segmentfault.com/q/1010000011981465
+      *  */
+      // 'element-ui/lib/element-ui.common.js',
       'vue-router',
       'vuex',
-      'element-ui',
       'axios',
       '@antv/g2',
       '@antv/data-set',
