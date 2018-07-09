@@ -56,6 +56,14 @@ const actions = {
     return API.queryElecAPI(params).then((res) => {
       return res;
     });
+  },
+  delUplodFile: ({commit}, params) => {
+    return API.delUplodFileAPI(params).then((res) => {
+      return res;
+    });
+  },
+  downloadUplodFile: ({commit}, params) => {
+    return API.downloadUplodFileAPI(params);
   }
 };
 

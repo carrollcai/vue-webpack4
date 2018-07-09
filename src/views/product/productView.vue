@@ -96,10 +96,7 @@ export default {
     },
     checkProductName() {
       var data = {productName: this.formData.productName};
-      this.getComposedProduct(data).then((res) => {
-        console.log(res);
-      });
-      console.log(this.composedProduct);
+      this.getComposedProduct(data);
     },
     getTimeRange(time) {
       if (time) {

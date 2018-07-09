@@ -9,7 +9,6 @@
 <script>
 import baseInfo from 'components/product/BaseInfo.vue';
 import SaleDome from 'components/product/SaleDome.vue';
-import _ from 'lodash';
 import { mapState, mapActions } from 'vuex';
 
 export default {

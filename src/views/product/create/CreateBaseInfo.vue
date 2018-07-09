@@ -29,6 +29,9 @@
         <el-col :span="8"><el-form-item prop="deptment"><el-input v-model="formData.deptment" placeholder="部门" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
         <el-col :span="8"><el-form-item prop="position"><el-input v-model="formData.position" placeholder="职业" style="width: 100px;"></el-input></el-form-item></el-col>
       </el-form-item>
+      <el-form-item label="版本号" label-width="110px" prop="version">
+        <el-input v-model="formData.version" placeholder="请输入版本号"></el-input>
+      </el-form-item>
       <el-form-item label="产品介绍：" label-width="110px" prop="description">
         <el-input v-model="formData.description" placeholder="请输入介绍" type="textarea" :rows="3"></el-input>
       </el-form-item>

@@ -32,7 +32,6 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitAssignForm()">提交</el-button>
-          <form-cancel :path="'/order/handle-task'">取消</form-cancel>
         </el-form-item>
       </el-form>
 
@@ -157,7 +156,6 @@ export default {
     submitPayForm() {
       this.$refs.pay.validate(valid => {
         if (!valid) return false;
-
         this.uploadOrderHandleTask();
       });
     },

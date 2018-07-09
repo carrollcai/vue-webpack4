@@ -130,9 +130,10 @@ export default {
       }).then(() => {
         var _this = this;
         this.setdeleteProduct({'productId': productId, 'state': 0}).then((res) => {
-          console.log(res);
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
+            var data = { pageNo: '1', pageSize: '20' };
+            _this.getProductCreatList(data);
           }
         });
       }).catch(() => {
@@ -144,9 +145,6 @@ export default {
       'getComposedProduct',
       'setdeleteProduct'
     ])
-  },
-  onload() {
-    console.log(this.productList);
   }
 };
 </script>
