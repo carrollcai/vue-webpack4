@@ -3551,6 +3551,10 @@ gl-matrix@~2.6.1:
   version "2.6.1"
   resolved "http://registry.npm.taobao.org/gl-matrix/download/gl-matrix-2.6.1.tgz#1bc7f7b396f4ae80abdb4db9a98cd07d170b9004"
 
+gl-matrix@~2.6.1:
+  version "2.6.1"
+  resolved "http://r.cnpmjs.org/gl-matrix/download/gl-matrix-2.6.1.tgz#1bc7f7b396f4ae80abdb4db9a98cd07d170b9004"
+
 glob-base@^0.3.0:
   version "0.3.0"
   resolved "http://registry.npm.taobao.org/glob-base/download/glob-base-0.3.0.tgz#dbb164f6221b1c0b1ccf82aea328b497df0ea3c4"

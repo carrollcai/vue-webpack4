@@ -83,6 +83,13 @@ export default {
         type: 'warning'
       }).then(() => {
         this.deleteRole({ roleId: row.roleId }).then(res => {
+
+          this.$message({
+            showClose: true,
+            message: '删除成功',
+            type: 'success',
+            duration: 3000
+          });
           this.query();
         });
       }).catch(() => {
