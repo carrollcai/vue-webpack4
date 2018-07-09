@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column label="产品名称" show-overflow-tooltip property="productName">
       </el-table-column>
-      <el-table-column label="产品类别" property="productType">
+      <el-table-column label="产品类别" property="productType" :formatter="productTypeFn">
       </el-table-column>
       <el-table-column label="创建时间" property="insertdate">
       </el-table-column>
@@ -139,6 +139,13 @@ export default {
       }).catch(() => {
         this.$message('已取消删除');
       });
+    },
+    productTypeFn(row, column, columnValue) {
+      if (columnValue === '0') {
+        return '个人市场';
+      } else {
+        return '政企市场';
+      }
     },
     ...mapActions([
       'getProductCreatList',

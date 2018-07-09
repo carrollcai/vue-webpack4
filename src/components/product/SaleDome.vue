@@ -3,8 +3,8 @@
   <h3>产品销售案例</h3>
   <div class="b-i-table">
     <el-table
-      v-if="data"
-      :data="data"
+      v-if="dataList"
+      :data="dataList"
       row-key="salesId"
       :expand-row-keys="expands"
       @row-click="openDetail"
@@ -15,7 +15,7 @@
         prop="salesId">
       </el-table-column>
       <el-table-column
-        label="销售类型" width="150"
+        label="销售类型" width="150" :formatter="salesTypeFn"
         prop="salesType">
       </el-table-column>
       <el-table-column
@@ -52,8 +52,8 @@
               <el-form-item label="创新点/借鉴点">
                 <span>: {{ props.row.keypoint }}</span>
               </el-form-item>
-              <el-form-item v-if="false" label="附件下载">
-                <span class="blue" @click="dowloadFile()">: <i class="el-icon-download"></i>{{item.fileName}}</span>
+              <el-form-item v-if="props.row.fileName" label="附件下载">
+                <span class="blue" @click="dowloadFile()">: <i class="el-icon-download"></i>{{props.row.fileName}}</span>
               </el-form-item>
             </p>
             <p>
@@ -94,23 +94,42 @@ export default {
       }
     };
   },
+  computed: {
+    dataList() {
+      if (this.data) {
+        return this.data;
+      }
+    }
+  },
+  mounted: function() {
+    this.getFileName();
+  },
   methods: {
-    openDetail(index, row) {
-      this.fileArr = [];
-      for (var i in row.salesList) {
-        if (row.salesList[i].fileInputId) {
-          this.queryElec({fileInputId: row.salesList[i].fileInputId}).then((res) => {
-            if (res.data.length > 0) {
-              this.fileArr.push({
-                fileName: res.data[0].fileName,
-                fileInputId: res.data[0].fileInputId
-              });
-              this.uploadData.fileName = res.data[0].fileName;
-              this.uploadData.fileTypeId = res.data[0].fileTypeId;
-              this.uploadData.fileSaveName = res.data[0].fileSaveName;
-            }
-          });
+    getFileName() {
+      var _this = this;
+      if (this.data) {
+        for (var i in this.data) {
+          if (this.data[i].fileInputId) {
+            _this.queryElec({
+              fileInputId: (this.data[i].fileInputId)
+            }).then((res) => {
+              if (res.data.length > 0) {
+                _this.data[i].fileName = res.data[0].fileName;
+              }
+            });
+          }
         }
+      }
+    },
+    openDetail(index, row) {
+      if (row.fileInputId) {
+        this.queryElec({fileInputId: row.fileInputId}).then((res) => {
+          if (res.data.length > 0) {
+            this.uploadData.fileName = res.data[0].fileName;
+            this.uploadData.fileTypeId = res.data[0].fileTypeId;
+            this.uploadData.fileSaveName = res.data[0].fileSaveName;
+          }
+        });
       }
       var id = row.salesId;
       if (this.expands.indexOf(id) < 0) {
@@ -126,6 +145,13 @@ export default {
         return columnValue;
       } else {
         return '无';
+      }
+    },
+    salesTypeFn(row, column, columnValue) {
+      if (columnValue === '0') {
+        return '单品销售';
+      } else {
+        return '组合销售';
       }
     },
     dowloadFile() {

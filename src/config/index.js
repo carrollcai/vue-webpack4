@@ -40,36 +40,36 @@ export const MENU_PERMISSIONS = [
       }
     ]
   },
-  {
-    menuId: 5,
-    name: '任务管理',
-    url: '/task',
-    icon: 'icon-task',
-    enable: false,
-    children: [
-      {
-        menuId: 6,
-        parentId: 5,
-        name: '任务查询',
-        url: '/task/management',
-        enable: false
-      },
-      {
-        menuId: 7,
-        parentId: 5,
-        name: '我的申请',
-        url: '/task/push',
-        enable: false
-      },
-      {
-        menuId: 8,
-        parentId: 5,
-        name: '我的待办',
-        url: '/task/todo',
-        enable: false
-      }
-    ]
-  },
+  // {
+  //   menuId: 5,
+  //   name: '任务管理',
+  //   url: '/task',
+  //   icon: 'icon-task',
+  //   enable: false,
+  //   children: [
+  //     {
+  //       menuId: 6,
+  //       parentId: 5,
+  //       name: '任务查询',
+  //       url: '/task/management',
+  //       enable: false
+  //     },
+  //     {
+  //       menuId: 7,
+  //       parentId: 5,
+  //       name: '我的申请',
+  //       url: '/task/push',
+  //       enable: false
+  //     },
+  //     {
+  //       menuId: 8,
+  //       parentId: 5,
+  //       name: '我的待办',
+  //       url: '/task/todo',
+  //       enable: false
+  //     }
+  //   ]
+  // },
   {
     menuId: 4,
     name: '订单管理',

@@ -74,7 +74,8 @@ export default {
   getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
   createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
   submitOrderRowAPI: API('http://localhost:3618/order/overview'), // 提交订单
-  deleteOrderRowAPI: API('http://localhost:3618/order/overview'), // 删除订单
+  deleteOrderRowAPI: API('http://localhost:3618/order/overview'), // 删除订单,
+  setConnectOriganizeAPI: API('http://localhost:3618/order/overview'), // 集团关联
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),

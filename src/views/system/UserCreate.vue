@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb>
           <el-breadcrumb-item :to="{ path: '/system/user/management' }">用户管理</el-breadcrumb-item>
-          <el-breadcrumb-item>创建用户</el-breadcrumb-item>
+          <el-breadcrumb-item>{{routeType()}}用户</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
@@ -101,6 +101,10 @@ export default {
     this.resetForm();
   },
   methods: {
+    routeType() {
+      const { type } = this.$route.params;
+      return type === 'create' ? '创建' : '修改';
+    },
     provinceChange(val) {
       const { province } = this;
       let isExistAll = val.some(val => val === 'null');

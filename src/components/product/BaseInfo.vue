@@ -2,11 +2,11 @@
 <div class="base-info">
   <h3>产品基本信息</h3>
   <ul class="b-i-list">
-    <li><span>产品名称：</span>{{product.productName}}</li>
-    <li><span>产品价格：</span>{{product.price}}元</li>
-    <li><span>产品类别：</span>{{product.productType}}</li>
-    <li><span>负责人员：</span>{{product.username}}-{{product.deptment}}-{{product.position}}</li>
-    <li><span>负责介绍：</span>{{product.username}}</li>
+    <li><span>产品名称：</span>{{productList.productName}}</li>
+    <li><span>产品价格：</span>{{productList.price}}元</li>
+    <li><span>产品类别：</span>{{productList.productType}}</li>
+    <li><span>负责人员：</span>{{productList.username}}-{{productList.deptment}}-{{productList.position}}</li>
+    <li><span>负责介绍：</span>{{productList.username}}</li>
   </ul>
 </div>
 </template>
@@ -20,6 +20,16 @@ export default {
     }
   },
   computed: {
+    productList() {
+      if (this.product) {
+        if (this.product.productType === '0') {
+          this.product.productType = '个人市场';
+        } else {
+          this.product.productType = '政企市场';
+        }
+        return this.product;
+      }
+    }
   },
   data() {
     return {

@@ -24,7 +24,7 @@ module.exports = {
       * time 20180709
       * element-ui放入dll打包，el-tooltip会失效，暂时没找到问题原因，https://segmentfault.com/q/1010000011981465
       *  */
-      // 'element-ui/lib/element-ui.common.js',
+      // 'element-ui',
       'vue-router',
       'vuex',
       'axios',
