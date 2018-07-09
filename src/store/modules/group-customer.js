@@ -1,4 +1,11 @@
+import { createHelpers } from 'vuex-map-fields';
 import * as types from '../types';
+import {PAGE_NO, PAGE_SIZE} from '@/config';
+
+const { getCustomerField, updateCustomerField } = createHelpers({
+  getterType: 'getCustomerField',
+  mutationType: 'updateCustomerField'
+});
 
 const groupCustomerCreate = {
   staffName: '',
@@ -13,7 +20,34 @@ const state = {
   customerManagers: [],
   groupCustomer: {},
   customerSubscribeProducts: {},
-  processes: []
+  processes: [],
+  overviewQuery: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    organizeType: '',
+    provinceId: '',
+    managerName: '',
+    otherField: ''
+  },
+  createQuery: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    organizeType: '',
+    provinceId: '',
+    managerName: '',
+    otherField: '',
+    activeName: 'second'
+  },
+  auditQuery: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    organizeType: '',
+    provinceId: '',
+    managerName: '',
+    otherField: '',
+    businessStatus: '',
+    activeName: 'first'
+  }
 };
 
 const mutations = {
@@ -37,7 +71,8 @@ const mutations = {
   },
   [types.GROUP_CUSTOMER_PROCESSES](state, data) {
     state.processes = data;
-  }
+  },
+  updateCustomerField
 };
 
 const getters = {
@@ -46,7 +81,8 @@ const getters = {
   },
   processes(state) {
     return state.processes;
-  }
+  },
+  getCustomerField
 };
 
 export default {

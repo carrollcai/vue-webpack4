@@ -28,13 +28,13 @@ const actions = {
       'codeTypeList': [
         'ORGANIZE_TYPE',
         'ORG_INDUSTRY_TYPE',
-        'industryType',
+        'INDUSTRY_TYPE',
         'MEMBER_NUM',
         'CERTIFICATE_TYPE',
         'CM_MONEY_TYPE',
         'SEX',
         'AGE',
-        'maritalStatus',
+        'MARITAL_STATUS',
         // 订单模块
         'ORD_STATUS',
         'PROJECT_INVITATION',
@@ -45,6 +45,9 @@ const actions = {
     return API.queryStaticDataAPI(params).then(res => {
       commit(types.STATIC_DATA, res.data);
     });
+  },
+  getNewFileInputId: ({ commit }, params) => {
+    return API.getNewFileInputIdAPI(params);
   }
 };
 

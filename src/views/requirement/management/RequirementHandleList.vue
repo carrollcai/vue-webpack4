@@ -1,5 +1,5 @@
 <template>
-  <div class="requirement-management">
+  <div class="requirement-handle-management">
     <div class="m-container">
       <el-form class="group-form" :model="params">
         <div class="flex">
@@ -35,7 +35,7 @@
         <el-tab-pane label="已处理" name="third"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container group-customer-create-management">
+    <div class="m-container requirement-list">
       <wm-table
         :source="requirements.list"
         :total="requirements.totalCount"
@@ -102,7 +102,21 @@ export default {
   margin-left: $formWidth;
 }
 
-.requirement-management {
-  margin-top: $blockWidth;
+.requirement-handle-management {
+  .el-tabs__header{
+    margin-bottom: 0;
+  }
+
+  .el-tabs__nav-wrap::after{
+    height: 0;
+  }
+
+  .query-block{
+    padding-bottom: 0;
+  }
+
+  .requirement-list{
+    margin-top: $blockWidth;
+  }
 }
 </style>

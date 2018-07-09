@@ -1,5 +1,6 @@
 import qs from 'qs';
 import { fetch } from './http/index.js';
+import { jsonToFormData } from './common.js';
 
 // const development = 'http://localhost:3618';
 const development = '';
@@ -8,12 +9,13 @@ const download = url => params => {
   window.location.href = `${url}?${qs.stringify(params)}`;
 };
 const upload = (url, method) => params => {
+  let formData = jsonToFormData(params);
   let config = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   };
-  return fetch(development + url, params, 'post', config);
+  return fetch(development + url, formData, 'post', config);
 };
 
 export default {
@@ -21,6 +23,9 @@ export default {
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
   queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
   queryRegionRelationListAPI: API('/esop/operator/getRegionRelationList'),
+
+  /* 附件 */
+  getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -63,9 +68,13 @@ export default {
   /* 订单管理 */
   getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
   uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
-  queryOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
+  getOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
   createOrderAPI: API('http://localhost:3618/order/overview'), // 新建订单,
-  getOrderDetailAPI: API('http://localhost:3618/order/overview'),
+  getOrderDetailAPI: API('http://localhost:3618/order/overview'), // 获取订单详情
+  getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
+  createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
+  submitOrderRowAPI: API('http://localhost:3618/order/overview'), // 提交订单
+  deleteOrderRowAPI: API('http://localhost:3618/order/overview'), // 删除订单
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
@@ -105,6 +114,11 @@ export default {
   setAddProductAPI: API('/esop/product/addProduct'),
   setEditProductAPI: API('/esop/product/editProduct'),
   deleteProductAPI: API('/esop/product/deleteProduct'),
+  uploadProductSchemeAPI: upload('/esop/elec/upload'), // 订单处理上传任务
+  uploadProductFileIdAPI: upload('/esop/elec/getNewFileInputId'),
+  queryElecAPI: upload('/esop/elec/queryElec'),
+  delUplodFileAPI: upload('/esop/elec/del'),
+  downloadUplodFileAPI: download('/esop/elec/download'),
   // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
   // 新增集团客户

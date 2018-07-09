@@ -16,7 +16,7 @@
 
 .m-container {
   background-color: #fff;
-  padding: 16px;
+  padding: 24px;
 }
 
 .no-data {
@@ -99,4 +99,7 @@
   font-size: 14px;
   font-weight: initial;
   font-family: "Microsoft YaHei"
+}
+.table-container {
+  margin-top: $blockWidth;
 }

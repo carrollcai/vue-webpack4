@@ -3,9 +3,9 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/order/overview' }">订单总览</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/order/handle-task' }">订单总览</el-breadcrumb-item>
           <el-breadcrumb-item v-if="routeType === 'sign'">签约处理</el-breadcrumb-item>
-          <el-breadcrumb-item v-if="routeType === 'pay'">付款处理</el-breadcrumb-item>
+          <el-breadcrumb-item v-else-if="routeType === 'pay'">付款处理</el-breadcrumb-item>
           <el-breadcrumb-item v-else>详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -13,48 +13,42 @@
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
         <audit-steps></audit-steps>
-        <detail-bar :title="['处理结果：', '付款金额：']" :content="['已完成', '1000万元']" />
+        <detail-bar v-if="routeType === 'detail'" :title="['处理结果：', '付款金额：']" :content="['已完成', '1000万元']" />
         <detail-content />
       </div>
 
-      <div class="line">
+      <div class="line"></div>
 
-      </div>
-
-      <el-form class="handle-task-detail-form" v-if="routeType === 'sign'"  label-width="112px">
+      <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
         <el-form-item label="处理结果：">
-          <el-radio v-model="form.radio" :label="1">是</el-radio>
-          <el-radio v-model="form.radio" :label="0">否</el-radio>
+          <el-radio v-model="assignForm.radio" :label="1">是</el-radio>
+          <el-radio v-model="assignForm.radio" :label="0">否</el-radio>
         </el-form-item>
-        <el-form-item label="签约合同：">
-          <el-upload class="upload-demo" ref="upload" :before-upload="beforeUpload" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
-            <el-button slot="trigger" size="small"><i class="icon-up margin-right-8"></i>上传文件</el-button>
+        <el-form-item label="签约合同：" prop="file">
+          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
+            <el-button slot="trigger" size="small">
+              <i class="icon-up margin-right-8"></i>上传文件</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm()">提交</el-button>
-          <form-cancel :path="'/order/handle-task'">取消</form-cancel>
+          <el-button type="primary" @click="submitAssignForm()">提交</el-button>
         </el-form-item>
       </el-form>
 
-      <el-form class="handle-task-detail-form" v-if="routeType === 'pay'" label-width="112px">
-        <el-form-item label="付款金额：" prop="staffName">
+      <el-form class="handle-task-detail-form" label-width="112px" v-if="routeType === 'pay'" ref="pay" :model="payForm" :rules="payRules">
+        <el-form-item label="付款金额：" prop="money">
           <el-input class="form-input-medium" v-model="payForm.money" placeholder="请输入合同金额">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm()">提交</el-button>
+          <el-button type="primary" @click="submitPayForm()">提交</el-button>
           <form-cancel :path="'/order/handle-task'">取消</form-cancel>
         </el-form-item>
       </el-form>
 
-      <div class="task-submit-button" v-if="routeType === 'pedding'">
+      <div class="task-submit-button" v-if="routeType === 'detail-sign' || routeType === 'detail-pay'">
         <el-button type="primary" @click="submitSign">签约处理</el-button>
-      </div>
-
-      <div v-if="routeType === 'fulfilled'">
-
       </div>
 
     </div>
@@ -69,14 +63,34 @@ import DetailBar from 'components/order/DetailBar.vue';
 
 export default {
   data() {
+    const fileCheck = (rule, value, callback) => {
+      if (!this.assignForm.file) {
+        callback(new Error('请上传文件'));
+      } else {
+        callback();
+      }
+    };
     return {
       payForm: {
         money: null
       },
-      form: {
+      payRules: {
+        money: [
+          { required: true, message: '请输入合同金额', trigger: 'blur' }
+        ]
+      },
+      assignForm: {
         radio: 1,
         file: null
-      }
+      },
+      assignRules: {
+        file: [
+          { validator: fileCheck }
+        ]
+      },
+      // routeType和id不能直接通过在created创建，因为created生命周期里创建的对象不在Vue实例劫持对象里。
+      routeType: '',
+      id: ''
     };
   },
   components: {
@@ -85,31 +99,72 @@ export default {
     DetailBar
   },
   created() {
-    this.routeType = this.$route.params.type;
+    this.routeChange();
+  },
+  beforeMount() {
+    this.getHandleTaskDetail(this.id);
+  },
+  watch: {
+    '$route'() {
+      this.routeChange();
+    }
   },
   methods: {
-    fileChange(files, fileList) {
+    routeChange() {
+      this.routeType = this.$route.params.type;
+      this.id = this.$route.params.id;
+    },
+    fileChange(file, fileList) {
       if (fileList.length > 1) {
         fileList.splice(0, 1);
       }
-      this.form.file = files.raw;
+      this.assignForm.file = file.raw;
+      // 校验文件
+      this.$refs.assign.validateField('file');
     },
     removeFile(files, fileList) {
-      this.form.file = null;
+      this.assignForm.file = null;
+    },
+    submitAssignForm() {
+      this.$refs.assign.validate(valid => {
+        if (!valid) return false;
+
+        // 先获取附件id再上传。
+        this.getNewFileInputId().then(() => {
+          this.uploadOrderHandleTask(this.assignForm);
+        });
+
+        // 不能利用submit事件，因为会重复提交一次action
+        // this.$refs.upload.submit();
+        // let fileData = new FormData();
+        // fileData.append('radio', this.assignForm.radio);
+        // fileData.append('file', this.assignForm.file);
+
+        // 先获取附件id再上传。
+        // this.getNewFileInputId().then(() => {
+        //   this.uploadOrderHandleTask(fileData);
+        // });
+      });
     },
     submitSign() {
-      //
+      // 跳转到付款的详情
+      let path = '';
+      if (this.routeType === 'detail-sign') {
+        path = `/order/handle-task/sign/${this.id}`;
+      } else {
+        path = `/order/handle-task/pay/${this.id}`;
+      }
+      this.$router.push(path);
     },
-    submitForm() {
-      // 不能利用submit事件，因为会重复提交一次action
-      // this.$refs.upload.submit();
-      let fileData = new FormData();
-      fileData.append('radio', this.form.radio);
-      fileData.append('file', this.form.file);
-
-      this.uploadOrderHandleTask(fileData);
+    submitPayForm() {
+      this.$refs.pay.validate(valid => {
+        if (!valid) return false;
+        this.uploadOrderHandleTask();
+      });
     },
     ...mapActions([
+      'getNewFileInputId',
+      'getHandleTaskDetail',
       'uploadOrderHandleTask'
     ])
   }
