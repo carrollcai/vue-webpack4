@@ -63,19 +63,18 @@
             <el-form-item label="经验教训：" label-width="130px" prop="experience">
               <el-input v-model="formData.experience" placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
             </el-form-item>
-            <el-form-item label="经验教训：" label-width="130px" prop="files">
+            <el-form-item label="方案附件：" label-width="130px" prop="files">
               <el-upload class="upload-demo"
                 :auto-upload="false"
                 :on-change="fileChange"
-                :multiple="false"
+                :multiple="true"
                 :file-list="fileList"
                 :on-remove="removeFile">
-                <el-button slot="trigger" size="small">
-                  <i class="icon-up margin-right-8"></i>上传文件</el-button>
+                <el-button slot="trigger" size="small">选择文件</el-button>
               </el-upload>
             </el-form-item>
-            <el-form-item label="经验教训：" label-width="130px" prop="files">
-              <el-button type="primary" round size="mini" @click="submitAssignForm">上传</el-button>
+            <el-form-item label="" label-width="130px">
+              <el-button type="primary" round size="mini" @click="submitAssignForm"><i class="icon-up margin-right-8"></i>上传</el-button>
             </el-form-item>
             <el-row class="mt28 mb10">
               <el-button type="primary" round size="mini" @click="onSubmit(formDataValid)">确定</el-button>
@@ -274,7 +273,6 @@ export default {
       var _this = this;
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
-          debugger;
           if (_this.isAddProduct) {
             if (_this.addItem) {
               _this.formData.state = 2;
