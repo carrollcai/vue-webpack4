@@ -154,19 +154,6 @@ export default {
 }
 
 .customer-audit-management{
-
-  .el-tabs__header{
-    margin-bottom: 0;
-  }
-
-  .el-tabs__nav-wrap::after{
-    height: 0;
-  }
-
-  .query-block{
-    padding-bottom: 0;
-  }
-
   .customer-list{
     margin-top: $blockWidth;
   }
