@@ -39,9 +39,12 @@ export function checkMultRules(ref) {
   }
 };
 
-// 将json对象转成FormData对象
+/*
+* 将json对象转成FormData对象
+* 只支持对象，暂不支持数组和多层嵌套。
+*/
 export function jsonToFormData(json) {
-  if (Array.isArray(json)) throw 'jsonToFormData dont support Array';
+  if (Array.isArray(json)) throw new Error('jsonToFormData dont support Array');
   let formData = new FormData();
   for (let x in json) {
     if (Array.isArray(json[x])) {

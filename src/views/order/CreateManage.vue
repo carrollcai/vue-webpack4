@@ -43,10 +43,17 @@
           <template slot-scope="scope">
             <div>
               {{scope.row.cooperationCompany}}
-              <el-tooltip class="item" effect="dark" :content="'系统暂未录入该集团，请尽快关联已录入集团！'" placement="top-start">
-                <i class="el-icon-info"></i>
-              </el-tooltip>
+              <el-popover v-if="scope.row.id" placement="bottom" width="248" trigger="hover">
+                <div class="o-popover-title">
+                  系统暂未录入该集团，请尽快关联已录入集团！
+                </div>
+                <div class="o-popover-button">
+                  <el-button type="text" @click="connectOrganize(scope.row)">立即关联</el-button>
+                </div>
+                <i slot="reference" class="el-icon-info"></i>
+              </el-popover>
             </div>
+
           </template>
         </el-table-column>
         <el-table-column label="处理人" property="submitter" />
@@ -97,6 +104,15 @@ export default {
     this.getCreateManageList(this.orderCreateManageForm);
   },
   methods: {
+    connectOrganize(row) {
+      this.setConnectOriganize({ id: row.id }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '关联集团成功'
+        });
+        this.query();
+      });
+    },
     tabChange(val) {
       this.query();
     },
@@ -174,7 +190,8 @@ export default {
     ...mapActions([
       'getCreateManageList',
       'submitOrderRow',
-      'deleteOrderRow'
+      'deleteOrderRow',
+      'setConnectOriganize'
     ])
   }
 };
@@ -197,5 +214,13 @@ export default {
 .el-dropdown-link {
   color: $buttonColor;
   cursor: pointer;
+}
+.o-popover-title {
+  margin: 8px;
+}
+.o-popover-button {
+  margin: 8px 0;
+  width: 100%;
+  text-align: center;
 }
 </style>
