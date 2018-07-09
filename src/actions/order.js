@@ -78,6 +78,10 @@ const actions = {
     return API.deleteOrderRowAPI(params).then(res => {
       commit(types.ORDER_DELETE_ORDER_ROW, res.data);
     });
+  },
+  // 设置集团关联
+  setConnectOriganize: ({ commit }, params) => {
+    return API.setConnectOriganizeAPI(params);
   }
 };
 

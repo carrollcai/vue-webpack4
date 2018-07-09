@@ -7,15 +7,35 @@ import {
 const state = {
   cooperationGroupList: [],
   businessForm: {
+    opporCode: '',
+    orgFilter: '',
+    createStartDate: '',
+    createEndDate: '',
+    opporStatus: 0,
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE
+  },
+  myBusinessForm: {
+    opporCode: '',
+    orgFilter: '',
+    createStartDate: '',
+    createEndDate: '',
+    opporStatus: 0,
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE
+  },
+  businessTaskForm: {
+    startDate: '',
+    endDate: '',
+    organizeNameOrCode: '',
+    opporCode: '',
+    taskHasComplete: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    totalcount: 1,
-    date: [],
-    cooperName: '',
-    businessName: '',
-    status: null
+    businessStatus: '1'
   },
-  businessList: [],
+  businessTaskList: [],
+  businessList: {},
   businessDetail: {},
   businessCategoryList: [],
   officeAddress: '',
@@ -29,7 +49,8 @@ const state = {
   submitBusinessCancelStatus: '',
   saveBusinessDrafStatus: '',
   saveBusinessOrder: '',
-  saveBusinessOrderDraft: ''
+  saveBusinessOrderDraft: '',
+  myBusinessList: ''
 };
 
 const mutations = {
@@ -37,8 +58,8 @@ const mutations = {
     state.cooperationGroupList = data.list;
   },
   [types.BUSINESS_OPPORTUNITY_LIST](state, data) {
-    state.businessList = data.list;
-    state.businessForm.totalcount = data.totalcount;
+    state.businessList.data = data.list;
+    state.businessList.totalCount = data.totalCount;
   },
   [types.BUSINESS_DETAIL](state, data) {
     state.businessDetail = data.list;
@@ -81,6 +102,12 @@ const mutations = {
   },
   [types.SAVE_BUSINESS_ORDER_DRAFT](state, data) {
     state.saveBusinessOrderDraft = data.list;
+  },
+  [types.MY_BUSINESS_LIST](state, data) {
+    state.myBusinessList = data.list;
+  },
+  [types.BUSINESS_TASK_LIST](state, data) {
+    state.businessTaskList = data.list;
   }
 };
 export default {

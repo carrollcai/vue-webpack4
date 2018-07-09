@@ -8,6 +8,9 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="o-form-item__input">
+            <el-input v-model="orderCreateManageForm.name" placeholder="订单名称/编码" />
+          </el-form-item>
+          <el-form-item class="o-form-item__input">
             <el-input v-model="orderCreateManageForm.name" placeholder="合作集团/编码" />
           </el-form-item>
         </div>
@@ -36,7 +39,23 @@
         <el-table-column label="订单编号" property="code" />
         <el-table-column label="订单名称" property="name" />
         <el-table-column label="创建时间" property="date" />
-        <el-table-column label="合作集团" property="cooperationCompany" />
+        <el-table-column label="合作集团" property="cooperationCompany">
+          <template slot-scope="scope">
+            <div>
+              {{scope.row.cooperationCompany}}
+              <el-popover v-if="scope.row.id" placement="bottom" width="248" trigger="hover">
+                <div class="o-popover-title">
+                  系统暂未录入该集团，请尽快关联已录入集团！
+                </div>
+                <div class="o-popover-button">
+                  <el-button type="text" @click="connectOrganize(scope.row)">立即关联</el-button>
+                </div>
+                <i slot="reference" class="el-icon-info"></i>
+              </el-popover>
+            </div>
+
+          </template>
+        </el-table-column>
         <el-table-column label="处理人" property="submitter" />
         <el-table-column label="订单状态" property="status" />
         <el-table-column label="操作">
@@ -85,6 +104,15 @@ export default {
     this.getCreateManageList(this.orderCreateManageForm);
   },
   methods: {
+    connectOrganize(row) {
+      this.setConnectOriganize({ id: row.id }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '关联集团成功'
+        });
+        this.query();
+      });
+    },
     tabChange(val) {
       this.query();
     },
@@ -162,7 +190,8 @@ export default {
     ...mapActions([
       'getCreateManageList',
       'submitOrderRow',
-      'deleteOrderRow'
+      'deleteOrderRow',
+      'setConnectOriganize'
     ])
   }
 };
@@ -185,5 +214,13 @@ export default {
 .el-dropdown-link {
   color: $buttonColor;
   cursor: pointer;
+}
+.o-popover-title {
+  margin: 8px;
+}
+.o-popover-button {
+  margin: 8px 0;
+  width: 100%;
+  text-align: center;
 }
 </style>

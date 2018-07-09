@@ -28,6 +28,9 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item class="o-form-item__input">
+            <el-input v-model="orderHandleTaskForm.name" placeholder="订单名称/编码" />
+          </el-form-item>
+        <el-form-item class="o-form-item__input">
           <el-input v-model="orderHandleTaskForm.name" placeholder="合作集团/编码" />
         </el-form-item>
       </div>

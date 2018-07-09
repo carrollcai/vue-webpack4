@@ -137,6 +137,23 @@ const actions = {
       commit(types.SAVE_BUSINESS_ORDER_DRAFT, res.data);
       return res.data.list;
     });
+  },
+  /**
+   * 查询 “我的商机列表” 数据
+   */
+  getMyBusinessList: ({ commit }, params) => {
+    return API.getMyBusinessListAPI(params).then(res => {
+      commit(types.MY_BUSINESS_LIST, res.data);
+      return res.data.list;
+    });
+  },
+  /**
+   * 查询 “商机任务管理列表” 数据
+   */
+  getBusinessTaskList: ({ commit }, params) => {
+    return API.getBusinessTaskListAPI(params).then(res => {
+      commit(types.BUSINESS_TASK_LIST, res.data);
+    });
   }
 };
 

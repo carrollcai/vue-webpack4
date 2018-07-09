@@ -1,17 +1,17 @@
 <template>
   <div class="m-container">
-    <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
+    <el-form class="task-form" ref="taskManageForm">
       <div class="flex">
         <el-form-item prop="date">
-          <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="timeRange" @change="getTimeRange" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
 
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-autocomplete v-model="businessForm.cooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <el-autocomplete v-model="myBusinessForm.orgFilter" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
         </el-form-item>
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-input v-model="businessForm.businessName" placeholder="商机编码" />
+          <el-input v-model="myBusinessForm.opporCode" placeholder="商机编码" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -30,7 +30,7 @@
       <el-tab-pane label="已转订单"></el-tab-pane>
       <el-tab-pane label="已作废"></el-tab-pane>
     </el-tabs>
-    <wm-table :source="businessList" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="businessList" :pageNo="myBusinessForm.pageNo" :pageSize="myBusinessForm.pageSize" :total="myBusinessForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="商机编号" property="num" />
       <el-table-column label="商机描述" property="desc" />
       <el-table-column label="合作集团" property="group">
@@ -101,15 +101,14 @@ export default {
     },
     ...mapState({
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
-      businessForm: ({ business }) => business.businessForm,
-      businessList: ({ business }) => business.businessList
+      myBusinessForm: ({ business }) => business.myBusinessForm,
+      myBusinessList: ({ business }) => business.myBusinessList
     })
   },
   data() {
     return {
       status: 0,
-      taskManageRules: {
-      },
+      timeRange: '',
       cooperNum: '',
       relationDialogVisible: false,
       relationcooperName: '',
@@ -139,12 +138,16 @@ export default {
       this[COMMANDS[command]](row);
     },
     onPagination(value) {
-      this.businessForm.pageNo = value;
+      this.myBusinessForm.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.businessForm.pageSize = value;
+      this.myBusinessForm.pageSize = value;
       this.query();
+    },
+    getTimeRange(time) {
+      this.myBusinessForm.createStartDate = time[0];
+      this.myBusinessForm.createEndDate = time[1];
     },
     handleDetail(row) {
       const path = `/business-manage/business-detail/${row.id}`;
@@ -155,9 +158,9 @@ export default {
       this.$router.push(path);
     },
     query() {
-      const params = this.businessForm;
-      params.status = this.status;
-      this.getBusinessList(params);
+      const params = this.myBusinessForm;
+      params.opporStatus = parseInt(this.status);
+      this.getMyBusinessList(params);
     },
     querySearchAsync(queryString, cb) {
       var cooperNumList = this.cooperNumList;
@@ -230,7 +233,7 @@ export default {
       this.relationDialogVisible = false;
     },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessList', 'groupAssociation', 'delBusinessOppority'
+      'getCooperationGroupList', 'getMyBusinessList', 'groupAssociation', 'delBusinessOppority'
     ])
   }
 };

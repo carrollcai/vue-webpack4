@@ -3,7 +3,7 @@
     <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="businessForm.date" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
           <!--<el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" type="dates" v-model="businessForm.date" placeholder="创建时间范围"></el-date-picker>-->
           <!--<el-date-picker format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" v-model="businessForm.date" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -29,14 +29,14 @@
       <el-tab-pane label="已转订单"></el-tab-pane>
       <el-tab-pane label="已作废"></el-tab-pane>
     </el-tabs>
-    <wm-table :source="businessList" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="商机编号" property="num" />
-      <el-table-column label="商机描述" property="desc" />
-      <el-table-column label="合作集团" property="group" />
-      <el-table-column label="创建时间" property="time" />
-      <el-table-column label="联系人" property="contacts" />
-      <el-table-column label="处理人" property="process" />
-      <el-table-column label="处理结果" property="result" />
+    <wm-table v-if="businessList.data" :source="businessList.data" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+      <el-table-column label="商机编号" property="opporId" />
+      <el-table-column label="商机描述" property="busiDesc" />
+      <el-table-column label="合作集团" property="organizeName" />
+      <el-table-column label="创建时间" property="createDate" />
+      <el-table-column label="联系人" property="contactName" />
+      <el-table-column label="处理人" property="processor" />
+      <el-table-column label="处理结果" property="state" />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="handleDetail(scope.row)">
@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      status: 0,
+      status: '',
       cooperNum: ''
     };
   },
@@ -79,8 +79,8 @@ export default {
     }
   },
   beforeMount() {
-    this.getCooperationGroupList();
     this.query();
+    this.getCooperationGroupList();
   },
   methods: {
     onPagination(value) {
@@ -97,7 +97,8 @@ export default {
     },
     query() {
       const params = this.businessForm;
-      params.status = this.status;
+      this.businessForm.opporStatus = parseInt(this.status);
+      // this.businessForm.opporStatus = '';
       this.getBusinessList(params);
     },
     querySearchAsync(queryString, cb) {
