@@ -33,19 +33,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.detail-bar-item:nth-child(odd) {
-  flex: 1;
-  display: flex;
-}
-.title {
-  width: 100px;
-  text-align: right;
-  color: rgba(0, 0, 0, 0.45);
-  padding-right: 12px;
-}
-.detail-bar-item:nth-child(even) {
-  flex: 2;
-  display: flex;
+  .detail-bar-item:nth-child(odd) {
+    flex: 1;
+    display: flex;
+  }
+  .title {
+    width: 100px;
+    text-align: right;
+    color: rgba(0, 0, 0, 0.45);
+    padding-right: 12px;
+  }
+  .detail-bar-item:nth-child(even) {
+    flex: 2;
+    display: flex;
+  }
 }
 </style>
