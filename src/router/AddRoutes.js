@@ -87,7 +87,8 @@ const dynamicRoutes = [
       {
         path: '/product/product-view',
         name: 'product-view',
-        component: ProductView
+        component: ProductView,
+        meta: { menuId: 17 }
       },
       {
         path: '/product/product-detail/:id',
@@ -97,27 +98,32 @@ const dynamicRoutes = [
       {
         path: '/product/product-creat-manage',
         name: 'product-creat-manage',
-        component: ProductCreatManage
+        component: ProductCreatManage,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-base-info/:id',
         name: 'create-base-infos',
-        component: createBaseInfo
+        component: createBaseInfo,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-base-info/',
         name: 'create-base-info',
-        component: createBaseInfo
+        component: createBaseInfo,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-sale-step/',
         name: 'create-sale-step',
-        component: CreateSaleStep
+        component: CreateSaleStep,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-sale-step/:id',
         name: 'create-sale-step',
-        component: CreateSaleStep
+        component: CreateSaleStep,
+        meta: { menuId: 18 }
       },
 
       // { path: '/task/management', component: TaskManagement, meta: { menuId: 6 } },
