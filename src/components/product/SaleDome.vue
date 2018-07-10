@@ -97,12 +97,9 @@ export default {
   computed: {
     dataList() {
       if (this.data) {
-        return this.data;
+        return this.getFileName();
       }
     }
-  },
-  beforeMount() {
-    return this.getFileName();
   },
   methods: {
     getFileName() {
