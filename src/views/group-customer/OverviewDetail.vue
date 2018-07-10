@@ -2,7 +2,7 @@
   <div class="customer-overview_detail">
     <div class="m-container">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/group-customer/overview' }">集团客户纵览</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/group-customer/overview' }">集团客户总览</el-breadcrumb-item>
         <el-breadcrumb-item>查看主页</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

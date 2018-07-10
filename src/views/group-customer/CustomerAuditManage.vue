@@ -118,7 +118,7 @@ export default {
       this.query();
     },
     handleDetail(row) {
-      this.$router.push(`/group-customer/overview/detail/${row.organizeId}`);
+      this.$router.push(`/group-customer/audit/detail/${row.organizeId}`);
     },
     handleAudit(row) {
       this.$router.push(`/group-customer/audit/${row.organizeId}/${row.taskInsId}`);

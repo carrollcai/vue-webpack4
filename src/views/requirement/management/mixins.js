@@ -1,18 +1,15 @@
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
-import {PAGE_NO, PAGE_SIZE} from '@/config';
 export default {
   components: {
     WmTable
   },
   data() {
     return {
-      params: {
-        pageNo: PAGE_NO,
-        pageSize: PAGE_SIZE,
-        organizeType: '',
-        provinceId: '',
-        managerName: ''
+      STATUS: {
+        'first': [],
+        'second': ['1'],
+        'third': ['2', '5']
       }
     };
   },
@@ -26,30 +23,32 @@ export default {
   },
   methods: {
     onPagination(value) {
-      this.params.pageNo = value;
+      this.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.params.pageSize = value;
+      this.pageSize = value;
       this.query();
     },
     getParams() {
-      const {params} = this;
-      let STATUS = {
-        'first': [],
-        'second': ['1'],
-        'third': ['2', '5']
+      const {
+        organizeType,
+        provinceId,
+        managerName
+      } = this;
+
+      return {
+        organizeType,
+        provinceId,
+        managerName,
+        taskStatusList: STATUS[this.activeName]
       };
-
-      params.taskStatusList = STATUS[this.activeName];
-
-      return params;
     },
     query() {
       this.queryRequirementList(this.getParams());
     },
     handleClick() {
-      this.params.pageNo = 1;
+      this.pageNo = 1;
       this.query();
     },
     ...mapActions([
