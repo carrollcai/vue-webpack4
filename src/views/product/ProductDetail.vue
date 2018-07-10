@@ -50,7 +50,9 @@ export default {
     color: #c0c0c0;
   }
 }
-.el-table__expand-column {
-  display: none;
+.p-content {
+  .el-table__expand-column {
+    display: none;
+  }
 }
 </style>

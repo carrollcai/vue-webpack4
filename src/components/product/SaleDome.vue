@@ -198,33 +198,33 @@ export default {
   .b-i-table {
     padding: 32px;
   }
-}
-.demo-table-expand {
-  .el-form-item__label {
-    color: #c0c0c0;
-  }
-  p {
-    height: 28px;
-    line-height: 28px;
-    color: #262626;
-  }
-  .sale-type {
-    .el-form-item {
-      width: 40%;
+  .demo-table-expand {
+    .el-form-item__label {
+      color: #c0c0c0;
+    }
+    p {
+      height: 28px;
+      line-height: 28px;
+      color: #262626;
+    }
+    .sale-type {
+      .el-form-item {
+        width: 40%;
+      }
     }
   }
-}
-.el-table__expand-icon {
-  width: 70px;
-}
-.el-table__body {
-  .el-table_1_column_6 {
-    display: none;
+  .el-table__expand-icon {
+    width: 70px;
   }
-}
-.el-table {
-  .el-table_1_column_6 {
-    display: none;
+  .el-table__body {
+    .el-table_1_column_6 {
+      display: none;
+    }
+  }
+  .el-table {
+    .el-table_1_column_6 {
+      display: none;
+    }
   }
 }
 </style>
