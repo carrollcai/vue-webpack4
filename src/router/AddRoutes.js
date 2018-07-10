@@ -34,6 +34,7 @@ import CustomerCreate from '@/views/group-customer/create/CustomerCreate.vue';
 import CustomerEdit from '@/views/group-customer/create/CustomerEdit.vue';
 import CustomerDetail from '@/views/group-customer/detail/CustomerDetail.vue';
 import CustomerAudit from '@/views/group-customer/detail/CustomerAudit.vue';
+import CustomerAuditDetail from '@/views/group-customer/detail/CustomerAuditDetail.vue';
 
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
@@ -173,55 +174,61 @@ const dynamicRoutes = [
         path: '/group-customer/overview',
         name: 'group-customer-overview',
         component: GroupCustomerOverview,
-        meta: { menuId: 13 }
+        meta: { menuId: 24 }
       },
       {
         path: '/group-customer/overview/detail/:id',
         name: 'group-customer-overview-detail',
         component: OverviewDetail,
-        meta: { menuId: 13 }
+        meta: { menuId: 24 }
       },
       {
         path: '/group-customer/overview/detail/:id/more',
         name: 'group-customer-overview-detail-more',
         component: OverviewDetailMore,
-        meta: { menuId: 13 }
+        meta: { menuId: 24 }
       },
       {
         path: '/group-customer/create-manage',
         name: 'group-customer-create-manage',
         component: GroupCustomerCreateManage,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/create',
         name: 'group-customer-create',
         component: CustomerCreate,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/edit/:id',
         name: 'group-customer-edit',
         component: CustomerEdit,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/detail/:id',
         name: 'group-customer-detail',
         component: CustomerDetail,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/audit-manage',
         name: 'group-customer-audit-manage',
         component: GroupCustomerAuditManage,
-        meta: { menuId: 15 }
+        meta: { menuId: 26 }
+      },
+      {
+        path: '/group-customer/audit/detail/:id',
+        name: 'group-customer-audit-detail',
+        component: CustomerAuditDetail,
+        meta: { menuId: 26 }
       },
       {
         path: '/group-customer/audit/:id/:taskId',
         name: 'group-customer-audit',
         component: CustomerAudit,
-        meta: { menuId: 15 }
+        meta: { menuId: 26 }
       },
 
       {
@@ -273,13 +280,14 @@ const dynamicRoutes = [
       { path: '/system/user/management', component: User, meta: { menuId: 11 } },
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
 
-      { path: '/order/create-manage', component: OrderCreateManage },
-      { path: '/order/manage/:type/:id?', component: OrderCreate },
-      { path: '/order/handle-task', component: OrderHandleTask },
-      { path: '/order/overview', component: OrderOverview },
-      { path: '/order/overview/detail/:id', component: OrderOverviewDetail },
+      { path: '/order/overview', component: OrderOverview, meta: { menuId: 13 } },
+      { path: '/order/overview/detail/:id/:processId?', component: OrderOverviewDetail },
+      { path: '/order/create-manage', component: OrderCreateManage, meta: { menuId: 14 } },
+      { path: '/order/manage/:type/:id?', component: OrderCreate, meta: { menuId: 14 } },
+      { path: '/order/create-manage/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 14 } },
+      { path: '/order/handle-task', component: OrderHandleTask, meta: { menuId: 15 } },
       // type为detail，sign，pay，detail-sign，detail-pay
-      { path: '/order/handle-task/:type/:id', component: OrderHandleTaskDetail },
+      { path: '/order/handle-task/:type/:id/:processId?', component: OrderHandleTaskDetail, meta: { menuId: 15 } },
 
       { path: '*', component: Page404 }
     ]

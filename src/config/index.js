@@ -71,26 +71,29 @@ export const MENU_PERMISSIONS = [
   //   ]
   // },
   {
-    menuId: 4,
+    menuId: 12,
     name: '订单管理',
     url: '/order',
     icon: 'icon-task',
     enable: false,
     children: [
       {
-        menuId: 4,
+        menuId: 13,
+        parentId: 12,
         name: '订单总览',
         url: '/order/overview',
         enable: false
       },
       {
-        menuId: 4,
+        menuId: 14,
+        parentId: 12,
         name: '订单创建管理',
         url: '/order/create-manage',
         enable: false
       },
       {
-        menuId: 4,
+        menuId: 15,
+        parentId: 12,
         name: '订单处理任务',
         url: '/order/handle-task',
         enable: false
@@ -98,22 +101,22 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
-    menuId: 6,
+    menuId: 16,
     name: '产品管理',
     icon: 'icon-product',
     url: '/product',
     enable: false,
     children: [
       {
-        menuId: 9,
-        parentId: 6,
+        menuId: 17,
+        parentId: 16,
         name: '产品总览',
         url: '/product/product-view',
         enable: false
       },
       {
-        menuId: 10,
-        parentId: 6,
+        menuId: 18,
+        parentId: 16,
         name: '产品创建管理',
         url: '/product/product-creat-manage',
         enable: false
@@ -151,59 +154,81 @@ export const MENU_PERMISSIONS = [
     ]
   },
   {
-    menuId: 12,
+    menuId: 23,
     name: '集团客户管理',
     url: '/group-customer',
     icon: 'el-icon-service',
     enable: false,
     children: [
       {
-        menuId: 13,
-        parentId: 12,
+        menuId: 24,
+        parentId: 23,
         name: '集团客户总览',
         url: '/group-customer/overview',
         enable: false
       },
       {
-        menuId: 14,
-        parentId: 12,
+        menuId: 25,
+        parentId: 23,
         name: '集团客户创建',
         url: '/group-customer/create-manage',
         enable: false
       },
       {
-        menuId: 15,
-        parentId: 12,
+        menuId: 26,
+        parentId: 23,
         name: '集团客户审核',
         url: '/group-customer/audit-manage',
         enable: false
       }
     ]
   },
+  {menuId: 27,
+    name: '客户需求管理',
+    url: '/visit',
+    icon: 'icon-business',
+    enable: false,
+    children: [
+      {
+        menuId: 28,
+        parentId: 27,
+        name: '需求创建管理',
+        url: '/visit/my-visit-manage',
+        enable: false
+      },
+      {
+        menuId: 29,
+        parentId: 27,
+        name: '需求任务处理',
+        url: '/visit/visit-appoint',
+        enable: false
+      }
+    ]
+  },
   {
-    menuId: 14,
+    menuId: 30,
     name: '走访管理',
     url: '/visit',
     icon: 'icon-business',
     enable: false,
     children: [
       {
-        menuId: 15,
-        parentId: 14,
+        menuId: 31,
+        parentId: 30,
         name: '我的走访管理',
         url: '/visit/my-visit-manage',
         enable: false
       },
       {
-        menuId: 14,
-        parentId: 14,
+        menuId: 32,
+        parentId: 30,
         name: '走访指派',
         url: '/visit/visit-appoint',
         enable: false
       },
       {
-        menuId: 13,
-        parentId: 14,
+        menuId: 33,
+        parentId: 30,
         name: '走访任务处理',
         url: '/visit/mission-handling',
         enable: false
@@ -298,3 +323,11 @@ export const CLIENT = [
   //   'value': '咪咕灵犀'
   // }
 ];
+
+export const ORDER_STATUS = {
+  1: '草稿',
+  2: '待签约',
+  3: '待付款',
+  4: '已完成',
+  5: '已取消'
+};

@@ -1,85 +1,85 @@
 <template>
-<div>
-  <div class="m-container">
-    <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
-      <el-form ref="assignHandle" :rules="assignHandleRules" :model="assignHandle">
-        <div class="handler">指派处理人：</div>
-        <el-form-item prop="handler">
-          <el-select class="form-input-large" v-model="assignHandle.handler" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <div class="reason">分派的原因：</div>
-        <el-form-item prop="desc">
-          <el-input v-model="assignHandle.desc" class="form-input-large" type="textarea" placeholder="请输入优势能力" />
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitAssign">确 定</el-button>
-        <el-button @click="dialogVisible = false">取 消</el-button>
-      </span>
-    </el-dialog>
-
-    <el-form class="o-overview-form" ref="orderHandleTask" :rules="orderHandleTaskRules" :model="orderHandleTaskForm">
-      <div class="flex">
-        <el-form-item prop="date">
-          <el-date-picker v-model="orderHandleTaskForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item class="o-form-item__input">
-            <el-input v-model="orderHandleTaskForm.name" placeholder="订单名称/编码" />
+  <div>
+    <div class="m-container">
+      <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
+        <el-form ref="assignHandle" :rules="assignHandleRules" :model="assignHandle">
+          <div class="handler">指派处理人：</div>
+          <el-form-item prop="handler">
+            <el-select class="form-input-large" v-model="assignHandle.handler" placeholder="请选择">
+              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-        <el-form-item class="o-form-item__input">
-          <el-input v-model="orderHandleTaskForm.name" placeholder="合作集团/编码" />
-        </el-form-item>
-      </div>
-      <div class="flex">
-        <el-form-item class="task-form-item">
-          <el-button type="primary" @click="query">查询</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
+          <div class="reason">分派的原因：</div>
+          <el-form-item prop="desc">
+            <el-input v-model="assignHandle.desc" class="form-input-large" type="textarea" placeholder="请输入优势能力" />
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitAssign">确 定</el-button>
+          <el-button @click="dialogVisible = false">取 消</el-button>
+        </span>
+      </el-dialog>
 
-    <el-tabs v-model="orderHandleTaskForm.status" @tab-click="tabChange">
-      <el-tab-pane label="待签约处理" :name="2"></el-tab-pane>
-      <el-tab-pane label="待付款处理" :name="3"></el-tab-pane>
-      <el-tab-pane label="已处理" :name="4"></el-tab-pane>
-    </el-tabs>
-  </div>
-  <div class="m-container table-container">
-    <wm-table :source="orderHandleTaskObj.list" :pageNo="orderHandleTaskForm.pageNo" :pageSize="orderHandleTaskForm.pageSize" :total="orderHandleTaskObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-      <el-table-column label="订单编号" property="code" />
-      <el-table-column label="订单名称" property="name" />
-      <el-table-column label="创建时间" property="date" />
-      <el-table-column label="合作集团" property="cooperationCompany" />
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button v-if="orderHandleTaskForm.status === 2" class="table-button" type="text" @click="handleSign(scope.row)">
-            签约处理
-          </el-button>
-          <el-button v-if="orderHandleTaskForm.status === 3" class="table-button" type="text" @click="handlePay(scope.row)">
-            付款处理
-          </el-button>
-          <el-button v-if="orderHandleTaskForm.status === 4" class="table-button" type="text" @click="handleDetail(scope.row)">
-            详情
-          </el-button>
+      <el-form class="o-overview-form" ref="orderHandleTask" :rules="orderHandleTaskRules" :model="orderHandleTaskForm">
+        <div class="flex">
+          <el-form-item prop="date">
+            <el-date-picker v-model="orderHandleTaskForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item class="o-form-item__input">
+            <el-input v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编码" />
+          </el-form-item>
+          <el-form-item class="o-form-item__input">
+            <el-input v-model="orderHandleTaskForm.organizeNameOrCode" placeholder="合作集团/编码" />
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item class="task-form-item">
+            <el-button type="primary" @click="query">查询</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
 
-          <el-dropdown v-if="orderHandleTaskForm.status !== 4" @command="handleCommand(scope.row, $event)">
-            <span class="el-dropdown-link">
-              更多
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item class="el-dropdown-link" command="handleDispatch">分派</el-dropdown-item>
-              <el-dropdown-item class="el-dropdown-link" command="handleDetail">详情</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </template>
-      </el-table-column>
-    </wm-table>
+      <el-tabs v-model="orderHandleTaskForm.businessStatus" @tab-click="tabChange">
+        <el-tab-pane label="待签约处理" :name="0"></el-tab-pane>
+        <el-tab-pane label="待付款处理" :name="4"></el-tab-pane>
+        <el-tab-pane label="已处理" :name="1"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="m-container table-container">
+      <wm-table :source="orderHandleTaskObj.list" :pageNo="orderHandleTaskForm.pageNo" :pageSize="orderHandleTaskForm.pageSize" :total="orderHandleTaskObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+        <el-table-column label="订单编号" property="ordCode" />
+        <el-table-column label="订单名称" property="ordName" />
+        <el-table-column label="创建时间" property="createDate" />
+        <el-table-column label="合作集团" property="organizeName" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button v-if="orderHandleTaskForm.businessStatus === '0'" class="table-button" type="text" @click="handleSign(scope.row)">
+              签约处理
+            </el-button>
+            <el-button v-if="orderHandleTaskForm.businessStatus === '4'" class="table-button" type="text" @click="handlePay(scope.row)">
+              付款处理
+            </el-button>
+            <el-button v-if="orderHandleTaskForm.businessStatus === '1'" class="table-button" type="text" @click="handleDetail(scope.row)">
+              详情
+            </el-button>
+
+            <el-dropdown v-if="orderHandleTaskForm.businessStatus !== '4'" @command="handleCommand(scope.row, $event)">
+              <span class="el-dropdown-link">
+                更多
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item class="el-dropdown-link" command="handleDispatch">分派</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link" command="handleDetail">详情</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
+        </el-table-column>
+      </wm-table>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -122,7 +122,8 @@ export default {
     })
   },
   beforeMount() {
-    this.getHandleTaskList(this.orderHandleTaskForm);
+    let { date, ..._params } = this.orderHandleTaskForm;
+    this.getHandleTaskList(_params);
   },
   methods: {
     submitAssign() {
@@ -153,30 +154,30 @@ export default {
       this.orderHandleTaskForm.pageSize = value;
       this.query();
     },
-    handlePay() {
-      const path = `/order/handle-task/pay/${this.id}`;
+    handlePay(row) {
+      const path = `/order/handle-task/pay/${row.ordId}`;
       this.$router.push(path);
     },
     handleSign(row) {
-      const path = `/order/handle-task/sign/${row.id}`;
+      const path = `/order/handle-task/sign/${row.ordId}`;
       this.$router.push(path);
     },
     handleDispatch(row) {
       this.dialogVisible = true;
       this.currentRow = row;
       // 初始化输入框内容部数据
-      this.getAssignhandler(row.id);
+      this.getAssignhandler(row.ordId);
     },
     handleDetail(row) {
-      const { status } = this.orderHandleTaskForm;
+      const { businessStatus } = this.orderHandleTaskForm;
       let path = '';
       // 不同状态，详情页展示不一样
-      if (status === 2) {
-        path = `/order/handle-task/detail-sign/${row.id}`;
-      } else if (status === 3) {
-        path = `/order/handle-task/detail-pay/${row.id}`;
+      if (businessStatus === 2) {
+        path = `/order/handle-task/detail-sign/${row.ordId}`;
+      } else if (businessStatus === 3) {
+        path = `/order/handle-task/detail-pay/${row.ordId}`;
       } else {
-        path = `/order/handle-task/detail/${row.id}`;
+        path = `/order/handle-task/detail/${row.ordId}/${row.processInsId}`;
       }
       this.$router.push(path);
     },
@@ -186,10 +187,16 @@ export default {
     },
     query() {
       const params = this.orderHandleTaskForm;
+      if (params.date.length === 2) {
+        params.startDate = params.date[0];
+        params.endDate = params.date[1];
+      }
+
+      let { date, ..._params } = params;
       this.$refs['orderHandleTask'].validate(valid => {
         if (!valid) return false;
 
-        this.getHandleTaskList(params);
+        this.getHandleTaskList(_params);
       });
     },
     ...mapActions([

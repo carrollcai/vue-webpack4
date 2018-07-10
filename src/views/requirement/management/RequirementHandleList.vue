@@ -39,8 +39,8 @@
       <wm-table
         :source="requirements.list"
         :total="requirements.totalCount"
-        :pageNo="params.pageNo"
-        :pageSize="params.pageSize"
+        :pageNo="pageNo"
+        :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
         <el-table-column label="需求单号" property="organizeId" />
@@ -67,7 +67,13 @@
 </template>
 
 <script>
+import { createHelpers } from 'vuex-map-fields';
 import mixins from './mixins';
+
+const { mapFields } = createHelpers({
+  getterType: 'getRequirementField',
+  mutationType: 'updateRequirementField'
+});
 export default {
   name: 'RequirementHandleList',
   mixins: [mixins],
@@ -75,6 +81,15 @@ export default {
     return {
       activeName: 'second'
     };
+  },
+  computed: {
+    ...mapFields([
+      'handleQuery.organizeType',
+      'handleQuery.provinceId',
+      'handleQuery.managerName',
+      'handleQuery.pageNo',
+      'handleQuery.pageSize'
+    ])
   },
   methods: {
     handleDetail(row) {

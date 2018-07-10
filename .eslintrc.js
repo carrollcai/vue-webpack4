@@ -3,7 +3,8 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
+    ecmaVersion: 8
   },
   env: {
     browser: true,
@@ -11,7 +12,7 @@ module.exports = {
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential', 
+    'plugin:vue/essential',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard'
   ],
@@ -22,11 +23,20 @@ module.exports = {
   // add your custom rules here
   rules: {
     "no-throw-literal": 0,
-    'space-before-function-paren': ['error', 'never'],
+
     // allow async-await
-    'generator-star-spacing': 'off',
+    // 'generator-star-spacing': 'off',
+
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'semi':['error', 'always']
+    'semi': ['error', 'always'],
+
+    // 'generator-star-spacing': 0,
+    // 'space-before-function-paren': ['error', 'never'],
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }]
   }
 }

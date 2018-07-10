@@ -10,13 +10,10 @@
     </div>
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
-        <audit-steps></audit-steps>
+        <audit-steps v-if="processList.length" :processList="processList"></audit-steps>
 
-        <detail-content />
+        <detail-content v-if="Object.keys(handleTaskDetail).length" :handleTaskDetail="handleTaskDetail" />
       </div>
-      <!-- <div class="task-submit-button">
-        <el-button type="primary" @click="submit">签约处理</el-button>
-      </div> -->
 
     </div>
   </div>
@@ -25,21 +22,30 @@
 <script>
 import AuditSteps from 'components/task/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   components: {
     AuditSteps,
     DetailContent
   },
+  computed: {
+    ...mapState({
+      handleTaskDetail: ({ order }) => order.handleTaskDetail,
+      processList: ({ order }) => order.processList
+    })
+  },
+  async beforeMount() {
+    const { id, processId } = this.$route.params;
+
+    // 如果这边不让getOrderOverviewDetail在后面执行，会导致handleTaskDetail里的对象消失，因为handleTaskDetail没定义对象内属性
+    await this.getOrderOverviewProcess({ processInsId: processId });
+    await this.getOrderOverviewDetail({ ordId: id });
+  },
   methods: {
-    submit() {
-      let { id } = this.$route.params;
-      this.overviewSignHandle(id);
-      //
-    },
     ...mapActions([
-      'overviewSignHandle'
+      'getOrderOverviewDetail',
+      'getOrderOverviewProcess'
     ])
   }
 };

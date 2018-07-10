@@ -3,7 +3,7 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/order/handle-task' }">订单总览</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/order/handle-task' }">订单处理任务</el-breadcrumb-item>
           <el-breadcrumb-item v-if="routeType === 'sign'">签约处理</el-breadcrumb-item>
           <el-breadcrumb-item v-else-if="routeType === 'pay'">付款处理</el-breadcrumb-item>
           <el-breadcrumb-item v-else>详情</el-breadcrumb-item>
@@ -12,17 +12,19 @@
     </div>
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
-        <audit-steps></audit-steps>
+        <audit-steps v-if="processList.length" :processList="processList"></audit-steps>
+
         <detail-bar v-if="routeType === 'detail'" :title="['处理结果：', '付款金额：']" :content="['已完成', '1000万元']" />
-        <detail-content />
+
+        <detail-content v-if="Object.keys(handleTaskDetail).length" :orderOverviewDetail="handleTaskDetail" />
       </div>
 
       <div class="line"></div>
 
       <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
         <el-form-item label="处理结果：">
-          <el-radio v-model="assignForm.radio" :label="1">是</el-radio>
-          <el-radio v-model="assignForm.radio" :label="0">否</el-radio>
+          <el-radio v-model="assignForm.radio" :label="1">完成签约</el-radio>
+          <el-radio v-model="assignForm.radio" :label="0">客户取消</el-radio>
         </el-form-item>
         <el-form-item label="签约合同：" prop="file">
           <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
@@ -56,7 +58,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import AuditSteps from 'components/task/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
@@ -101,8 +103,17 @@ export default {
   created() {
     this.routeChange();
   },
-  beforeMount() {
-    this.getHandleTaskDetail(this.id);
+  computed: {
+    ...mapState({
+      handleTaskDetail: ({ order }) => order.handleTaskDetail,
+      processList: ({ order }) => order.processList
+    })
+  },
+  async beforeMount() {
+    const { id, processId } = this.$route.params;
+
+    await this.getOrderOverviewProcess({ processInsId: processId });
+    await this.getHandleTaskDetail({ ordId: id });
   },
   watch: {
     '$route'() {
@@ -165,7 +176,8 @@ export default {
     ...mapActions([
       'getNewFileInputId',
       'getHandleTaskDetail',
-      'uploadOrderHandleTask'
+      'uploadOrderHandleTask',
+      'getOrderOverviewProcess'
     ])
   }
 };

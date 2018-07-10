@@ -1,8 +1,29 @@
+import { createHelpers } from 'vuex-map-fields';
 import * as types from '../types';
+import {PAGE_NO, PAGE_SIZE} from '@/config';
+
+const { getRequirementField, updateRequirementField } = createHelpers({
+  getterType: 'getRequirementField',
+  mutationType: 'updateRequirementField'
+});
 
 const state = {
   requirementList: {},
-  requirement: {}
+  requirement: {},
+  managementQuery: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    organizeType: '',
+    provinceId: '',
+    managerName: ''
+  },
+  handleQuery: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    organizeType: '',
+    provinceId: '',
+    managerName: ''
+  }
 };
 
 const mutations = {
@@ -11,13 +32,15 @@ const mutations = {
   },
   [types.REQUIREMENT_GET_INFO](state, data) {
     state.requirement = data;
-  }
+  },
+  updateRequirementField
 };
 
 const getters = {
   requirement(state) {
     return state.requirement;
-  }
+  },
+  getRequirementField
 };
 
 export default {

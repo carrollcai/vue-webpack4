@@ -1,22 +1,22 @@
 <template>
   <div class="requirement-management">
     <div class="m-container query-block">
-      <el-form class="group-form" :model="params">
+      <el-form class="group-form">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="params.organizeType" clearable placeholder="集团属性">
+            <el-select v-model="organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="params.provinceId" clearable placeholder="需求类型">
+            <el-select v-model="provinceId" clearable placeholder="需求类型">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="params.managerName" clearable placeholder="客户名称"/>
+            <el-input v-model="managerName" clearable placeholder="客户名称"/>
           </el-form-item>
         </div>
 
@@ -40,8 +40,8 @@
       <wm-table
         :source="requirements.list"
         :total="requirements.totalCount"
-        :pageNo="params.pageNo"
-        :pageSize="params.pageSize"
+        :pageNo="pageNo"
+        :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
         <el-table-column label="需求单号" property="organizeId" />
@@ -67,7 +67,13 @@
 </template>
 
 <script>
+import { createHelpers } from 'vuex-map-fields';
 import mixins from './mixins';
+
+const { mapFields } = createHelpers({
+  getterType: 'getRequirementField',
+  mutationType: 'updateRequirementField'
+});
 export default {
   name: 'RequirementManagement',
   mixins: [mixins],
@@ -75,6 +81,15 @@ export default {
     return {
       activeName: 'first'
     };
+  },
+  computed: {
+    ...mapFields([
+      'managementQuery.organizeType',
+      'managementQuery.provinceId',
+      'managementQuery.managerName',
+      'managementQuery.pageNo',
+      'managementQuery.pageSize'
+    ])
   },
   methods: {
     handleCreate() {
