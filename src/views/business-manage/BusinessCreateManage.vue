@@ -36,22 +36,22 @@
     </div>
     <div class="m-container table-container">
       <wm-table :source="myBusinessList.list" :pageNo="myBusinessForm.pageNo" :pageSize="myBusinessForm.pageSize" :total="myBusinessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" property="num" />
-        <el-table-column label="商机描述" property="desc" />
-        <el-table-column label="合作集团" property="group">
+        <el-table-column label="商机编号" property="opporCode" />
+        <el-table-column label="商机描述" property="busiDesc" />
+        <el-table-column label="合作集团" property="organizeName">
           <template slot-scope="scope">
-            <span style="margin-right: 10px">{{ scope.row.group }}</span>
-            <el-popover placement="top" width="200" trigger="hover">
+            <span style="margin-right: 10px">{{ scope.row.organizeName }}</span>
+            <el-popover v-if="scope.row.organizeId" placement="top" width="200" trigger="hover">
               <div class="tipText1">系统暂未录入该集团，请尽快关联！</div>
               <div class="tipText tipText1 el-dropdown-link" @click="showAssociate(scope.row)">立即关联</div>
               <i class="icon-info" slot="reference"></i>
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" property="time" />
-        <el-table-column label="联系人" property="contacts" />
-        <el-table-column label="处理人" property="process" />
-        <el-table-column label="商机状态" property="result" />
+        <el-table-column label="创建时间" property="createDate" />
+        <el-table-column label="联系人" property="contactName" />
+        <el-table-column label="处理人" property="processor" />
+        <el-table-column label="商机状态" property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">
@@ -127,13 +127,14 @@ export default {
     }
   },
   beforeMount() {
-    this.getCooperationGroupList();
-    this.query();
+    const params = this.myBusinessForm;
+    this.getMyBusinessList(params);
+    // this.getCooperationGroupList();
+    // this.query();
   },
   methods: {
     isDraft(row) {
-      // return row.orgTaskStatus === '1';
-      return true;
+      return row.opporStatusName === '草稿';
     },
     handleCommand(row, command) {
       let COMMANDS = {
@@ -161,7 +162,7 @@ export default {
       }
     },
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.id}`;
+      const path = `/business-manage/business-detail/${row.opporId}`;
       this.$router.push(path);
     },
     createBusiness() {
@@ -170,7 +171,12 @@ export default {
     },
     query() {
       const params = this.myBusinessForm;
-      params.opporStatus = parseInt(this.status);
+      if (parseInt(this.status) > 0) {
+        this.myBusinessForm.opporStatus = parseInt(this.status) - 1;
+      } else {
+        this.myBusinessForm.opporStatus = '';
+      }
+      // params.opporStatus = parseInt(this.status);
       this.getMyBusinessList(params);
     },
     querySearchAsync(queryString, cb) {
@@ -219,7 +225,7 @@ export default {
       });
     },
     handleEdit(row) {
-      const path = `/business-manage/update-business/${row.id}`;
+      const path = `/business-manage/update-business/${row.opporId}`;
       this.$router.push(path);
     },
     showAssociate(row) {

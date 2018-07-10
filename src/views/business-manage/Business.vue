@@ -30,13 +30,13 @@
     </div>
     <div class="m-container table-container">
       <wm-table :source="businessList.list" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" property="opporId" />
+        <el-table-column label="商机编号" property="opporCode" />
         <el-table-column label="商机描述" property="busiDesc" />
         <el-table-column label="合作集团" property="organizeName" />
         <el-table-column label="创建时间" property="createDate" />
         <el-table-column label="联系人" property="contactName" />
         <el-table-column label="处理人" property="processor" />
-        <el-table-column label="处理结果" property="state" />
+        <el-table-column label="处理结果" property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">
@@ -81,8 +81,11 @@ export default {
     }
   },
   beforeMount() {
-    this.query();
-    this.getCooperationGroupList();
+    const params = this.businessForm;
+    this.businessForm.opporStatus = parseInt(this.status);
+    this.getBusinessList(params);
+    // this.query();
+    // this.getCooperationGroupList();
   },
   methods: {
     onPagination(value) {
@@ -99,7 +102,11 @@ export default {
     },
     query() {
       const params = this.businessForm;
-      this.businessForm.opporStatus = parseInt(this.status);
+      if (parseInt(this.status) > 0) {
+        this.businessForm.opporStatus = parseInt(this.status);
+      } else {
+        this.businessForm.opporStatus = '';
+      }
       this.getBusinessList(params);
     },
     querySearchAsync(queryString, cb) {

@@ -28,19 +28,20 @@
     </div>
     <div class="m-container table-container">
       <wm-table :source="businessTaskList.list" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" property="num" />
-        <el-table-column label="商机描述" property="desc" />
-        <el-table-column label="合作集团" property="group" />
-        <el-table-column label="创建时间" property="time" />
-        <el-table-column label="联系人" property="contacts" />
-        <el-table-column v-if="status === '1'" label="处理人" property="process" />
-        <el-table-column v-if="status === '1'" label="处理结果" property="result" />
+        <el-table-column label="商机编号" property="opporCode" />
+        <el-table-column label="商机描述" property="busiDesc" />
+        <el-table-column label="合作集团" property="organizeName" />
+        <el-table-column label="创建时间" property="createDate" />
+        <el-table-column label="联系人" property="contactName" />
+        <el-table-column label="处理结果" v-if="businessStatus === '已处理'" property="businessStatus" />
+        <el-table-column v-if="businessStatus === '已处理'" label="处理人" property="process" />
+        <el-table-column v-if="businessStatus === '已处理'" label="处理结果" property="result" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="status === '0'" type="text" @click="handleTrans(scope.row)">
+            <el-button v-if="scope.row.businessStatus === '待处理'" type="text" @click="handleTrans(scope.row)">
               转订单
             </el-button>
-            <template v-if="status === '0'">
+            <template v-if="scope.row.businessStatus === '待处理'">
               <el-dropdown @command="handleCommand(scope.row, $event)">
                 <el-button type="text">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
@@ -52,7 +53,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </template>
-            <el-button v-if="status === '1'" type="text" @click="handleDetail(scope.row)">
+            <el-button v-if="scope.row.status === '已处理'" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
           </template>
@@ -145,8 +146,11 @@ export default {
     }
   },
   beforeMount() {
-    this.getCooperationGroupList();
-    this.query();
+    // this.getCooperationGroupList();
+    // this.query();
+    const params = this.businessTaskForm;
+    params.taskHasComplete = this.status;
+    this.getBusinessTaskList(params);
   },
   methods: {
     getTimeRange(time) {
@@ -170,12 +174,12 @@ export default {
     },
     // 查看详情
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.id}`;
+      const path = `/business-manage/business-detail/${row.opporId}`;
       this.$router.push(path);
     },
     // 点击转订单
     handleTrans(row) {
-      const path = `/business-manage/transfor-order/${row.id}`;
+      const path = `/business-manage/transfor-order/${row.opporId}`;
       this.$router.push(path);
     },
     // 点击分派

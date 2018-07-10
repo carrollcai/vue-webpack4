@@ -43,12 +43,12 @@ const actions = {
     });
   },
   /**
-   * 提交 “商机” 数据
+   * 创建并提交 “商机” 数据
    */
   submitBusinessOppority: ({ commit }, params) => {
     return API.submitBusinessOpporityAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_STATUS, res.data);
-      return res.data.list;
+      return res;
     });
   },
   /**
@@ -57,7 +57,16 @@ const actions = {
   saveBusinessDraft: ({ commit }, params) => {
     return API.saveBusinessDraftAPI(params).then(res => {
       commit(types.SAVE_BUSINESS_DRAFT_STATUS, res.data);
-      return res.data.list;
+      return res;
+    });
+  },
+  /**
+   * 提交 “商机草稿” 数据
+   */
+  submitBusinessDraft: ({ commit }, params) => {
+    return API.submitBusinessDraftAPI(params).then(res => {
+      commit(types.SUBMIT_BUSINESS_DRAFT_STATUS, res.data);
+      return res.data;
     });
   },
   /**
@@ -121,6 +130,15 @@ const actions = {
     });
   },
   /**
+   * 商机转订单(获取订单基本数据)
+   */
+  getTransforOrderDetail: ({ commit }, params) => {
+    return API.getTransforOrderDetailAPI(params).then(res => {
+      commit(types.TRANSFOR_ORDER_DETAIL, res.data);
+      return res.data.list;
+    });
+  },
+  /**
    * 提交 “商机转订单” 数据
    */
   saveBusinessOrder: ({ commit }, params) => {
@@ -153,6 +171,14 @@ const actions = {
   getBusinessTaskList: ({ commit }, params) => {
     return API.getBusinessTaskListAPI(params).then(res => {
       commit(types.BUSINESS_TASK_LIST, res.data);
+    });
+  },
+  /**
+   * 修改商机详情
+   */
+  editBusinessDetail: ({ commit }, params) => {
+    return API.editBusinessDetailAPI(params).then(res => {
+      commit(types.EDIT_BUSINESS_DETAIL_STATUS, res);
     });
   }
 };

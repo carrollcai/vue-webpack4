@@ -179,8 +179,10 @@ export default {
   getBusinessCategoryListAPI: API('http://localhost:3618/business-manage/getBusinessCategoryList'),
   // 根据合作集团匹配办公地址
   getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
-  // 提交商机
+  // 创建并提交商机
   submitBusinessOpporityAPI: API('/esop/bizOppor/createApprove'),
+  // 提交商机草稿
+  submitBusinessDraftAPI: API('/esop/bizOppor/startProcess'),
   // 保存草稿商机
   saveBusinessDraftAPI: API('/esop/bizOppor/create'),
   // 集团关联商机
@@ -197,6 +199,8 @@ export default {
   submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
   // 提交作废
   submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren'),
+  // 商机转订单(获取订单基本数据)
+  getTransforOrderDetailAPI: API('esop/bizOppor/transOppor'),
   // 提交商机转订单
   saveBusinessOrderAPI: API(''),
   // 提交商机转订单草稿
@@ -205,5 +209,7 @@ export default {
   // 我的商机查询
   getMyBusinessListAPI: API('esop/bizOppor/list'),
   // 商机处理任务查询
-  getBusinessTaskListAPI: API('esop/bizOppor/queryTaskInfo')
+  getBusinessTaskListAPI: API('esop/bizOppor/queryTaskInfo'),
+  // 修改商机
+  editBusinessDetailAPI: API('esop/bizOppor/editApprove')
 };
