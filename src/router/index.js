@@ -18,7 +18,7 @@ router.beforeEach((to, from, next) => {
 
     if (token) {
       if (!store.state.root.currentUser.menuList.length) {
-        (async() => {
+        (async () => {
           await store.dispatch('getProvince');
           await store.dispatch('getCurrentUserInfo');
 

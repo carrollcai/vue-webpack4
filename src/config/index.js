@@ -298,3 +298,11 @@ export const CLIENT = [
   //   'value': '咪咕灵犀'
   // }
 ];
+
+export const ORDER_STATUS = {
+  1: '草稿',
+  2: '待签约',
+  3: '待付款',
+  4: '已完成',
+  5: '已取消'
+};

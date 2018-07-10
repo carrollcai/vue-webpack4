@@ -66,16 +66,19 @@ export default {
   taskSubmitAuditAPI: API('http://localhost:3618/task/todo/list'), // 审核接口
 
   /* 订单管理 */
-  getOrderListAPI: API('http://localhost:3618/order/overview'), // 订单总览
+  getOrderListAPI: API('/esop/bizOrder/overView'), // 订单总览
+  getCreateManageListAPI: API('/esop/bizOrder/createView'), // 订单创建管理
+  getHandleTaskListAPI: API('/esop/bizOrder/queryTaskInfo'), // 订单处理任务
   uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
-  getOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址,
-  createOrderAPI: API('http://localhost:3618/order/overview'), // 新建订单,
-  getOrderDetailAPI: API('http://localhost:3618/order/overview'), // 获取订单详情
+  getOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址
+  createOrderAPI: API('/esop/bizOrder/save'), // 新建订单
+  updateOrderAPI: API('/esop/bizOrder/update'), // 修改订单
+  getOrderDetailAPI: API('/esop/bizOrder/detail'), // 获取订单详情
   getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
   createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
-  submitOrderRowAPI: API('http://localhost:3618/order/overview'), // 提交订单
-  deleteOrderRowAPI: API('http://localhost:3618/order/overview'), // 删除订单,
-  setConnectOriganizeAPI: API('http://localhost:3618/order/overview'), // 集团关联
+  submitOrderRowAPI: API('/esop/bizOrder/startProcess'), // 提交订单
+  deleteOrderRowAPI: API('/esop/bizOrder/delete'), // 删除订单,
+  setConnectOriganizeAPI: API('/esop/bizOrder/updateOrganize'), // 关联集团
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),

@@ -8,10 +8,10 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderOverviewForm.name" placeholder="订单名称/编码" />
+            <el-input v-model="orderOverviewForm.ordNameOrCode" placeholder="订单名称/编码" />
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderOverviewForm.name" placeholder="集团名称/编码" />
+            <el-input v-model="orderOverviewForm.organizeNameOrCode" placeholder="集团名称/编码" />
           </el-form-item>
         </div>
         <div class="flex">
@@ -20,7 +20,7 @@
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="orderOverviewForm.status" @tab-click="tabChange">
+      <el-tabs v-model="orderOverviewForm.ordStatus" @tab-click="tabChange">
         <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="待签约" :name="2"></el-tab-pane>
         <el-tab-pane label="待付款" :name="3"></el-tab-pane>
@@ -31,12 +31,16 @@
 
     <div class="m-container table-container">
       <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="订单编号" property="code" />
-        <el-table-column label="订单名称" property="name" />
-        <el-table-column label="创建时间" property="date" />
-        <el-table-column label="合作集团" property="cooperationCompany" />
-        <el-table-column label="处理人" property="submitter" />
-        <el-table-column label="订单状态" property="status" />
+        <el-table-column label="订单编号" property="ordCode" />
+        <el-table-column label="订单名称" property="ordName" />
+        <el-table-column label="创建时间" property="createDate" />
+        <el-table-column label="合作集团" property="organizeName" />
+        <el-table-column label="处理人" property="processorName" />
+        <el-table-column label="订单状态">
+          <template slot-scope="scope">
+            {{orderStatus[scope.row.ordStatus]}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
@@ -52,10 +56,12 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState } from 'vuex';
+import { ORDER_STATUS } from '@/config/index.js';
 
 export default {
   data() {
     return {
+      orderStatus: ORDER_STATUS,
       overviewRules: {}
     };
   },
@@ -69,14 +75,15 @@ export default {
     })
   },
   beforeMount() {
-    this.getOrderList(this.orderOverviewForm);
+    let { date, ..._params } = this.orderOverviewForm;
+    this.getOrderList(_params);
   },
   methods: {
     tabChange() {
       this.query();
     },
     handleDetail(row) {
-      const path = `/order/overview/detail/${row.id}`;
+      const path = `/order/overview/detail/${row.ordId}/${row.processInsId}`;
       this.$router.push(path);
     },
     onPagination(value) {
@@ -89,10 +96,16 @@ export default {
     },
     query() {
       const params = this.orderOverviewForm;
+
+      if (params.date.length === 2) {
+        params.startDate = params.date[0];
+        params.endDate = params.date[1];
+      }
+      let { date, ..._params } = params;
       this.$refs['orderOverview'].validate(valid => {
         if (!valid) return false;
 
-        this.getOrderList(params);
+        this.getOrderList(_params);
       });
     },
     ...mapActions([

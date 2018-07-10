@@ -5,34 +5,43 @@ import {
 } from '@/config/index.js';
 
 const state = {
+  processInsId: null,
   orderOverviewForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
+    ordNameOrCode: '',
+    organizeNameOrCode: '',
+    startDate: '',
+    endDate: '',
     date: [],
-    nameOrCode: '',
-    status: 0
+    ordStatus: 0
   },
   orderOverviewObj: {
     list: [],
     totalcount: 1
   },
+  orderOverviewDetail: {},
+  processList: [],
 
   orderCreateManageForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
+    ordNameOrCode: '',
+    organizeNameOrCode: '',
+    startDate: '',
+    endDate: '',
     date: [],
-    nameOrCode: '',
-    status: 0
+    ordStatus: 0
   },
   orderCreateManageObj: {
     list: [],
-    totalcount: 1
+    totalCount: 1
   },
   orderCreate: {
     ordName: '',
-    predictContactAmount: null,
-    predictSignDate: '',
-    predictAgreement: '',
+    predictContractAmount: null,
+    predictSignTime: '',
+    predictAgreementTime: '',
     isProjectInvitation: '1',
     organizeName: '',
     address: '',
@@ -41,15 +50,20 @@ const state = {
     contactMobile: null,
     contactEmail: '',
     busiDesc: '',
-    assignReason: ''
+    busiRequire: '',
+    productName: ''
   },
+  orderOrganizeAddressList: [],
 
   orderHandleTaskForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
+    ordNameOrCode: '',
+    organizeNameOrCode: '',
+    startDate: '',
+    endDate: '',
     date: [],
-    nameOrCode: '',
-    status: 2
+    businessStatus: 0
   },
   orderHandleTaskObj: {
     list: [],
@@ -64,7 +78,7 @@ const mutations = {
     state.orderOverviewObj = Object.assign(state.orderOverviewObj, data);
   },
   [types.ORDER_QUERY_ORGANIZE_ADDRESS](state, data) {
-
+    state.orderOrganizeAddressList = data.list.map(val => Object.assign(val, {value: val.organizeName}));
   },
   [types.ORDER_CREATE](state, data) {
 
@@ -79,7 +93,20 @@ const mutations = {
     state.assignHandlers = data;
   },
   [types.ORDER_GET_HANDLE_TASK_DETAIL](state, data) {
+    console.log(data);
     state.handleTaskDetail = data;
+  },
+  [types.ORDER_OVERVIEW_GET_DETAIL](state, data) {
+    state.orderOverviewDetail = Object.assign({}, data);
+  },
+  [types.ORDER_GET_PROCESS_LIST](state, data) {
+    state.processList = data;
+  },
+  [types.ORDER_UPDATE_CREATE](state, data) {
+    state.orderCreate = Object.assign({}, state.orderCreate, data);
+  },
+  [types.ORDER_GET_EDIT](state, data) {
+    state.orderCreate = data;
   }
 };
 
