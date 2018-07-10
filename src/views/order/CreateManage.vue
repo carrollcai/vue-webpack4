@@ -137,13 +137,11 @@ export default {
       };
       await this.getOrganizeAddress(params);
 
-
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
-
         this.organizeNameList = this.orderOrganizeAddressList;
-        cb(this.orderOrganizeAddressList);
 
+        cb(this.orderOrganizeAddressList);
       }, 1000);
     },
     async connectOrganize(row) {
