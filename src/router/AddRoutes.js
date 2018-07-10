@@ -132,43 +132,43 @@ const dynamicRoutes = [
         path: '/business-manage/business',
         name: 'business',
         component: Business,
-        meta: { menuId: 8 }
+        meta: { menuId: 20 }
       },
       {
         path: '/business-manage/business-detail/:opporId',
         name: 'business-detail',
         component: BusinessDetail,
-        meta: { menuId: 8 }
+        meta: { menuId: 20 }
       },
       {
         path: '/business-manage/business-create-manage',
         name: 'business-create-manage',
         component: BusinessCreateManage,
-        meta: { menuId: 9 }
+        meta: { menuId: 21 }
       },
       {
         path: '/business-manage/create-business',
         name: 'create-business',
         component: CreateBusiness,
-        meta: { menuId: 9 }
+        meta: { menuId: 21 }
       },
       {
-        path: '/business-manage/update-business/:id',
+        path: '/business-manage/update-business/:opporId',
         name: 'update-business',
         component: UpdateBusiness,
-        meta: { menuId: 9 }
+        meta: { menuId: 21 }
       },
       {
         path: '/business-manage/business-task',
         name: 'business-task',
         component: BusinessTask,
-        meta: { menuId: 10 }
+        meta: { menuId: 22 }
       },
       {
-        path: '/business-manage/transfor-order/:id',
+        path: '/business-manage/transfor-order/:opporId',
         name: 'transfor-order',
         component: TransforOrder,
-        meta: { menuId: 10 }
+        meta: { menuId: 22 }
       },
       {
         path: '/group-customer/overview',

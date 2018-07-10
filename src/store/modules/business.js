@@ -11,7 +11,7 @@ const state = {
     endDate: '',
     organizeNameOrCode: '',
     opporCode: '',
-    opporStatus: 0,
+    opporStatus: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
@@ -20,7 +20,7 @@ const state = {
     endDate: '',
     organizeNameOrCode: '',
     opporCode: '',
-    opporStatus: 0,
+    opporStatus: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
@@ -49,7 +49,10 @@ const state = {
   saveBusinessDrafStatus: '',
   saveBusinessOrder: '',
   saveBusinessOrderDraft: '',
-  myBusinessList: ''
+  myBusinessList: '',
+  transforOrderDetail: '',
+  submitBusinessDraftStatus: '',
+  editBusinessDetailStatus: ''
 };
 
 const mutations = {
@@ -106,9 +109,26 @@ const mutations = {
   },
   [types.BUSINESS_TASK_LIST](state, data) {
     state.businessTaskList = data;
+  },
+  [types.TRANSFOR_ORDER_DETAIL](state, data) {
+    state.transforOrderDetail = data;
+  },
+  [types.SUBMIT_BUSINESS_DRAFT_STATUS](state, data) {
+    state.submitBusinessDraftStatus = data;
+  },
+  [types.EDIT_BUSINESS_DETAIL_STATUS](state, data) {
+    state.editBusinessDetailStatus = data;
   }
 };
+
+const getters = {
+  businessDetail(state) {
+    return state.businessDetail;
+  }
+};
+
 export default {
   state,
-  mutations
+  mutations,
+  getters
 };

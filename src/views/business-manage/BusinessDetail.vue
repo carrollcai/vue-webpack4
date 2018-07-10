@@ -8,12 +8,13 @@
         </el-breadcrumb>
       </div>
     </div>
-    <detail-head :type="businessDetail.opporStatusName"></detail-head>
+    <detail-head :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
     <detail-body :detailData="businessDetail"></detail-body>
-    <div class="pl">
-      <el-button type="primary" @click="handleTrans()">转订单</el-button>
+    <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">
+      <el-button type="primary" @click="handleSubmit()">提交处理</el-button>
+      <!--<el-button type="primary" @click="handleTrans()">转订单</el-button>
       <el-button plain @click="handleSend()">分派</el-button>
-      <el-button plain @click="handleCancel()">作废</el-button>
+      <el-button plain @click="handleCancel()">作废</el-button>-->
     </div>
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
@@ -82,9 +83,16 @@ export default {
     })
   },
   methods: {
+    // 商机转订单
     handleTrans() {
-      const path = `/business-manage/transfor-order/${this.types}`;
+      const path = `/business-manage/transfor-order/${this.$route.params.opporId}`;
       this.$router.push(path);
+    },
+    // 商机提交处理
+    handleSubmit() {
+      const param = {};
+      param.id = this.businessDetail.opporId;
+      this.submitBusinessDraft(param);
     },
     // 点击分派
     handleSend(row) {
@@ -143,7 +151,7 @@ export default {
       });
     },
     ...mapActions([
-      'getBusinessDetail', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel'
+      'getBusinessDetail', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft'
     ])
   }
 };

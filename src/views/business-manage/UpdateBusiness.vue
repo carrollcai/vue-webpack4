@@ -10,9 +10,9 @@
     </div>
     <div class="container">
       <div>
-      <el-form :rules="rules" ref="businessForm" :model="form" label-width="140px">
+      <el-form :rules="rules" ref="businessForm" :model="businessData" label-width="140px">
         <el-form-item label="商机类别：" prop="opporType">
-          <el-select class="form-input-medium" v-model="form.opporType" placeholder="请选择属性">
+          <el-select class="form-input-medium" v-model="businessData.opporType" placeholder="请选择属性">
               <el-option
               v-for="item in businessCategoryList"
               :key="item.value"
@@ -22,15 +22,15 @@
           </el-select>
         </el-form-item>
         <el-form-item label="预计收入：" prop="predictContractAmount">
-          <el-input v-model="form.predictContractAmount" class="form-input-medium" placeholder="请输入预计收入">
+          <el-input v-model="businessData.predictContractAmount" class="form-input-medium" placeholder="请输入预计收入">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="businessData.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
-          <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
+          <el-select class="form-input-medium" v-model="businessData.predictAgreementTime" placeholder="请选择">
               <el-option
               v-for="item in protoTimeList"
               :key="item.value"
@@ -40,14 +40,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="项目是否招标：" prop="isProjectInvitation">
-          <el-radio v-model="form.isProjectInvitation" label="1">是</el-radio>
-          <el-radio v-model="form.isProjectInvitation" label="0">否</el-radio>
+          <el-radio v-model="businessData.isProjectInvitation" label="1">是</el-radio>
+          <el-radio v-model="businessData.isProjectInvitation" label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="联系人员：" prop="contactName">
-          <el-input maxlength="6" class="form-input-80" v-model="form.contactName" placeholder="姓名"></el-input>
+          <el-input maxlength="6" class="form-input-80" v-model="businessData.contactName" placeholder="姓名"></el-input>
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactGender" style="display: inline-block;">
-            <el-select class="form-input-80" v-model="form.contactGender" placeholder="性别">
+            <el-select class="form-input-80" v-model="businessData.contactGender" placeholder="性别">
                 <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -58,14 +58,14 @@
           </el-form-item>
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactMobile" style="display: inline-block;">
-            <el-input maxlength="11" class="form-input-120" v-model="form.contactMobile" placeholder="手机号"></el-input>
+            <el-input maxlength="11" class="form-input-120" v-model="businessData.contactMobile" placeholder="手机号"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="联系邮箱：" prop="contactEmail" style="display: inline-block;">
-            <el-input maxlength="35" class="form-input-320" v-model="form.contactEmail" placeholder="请输入邮箱"></el-input>
+            <el-input maxlength="35" class="form-input-320" v-model="businessData.contactEmail" placeholder="请输入邮箱"></el-input>
           </el-form-item>
         <el-form-item label="合作集团：" prop="organizeName">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="form.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+          <el-autocomplete maxlength="25" class="form-input-half" v-model="businessData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
           <el-card class="create-business-box-card" v-if="noData">
             <div>
               系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
@@ -73,17 +73,17 @@
           </el-card>
           <span class="form-input-sep">-</span>
           <el-form-item prop="address" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="form.address" placeholder="办公地址"></el-input>
+            <el-input maxlength="50" class="form-input-half" v-model="businessData.address" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="业务描述：" prop="busiDesc">
-          <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.busiDesc"></el-input>
+          <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="businessData.busiDesc"></el-input>
         </el-form-item>
         <el-form-item label="业务需求：" prop="busiRequire">
-          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.busiRequire"></el-input>
+          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="businessData.busiRequire"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.needCoordinationIssue"></el-input>
+          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="businessData.needCoordinationIssue"></el-input>
         </el-form-item>
       </el-form>
       </div>
@@ -93,7 +93,7 @@
       <div class="b-container">
           <el-form label-width="140px" style="width: 460px;">
             <el-form-item label="提醒人：">
-              <el-select class="form-input-medium" v-model="form.reminders" placeholder="请选择提醒人" multiple>
+              <el-select class="form-input-medium" v-model="businessData.reminders" placeholder="请选择提醒人" multiple>
                   <el-option
                   v-for="item in designatePerson"
                   :key="item.value"
@@ -198,17 +198,23 @@ export default {
     };
   },
   beforeMount() {
+    const { opporId } = this.$route.params;
+    this.getBusinessDetail({ opporId });
     // this.getBusinessCategoryList();
     this.getCooperationGroupList();
     // this.getDesignatePerson();
   },
   computed: {
+    businessData() {
+      return this.$store.getters.businessDetail;
+    },
     ...mapState({
       // businessCategoryList: ({ business }) => business.businessCategoryList,
       officeAddress: ({ business }) => business.officeAddress,
       submitBusinessStatus: ({ business }) => business.submitBusinessStatus,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
-      designatePerson: ({ business }) => business.designatePerson
+      designatePerson: ({ business }) => business.designatePerson,
+      businessDetail: ({ business }) => business.businessDetail
     })
   },
   methods: {
@@ -235,18 +241,27 @@ export default {
       this.getOfficeAddress();
     },
     submit() {
-      const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
+        var _this = this;
+        this.editBusinessDetail(this.businessData).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({ showClose: true, message: '您已成功修改该条商机！', type: 'success' });
+            _this.reset();
+            const path = `/business-manage/business-create-manage`;
+            _this.$router.push(path);
+          } else {
+            _this.$message({ showClose: true, message: '修改失败！', type: 'error' });
+          }
+        });
       });
-      this.submitBusinessOppority(params);
     },
     save() {
       const params = this.form;
       this.submitBusinessOppority(params);
     },
     ...mapActions([
-      'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList'
+      'getOfficeAddress', 'getCooperationGroupList', 'getBusinessDetail', 'editBusinessDetail'
     ])
   }
 };

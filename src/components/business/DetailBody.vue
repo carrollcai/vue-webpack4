@@ -14,7 +14,7 @@
         <span class="title">预计签约时间：</span>
         <span class="content">{{detailData.predictSignTime}}</span>
         <span class="title">商机提供人员：</span>
-        <span class="content">王老五（19089019820）</span>
+        <span class="content">{{detailData.opId}}</span>
       </div>
       <div class="business-detail-body-item">
         <div class="left">合作集团：</div>
