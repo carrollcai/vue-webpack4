@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb>
           <el-breadcrumb-item :to="{ path: '/order/create-manage' }">订单创建管理</el-breadcrumb-item>
-          <el-breadcrumb-item>新建订单</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ routeType() }}订单</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
@@ -13,16 +13,16 @@
         <el-form-item label="订单名称：" prop="ordName">
           <el-input class="form-input-medium" v-model="orderCreate.ordName" placeholder="订单名称" />
         </el-form-item>
-        <el-form-item label="预定合同金额：" prop="predictContactAmount">
-          <el-input class="form-input-medium" v-model="orderCreate.predictContactAmount" placeholder="合同金额">
+        <el-form-item label="预定合同金额：" prop="predictContractAmount">
+          <el-input class="form-input-medium" v-model="orderCreate.predictContractAmount" placeholder="合同金额">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="预定签约时间：" prop="predictSignDate">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.predictSignDate" placeholder="请选择时间"></el-date-picker>
+        <el-form-item label="预定签约时间：" prop="predictSignTime">
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="预计协议期：" prop="predictAgreement">
-          <el-select class="form-input-medium" v-model="orderCreate.predictAgreement" placeholder="合同金额">
+        <el-form-item label="预计协议期：" prop="predictAgreementTime">
+          <el-select class="form-input-medium" v-model="orderCreate.predictAgreementTime" placeholder="合同金额">
             <el-option v-for="item in agreementTimeStatic" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -59,17 +59,19 @@
             <el-input maxlength="50" class="form-input-half" v-model="orderCreate.address" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
-
+        <el-form-item label="订购产品：" prop="productName">
+          <el-input class="form-input-large" v-model="orderCreate.productName" placeholder="订购产品" />
+        </el-form-item>
         <el-form-item label="订单描述：" prop="busiDesc">
           <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiDesc" placeholder="订单描述" />
         </el-form-item>
-        <el-form-item label="订单需求：" prop="assignReason">
-          <el-input type="textarea" class="form-input-large" v-model="orderCreate.assignReason" placeholder="订单需求" />
+        <el-form-item label="订单需求：" prop="busiRequire">
+          <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiRequire" placeholder="订单需求" />
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm()">提交</el-button>
-          <el-button @click="submitForm()">保存为草稿</el-button>
+          <el-button type="primary" @click="submitForm(true)">提交</el-button>
+          <el-button @click="submitForm(false)">保存为草稿</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -77,23 +79,25 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import { checkPhone, emailCheck } from '@/utils/rules.js';
 
 export default {
   data() {
     return {
+      pageSize: 20,
+      timeout: null,
       orderCreateRules: {
         ordName: [
           { required: true, message: '请输入订单名称', trigger: 'blur' }
         ],
-        predictContactAmount: [
+        predictContractAmount: [
           { required: true, message: '请输入预定合同金额', trigger: 'blur' }
         ],
-        predictSignDate: [
+        predictSignTime: [
           { required: true, message: '请输入预定签约时间', trigger: 'blur' }
         ],
-        predictAgreement: [
+        predictAgreementTime: [
           { required: true, message: '请输入预计协议期', trigger: 'change' }
         ],
         contactName: [
@@ -119,7 +123,7 @@ export default {
         busiDesc: [
           { required: true, message: '请输入订单描述', trigger: 'blur' }
         ],
-        assignReason: [
+        busiRequire: [
           { required: true, message: '请输入订单需求', trigger: 'blur' }
         ]
       }
@@ -130,33 +134,60 @@ export default {
       orderCreate: ({ order }) => order.orderCreate,
       genderStatic: ({ root }) => root.staticData.SEX,
       agreementTimeStatic: ({ root }) => root.staticData.PREDICT_AGREEMENT_TIME,
-      projectInvitationStatic: ({ root }) => root.staticData.PROJECT_INVITATION
+      projectInvitationStatic: ({ root }) => root.staticData.PROJECT_INVITATION,
+      orderOrganizeAddressList: ({ order }) => order.orderOrganizeAddressList
     })
   },
   beforeMount() {
-    let { type, id } = this.$route.params;
+    const { type, id } = this.$route.params;
     if (type !== 'create') {
-      this.getOrderEdit({ id });
+      this.getOrderEdit({ ordId: id });
     }
   },
   methods: {
-    querySearchAsync() {
-      this.getOrganizeAddress();
+    routeType() {
+      const { type } = this.$route.params;
+      return type === 'create' ? '新建' : '修改';
     },
-    handleSelect() {
+    handleSelect(item) {
+      this.updateOrderCreate({ address: item.orgAddress });
+    },
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: this.pageSize,
+        organizeName: queryString
+      };
+      await this.getOrganizeAddress(params);
 
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        cb(this.orderOrganizeAddressList);
+      }, 1000);
     },
-    submitForm() {
+    submitForm(startProcess) {
+      const { type, id } = this.$route.params;
       const params = this.orderCreate;
+      params.startProcess = startProcess;
       this.$refs.orderCreateForm.validate(valid => {
         if (!valid) return false;
 
-        this.createOrder(params);
+        if (type === 'create') {
+          this.createOrder(params);
+          return false;
+        }
+
+        params.ordId = id;
+        this.updateOrder(params);
       });
     },
+    ...mapMutations({
+      updateOrderCreate: 'ORDER_UPDATE_CREATE'
+    }),
     ...mapActions([
       'getOrderEdit',
       'createOrder',
+      'updateOrder',
       'getOrganizeAddress'
     ])
   }

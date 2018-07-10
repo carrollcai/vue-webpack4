@@ -3,10 +3,7 @@
     <div v-if="title" class="title">{{title}}</div>
     <div>
       <el-steps :active="1" align-center>
-        <el-step title="曲丽丽" description="审核通过"></el-step>
-        <el-step title="张小明" description="审核中…"></el-step>
-        <el-step title="李晓红"></el-step>
-        <el-step title="王晓红"></el-step>
+        <el-step v-for="item in processList" :key="item.processId" :title="item.opName" :description="item.taskName"></el-step>
       </el-steps>
     </div>
   </div>
@@ -18,7 +15,8 @@ export default {
     title: {
       type: String,
       default: ''
-    }
+    },
+    processList: Array
   }
 };
 </script>

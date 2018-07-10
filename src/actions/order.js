@@ -20,7 +20,7 @@ const actions = {
   },
   getOrganizeAddress: ({ commit }, params) => {
     return API.getOrganizeAddressAPI(params).then((res) => {
-      commit(types.ORDER_QUERY_ORGANIZE_ADDRESS, res);
+      commit(types.ORDER_QUERY_ORGANIZE_ADDRESS, res.data);
     });
   },
   createOrder: ({ commit }, params) => {
@@ -30,20 +30,37 @@ const actions = {
         type: 'success'
       });
       commit(types.ORDER_CREATE);
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/order/create-manage'
+      });
+    });
+  },
+  updateOrder: ({ commit }, params) => {
+    return API.updateOrderAPI(params).then((res) => {
+      Message({
+        message: '修改成功',
+        type: 'success'
+      });
+      commit(types.ORDER_CREATE);
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/order/create-manage'
+      });
     });
   },
   getOrderEdit: ({ commit }, params) => {
     return API.getOrderDetailAPI(params).then(res => {
-      commit(types.ORDER_GET_DETAIL);
+      commit(types.ORDER_GET_EDIT, res.data);
     });
   },
   getCreateManageList: ({ commit }, params) => {
-    return API.getOrderListAPI(params).then(res => {
+    return API.getCreateManageListAPI(params).then(res => {
       commit(types.ORDER_CM_GET_LIST, res.data);
     });
   },
   getHandleTaskList: ({ commit }, params) => {
-    return API.getOrderListAPI(params).then(res => {
+    return API.getHandleTaskListAPI(params).then(res => {
       commit(types.ORDER_HT_GET_LIST, res.data);
     });
   },
@@ -82,6 +99,17 @@ const actions = {
   // 设置集团关联
   setConnectOriganize: ({ commit }, params) => {
     return API.setConnectOriganizeAPI(params);
+  },
+  getOrderOverviewDetail: ({ commit }, params) => {
+    return API.getOrderDetailAPI(params).then(res => {
+      commit(types.ORDER_OVERVIEW_GET_DETAIL, res.data);
+    });
+  },
+  getOrderOverviewProcess: ({ commit }, params) => {
+    return API.queryCustomerProcessedAPI(params).then(res => {
+      console.log(res);
+      commit(types.ORDER_GET_PROCESS_LIST, res.data);
+    });
   }
 };
 

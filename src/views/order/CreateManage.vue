@@ -8,10 +8,10 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderCreateManageForm.name" placeholder="订单名称/编码" />
+            <el-input v-model="orderCreateManageForm.ordNameOrCode" placeholder="订单名称/编码" />
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderCreateManageForm.name" placeholder="合作集团/编码" />
+            <el-input v-model="orderCreateManageForm.organizeNameOrCode" placeholder="合作集团/编码" />
           </el-form-item>
         </div>
         <div class="flex">
@@ -24,7 +24,7 @@
         </div>
       </el-form>
 
-      <el-tabs v-model="orderCreateManageForm.status" @tab-click="tabChange">
+      <el-tabs v-model="orderCreateManageForm.ordStatus" @tab-click="tabChange">
         <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="草稿" :name="1"></el-tab-pane>
         <el-tab-pane label="待签约" :name="2"></el-tab-pane>
@@ -35,15 +35,15 @@
     </div>
 
     <div class="m-container table-container">
-      <wm-table :source="orderCreateManageObj.list" :pageNo="orderCreateManageForm.pageNo" :pageSize="orderCreateManageForm.pageSize" :total="orderCreateManageObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="订单编号" property="code" />
-        <el-table-column label="订单名称" property="name" />
-        <el-table-column label="创建时间" property="date" />
-        <el-table-column label="合作集团" property="cooperationCompany">
+      <wm-table :source="orderCreateManageObj.list" :pageNo="orderCreateManageForm.pageNo" :pageSize="orderCreateManageForm.pageSize" :total="orderCreateManageObj.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+        <el-table-column label="订单编号" property="ordCode" />
+        <el-table-column label="订单名称" property="ordName" />
+        <el-table-column label="创建时间" property="createDate" />
+        <el-table-column label="合作集团" property="organizeName">
           <template slot-scope="scope">
             <div>
-              {{scope.row.cooperationCompany}}
-              <el-popover v-if="scope.row.id" placement="bottom" width="248" trigger="hover">
+              {{scope.row.organizeName}}
+              <el-popover v-if="!scope.row.organizeId" placement="bottom" width="248" trigger="hover">
                 <div class="o-popover-title">
                   系统暂未录入该集团，请尽快关联已录入集团！
                 </div>
@@ -56,8 +56,12 @@
 
           </template>
         </el-table-column>
-        <el-table-column label="处理人" property="submitter" />
-        <el-table-column label="订单状态" property="status" />
+        <el-table-column label="处理人" property="processorName" />
+        <el-table-column label="订单状态">
+          <template slot-scope="scope">
+            {{orderStatus[scope.row.ordStatus]}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
@@ -84,10 +88,12 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState } from 'vuex';
+import { ORDER_STATUS } from '@/config/index.js';
 
 export default {
   data() {
     return {
+      orderStatus: ORDER_STATUS,
       orderCreateManageRules: {}
     };
   },
@@ -101,17 +107,21 @@ export default {
     })
   },
   beforeMount() {
-    this.getCreateManageList(this.orderCreateManageForm);
+    let { date, ..._params } = this.orderCreateManageForm;
+    this.getCreateManageList(_params);
   },
   methods: {
-    connectOrganize(row) {
-      this.setConnectOriganize({ id: row.id }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '关联集团成功'
-        });
-        this.query();
+    async connectOrganize(row) {
+      await this.setConnectOriganize({
+        ordId: row.ordId,
+        organizeId: row.organizeId || '',
+        organizeName: row.organizeName
       });
+      await this.$message({
+        type: 'success',
+        message: '关联集团成功'
+      });
+      await this.query();
     },
     tabChange(val) {
       this.query();
@@ -133,7 +143,7 @@ export default {
       this.query();
     },
     handleEdit(row) {
-      const path = `/order/manage/edit/${row.id}`;
+      const path = `/order/manage/edit/${row.ordId}`;
       this.$router.push(path);
     },
     handleDelete(row) {
@@ -141,38 +151,37 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.deleteOrderRow({ id: row.id }).then(res => {
-          this.$message({
-            type: 'success',
-            message: '删除成功'
-          });
-          this.query();
+      }).then(async () => {
+        await this.deleteOrderRow({ ordId: row.ordId });
+        await this.$message({
+          type: 'success',
+          message: '删除成功'
         });
+        await this.query();
       }).catch(() => {
         this.$message('已取消删除');
       });
     },
     handleSubmit(row) {
-      this.$confirm('您确定要提交该条商机信息?', ' ', {
+      this.$confirm('您确定要提交该条订单消息？', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.submitOrderRow().then(() => {
-          this.$message({
-            type: 'success',
-            dangerouslyUseHTMLString: true,
-            message: `<p>您已成功提交该订单！</p><p>处理人：${row.submitter}</p>`
-          });
-          this.query();
+      }).then(async () => {
+        // 提交订单
+        await this.submitOrderRow({ id: row.ordId });
+        await this.$message({
+          type: 'success',
+          dangerouslyUseHTMLString: true,
+          message: `<p>您已成功提交该订单！</p><p>处理人：${row.processorName}</p>`
         });
+        await this.query();
       }).catch(() => {
         this.$message('已取消提交');
       });
     },
     handleDetail(row) {
-      const path = `/order/overview/detail/${row.id}`;
+      const path = `/order/create-manage/detail/${row.ordId}/${row.processInsId}`;
       this.$router.push(path);
     },
     handleCreate() {
@@ -181,10 +190,16 @@ export default {
     },
     query() {
       const params = this.orderCreateManageForm;
+
+      if (params.date.length === 2) {
+        params.startDate = params.date[0];
+        params.endDate = params.date[1];
+      }
+      let { date, ..._params } = params;
       this.$refs['orderCreateManage'].validate(valid => {
         if (!valid) return false;
 
-        this.getCreateManageList(params);
+        this.getCreateManageList(_params);
       });
     },
     ...mapActions([
