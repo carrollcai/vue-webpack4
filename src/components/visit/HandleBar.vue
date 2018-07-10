@@ -32,19 +32,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.visit-handle-bar-item:nth-child(odd) {
-  flex: 1;
-  display: flex;
-}
-.title {
-  width: 100px;
-  text-align: right;
-  color: rgba(0, 0, 0, 0.45);
-  padding-right: 12px;
-}
-.visit-handle-bar-item:nth-child(even) {
-  flex: 2;
-  display: flex;
+  .visit-handle-bar-item:nth-child(odd) {
+    flex: 1;
+    display: flex;
+  }
+  .title {
+    width: 100px;
+    text-align: right;
+    color: rgba(0, 0, 0, 0.45);
+    padding-right: 12px;
+  }
+  .visit-handle-bar-item:nth-child(even) {
+    flex: 2;
+    display: flex;
+  }
 }
 </style>

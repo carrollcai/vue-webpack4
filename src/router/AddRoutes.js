@@ -281,7 +281,7 @@ const dynamicRoutes = [
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
 
       { path: '/order/overview', component: OrderOverview, meta: { menuId: 13 } },
-      { path: '/order/overview/detail/:id/:processId?', component: OrderOverviewDetail },
+      { path: '/order/overview/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 13 } },
       { path: '/order/create-manage', component: OrderCreateManage, meta: { menuId: 14 } },
       { path: '/order/manage/:type/:id?', component: OrderCreate, meta: { menuId: 14 } },
       { path: '/order/create-manage/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 14 } },
