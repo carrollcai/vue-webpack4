@@ -43,13 +43,20 @@
           <template slot-scope="scope">
             <div>
               {{scope.row.organizeName}}
-              <el-popover v-if="!scope.row.organizeId" placement="bottom" width="248" trigger="hover">
+              <el-popover v-model="dialogVisible" v-if="!scope.row.organizeId" placement="bottom" width="256" trigger="click" @show="resetOrganizeInfo">
                 <div class="o-popover-title">
                   系统暂未录入该集团，请尽快关联已录入集团！
                 </div>
-                <div class="o-popover-button">
-                  <el-button type="text" @click="connectOrganize(scope.row)">立即关联</el-button>
-                </div>
+
+                <el-form style="margin-top: 16px;" ref="organizeNameInfo" :rules="organizeNameInfoRules" :model="organizeNameInfo">
+                  <el-form-item class="margin-bottom-16" prop="organizeName">
+                    <el-autocomplete class="form-input-medium" v-model="organizeNameInfo.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+                  </el-form-item>
+                  <el-form-item class="margin-bottom-16" prop="organizeName">
+                    <el-button type="primary" @click="connectOrganize(scope.row)">确 定</el-button>
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                  </el-form-item>
+                </el-form>
                 <i slot="reference" class="el-icon-info"></i>
               </el-popover>
             </div>
@@ -94,7 +101,14 @@ export default {
   data() {
     return {
       orderStatus: ORDER_STATUS,
-      orderCreateManageRules: {}
+      orderCreateManageRules: {},
+      organizeNameInfoRules: {},
+      organizeNameInfo: {
+        pageSize: 20,
+        organizeName: ''
+      },
+      dialogVisible: false,
+      organizeNameList: []
     };
   },
   components: {
@@ -103,7 +117,8 @@ export default {
   computed: {
     ...mapState({
       orderCreateManageObj: ({ order }) => order.orderCreateManageObj,
-      orderCreateManageForm: ({ order }) => order.orderCreateManageForm
+      orderCreateManageForm: ({ order }) => order.orderCreateManageForm,
+      orderOrganizeAddressList: ({ order }) => order.orderOrganizeAddressList
     })
   },
   beforeMount() {
@@ -111,17 +126,46 @@ export default {
     this.getCreateManageList(_params);
   },
   methods: {
+    resetOrganizeInfo() {
+      this.organizeNameInfo.organizeName = '';
+    },
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: this.organizeNameInfo.pageSize,
+        organizeName: queryString
+      };
+      await this.getOrganizeAddress(params);
+
+
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+
+        this.organizeNameList = this.orderOrganizeAddressList;
+        cb(this.orderOrganizeAddressList);
+
+      }, 1000);
+    },
     async connectOrganize(row) {
-      await this.setConnectOriganize({
-        ordId: row.ordId,
-        organizeId: row.organizeId || '',
-        organizeName: row.organizeName
-      });
-      await this.$message({
-        type: 'success',
-        message: '关联集团成功'
-      });
-      await this.query();
+      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.organizeNameInfo.organizeName)[0];
+      if (selectedObj) {
+        await this.setConnectOriganize({
+          ordId: row.ordId,
+          organizeId: selectedObj.organizeId,
+          organizeName: selectedObj.organizeName
+        });
+
+        await this.$message({
+          type: 'success',
+          message: '关联集团成功'
+        });
+
+        this.dialogVisible = false;
+
+        await this.query();
+      } else {
+        this.$message('集团不存在');
+      }
     },
     tabChange(val) {
       this.query();
@@ -206,7 +250,8 @@ export default {
       'getCreateManageList',
       'submitOrderRow',
       'deleteOrderRow',
-      'setConnectOriganize'
+      'setConnectOriganize',
+      'getOrganizeAddress'
     ])
   }
 };
