@@ -34,6 +34,7 @@ import CustomerCreate from '@/views/group-customer/create/CustomerCreate.vue';
 import CustomerEdit from '@/views/group-customer/create/CustomerEdit.vue';
 import CustomerDetail from '@/views/group-customer/detail/CustomerDetail.vue';
 import CustomerAudit from '@/views/group-customer/detail/CustomerAudit.vue';
+import CustomerAuditDetail from '@/views/group-customer/detail/CustomerAuditDetail.vue';
 
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
@@ -173,55 +174,61 @@ const dynamicRoutes = [
         path: '/group-customer/overview',
         name: 'group-customer-overview',
         component: GroupCustomerOverview,
-        meta: { menuId: 13 }
+        meta: { menuId: 24 }
       },
       {
         path: '/group-customer/overview/detail/:id',
         name: 'group-customer-overview-detail',
         component: OverviewDetail,
-        meta: { menuId: 13 }
+        meta: { menuId: 24 }
       },
       {
         path: '/group-customer/overview/detail/:id/more',
         name: 'group-customer-overview-detail-more',
         component: OverviewDetailMore,
-        meta: { menuId: 13 }
+        meta: { menuId: 24 }
       },
       {
         path: '/group-customer/create-manage',
         name: 'group-customer-create-manage',
         component: GroupCustomerCreateManage,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/create',
         name: 'group-customer-create',
         component: CustomerCreate,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/edit/:id',
         name: 'group-customer-edit',
         component: CustomerEdit,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/detail/:id',
         name: 'group-customer-detail',
         component: CustomerDetail,
-        meta: { menuId: 14 }
+        meta: { menuId: 25 }
       },
       {
         path: '/group-customer/audit-manage',
         name: 'group-customer-audit-manage',
         component: GroupCustomerAuditManage,
-        meta: { menuId: 15 }
+        meta: { menuId: 26 }
+      },
+      {
+        path: '/group-customer/audit/detail/:id',
+        name: 'group-customer-audit-detail',
+        component: CustomerAuditDetail,
+        meta: { menuId: 26 }
       },
       {
         path: '/group-customer/audit/:id/:taskId',
         name: 'group-customer-audit',
         component: CustomerAudit,
-        meta: { menuId: 15 }
+        meta: { menuId: 26 }
       },
 
       {
