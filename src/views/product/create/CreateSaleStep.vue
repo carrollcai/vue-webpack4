@@ -63,22 +63,23 @@
             <el-form-item label="经验教训：" label-width="130px" prop="experience">
               <el-input v-model="formData.experience" placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
             </el-form-item>
-            <el-form-item label="方案附件：" label-width="130px" prop="files">
+            <el-form-item label="方案附件：" label-width="130px" prop="fileList">
               <el-upload class="upload-demo"
+                action=""
                 :auto-upload="false"
                 :on-change="fileChange"
-                :multiple="true"
+                :multiple="false"
                 :file-list="fileList"
                 :on-remove="removeFile">
                 <el-button slot="trigger" size="small">选择文件</el-button>
               </el-upload>
             </el-form-item>
             <el-form-item label="" label-width="130px">
-              <el-button type="primary" round size="mini" @click="submitAssignForm"><i class="icon-up margin-right-8"></i>上传</el-button>
+              <el-button type="primary" round size="mini" @click="submitAssignForm()"><i class="icon-up margin-right-8"></i>上传</el-button>
             </el-form-item>
             <el-row class="mt28 mb10">
-              <el-button type="primary" round size="mini" @click="onSubmit(formDataValid)">确定</el-button>
-              <el-button round size="mini" @click="reset(formDataValid)">取消</el-button>
+              <el-button type="primary" round size="mini" @click="onSubmit(formData)">确定</el-button>
+              <el-button round size="mini" @click="reset(formData)">取消</el-button>
             </el-row>
           </el-form>
         </div>
@@ -95,7 +96,6 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
-
 export default {
   components: {
     WmTable
@@ -158,13 +158,6 @@ export default {
     var descriptionFn = (rule, value, callback) => {
       checkTip('产品介绍', value, callback);
     };
-    const fileCheck = (rule, value, callback) => {
-      if (!this.formDataValid.files) {
-        callback(new Error('请上传文件'));
-      } else {
-        callback();
-      }
-    };
     return {
       isAddProduct: this.$route.params.id | false,
       modefiyIndex: -1,
@@ -174,6 +167,7 @@ export default {
       cacheSalesList: [],
       addItem: Number(this.$route.params.id) < 0,
       fileList: [],
+      fileLen: 0,
       formData: {
         salesId: '',
         salesType: '0',
@@ -215,9 +209,6 @@ export default {
         ],
         description: [
           { required: true, validator: descriptionFn, trigger: 'blur' }
-        ],
-        files: [
-          { validator: fileCheck }
         ]
       }
     };
@@ -229,19 +220,21 @@ export default {
     })
   },
   beforeMount() {
+    var _this = this;
     this.getComposedProduct({});
     this.params = JSON.parse(localStorage.getItem('params'));
     if (this.isAddProduct) {
       this.isShow = false;
-      var _this = this;
-      var data = { productId: this.isAddProduct };
-      this.getProductDetail(data).then(() => {
-        var res = _this.productSaleDemo.salesList;
-        for (var i in res) {
-          res[i].state = 3;
+      var data = { productId: Number(this.isAddProduct) };
+      this.getProductDetail(data).then((reques) => {
+        if (_this.productSaleDemo) {
+          var res = _this.productSaleDemo.salesList;
+          for (var i in res) {
+            res[i].state = 3;
+          }
+          _this.cacheSalesList = res;
+          _this.cacheData = res.concat();
         }
-        _this.cacheSalesList = res;
-        _this.cacheData = res.concat();
       });
     }
   },
@@ -265,7 +258,6 @@ export default {
         this.$message({ showClose: true, message: '请先保存产品案例', type: 'warning' });
       } else {
         this.addItem = true;
-        this.isShow = true;
         this.reset();
       }
     },
@@ -328,6 +320,7 @@ export default {
       }
     },
     toPageModefiy(index, row) {
+      var _this = this;
       if (row.salesType === '单品销售') {
         row.salesType = '0';
         row.composedProduct = [];
@@ -351,19 +344,21 @@ export default {
       } else {
         this.elecInstId = '';
       }
-      var _this = this;
       this.modefiyIndex = index;
-      this.isShow = true;
       this.formData = {
-        salesId: row.salesId + '',
-        salesType: row.salesType + '',
-        scheme: row.scheme + '',
-        salesNumber: row.salesNumber + '',
-        keypoint: row.keypoint + '',
-        experience: row.experience + '',
-        composedProduct: row.composedProduct,
-        fileInputId: row.fileInputId
+        salesId: row.salesId || '',
+        salesType: row.salesType || '',
+        scheme: row.scheme || '',
+        salesNumber: row.salesNumber || '',
+        keypoint: row.keypoint || '',
+        experience: row.experience || '',
+        composedProduct: row.composedProduct || []
       };
+      if (row.fileInputId) {
+        this.formData.fileInputId = row.fileInputId;
+        this.uploadData.fileInputId = row.fileInputId;
+      }
+      this.isShow = true;
     },
     deleteProduct(index, row) {
       var _this = this;
@@ -395,41 +390,61 @@ export default {
         composedProduct: [],
         fileInputId: null
       };
+      this.fileList = [];
       this.modefiyIndex = null;
       if (validData) {
         this.$refs[validData].resetFields();
         this.isShow = false;
+      } else {
+        this.isShow = true;
       }
     },
     fileChange(files, fileList) {
-      var _this = this;
-      /* if (fileList.length > 1) {
+      if (fileList.length > 1) {
         fileList.splice(0, 1);
-      } */
+      }
       this.uploadData.files = files.raw;
-      this.getProductFileId().then((res) => {
-        _this.uploadData.fileInputId = res.data;
-        _this.formData.fileInputId = res.data;
-      });
     },
     removeFile(files, fileList) {
       var _this = this;
-      this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
-        if (res.errorInfo.code === '200') {
-          _this.formDataValid.files = null;
-          _this.formData.fileInputId = '';
-        }
-      });
+      if (files.elecInstId) {
+        this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
+          if (res.errorInfo.code === '200') {
+            _this.formDataValid.files = null;
+            _this.uploadData.fileInputId = '';
+            _this.formData.fileInputId = '';
+          }
+        });
+      } else {
+        this.formDataValid.files = null;
+      }
     },
-    submitAssignForm() {
-      this.uploadProductScheme(this.uploadData);
+    submitAssignForm(vaildData) {
+      var _this = this;
+      if (this.isShow && this.isAddProduct) {
+        // 修改
+        if (this.uploadData.fileInputId) {
+          this.uploadProductScheme(this.uploadData);
+        } else {
+          this.getProductFileId().then((res) => {
+            _this.uploadData.fileInputId = res.data;
+            _this.formData.fileInputId = res.data;
+            this.uploadProductScheme(this.uploadData);
+          });
+        }
+      } else {
+        this.getProductFileId().then((res) => {
+          _this.uploadData.fileInputId = res.data;
+          _this.formData.fileInputId = res.data;
+          this.uploadProductScheme(this.uploadData);
+        });
+      }
     },
     prevStep() {
       this.$router.go(-1);
     },
     getRadioValue(value) {
       this.formData.salesType = value;
-      debugger;
       if (value === '0') {
         this.formData.composedProduct = [];
       }

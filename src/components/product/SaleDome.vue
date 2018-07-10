@@ -97,27 +97,24 @@ export default {
   computed: {
     dataList() {
       if (this.data) {
-        return this.data;
+        return this.getFileName();
       }
     }
-  },
-  beforeMount() {
-    return this.getFileName();
   },
   methods: {
     getFileName() {
       var _this = this;
       if (this.data) {
-        for (let i in this.data) {
-          if (this.data[i].fileInputId) {
+        for (let i = 0; i < (this.data).length; i++) {
+          if (_this.data[i].salesType === '0') {
+            _this.data[i].salesType = '单品销售';
+          } else if (_this.data[i].salesType === '1') {
+            _this.data[i].salesType = '组合销售';
+          }
+          if (_this.data[i].fileInputId) {
             _this.queryElec({
-              fileInputId: (this.data[i].fileInputId)
+              fileInputId: (_this.data[i].fileInputId)
             }).then((res) => {
-              if (_this.data[i].salesType === '0') {
-                _this.data[i].salesType = '单品销售';
-              } else {
-                _this.data[i].salesType = '组合销售';
-              }
               if (res.data.length > 0) {
                 if (_this.data[i].fileInputId === res.data[0].fileInputId) {
                   _this.data[i].fileName = res.data[0].fileName;
