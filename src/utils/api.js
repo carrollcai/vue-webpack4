@@ -19,13 +19,14 @@ const upload = (url, method) => params => {
 };
 
 export default {
+  /* 公共 */
   getProvinceAPI: API('/esop/secBranch/queryStaticData'),
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
   queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
   queryRegionRelationListAPI: API('/esop/operator/getRegionRelationList'),
-
   /* 附件 */
   getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
+  uploadFileAPI: upload('/esop/elec/upload'), // 附件上传
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -69,16 +70,17 @@ export default {
   getOrderListAPI: API('/esop/bizOrder/overView'), // 订单总览
   getCreateManageListAPI: API('/esop/bizOrder/createView'), // 订单创建管理
   getHandleTaskListAPI: API('/esop/bizOrder/queryTaskInfo'), // 订单处理任务
-  uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
+  // uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
   getOrganizeAddressAPI: API('/esop/organize/queryLikeName'), // 查询集团地址
   createOrderAPI: API('/esop/bizOrder/save'), // 新建订单
   updateOrderAPI: API('/esop/bizOrder/update'), // 修改订单
   getOrderDetailAPI: API('/esop/bizOrder/detail'), // 获取订单详情
-  getAssignhandlerAPI: API('http://localhost:3618/order/overview'), // 获取分派
-  createAssignAPI: API('http://localhost:3618/order/overview'), // 创建分派
+  getAssignhandlerAPI: API('/esop/operator/getAssignOperatorList'), // 获取分派
+  createAssignAPI: API('/esop/bizOrder/nodeMove'), // 推动流程，创建分派resultStatus=0，取消resultStatus=3
   submitOrderRowAPI: API('/esop/bizOrder/startProcess'), // 提交订单
   deleteOrderRowAPI: API('/esop/bizOrder/delete'), // 删除订单,
   setConnectOriganizeAPI: API('/esop/bizOrder/updateOrganize'), // 关联集团
+  submitAssignContractAPI: API('/esop/bizOrder/updateFileId'), // 签约
 
   /* 登录相关 */
   loginApi: API('/esop/login/server'),
@@ -189,9 +191,9 @@ export default {
   // 保存草稿商机
   saveBusinessDraftAPI: API('/esop/bizOppor/create'),
   // 集团关联商机
-  groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  groupAssociationAPI: API('/esop/bizOppor/editOrg'),
   // 删除商机
-  delBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  delBusinessOpporityAPI: API('/esop/bizOppor/remove'),
   // 商机草稿详情查询
   getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取提醒人

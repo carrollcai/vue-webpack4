@@ -41,7 +41,7 @@
         <el-table-column label="合作集团" property="organizeName">
           <template slot-scope="scope">
             <span style="margin-right: 10px">{{ scope.row.organizeName }}</span>
-            <el-popover v-if="scope.row.organizeId" placement="top" width="200" trigger="hover">
+            <el-popover v-if="!scope.row.organizeId" placement="top" width="200" trigger="hover">
               <div class="tipText1">系统暂未录入该集团，请尽快关联！</div>
               <div class="tipText tipText1 el-dropdown-link" @click="showAssociate(scope.row)">立即关联</div>
               <i class="icon-info" slot="reference"></i>
@@ -76,7 +76,7 @@
     <el-dialog class="business-create-manage-dialog" width="433px" height="312px" title="立即关联" :visible.sync="relationDialogVisible">
       <el-form ref="form">
         <el-form-item label="关联集团名称/编码：" prop="">
-          <el-autocomplete style="width: 390px;" v-model="relationcooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+          <el-autocomplete style="width: 390px;" v-model="relationcooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="selectOrg" @blur="noData = false;"></el-autocomplete>
           <el-card class="box-card" v-if="noData">
             <div>
               系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
@@ -118,7 +118,8 @@ export default {
       cooperNum: '',
       relationDialogVisible: false,
       relationcooperName: '',
-      noData: false
+      noData: false,
+      editOrgParam: {}
     };
   },
   watch: {
@@ -179,25 +180,33 @@ export default {
       // params.opporStatus = parseInt(this.status);
       this.getMyBusinessList(params);
     },
-    querySearchAsync(queryString, cb) {
-      var cooperNumList = this.cooperNumList;
-      var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
-      if (results.length === 0) {
-        this.noData = true;
-      } else {
-        this.noData = false;
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 10,
+        organizeName: queryString
       };
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
+      await this.getCooperationGroupList(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var cooperationGroupList = this.cooperationGroupList;
+        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        if (results.length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        };
         cb(results);
-      }, 100 * Math.random());
+      }, 1000);
     },
     createStateFilter(queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
-    handleSelect(item) {
+    selectOrg(item) {
+      this.editOrgParam.organizeId = item.organizeId;
+      this.editOrgParam.organizeName = item.organizeName;
     },
     handleSubmit(row) {
       this.$confirm('您确定要提交该条商机信息?', ' ', {
@@ -205,9 +214,15 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          dangerouslyUseHTMLString: true,
-          message: '<p>您已成功提交该条商机！</p><p>处理人：张三疯</p>'
+        const param = {};
+        param.id = row.opporId.toString();
+        var _this = this;
+        this.submitBusinessDraft(param).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+          } else {
+            _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+          }
         });
       }).catch(() => {
         this.$message('已取消提交');
@@ -219,7 +234,16 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message('您已成功删除该条商机！');
+        const param = {};
+        param.opporId = row.opporId;
+        var _this = this;
+        this.delBusinessOppority(param).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({ showClose: true, message: '您已成功删除该条商机！', type: 'success' });
+          } else {
+            _this.$message({ showClose: true, message: '删除失败！', type: 'error' });
+          }
+        });
       }).catch(() => {
         this.$message('已取消删除');
       });
@@ -229,17 +253,19 @@ export default {
       this.$router.push(path);
     },
     showAssociate(row) {
-      this.relationcooperName = '';
+      this.editOrgParam.opporId = row.opporId;
       this.relationDialogVisible = true;
     },
     relationConfirm() {
-      this.groupAssociation().then(res => {
-        this.$message({
-          type: 'success',
-          message: '您已成功关联: '
-        });
-        this.relationcooperName = '';
-        this.hideAssociate();
+      var _this = this;
+      this.groupAssociation(this.editOrgParam).then(res => {
+        if (res.data && res.errorInfo.code === '200') {
+          _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
+          _this.editOrgParam = {};
+          _this.hideAssociate();
+        } else {
+          _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
+        }
       });
     },
     relationCancel() {
@@ -250,7 +276,7 @@ export default {
       this.relationDialogVisible = false;
     },
     ...mapActions([
-      'getCooperationGroupList', 'getMyBusinessList', 'groupAssociation', 'delBusinessOppority'
+      'getCooperationGroupList', 'getMyBusinessList', 'groupAssociation', 'delBusinessOppority', 'submitBusinessDraft'
     ])
   }
 };

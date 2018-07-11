@@ -201,7 +201,7 @@ export default {
     const { opporId } = this.$route.params;
     this.getBusinessDetail({ opporId });
     // this.getBusinessCategoryList();
-    this.getCooperationGroupList();
+    // this.getCooperationGroupList();
     // this.getDesignatePerson();
   },
   computed: {

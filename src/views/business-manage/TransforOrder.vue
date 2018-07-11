@@ -182,13 +182,18 @@ export default {
   },
   beforeMount() {
     const { opporId } = this.$route.params;
-    this.getTransforOrderDetail({ opporId });
-    this.getCooperationGroupList();
+    this.getBusinessDetail({ opporId });
+    // this.getTransforOrderDetail({ opporId });
+    // this.getCooperationGroupList();
   },
   computed: {
+    businessData() {
+      return this.$store.getters.businessDetail;
+    },
     ...mapState({
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
-      transforOrderDetail: ({ business }) => business.transforOrderDetail
+      transforOrderDetail: ({ business }) => business.transforOrderDetail,
+      businessDetail: ({business}) => business.businessDetail
     })
   },
   methods: {
@@ -233,7 +238,7 @@ export default {
       });
     },
     ...mapActions([
-      'getTransforOrderDetail', 'getCooperationGroupList', 'getOfficeAddress'
+      'getTransforOrderDetail', 'getCooperationGroupList', 'getOfficeAddress', 'getBusinessDetail'
     ])
   }
 };

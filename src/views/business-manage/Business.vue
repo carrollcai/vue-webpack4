@@ -72,7 +72,8 @@ export default {
     return {
       status: '',
       cooperNum: '',
-      timeRange: ''
+      timeRange: '',
+      organizeNameList: []
     };
   },
   watch: {
@@ -109,14 +110,20 @@ export default {
       }
       this.getBusinessList(params);
     },
-    querySearchAsync(queryString, cb) {
-      var cooperNumList = this.cooperNumList;
-      var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 10,
+        organizeName: queryString
+      };
+      await this.getCooperationGroupList(params);
 
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 100 * Math.random());
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        this.organizeNameList = this.cooperationGroupList;
+
+        cb(this.cooperationGroupList);
+      }, 1000);
     },
     createStateFilter(queryString) {
       return (state) => {
