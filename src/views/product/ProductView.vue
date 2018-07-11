@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column label="最近更新时间" property="updatedate">
       </el-table-column>
-      <el-table-column label="创建人" property="operatorCn" width="80">
+      <el-table-column label="创建人" property="operatorId" width="80">
       </el-table-column>
       <el-table-column label="操作" property="">
         <template slot-scope="operation">
