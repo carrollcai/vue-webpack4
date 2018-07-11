@@ -4,28 +4,25 @@
       <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="params.organizeType" clearable placeholder="集团属性">
+            <el-select v-model="organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="params.provinceId" clearable placeholder="需求类型">
+            <el-select v-model="provinceId" clearable placeholder="需求类型">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="params.managerName" clearable placeholder="客户名称"/>
+            <el-input v-model="managerName" clearable placeholder="客户名称"/>
           </el-form-item>
         </div>
 
         <div class="flex">
           <el-form-item class="role-form-item">
             <el-button type="primary" @click="query">查询</el-button>
-          </el-form-item>
-          <el-form-item class="role-form-item">
-            <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">新增需求</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -118,18 +115,6 @@ export default {
 }
 
 .requirement-handle-management {
-  .el-tabs__header{
-    margin-bottom: 0;
-  }
-
-  .el-tabs__nav-wrap::after{
-    height: 0;
-  }
-
-  .query-block{
-    padding-bottom: 0;
-  }
-
   .requirement-list{
     margin-top: $blockWidth;
   }

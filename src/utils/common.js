@@ -48,7 +48,9 @@ export function jsonToFormData(json) {
   let formData = new FormData();
   for (let x in json) {
     if (Array.isArray(json[x])) {
-      json[x].forEach(val => formData.append(`${x}[]`, val));
+      json[x].forEach(val => {
+        formData.append(`${x}`, val);
+      });
     } else {
       formData.append(`${x}`, json[x]);
     }

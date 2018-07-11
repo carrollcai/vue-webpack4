@@ -36,6 +36,11 @@ import CustomerDetail from '@/views/group-customer/detail/CustomerDetail.vue';
 import CustomerAudit from '@/views/group-customer/detail/CustomerAudit.vue';
 import CustomerAuditDetail from '@/views/group-customer/detail/CustomerAuditDetail.vue';
 
+/* 客户需求 */
+import RequirementManagement from '@/views/requirement/management/RequirementManagement.vue';
+import RequirementHandleList from '@/views/requirement/management/RequirementHandleList.vue';
+import RequirementCreate from '@/views/requirement/create/RequirementCreate.vue';
+
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
 import User from '@/views/system/User.vue';
@@ -87,7 +92,8 @@ const dynamicRoutes = [
       {
         path: '/product/product-view',
         name: 'product-view',
-        component: ProductView
+        component: ProductView,
+        meta: { menuId: 17 }
       },
       {
         path: '/product/product-detail/:id',
@@ -97,27 +103,32 @@ const dynamicRoutes = [
       {
         path: '/product/product-creat-manage',
         name: 'product-creat-manage',
-        component: ProductCreatManage
+        component: ProductCreatManage,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-base-info/:id',
         name: 'create-base-infos',
-        component: createBaseInfo
+        component: createBaseInfo,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-base-info/',
         name: 'create-base-info',
-        component: createBaseInfo
+        component: createBaseInfo,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-sale-step/',
         name: 'create-sale-step',
-        component: CreateSaleStep
+        component: CreateSaleStep,
+        meta: { menuId: 18 }
       },
       {
         path: '/product/create-sale-step/:id',
         name: 'create-sale-step',
-        component: CreateSaleStep
+        component: CreateSaleStep,
+        meta: { menuId: 18 }
       },
 
       // { path: '/task/management', component: TaskManagement, meta: { menuId: 6 } },
@@ -232,6 +243,25 @@ const dynamicRoutes = [
       },
 
       {
+        path: '/requirement/manage',
+        name: 'requirement-manage',
+        component: RequirementManagement,
+        meta: { menuId: 28 }
+      },
+      {
+        path: '/requirement/create',
+        name: 'requirement-create',
+        component: RequirementCreate,
+        meta: { menuId: 28 }
+      },
+      {
+        path: '/requirement/list',
+        name: 'requirement-list',
+        component: RequirementHandleList,
+        meta: { menuId: 29 }
+      },
+
+      {
         path: '/visit/mission-handling',
         name: 'visit-mission-handling',
         component: MissionHandling,
@@ -281,7 +311,7 @@ const dynamicRoutes = [
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
 
       { path: '/order/overview', component: OrderOverview, meta: { menuId: 13 } },
-      { path: '/order/overview/detail/:id/:processId?', component: OrderOverviewDetail },
+      { path: '/order/overview/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 13 } },
       { path: '/order/create-manage', component: OrderCreateManage, meta: { menuId: 14 } },
       { path: '/order/manage/:type/:id?', component: OrderCreate, meta: { menuId: 14 } },
       { path: '/order/create-manage/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 14 } },

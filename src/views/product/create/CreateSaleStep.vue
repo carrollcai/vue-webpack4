@@ -183,7 +183,8 @@ export default {
         fileTypeId: 502,
         moduleId: 1,
         expireDate: '',
-        effectiveDate: ''
+        effectiveDate: '',
+        files: []
       },
       formDataValid: {
         composedProduct: [
@@ -401,9 +402,10 @@ export default {
     },
     fileChange(files, fileList) {
       if (fileList.length > 1) {
-        fileList.splice(0, 1);
+        // fileList.splice(0, 1);
       }
-      this.uploadData.files = files.raw;
+      // this.uploadData.files = files.raw;
+      this.uploadData.files.push(files.raw);
     },
     removeFile(files, fileList) {
       var _this = this;
