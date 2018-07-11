@@ -406,7 +406,6 @@ export default {
       if (files.elecInstId) {
         this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
           if (res.errorInfo.code === '200') {
-            console.log(fileList.length);
             if (fileList.length === 0) {
               _this.uploadData.fileInputId = '';
               _this.formData.fileInputId = '';
