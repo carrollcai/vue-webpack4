@@ -156,7 +156,7 @@ export default {
           fileTypeId: 502,
           moduleId: 1,
           files: this.assignForm.files
-        }
+        };
         await this.uploadOrderHandleTask(params);
 
         let submitParams = {
@@ -166,7 +166,7 @@ export default {
             taskInsId: this.taskInsId,
             resultStatus: '4'
           }
-        }
+        };
         await this.submitAssignContract(submitParams);
 
         // 不能利用submit事件，因为会重复提交一次action

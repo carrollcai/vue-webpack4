@@ -113,7 +113,7 @@ const actions = {
   },
   submitAssignContract: ({ commit }, params) => {
     return API.submitAssignContractAPI(params);
-  },
+  }
 };
 
 export default actions;
