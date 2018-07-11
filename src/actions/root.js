@@ -38,7 +38,12 @@ const actions = {
         // 订单模块
         'ORD_STATUS',
         'PROJECT_INVITATION',
-        'PREDICT_AGREEMENT_TIME'
+        'PREDICT_AGREEMENT_TIME',
+        // 商机模块
+        'WEATHER', // 是否
+        'BIZ_OPPOR_TYPE', // 商机类别
+        'BIZ_OPPOR_STATUS', // 商机状态
+        'PREDICT_AGREEMENT_TIME'// 预计协议期
       ]
     };
 
