@@ -3,7 +3,7 @@
   <el-form :inline="true" :model="formData" class="demo-form-inline">
     <el-form-item>
       <el-col>
-        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-col>
     </el-form-item>
@@ -31,19 +31,19 @@
     :pageSize="formData.pageSize"
     @onPagination="onPagination"
     @onSizePagination="onSizePagination">
-      <el-table-column label="产品编码" property="productCode">
+      <el-table-column label="产品编码" show-overflow-tooltip width="170" property="productCode">
       </el-table-column>
       <el-table-column label="产品名称" show-overflow-tooltip property="productName">
       </el-table-column>
-      <el-table-column label="产品类别" property="productType" width="80" :formatter="productTypeFn">
+      <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
       </el-table-column>
-      <el-table-column label="创建时间" property="insertdate">
+      <el-table-column label="创建时间" width="170" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" property="updatedate">
+      <el-table-column label="最近更新时间" width="170" property="updatedate">
       </el-table-column>
-      <el-table-column label="创建人" property="operatorId" width="80">
+      <el-table-column label="创建人" show-overflow-tooltip property="operatorId" width="100">
       </el-table-column>
-      <el-table-column label="操作" property="">
+      <el-table-column label="操作" property="" width="80">
         <template slot-scope="operation">
           <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
         </template>
@@ -96,9 +96,8 @@ export default {
       this.formData.pageSize = value;
       this.query();
     },
-    checkProductName() {
-      var data = {productName: this.formData.productName};
-      this.getComposedProduct(data);
+    checkProductName(value) {
+      this.formData.productName = String(value).trim();
     },
     getTimeRange(time) {
       if (time) {
