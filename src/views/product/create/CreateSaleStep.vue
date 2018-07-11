@@ -74,9 +74,6 @@
                 <el-button slot="trigger" size="small">选择文件</el-button>
               </el-upload>
             </el-form-item>
-            <el-form-item label="" label-width="130px">
-              <el-button type="primary" round size="mini" @click="submitAssignForm()"><i class="icon-up margin-right-8"></i>上传</el-button>
-            </el-form-item>
             <el-row class="mt28 mb10">
               <el-button type="primary" round size="mini" @click="onSubmit(formData)">确定</el-button>
               <el-button round size="mini" @click="reset(formData)">取消</el-button>
@@ -266,6 +263,7 @@ export default {
       var _this = this;
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
+          this.submitAssignForm();
           if (_this.isAddProduct) {
             if (_this.addItem) {
               _this.formData.state = 2;
@@ -401,10 +399,6 @@ export default {
       }
     },
     fileChange(files, fileList) {
-      if (fileList.length > 1) {
-        // fileList.splice(0, 1);
-      }
-      // this.uploadData.files = files.raw;
       this.uploadData.files.push(files.raw);
     },
     removeFile(files, fileList) {
@@ -412,16 +406,18 @@ export default {
       if (files.elecInstId) {
         this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
           if (res.errorInfo.code === '200') {
-            _this.formDataValid.files = null;
-            _this.uploadData.fileInputId = '';
-            _this.formData.fileInputId = '';
+            console.log(fileList.length);
+            if (fileList.length === 0) {
+              _this.uploadData.fileInputId = '';
+              _this.formData.fileInputId = '';
+            }
           }
         });
       } else {
         this.formDataValid.files = null;
       }
     },
-    submitAssignForm(vaildData) {
+    submitAssignForm() {
       var _this = this;
       if (this.isShow && this.isAddProduct) {
         // 修改
