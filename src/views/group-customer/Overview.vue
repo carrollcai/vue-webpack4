@@ -38,8 +38,8 @@
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="organizeId" />
-        <el-table-column label="集团名称" property="organizeName">
+        <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
+        <el-table-column label="集团名称" property="organizeName" show-overflow-tooltip>
         </el-table-column>
         <el-table-column label="集团属性" property="organizeTypeName" >
         </el-table-column>
