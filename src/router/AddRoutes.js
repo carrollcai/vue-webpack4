@@ -36,6 +36,11 @@ import CustomerDetail from '@/views/group-customer/detail/CustomerDetail.vue';
 import CustomerAudit from '@/views/group-customer/detail/CustomerAudit.vue';
 import CustomerAuditDetail from '@/views/group-customer/detail/CustomerAuditDetail.vue';
 
+/* 客户需求 */
+import RequirementManagement from '@/views/requirement/management/RequirementManagement.vue';
+import RequirementHandleList from '@/views/requirement/management/RequirementHandleList.vue';
+import RequirementCreate from '@/views/requirement/create/RequirementCreate.vue';
+
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
 import User from '@/views/system/User.vue';
@@ -235,6 +240,25 @@ const dynamicRoutes = [
         name: 'group-customer-audit',
         component: CustomerAudit,
         meta: { menuId: 26 }
+      },
+
+      {
+        path: '/requirement/manage',
+        name: 'requirement-manage',
+        component: RequirementManagement,
+        meta: { menuId: 28 }
+      },
+      {
+        path: '/requirement/create',
+        name: 'requirement-create',
+        component: RequirementCreate,
+        meta: { menuId: 28 }
+      },
+      {
+        path: '/requirement/list',
+        name: 'requirement-list',
+        component: RequirementHandleList,
+        meta: { menuId: 29 }
       },
 
       {

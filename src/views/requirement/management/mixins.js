@@ -41,7 +41,7 @@ export default {
         organizeType,
         provinceId,
         managerName,
-        taskStatusList: STATUS[this.activeName]
+        taskStatusList: this.STATUS[this.activeName]
       };
     },
     query() {

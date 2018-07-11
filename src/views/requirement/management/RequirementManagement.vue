@@ -122,18 +122,6 @@ export default {
 }
 
 .requirement-management {
-  .el-tabs__header{
-    margin-bottom: 0;
-  }
-
-  .el-tabs__nav-wrap::after{
-    height: 0;
-  }
-
-  .query-block{
-    padding-bottom: 0;
-  }
-
   .requirement-list{
     margin-top: $blockWidth;
   }
