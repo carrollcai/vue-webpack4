@@ -92,7 +92,17 @@ export default {
     handleSubmit() {
       const param = {};
       param.id = this.businessDetail.opporId;
-      this.submitBusinessDraft(param);
+      var _this = this;
+      this.submitBusinessDraft(param).then(res => {
+        if (res.data && res.errorInfo.code === '200') {
+          _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+          _this.reset();
+          const path = `/business-manage/business-create-manage`;
+          _this.$router.push(path);
+        } else {
+          _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+        }
+      });
     },
     // 点击分派
     handleSend(row) {

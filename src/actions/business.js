@@ -6,7 +6,7 @@ const actions = {
    * 查询“合作集团/编码”列表
    */
   getCooperationGroupList: ({ commit }, params) => {
-    return API.getCooperationGroupListAPI(params).then(res => {
+    return API.getOrganizeAddressAPI(params).then(res => {
       commit(types.COOPERATION_GROUP, res.data);
     });
   },
@@ -66,7 +66,7 @@ const actions = {
   submitBusinessDraft: ({ commit }, params) => {
     return API.submitBusinessDraftAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_DRAFT_STATUS, res.data);
-      return res.data;
+      return res;
     });
   },
   /**
@@ -75,7 +75,7 @@ const actions = {
   groupAssociation: ({ commit }, params) => {
     return API.groupAssociationAPI(params).then(res => {
       commit(types.GROUP_ASSOCIATION_STATUS, res.data);
-      return res.data.list;
+      return res;
     });
   },
   /**
@@ -83,7 +83,8 @@ const actions = {
    */
   delBusinessOppority: ({ commit }, params) => {
     return API.delBusinessOpporityAPI(params).then(res => {
-      commit(types.DEL_BUSINESS_STATUS, res.data);
+      commit(types.DEL_BUSINESS_STATUS, res);
+      return res;
     });
   },
   /**
