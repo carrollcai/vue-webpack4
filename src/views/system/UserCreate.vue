@@ -24,7 +24,7 @@
         </el-form-item>
 
         <el-form-item label="用户归属：" prop="opRegion">
-          <el-cascader class="form-input-large" expand-trigger="hover" :options="regionRelationList" v-model="userCreate.opRegion" @change="handleChange" placeholder="用户归属">
+          <el-cascader class="form-input-large" expand-trigger="hover" :options="regionRelationList" v-model="userCreate.opRegion" placeholder="用户归属">
           </el-cascader>
         </el-form-item>
 

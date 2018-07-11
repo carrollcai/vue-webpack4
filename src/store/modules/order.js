@@ -78,7 +78,7 @@ const mutations = {
     state.orderOverviewObj = Object.assign(state.orderOverviewObj, data);
   },
   [types.ORDER_QUERY_ORGANIZE_ADDRESS](state, data) {
-    state.orderOrganizeAddressList = data.list.map(val => Object.assign(val, {value: val.organizeName}));
+    state.orderOrganizeAddressList = data.list.map(val => Object.assign(val, { value: val.organizeName }));
   },
   [types.ORDER_CREATE](state, data) {
 
@@ -90,10 +90,28 @@ const mutations = {
     state.orderHandleTaskObj = Object.assign(state.orderHandleTaskObj, data);
   },
   [types.ORDER_QUERY_ASSIGN_HANDLER](state, data) {
-    state.assignHandlers = data;
+    // 改造指派人结构
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      newVal.children = val.childrenList && val.childrenList.filter(cval => cval.secOperatorDTOList).map(cval => {
+        let newCval = {};
+        newCval.value = cval.codeValue;
+        newCval.label = cval.codeName;
+        newCval.children = cval.secOperatorDTOList && cval.secOperatorDTOList.map(gcval => {
+          return {
+            value: gcval.operatorId,
+            label: gcval.staffName
+          };
+        });
+        return newCval;
+      });
+      return newVal;
+    });
+    state.assignHandlers = handlers.filter(val => val.children.length);
   },
   [types.ORDER_GET_HANDLE_TASK_DETAIL](state, data) {
-    console.log(data);
     state.handleTaskDetail = data;
   },
   [types.ORDER_OVERVIEW_GET_DETAIL](state, data) {

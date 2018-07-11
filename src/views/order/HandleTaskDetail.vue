@@ -11,11 +11,9 @@
       </div>
     </div>
     <div class="m-container o-overview-detail">
+
       <div class="task-detail-content">
-        <audit-steps v-if="processList.length" :processList="processList"></audit-steps>
-
         <detail-bar v-if="routeType === 'detail'" :title="['处理结果：', '付款金额：']" :content="['已完成', '1000万元']" />
-
         <detail-content v-if="Object.keys(handleTaskDetail).length" :orderOverviewDetail="handleTaskDetail" />
       </div>
 
@@ -23,17 +21,18 @@
 
       <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
         <el-form-item label="处理结果：">
-          <el-radio v-model="assignForm.radio" :label="1">完成签约</el-radio>
-          <el-radio v-model="assignForm.radio" :label="0">客户取消</el-radio>
+          <el-radio v-model="assignForm.status" :label="1">完成签约</el-radio>
+          <el-radio v-model="assignForm.status" :label="0">客户取消</el-radio>
         </el-form-item>
-        <el-form-item label="签约合同：" prop="file">
+        <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files">
           <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
             <el-button slot="trigger" size="small">
               <i class="icon-up margin-right-8"></i>上传文件</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitAssignForm()">提交</el-button>
+          <el-button type="primary" @click="submitAssignForm()">确定</el-button>
+          <form-cancel :path="'/order/handle-task'">取消</form-cancel>
         </el-form-item>
       </el-form>
 
@@ -44,7 +43,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitPayForm()">提交</el-button>
+          <el-button type="primary" @click="submitPayForm()">确定</el-button>
           <form-cancel :path="'/order/handle-task'">取消</form-cancel>
         </el-form-item>
       </el-form>
@@ -62,15 +61,12 @@ import { mapActions, mapState } from 'vuex';
 import AuditSteps from 'components/task/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
+import { multFileValid } from '@/utils/rules.js';
 
 export default {
   data() {
     const fileCheck = (rule, value, callback) => {
-      if (!this.assignForm.file) {
-        callback(new Error('请上传文件'));
-      } else {
-        callback();
-      }
+      multFileValid(this.assignForm.files, callback);
     };
     return {
       payForm: {
@@ -82,11 +78,11 @@ export default {
         ]
       },
       assignForm: {
-        radio: 1,
-        file: null
+        status: 1,
+        files: []
       },
       assignRules: {
-        file: [
+        files: [
           { validator: fileCheck }
         ]
       },
@@ -109,11 +105,9 @@ export default {
       processList: ({ order }) => order.processList
     })
   },
-  async beforeMount() {
-    const { id, processId } = this.$route.params;
-
-    await this.getOrderOverviewProcess({ processInsId: processId });
-    await this.getHandleTaskDetail({ ordId: id });
+  beforeMount() {
+    const { id } = this.$route.params;
+    this.getHandleTaskDetail({ ordId: id });
   },
   watch: {
     '$route'() {
@@ -124,26 +118,56 @@ export default {
     routeChange() {
       this.routeType = this.$route.params.type;
       this.id = this.$route.params.id;
+      this.taskInsId = this.$route.query.taskInsId;
     },
     fileChange(file, fileList) {
-      if (fileList.length > 1) {
-        fileList.splice(0, 1);
-      }
-      this.assignForm.file = file.raw;
+      this.assignForm.files.push(file.raw);
+
       // 校验文件
-      this.$refs.assign.validateField('file');
+      this.$refs.assign.validateField('files');
     },
-    removeFile(files, fileList) {
-      this.assignForm.file = null;
+    removeFile(file, fileList) {
+      // 筛选选中的文件
+      let index = this.assignForm.files.findIndex(val => val.uid === file.raw.uid);
+
+      this.assignForm.files.splice(index, 1);
+
+      this.$refs.assign.validateField('files');
     },
     submitAssignForm() {
-      this.$refs.assign.validate(valid => {
+      // 客户取消
+      if (!this.assignForm.status) {
+        let params = {
+          id: this.id,
+          taskInsId: this.taskInsId,
+          resultStatus: '3'
+        };
+        this.cancelAssign(params);
+        return false;
+      }
+
+      this.$refs.assign.validate(async valid => {
         if (!valid) return false;
 
-        // 先获取附件id再上传。
-        this.getNewFileInputId().then(() => {
-          this.uploadOrderHandleTask(this.assignForm);
-        });
+        // 先获取附件id再上传,再提交表单。
+        let fileInputId = await this.getNewFileInputId();
+        let params = {
+          fileInputId,
+          fileTypeId: 502,
+          moduleId: 1,
+          files: this.assignForm.files
+        };
+        await this.uploadOrderHandleTask(params);
+
+        let submitParams = {
+          fileId: fileInputId,
+          taskRequest: {
+            id: this.id,
+            taskInsId: this.taskInsId,
+            resultStatus: '4'
+          }
+        };
+        await this.submitAssignContract(submitParams);
 
         // 不能利用submit事件，因为会重复提交一次action
         // this.$refs.upload.submit();
@@ -177,7 +201,8 @@ export default {
       'getNewFileInputId',
       'getHandleTaskDetail',
       'uploadOrderHandleTask',
-      'getOrderOverviewProcess'
+      'cancelAssign',
+      'submitAssignContract'
     ])
   }
 };

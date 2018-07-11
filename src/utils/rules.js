@@ -8,8 +8,9 @@ import {
   DATE_LIMIT,
   MONTH_LIMIT,
   INPUT_TEXT_LIMIT,
-  INPUT_TEXTAREA_LIMIT
-} from '@/config';
+  INPUT_TEXTAREA_LIMIT,
+  FILE_UPLOAD_LIMIT
+} from '@/config/index.js';
 import moment from 'moment';
 
 // 输入内容不能为空格
@@ -153,5 +154,16 @@ export const inte5Deci4 = (rule, value, callback) => {
     callback();
   } else {
     callback(new Error('整数部分最多5位，小数部分最多4位'));
+  }
+};
+
+// 多文件校验
+export const multFileValid = (files, callback) => {
+  if (!files.length) {
+    callback(new Error('请上传文件'));
+  } else if (files.length > FILE_UPLOAD_LIMIT) {
+    callback(new Error(`文件上传数量不能超过${FILE_UPLOAD_LIMIT}个`));
+  } else {
+    callback();
   }
 };

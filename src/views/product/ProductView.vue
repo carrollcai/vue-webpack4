@@ -31,15 +31,17 @@
     :pageSize="formData.pageSize"
     @onPagination="onPagination"
     @onSizePagination="onSizePagination">
-      <el-table-column label="产品编码" property="productId">
+      <el-table-column label="产品编码" property="productCode">
       </el-table-column>
-      <el-table-column label="产品名称" property="productName">
+      <el-table-column label="产品名称" show-overflow-tooltip property="productName">
       </el-table-column>
-      <el-table-column label="产品类别" property="productType" :formatter="productTypeFn">
+      <el-table-column label="产品类别" property="productType" width="80" :formatter="productTypeFn">
       </el-table-column>
       <el-table-column label="创建时间" property="insertdate">
       </el-table-column>
       <el-table-column label="最近更新时间" property="updatedate">
+      </el-table-column>
+      <el-table-column label="创建人" property="operatorId" width="80">
       </el-table-column>
       <el-table-column label="操作" property="">
         <template slot-scope="operation">
