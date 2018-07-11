@@ -42,7 +42,7 @@ const state = {
   groupAssociationStatus: '',
   delBusinessStatus: '',
   businessDraftDetail: '',
-  designatePerson: '',
+  designatePerson: [],
   remindPerson: [],
   submitBusinessSendStatus: '',
   submitBusinessCancelStatus: '',
@@ -88,16 +88,31 @@ const mutations = {
     state.businessDraftDetail = data.list;
   },
   [types.DESIGNATE_PERSON](state, data) {
-    state.designatePerson = data.list;
+    state.designatePerson = data.map(val => {
+      let _val = {};
+      _val.value = val.codeValue;
+      _val.label = val.codeName;
+      if (val.childrenList) {
+        let children = [];
+        val.childrenList.map(val => {
+          let _chi = {};
+          _chi.value = val.codeValue;
+          _chi.label = val.codeName;
+          children.push(_chi);
+        });
+        _val.children = children;
+      };
+      return _val;
+    });
   },
   [types.REMIND_PERSON](state, data) {
-    state.remindPerson = data.list;
+    state.remindPerson = data;
   },
   [types.SUBMIT_BUSINESS_SEND_STATUS](state, data) {
     state.submitBusinessSendStatus = data.list;
   },
   [types.SUBMIT_BUSINESS_CANCEL_STATUS](state, data) {
-    state.submitBusinessCancelStatus = data.list;
+    state.submitBusinessCancelStatus = data;
   },
   [types.SAVE_BUSINESS_DRAFT_STATUS](state, data) {
     state.saveBusinessDrafStatus = data.list;

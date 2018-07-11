@@ -108,8 +108,8 @@ const actions = {
    */
   getDesignatePerson: ({ commit }, params) => {
     return API.getDesignatePersonAPI(params).then(res => {
-      commit(types.DESIGNATE_PERSON, res.data.list);
-      return res.data.list;
+      commit(types.DESIGNATE_PERSON, res.data);
+      return res.data;
     });
   },
   /**
@@ -118,7 +118,7 @@ const actions = {
   submitBusinessSend: ({ commit }, params) => {
     return API.submitBusinessSendAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_SEND_STATUS, res.data);
-      return res.data.list;
+      return res.data;
     });
   },
   /**
@@ -127,7 +127,7 @@ const actions = {
   submitBusinessCancel: ({ commit }, params) => {
     return API.submitBusinessCancelAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_CANCEL_STATUS, res.data);
-      return res.data.list;
+      return res.data;
     });
   },
   /**

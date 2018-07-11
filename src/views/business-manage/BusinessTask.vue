@@ -53,7 +53,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </template>
-            <el-button v-if="scope.row.status === '已处理'" type="text" @click="handleDetail(scope.row)">
+            <el-button v-else type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
           </template>
@@ -63,8 +63,8 @@
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
-          <el-cascader style="width: 392px;" v-if="designPerson"
-            :options="designPerson"
+          <el-cascader style="width: 392px;" v-if="designatePerson"
+            :options="designatePerson"
             v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
@@ -125,7 +125,7 @@ export default {
       sendDialogVisible: false,
       cancelDialogVisible: false,
       sendForm: {
-        person: [],
+        person: '',
         reason: ''
       },
       cancelForm: {
@@ -136,8 +136,9 @@ export default {
         { 'label': '咪咕子公司', 'value': '1' },
         { 'label': '销售大区', 'value': '2' }
       ],
-      designPerson: [],
-      selectedDesignPerson: ''
+      selectedDesignPerson: '',
+      sendParam: {},
+      cancelParam: {}
     };
   },
   watch: {
@@ -185,36 +186,42 @@ export default {
     // 点击分派
     handleSend(row) {
       this.sendDialogVisible = true;
+      this.sendParam.taskInsId = row.taskInsId;
+      this.sendParam.resultStatus = '0';
+      this.sendParam.id = row.opporId;
       // 获取指派处理人
-      this.getDesignatePerson().then((res) => {
-        this.designPerson = res;
-      });
+      this.getDesignatePerson();
     },
     // 点击作废
     handleCancel(row) {
       this.cancelDialogVisible = true;
+      this.cancelParam.taskInsId = row.taskInsId;
+      this.cancelParam.resultStatus = '3';
+      this.cancelParam.id = row.opporId;
+      this.cancelParam.dealPerson = '';
+      this.cancelForm.reason = '';
     },
     // 分派取消
     sendCancel() {
       this.sendDialogVisible = false;
-      this.sendForm.person = [];
+      this.sendForm.person = '';
       this.sendForm.reason = '';
     },
     // 分派确定
     sendConfirm() {
-      let params = this.sendForm;
+      let params = this.sendParam;
+      params.dealResult = this.sendForm.reason;
+      params.dealPerson = this.sendForm.person.pop();
+      let _this = this;
       this.submitBusinessSend(params).then(res => {
-        this.$message({
-          type: 'success',
-          message: '您已成功分派！ '
-        });
-        // this.$message({
-        //   type: 'error',
-        //   message: '分派失败！ '
-        // });
-        this.sendDialogVisible = false;
-        this.sendForm.person = [];
-        this.sendForm.reason = '';
+        if (res.data && res.errorInfo.code === '200') {
+          _this.sendDialogVisible = false;
+          _this.sendForm.person = '';
+          _this.sendForm.reason = '';
+          _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+        } else {
+          _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+        }
       });
     },
     // 作废取消
@@ -224,18 +231,18 @@ export default {
     },
     // 作废确定
     cancelConfirm() {
-      let params = this.cancelForm;
+      let params = this.cancelParam;
+      params.dealResult = this.cancelForm.reason;
+      let _this = this;
       this.submitBusinessCancel(params).then(res => {
-        this.$message({
-          type: 'success',
-          message: '作废成功！ '
-        });
-        // this.$message({
-        //   type: 'error',
-        //   message: '作废失败！ '
-        // });
-        this.cancelDialogVisible = false;
-        this.cancelForm.reason = '';
+        if (res.data && res.errorInfo.code === '200') {
+          _this.cancelDialogVisible = false;
+          _this.cancelForm.person = '';
+          _this.cancelForm.reason = '';
+          _this.$message({ showClose: true, message: '作废成功！', type: 'success' });
+        } else {
+          _this.$message({ showClose: true, message: '作废失败！', type: 'error' });
+        }
       });
     },
     query() {

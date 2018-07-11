@@ -195,13 +195,14 @@ export default {
   // 商机草稿详情查询
   getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取提醒人
-  getRemindPersonAPI: API('http://localhost:3618/business-manage/businessDetail'),
+  getRemindPersonAPI: API('esop/operator/getRemindersOperatorList'),
   // 获取指派处理人
-  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren'),
+  getDesignatePersonAPI: API('esop/operator/getAssignOperatorList'),
+  // getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren'),
   // 提交分派
-  submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
+  submitBusinessSendAPI: API('esop/bizOppor/nodeMove'),
   // 提交作废
-  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren'),
+  submitBusinessCancelAPI: API('esop/bizOppor/nodeMove'),
   // 商机转订单(获取订单基本数据)
   getTransforOrderDetailAPI: API('esop/bizOppor/transOppor'),
   // 提交商机转订单
