@@ -149,7 +149,7 @@ export default {
       this.$refs.assign.validate(async valid => {
         if (!valid) return false;
 
-        // 先获取附件id再上传。
+        // 先获取附件id再上传,再提交表单。
         let fileInputId = await this.getNewFileInputId();
         let params = {
           fileInputId,
