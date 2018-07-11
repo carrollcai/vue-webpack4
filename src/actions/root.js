@@ -47,7 +47,9 @@ const actions = {
     });
   },
   getNewFileInputId: ({ commit }, params) => {
-    return API.getNewFileInputIdAPI(params);
+    return API.getNewFileInputIdAPI(params).then(res => {
+      return res.data;
+    });
   }
 };
 

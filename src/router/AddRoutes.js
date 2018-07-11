@@ -293,7 +293,7 @@ const dynamicRoutes = [
       { path: '/order/create-manage/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 14 } },
       { path: '/order/handle-task', component: OrderHandleTask, meta: { menuId: 15 } },
       // type为detail，sign，pay，detail-sign，detail-pay
-      { path: '/order/handle-task/:type/:id/:processId?', component: OrderHandleTaskDetail, meta: { menuId: 15 } },
+      { path: '/order/handle-task/:type/:id', component: OrderHandleTaskDetail, meta: { menuId: 15 } },
 
       { path: '*', component: Page404 }
     ]

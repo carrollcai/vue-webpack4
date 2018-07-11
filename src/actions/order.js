@@ -14,9 +14,7 @@ const actions = {
     });
   },
   uploadOrderHandleTask: ({ commit }, params) => {
-    return API.uploadOrderHandleTaskAPI(params).then((res) => {
-      console.log('上传成功');
-    });
+    return API.uploadFileAPI(params);
   },
   getOrganizeAddress: ({ commit }, params) => {
     return API.getOrganizeAddressAPI(params).then((res) => {
@@ -107,10 +105,15 @@ const actions = {
   },
   getOrderOverviewProcess: ({ commit }, params) => {
     return API.queryCustomerProcessedAPI(params).then(res => {
-      console.log(res);
       commit(types.ORDER_GET_PROCESS_LIST, res.data);
     });
-  }
+  },
+  cancelAssign: ({ commit }, params) => {
+    return API.createAssignAPI(params);
+  },
+  submitAssignContract: ({ commit }, params) => {
+    return API.submitAssignContractAPI(params);
+  },
 };
 
 export default actions;

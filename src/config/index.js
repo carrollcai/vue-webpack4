@@ -279,10 +279,10 @@ export const RETENTION_TREND_RADIO = {
 // 时间限制
 export const DATE_LIMIT = 30;
 export const MONTH_LIMIT = 12;
-
 export const INPUT_NUM_MAX = 2000;
 export const INPUT_TEXT_LIMIT = 15;
 export const INPUT_TEXTAREA_LIMIT = 50;
+export const FILE_UPLOAD_LIMIT = 5;
 
 export const CLIENT = [
   {

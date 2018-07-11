@@ -4,15 +4,12 @@
       <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
         <el-form ref="assignHandle" :rules="assignHandleRules" :model="assignHandle">
           <div class="handler">指派处理人：</div>
-          <el-form-item prop="handler">
-            <el-select class="form-input-large" v-model="assignHandle.handler" placeholder="请选择">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item prop="dealPerson">
+            <el-cascader class="form-input-large" expand-trigger="hover" :options="assignHandlers" v-model="assignHandle.dealPerson" placeholder="请选择"></el-cascader>
           </el-form-item>
           <div class="reason">分派的原因：</div>
-          <el-form-item prop="desc">
-            <el-input v-model="assignHandle.desc" class="form-input-large" type="textarea" placeholder="请输入优势能力" />
+          <el-form-item prop="dealResult">
+            <el-input v-model="assignHandle.dealResult" class="form-input-large" type="textarea" placeholder="请输入优势能力" />
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -93,23 +90,20 @@ export default {
       dialogVisible: false,
       currentRow: {},
       assignHandle: {
-        handler: '',
-        desc: ''
+        id: null,
+        dealPerson: null,
+        dealResult: '',
+        resultStatus: '0', // 写死
+        taskInsId: null
       },
       assignHandleRules: {
-        handler: [
+        dealPerson: [
           { required: true, message: '请选择指派处理人', trigger: 'change' }
         ],
-        desc: [
+        dealResult: [
           { required: true, message: '请输入分派的原因', trigger: 'blur' }
         ]
-      },
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }
-      ]
+      }
     };
   },
   components: {
@@ -118,7 +112,8 @@ export default {
   computed: {
     ...mapState({
       orderHandleTaskObj: ({ order }) => order.orderHandleTaskObj,
-      orderHandleTaskForm: ({ order }) => order.orderHandleTaskForm
+      orderHandleTaskForm: ({ order }) => order.orderHandleTaskForm,
+      assignHandlers: ({ order }) => order.assignHandlers
     })
   },
   beforeMount() {
@@ -126,11 +121,19 @@ export default {
     this.getHandleTaskList(_params);
   },
   methods: {
+    handleHandlerChange() {
+
+    },
     submitAssign() {
+      let params = Object.cloneDeep(this.assignHandle);
+      params.dealPerson = params.dealPerson.pop();
+      params.taskInsId = this.currentRow.taskInsId;
+      params.id = this.currentRow.ordId;
+
       this.$refs.assignHandle.validate(valid => {
         if (!valid) return false;
 
-        this.createAssign().then(() => {
+        this.createAssign(params).then(() => {
           this.query();
           this.dialogVisible = false;
         });
@@ -155,29 +158,29 @@ export default {
       this.query();
     },
     handlePay(row) {
-      const path = `/order/handle-task/pay/${row.ordId}`;
+      const path = `/order/handle-task/pay/${row.ordId}?taskInsId=${row.taskInsId}`;
       this.$router.push(path);
     },
     handleSign(row) {
-      const path = `/order/handle-task/sign/${row.ordId}`;
+      const path = `/order/handle-task/sign/${row.ordId}?taskInsId=${row.taskInsId}`;
       this.$router.push(path);
     },
     handleDispatch(row) {
       this.dialogVisible = true;
       this.currentRow = row;
       // 初始化输入框内容部数据
-      this.getAssignhandler(row.ordId);
+      this.getAssignhandler();
     },
     handleDetail(row) {
       const { businessStatus } = this.orderHandleTaskForm;
       let path = '';
       // 不同状态，详情页展示不一样
       if (businessStatus === 2) {
-        path = `/order/handle-task/detail-sign/${row.ordId}`;
+        path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}`;
       } else if (businessStatus === 3) {
-        path = `/order/handle-task/detail-pay/${row.ordId}`;
+        path = `/order/handle-task/detail-pay/${row.ordId}?taskInsId=${row.taskInsId}`;
       } else {
-        path = `/order/handle-task/detail/${row.ordId}/${row.processInsId}`;
+        path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}`;
       }
       this.$router.push(path);
     },
