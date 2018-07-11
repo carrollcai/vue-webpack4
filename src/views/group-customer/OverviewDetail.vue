@@ -27,7 +27,7 @@
           <el-row>
             <el-col :span="8">
               <span class="info_label">集团编码：</span>
-              <span class="info_content">{{customer.organizeName}}</span>
+              <span class="info_content">{{customer.organizeCode}}</span>
             </el-col>
             <el-col :span="8">
               <span class="info_label">集团属性：</span>
@@ -41,7 +41,7 @@
           <el-row>
             <el-col :span="8">
               <span class="info_label">成立时间：</span>
-              <span class="info_content">{{customer.organizeName}}</span>
+              <span class="info_content">{{formateDate(customer.establishTime)}}</span>
             </el-col>
             <el-col :span="16">
               <span class="info_label">公司地址：</span>
@@ -145,7 +145,7 @@
         </wm-table>
       </template>
       <template v-else>
-        <!-- <org-tree :contacts="contacts"></org-tree> -->
+        <org-tree :contacts="contacts"></org-tree>
       </template>
     </div>
   </div>
@@ -154,14 +154,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
-// import OrgTree from 'components/OrgTree.vue';
+import OrgTree from 'components/OrgTree.vue';
 import filters from './filters';
 import {PAGE_NO, PAGE_SIZE} from '@/config';
 import find from 'lodash/find';
 export default {
   components: {
-    WmTable
-    // OrgTree
+    WmTable,
+    OrgTree
   },
   mixins: [filters],
   data() {
