@@ -4,9 +4,10 @@
         <span class="title">商机类别：</span>
         <span class="content">{{detailData.opporType}}</span>
         <span class="title">预计协议期限：</span>
-        <span class="content">{{detailData.predictAgreementTime}}年</span>
+        <span class="content">{{detailData.predictAgreementTime}}</span>
         <span class="title">是否项目招标：</span>
-        <span class="content">{{detailData.isProjectInvitation}}</span>
+        <span class="content" v-if="detailData.isProjectInvitation === '0'">否</span>
+        <span class="content" v-if="detailData.isProjectInvitation === '1'">是</span>
       </div>
       <div class="business-detail-body-item">
         <span class="title">预计收入：</span>

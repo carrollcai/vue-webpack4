@@ -14,10 +14,10 @@
         <el-form-item label="商机类别：" prop="opporType">
           <el-select class="form-input-medium" v-model="form.opporType" placeholder="请选择属性">
               <el-option
-              v-for="item in businessCategoryList"
-              :key="item.value"
+              v-for="item in BIZ_OPPOR_TYPE"
+              :key="item.label"
               :label="item.label"
-              :value="item.value">
+              :value="item.label">
               </el-option>
           </el-select>
         </el-form-item>
@@ -32,10 +32,10 @@
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
               <el-option
-              v-for="item in protoTimeList"
-              :key="item.value"
+              v-for="item in PREDICT_AGREEMENT_TIME"
+              :key="item.label"
               :label="item.label"
-              :value="item.value">
+              :value="item.label">
               </el-option>
           </el-select>
         </el-form-item>
@@ -48,12 +48,10 @@
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactGender" style="display: inline-block;">
             <el-select class="form-input-80" v-model="form.contactGender" placeholder="性别">
-                <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-                </el-option>
+              <el-option v-for="item in SEX"
+                    :key="item.value"
+                    :value="item.value"
+                    :label="item.label" ></el-option>
             </el-select>
           </el-form-item>
           <span class="form-input-sep">-</span>
@@ -115,7 +113,9 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { checkPhone, emailCheck, inte5Deci4 } from '@/utils/rules.js';
+import filters from '@/views/business-manage/filters';
 export default {
+  mixins: [filters],
   components: {
   },
   data() {
@@ -138,15 +138,12 @@ export default {
         needCoordinationIssue: '',
         reminders: ''
       },
+      organizeNameList: [],
       resetForm: {},
       businessCategoryList: [
         { 'label': '公司级商机', 'value': '0' },
         { 'label': '分公司级商机', 'value': '1' },
         { 'label': '普通商机', 'value': '2' }
-      ],
-      options: [
-        { 'label': '男', 'value': '0' },
-        { 'label': '女', 'value': '1' }
       ],
       protoTimeList: [
         { 'label': '1年', 'value': '1年' },
@@ -203,7 +200,6 @@ export default {
   beforeMount() {
     this.resetForm = Object.cloneDeep(this.form);
     // this.getBusinessCategoryList();
-    this.getCooperationGroupList();
     // this.getDesignatePerson();
   },
   computed: {
@@ -216,18 +212,24 @@ export default {
     })
   },
   methods: {
-    querySearchAsync(queryString, cb) {
-      var cooperationGroupList = this.cooperationGroupList;
-      var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
-      if (results.length === 0) {
-        this.noData = true;
-      } else {
-        this.noData = false;
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 10,
+        organizeName: queryString
       };
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
+      await this.getCooperationGroupList(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var cooperationGroupList = this.cooperationGroupList;
+        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        if (results.length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        };
         cb(results);
-      }, 100 * Math.random());
+      }, 1000);
     },
     createStateFilter(queryString) {
       return (state) => {

@@ -185,7 +185,7 @@ export const MENU_PERMISSIONS = [
   },
   {menuId: 27,
     name: '客户需求管理',
-    url: '/visit',
+    url: '/requirement',
     icon: 'icon-business',
     enable: false,
     children: [
@@ -193,14 +193,14 @@ export const MENU_PERMISSIONS = [
         menuId: 28,
         parentId: 27,
         name: '需求创建管理',
-        url: '/visit/my-visit-manage',
+        url: '/requirement/manage',
         enable: false
       },
       {
         menuId: 29,
         parentId: 27,
         name: '需求任务处理',
-        url: '/visit/visit-appoint',
+        url: '/requirement/list',
         enable: false
       }
     ]

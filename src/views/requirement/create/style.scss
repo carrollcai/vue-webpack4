@@ -4,7 +4,7 @@
     margin-top: 16px;
 
     .el-form{
-      .el-select .el-input, .el-textarea {
+      .el-select .el-input, .el-textarea, .el-autocomplete {
         width: $formLargeWidth;
       }
     }
@@ -24,8 +24,4 @@
     border-top: 1px solid $line-color;
     margin-top: 20px;
   }
-
-/*   .processor{
-    width: $formMediumWidth;
-  } */
 }

@@ -191,9 +191,9 @@ export default {
   // 保存草稿商机
   saveBusinessDraftAPI: API('/esop/bizOppor/create'),
   // 集团关联商机
-  groupAssociationAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  groupAssociationAPI: API('/esop/bizOppor/editOrg'),
   // 删除商机
-  delBusinessOpporityAPI: API('http://localhost:3618/business-manage/submitBusinessOppority'),
+  delBusinessOpporityAPI: API('/esop/bizOppor/remove'),
   // 商机草稿详情查询
   getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取提醒人

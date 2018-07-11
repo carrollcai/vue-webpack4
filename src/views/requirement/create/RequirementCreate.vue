@@ -2,7 +2,7 @@
   <div class="requirement-create">
     <div class="m-container">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/group-customer/create-manage' }">需求创建管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/requirement/manage' }">需求创建管理</el-breadcrumb-item>
         <el-breadcrumb-item>新增需求</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -14,33 +14,16 @@
         key="baseForm">
           <div class="block">
             <el-form-item label="需求客户" required key="org-group">
-              <el-col :span="11">
-                <el-form-item prop="orgCode" key="org-group_code">
-                    <el-autocomplete
-                      key="org-group_code-input"
-                      v-model="requirement.orgCode"
-                      :fetch-suggestions="querySearchAsync"
-                      placeholder="集团编码"
-                      :trigger-on-focus="false"
-                      value-key="staffName"
-                      label="operatorId"
-                      @select="handleSelect"
-                    ></el-autocomplete>
-                </el-form-item>
-              </el-col>
-              <el-col :span="2" class="line-container">
-                <div class="line"></div>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item key="org-group_name" >
-                  <el-input class="col-input"
-                    v-model="requirement.position"
-                    placeholder="集团名称"
-                    :maxlength="15"
-                    readonly
-                    key="org-group_name-input"></el-input>
-                </el-form-item>
-              </el-col>
+              <el-autocomplete
+                key="org-group_code-input"
+                v-model="requirement.orgCode"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="集团名称"
+                :trigger-on-focus="false"
+                value-key="staffName"
+                label="operatorId"
+                @select="handleSelect"
+              ></el-autocomplete>
             </el-form-item>
             <el-form-item label="需求类型" prop="type" required key="requirement-type">
               <el-radio-group v-model="requirement.type">
@@ -177,7 +160,6 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitRequirement">提交处理</el-button>
-              <el-button type="primary" @click="saveRequirement">保存为草稿</el-button>
             </el-form-item>
           </div>
       </el-form>
@@ -253,13 +235,6 @@ export default {
     handleRemove(file, fileList) {
       this.requirement.uploadFiles.splice(0, 1);
       return true;
-    },
-    saveRequirement() {
-      this.$refs.baseForm.validate((valid) => {
-        if (valid) {
-          this.createCustomer(this.requirement);
-        }
-      });
     },
     submitRequirement() {
       this.$refs.baseForm.validate((valid) => {
