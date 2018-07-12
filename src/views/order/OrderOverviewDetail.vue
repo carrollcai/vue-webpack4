@@ -10,7 +10,7 @@
     </div>
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
-        <audit-steps v-if="processList.length" :processList="processList" />
+        <audit-steps v-if="this.$route.params.processId && processList.length" :processList="processList" />
 
         <detail-content v-if="Object.keys(orderOverviewDetail).length" :orderOverviewDetail="orderOverviewDetail" />
       </div>
