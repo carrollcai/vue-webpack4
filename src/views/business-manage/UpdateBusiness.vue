@@ -94,7 +94,7 @@
           <el-form label-width="140px" style="width: 460px;">
             <el-form-item label="提醒人：">
               <!--v-model="businessData.reminders"-->
-              <el-select class="form-input-medium" multiple v-model="businessData.reminders" placeholder="请选择提醒人" @change="changeReminders">
+              <el-select class="form-input-medium" multiple v-model="businessData.remindersArr" placeholder="请选择提醒人" @change="changeReminders">
                   <el-option
                   v-for="item in remindPerson"
                   :key="item.operatorId"
@@ -104,8 +104,8 @@
               </el-select>
             </el-form-item>
             <el-form-item label="">
-              <el-button type="primary" @click="submit">提交</el-button>
-              <el-button plain @click="cancel">取消</el-button>
+              <el-button type="primary" @click="save">保存</el-button>
+              <el-button plain @click="submit">提交</el-button>
             </el-form-item>
           </el-form>
       </div>
@@ -139,7 +139,7 @@ export default {
         busiDesc: '',
         busiRequire: '',
         needCoordinationIssue: '',
-        reminders: ''
+        remindersArr: ''
       },
       rules: {
         opporType: [
@@ -206,7 +206,8 @@ export default {
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       designatePerson: ({ business }) => business.designatePerson,
       businessDetail: ({ business }) => business.businessDetail,
-      remindPerson: ({ business }) => business.remindPerson
+      remindPerson: ({ business }) => business.remindPerson,
+      businessDetailApprove: ({ business }) => business.businessDetailApprove
     })
   },
   methods: {
@@ -223,13 +224,12 @@ export default {
           flag && arr.push(cval.operatorId);
         });
       });
-      // return [...new Set(this.test.concat(arr))];
-      return [...new Set(this.businessData.reminders.concat(arr))];
+      return [...new Set(this.businessData.remindersArr.concat(arr))];
     },
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
       let params = {
-        pageSize: 10,
+        pageSize: 20,
         organizeName: queryString
       };
       await this.getCooperationGroupList(params);
@@ -253,8 +253,7 @@ export default {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
-    submit() {
-      // this.businessData.reminders = this.test;
+    save() {
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
         var _this = this;
@@ -269,6 +268,8 @@ export default {
         delete params.createDate;
         delete params.doneDate;
         delete params.state;
+        delete params.opporTypeName;
+        delete params.predictAgreementTimeName;
         this.editBusinessDetail(params).then(res => {
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({ showClose: true, message: '您已成功修改该条商机！', type: 'success' });
@@ -280,12 +281,40 @@ export default {
         });
       });
     },
+    submit() {
+      this.$refs['businessForm'].validate(valid => {
+        if (!valid) return false;
+        var _this = this;
+        const params = this.businessData;
+        delete params.opporCode;
+        delete params.contactGenderName;
+        delete params.isProjectInvitationName;
+        delete params.opporStatus;
+        delete params.opporStatusName;
+        delete params.opMobile;
+        delete params.opId;
+        delete params.createDate;
+        delete params.doneDate;
+        delete params.state;
+        delete params.opporTypeName;
+        delete params.predictAgreementTimeName;
+        this.editBusinessDetailApprove(params).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+            const path = `/business-manage/business-create-manage`;
+            _this.$router.push(path);
+          } else {
+            _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+          }
+        });
+      });
+    },
     cancel() {
       const path = `/business-manage/business-create-manage`;
       this.$router.push(path);
     },
     ...mapActions([
-      'getOfficeAddress', 'getCooperationGroupList', 'getBusinessDetail', 'editBusinessDetail', 'getRemindPerson'
+      'getOfficeAddress', 'getCooperationGroupList', 'getBusinessDetail', 'editBusinessDetail', 'getRemindPerson', 'editBusinessDetailApprove'
     ])
   }
 };

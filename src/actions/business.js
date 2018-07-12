@@ -184,6 +184,15 @@ const actions = {
     });
   },
   /**
+   * 修改商机详情并提交
+   */
+  editBusinessDetailApprove: ({ commit }, params) => {
+    return API.editBusinessDetailApproveAPI(params).then(res => {
+      commit(types.EDIT_BUSINESS_DETAIL_APPROVE_STATUS, res);
+      return res;
+    });
+  },
+  /**
    * 根据产品编码或名称查询
    */
   getProductNameCode: ({ commit }, params) => {

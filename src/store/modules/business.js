@@ -56,6 +56,7 @@ const state = {
   transforOrderDetail: '',
   submitBusinessDraftStatus: '',
   editBusinessDetailStatus: '',
+  editBusinessDetailApproveStatus: '',
   productNameCode: ''
 };
 
@@ -142,6 +143,9 @@ const mutations = {
   [types.EDIT_BUSINESS_DETAIL_STATUS](state, data) {
     state.editBusinessDetailStatus = data;
   },
+  [types.EDIT_BUSINESS_DETAIL_APPROVE_STATUS](state, data) {
+    state.editBusinessDetailApproveStatus = data;
+  },
   [types.PRODUCT_NAME_CODE](state, data) {
     state.productNameCode = data.list.map(val => Object.assign(val, {value: val.productName}));
     // state.cooperationGroupList = data.list;
@@ -151,6 +155,9 @@ const mutations = {
 const getters = {
   businessDetail(state) {
     return state.businessDetail;
+  },
+  transforOrderDetail(state) {
+    return state.transforOrderDetail;
   }
 };
 

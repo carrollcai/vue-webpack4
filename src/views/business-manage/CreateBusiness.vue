@@ -15,9 +15,9 @@
           <el-select class="form-input-medium" v-model="form.opporType" placeholder="请选择属性">
               <el-option
               v-for="item in BIZ_OPPOR_TYPE"
-              :key="item.label"
+              :key="item.value"
               :label="item.label"
-              :value="item.label">
+              :value="item.value">
               </el-option>
           </el-select>
         </el-form-item>
@@ -33,9 +33,9 @@
           <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
               <el-option
               v-for="item in PREDICT_AGREEMENT_TIME"
-              :key="item.label"
+              :key="item.value"
               :label="item.label"
-              :value="item.label">
+              :value="item.value">
               </el-option>
           </el-select>
         </el-form-item>
@@ -91,7 +91,7 @@
       <div class="b-container">
           <el-form label-width="140px" style="width: 460px;">
             <el-form-item label="提醒人设置：">
-              <el-select class="form-input-medium" v-model="form.reminders" placeholder="请选择提醒人" multiple>
+              <el-select class="form-input-medium" v-model="form.remindersArr" placeholder="请选择提醒人" multiple>
                   <el-option
                   v-for="item in remindPerson"
                   :key="item.operatorId"
@@ -136,7 +136,7 @@ export default {
         busiDesc: '',
         busiRequire: '',
         needCoordinationIssue: '',
-        reminders: ''
+        remindersArr: []
       },
       organizeNameList: [],
       resetForm: {},
@@ -215,7 +215,7 @@ export default {
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
       let params = {
-        pageSize: 10,
+        pageSize: 20,
         organizeName: queryString
       };
       await this.getCooperationGroupList(params);
@@ -240,9 +240,9 @@ export default {
       };
     },
     submit() {
-      if (this.form.reminders !== '') {
-        this.form.reminders = this.form.reminders.join(',');
-      }
+      // if (this.form.reminders !== '') {
+      //   this.form.reminders = this.form.reminders.join(',');
+      // }
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
@@ -260,7 +260,7 @@ export default {
       });
     },
     save() {
-      this.form.reminders = this.form.reminders.join(',');
+      // this.form.reminders = this.form.reminders.join(',');
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;

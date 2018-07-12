@@ -267,15 +267,34 @@ export default {
       let { date, ..._params } = this.businessTaskForm;
       this.getBusinessTaskList(_params);
     },
-    querySearchAsync(queryString, cb) {
-      var cooperNumList = this.cooperNumList;
-      var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
-
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 20,
+        organizeName: queryString
+      };
+      await this.getCooperationGroupList(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var cooperationGroupList = this.cooperationGroupList;
+        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        if (results.length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        };
         cb(results);
-      }, 100 * Math.random());
+      }, 1000);
     },
+    // querySearchAsync(queryString, cb) {
+    //   var cooperNumList = this.cooperNumList;
+    //   var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
+
+    //   clearTimeout(this.timeout);
+    //   this.timeout = setTimeout(() => {
+    //     cb(results);
+    //   }, 100 * Math.random());
+    // },
     createStateFilter(queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
