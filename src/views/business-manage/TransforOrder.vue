@@ -8,15 +8,15 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="business-detail">
+    <div class="business-detail" v-if="businessData.processor">
       <div class="business-detail-content">
         <div class="business-detail-content-item">
           <span class="left">指派人：</span>
-          <span class="right">张小明</span>
+          <span class="right">{{businessData.processor}}</span>
         </div>
         <div class="business-detail-content-item">
           <span class="left">指派原因：</span>
-          <span class="right">你们的订单，你们自己处理吧...</span>
+          <span class="right">{{businessData.assign_reason}}</span>
         </div>
         <!--<div class="business-detail-content-item">
           <span class="left">合同下载：</span>
@@ -25,39 +25,40 @@
       </div>
     </div>
     <div class="order-container">
-      <el-form :rules="rules" ref="transForm" :model="form" label-width="140px">
-        <el-form-item label="订单名称：" prop="ordername">
-          <el-input maxlength="30" v-model="form.ordername" class="form-input-medium" placeholder="请输入订单名称">
+      <el-form :rules="rules" ref="transForm" :model="businessData" label-width="140px">
+        <el-form-item label="订单名称：" prop="ordName">
+          <el-input maxlength="30" v-model="businessData.ordName" class="form-input-medium" placeholder="请输入订单名称">
           </el-input>
         </el-form-item>
-        <el-form-item label="订购产品：" prop="orderproduct">
-          <el-input maxlength="25" v-model="form.orderproduct" class="form-input-medium" placeholder="请输入产品名称/编码">
+        <el-form-item label="订购产品：" prop="productName">
+          <el-autocomplete maxlength="25" class="form-input-medium" v-model="businessData.productName" :fetch-suggestions="productQuerySearch" placeholder="请输入产品名称/编码" @select="selectProduct"></el-autocomplete>
+          <!--<el-input maxlength="25" v-model="businessData.productId" class="form-input-medium" placeholder="请输入产品名称/编码">-->
+          <!--</el-input>-->
+        </el-form-item>
+        <el-form-item label="预计合同金额：" prop="predictContractAmount">
+          <el-input v-model="businessData.predictContractAmount" class="form-input-medium" placeholder="请输入合同金额">
           </el-input>
         </el-form-item>
-        <el-form-item label="预计合同金额：" prop="conamount">
-          <el-input v-model="form.conamount" class="form-input-medium" placeholder="请输入合同金额">
-          </el-input>
+        <el-form-item label="预计签约时间：" prop="predictSignTime">
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="businessData.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="预计签约时间：" prop="signtime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.signTime" placeholder="请选择时间"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="预计协议期：" prop="protoTime">
-          <el-select class="form-input-medium" v-model="form.protoTime" placeholder="请选择">
+        <el-form-item label="预计协议期：" prop="predictAgreementTime">
+          <el-select class="form-input-medium" v-model="businessData.predictAgreementTime" placeholder="请选择">
               <el-option
-              v-for="item in protoTimeList"
+              v-for="item in PREDICT_AGREEMENT_TIME"
               :key="item.value"
               :label="item.label"
               :value="item.value">
               </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="联系人员：" prop="name">
-          <el-input maxlength="6" class="form-input-80" v-model="form.name" placeholder="姓名"></el-input>
+        <el-form-item label="联系人员：" prop="contactName">
+          <el-input maxlength="6" class="form-input-80" v-model="businessData.contactName" placeholder="姓名"></el-input>
           <span class="form-input-sep">-</span>
-          <el-form-item prop="sex" style="display: inline-block;">
-            <el-select class="form-input-80" v-model="form.sex" placeholder="性别">
+          <el-form-item prop="contactGender" style="display: inline-block;">
+            <el-select class="form-input-80" v-model="businessData.contactGender" placeholder="性别">
                 <el-option
-                v-for="item in options"
+                v-for="item in SEX"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -65,37 +66,37 @@
             </el-select>
           </el-form-item>
           <span class="form-input-sep">-</span>
-          <el-form-item prop="tel" style="display: inline-block;">
-            <el-input maxlength="11" class="form-input-120" v-model="form.tel" placeholder="手机号"></el-input>
+          <el-form-item prop="contactMobile" style="display: inline-block;">
+            <el-input maxlength="11" class="form-input-120" v-model="businessData.contactMobile" placeholder="手机号"></el-input>
           </el-form-item>
         </el-form-item>
-        <el-form-item prop="email" label="联系邮箱：">
-          <el-input maxlength="35" class="form-input-320" v-model="form.email" placeholder="请输入邮箱"></el-input>
+        <el-form-item prop="contactEmail" label="联系邮箱：">
+          <el-input maxlength="35" class="form-input-320" v-model="businessData.contactEmail" placeholder="请输入邮箱"></el-input>
         </el-form-item>
-        <el-form-item label="合作集团：" prop="group">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="form.group" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+        <el-form-item label="合作集团：" prop="organizeName">
+          <el-autocomplete maxlength="25" class="form-input-half" v-model="businessData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
           <el-card class="create-business-box-card" v-if="noData">
             <div>
               系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
             </div>
           </el-card>
           <span class="form-input-sep">-</span>
-          <el-form-item prop="office" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="form.office" placeholder="办公地址"></el-input>
+          <el-form-item prop="address" style="display:inline-block;">
+            <el-input maxlength="50" class="form-input-half" v-model="businessData.address" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="订单描述：" prop="desc">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单描述" v-model="form.desc"></el-input>
+        <el-form-item label="订单描述：" prop="busiDesc">
+          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单描述" v-model="businessData.busiDesc"></el-input>
         </el-form-item>
-        <el-form-item label="订单需求：" prop="command">
-          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="form.command"></el-input>
+        <el-form-item label="订单需求：" prop="busiRequire">
+          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="businessData.busiRequire"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.problem"></el-input>
+          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="businessData.needCoordinationIssue"></el-input>
         </el-form-item>
-        <el-form-item label="项目是否招标：" prop="tender">
-          <el-radio v-model="form.tender" label="1">是</el-radio>
-          <el-radio v-model="form.tender" label="2">否</el-radio>
+        <el-form-item label="项目是否招标：" prop="isProjectInvitation">
+          <el-radio v-model="businessData.isProjectInvitation" label="1">是</el-radio>
+          <el-radio v-model="businessData.isProjectInvitation" label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submit">提交</el-button>
@@ -109,74 +110,64 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { checkPhone, emailCheck, inte5Deci4 } from '@/utils/rules.js';
+import filters from '@/views/business-manage/filters';
 export default {
+  mixins: [filters],
   components: {
   },
   data() {
     return {
-      form: {
-        tender: '1'
-      },
       rules: {
-        ordername: [
+        ordName: [
           { required: true, message: '请输入订单名称', trigger: ['blur', 'change'] }
         ],
-        group: [
+        organizeName: [
           { required: true, message: '请输入合作集团/编码', trigger: ['blur', 'change'] }
         ],
-        office: [
+        address: [
           { required: true, message: '请输入办公地址', trigger: ['blur', 'change'] }
         ],
-        name: [
+        contactName: [
           { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
         ],
-        sex: [
+        contactGender: [
           { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
-        tel: [
+        contactMobile: [
           { required: true, message: '请输入手机号码', trigger: ['blur', 'change'] },
           { validator: checkPhone, trigger: 'blur' }
         ],
-        email: [
+        contactEmail: [
           { required: true, message: '请输入电子邮箱', trigger: ['blur', 'change'] },
           { validator: emailCheck, trigger: ['blur', 'change'] }
         ],
-        desc: [
+        busiDesc: [
           { required: true, message: '请输入订单描述', trigger: ['blur', 'change'] }
         ],
-        command: [
+        busiRequire: [
           { required: true, message: '请输入订单需求', trigger: ['blur', 'change'] }
         ],
         income: [
           { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] },
           { validator: inte5Deci4, trigger: ['blur', 'change'] }
         ],
-        signtime: [
+        predictSignTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
         ],
-        protoTime: [
+        predictAgreementTime: [
           { required: true, message: '请选择预计协议期', trigger: ['blur', 'change'] }
         ],
-        tender: [
+        isProjectInvitation: [
           { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
         ],
-        orderproduct: [
+        productName: [
           { required: true, message: '请输入产品名称/编码', trigger: ['blur', 'change'] }
         ],
-        conamount: [
+        predictContractAmount: [
           { required: true, message: '请输入预计合同金额', trigger: ['blur', 'change'] },
           { pattern: /^\d{1,5}(?:\.\d{1,4})?$/, message: '整数部分最多5位，小数部分最多4位' }
         ]
       },
-      protoTimeList: [
-        { 'label': '1年', 'value': '0' },
-        { 'label': '2年', 'value': '1' },
-        { 'label': '3年（含）以上', 'value': '2' }
-      ],
-      options: [
-        { 'label': '男', 'value': '0' },
-        { 'label': '女', 'value': '1' }
-      ],
       noData: false
     };
   },
@@ -193,22 +184,47 @@ export default {
     ...mapState({
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       transforOrderDetail: ({ business }) => business.transforOrderDetail,
-      businessDetail: ({business}) => business.businessDetail
+      businessDetail: ({business}) => business.businessDetail,
+      productNameCode: ({business}) => business.productNameCode
     })
   },
   methods: {
-    querySearchAsync(queryString, cb) {
-      var cooperationGroupList = this.cooperationGroupList;
-      var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
-      if (results.length === 0) {
-        this.noData = true;
-      } else {
-        this.noData = false;
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 10,
+        organizeName: queryString
       };
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
+      await this.getCooperationGroupList(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var cooperationGroupList = this.cooperationGroupList;
+        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        if (results.length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        };
         cb(results);
-      }, 100 * Math.random());
+      }, 1000);
+    },
+    async productQuerySearch(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 10,
+        productName: queryString
+      };
+      await this.getProductNameCode(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var productNameCode = this.productNameCode;
+        var results = queryString ? productNameCode.filter(this.createStateFilter(queryString)) : productNameCode;
+        cb(results);
+      }, 1000);
+    },
+    selectProduct(item) {
+      this.businessData.productId = item.productId;
+      // this.getOfficeAddress();
     },
     createStateFilter(queryString) {
       return (state) => {
@@ -217,15 +233,47 @@ export default {
     },
     handleSelect(item) {
       this.form.office = item.id;
-      this.getOfficeAddress();
+      // this.getOfficeAddress();
     },
     submit() {
-      const params = this.form;
+      const params = {};
+      params.ordName = this.businessData.ordName;
+      params.productId = this.businessData.productId;
+      params.productName = this.businessData.productName;
+      params.relOpporId = this.businessData.opporId;
+      params.opporProcessInsId = this.businessData.processInsId;
+      params.organizeId = this.businessData.organizeId;
+      params.organizeName = this.businessData.organizeName;
+      params.address = this.businessData.address;
+      params.contactName = this.businessData.contactName;
+      params.contactGender = this.businessData.contactGender;
+      params.contactMobile = this.businessData.contactMobile;
+      params.contactEmail = this.businessData.contactEmail;
+      // const params = this.businessData;
+      // params.relOpporId = params.opporId;
+      // delete params.opporId;
+      // delete params.opporCode;
+      // delete params.processInsId;
+      // delete params.opporType;
+      // delete params.opporTypeName;
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
-        this.saveBusinessOrder(params).then(res => {
-          this.cancel();
-        });
+        if (params.productId !== '') {
+          var _this = this;
+          _this.saveBusinessOrder(params).then(res => {
+            if (res.data && res.errorInfo.code === '200') {
+              _this.$message({ showClose: true, message: '您已成功提交！', type: 'success' });
+              _this.cancel();
+            } else {
+              _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+            }
+          });
+        } else {
+          this.$message({ showClose: true, message: '请选择已有商品！' });
+        }
+        // this.saveBusinessOrder(params).then(res => {
+        //   this.cancel();
+        // });
       });
     },
     cancel() {
@@ -233,7 +281,7 @@ export default {
       this.$router.push(path);
     },
     ...mapActions([
-      'getTransforOrderDetail', 'getCooperationGroupList', 'getOfficeAddress', 'getBusinessDetail'
+      'getTransforOrderDetail', 'getCooperationGroupList', 'getBusinessDetail', 'saveBusinessOrder', 'getProductNameCode'
     ])
   }
 };

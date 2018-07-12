@@ -4,7 +4,7 @@
     <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="businessForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
 
@@ -21,21 +21,21 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="status">
+    <el-tabs v-model="businessForm.opporStatus" @tab-click="tabChange">
       <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="待处理"></el-tab-pane>
-      <el-tab-pane label="已转订单"></el-tab-pane>
-      <el-tab-pane label="已作废"></el-tab-pane>
+      <el-tab-pane label="待处理" :name="'1'"></el-tab-pane>
+      <el-tab-pane label="已转订单" :name="'2'"></el-tab-pane>
+      <el-tab-pane label="已作废" :name="'3'"></el-tab-pane>
     </el-tabs>
     </div>
     <div class="m-container table-container">
       <wm-table :source="businessList.list" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" property="opporCode" />
-        <el-table-column label="商机描述" property="busiDesc" />
-        <el-table-column label="合作集团" property="organizeName" />
-        <el-table-column label="创建时间" property="createDate" />
-        <el-table-column label="联系人" property="contactName" />
-        <el-table-column label="处理人" property="processor" />
+        <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
+        <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
+        <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
+        <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
+        <el-table-column label="联系人" show-overflow-tooltip property="contactName" />
+        <el-table-column label="处理人" show-overflow-tooltip property="processor" />
         <el-table-column label="处理结果" property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -76,19 +76,19 @@ export default {
       organizeNameList: []
     };
   },
-  watch: {
-    status(newValue) {
-      this.query();
-    }
-  },
   beforeMount() {
-    const params = this.businessForm;
-    this.businessForm.opporStatus = parseInt(this.status);
-    this.getBusinessList(params);
-    // this.query();
-    // this.getCooperationGroupList();
+    let { date, ..._params } = this.businessForm;
+    if (_params.opporStatus === '0') {
+      _params.opporStatus = '';
+    } else {
+    }
+    this.getBusinessList(_params);
   },
   methods: {
+    tabChange(val) {
+      this.businessForm.pageNo = 1;
+      this.query();
+    },
     onPagination(value) {
       this.businessForm.pageNo = value;
       this.query();
@@ -102,13 +102,12 @@ export default {
       this.$router.push(path);
     },
     query() {
-      const params = this.businessForm;
-      if (parseInt(this.status) > 0) {
-        this.businessForm.opporStatus = parseInt(this.status);
+      let { date, ..._params } = this.businessForm;
+      if (_params.opporStatus === '0') {
+        _params.opporStatus = '';
       } else {
-        this.businessForm.opporStatus = '';
       }
-      this.getBusinessList(params);
+      this.getBusinessList(_params);
     },
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
