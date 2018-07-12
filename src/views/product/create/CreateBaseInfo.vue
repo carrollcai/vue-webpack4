@@ -1,6 +1,11 @@
 <template>
 <div class="p-content">
-  <div class="crumb-bar"><span>产品创建管理 / </span>新建产品</div>
+  <div class="crumb-bar">
+    <el-breadcrumb>
+      <el-breadcrumb-item :to="{ path: '/product/product-creat-manage' }">产品创建管理</el-breadcrumb-item>
+      <el-breadcrumb-item>{{!isAddProduct ? '新建' : '编辑'}}产品</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
   <div class="creat-content">
     <div class="steps-self w380 pt42 pb60">
       <p class="steps current"><span>1</span><i class="el-step__icon-inner is-status el-icon-check" style="display:none"></i>产品基本信息</p>
@@ -222,68 +227,75 @@ export default {
 </script>
 
 <style lang="scss">
-.el-step.is-horizontal .el-step__line {height: 1px; background: #c0c0c0}
-.el-step__head.is-process, .el-step__title.is-process {color: #8c8c8c; font-weight: 400;}
-.el-step.is-simple .el-step__arrow::before, .el-step.is-simple  .el-step__arrow:before {display: none}
-.el-step.is-simple .el-step__arrow::after, .el-step.is-simple  .el-step__arrow:after {-webkit-transform: none; transform: none; height: 1px; width: 320px;}
-.el-step__icon.is-text {border-width: 1px;}
-.creat-content {background: #fff; margin-top: 16px; min-height: 812px; height: auto;}
-.el-steps--simple {background: none;}
-.el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
-.add-content {width: 460px; margin: 0 auto;}
-.demo-input-size .split {display: inline-block; width: 15px; color: #8c8c8c; text-align: center;}
-.w380 {width: 380px; margin: 0 auto;}
-.pt42 {padding-top: 42px;}
-.pb60 {padding-bottom: 60px;}
-.steps-self {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  .steps {
-    line-height: 25px;
-    color: #8C8C8C;
-    font-size: 14px;
+.p-content {
+  .crumb-bar {
+    .el-breadcrumb {
+      line-height: 48px;
+    }
   }
-  .line {
-    display: block;
-    height: 1px;
-    background: #e9e9e9;
-    margin: 0 12px;
-    flex: 1;
-  }
-  span {
-    position: relative;
-    display: block;
-    width: 26px;
-    height:26px;
-    line-height: 26px;
-    text-align: center;
-    z-index: 10;
-    color: #3778FF;
-    float: left;
-    margin-right: 8px;
-    overflow: hidden;
-  }
-  span::before {
-    content: '';
-    position: absolute;
-    display: block;
-    width: 24px;
-    height:24px;
-    border-radius: 12px;
-    color: #3778FF;
-    border: 1px #3778FF solid;
-    background: #fff;
-    z-index: -1;
-  }
-  i {color: #3778FF; display: none;}
-  .current {
-    span {color: #fff;}
-    span::before {background: #3778FF;}
-  }
-  .read {
-    i {display: block; font-size: 12px; line-height: 26px;}
-    span {font-size: 9999px;}
+  .el-step.is-horizontal .el-step__line {height: 1px; background: #c0c0c0}
+  .el-step__head.is-process, .el-step__title.is-process {color: #8c8c8c; font-weight: 400;}
+  .el-step.is-simple .el-step__arrow::before, .el-step.is-simple  .el-step__arrow:before {display: none}
+  .el-step.is-simple .el-step__arrow::after, .el-step.is-simple  .el-step__arrow:after {-webkit-transform: none; transform: none; height: 1px; width: 320px;}
+  .el-step__icon.is-text {border-width: 1px;}
+  .creat-content {background: #fff; margin-top: 16px; min-height: 812px; height: auto;}
+  .el-steps--simple {background: none;}
+  .el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
+  .add-content {width: 460px; margin: 0 auto;}
+  .demo-input-size .split {display: inline-block; width: 15px; color: #8c8c8c; text-align: center;}
+  .w380 {width: 380px; margin: 0 auto;}
+  .pt42 {padding-top: 42px;}
+  .pb60 {padding-bottom: 60px;}
+  .steps-self {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .steps {
+      line-height: 25px;
+      color: #8C8C8C;
+      font-size: 14px;
+    }
+    .line {
+      display: block;
+      height: 1px;
+      background: #e9e9e9;
+      margin: 0 12px;
+      flex: 1;
+    }
+    span {
+      position: relative;
+      display: block;
+      width: 26px;
+      height:26px;
+      line-height: 26px;
+      text-align: center;
+      z-index: 10;
+      color: #3778FF;
+      float: left;
+      margin-right: 8px;
+      overflow: hidden;
+    }
+    span::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 24px;
+      height:24px;
+      border-radius: 12px;
+      color: #3778FF;
+      border: 1px #3778FF solid;
+      background: #fff;
+      z-index: -1;
+    }
+    i {color: #3778FF; display: none;}
+    .current {
+      span {color: #fff;}
+      span::before {background: #3778FF;}
+    }
+    .read {
+      i {display: block; font-size: 12px; line-height: 26px;}
+      span {font-size: 9999px;}
+    }
   }
 }
 </style>

@@ -1,7 +1,11 @@
 <template>
   <div class="p-content">
     <div class="crumb-bar">
-      <span>产品创建管理 / </span>新建产品</div>
+      <el-breadcrumb>
+        <el-breadcrumb-item :to="{ path: '/product/product-creat-manage' }">产品创建管理</el-breadcrumb-item>
+        <el-breadcrumb-item>{{!isAddProduct ? '新建' : '编辑'}}产品</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <div class="creat-content">
       <div class="steps-self w380 pt42 pb60">
         <p class="steps read"><span><i class="el-step__icon-inner is-status el-icon-check"></i>1</span>产品基本信息</p>
@@ -12,7 +16,7 @@
         <wm-table v-if="cacheData && cacheData.length > 0" :source="cacheData">
           <el-table-column label="销售类型" width="80" property="salesType" :formatter="salesTypeFormat">
           </el-table-column>
-          <el-table-column label="组合产品" property="composedProduct" show-overflow-tooltip :formatter="productNameFormat">
+          <el-table-column label="组合产品" property="composedProduct" show-overflow-tooltip >
           </el-table-column>
           <el-table-column label="方案介绍" align="center" show-overflow-tooltip property="scheme" prop="">
           </el-table-column>
@@ -26,9 +30,10 @@
           </el-table-column>
         </wm-table>
         <div class="bor" v-if="isShow">
-          <h3 class="title">添加销售案例
+          <h3 v-if="(!isAddProduct && addItem) || (isAddProduct && addItem)" class="title">添加销售案例
             <span>（可添加多个销售案例）</span>
           </h3>
+          <h3 v-if="(isAddProduct && !addItem) || (!isAddProduct && !addItem)" class="title">编辑销售案例</h3>
           <el-form class="add-content" :model="formData" :rules="formDataValid" :ref="formData" label-width="130px">
             <el-form-item label="销售类型：">
               <el-radio v-model="formData.salesType" @change="getRadioValue" value="0" label="0">单品销售</el-radio>
@@ -44,7 +49,7 @@
                 default-first-option
                 placeholder="产品名称/编码">
                 <el-option
-                v-for="item in composedProduct"
+                v-for="item in composedProductList"
                 :key="item.productId"
                 :label="item.productName"
                 :value="item.productName"></el-option>
@@ -166,7 +171,7 @@ export default {
       isShow: true,
       cacheData: [],
       cacheSalesList: [],
-      addItem: Number(this.$route.params.id) < 0,
+      addItem: typeof (this.$route.params.id) === 'undefined',
       fileList: [],
       fileLen: 0,
       formData: {
@@ -213,6 +218,14 @@ export default {
     };
   },
   computed: {
+    composedProductList() {
+      if (this.composedProduct) {
+        if (this.formData.composedProduct[0] === '无') {
+          this.formData.composedProduct = [];
+        }
+        return this.composedProduct
+      }
+    },
     ...mapState({
       composedProduct: ({ product }) => product.composedProduct,
       productSaleDemo: ({ product }) => product.productSaleDemo
@@ -464,6 +477,11 @@ export default {
 <style lang="scss">
 @import "scss/variables.scss";
 .p-content {
+  .crumb-bar {
+    .el-breadcrumb {
+      line-height: 48px;
+    }
+  }
   .lh1-5 {line-height: 1.5;}
   .fs12 {font-size: 12px;}
   .el-upload__tip {margin-top: 0;}
