@@ -112,7 +112,7 @@ export default {
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
       let params = {
-        pageSize: 10,
+        pageSize: 20,
         organizeName: queryString
       };
       await this.getCooperationGroupList(params);

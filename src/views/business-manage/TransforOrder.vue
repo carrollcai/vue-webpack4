@@ -8,15 +8,15 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="business-detail" v-if="businessData.processor">
+    <div class="business-detail" v-if="orderData.opporProcessor">
       <div class="business-detail-content">
         <div class="business-detail-content-item">
           <span class="left">指派人：</span>
-          <span class="right">{{businessData.processor}}</span>
+          <span class="right">{{orderData.opporProcessor}}</span>
         </div>
         <div class="business-detail-content-item">
           <span class="left">指派原因：</span>
-          <span class="right">{{businessData.assign_reason}}</span>
+          <span class="right">{{orderData.opporAssignReason}}</span>
         </div>
         <!--<div class="business-detail-content-item">
           <span class="left">合同下载：</span>
@@ -25,25 +25,23 @@
       </div>
     </div>
     <div class="order-container">
-      <el-form :rules="rules" ref="transForm" :model="businessData" label-width="140px">
+      <el-form :rules="rules" ref="transForm" :model="orderData" label-width="140px">
         <el-form-item label="订单名称：" prop="ordName">
-          <el-input maxlength="30" v-model="businessData.ordName" class="form-input-medium" placeholder="请输入订单名称">
+          <el-input maxlength="30" v-model="orderData.ordName" class="form-input-medium" placeholder="请输入订单名称">
           </el-input>
         </el-form-item>
         <el-form-item label="订购产品：" prop="productName">
-          <el-autocomplete maxlength="25" class="form-input-medium" v-model="businessData.productName" :fetch-suggestions="productQuerySearch" placeholder="请输入产品名称/编码" @select="selectProduct"></el-autocomplete>
-          <!--<el-input maxlength="25" v-model="businessData.productId" class="form-input-medium" placeholder="请输入产品名称/编码">-->
-          <!--</el-input>-->
+          <el-autocomplete maxlength="25" class="form-input-medium" v-model="orderData.productName" :fetch-suggestions="productQuerySearch" placeholder="请输入产品名称/编码" @select="selectProduct"></el-autocomplete>
         </el-form-item>
         <el-form-item label="预计合同金额：" prop="predictContractAmount">
-          <el-input v-model="businessData.predictContractAmount" class="form-input-medium" placeholder="请输入合同金额">
+          <el-input v-model="orderData.predictContractAmount" class="form-input-medium" placeholder="请输入合同金额">
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="businessData.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderData.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
-          <el-select class="form-input-medium" v-model="businessData.predictAgreementTime" placeholder="请选择">
+          <el-select class="form-input-medium" v-model="orderData.predictAgreementTime" placeholder="请选择">
               <el-option
               v-for="item in PREDICT_AGREEMENT_TIME"
               :key="item.value"
@@ -53,10 +51,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="联系人员：" prop="contactName">
-          <el-input maxlength="6" class="form-input-80" v-model="businessData.contactName" placeholder="姓名"></el-input>
+          <el-input maxlength="6" class="form-input-80" v-model="orderData.contactName" placeholder="姓名"></el-input>
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactGender" style="display: inline-block;">
-            <el-select class="form-input-80" v-model="businessData.contactGender" placeholder="性别">
+            <el-select class="form-input-80" v-model="orderData.contactGender" placeholder="性别">
                 <el-option
                 v-for="item in SEX"
                 :key="item.value"
@@ -67,14 +65,14 @@
           </el-form-item>
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactMobile" style="display: inline-block;">
-            <el-input maxlength="11" class="form-input-120" v-model="businessData.contactMobile" placeholder="手机号"></el-input>
+            <el-input maxlength="11" class="form-input-120" v-model="orderData.contactMobile" placeholder="手机号"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item prop="contactEmail" label="联系邮箱：">
-          <el-input maxlength="35" class="form-input-320" v-model="businessData.contactEmail" placeholder="请输入邮箱"></el-input>
+          <el-input maxlength="35" class="form-input-320" v-model="orderData.contactEmail" placeholder="请输入邮箱"></el-input>
         </el-form-item>
         <el-form-item label="合作集团：" prop="organizeName">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="businessData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+          <el-autocomplete maxlength="25" class="form-input-half" v-model="orderData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
           <el-card class="create-business-box-card" v-if="noData">
             <div>
               系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
@@ -82,21 +80,21 @@
           </el-card>
           <span class="form-input-sep">-</span>
           <el-form-item prop="address" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="businessData.address" placeholder="办公地址"></el-input>
+            <el-input maxlength="50" class="form-input-half" v-model="orderData.address" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="订单描述：" prop="busiDesc">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单描述" v-model="businessData.busiDesc"></el-input>
+          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单描述" v-model="orderData.busiDesc"></el-input>
         </el-form-item>
         <el-form-item label="订单需求：" prop="busiRequire">
-          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="businessData.busiRequire"></el-input>
+          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="orderData.busiRequire"></el-input>
         </el-form-item>
-        <el-form-item label="需要协调的问题：">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="businessData.needCoordinationIssue"></el-input>
-        </el-form-item>
+        <!--<el-form-item label="需要协调的问题：">
+          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="orderData.needCoordinationIssue"></el-input>
+        </el-form-item>-->
         <el-form-item label="项目是否招标：" prop="isProjectInvitation">
-          <el-radio v-model="businessData.isProjectInvitation" label="1">是</el-radio>
-          <el-radio v-model="businessData.isProjectInvitation" label="0">否</el-radio>
+          <el-radio v-model="orderData.isProjectInvitation" label="1">是</el-radio>
+          <el-radio v-model="orderData.isProjectInvitation" label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submit">提交</el-button>
@@ -172,14 +170,20 @@ export default {
     };
   },
   beforeMount() {
-    const { opporId } = this.$route.params;
-    this.getBusinessDetail({ opporId });
-    // this.getTransforOrderDetail({ opporId });
+    const opprparam = {};
+    opprparam.opporId = this.$route.params.opporId;
+    // const { opporId } = this.$route.params;
+    console.log(this.$route.params);
+    this.getBusinessDetail(opprparam);
+    this.getTransforOrderDetail(opprparam);
     // this.getCooperationGroupList();
   },
   computed: {
     businessData() {
       return this.$store.getters.businessDetail;
+    },
+    orderData() {
+      return this.$store.getters.transforOrderDetail;
     },
     ...mapState({
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
@@ -192,7 +196,7 @@ export default {
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
       let params = {
-        pageSize: 10,
+        pageSize: 20,
         organizeName: queryString
       };
       await this.getCooperationGroupList(params);
@@ -211,7 +215,7 @@ export default {
     async productQuerySearch(queryString, cb) {
       if (!queryString) return false;
       let params = {
-        pageSize: 10,
+        pageSize: 20,
         productName: queryString
       };
       await this.getProductNameCode(params);
@@ -232,30 +236,14 @@ export default {
       };
     },
     handleSelect(item) {
-      this.form.office = item.id;
-      // this.getOfficeAddress();
+      this.businessData.organizeId = item.organizeId;
     },
     submit() {
-      const params = {};
-      params.ordName = this.businessData.ordName;
-      params.productId = this.businessData.productId;
-      params.productName = this.businessData.productName;
-      params.relOpporId = this.businessData.opporId;
-      params.opporProcessInsId = this.businessData.processInsId;
-      params.organizeId = this.businessData.organizeId;
-      params.organizeName = this.businessData.organizeName;
-      params.address = this.businessData.address;
-      params.contactName = this.businessData.contactName;
-      params.contactGender = this.businessData.contactGender;
-      params.contactMobile = this.businessData.contactMobile;
-      params.contactEmail = this.businessData.contactEmail;
-      // const params = this.businessData;
-      // params.relOpporId = params.opporId;
-      // delete params.opporId;
-      // delete params.opporCode;
-      // delete params.processInsId;
-      // delete params.opporType;
-      // delete params.opporTypeName;
+      // const params = {};
+      const params = this.orderData;
+      delete params.opporProcessor;
+      delete params.opporAssignReason;
+      params.taskInsId = this.$route.params.taskInsId;
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
         if (params.productId !== '') {
@@ -271,9 +259,6 @@ export default {
         } else {
           this.$message({ showClose: true, message: '请选择已有商品！' });
         }
-        // this.saveBusinessOrder(params).then(res => {
-        //   this.cancel();
-        // });
       });
     },
     cancel() {

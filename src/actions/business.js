@@ -118,7 +118,7 @@ const actions = {
   submitBusinessSend: ({ commit }, params) => {
     return API.submitBusinessSendAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_SEND_STATUS, res.data);
-      return res.data;
+      return res;
     });
   },
   /**
@@ -145,7 +145,7 @@ const actions = {
   saveBusinessOrder: ({ commit }, params) => {
     return API.saveBusinessOrderAPI(params).then(res => {
       commit(types.SAVE_BUSINESS_ORDER, res.data);
-      return res.data.list;
+      return res;
     });
   },
   /**
@@ -180,6 +180,15 @@ const actions = {
   editBusinessDetail: ({ commit }, params) => {
     return API.editBusinessDetailAPI(params).then(res => {
       commit(types.EDIT_BUSINESS_DETAIL_STATUS, res);
+      return res;
+    });
+  },
+  /**
+   * 修改商机详情并提交
+   */
+  editBusinessDetailApprove: ({ commit }, params) => {
+    return API.editBusinessDetailApproveAPI(params).then(res => {
+      commit(types.EDIT_BUSINESS_DETAIL_APPROVE_STATUS, res);
       return res;
     });
   },

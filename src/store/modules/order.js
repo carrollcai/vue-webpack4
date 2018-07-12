@@ -113,7 +113,8 @@ const mutations = {
       });
       return newVal;
     });
-    state.assignHandlers = handlers.filter(val => val.children.length);
+    console.log(handlers);
+    state.assignHandlers = handlers.filter(val => val.children && val.children.length);
   },
   [types.ORDER_GET_HANDLE_TASK_DETAIL](state, data) {
     state.handleTaskDetail = data;

@@ -129,7 +129,7 @@ const actions = {
     });
   },
   submitPay: ({ commit }, params) => {
-    return API.setConnectOriganizeAPI(params).then(res => {
+    return API.submitOrderPayAPI(params).then(res => {
       Message({
         message: '提交成功',
         type: 'success'

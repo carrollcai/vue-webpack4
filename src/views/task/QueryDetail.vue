@@ -59,7 +59,7 @@
 
 <script>
 import DisplayTitle from 'components/task/DisplayTitle.vue';
-import AuditSteps from 'components/task/AuditSteps.vue';
+import AuditSteps from 'components/AuditSteps.vue';
 import { mapActions, mapState } from 'vuex';
 import { textareaLimit } from '@/utils/rules.js';
 

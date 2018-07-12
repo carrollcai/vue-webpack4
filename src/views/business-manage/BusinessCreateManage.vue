@@ -198,7 +198,7 @@ export default {
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
       let params = {
-        pageSize: 10,
+        pageSize: 20,
         organizeName: queryString
       };
       await this.getCooperationGroupList(params);
@@ -241,6 +241,7 @@ export default {
                 h('p', null, '处理人' + res.data.dealPersonName)
               ])
             });
+            _this.query();
           } else {
             _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
           }
@@ -285,6 +286,7 @@ export default {
           _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
           _this.editOrgParam = {};
           _this.hideAssociate();
+          _this.query();
         } else {
           _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
         }

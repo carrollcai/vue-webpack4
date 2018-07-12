@@ -80,8 +80,8 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
-import { checkPhone, emailCheck } from '@/utils/rules.js';
 import { PAGE_SIZE } from '@/config/index.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, inte5Deci4, checkLeftRightSpace } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -101,10 +101,13 @@ export default {
       },
       orderCreateRules: {
         ordName: [
-          { required: true, message: '请输入订单名称', trigger: 'blur' }
+          { required: true, message: '请输入订单名称', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         predictContractAmount: [
-          { required: true, message: '请输入预定合同金额', trigger: 'blur' }
+          { required: true, message: '请输入预定合同金额', trigger: 'blur' },
+          { validator: inte5Deci4, trigger: 'blur' }
         ],
         predictSignTime: [
           { required: true, message: '请输入预定签约时间', trigger: 'blur' }
@@ -113,7 +116,8 @@ export default {
           { required: true, message: '请输入预计协议期', trigger: 'change' }
         ],
         contactName: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         contactGender: [
           { required: true, message: '请输入性别', trigger: 'change' }
@@ -127,20 +131,24 @@ export default {
           { validator: emailCheck, trigger: 'blur' }
         ],
         organizeName: [
-          { required: true, message: '请输入合作集团/编码', trigger: 'blur' }
+          { required: true, message: '请输入合作集团/编码', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         address: [
-          { required: true, message: '请输入地址', trigger: 'change' }
+          { required: true, message: '请输入地址', trigger: 'change' },
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         productName: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
           { validator: isProductExist, trigger: 'blur' }
         ],
         busiDesc: [
-          { required: true, message: '请输入订单描述', trigger: 'blur' }
+          { required: true, message: '请输入订单描述', trigger: 'blur' },
+          { validator: isProductExist, trigger: 'blur' }
         ],
         busiRequire: [
-          { required: true, message: '请输入订单需求', trigger: 'blur' }
+          { required: true, message: '请输入订单需求', trigger: 'blur' },
+          { validator: isProductExist, trigger: 'blur' }
         ]
       }
     };

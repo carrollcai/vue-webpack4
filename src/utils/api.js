@@ -81,6 +81,7 @@ export default {
   submitOrderRowAPI: API('/esop/bizOrder/startProcess'), // 提交订单
   deleteOrderRowAPI: API('/esop/bizOrder/delete'), // 删除订单,
   setConnectOriganizeAPI: API('/esop/bizOrder/updateOrganize'), // 关联集团
+  submitOrderPayAPI: API('/esop/bizOrder/updatePayAmount'), // 付款
   submitAssignContractAPI: API('/esop/bizOrder/updateFileId'), // 签约
 
   /* 登录相关 */
@@ -211,8 +212,10 @@ export default {
   getMyBusinessListAPI: API('esop/bizOppor/list'),
   // 商机处理任务查询
   getBusinessTaskListAPI: API('esop/bizOppor/queryTaskInfo'),
-  // 修改商机
-  editBusinessDetailAPI: API('esop/bizOppor/editApprove'),
+  // 修改商机提交审核
+  editBusinessDetailApproveAPI: API('esop/bizOppor/editApprove'),
+  // 修改商机不提交审核
+  editBusinessDetailAPI: API('esop/bizOppor/edit'),
   // 根据产品编码或名称查询
   getProductNameCodeAPI: API('esop/product/queryByCodeOrName')
 };
