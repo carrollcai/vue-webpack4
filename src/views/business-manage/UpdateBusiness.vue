@@ -14,7 +14,7 @@
         <el-form-item label="商机类别：" prop="opporType">
           <el-select class="form-input-medium" v-model="businessData.opporType" placeholder="请选择属性">
               <el-option
-              v-for="item in businessCategoryList"
+              v-for="item in BIZ_OPPOR_TYPE"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -32,7 +32,7 @@
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="businessData.predictAgreementTime" placeholder="请选择">
               <el-option
-              v-for="item in protoTimeList"
+              v-for="item in PREDICT_AGREEMENT_TIME"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -49,7 +49,7 @@
           <el-form-item prop="contactGender" style="display: inline-block;">
             <el-select class="form-input-80" v-model="businessData.contactGender" placeholder="性别">
                 <el-option
-                v-for="item in options"
+                v-for="item in SEX"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -93,7 +93,8 @@
       <div class="b-container">
           <el-form label-width="140px" style="width: 460px;">
             <el-form-item label="提醒人：">
-              <el-select class="form-input-medium" v-model="businessData.reminders" placeholder="请选择提醒人" multiple>
+              <!--v-model="businessData.reminders"-->
+              <el-select class="form-input-medium" multiple v-model="businessData.reminders" placeholder="请选择提醒人" @change="changeReminders">
                   <el-option
                   v-for="item in remindPerson"
                   :key="item.operatorId"
@@ -104,7 +105,7 @@
             </el-form-item>
             <el-form-item label="">
               <el-button type="primary" @click="submit">提交</el-button>
-              <!--<el-button plain @click="save">保存为草稿</el-button>-->
+              <el-button plain @click="cancel">取消</el-button>
             </el-form-item>
           </el-form>
       </div>
@@ -115,11 +116,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { checkPhone, emailCheck } from '@/utils/rules.js';
+import filters from '@/views/business-manage/filters';
 export default {
+  mixins: [filters],
   components: {
   },
   data() {
     return {
+      // test: [10093],
       form: {
         opporType: '',
         predictContractAmount: '',
@@ -137,20 +141,6 @@ export default {
         needCoordinationIssue: '',
         reminders: ''
       },
-      businessCategoryList: [
-        { 'label': '公司级商机', 'value': '0' },
-        { 'label': '分公司级商机', 'value': '1' },
-        { 'label': '普通商机', 'value': '2' }
-      ],
-      options: [
-        { 'label': '男', 'value': '0' },
-        { 'label': '女', 'value': '1' }
-      ],
-      protoTimeList: [
-        { 'label': '1年', 'value': '0' },
-        { 'label': '2年', 'value': '1' },
-        { 'label': '3年（含）以上', 'value': '2' }
-      ],
       rules: {
         opporType: [
           { required: true, message: '请选择商机类别', trigger: ['blur', 'change'] }
@@ -220,36 +210,68 @@ export default {
     })
   },
   methods: {
-    querySearchAsync(queryString, cb) {
-      var cooperationGroupList = this.cooperationGroupList;
-      var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
-      if (results.length === 0) {
-        this.noData = true;
-      } else {
-        this.noData = false;
+    changeReminders(val) {
+      let arr = [];
+      val.map(val => {
+        this.remindPerson.map(cval => {
+          let flag = false;
+          cval.children && cval.children.map(gval => {
+            if (Number(val) === Number(gval.operatorId)) {
+              flag = true;
+            }
+          });
+          flag && arr.push(cval.operatorId);
+        });
+      });
+      // return [...new Set(this.test.concat(arr))];
+      return [...new Set(this.businessData.reminders.concat(arr))];
+    },
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 10,
+        organizeName: queryString
       };
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
+      await this.getCooperationGroupList(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var cooperationGroupList = this.cooperationGroupList;
+        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        if (results.length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        };
         cb(results);
-      }, 100 * Math.random());
+      }, 1000);
+    },
+    handleSelect(item) {
+      this.businessData.address = item.orgAddress;
     },
     createStateFilter(queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
-    handleSelect(item) {
-      this.form.address = item.id;
-      this.getOfficeAddress();
-    },
     submit() {
+      // this.businessData.reminders = this.test;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
         var _this = this;
-        this.editBusinessDetail(this.businessData).then(res => {
+        const params = this.businessData;
+        delete params.opporCode;
+        delete params.contactGenderName;
+        delete params.isProjectInvitationName;
+        delete params.opporStatus;
+        delete params.opporStatusName;
+        delete params.opMobile;
+        delete params.opId;
+        delete params.createDate;
+        delete params.doneDate;
+        delete params.state;
+        this.editBusinessDetail(params).then(res => {
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({ showClose: true, message: '您已成功修改该条商机！', type: 'success' });
-            _this.reset();
             const path = `/business-manage/business-create-manage`;
             _this.$router.push(path);
           } else {
@@ -258,9 +280,9 @@ export default {
         });
       });
     },
-    save() {
-      const params = this.form;
-      this.submitBusinessOppority(params);
+    cancel() {
+      const path = `/business-manage/business-create-manage`;
+      this.$router.push(path);
     },
     ...mapActions([
       'getOfficeAddress', 'getCooperationGroupList', 'getBusinessDetail', 'editBusinessDetail', 'getRemindPerson'

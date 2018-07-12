@@ -127,7 +127,7 @@ const actions = {
   submitBusinessCancel: ({ commit }, params) => {
     return API.submitBusinessCancelAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_CANCEL_STATUS, res.data);
-      return res.data;
+      return res;
     });
   },
   /**
@@ -180,6 +180,15 @@ const actions = {
   editBusinessDetail: ({ commit }, params) => {
     return API.editBusinessDetailAPI(params).then(res => {
       commit(types.EDIT_BUSINESS_DETAIL_STATUS, res);
+      return res;
+    });
+  },
+  /**
+   * 根据产品编码或名称查询
+   */
+  getProductNameCode: ({ commit }, params) => {
+    return API.getProductNameCodeAPI(params).then(res => {
+      commit(types.PRODUCT_NAME_CODE, res.data);
     });
   }
 };

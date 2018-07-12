@@ -23,7 +23,7 @@
       </div>
       <div class="business-detail-body-item">
         <div class="left">联系人员：</div>
-        <div class="right">{{detailData.contactName}} ；{{detailData.contactGender}} ；{{detailData.contactMobile}} ；{{detailData.contactEmail}}</div>
+        <div class="right">{{detailData.contactName}} ；{{detailData.contactGenderName}} ；{{detailData.contactMobile}} ；{{detailData.contactEmail}}</div>
       </div>
       <div class="business-detail-body-item">
         <div class="left">商机描述：</div>
@@ -44,6 +44,8 @@
 export default {
   props: {
     detailData: JSON
+  },
+  methods: {
   }
 };
 </script>

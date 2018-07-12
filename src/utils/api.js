@@ -172,8 +172,6 @@ export default {
   auditCustomerAPI: API('/esop/organize/moveNode'),
 
   /* 商机管理 */
-  // 获取合作集团/编码列表
-  getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
   getBusinessListAPI: API('/esop/bizOppor/allList'),
 
@@ -181,10 +179,6 @@ export default {
   getBusinessDetailAPI: API('/esop/bizOppor/detail'),
 
   // 新建商机
-  // 获取商机类别列表
-  getBusinessCategoryListAPI: API('http://localhost:3618/business-manage/getBusinessCategoryList'),
-  // 根据合作集团匹配办公地址
-  getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 创建并提交商机
   submitBusinessOpporityAPI: API('/esop/bizOppor/createApprove'),
   // 提交商机草稿
@@ -209,7 +203,7 @@ export default {
   // 商机转订单(获取订单基本数据)
   getTransforOrderDetailAPI: API('esop/bizOppor/transOppor'),
   // 提交商机转订单
-  saveBusinessOrderAPI: API(''),
+  saveBusinessOrderAPI: API('esop/bizOppor/transtoOrder'),
   // 提交商机转订单草稿
   saveBusinessOrderDraftAPI: API(''),
 
@@ -218,5 +212,7 @@ export default {
   // 商机处理任务查询
   getBusinessTaskListAPI: API('esop/bizOppor/queryTaskInfo'),
   // 修改商机
-  editBusinessDetailAPI: API('esop/bizOppor/editApprove')
+  editBusinessDetailAPI: API('esop/bizOppor/editApprove'),
+  // 根据产品编码或名称查询
+  getProductNameCodeAPI: API('esop/product/queryByCodeOrName')
 };
