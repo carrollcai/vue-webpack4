@@ -12,9 +12,9 @@
     </div>
     <div class="m-container o-overview-detail">
 
-      <div class="task-detail-content">
-        <detail-bar v-if="routeType === 'detail'" :title="['处理结果：', '付款金额：']" :content="['已完成', '1000万元']" />
-        <detail-content v-if="Object.keys(handleTaskDetail).length" :orderOverviewDetail="handleTaskDetail" />
+      <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
+        <detail-bar v-if="routeType === 'detail' && getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
+        <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
       <div class="line"></div>
@@ -38,7 +38,7 @@
 
       <el-form class="handle-task-detail-form" label-width="112px" v-if="routeType === 'pay'" ref="pay" :model="payForm" :rules="payRules">
         <el-form-item label="付款金额：" prop="money">
-          <el-input class="form-input-medium" v-model="payForm.money" placeholder="请输入合同金额">
+          <el-input class="form-input-medium" type="number" v-model.number="payForm.money" placeholder="请输入合同金额">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
@@ -85,10 +85,7 @@ export default {
         files: [
           { validator: fileCheck }
         ]
-      },
-      // routeType和id不能直接通过在created创建，因为created生命周期里创建的对象不在Vue实例劫持对象里。
-      routeType: '',
-      id: ''
+      }
     };
   },
   components: {
@@ -115,6 +112,16 @@ export default {
     }
   },
   methods: {
+    getPayContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) === 4) {
+        contents.push('已付款');
+        contents.push(this.handleTaskDetail.ordPayAmount);
+        return contents;
+      } else {
+        return false;
+      }
+    },
     routeChange() {
       this.routeType = this.$route.params.type;
       this.id = this.$route.params.id;
@@ -140,7 +147,8 @@ export default {
         let params = {
           id: this.id,
           taskInsId: this.taskInsId,
-          resultStatus: '3'
+          resultStatus: '3',
+          dealResult: ''
         };
         this.cancelAssign(params);
         return false;
@@ -164,7 +172,8 @@ export default {
           taskRequest: {
             id: this.id,
             taskInsId: this.taskInsId,
-            resultStatus: '4'
+            resultStatus: '4',
+            dealResult: '' // 这个字段必传，可为空
           }
         };
         await this.submitAssignContract(submitParams);
@@ -192,9 +201,17 @@ export default {
       this.$router.push(path);
     },
     submitPayForm() {
+      const params = {
+        ordPayAmount: this.payForm.money,
+        taskRequest: {
+          id: this.id,
+          taskInsId: this.taskInsId,
+          resultStatus: '5'
+        }
+      };
       this.$refs.pay.validate(valid => {
         if (!valid) return false;
-        this.uploadOrderHandleTask();
+        this.submitPay(params);
       });
     },
     ...mapActions([
@@ -202,7 +219,8 @@ export default {
       'getHandleTaskDetail',
       'uploadOrderHandleTask',
       'cancelAssign',
-      'submitAssignContract'
+      'submitAssignContract',
+      'submitPay'
     ])
   }
 };
