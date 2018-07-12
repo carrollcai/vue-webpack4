@@ -81,6 +81,7 @@ export default {
   submitOrderRowAPI: API('/esop/bizOrder/startProcess'), // 提交订单
   deleteOrderRowAPI: API('/esop/bizOrder/delete'), // 删除订单,
   setConnectOriganizeAPI: API('/esop/bizOrder/updateOrganize'), // 关联集团
+  submitOrderPayAPI: API('/esop/bizOrder/updatePayAmount'), // 付款
   submitAssignContractAPI: API('/esop/bizOrder/updateFileId'), // 签约
 
   /* 登录相关 */

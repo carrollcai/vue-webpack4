@@ -179,10 +179,14 @@ $menu-active-color: #FFFFFF;
 }
 
 /* 去除input为number的加减按钮 */
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
-  height: auto;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 
 /* 修改默认进度条样式 */
 .el-step__icon.is-text {
@@ -204,4 +208,9 @@ $menu-active-color: #FFFFFF;
 }
 .el-step__title.is-finish, .el-step__description.is-finish {
   color: inherit;
+}
+
+/* 去掉textarea高度可拖拽 */
+.el-textarea .el-textarea__inner {
+  resize: none;
 }
