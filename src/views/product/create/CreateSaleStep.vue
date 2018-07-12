@@ -220,10 +220,11 @@ export default {
   computed: {
     composedProductList() {
       if (this.composedProduct) {
+        var formData = this.formData;
         if (this.formData.composedProduct[0] === '无') {
-          this.formData.composedProduct = [];
+          formData.composedProduct = [];
         }
-        return this.composedProduct
+        return this.composedProduct;
       }
     },
     ...mapState({
