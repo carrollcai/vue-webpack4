@@ -223,7 +223,7 @@ export default {
       });
     },
     handleDetail(row) {
-      const path = `/order/create-manage/detail/${row.ordId}/${row.processInsId}`;
+      const path = `/order/create-manage/detail/${row.ordId}${row.processInsId ? `/${row.processInsId}` : ''}`;
       this.$router.push(path);
     },
     handleCreate() {

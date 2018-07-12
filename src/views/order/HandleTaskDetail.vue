@@ -60,7 +60,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AuditSteps from 'components/task/AuditSteps.vue';
+import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
 import { multFileValid } from '@/utils/rules.js';

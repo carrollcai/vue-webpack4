@@ -183,3 +183,25 @@ $menu-active-color: #FFFFFF;
 [type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
+
+/* 修改默认进度条样式 */
+.el-step__icon.is-text {
+    border: 0;
+    background-color: #BFBFBF;
+    width: 10px;
+    height: 10px;
+    margin-top: 7px;
+    font-size: 12px;
+}
+.el-step__icon-inner {
+  color: #BFBFBF;
+}
+.el-step__head.is-finish .el-step__icon.is-text{
+  background-color: #3778FF;
+}
+.el-step__head.is-finish .el-step__icon-inner {
+  color: #3778FF;
+}
+.el-step__title.is-finish, .el-step__description.is-finish {
+  color: inherit;
+}
