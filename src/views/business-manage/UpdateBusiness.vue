@@ -95,10 +95,10 @@
             <el-form-item label="提醒人：">
               <el-select class="form-input-medium" v-model="businessData.reminders" placeholder="请选择提醒人" multiple>
                   <el-option
-                  v-for="item in designatePerson"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in remindPerson"
+                  :key="item.operatorId"
+                  :label="item.staffName"
+                  :value="item.operatorId">
                   </el-option>
               </el-select>
             </el-form-item>
@@ -200,6 +200,7 @@ export default {
   beforeMount() {
     const { opporId } = this.$route.params;
     this.getBusinessDetail({ opporId });
+    this.getRemindPerson();
     // this.getBusinessCategoryList();
     // this.getCooperationGroupList();
     // this.getDesignatePerson();
@@ -214,7 +215,8 @@ export default {
       submitBusinessStatus: ({ business }) => business.submitBusinessStatus,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       designatePerson: ({ business }) => business.designatePerson,
-      businessDetail: ({ business }) => business.businessDetail
+      businessDetail: ({ business }) => business.businessDetail,
+      remindPerson: ({ business }) => business.remindPerson
     })
   },
   methods: {
@@ -261,7 +263,7 @@ export default {
       this.submitBusinessOppority(params);
     },
     ...mapActions([
-      'getOfficeAddress', 'getCooperationGroupList', 'getBusinessDetail', 'editBusinessDetail'
+      'getOfficeAddress', 'getCooperationGroupList', 'getBusinessDetail', 'editBusinessDetail', 'getRemindPerson'
     ])
   }
 };

@@ -23,7 +23,7 @@
         prop="composedProduct" :formatter="composedProductFn">
       </el-table-column>
       <el-table-column
-        label="销售方案"
+        label="方案介绍"
         prop="scheme">
       </el-table-column>
       <el-table-column
@@ -52,12 +52,12 @@
               <el-form-item label="创新点/借鉴点">
                 <span>: {{ props.row.keypoint }}</span>
               </el-form-item>
-              <el-form-item v-if="props.row.fileName" label="附件下载">
+              <el-form-item v-if="props.row.fileName" label="方案附件">
                 <span class="blue" @click="dowloadFile()">: <i class="el-icon-download"></i>{{props.row.fileName}}</span>
               </el-form-item>
             </p>
             <p>
-              <el-form-item label="销售方案">
+              <el-form-item label="方案介绍">
                 <span>: {{ props.row.scheme }}</span>
               </el-form-item>
             </p>

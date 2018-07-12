@@ -93,10 +93,10 @@
             <el-form-item label="提醒人设置：">
               <el-select class="form-input-medium" v-model="form.reminders" placeholder="请选择提醒人" multiple>
                   <el-option
-                  v-for="item in designatePerson"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in remindPerson"
+                  :key="item.operatorId"
+                  :label="item.staffName"
+                  :value="item.operatorId">
                   </el-option>
               </el-select>
             </el-form-item>
@@ -200,7 +200,7 @@ export default {
   beforeMount() {
     this.resetForm = Object.cloneDeep(this.form);
     // this.getBusinessCategoryList();
-    // this.getDesignatePerson();
+    this.getRemindPerson();
   },
   computed: {
     ...mapState({
@@ -208,7 +208,7 @@ export default {
       officeAddress: ({ business }) => business.officeAddress,
       submitBusinessStatus: ({ business }) => business.submitBusinessStatus,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
-      designatePerson: ({ business }) => business.designatePerson
+      remindPerson: ({ business }) => business.remindPerson
     })
   },
   methods: {
@@ -282,7 +282,7 @@ export default {
       this.form = this.resetForm;
     },
     ...mapActions([
-      'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList', 'saveBusinessDraft'
+      'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList', 'saveBusinessDraft', 'getRemindPerson'
     ])
   }
 };

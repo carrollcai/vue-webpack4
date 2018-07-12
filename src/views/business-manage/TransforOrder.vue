@@ -99,7 +99,7 @@
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submit">提交</el-button>
-          <el-button @click="save" plain>保存为草稿</el-button>
+          <el-button @click="cancel" plain>取消</el-button>
         </el-form-item>
       </el-form>
       </div>
@@ -224,18 +224,13 @@ export default {
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
         this.saveBusinessOrder(params).then(res => {
-          this.reset();
+          this.cancel();
         });
       });
     },
-    save() {
-      const params = this.form;
-      this.$refs['transForm'].validate(valid => {
-        if (!valid) return false;
-        this.saveBusinessOrderDraft(params).then(res => {
-          this.reset();
-        });
-      });
+    cancel() {
+      const path = `/business-manage/business-task`;
+      this.$router.push(path);
     },
     ...mapActions([
       'getTransforOrderDetail', 'getCooperationGroupList', 'getOfficeAddress', 'getBusinessDetail'

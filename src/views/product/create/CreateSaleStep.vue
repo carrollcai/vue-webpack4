@@ -10,15 +10,15 @@
       </div>
       <div class="creat-model">
         <wm-table v-if="cacheData && cacheData.length > 0" :source="cacheData">
-          <el-table-column label="销售类型" property="salesType" :formatter="salesTypeFormat">
+          <el-table-column label="销售类型" width="80" property="salesType" :formatter="salesTypeFormat">
           </el-table-column>
-          <el-table-column label="组合产品" property="composedProduct" width="120" :formatter="productNameFormat">
+          <el-table-column label="组合产品" property="composedProduct" show-overflow-tooltip :formatter="productNameFormat">
           </el-table-column>
-          <el-table-column label="方案介绍" show-overflow-tooltip property="scheme" prop="">
+          <el-table-column label="方案介绍" align="center" show-overflow-tooltip property="scheme" prop="">
           </el-table-column>
-          <el-table-column label="销售数量" property="salesNumber">
+          <el-table-column label="销售数量" width="80" property="salesNumber">
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" align="center">
             <template slot-scope="operation">
               <span class="blue hand" @click="toPageModefiy(operation.$index ,operation.row)">编辑</span>
               <span class="blue hand" @click="deleteProduct(operation.$index ,operation.row)">删除</span>
@@ -71,11 +71,12 @@
                 :multiple="false"
                 :file-list="fileList"
                 :on-remove="removeFile">
-                <el-button slot="trigger" size="small">选择文件</el-button>
+                <span class="blue"> <i class="el-icon el-icon-plus fs12"></i>上传附件</span>
+                <div slot="tip" class="el-upload__tip">
+                  <p class="lh1-5">1. 附件格式支持“word、excel、ppt、pdf、rar“格式</p>
+                  <p class="lh1-5">2. 附件大小不超过20M。</p>
+                </div>
               </el-upload>
-            </el-form-item>
-            <el-form-item label="" label-width="130px">
-              <el-button type="primary" round size="mini" @click="submitAssignForm()"><i class="icon-up margin-right-8"></i>上传</el-button>
             </el-form-item>
             <el-row class="mt28 mb10">
               <el-button type="primary" round size="mini" @click="onSubmit(formData)">确定</el-button>
@@ -101,49 +102,49 @@ export default {
     WmTable
   },
   data() {
-    function getWordLen(str) {
+    function getWordLen(str, validNum) {
       var length = 0;
-      for (var i = 0; i < str.length; i++) {
+      for (let i = 0; i < str.length; i++) {
         if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
           length += 2;
         } else {
           length += 1;
         }
       }
-      return length;
+      if (length > validNum) {
+        return true;
+      }
     };
     function checkTip(content, value, callback) {
-      var len = getWordLen(value);
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('请输入' + content + '!'));
-      } else if (len > 1000) {
+      } else if (getWordLen(value, 1000)) {
         callback(new Error('请输入500个汉字以内' + content + '!'));
       } else {
         callback();
       }
     };
     var productNameFn = (rule, value, callback) => {
-      var len = getWordLen(value);
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('请输入产品名称!'));
-      } else if (len > 50) {
+      } else if (getWordLen(value, 50)) {
         callback(new Error('请输入在25个汉字以内产品名称!'));
       } else {
         callback();
       }
     };
     var salesTypeFn = (rule, value, callback) => {
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('选择产品类型!'));
       } else {
         callback();
       }
     };
     var salesNumberFn = (rule, value, callback) => {
-      var vlaueNum = Number(value);
-      if (value === '') {
+      var reg = /^\d{1,9}$/;
+      if (String(value).trim() === '') {
         callback(new Error('请输入销售数量!'));
-      } else if (!Number.isInteger(vlaueNum) || (Number.isInteger(vlaueNum) && vlaueNum > 100000000)) {
+      } else if (!reg.test(value)) {
         callback(new Error('请输入9位以内的数字!'));
       } else {
         callback();
@@ -155,8 +156,8 @@ export default {
     var experienceFn = (rule, value, callback) => {
       checkTip('经验教训', value, callback);
     };
-    var descriptionFn = (rule, value, callback) => {
-      checkTip('产品介绍', value, callback);
+    var schemeFn = (rule, value, callback) => {
+      checkTip('方案介绍', value, callback);
     };
     return {
       isAddProduct: this.$route.params.id | false,
@@ -191,7 +192,7 @@ export default {
           { required: true, message: '请输入产品名称或编码', trigger: 'blur' }
         ],
         scheme: [
-          { required: true, message: '请输入产品销售方案', trigger: 'blur' }
+          { required: true, validator: schemeFn, trigger: 'blur' }
         ],
         productName: [
           { required: true, validator: productNameFn, trigger: 'blur' }
@@ -207,9 +208,6 @@ export default {
         ],
         experience: [
           { required: true, validator: experienceFn, trigger: 'blur' }
-        ],
-        description: [
-          { required: true, validator: descriptionFn, trigger: 'blur' }
         ]
       }
     };
@@ -266,6 +264,7 @@ export default {
       var _this = this;
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
+          this.submitAssignForm();
           if (_this.isAddProduct) {
             if (_this.addItem) {
               _this.formData.state = 2;
@@ -401,10 +400,6 @@ export default {
       }
     },
     fileChange(files, fileList) {
-      if (fileList.length > 1) {
-        // fileList.splice(0, 1);
-      }
-      // this.uploadData.files = files.raw;
       this.uploadData.files.push(files.raw);
     },
     removeFile(files, fileList) {
@@ -412,16 +407,17 @@ export default {
       if (files.elecInstId) {
         this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
           if (res.errorInfo.code === '200') {
-            _this.formDataValid.files = null;
-            _this.uploadData.fileInputId = '';
-            _this.formData.fileInputId = '';
+            if (fileList.length === 0) {
+              _this.uploadData.fileInputId = '';
+              _this.formData.fileInputId = '';
+            }
           }
         });
       } else {
         this.formDataValid.files = null;
       }
     },
-    submitAssignForm(vaildData) {
+    submitAssignForm() {
       var _this = this;
       if (this.isShow && this.isAddProduct) {
         // 修改
@@ -467,56 +463,60 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.el-step.is-horizontal .el-step__line {
-  height: 1px;
-  background: #c0c0c0
-}
+.p-content {
+  .lh1-5 {line-height: 1.5;}
+  .fs12 {font-size: 12px;}
+  .el-upload__tip {margin-top: 0;}
+  .el-step.is-horizontal .el-step__line {
+    height: 1px;
+    background: #c0c0c0
+  }
 
-.el-step__head.is-process,
-.el-step__title.is-process {
-  color: #8c8c8c;
-  font-weight: 400;
-}
+  .el-step__head.is-process,
+  .el-step__title.is-process {
+    color: #8c8c8c;
+    font-weight: 400;
+  }
 
-.el-step.is-simple .el-step__arrow::before,
-.el-step.is-simple .el-step__arrow:before {
-  display: none
-}
+  .el-step.is-simple .el-step__arrow::before,
+  .el-step.is-simple .el-step__arrow:before {
+    display: none
+  }
 
-.el-step.is-simple .el-step__arrow::after,
-.el-step.is-simple .el-step__arrow:after {
-  -webkit-transform: none;
-  transform: none;
-  height: 1px;
-  width: 320px;
-}
+  .el-step.is-simple .el-step__arrow::after,
+  .el-step.is-simple .el-step__arrow:after {
+    -webkit-transform: none;
+    transform: none;
+    height: 1px;
+    width: 320px;
+  }
 
-.el-step__icon.is-text {
-  border-width: 1px;
-}
+  .el-step__icon.is-text {
+    border-width: 1px;
+  }
 
-.creat-content {
-  background: #fff;
-  margin-top: 16px;
-  min-height: 812px;
-  height: auto;
-}
+  .creat-content {
+    background: #fff;
+    margin-top: 16px;
+    min-height: 812px;
+    height: auto;
+  }
 
-.el-steps--simple {
-  background: none;
-}
+  .el-steps--simple {
+    background: none;
+  }
 
-.el-steps--horizontal {
-  width: 480px;
-  padding: 30px;
-  margin: 0 auto;
-}
+  .el-steps--horizontal {
+    width: 480px;
+    padding: 30px;
+    margin: 0 auto;
+  }
 
-.add-content {
-  width: 430px;
-  margin: 0 auto;
+  .add-content {
+    width: 430px;
+    margin: 0 auto;
+  }
 }
-
 .creat-model {
   width: 587px;
   margin: 0 auto;
