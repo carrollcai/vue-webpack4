@@ -62,7 +62,7 @@
               详情
             </el-button>
 
-            <el-dropdown v-if="orderHandleTaskForm.businessStatus !== 1" @command="handleCommand(scope.row, $event)">
+            <el-dropdown v-if="orderHandleTaskForm.businessStatus !== '1'" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
                 <i class="el-icon-arrow-down el-icon--right"></i>

@@ -43,7 +43,7 @@
           <template slot-scope="scope">
             <div>
               {{scope.row.organizeName}}
-              <el-popover v-model="dialogVisible" v-if="!scope.row.organizeId" placement="bottom" width="256" trigger="click" @show="resetOrganizeInfo">
+              <el-popover v-model="scope.row.dialogVisible" v-if="!scope.row.organizeId" placement="bottom" width="256" trigger="click" @show="resetOrganizeInfo">
                 <div class="o-popover-title">
                   系统暂未录入该集团，请尽快关联已录入集团！
                 </div>
@@ -54,9 +54,10 @@
                   </el-form-item>
                   <el-form-item class="margin-bottom-16" prop="organizeName">
                     <el-button type="primary" @click="connectOrganize(scope.row)">确 定</el-button>
-                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button @click="scope.row.dialogVisible = false">取 消</el-button>
                   </el-form-item>
                 </el-form>
+
                 <i slot="reference" class="el-icon-info"></i>
               </el-popover>
             </div>
@@ -107,7 +108,7 @@ export default {
         pageSize: 20,
         organizeName: ''
       },
-      dialogVisible: false,
+      // dialogVisible: {},
       organizeNameList: []
     };
   },
@@ -158,7 +159,7 @@ export default {
           message: '关联集团成功'
         });
 
-        this.dialogVisible = false;
+        row.dialogVisible = false;
 
         await this.query();
       } else {
