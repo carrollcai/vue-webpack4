@@ -167,3 +167,14 @@ export const multFileValid = (files, callback) => {
     callback();
   }
 };
+
+// 头尾空格校验，必须为字符串
+export const checkLeftRightSpace = (rule, value, callback) => {
+  if (value.indexOf(' ') === 0) {
+    callback(new Error('文字开头不能有空格'));
+  } else if (value.indexOf(' ') === value.length - 1) {
+    callback(new Error('文字结尾不能有空格'));
+  } else {
+    callback();
+  }
+};

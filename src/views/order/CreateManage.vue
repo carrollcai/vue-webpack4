@@ -108,7 +108,6 @@ export default {
         pageSize: 20,
         organizeName: ''
       },
-      // dialogVisible: {},
       organizeNameList: []
     };
   },
