@@ -74,7 +74,7 @@
             <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-dropdown @command="handleCommand(scope.row, $event)">
+            <el-dropdown v-if="scope.row.ordStatus === '1'" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -223,7 +223,7 @@ export default {
       });
     },
     handleDetail(row) {
-      const path = `/order/create-manage/detail/${row.ordId}/${row.processInsId}`;
+      const path = `/order/create-manage/detail/${row.ordId}${row.processInsId ? `/${row.processInsId}` : ''}`;
       this.$router.push(path);
     },
     handleCreate() {

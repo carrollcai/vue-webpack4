@@ -57,3 +57,20 @@ export function jsonToFormData(json) {
   }
   return formData;
 }
+
+/**
+ * 去除type=number的滚动
+ */
+export function cancelNumberScroll(evt) {
+  evt = evt || window.event;
+  if (evt.preventDefault) {
+    // Firefox
+    evt.preventDefault();
+    evt.stopPropagation();
+  } else {
+    // IE
+    evt.cancelBubble = true;
+    evt.returnValue = false;
+  }
+  return false;
+}

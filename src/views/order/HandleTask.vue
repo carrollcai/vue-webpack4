@@ -175,9 +175,9 @@ export default {
       const { businessStatus } = this.orderHandleTaskForm;
       let path = '';
       // 不同状态，详情页展示不一样
-      if (businessStatus === '2') {
+      if (businessStatus === '0') {
         path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}`;
-      } else if (businessStatus === '3') {
+      } else if (businessStatus === '4') {
         path = `/order/handle-task/detail-pay/${row.ordId}?taskInsId=${row.taskInsId}`;
       } else {
         path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}`;

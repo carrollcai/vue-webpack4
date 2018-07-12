@@ -14,6 +14,8 @@
 
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
         <detail-bar v-if="routeType === 'detail' && getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
+
+        <detail-bar v-if="routeType === 'detail' && getProcessContent()" :title="['指派人：', '指派原因：']" :content="getProcessContent()" />
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
@@ -38,7 +40,7 @@
 
       <el-form class="handle-task-detail-form" label-width="112px" v-if="routeType === 'pay'" ref="pay" :model="payForm" :rules="payRules">
         <el-form-item label="付款金额：" prop="money">
-          <el-input class="form-input-medium" type="number" v-model.number="payForm.money" placeholder="请输入合同金额">
+          <el-input class="form-input-medium" type="number" v-model.number="payForm.money" placeholder="请输入合同金额" @onmousewheel="cancelNumberScroll">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
@@ -58,10 +60,11 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AuditSteps from 'components/task/AuditSteps.vue';
+import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
-import { multFileValid } from '@/utils/rules.js';
+import { multFileValid, inte5Deci4 } from '@/utils/rules.js';
+import { cancelNumberScroll } from '@/utils/common.js';
 
 export default {
   data() {
@@ -74,7 +77,8 @@ export default {
       },
       payRules: {
         money: [
-          { required: true, message: '请输入合同金额', trigger: 'blur' }
+          { required: true, message: '请输入合同金额', trigger: 'blur' },
+          { validator: inte5Deci4, trigger: 'blur' }
         ]
       },
       assignForm: {
@@ -85,7 +89,10 @@ export default {
         files: [
           { validator: fileCheck }
         ]
-      }
+      },
+      routeType: '',
+      id: null,
+      taskInsId: null
     };
   },
   components: {
@@ -94,6 +101,7 @@ export default {
     DetailBar
   },
   created() {
+    this.cancelNumberScroll = cancelNumberScroll;
     this.routeChange();
   },
   computed: {
@@ -116,10 +124,16 @@ export default {
       let contents = [];
       if (Number(this.handleTaskDetail.ordStatus) === 4) {
         contents.push('已付款');
-        contents.push(this.handleTaskDetail.ordPayAmount);
+        contents.push(`${this.handleTaskDetail.ordPayAmount}万元`);
         return contents;
-      } else {
-        return false;
+      }
+    },
+    getProcessContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) !== 4 && this.handleTaskDetail.processor) {
+        contents.push(this.handleTaskDetail.processName);
+        contents.push(this.handleTaskDetail.assignReason);
+        return contents;
       }
     },
     routeChange() {
@@ -194,9 +208,9 @@ export default {
       // 跳转到付款的详情
       let path = '';
       if (this.routeType === 'detail-sign') {
-        path = `/order/handle-task/sign/${this.id}`;
+        path = `/order/handle-task/sign/${this.id}?taskInsId=${this.taskInsId}`;
       } else {
-        path = `/order/handle-task/pay/${this.id}`;
+        path = `/order/handle-task/pay/${this.id}?taskInsId=${this.taskInsId}`;
       }
       this.$router.push(path);
     },
