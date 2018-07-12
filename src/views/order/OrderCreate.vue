@@ -81,7 +81,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, emailCheck, textLimit, textareaLimit, inte5Deci4 } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, inte5Deci4, checkLeftRightSpace } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -102,6 +102,7 @@ export default {
       orderCreateRules: {
         ordName: [
           { required: true, message: '请输入订单名称', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' },
           { validator: textLimit, trigger: 'blur' }
         ],
         predictContractAmount: [
