@@ -39,9 +39,9 @@
       </el-form>
 
       <el-tabs v-model="orderHandleTaskForm.businessStatus" @tab-click="tabChange">
-        <el-tab-pane label="待签约处理" :name="0"></el-tab-pane>
-        <el-tab-pane label="待付款处理" :name="4"></el-tab-pane>
-        <el-tab-pane label="已处理" :name="1"></el-tab-pane>
+        <el-tab-pane label="待签约处理" name="0"></el-tab-pane>
+        <el-tab-pane label="待付款处理" name="4"></el-tab-pane>
+        <el-tab-pane label="已处理" name="1"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
@@ -62,7 +62,7 @@
               详情
             </el-button>
 
-            <el-dropdown v-if="orderHandleTaskForm.businessStatus !== '4'" @command="handleCommand(scope.row, $event)">
+            <el-dropdown v-if="orderHandleTaskForm.businessStatus !== 1" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -175,9 +175,9 @@ export default {
       const { businessStatus } = this.orderHandleTaskForm;
       let path = '';
       // 不同状态，详情页展示不一样
-      if (businessStatus === 2) {
+      if (businessStatus === '2') {
         path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}`;
-      } else if (businessStatus === 3) {
+      } else if (businessStatus === '3') {
         path = `/order/handle-task/detail-pay/${row.ordId}?taskInsId=${row.taskInsId}`;
       } else {
         path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}`;

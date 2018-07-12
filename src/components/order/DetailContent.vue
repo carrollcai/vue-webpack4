@@ -52,7 +52,10 @@
 <script>
 export default {
   props: {
-    orderOverviewDetail: Object
+    orderOverviewDetail: {
+      type: Object,
+      default: () => {}
+    }
   }
 };
 </script>

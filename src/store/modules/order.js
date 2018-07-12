@@ -3,6 +3,23 @@ import {
   PAGE_NO,
   PAGE_SIZE
 } from '@/config/index.js';
+const orderCreate = {
+  ordName: '',
+  predictContractAmount: null,
+  predictSignTime: '',
+  predictAgreementTime: '',
+  isProjectInvitation: '1',
+  organizeName: '',
+  address: '',
+  contactName: '',
+  contactGender: '',
+  contactMobile: null,
+  contactEmail: '',
+  busiDesc: '',
+  busiRequire: '',
+  productName: '',
+  productId: null
+};
 
 const state = {
   processInsId: null,
@@ -37,23 +54,9 @@ const state = {
     list: [],
     totalCount: 1
   },
-  orderCreate: {
-    ordName: '',
-    predictContractAmount: null,
-    predictSignTime: '',
-    predictAgreementTime: '',
-    isProjectInvitation: '1',
-    organizeName: '',
-    address: '',
-    contactName: '',
-    contactGender: '',
-    contactMobile: null,
-    contactEmail: '',
-    busiDesc: '',
-    busiRequire: '',
-    productName: ''
-  },
+  orderCreate: Object.cloneDeep(orderCreate),
   orderOrganizeAddressList: [],
+  productList: [],
 
   orderHandleTaskForm: {
     pageNo: PAGE_NO,
@@ -63,7 +66,7 @@ const state = {
     startDate: '',
     endDate: '',
     date: [],
-    businessStatus: 0
+    businessStatus: '0'
   },
   orderHandleTaskObj: {
     list: [],
@@ -80,8 +83,9 @@ const mutations = {
   [types.ORDER_QUERY_ORGANIZE_ADDRESS](state, data) {
     state.orderOrganizeAddressList = data.list.map(val => Object.assign(val, { value: val.organizeName }));
   },
+  // 清空创建数据
   [types.ORDER_CREATE](state, data) {
-
+    state.orderCreate = Object.cloneDeep(orderCreate);
   },
   [types.ORDER_CM_GET_LIST](state, data) {
     state.orderCreateManageObj = Object.assign(state.orderCreateManageObj, data);
@@ -124,7 +128,11 @@ const mutations = {
     state.orderCreate = Object.assign({}, state.orderCreate, data);
   },
   [types.ORDER_GET_EDIT](state, data) {
-    state.orderCreate = data;
+    let { processName, processor, ...filterData } = data;
+    state.orderCreate = filterData;
+  },
+  [types.ORDER_QUERY_PRODUCT_NAME](state, data) {
+    state.productList = data.list.map(val => Object.assign(val, { value: val.productName }));
   }
 };
 

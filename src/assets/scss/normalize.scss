@@ -177,3 +177,9 @@ $menu-active-color: #FFFFFF;
 .m-container > .el-tabs > .el-tabs__header {
   margin: 0 0 -25px;
 }
+
+/* 去除input为number的加减按钮 */
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}

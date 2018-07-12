@@ -24,6 +24,7 @@ export default {
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
   queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
   queryRegionRelationListAPI: API('/esop/operator/getRegionRelationList'),
+  queryProductByCodeOrNameAPI: API('/esop/product/queryByCodeOrName'), // 查询产品名称
   /* 附件 */
   getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
   uploadFileAPI: upload('/esop/elec/upload'), // 附件上传

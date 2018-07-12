@@ -6,7 +6,7 @@
     <li><span>产品价格：</span>{{productList.price}}元</li>
     <li><span>产品类别：</span>{{productList.productType}}</li>
     <li><span>负责人员：</span>{{productList.username}}-{{productList.deptment}}-{{productList.position}}</li>
-    <li><span>负责介绍：</span>{{productList.username}}</li>
+    <li><span>产品介绍：</span>{{productList.username}}</li>
   </ul>
 </div>
 </template>

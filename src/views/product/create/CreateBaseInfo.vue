@@ -7,7 +7,7 @@
       <p class="line"></p>
       <p class="steps"><span>2</span>产品销售案例</p>
     </div>
-    <el-form class="add-content" status-icon
+    <el-form class="add-content"
       :model="formData"
       :rules="formDataValid"
       :ref="formData"
@@ -27,7 +27,7 @@
       <el-form-item label="负责人：" required label-width="110px" class="col-item">
         <el-col :span="8"><el-form-item prop="username"><el-input v-model="formData.username" placeholder="姓名" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
         <el-col :span="8"><el-form-item prop="deptment"><el-input v-model="formData.deptment" placeholder="部门" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
-        <el-col :span="8"><el-form-item prop="position"><el-input v-model="formData.position" placeholder="职业" style="width: 100px;"></el-input></el-form-item></el-col>
+        <el-col :span="8"><el-form-item prop="position"><el-input v-model="formData.position" placeholder="岗位" style="width: 100px;"></el-input></el-form-item></el-col>
       </el-form-item>
       <el-form-item label="版本号" label-width="110px" prop="version">
         <el-input v-model="formData.version" placeholder="请输入版本号"></el-input>
@@ -45,56 +45,82 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-// import * from '@/utils/rules.js';
 
 export default {
   components: {
   },
   data() {
-    function getWordLen(str) {
+    function getWordLen(str, validNum) {
       var length = 0;
-      for (var i = 0; i < str.length; i++) {
+      for (let i = 0; i < str.length; i++) {
         if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
           length += 2;
         } else {
           length += 1;
         }
       }
-      return length;
-    }
+      if (length > validNum) {
+        return true;
+      }
+    };
+    var validTrim = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('请输入负责人姓名'));
+      } else if (getWordLen(value, 12)) {
+        callback(new Error('长度6个字符内!'));
+      } else {
+        callback();
+      }
+    };
+    var deptmentTrim = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('请输入部门名称'));
+      } else if (getWordLen(value, 30)) {
+        callback(new Error('长度15个字符内!'));
+      } else {
+        callback();
+      }
+    };
+    var positionTrim = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('请输入岗位名称'));
+      } else if (getWordLen(value, 30)) {
+        callback(new Error('长度15个字符内!'));
+      } else {
+        callback();
+      }
+    };
     var productNameFn = (rule, value, callback) => {
-      var len = getWordLen(value);
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('请输入产品名称!'));
-      } else if (len > 50) {
-        callback(new Error('请输入在25个汉字以内产品名称!'));
+      } else if (getWordLen(value, 50)) {
+        callback(new Error('请输入在25个字符以内产品名称!'));
       } else {
         callback();
       }
     };
     var productTypeFn = (rule, value, callback) => {
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('选择产品类型!'));
       } else {
         callback();
       }
     };
     var priceFn = (rule, value, callback) => {
-      var vlaueNum = Number(value);
-      if (value === '') {
+      var reg = /^\d{1,9}(?:\.\d{1,2})?$/;
+      if (String(value).trim() === '') {
         callback(new Error('请输入价格!'));
-      } else if (!Number.isInteger(vlaueNum) || (Number.isInteger(vlaueNum) && vlaueNum > 100000000)) {
+      } else if (!reg.test(value)) {
         callback(new Error('请输入9位以内的数字!'));
       } else {
         callback();
       }
     };
     var descriptionFn = (rule, value, callback) => {
-      var len = getWordLen(value);
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('请输入产品介绍!'));
-      } else if (len > 1000) {
-        callback(new Error('请输入500个汉字以内产品介绍!'));
+      } else if (getWordLen(value, 1000)) {
+        callback(new Error('请输入500个字符以内产品介绍!'));
       } else {
         callback();
       }
@@ -115,16 +141,13 @@ export default {
       },
       formDataValid: {
         username: [
-          { required: true, message: '请输入负责人姓名', trigger: 'blur' },
-          { min: 1, max: 6, message: '长度6个字符内', trigger: 'blur' }
+          { required: true, validator: validTrim, trigger: 'blur' }
         ],
         deptment: [
-          { required: true, message: '请输入部门名称', trigger: 'blur' },
-          { min: 1, max: 15, message: '长度15个字符内', trigger: 'blur' }
+          { required: true, validator: deptmentTrim, trigger: 'blur' }
         ],
         position: [
-          { required: true, message: '请输入岗位名称', trigger: 'blur' },
-          { min: 1, max: 15, message: '长度15个字符内', trigger: 'blur' }
+          { required: true, validator: positionTrim, trigger: 'blur' }
         ],
         productName: [
           { required: true, validator: productNameFn, trigger: 'blur' }
