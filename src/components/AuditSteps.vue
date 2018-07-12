@@ -12,7 +12,7 @@
         </el-step>
       </el-steps>
       <div style="display: flex;">
-        <div v-if="Number(item.businessStatus) === 5" class="child" v-for="item in processList" :key="item.processId" :style="{'flex-basis': percent()}">
+        <div v-if="Number(item.businessStatus) === cancelReasonStatus && item.dealResult" class="child" v-for="item in processList" :key="item.processId" :style="{'flex-basis': percent()}">
           <el-popover placement="top" width="200" trigger="click" :content="item.dealResult">
             <el-button slot="reference" type="text">查看原因</el-button>
           </el-popover>
@@ -36,6 +36,9 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  created() {
+    this.cancelReasonStatus = 3;
   },
   methods: {
     titleFilter(item) {
