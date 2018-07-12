@@ -27,7 +27,6 @@ const actions = {
         message: '创建成功',
         type: 'success'
       });
-      commit(types.ORDER_CREATE);
       // 创建成功
       commit(types.ROUTE_CHANGE, {
         path: '/order/create-manage'
@@ -40,7 +39,6 @@ const actions = {
         message: '修改成功',
         type: 'success'
       });
-      commit(types.ORDER_CREATE);
       // 创建成功
       commit(types.ROUTE_CHANGE, {
         path: '/order/create-manage'
@@ -109,10 +107,42 @@ const actions = {
     });
   },
   cancelAssign: ({ commit }, params) => {
-    return API.createAssignAPI(params);
+    return API.createAssignAPI(params).then(() => {
+      Message({
+        message: '提交成功',
+        type: 'success'
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/order/handle-task'
+      });
+    });
   },
   submitAssignContract: ({ commit }, params) => {
-    return API.submitAssignContractAPI(params);
+    return API.submitAssignContractAPI(params).then(() => {
+      Message({
+        message: '提交成功',
+        type: 'success'
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/order/handle-task'
+      });
+    });
+  },
+  submitPay: ({ commit }, params) => {
+    return API.setConnectOriganizeAPI(params).then(res => {
+      Message({
+        message: '提交成功',
+        type: 'success'
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/order/handle-task'
+      });
+    });
+  },
+  queryProductByCodeOrName: ({ commit }, params) => {
+    return API.queryProductByCodeOrNameAPI(params).then(res => {
+      commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
+    });
   }
 };
 

@@ -4,7 +4,7 @@
       <el-form class="task-form" ref="taskManageForm">
         <div class="flex">
           <el-form-item prop="date">
-            <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker v-model="myBusinessForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
             <!--<el-date-picker v-model="timeRange" @change="getTimeRange" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>-->
@@ -26,18 +26,18 @@
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="status">
-        <el-tab-pane label="全部"></el-tab-pane>
-        <el-tab-pane label="草稿"></el-tab-pane>
-        <el-tab-pane label="待处理"></el-tab-pane>
-        <el-tab-pane label="已转订单"></el-tab-pane>
-        <el-tab-pane label="已作废"></el-tab-pane>
+      <el-tabs v-model="myBusinessForm.opporStatus" @tab-click="tabChange">
+        <el-tab-pane label="全部" :name="0"></el-tab-pane>
+        <el-tab-pane label="草稿" :name="1"></el-tab-pane>
+        <el-tab-pane label="待处理" :name="2"></el-tab-pane>
+        <el-tab-pane label="已转订单" :name="3"></el-tab-pane>
+        <el-tab-pane label="已作废" :name="4"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
       <wm-table :source="myBusinessList.list" :pageNo="myBusinessForm.pageNo" :pageSize="myBusinessForm.pageSize" :total="myBusinessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" property="opporCode" />
-        <el-table-column label="商机描述" property="busiDesc" />
+        <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
+        <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
         <el-table-column label="合作集团" property="organizeName">
           <template slot-scope="scope">
             <span style="margin-right: 10px">{{ scope.row.organizeName }}</span>
@@ -48,10 +48,10 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" property="createDate" />
-        <el-table-column label="联系人" property="contactName" />
-        <el-table-column label="处理人" property="processor" />
-        <el-table-column label="商机状态" property="opporStatusName" />
+        <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
+        <el-table-column label="联系人" show-overflow-tooltip property="contactName" />
+        <el-table-column label="处理人" show-overflow-tooltip property="processor" />
+        <el-table-column label="商机状态" show-overflow-tooltip property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">
@@ -128,12 +128,20 @@ export default {
     }
   },
   beforeMount() {
-    const params = this.myBusinessForm;
-    this.getMyBusinessList(params);
-    // this.getCooperationGroupList();
-    // this.query();
+    this.query();
+    // let { date, ..._params } = this.myBusinessForm;
+    // if (_params.opporStatus > 0) {
+    //   _params.opporStatus = _params.opporStatus - 1;
+    // } else {
+    //   _params.opporStatus = '';
+    // }
+    // this.getMyBusinessList(_params);
   },
   methods: {
+    tabChange(val) {
+      this.myBusinessForm.pageNo = 1;
+      this.query();
+    },
     isDraft(row) {
       return row.opporStatusName === '草稿';
     },
@@ -171,14 +179,21 @@ export default {
       this.$router.push(path);
     },
     query() {
-      const params = this.myBusinessForm;
-      if (parseInt(this.status) > 0) {
-        this.myBusinessForm.opporStatus = parseInt(this.status) - 1;
+      let { date, ..._params } = this.myBusinessForm;
+      if (_params.opporStatus > 0) {
+        _params.opporStatus = _params.opporStatus - 1;
       } else {
-        this.myBusinessForm.opporStatus = '';
+        _params.opporStatus = '';
       }
-      // params.opporStatus = parseInt(this.status);
-      this.getMyBusinessList(params);
+      this.getMyBusinessList(_params);
+      // const params = this.myBusinessForm;
+      // if (parseInt(this.status) > 0) {
+      //   this.myBusinessForm.opporStatus = parseInt(this.status) - 1;
+      // } else {
+      //   this.myBusinessForm.opporStatus = '';
+      // }
+      // // params.opporStatus = parseInt(this.status);
+      // this.getMyBusinessList(params);
     },
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
@@ -191,11 +206,11 @@ export default {
       this.timeout = await setTimeout(() => {
         var cooperationGroupList = this.cooperationGroupList;
         var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
-        if (results.length === 0) {
-          this.noData = true;
-        } else {
-          this.noData = false;
-        };
+        // if (results.length === 0) {
+        //   this.noData = true;
+        // } else {
+        //   this.noData = false;
+        // };
         cb(results);
       }, 1000);
     },
@@ -219,7 +234,13 @@ export default {
         var _this = this;
         this.submitBusinessDraft(param).then(res => {
           if (res.data && res.errorInfo.code === '200') {
-            _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+            const h = this.$createElement;
+            _this.$message({
+              message: h('p', null, [
+                h('p', null, '您已成功提交该条商机！ '),
+                h('p', null, '处理人' + res.data.dealPersonName)
+              ])
+            });
           } else {
             _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
           }
@@ -240,6 +261,7 @@ export default {
         this.delBusinessOppority(param).then(res => {
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({ showClose: true, message: '您已成功删除该条商机！', type: 'success' });
+            _this.query();
           } else {
             _this.$message({ showClose: true, message: '删除失败！', type: 'error' });
           }

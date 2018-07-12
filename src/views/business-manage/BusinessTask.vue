@@ -4,7 +4,7 @@
       <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker v-model="businessTaskForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
 
@@ -21,27 +21,27 @@
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="status">
-        <el-tab-pane label="待处理"></el-tab-pane>
-        <el-tab-pane label="已处理"></el-tab-pane>
+      <el-tabs v-model="businessTaskForm.taskHasComplete" @tab-click="tabChange">
+        <el-tab-pane label="待处理" :name="0"></el-tab-pane>
+        <el-tab-pane label="已处理" :name="1"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
       <wm-table :source="businessTaskList.list" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" property="opporCode" />
-        <el-table-column label="商机描述" property="busiDesc" />
-        <el-table-column label="合作集团" property="organizeName" />
-        <el-table-column label="创建时间" property="createDate" />
-        <el-table-column label="联系人" property="contactName" />
-        <el-table-column label="处理结果" v-if="businessStatus === '已处理'" property="businessStatus" />
-        <el-table-column v-if="businessStatus === '已处理'" label="处理人" property="process" />
-        <el-table-column v-if="businessStatus === '已处理'" label="处理结果" property="result" />
+        <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
+        <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
+        <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
+        <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
+        <el-table-column label="联系人" v-if="businessTaskForm.taskHasComplete === '0'" show-overflow-tooltip property="contactName" />
+        <el-table-column v-if="businessTaskForm.taskHasComplete === 1" label="处理人" property="contactName" />
+        <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatus" />
+        <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.businessStatus === '待处理'" type="text" @click="handleTrans(scope.row)">
+            <el-button v-if="businessTaskForm.taskHasComplete === '0'" type="text" @click="handleTrans(scope.row)">
               转订单
             </el-button>
-            <template v-if="scope.row.businessStatus === '待处理'">
+            <template v-if="businessTaskForm.taskHasComplete === '0'">
               <el-dropdown @command="handleCommand(scope.row, $event)">
                 <el-button type="text">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
@@ -149,11 +149,22 @@ export default {
   beforeMount() {
     // this.getCooperationGroupList();
     // this.query();
-    const params = this.businessTaskForm;
-    params.taskHasComplete = this.status;
-    this.getBusinessTaskList(params);
+    let { date, ..._params } = this.businessTaskForm;
+    // if (_params.opporStatus > 0) {
+    //   _params.opporStatus = _params.opporStatus - 1;
+    // } else {
+    //   _params.opporStatus = '';
+    // }
+    this.getBusinessTaskList(_params);
+    // const params = this.businessTaskForm;
+    // params.taskHasComplete = this.status;
+    // this.getBusinessTaskList(params);
   },
   methods: {
+    tabChange(val) {
+      this.businessTaskForm.pageNo = 1;
+      this.query();
+    },
     getTimeRange(time) {
       if (time) {
         this.businessTaskForm.startDate = time[0];
@@ -233,22 +244,28 @@ export default {
     cancelConfirm() {
       let params = this.cancelParam;
       params.dealResult = this.cancelForm.reason;
-      let _this = this;
-      this.submitBusinessCancel(params).then(res => {
-        if (res.data && res.errorInfo.code === '200') {
-          _this.cancelDialogVisible = false;
-          _this.cancelForm.person = '';
-          _this.cancelForm.reason = '';
-          _this.$message({ showClose: true, message: '作废成功！', type: 'success' });
-        } else {
-          _this.$message({ showClose: true, message: '作废失败！', type: 'error' });
-        }
-      });
+      if (params.dealResult !== '') {
+        let _this = this;
+        this.submitBusinessCancel(params).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.cancelDialogVisible = false;
+            _this.cancelForm.person = '';
+            _this.cancelForm.reason = '';
+            _this.$message({ showClose: true, message: '作废成功！', type: 'success' });
+            _this.query();
+          } else {
+            _this.$message({ showClose: true, message: '作废失败！', type: 'error' });
+          }
+        });
+      } else {
+        this.$message({ showClose: true, message: '请填写作废原因！' });
+      }
     },
     query() {
-      const params = this.businessTaskForm;
-      params.taskHasComplete = this.status;
-      this.getBusinessTaskList(params);
+      // const params = this.businessTaskForm;
+      // params.taskHasComplete = this.status;
+      let { date, ..._params } = this.businessTaskForm;
+      this.getBusinessTaskList(_params);
     },
     querySearchAsync(queryString, cb) {
       var cooperNumList = this.cooperNumList;

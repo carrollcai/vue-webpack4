@@ -27,7 +27,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
@@ -205,7 +205,7 @@ export default {
   computed: {
     ...mapState({
       // businessCategoryList: ({ business }) => business.businessCategoryList,
-      officeAddress: ({ business }) => business.officeAddress,
+      // officeAddress: ({ business }) => business.officeAddress,
       submitBusinessStatus: ({ business }) => business.submitBusinessStatus,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       remindPerson: ({ business }) => business.remindPerson
@@ -231,14 +231,13 @@ export default {
         cb(results);
       }, 1000);
     },
+    handleSelect(item) {
+      this.form.address = item.orgAddress;
+    },
     createStateFilter(queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
-    },
-    handleSelect(item) {
-      this.form.address = item.id;
-      this.getOfficeAddress();
     },
     submit() {
       if (this.form.reminders !== '') {
@@ -282,7 +281,7 @@ export default {
       this.form = this.resetForm;
     },
     ...mapActions([
-      'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList', 'saveBusinessDraft', 'getRemindPerson'
+      'submitBusinessOppority', 'getCooperationGroupList', 'saveBusinessDraft', 'getRemindPerson'
     ])
   }
 };

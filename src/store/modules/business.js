@@ -9,6 +9,7 @@ const state = {
   businessForm: {
     startDate: '',
     endDate: '',
+    date: [],
     organizeNameOrCode: '',
     opporCode: '',
     opporStatus: '',
@@ -18,6 +19,7 @@ const state = {
   myBusinessForm: {
     startDate: '',
     endDate: '',
+    date: [],
     organizeNameOrCode: '',
     opporCode: '',
     opporStatus: '',
@@ -27,9 +29,10 @@ const state = {
   businessTaskForm: {
     startDate: '',
     endDate: '',
+    date: [],
     organizeNameOrCode: '',
     opporCode: '',
-    taskHasComplete: '',
+    taskHasComplete: 0,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
@@ -52,7 +55,8 @@ const state = {
   myBusinessList: '',
   transforOrderDetail: '',
   submitBusinessDraftStatus: '',
-  editBusinessDetailStatus: ''
+  editBusinessDetailStatus: '',
+  productNameCode: ''
 };
 
 const mutations = {
@@ -82,7 +86,7 @@ const mutations = {
     state.groupAssociationStatus = data.list;
   },
   [types.DEL_BUSINESS_STATUS](state, data) {
-    state.delBusinessStatus = data.list;
+    state.delBusinessStatus = data;
   },
   [types.BUSINESS_DRAFT_DETAIL](state, data) {
     state.businessDraftDetail = data.list;
@@ -137,6 +141,10 @@ const mutations = {
   },
   [types.EDIT_BUSINESS_DETAIL_STATUS](state, data) {
     state.editBusinessDetailStatus = data;
+  },
+  [types.PRODUCT_NAME_CODE](state, data) {
+    state.productNameCode = data.list.map(val => Object.assign(val, {value: val.productName}));
+    // state.cooperationGroupList = data.list;
   }
 };
 
