@@ -118,7 +118,7 @@ const actions = {
   submitBusinessSend: ({ commit }, params) => {
     return API.submitBusinessSendAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_SEND_STATUS, res.data);
-      return res.data;
+      return res;
     });
   },
   /**
@@ -145,7 +145,7 @@ const actions = {
   saveBusinessOrder: ({ commit }, params) => {
     return API.saveBusinessOrderAPI(params).then(res => {
       commit(types.SAVE_BUSINESS_ORDER, res.data);
-      return res.data.list;
+      return res;
     });
   },
   /**

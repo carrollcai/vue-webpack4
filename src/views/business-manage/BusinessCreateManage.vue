@@ -286,6 +286,7 @@ export default {
           _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
           _this.editOrgParam = {};
           _this.hideAssociate();
+          _this.query();
         } else {
           _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
         }
