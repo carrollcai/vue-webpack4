@@ -5,9 +5,21 @@ const state = {
   productList: {},
   productCreatList: {},
   detailSale: [],
-  composedProduct: []
+  composedProduct: [],
+  baseInfo: {
+    productId: '',
+    productName: '',
+    productType: '',
+    price: '',
+    description: '',
+    username: '',
+    deptment: '',
+    version: '',
+    position: '',
+    salesList: []
+  },
+  saleStep: {}
 };
-
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
     state.productSaleDemo = data;
@@ -23,6 +35,12 @@ const mutations = {
   },
   [types.COMPOSED_PRODUCT](state, data) {
     state.composedProduct = data;
+  },
+  [types.SAVE_BASE_INFO](state, data) {
+    state.baseInfo = data;
+  },
+  [types.SAVE_SALE_STEP](state, data) {
+    state.saleStep = data;
   }
 };
 
