@@ -10,9 +10,9 @@
     </div>
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
-        <audit-steps v-if="processList.length" :processList="processList"></audit-steps>
+        <audit-steps v-if="processList.length" :processList="processList" />
 
-        <detail-content v-if="Object.keys(handleTaskDetail).length" :handleTaskDetail="handleTaskDetail" />
+        <detail-content v-if="Object.keys(orderOverviewDetail).length" :orderOverviewDetail="orderOverviewDetail" />
       </div>
 
     </div>
@@ -31,14 +31,14 @@ export default {
   },
   computed: {
     ...mapState({
-      handleTaskDetail: ({ order }) => order.handleTaskDetail,
+      orderOverviewDetail: ({ order }) => order.orderOverviewDetail,
       processList: ({ order }) => order.processList
     })
   },
   async beforeMount() {
     const { id, processId } = this.$route.params;
 
-    // 如果这边不让getOrderOverviewDetail在后面执行，会导致handleTaskDetail里的对象消失，因为handleTaskDetail没定义对象内属性
+    // 如果这边不让getOrderOverviewDetail在后面执行，会导致orderOverviewDetail里的对象消失，因为orderOverviewDetail没定义对象内属性
     await this.getOrderOverviewProcess({ processInsId: processId });
     await this.getOrderOverviewDetail({ ordId: id });
   },

@@ -14,6 +14,8 @@
 
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
         <detail-bar v-if="routeType === 'detail' && getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
+
+        <detail-bar v-if="routeType === 'detail' && getProcessContent()" :title="['指派人：', '指派原因：']" :content="getProcessContent()" />
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
@@ -118,8 +120,15 @@ export default {
         contents.push('已付款');
         contents.push(this.handleTaskDetail.ordPayAmount);
         return contents;
-      } else {
-        return false;
+      }
+    },
+    getProcessContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) !== 4 && this.handleTaskDetail.processor) {
+        contents.push(this.handleTaskDetail.processName);
+        contents.push(this.handleTaskDetail.assignReason);
+        console.log(contents);
+        return contents;
       }
     },
     routeChange() {
