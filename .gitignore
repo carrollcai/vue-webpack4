@@ -12,6 +12,7 @@ selenium-debug.log
 /test/test.js
 /build/dll.md
 /test/test.js
+/test/*.md
 
 # Editor directories and files
 .idea
