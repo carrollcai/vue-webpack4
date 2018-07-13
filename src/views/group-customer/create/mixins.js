@@ -11,7 +11,7 @@ export default {
   },
   data() {
     return {
-      step: 0,
+      step: 2,
       isAddingContact: false,
       dateOptions: {
         disabledDate(time) {
@@ -57,7 +57,7 @@ export default {
           { type: 'string', pattern: /^[A-Z\d]{18}$/, message: '请输入18位数字或大写英文字母', trigger: 'blur' }
         ],
         businessTerm: [
-          { type: 'string', pattern: /^[1-9]\d{1,2}$/, message: '请输入整数', trigger: 'blur' }
+          { type: 'string', pattern: /^[1-9]\d{0,2}$/, message: '请输入整数', trigger: 'blur' }
         ],
         registerFund: [
           {

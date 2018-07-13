@@ -53,6 +53,7 @@
               <el-select
                 key="province-select"
                 v-model="customer.provinceId"
+                disabled
                 placeholder="请选择所属省份">
                 <el-option
                   v-for="(item, i) in provinces"
@@ -211,13 +212,11 @@
           :data="contacts">
           <el-table-column
             prop="name"
-            label="姓名"
-            width="180">
+            label="姓名">
           </el-table-column>
           <el-table-column
             prop="mobile"
-            label="手机"
-            width="180">
+            label="手机">
           </el-table-column>
           <el-table-column
             label="性别">
@@ -228,6 +227,10 @@
           <el-table-column
             prop="department"
             label="部门">
+          </el-table-column>
+          <el-table-column
+            prop="position"
+            label="职位">
           </el-table-column>
           <el-table-column
             label="上级设置">
@@ -304,7 +307,11 @@
             key="managerJob-input"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="saveCustomer">立即提审</el-button>
+          <template v-if="customer.orgTaskStatus === '1'">
+            <el-button type="primary" @click="approveCustomer">立即提审</el-button>
+            <el-button type="primary" @click="saveCustomer">保存草稿</el-button>
+          </template>
+          <el-button v-if="customer.orgTaskStatus === '4' || customer.orgTaskStatus === '3' || customer.orgTaskStatus === '6'" type="primary" @click="saveCustomer">立即提审</el-button>
           <el-button type="primary" @click="toSecondStepFromThird">上一步</el-button>
         </el-form-item>
       </el-form>
@@ -334,13 +341,20 @@ export default {
         }
       });
     },
+    approveCustomer() {
+      this.$refs.managerForm.validate((valid) => {
+        if (valid) {
+          this.editApproveCustomer(this.customer);
+        }
+      });
+    },
     init() {
-      this.queryCustomer(this.$route.params.id);
+      this.queryCustomerSnapshot(this.$route.params.id);
     },
     ...mapActions([
       'updateCustomer',
-      'createApproveCustomer',
-      'queryCustomer'
+      'editApproveCustomer',
+      'queryCustomerSnapshot'
     ])
   }
 };

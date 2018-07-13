@@ -97,7 +97,6 @@
           <el-table-column label="上级领导">
             <template slot-scope="props">
               {{parentContact(props.row.parentContactId)}}
-              {{parentContactId}}
             </template>
           </el-table-column>
           <el-table-column type="expand" label="操作" width="100px">
