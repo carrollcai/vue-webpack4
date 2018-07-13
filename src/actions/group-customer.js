@@ -16,6 +16,7 @@ function removeAttributs(customer) {
   delete customer.certificateTypeValue;
   delete customer.registerFundTypeValue;
   delete customer.processInsId;
+  delete customer.orgTaskStatus;
 
   let contacts = customer.contactDtoList;
   if (contacts && contacts.length) {

@@ -53,6 +53,7 @@
               <el-select
                 key="province-select"
                 v-model="customer.provinceId"
+                disabled
                 placeholder="请选择所属省份">
                 <el-option
                   v-for="(item, i) in provinces"
@@ -306,11 +307,11 @@
             key="managerJob-input"></el-input>
         </el-form-item>
         <el-form-item>
-          <template>
+          <template v-if="customer.orgTaskStatus === '1'">
             <el-button type="primary" @click="approveCustomer">立即提审</el-button>
             <el-button type="primary" @click="saveCustomer">保存草稿</el-button>
           </template>
-          <el-button type="primary" @click="saveCustomer">立即提审</el-button>
+          <el-button v-if="customer.orgTaskStatus === '4' || customer.orgTaskStatus === '3' || customer.orgTaskStatus === '6'" type="primary" @click="saveCustomer">立即提审</el-button>
           <el-button type="primary" @click="toSecondStepFromThird">上一步</el-button>
         </el-form-item>
       </el-form>

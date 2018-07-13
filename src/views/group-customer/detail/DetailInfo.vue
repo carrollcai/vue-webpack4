@@ -1,6 +1,6 @@
 <template>
   <div class="customer-detail_info">
-      <activity :process-id="customer.processInsId" v-if="customer.processInsId"></activity>
+      <audit-steps v-if="customer.processInsId && processes.length" :processList="processes" />
       <div class="block-title base-info_title">
         基本信息
         <span class="base-info_title-sub" @click="showMore = !showMore">更多信息</span>
@@ -211,14 +211,15 @@
     </div>
 </template>
 <script>
-import Activity from './Activity.vue';
-import filters from '../filters.js';
 import find from 'lodash/find';
+import {mapActions} from 'vuex';
+import filters from '../filters.js';
+import AuditSteps from 'components/AuditSteps.vue';
 export default {
   name: 'DetailInfo',
   mixins: [filters],
   components: {
-    Activity
+    AuditSteps
   },
   props: {
     customer: {
@@ -231,12 +232,20 @@ export default {
   computed: {
     contacts() {
       return this.customer.contactDtoList || [];
+    },
+    processes() {
+      return this.$store.getters.processes;
     }
   },
   data() {
     return {
       showMore: false
     };
+  },
+  watch: {
+    customer() {
+      this.initProcesses();
+    }
   },
   methods: {
     parentContact(parentId) {
@@ -258,7 +267,15 @@ export default {
       }
 
       return result;
-    }
+    },
+    initProcesses() {
+      if (this.customer.processInsId) {
+        this.queryProcesses(this.customer.processInsId);
+      }
+    },
+    ...mapActions([
+      'queryProcesses'
+    ])
   }
 };
 </script>
