@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     init() {
-      this.queryRequirement();
+      this.queryRequirement(this.$route.params.id);
     },
     ...mapActions(['queryRequirement'])
   }

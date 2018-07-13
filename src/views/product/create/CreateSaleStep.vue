@@ -47,6 +47,7 @@
                 filterable
                 allow-create
                 default-first-option
+                @change="productNameChange"
                 placeholder="产品名称/编码">
                 <el-option
                 v-for="item in composedProductList"
@@ -68,13 +69,15 @@
             <el-form-item label="经验教训：" label-width="130px" prop="experience">
               <el-input v-model="formData.experience" placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
             </el-form-item>
-            <el-form-item label="方案附件：" label-width="130px" prop="fileList">
+            <el-form-item label="方案附件：" label-width="130px">
               <el-upload class="upload-demo"
                 action=""
                 :auto-upload="false"
                 :on-change="fileChange"
                 :multiple="false"
                 :file-list="fileList"
+                :limit="5"
+                :accept="fileType"
                 :on-remove="removeFile">
                 <span class="blue"> <i class="el-icon el-icon-plus fs12"></i>上传附件</span>
                 <div slot="tip" class="el-upload__tip">
@@ -102,6 +105,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
+import { multFileValid } from '@/utils/rules.js';
 export default {
   components: {
     WmTable
@@ -119,6 +123,9 @@ export default {
       if (length > validNum) {
         return true;
       }
+    };
+    const fileCheck = (rule, value, callback) => {
+      multFileValid(this.formDataValid.files, callback);
     };
     function checkTip(content, value, callback) {
       if (String(value).trim() === '') {
@@ -184,6 +191,7 @@ export default {
         composedProduct: [],
         fileInputId: null
       },
+      fileType: 'application/pdf,application/rar,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.ms-excel',
       uploadData: {
         fileInputId: '',
         fileTypeId: 502,
@@ -213,6 +221,9 @@ export default {
         ],
         experience: [
           { required: true, validator: experienceFn, trigger: 'blur' }
+        ],
+        files: [
+          { validator: fileCheck }
         ]
       }
     };
@@ -229,26 +240,54 @@ export default {
     },
     ...mapState({
       composedProduct: ({ product }) => product.composedProduct,
-      productSaleDemo: ({ product }) => product.productSaleDemo
+      productSaleDemo: ({ product }) => product.productSaleDemo,
+      saleStep: ({product}) => product.saleStep
     })
   },
   beforeMount() {
+    let returnStep = Number(localStorage.getItem('nextStep'));
+    let prevStep = Number(localStorage.getItem('prevStep'));
     var _this = this;
     this.getComposedProduct({});
     this.params = JSON.parse(localStorage.getItem('params'));
-    if (this.isAddProduct) {
+    if (this.isAddProduct && this.isAddProduct > 0) {
       this.isShow = false;
-      var data = { productId: Number(this.isAddProduct) };
-      this.getProductDetail(data).then((reques) => {
-        if (_this.productSaleDemo) {
-          var res = _this.productSaleDemo.salesList;
-          for (var i in res) {
+      if (returnStep === 1 && prevStep === 2) {
+        this.formData = this.saleStep;
+        if (this.saleStep.salesList.length > 0) {
+          let res = this.saleStep.salesList;
+          for (let i in res) {
             res[i].state = 3;
           }
-          _this.cacheSalesList = res;
-          _this.cacheData = res.concat();
+          this.cacheSalesList = res;
+          this.cacheData = res.concat();
         }
-      });
+      } else {
+        var data = { productId: Number(this.isAddProduct) };
+        this.getProductDetail(data).then((reques) => {
+          if (_this.productSaleDemo) {
+            let res = _this.productSaleDemo.salesList;
+            for (let i in res) {
+              res[i].state = 3;
+            }
+            _this.cacheSalesList = res;
+            _this.cacheData = res.concat();
+          }
+        });
+      }
+    } else {
+      if (returnStep === 1 && prevStep === 2) {
+        this.formData = this.saleStep;
+        if (this.saleStep.salesList.length > 0) {
+          this.isShow = false;
+          let res = this.saleStep.salesList;
+          for (let i in res) {
+            res[i].state = 3;
+          }
+          this.cacheSalesList = res;
+          this.cacheData = res.concat();
+        }
+      }
     }
   },
   methods: {
@@ -274,7 +313,16 @@ export default {
         this.reset();
       }
     },
+    productNameChange(value) {
+      /* var cloneValue = value;
+      var curValue = value[0];
+      this.getComposedProduct({productName: curValue}).then((res) => {
+        this.composedProductList = res
+        console.log(res)
+      }); */
+    },
     onSubmit(vaildData) {
+      this.isSubmit = true;
       var _this = this;
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
@@ -301,6 +349,7 @@ export default {
           _this.params.salesList = _this.cacheSalesList;
           _this.isShow = false;
         } else {
+          _this.isShow = true;
           return false;
         }
         _this.addItem = false;
@@ -308,6 +357,9 @@ export default {
     },
     creartProduct() {
       var _this = this;
+      if (!this.isSubmit) {
+        this.params.salesList = this.cacheSalesList;
+      }
       var salesList = this.params.salesList;
       for (var s in salesList) {
         if (salesList[s].salesType === '单品销售') {
@@ -388,6 +440,7 @@ export default {
           }
         }
         _this.params.salesList = _this.cacheSalesList;
+        _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
       }).catch(() => {
         _this.$message('已取消删除');
       });
@@ -453,6 +506,11 @@ export default {
       }
     },
     prevStep() {
+      if (!this.isSubmit) {
+        this.params.salesList = this.cacheSalesList;
+      }
+      this.saveSaleStep(this.params);
+      localStorage.setItem('prevStep', 2);
       this.$router.go(-1);
     },
     getRadioValue(value) {
@@ -469,7 +527,8 @@ export default {
       'getProductFileId',
       'getComposedProduct',
       'queryElec',
-      'delUplodFile'
+      'delUplodFile',
+      'saveSaleStep'
     ])
   }
 };

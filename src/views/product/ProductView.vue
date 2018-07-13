@@ -1,28 +1,32 @@
 <template>
-<div class="p-manage">
+<div class="p-manage m-container">
   <el-form :inline="true" :model="formData" class="demo-form-inline">
-    <el-form-item>
-      <el-col>
-        <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
-        <el-option label="全部" value="" />
-        <el-option label="个人市场" value="0" />
-        <el-option label="政企市场" value="1" />
-      </el-select>
-    </el-form-item>
-    <el-form-item>
-      <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">查询</el-button>
-    </el-form-item>
+    <div class="flex">
+      <el-form-item>
+        <el-col>
+          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
+        </el-col>
+      </el-form-item>
+      <el-form-item>
+        <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+          <el-option label="全部" value="" />
+          <el-option label="个人市场" value="0" />
+          <el-option label="政企市场" value="1" />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
+      </el-form-item>
+    </div>
+    <div class="flex">
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
+      </el-form-item>
+    </div>
   </el-form>
   <wm-table
     :source="productList.list"
@@ -134,5 +138,22 @@ export default {
 </script>
 
 <style lang="scss">
-.p-manage {padding: 24px; background: #fff;}
+@import "scss/variables.scss";
+.p-manage {
+  padding: 24px; background: #fff;
+  .form-item__lable {
+    margin-left: $blockWidth;
+  }
+  .demo-form-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .form-item__input {
+    width: $inputWidthQuery;
+  }
+  .form-item {
+    margin-left: $formWidth;
+  }
+}
 </style>

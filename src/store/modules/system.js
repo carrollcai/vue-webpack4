@@ -16,7 +16,7 @@ const userCreate = {
   code: '',
   roleId: [],
   provinces: [],
-  opRegion: '',
+  opRegion: [],
   mobile: '',
   email: ''
 };
@@ -39,7 +39,7 @@ const state = {
     pageSize: PAGE_SIZE,
     opRegion: null,
     otherField: '',
-    role: ''
+    role: null
   },
   userCreate: Object.cloneDeep(userCreate),
 
@@ -76,6 +76,16 @@ const mutations = {
     state.userObj = data;
   },
   [types.USER_GET_INFO](state, data) {
+    // 需要将用户归属改造成v-model识别的数据类型
+    let opRegion = [];
+    state.regionRelationList.map(val => {
+      val.children.map(cval => {
+        if (cval.value === data.opRegion.toString()) {
+          opRegion = [val.value, cval.value];
+        }
+      });
+    });
+    data.opRegion = opRegion;
     state.userCreate = data;
   },
   [types.SYSTEM_QUERY_REGION](state, data) {
@@ -101,12 +111,21 @@ const mutations = {
       _val.label = val.codeName;
       _val.children = val.staticDataDTOList.map(cval => {
         let _cval = {};
-        _cval.value = val.codeValue;
-        _cval.label = val.codeName;
+        _cval.value = cval.codeValue;
+        _cval.label = cval.codeName;
         return _cval;
       });
       return _val;
     });
+  },
+  [types.ROLE_REDIRECT_USER_CREATE](state, data) {
+    state.userForm = {
+      pageNo: PAGE_NO,
+      pageSize: PAGE_SIZE,
+      opRegion: null,
+      otherField: '',
+      role: data
+    };
   }
 };
 

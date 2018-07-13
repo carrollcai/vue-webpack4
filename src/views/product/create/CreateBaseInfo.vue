@@ -27,7 +27,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="产品价格：" label-width="110px" prop="price">
-        <el-input v-model="formData.price" placeholder="请输入价格"><template slot="append">元</template></el-input>
+        <el-input v-model="formData.price" placeholder="数字允许小数点后两位小数"><template slot="append">元</template></el-input>
       </el-form-item>
       <el-form-item label="负责人：" required label-width="110px" class="col-item">
         <el-col :span="8"><el-form-item prop="username"><el-input v-model="formData.username" placeholder="姓名" style="width: 100px;"></el-input><span class="split">-</span></el-form-item></el-col>
@@ -171,33 +171,43 @@ export default {
   },
   computed: {
     ...mapState({
+      baseInfo: ({ product }) => product.baseInfo,
       productSaleDemo: ({ product }) => product.productSaleDemo
     })
   },
   beforeMount() {
-    if (this.isAddProduct) {
-      var _this = this;
-      var data = { productId: this.isAddProduct };
-      this.getProductDetail(data).then(() => {
-        var res = _this.productSaleDemo;
-        if (res.productType === '个人市场') {
-          res.productType = '0';
-        } else if (res.productType === '政企市场') {
-          res.productType = '1';
-        }
-        _this.formData = {
-          productId: res.productId,
-          productName: res.productName,
-          productType: res.productType,
-          price: res.price,
-          description: res.description,
-          username: res.username,
-          deptment: res.deptment,
-          version: res.version,
-          position: res.position,
-          salesList: []
-        };
-      });
+    let returnStep = Number(localStorage.getItem('prevStep'));
+    if (this.isAddProduct && this.isAddProduct > 0) {
+      if (returnStep === 2) {
+        this.formData = this.baseInfo;
+      } else {
+        var _this = this;
+        var data = { productId: this.isAddProduct };
+        this.getProductDetail(data).then(() => {
+          var res = _this.productSaleDemo;
+          if (res.productType === '个人市场') {
+            res.productType = '0';
+          } else if (res.productType === '政企市场') {
+            res.productType = '1';
+          }
+          _this.formData = {
+            productId: res.productId,
+            productName: res.productName,
+            productType: res.productType,
+            price: res.price,
+            description: res.description,
+            username: res.username,
+            deptment: res.deptment,
+            version: res.version,
+            position: res.position,
+            salesList: []
+          };
+        });
+      }
+    } else {
+      if (returnStep === 2) {
+        this.formData = this.baseInfo;
+      }
     }
   },
   methods: {
@@ -205,10 +215,11 @@ export default {
       // 产品数据查询方法
     },
     nextStep(vaildData) {
-      var _this = this;
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
-          localStorage.setItem('params', JSON.stringify(_this.formData));
+          localStorage.setItem('nextStep', 1);
+          localStorage.setItem('params', JSON.stringify(this.formData));
+          this.saveBaseInfo(this.formData);
           if (this.isAddProduct) {
             this.$router.push({path: `/product/create-sale-step/${this.isAddProduct}`});
           } else {
@@ -220,7 +231,8 @@ export default {
       });
     },
     ...mapActions([
-      'getProductDetail'
+      'getProductDetail',
+      'saveBaseInfo'
     ])
   }
 };

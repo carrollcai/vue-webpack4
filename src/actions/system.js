@@ -34,8 +34,6 @@ const actions = {
   getUserInfo: ({ commit }, params) => {
     return API.getUserInfoAPI(params).then(res => {
       commit(types.USER_GET_INFO, res.data);
-    }, err => {
-      if (err) commit(types.USER_GET_INFO, {});
     });
   },
   createUser: ({ commit }, params) => {

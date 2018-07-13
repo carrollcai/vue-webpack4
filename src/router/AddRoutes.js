@@ -40,6 +40,8 @@ import CustomerAuditDetail from '@/views/group-customer/detail/CustomerAuditDeta
 import RequirementManagement from '@/views/requirement/management/RequirementManagement.vue';
 import RequirementHandleList from '@/views/requirement/management/RequirementHandleList.vue';
 import RequirementCreate from '@/views/requirement/create/RequirementCreate.vue';
+import RequirementDetail from '@/views/requirement/detail/RequirementDetail.vue';
+import RequirementHandle from '@/views/requirement/detail/RequirementHandle.vue';
 
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
@@ -255,9 +257,22 @@ const dynamicRoutes = [
         meta: { menuId: 28 }
       },
       {
+        path: '/requirement/detail/:id',
+        name: 'requirement-detail',
+        component: RequirementDetail,
+        meta: { menuId: 28 }
+      },
+
+      {
         path: '/requirement/list',
         name: 'requirement-list',
         component: RequirementHandleList,
+        meta: { menuId: 29 }
+      },
+      {
+        path: '/requirement/handle/:id',
+        name: 'requirement-handle',
+        component: RequirementHandle,
         meta: { menuId: 29 }
       },
 

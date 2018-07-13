@@ -27,7 +27,7 @@
           <el-radio v-model="assignForm.status" :label="0">客户取消</el-radio>
         </el-form-item>
         <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files">
-          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile">
+          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files">
             <el-button slot="trigger" size="small">
               <i class="icon-up margin-right-8"></i>上传文件</el-button>
           </el-upload>
@@ -102,6 +102,7 @@ export default {
   },
   created() {
     this.cancelNumberScroll = cancelNumberScroll;
+    this.processComplete = 4; // 流程已完成状态
     this.routeChange();
   },
   computed: {
@@ -122,7 +123,7 @@ export default {
   methods: {
     getPayContent() {
       let contents = [];
-      if (Number(this.handleTaskDetail.ordStatus) === 4) {
+      if (Number(this.handleTaskDetail.ordStatus) === this.processComplete) {
         contents.push('已付款');
         contents.push(`${this.handleTaskDetail.ordPayAmount}万元`);
         return contents;
@@ -130,7 +131,7 @@ export default {
     },
     getProcessContent() {
       let contents = [];
-      if (Number(this.handleTaskDetail.ordStatus) !== 4 && this.handleTaskDetail.processor) {
+      if (Number(this.handleTaskDetail.ordStatus) !== this.processComplete && this.handleTaskDetail.processor) {
         contents.push(this.handleTaskDetail.processName);
         contents.push(this.handleTaskDetail.assignReason);
         return contents;
@@ -148,8 +149,11 @@ export default {
       this.$refs.assign.validateField('files');
     },
     removeFile(file, fileList) {
+      /**
+      * 这里应该是element-ui的问题，如果不加file-list，file传的是多一层对象，取到uid需要file.raw.uid，如果加了file-list，删除文件，直接取到file文件，需要注意。
+      */
       // 筛选选中的文件
-      let index = this.assignForm.files.findIndex(val => val.uid === file.raw.uid);
+      let index = this.assignForm.files.findIndex(val => val.uid === file.uid);
 
       this.assignForm.files.splice(index, 1);
 
@@ -186,22 +190,11 @@ export default {
           taskRequest: {
             id: this.id,
             taskInsId: this.taskInsId,
-            resultStatus: '4',
+            resultStatus: this.processComplete,
             dealResult: '' // 这个字段必传，可为空
           }
         };
         await this.submitAssignContract(submitParams);
-
-        // 不能利用submit事件，因为会重复提交一次action
-        // this.$refs.upload.submit();
-        // let fileData = new FormData();
-        // fileData.append('radio', this.assignForm.radio);
-        // fileData.append('file', this.assignForm.file);
-
-        // 先获取附件id再上传。
-        // this.getNewFileInputId().then(() => {
-        //   this.uploadOrderHandleTask(fileData);
-        // });
       });
     },
     submitSign() {
@@ -257,5 +250,8 @@ export default {
 }
 .margin-right-8 {
   margin-right: 8px;
+}
+.upload-demo {
+  width: 300px;
 }
 </style>
