@@ -11,7 +11,7 @@ export default {
   },
   data() {
     return {
-      step: 2,
+      step: 0,
       isAddingContact: false,
       dateOptions: {
         disabledDate(time) {
