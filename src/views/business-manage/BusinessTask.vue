@@ -191,8 +191,7 @@ export default {
     },
     // 点击转订单
     handleTrans(row) {
-      const path = `/business-manage/transfor-order/${row.opporId}`;
-      this.$router.push(path);
+      this.$router.push(`/business-manage/transfor-order/${row.opporId}/${row.taskInsId}`);
     },
     // 点击分派
     handleSend(row) {

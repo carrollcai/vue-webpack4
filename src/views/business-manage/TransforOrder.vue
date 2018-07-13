@@ -170,9 +170,12 @@ export default {
     };
   },
   beforeMount() {
-    const { opporId } = this.$route.params;
-    this.getBusinessDetail({ opporId });
-    this.getTransforOrderDetail({ opporId });
+    const opprparam = {};
+    opprparam.opporId = this.$route.params.opporId;
+    // const { opporId } = this.$route.params;
+    console.log(this.$route.params);
+    this.getBusinessDetail(opprparam);
+    this.getTransforOrderDetail(opprparam);
     // this.getCooperationGroupList();
   },
   computed: {
@@ -240,25 +243,7 @@ export default {
       const params = this.orderData;
       delete params.opporProcessor;
       delete params.opporAssignReason;
-      // params.ordName = this.orderData.ordName;
-      // params.productId = this.orderData.productId;
-      // params.productName = this.orderData.productName;
-      // params.relOpporId = this.orderData.relOpporId;
-      // params.opporProcessInsId = this.orderData.processInsId;
-      // params.taskInsId = this.orderData.opporProcessInsId;
-      // params.organizeId = this.orderData.organizeId;
-      // params.organizeName = this.orderData.organizeName;
-      // params.address = this.orderData.address;
-      // params.contactName = this.orderData.contactName;
-      // params.contactGender = this.orderData.contactGender;
-      // params.contactMobile = this.orderData.contactMobile;
-      // params.contactEmail = this.orderData.contactEmail;
-      // params.busiDesc = this.orderData.busiDesc;
-      // params.busiRequire = this.orderData.busiRequire;
-      // params.predictContractAmount = this.orderData.predictContractAmount;
-      // params.predictSignTime = this.orderData.predictSignTime;
-      // params.predictAgreementTime = this.orderData.predictAgreementTime;
-      // params.isProjectInvitation = this.orderData.isProjectInvitation;
+      params.taskInsId = this.$route.params.taskInsId;
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
         if (params.productId !== '') {

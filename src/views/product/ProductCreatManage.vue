@@ -64,6 +64,18 @@ export default {
   data() {
     return {
       timeRange: '',
+      baseInfo: {
+        productId: '',
+        productName: '',
+        productType: '',
+        price: '',
+        description: '',
+        username: '',
+        deptment: '',
+        version: '',
+        position: '',
+        salesList: []
+      },
       formData: {
         startDate: '',
         endDate: '',
@@ -113,6 +125,9 @@ export default {
       this.query();
     },
     toCreatProduct() {
+      localStorage.setItem('nextStep', 0);
+      localStorage.setItem('prevStep', 0);
+      this.saveBaseInfo(this.baseInfo);
       this.$router.push({path: '/product/create-base-info'});
     },
     toPageDetail(row) {
@@ -120,6 +135,8 @@ export default {
       this.$router.push(path);
     },
     toPageModefiy(row) {
+      localStorage.setItem('nextStep', 0);
+      localStorage.setItem('prevStep', 0);
       const path = `/product/create-base-info/${row.productId}`;
       this.$router.push(path);
     },
@@ -153,7 +170,8 @@ export default {
     ...mapActions([
       'getProductCreatList',
       'getComposedProduct',
-      'setdeleteProduct'
+      'setdeleteProduct',
+      'saveBaseInfo'
     ])
   }
 };
