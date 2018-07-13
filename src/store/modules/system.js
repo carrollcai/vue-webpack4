@@ -101,8 +101,8 @@ const mutations = {
       _val.label = val.codeName;
       _val.children = val.staticDataDTOList.map(cval => {
         let _cval = {};
-        _cval.value = val.codeValue;
-        _cval.label = val.codeName;
+        _cval.value = cval.codeValue;
+        _cval.label = cval.codeName;
         return _cval;
       });
       return _val;
