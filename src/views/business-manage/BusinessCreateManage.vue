@@ -40,12 +40,24 @@
         <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
         <el-table-column label="合作集团" property="organizeName">
           <template slot-scope="scope">
-            <span style="margin-right: 10px">{{ scope.row.organizeName }}</span>
-            <el-popover v-if="!scope.row.organizeId" placement="top" width="200" trigger="hover">
-              <div class="tipText1">系统暂未录入该集团，请尽快关联！</div>
-              <div class="tipText tipText1 el-dropdown-link" @click="showAssociate(scope.row)">立即关联</div>
-              <i class="icon-info" slot="reference"></i>
-            </el-popover>
+            <div>
+              {{scope.row.organizeName}}
+              <el-popover v-model="scope.row.dialogVisible" v-if="!scope.row.organizeId" placement="bottom" width="256" trigger="click" @show="resetOrganizeInfo">
+                <div class="o-popover-title">
+                  系统暂未录入该集团，请尽快关联已录入集团！
+                </div>
+                <el-form style="margin-top: 16px;" ref="organizeNameInfo" :rules="organizeNameInfoRules" :model="organizeNameInfo">
+                  <el-form-item class="margin-bottom-16" prop="organizeName">
+                    <el-autocomplete class="form-input-medium" v-model="relationcooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="selectOrg"></el-autocomplete>
+                  </el-form-item>
+                  <el-form-item class="margin-bottom-16" prop="organizeName">
+                    <el-button type="primary" @click="relationConfirm(scope.row)">确 定</el-button>
+                    <el-button @click="relationCancel(scope.row)">取 消</el-button>
+                  </el-form-item>
+                </el-form>
+                <i slot="reference" class="el-icon-info"></i>
+              </el-popover>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
@@ -73,22 +85,6 @@
         </el-table-column>
       </wm-table>
     </div>
-    <el-dialog class="business-create-manage-dialog" width="433px" height="312px" title="立即关联" :visible.sync="relationDialogVisible">
-      <el-form ref="form">
-        <el-form-item label="关联集团名称/编码：" prop="">
-          <el-autocomplete style="width: 390px;" v-model="relationcooperName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="selectOrg" @blur="noData = false;"></el-autocomplete>
-          <el-card class="box-card" v-if="noData">
-            <div>
-              系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
-            </div>
-          </el-card>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="relationCancel">取 消</el-button>
-        <el-button type="primary" @click="relationConfirm">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -129,17 +125,11 @@ export default {
   },
   beforeMount() {
     this.query();
-    // let { date, ..._params } = this.myBusinessForm;
-    // if (_params.opporStatus > 0) {
-    //   _params.opporStatus = _params.opporStatus - 1;
-    // } else {
-    //   _params.opporStatus = '';
-    // }
-    // this.getMyBusinessList(_params);
   },
   methods: {
     tabChange(val) {
       this.myBusinessForm.pageNo = 1;
+      this.myBusinessForm.pageSize = 20;
       this.query();
     },
     isDraft(row) {
@@ -171,7 +161,7 @@ export default {
       }
     },
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.opporId}`;
+      const path = `/business-manage/business-detail/${row.opporId}/0/0`;
       this.$router.push(path);
     },
     createBusiness() {
@@ -279,22 +269,28 @@ export default {
       this.editOrgParam.opporId = row.opporId;
       this.relationDialogVisible = true;
     },
-    relationConfirm() {
+    relationConfirm(row) {
       var _this = this;
-      this.groupAssociation(this.editOrgParam).then(res => {
-        if (res.data && res.errorInfo.code === '200') {
-          _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
-          _this.editOrgParam = {};
-          _this.hideAssociate();
-          _this.query();
-        } else {
-          _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
-        }
-      });
+      this.editOrgParam.opporId = row.opporId;
+      if (this.editOrgParam.organizeId) {
+        this.groupAssociation(this.editOrgParam).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
+            this.relationcooperName = '';
+            _this.editOrgParam = {};
+            _this.hideAssociate();
+            _this.query();
+          } else {
+            _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
+          }
+        });
+      } else {
+        this.$message('集团不存在');
+      }
     },
-    relationCancel() {
+    relationCancel(row) {
       this.relationcooperName = '';
-      this.hideAssociate();
+      row.dialogVisible = false;
     },
     hideAssociate() {
       this.relationDialogVisible = false;

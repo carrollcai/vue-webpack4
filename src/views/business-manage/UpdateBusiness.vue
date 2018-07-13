@@ -73,7 +73,7 @@
           </el-card>
           <span class="form-input-sep">-</span>
           <el-form-item prop="address" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="businessData.address" placeholder="办公地址"></el-input>
+            <el-input @focus="noData = false;" @blur="noData = false;" maxlength="50" class="form-input-half" v-model="businessData.address" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="业务描述：" prop="busiDesc">
@@ -93,7 +93,6 @@
       <div class="b-container">
           <el-form label-width="140px" style="width: 460px;">
             <el-form-item label="提醒人：">
-              <!--v-model="businessData.reminders"-->
               <el-select class="form-input-medium" multiple v-model="businessData.remindersArr" placeholder="请选择提醒人" @change="changeReminders">
                   <el-option
                   v-for="item in remindPerson"
@@ -115,7 +114,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { checkPhone, emailCheck } from '@/utils/rules.js';
+import { checkPhone, emailCheck, checkLeftRightSpace, inte5Deci4 } from '@/utils/rules.js';
 import filters from '@/views/business-manage/filters';
 export default {
   mixins: [filters],
@@ -146,33 +145,39 @@ export default {
           { required: true, message: '请选择商机类别', trigger: ['blur', 'change'] }
         ],
         organizeName: [
-          { required: true, message: '请输入合作集团/编码', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入合作集团/编码', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         address: [
-          { required: true, message: '请输入办公地址', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入办公地址', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         contactName: [
-          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         contactGender: [
           { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
         contactMobile: [
-          { required: true, message: '请输入手机号码', trigger: ['blur', 'change'] },
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
           { validator: checkPhone, trigger: 'blur' }
         ],
         contactEmail: [
-          { required: true, message: '请输入电子邮箱', trigger: ['blur', 'change'] },
-          { validator: emailCheck, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入电子邮箱', trigger: 'blur' },
+          { validator: emailCheck, trigger: 'blur' }
         ],
         busiDesc: [
-          { required: true, message: '请输入业务描述', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入业务描述', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         busiRequire: [
-          { required: true, message: '请输入业务需求', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入业务需求', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         predictContractAmount: [
-          { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入预计收入', trigger: 'blur' },
+          { validator: inte5Deci4, trigger: ['blur', 'change'] }
         ],
         predictSignTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
@@ -191,8 +196,6 @@ export default {
     const { opporId } = this.$route.params;
     this.getBusinessDetail({ opporId });
     this.getRemindPerson();
-    // this.getBusinessCategoryList();
-    // this.getCooperationGroupList();
     // this.getDesignatePerson();
   },
   computed: {
@@ -200,7 +203,6 @@ export default {
       return this.$store.getters.businessDetail;
     },
     ...mapState({
-      // businessCategoryList: ({ business }) => business.businessCategoryList,
       officeAddress: ({ business }) => business.officeAddress,
       submitBusinessStatus: ({ business }) => business.submitBusinessStatus,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
@@ -227,6 +229,7 @@ export default {
       return [...new Set(this.businessData.remindersArr.concat(arr))];
     },
     async querySearchAsync(queryString, cb) {
+      this.noData = false;
       if (!queryString) return false;
       let params = {
         pageSize: 20,
