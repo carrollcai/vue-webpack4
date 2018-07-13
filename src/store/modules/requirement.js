@@ -13,16 +13,20 @@ const state = {
   managementQuery: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    organizeType: '',
-    provinceId: '',
-    managerName: ''
+    rangeDate: [],
+    taskStatus: '',
+    organizeName: '',
+    reqType: '',
+    activeName: 'first'
   },
   handleQuery: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    organizeType: '',
-    provinceId: '',
-    managerName: ''
+    rangeDate: [],
+    taskStatus: '',
+    organizeName: '',
+    reqType: '',
+    activeName: 'second'
   }
 };
 

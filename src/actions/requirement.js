@@ -14,7 +14,7 @@ const actions = {
    * @param {String} params
    */
   queryRequirementList: ({commit}, params) => {
-    API.queryCustomerOverviewListAPI(params).then(res => {
+    API.queryRequirementListAPI(params).then(res => {
       if (isSuccess(res)) {
         commit(types.REQUIREMENT_GET_LIST, res.data);
       } else {
@@ -31,14 +31,14 @@ const actions = {
           duration: 3000
         });
         commit(types.ROUTE_CHANGE, {
-          path: '/group-customer/create-manage'
+          path: '/requirement/manage'
         });
       }
     });
   },
   queryRequirement({commit}, id) {
     API.queryRequirementAPI({
-      id
+      reqId: id
     }).then((res) => {
       if (isSuccess(res)) {
         commit(types.REQUIREMENT_GET_INFO, res.data);

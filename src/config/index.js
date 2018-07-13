@@ -324,6 +324,21 @@ export const CLIENT = [
   // }
 ];
 
+export const REQUIREMENT_TYPE = [
+  {
+    'value': '0',
+    'label': '日常需求'
+  },
+  {
+    'value': '1',
+    'label': '投诉需求'
+  },
+  {
+    'value': '2',
+    'label': '物料需求'
+  }
+];
+
 export const ORDER_STATUS = {
   1: '草稿',
   2: '待签约',

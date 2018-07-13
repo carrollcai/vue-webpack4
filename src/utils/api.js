@@ -139,6 +139,10 @@ export default {
    */
   updateCustomerAPI: API('/esop/organize/edit'),
   /**
+   * 修改-立即提审集团客户
+   */
+  editApproveCustomerAPI: API('/esop/organize/editApprove'),
+  /**
    * 查询客户经理
    */
   queryCustomerManagerAPI: API('esop/operator/queryManager'),
@@ -169,6 +173,21 @@ export default {
    * 审核集团客户
    */
   auditCustomerAPI: API('/esop/organize/moveNode'),
+
+  /**
+   * 查询客户需求列表
+   */
+  queryRequirementListAPI: API('/esop/bizRequire/queryRequirement'),
+
+  /**
+   * 新增客户需求
+   */
+  saveRequirementAPI: API('/esop/bizRequire/create'),
+
+  /**
+   * 查询客户需求
+   */
+  queryRequirementAPI: API('/esop/bizRequire/queryReqDetail'),
 
   /* 商机管理 */
   // 获取合作集团/编码列表

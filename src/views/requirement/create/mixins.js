@@ -1,44 +1,54 @@
-import {mapActions} from 'vuex';
+import {mapActions, mapState} from 'vuex';
 export default {
   components: {
   },
   data() {
+    const that = this;
+    const filesValidator = function(rule, val, callback) {
+      const {requirement} = that;
+      if (requirement.resType !== '2' && !val) {
+        callback(new Error('请上传需求附件'));
+      } else {
+        callback();
+      }
+    };
+
+    const processorValidator = function(rule, val, callback) {
+      const {requirement} = that;
+      if (requirement.needSms === '1') {
+        callback(new Error('请选择指派处理人'));
+      } else {
+        callback();
+      }
+    };
+
     return {
-      step: 0,
-      isAddingContact: false,
-      dateOptions: {
-        disabledDate(time) {
-          return time.getTime() > new Date().getTime();
-        }
-      },
       baseInfoRules: {
-        orgCode: [
+        organizeName: [
           { required: true, message: '请输入集团编码', trigger: 'blur' }
         ],
-        type: [
+        reqType: [
           { required: true, message: '请选择需求类型', trigger: 'change' }
         ],
-        requirementDesc: [
+        reqDesc: [
           { required: true, message: '请输入需求描述', trigger: 'blur' }
         ],
-        uploadFiles: [
+        fileInputId: [
           {
-            require: true,
-            type: 'array',
-            message: '请上传需求附件',
+            validator: filesValidator,
             trigger: 'change'
           }
         ],
         materialName: [
           { required: true, message: '请输入物料名称', trigger: 'blur' }
         ],
-        materialType: [
+        materialSupplyType: [
           { required: true, message: '请选择物料格式要求', trigger: 'change' }
         ],
-        materialStart: [
+        materialUseCreateTime: [
           { required: true, message: '请选开始时间', trigger: 'change' }
         ],
-        materialEnd: [
+        materialUseEndTime: [
           { required: true, message: '请选择结束时间', trigger: 'change' }
         ],
 
@@ -57,25 +67,37 @@ export default {
           { type: 'email', message: '请输入邮箱', trigger: 'blur' }
         ],
         processor: [
-          { required: true, message: '请选择处理人', trigger: 'change' }
+          { validator: processorValidator, trigger: 'blur' }
         ]
       }
     };
   },
   computed: {
+    ...mapState({
+      orderOrganizeAddressList: ({ order }) => order.orderOrganizeAddressList
+    })
   },
   methods: {
     querySearchAsync(queryString, cb) {
-      this.queryCustomerManagers(queryString).then((res) => {
-        cb(res.data);
+      if (!queryString) {
+        return false;
+      }
+      let params = {
+        pageSize: 20,
+        organizeName: queryString
+      };
+      this.getOrganizeAddress(params).then(() => {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          cb(this.orderOrganizeAddressList);
+        }, 1000);
       });
     },
     handleSelect(item) {
-      this.requirement.managerName = item.staffName;
-      this.requirement.managerMobile = item.mobile;
-      this.requirement.managerNo = `${item.operatorId}`;
-      this.requirement.managerPosition = item.postion;
     },
-    ...mapActions(['queryCustomerManagers'])
+    ...mapActions([
+      'queryCustomerManagers',
+      'getOrganizeAddress'
+    ])
   }
 };
