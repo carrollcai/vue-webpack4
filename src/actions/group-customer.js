@@ -6,6 +6,27 @@ function isSuccess(res) {
   return res.errorInfo && res.errorInfo.code && res.errorInfo.code === '200';
 }
 
+function removeAttributs(customer) {
+  // 删除不需要传的值
+  delete customer.organizeTypeValue;
+  delete customer.provinceName;
+  delete customer.orgIndustryTypeValue;
+  delete customer.industryTypeValue;
+  delete customer.memberNumValue;
+  delete customer.certificateTypeValue;
+  delete customer.registerFundTypeValue;
+  delete customer.processInsId;
+
+  let contacts = customer.contactDtoList;
+  if (contacts && contacts.length) {
+    for (let contact of contacts) {
+      delete contact.ageValue;
+      delete contact.genderValue;
+      delete contact.genderValue;
+    }
+  }
+}
+
 const actions = {
   /**
    * 查询集团客户总览列表
@@ -113,29 +134,32 @@ const actions = {
    * @param {*} customer
    */
   updateCustomer({commit}, customer) {
-    // 删除不需要传的值
-    delete customer.organizeTypeValue;
-    delete customer.provinceName;
-    delete customer.orgIndustryTypeValue;
-    delete customer.industryTypeValue;
-    delete customer.memberNumValue;
-    delete customer.certificateTypeValue;
-    delete customer.registerFundTypeValue;
-    delete customer.processInsId;
-
-    let contacts = customer.contactDtoList;
-    if (contacts && contacts.length) {
-      for (let contact of contacts) {
-        delete contact.ageValue;
-        delete contact.genderValue;
-        delete contact.genderValue;
-      }
-    }
-
+    removeAttributs(customer);
     API.updateCustomerAPI(customer).then((res) => {
       if (isSuccess(res)) {
         Message({
           message: '修改成功',
+          type: 'success',
+          duration: 3000
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: '/group-customer/create-manage'
+        });
+      }
+    });
+  },
+  /**
+   * 修改集团客户-立即提审
+   * @param {Store} Store
+   * @param {*} customer
+   */
+  editApproveCustomer({commit}, customer) {
+    removeAttributs(customer);
+
+    API.editApproveCustomerAPI(customer).then((res) => {
+      if (isSuccess(res)) {
+        Message({
+          message: '修改并提审成功',
           type: 'success',
           duration: 3000
         });

@@ -304,6 +304,10 @@
             key="managerJob-input"></el-input>
         </el-form-item>
         <el-form-item>
+          <template>
+            <el-button type="primary" @click="approveCustomer">立即提审</el-button>
+            <el-button type="primary" @click="saveCustomer">保存草稿</el-button>
+          </template>
           <el-button type="primary" @click="saveCustomer">立即提审</el-button>
           <el-button type="primary" @click="toSecondStepFromThird">上一步</el-button>
         </el-form-item>
@@ -334,13 +338,20 @@ export default {
         }
       });
     },
+    approveCustomer() {
+      this.$refs.managerForm.validate((valid) => {
+        if (valid) {
+          this.editApproveCustomer(this.customer);
+        }
+      });
+    },
     init() {
-      this.queryCustomer(this.$route.params.id);
+      this.queryCustomerSnapshot(this.$route.params.id);
     },
     ...mapActions([
       'updateCustomer',
-      'createApproveCustomer',
-      'queryCustomer'
+      'editApproveCustomer',
+      'queryCustomerSnapshot'
     ])
   }
 };
