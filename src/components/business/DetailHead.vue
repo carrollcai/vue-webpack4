@@ -1,60 +1,53 @@
 <template>
-  <div class="business-detail">
-      <div v-if="type !== '草稿'" class="business-detail-content">
-        <!--待处理-->
-        <div v-if="type === '待处理'" class="business-detail-content-item">
-          <span class="left">处理人员：</span>
-          <span class="right">{{headData.processor}}</span>
-        </div>
-        <div v-if="type === '待处理'" class="business-detail-content-item">
-          <span class="left">处理结果：</span>
-          <span class="right">待处理</span>
-        </div>
-        <!--<div v-if="type === '0'" class="business-detail-content-item">
-          <span class="left">合同下载：</span>
-          <a class="down" href="#">第三次签约合同.doc</a>
-        </div>-->
-        <!--已转订单-->
-        <div v-if="type === '已转订单'" class="business-detail-content-item">
-          <span class="left">处理人员：</span>
-          <span class="right">{{headData.processor}}</span>
-        </div>
-        <div v-if="type === '已转订单'" class="business-detail-content-item">
-          <span class="left">处理结果：</span>
-          <span class="right">已转订单</span>
-        </div>
-        <div v-if="type === '已转订单'" class="business-detail-content-item">
-          <span class="left">订单编号：</span>
-          <span class="down" href="#">HJK89564873</span>
-        </div>
-        <!--已作废-->
-        <div v-if="type === '已作废'" class="business-detail-content-item">
-          <span class="left">处理人员：</span>
-          <span class="right">{{headData.processor}}</span>
-        </div>
-        <div v-if="type === '已作废'" class="business-detail-content-item">
-          <span class="left">处理结果：</span>
-          <span class="right">作废</span>
-        </div>
-        <div v-if="type === '已作废'" class="business-detail-content-item">
-          <span class="left">作废原因：</span>
-          <span class="down">{{headData.invalidReason}}</span>
-        </div>
-        <!--已分派-->
-        <div v-if="type === '已分派'" class="business-detail-content-item">
-          <span class="left">处理结果：</span>
-          <span class="right">已分派</span>
-        </div>
-        <div v-if="type === '已分派'" class="business-detail-content-item">
-          <span class="left">指派处理人：</span>
-          <span class="down">{{headData.processor}}</span>
-        </div>
-        <div v-if="type === '已分派'" class="business-detail-content-item">
-          <span class="left">指派说明：</span>
-          <span class="right">{{headData.assignReason}}</span>
-        </div>
+  <div class="detail-bar" v-if="type !== '草稿'">
+      <div v-if="type === '待处理'" class="detail-bar-item">
+        <div class="title">处理人员：</div>
+        <div>{{headData.processor}}</div>
       </div>
-    </div>
+      <div v-if="type === '待处理'" class="detail-bar-item-2">
+        <div class="title">处理结果：</div>
+        <div>{{type}}</div>
+      </div>
+
+      <div v-if="type === '已转订单'" class="detail-bar-item">
+        <div class="title">处理人员：</div>
+        <div>{{headData.processor}}</div>
+      </div>
+      <div v-if="type === '已转订单'" class="detail-bar-item">
+        <div class="title">处理结果：</div>
+        <div>{{type}}</div>
+      </div>
+      <div v-if="type === '已转订单'" class="detail-bar-item">
+        <div class="title">订单编号：</div>
+        <div>{{headData.ordCode}}</div>
+      </div>
+
+      <div v-if="type === '已作废'" class="detail-bar-item">
+        <div class="title">处理人员：</div>
+        <div>{{headData.processor}}</div>
+      </div>
+      <div v-if="type === '已作废'" class="detail-bar-item">
+        <div class="title">处理结果：</div>
+        <div>{{type}}</div>
+      </div>
+      <div v-if="type === '已作废'" class="detail-bar-item">
+        <div class="title">作废原因：</div>
+        <div class="ellipsis" :title="headData.invalidReason">{{headData.invalidReason}}</div>
+      </div>
+
+      <div v-if="type === '已分派'" class="detail-bar-item">
+        <div class="title">处理结果：</div>
+        <div>{{type}}</div>
+      </div>
+      <div v-if="type === '已分派'" class="detail-bar-item">
+        <div class="title">指派处理人：</div>
+        <div>{{headData.opId}}</div>
+      </div>
+      <div v-if="type === '已分派'" class="detail-bar-item">
+        <div class="title">指派说明：</div>
+        <div class="ellipsis" :title="headData.assignReason">{{headData.assignReason}}</div>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -68,37 +61,29 @@ export default {
 
 <style lang="scss" scoped>
 @import "scss/variables.scss";
-.business-detail {
-  margin-top: $blockWidth;
-}
-.business-detail {
-  margin-top: 16px;
-  background: #ffffff;
-  padding: 32px 36px 8px 32px;
-  & .business-detail-content {
+.detail-bar {
+  border-radius: 2px;
+  background-color: #fafafa;
+  padding: 24px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .detail-bar-item {
+    flex: 1;
     display: flex;
-    height: 42px;
-    background: #fafafa;
-    padding-top: 26px;
-    padding-left: 19px;
-    & .business-detail-content-item {
-      flex: 1;
-      float: left;
-      & .left {
-        height: 22px;
-        line-height: 22px;
-        color: rgba(0, 0, 0, 0.45);
-        font-size: 14px;
-        padding-right: 12px;
-      }
-      & .right {
-        height: 20px;
-        line-height: 20px;
-        color: rgba(0, 0, 0, 0.85);
-        font-size: 14px;
-        text-align: left;
-      }
+    .ellipsis {
+      width: 230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
     }
+  }
+  .title {
+    width: 100px;
+    text-align: right;
+    color: rgba(0, 0, 0, 0.45);
+    padding-right: 12px;
+  }
+  .detail-bar-item-2 {
+    flex: 2;
+    display: flex;
   }
 }
 </style>
