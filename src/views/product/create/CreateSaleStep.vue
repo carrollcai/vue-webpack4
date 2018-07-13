@@ -278,6 +278,15 @@ export default {
     } else {
       if (returnStep === 1 && prevStep === 2) {
         this.formData = this.saleStep;
+        if (this.saleStep.salesList.length > 0) {
+          this.isShow = false;
+          var res = this.saleStep.salesList;
+          for (var i in res) {
+            res[i].state = 3;
+          }
+          this.cacheSalesList = res;
+          this.cacheData = res.concat();
+        }
       }
     }
   },
@@ -340,6 +349,7 @@ export default {
           _this.params.salesList = _this.cacheSalesList;
           _this.isShow = false;
         } else {
+          _this.isShow = true;
           return false;
         }
         _this.addItem = false;
@@ -429,8 +439,8 @@ export default {
             _this.cacheSalesList[i].state = 0;
           }
         }
-        _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
         _this.params.salesList = _this.cacheSalesList;
+        _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
       }).catch(() => {
         _this.$message('已取消删除');
       });
@@ -497,8 +507,9 @@ export default {
     },
     prevStep() {
       if (!this.isSubmit) {
-        this.params.salesList = this.cacheSalesList;
+        this.params.salesList =  this.cacheSalesList;
       }
+      console.log(this.params)
       this.saveSaleStep(this.params);
       localStorage.setItem('prevStep', 2);
       this.$router.go(-1);
