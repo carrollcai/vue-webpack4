@@ -110,13 +110,11 @@
           :data="contacts">
           <el-table-column
             prop="name"
-            label="姓名"
-            width="180">
+            label="姓名">
           </el-table-column>
           <el-table-column
             prop="mobile"
-            label="手机"
-            width="180">
+            label="手机">
           </el-table-column>
           <el-table-column
             prop="genderValue"
@@ -125,6 +123,10 @@
           <el-table-column
             prop="department"
             label="部门">
+          </el-table-column>
+          <el-table-column
+            prop="position"
+            label="职位">
           </el-table-column>
           <el-table-column
             prop="parentContactId"
