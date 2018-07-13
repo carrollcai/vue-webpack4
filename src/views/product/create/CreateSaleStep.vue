@@ -255,8 +255,8 @@ export default {
       if (returnStep === 1 && prevStep === 2) {
         this.formData = this.saleStep;
         if (this.saleStep.salesList.length > 0) {
-          var res = this.saleStep.salesList;
-          for (var i in res) {
+          let res = this.saleStep.salesList;
+          for (let i in res) {
             res[i].state = 3;
           }
           this.cacheSalesList = res;
@@ -266,8 +266,8 @@ export default {
         var data = { productId: Number(this.isAddProduct) };
         this.getProductDetail(data).then((reques) => {
           if (_this.productSaleDemo) {
-            var res = _this.productSaleDemo.salesList;
-            for (var i in res) {
+            let res = _this.productSaleDemo.salesList;
+            for (let i in res) {
               res[i].state = 3;
             }
             _this.cacheSalesList = res;
@@ -280,8 +280,8 @@ export default {
         this.formData = this.saleStep;
         if (this.saleStep.salesList.length > 0) {
           this.isShow = false;
-          var res = this.saleStep.salesList;
-          for (var i in res) {
+          let res = this.saleStep.salesList;
+          for (let i in res) {
             res[i].state = 3;
           }
           this.cacheSalesList = res;
@@ -507,9 +507,8 @@ export default {
     },
     prevStep() {
       if (!this.isSubmit) {
-        this.params.salesList =  this.cacheSalesList;
+        this.params.salesList = this.cacheSalesList;
       }
-      console.log(this.params)
       this.saveSaleStep(this.params);
       localStorage.setItem('prevStep', 2);
       this.$router.go(-1);
