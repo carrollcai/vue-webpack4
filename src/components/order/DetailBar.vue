@@ -28,7 +28,6 @@ export default {
 .detail-bar {
   border-radius: 2px;
   background-color: #fafafa;
-  margin-top: 32px;
   padding: 24px 0;
   display: flex;
   justify-content: center;

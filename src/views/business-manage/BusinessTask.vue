@@ -4,7 +4,7 @@
       <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker v-model="businessTaskForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
 
@@ -21,27 +21,27 @@
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="status">
-        <el-tab-pane label="待处理"></el-tab-pane>
-        <el-tab-pane label="已处理"></el-tab-pane>
+      <el-tabs v-model="businessTaskForm.taskHasComplete" @tab-click="tabChange">
+        <el-tab-pane label="待处理" :name="0"></el-tab-pane>
+        <el-tab-pane label="已处理" :name="1"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
       <wm-table :source="businessTaskList.list" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" property="opporCode" />
-        <el-table-column label="商机描述" property="busiDesc" />
-        <el-table-column label="合作集团" property="organizeName" />
-        <el-table-column label="创建时间" property="createDate" />
-        <el-table-column label="联系人" property="contactName" />
-        <el-table-column label="处理结果" v-if="businessStatus === '已处理'" property="businessStatus" />
-        <el-table-column v-if="businessStatus === '已处理'" label="处理人" property="process" />
-        <el-table-column v-if="businessStatus === '已处理'" label="处理结果" property="result" />
+        <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
+        <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
+        <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
+        <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
+        <el-table-column label="联系人" v-if="businessTaskForm.taskHasComplete === '0'" show-overflow-tooltip property="contactName" />
+        <el-table-column v-if="businessTaskForm.taskHasComplete === 1" label="处理人" property="contactName" />
+        <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatus" />
+        <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.businessStatus === '待处理'" type="text" @click="handleTrans(scope.row)">
+            <el-button v-if="businessTaskForm.taskHasComplete === '0'" type="text" @click="handleTrans(scope.row)">
               转订单
             </el-button>
-            <template v-if="scope.row.businessStatus === '待处理'">
+            <template v-if="businessTaskForm.taskHasComplete === '0'">
               <el-dropdown @command="handleCommand(scope.row, $event)">
                 <el-button type="text">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
@@ -53,7 +53,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </template>
-            <el-button v-if="scope.row.status === '已处理'" type="text" @click="handleDetail(scope.row)">
+            <el-button v-else type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
           </template>
@@ -63,8 +63,8 @@
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
-          <el-cascader style="width: 392px;" v-if="designPerson"
-            :options="designPerson"
+          <el-cascader style="width: 392px;" v-if="designatePerson"
+            :options="designatePerson"
             v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
@@ -125,7 +125,7 @@ export default {
       sendDialogVisible: false,
       cancelDialogVisible: false,
       sendForm: {
-        person: [],
+        person: '',
         reason: ''
       },
       cancelForm: {
@@ -136,8 +136,9 @@ export default {
         { 'label': '咪咕子公司', 'value': '1' },
         { 'label': '销售大区', 'value': '2' }
       ],
-      designPerson: [],
-      selectedDesignPerson: ''
+      selectedDesignPerson: '',
+      sendParam: {},
+      cancelParam: {}
     };
   },
   watch: {
@@ -148,11 +149,22 @@ export default {
   beforeMount() {
     // this.getCooperationGroupList();
     // this.query();
-    const params = this.businessTaskForm;
-    params.taskHasComplete = this.status;
-    this.getBusinessTaskList(params);
+    let { date, ..._params } = this.businessTaskForm;
+    // if (_params.opporStatus > 0) {
+    //   _params.opporStatus = _params.opporStatus - 1;
+    // } else {
+    //   _params.opporStatus = '';
+    // }
+    this.getBusinessTaskList(_params);
+    // const params = this.businessTaskForm;
+    // params.taskHasComplete = this.status;
+    // this.getBusinessTaskList(params);
   },
   methods: {
+    tabChange(val) {
+      this.businessTaskForm.pageNo = 1;
+      this.query();
+    },
     getTimeRange(time) {
       if (time) {
         this.businessTaskForm.startDate = time[0];
@@ -179,42 +191,47 @@ export default {
     },
     // 点击转订单
     handleTrans(row) {
-      const path = `/business-manage/transfor-order/${row.opporId}`;
-      this.$router.push(path);
+      this.$router.push(`/business-manage/transfor-order/${row.opporId}/${row.taskInsId}`);
     },
     // 点击分派
     handleSend(row) {
       this.sendDialogVisible = true;
+      this.sendParam.taskInsId = row.taskInsId;
+      this.sendParam.resultStatus = '0';
+      this.sendParam.id = row.opporId;
       // 获取指派处理人
-      this.getDesignatePerson().then((res) => {
-        this.designPerson = res;
-      });
+      this.getDesignatePerson();
     },
     // 点击作废
     handleCancel(row) {
       this.cancelDialogVisible = true;
+      this.cancelParam.taskInsId = row.taskInsId;
+      this.cancelParam.resultStatus = '3';
+      this.cancelParam.id = row.opporId;
+      this.cancelParam.dealPerson = '';
+      this.cancelForm.reason = '';
     },
     // 分派取消
     sendCancel() {
       this.sendDialogVisible = false;
-      this.sendForm.person = [];
+      this.sendForm.person = '';
       this.sendForm.reason = '';
     },
     // 分派确定
     sendConfirm() {
-      let params = this.sendForm;
+      let params = this.sendParam;
+      params.dealResult = this.sendForm.reason;
+      params.dealPerson = this.sendForm.person.pop();
+      let _this = this;
       this.submitBusinessSend(params).then(res => {
-        this.$message({
-          type: 'success',
-          message: '您已成功分派！ '
-        });
-        // this.$message({
-        //   type: 'error',
-        //   message: '分派失败！ '
-        // });
-        this.sendDialogVisible = false;
-        this.sendForm.person = [];
-        this.sendForm.reason = '';
+        if (res.data && res.errorInfo.code === '200') {
+          _this.sendDialogVisible = false;
+          _this.sendForm.person = '';
+          _this.sendForm.reason = '';
+          _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+        } else {
+          _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+        }
       });
     },
     // 作废取消
@@ -224,34 +241,59 @@ export default {
     },
     // 作废确定
     cancelConfirm() {
-      let params = this.cancelForm;
-      this.submitBusinessCancel(params).then(res => {
-        this.$message({
-          type: 'success',
-          message: '作废成功！ '
+      let params = this.cancelParam;
+      params.dealResult = this.cancelForm.reason;
+      if (params.dealResult !== '') {
+        let _this = this;
+        this.submitBusinessCancel(params).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.cancelDialogVisible = false;
+            _this.cancelForm.person = '';
+            _this.cancelForm.reason = '';
+            _this.$message({ showClose: true, message: '作废成功！', type: 'success' });
+            _this.query();
+          } else {
+            _this.$message({ showClose: true, message: '作废失败！', type: 'error' });
+          }
         });
-        // this.$message({
-        //   type: 'error',
-        //   message: '作废失败！ '
-        // });
-        this.cancelDialogVisible = false;
-        this.cancelForm.reason = '';
-      });
+      } else {
+        this.$message({ showClose: true, message: '请填写作废原因！' });
+      }
     },
     query() {
-      const params = this.businessTaskForm;
-      params.taskHasComplete = this.status;
-      this.getBusinessTaskList(params);
+      // const params = this.businessTaskForm;
+      // params.taskHasComplete = this.status;
+      let { date, ..._params } = this.businessTaskForm;
+      this.getBusinessTaskList(_params);
     },
-    querySearchAsync(queryString, cb) {
-      var cooperNumList = this.cooperNumList;
-      var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
-
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 20,
+        organizeName: queryString
+      };
+      await this.getCooperationGroupList(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var cooperationGroupList = this.cooperationGroupList;
+        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        if (results.length === 0) {
+          this.noData = true;
+        } else {
+          this.noData = false;
+        };
         cb(results);
-      }, 100 * Math.random());
+      }, 1000);
     },
+    // querySearchAsync(queryString, cb) {
+    //   var cooperNumList = this.cooperNumList;
+    //   var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
+
+    //   clearTimeout(this.timeout);
+    //   this.timeout = setTimeout(() => {
+    //     cb(results);
+    //   }, 100 * Math.random());
+    // },
     createStateFilter(queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);

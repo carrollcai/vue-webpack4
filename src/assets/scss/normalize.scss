@@ -177,3 +177,40 @@ $menu-active-color: #FFFFFF;
 .m-container > .el-tabs > .el-tabs__header {
   margin: 0 0 -25px;
 }
+
+/* 去除input为number的加减按钮 */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+
+/* 修改默认进度条样式 */
+.el-step__icon.is-text {
+    border: 0;
+    background-color: #BFBFBF;
+    width: 10px;
+    height: 10px;
+    margin-top: 7px;
+    font-size: 12px;
+}
+.el-step__icon-inner {
+  color: #BFBFBF;
+}
+.el-step__head.is-finish .el-step__icon.is-text{
+  background-color: #3778FF;
+}
+.el-step__head.is-finish .el-step__icon-inner {
+  color: #3778FF;
+}
+.el-step__title.is-finish, .el-step__description.is-finish {
+  color: inherit;
+}
+
+/* 去掉textarea高度可拖拽 */
+.el-textarea .el-textarea__inner {
+  resize: none;
+}

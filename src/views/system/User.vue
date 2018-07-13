@@ -2,11 +2,10 @@
   <div class="m-container">
     <el-form class="user-form" ref="userManageForm" :model="userForm" :rules="userManageRules">
       <div class="flex">
-        <!-- <el-form-item>用户角色：</el-form-item> -->
         <el-form-item class="user-form-item__input" prop="role">
           <el-select v-model="userForm.role" placeholder="用户角色">
             <el-option :key="null" label="全部类型" :value="null"></el-option>
-            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.role" :label="item.roleName" />
+            <el-option v-for="item in userRoleList" :key="item.role" :value="item.roleId" :label="item.roleName" />
           </el-select>
         </el-form-item>
 
@@ -106,8 +105,8 @@ export default {
     },
     query() {
       const params = Object.cloneDeep(this.userForm);
-
-      params.opRegion = params.opRegion.pop();
+      console.log(params);
+      params.opRegion = params.opRegion && params.opRegion.pop();
       this.getUserList(params);
     },
     ...mapActions([

@@ -76,12 +76,13 @@ export default {
   background: #ffffff;
   padding: 32px 36px 8px 32px;
   & .business-detail-content {
+    display: flex;
     height: 42px;
     background: #fafafa;
     padding-top: 26px;
     padding-left: 19px;
     & .business-detail-content-item {
-      width: 349px;
+      flex: 1;
       float: left;
       & .left {
         height: 22px;

@@ -15,9 +15,9 @@
           <el-select class="form-input-medium" v-model="form.opporType" placeholder="请选择属性">
               <el-option
               v-for="item in BIZ_OPPOR_TYPE"
-              :key="item.label"
+              :key="item.value"
               :label="item.label"
-              :value="item.label">
+              :value="item.value">
               </el-option>
           </el-select>
         </el-form-item>
@@ -27,15 +27,15 @@
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd hh:mm:ss" value-format="yyyy-MM-dd hh:mm:ss" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
               <el-option
               v-for="item in PREDICT_AGREEMENT_TIME"
-              :key="item.label"
+              :key="item.value"
               :label="item.label"
-              :value="item.label">
+              :value="item.value">
               </el-option>
           </el-select>
         </el-form-item>
@@ -91,12 +91,12 @@
       <div class="b-container">
           <el-form label-width="140px" style="width: 460px;">
             <el-form-item label="提醒人设置：">
-              <el-select class="form-input-medium" v-model="form.reminders" placeholder="请选择提醒人" multiple>
+              <el-select class="form-input-medium" v-model="form.remindersArr" placeholder="请选择提醒人" multiple>
                   <el-option
-                  v-for="item in designatePerson"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in remindPerson"
+                  :key="item.operatorId"
+                  :label="item.staffName"
+                  :value="item.operatorId">
                   </el-option>
               </el-select>
             </el-form-item>
@@ -136,7 +136,7 @@ export default {
         busiDesc: '',
         busiRequire: '',
         needCoordinationIssue: '',
-        reminders: ''
+        remindersArr: []
       },
       organizeNameList: [],
       resetForm: {},
@@ -200,22 +200,22 @@ export default {
   beforeMount() {
     this.resetForm = Object.cloneDeep(this.form);
     // this.getBusinessCategoryList();
-    // this.getDesignatePerson();
+    this.getRemindPerson();
   },
   computed: {
     ...mapState({
       // businessCategoryList: ({ business }) => business.businessCategoryList,
-      officeAddress: ({ business }) => business.officeAddress,
+      // officeAddress: ({ business }) => business.officeAddress,
       submitBusinessStatus: ({ business }) => business.submitBusinessStatus,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
-      designatePerson: ({ business }) => business.designatePerson
+      remindPerson: ({ business }) => business.remindPerson
     })
   },
   methods: {
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
       let params = {
-        pageSize: 10,
+        pageSize: 20,
         organizeName: queryString
       };
       await this.getCooperationGroupList(params);
@@ -231,19 +231,18 @@ export default {
         cb(results);
       }, 1000);
     },
+    handleSelect(item) {
+      this.form.address = item.orgAddress;
+    },
     createStateFilter(queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
-    handleSelect(item) {
-      this.form.address = item.id;
-      this.getOfficeAddress();
-    },
     submit() {
-      if (this.form.reminders !== '') {
-        this.form.reminders = this.form.reminders.join(',');
-      }
+      // if (this.form.reminders !== '') {
+      //   this.form.reminders = this.form.reminders.join(',');
+      // }
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
@@ -261,7 +260,7 @@ export default {
       });
     },
     save() {
-      this.form.reminders = this.form.reminders.join(',');
+      // this.form.reminders = this.form.reminders.join(',');
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
@@ -282,7 +281,7 @@ export default {
       this.form = this.resetForm;
     },
     ...mapActions([
-      'getOfficeAddress', 'submitBusinessOppority', 'getCooperationGroupList', 'saveBusinessDraft'
+      'submitBusinessOppority', 'getCooperationGroupList', 'saveBusinessDraft', 'getRemindPerson'
     ])
   }
 };

@@ -24,6 +24,7 @@ export default {
   getUserRoleAPI: API('/esop/role/queryRoleAll'),
   queryStaticDataAPI: API('/esop/commonWebController/queryStaticDatsMap'),
   queryRegionRelationListAPI: API('/esop/operator/getRegionRelationList'),
+  queryProductByCodeOrNameAPI: API('/esop/product/queryByCodeOrName'), // 查询产品名称
   /* 附件 */
   getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
   uploadFileAPI: upload('/esop/elec/upload'), // 附件上传
@@ -80,6 +81,7 @@ export default {
   submitOrderRowAPI: API('/esop/bizOrder/startProcess'), // 提交订单
   deleteOrderRowAPI: API('/esop/bizOrder/delete'), // 删除订单,
   setConnectOriganizeAPI: API('/esop/bizOrder/updateOrganize'), // 关联集团
+  submitOrderPayAPI: API('/esop/bizOrder/updatePayAmount'), // 付款
   submitAssignContractAPI: API('/esop/bizOrder/updateFileId'), // 签约
 
   /* 登录相关 */
@@ -190,8 +192,6 @@ export default {
   queryRequirementAPI: API('/esop/bizRequire/queryReqDetail'),
 
   /* 商机管理 */
-  // 获取合作集团/编码列表
-  getCooperationGroupListAPI: API('http://localhost:3618/business-manage/getCooperationGroup'),
   // 查询商机列表
   getBusinessListAPI: API('/esop/bizOppor/allList'),
 
@@ -199,10 +199,6 @@ export default {
   getBusinessDetailAPI: API('/esop/bizOppor/detail'),
 
   // 新建商机
-  // 获取商机类别列表
-  getBusinessCategoryListAPI: API('http://localhost:3618/business-manage/getBusinessCategoryList'),
-  // 根据合作集团匹配办公地址
-  getOfficeAddressAPI: API('http://localhost:3618/business-manage/getOfficeAddress'),
   // 创建并提交商机
   submitBusinessOpporityAPI: API('/esop/bizOppor/createApprove'),
   // 提交商机草稿
@@ -216,17 +212,18 @@ export default {
   // 商机草稿详情查询
   getBusinessDraftDetailAPI: API('http://localhost:3618/business-manage/businessDetail'),
   // 获取提醒人
-  getRemindPersonAPI: API('http://localhost:3618/business-manage/businessDetail'),
+  getRemindPersonAPI: API('esop/operator/getRemindersOperatorList'),
   // 获取指派处理人
-  getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren'),
+  getDesignatePersonAPI: API('esop/operator/getAssignOperatorList'),
+  // getDesignatePersonAPI: API('http://localhost:3618/business-manage/chuliren'),
   // 提交分派
-  submitBusinessSendAPI: API('http://localhost:3618/business-manage/chuliren'),
+  submitBusinessSendAPI: API('esop/bizOppor/nodeMove'),
   // 提交作废
-  submitBusinessCancelAPI: API('http://localhost:3618/business-manage/chuliren'),
+  submitBusinessCancelAPI: API('esop/bizOppor/nodeMove'),
   // 商机转订单(获取订单基本数据)
   getTransforOrderDetailAPI: API('esop/bizOppor/transOppor'),
   // 提交商机转订单
-  saveBusinessOrderAPI: API(''),
+  saveBusinessOrderAPI: API('esop/bizOppor/transtoOrder'),
   // 提交商机转订单草稿
   saveBusinessOrderDraftAPI: API(''),
 
@@ -234,6 +231,10 @@ export default {
   getMyBusinessListAPI: API('esop/bizOppor/list'),
   // 商机处理任务查询
   getBusinessTaskListAPI: API('esop/bizOppor/queryTaskInfo'),
-  // 修改商机
-  editBusinessDetailAPI: API('esop/bizOppor/editApprove')
+  // 修改商机提交审核
+  editBusinessDetailApproveAPI: API('esop/bizOppor/editApprove'),
+  // 修改商机不提交审核
+  editBusinessDetailAPI: API('esop/bizOppor/edit'),
+  // 根据产品编码或名称查询
+  getProductNameCodeAPI: API('esop/product/queryByCodeOrName')
 };

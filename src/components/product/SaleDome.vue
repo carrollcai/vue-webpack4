@@ -7,7 +7,6 @@
       :data="dataList"
       row-key="salesId"
       :expand-row-keys="expands"
-      @row-click="openDetail"
       style="width: 100%">
       <el-table-column
         v-if="false"
@@ -23,7 +22,7 @@
         prop="composedProduct" :formatter="composedProductFn">
       </el-table-column>
       <el-table-column
-        label="销售方案"
+        label="方案介绍"
         prop="scheme">
       </el-table-column>
       <el-table-column
@@ -52,12 +51,15 @@
               <el-form-item label="创新点/借鉴点">
                 <span>: {{ props.row.keypoint }}</span>
               </el-form-item>
-              <el-form-item v-if="props.row.fileName" label="附件下载">
-                <span class="blue" @click="dowloadFile()">: <i class="el-icon-download"></i>{{props.row.fileName}}</span>
+              <el-form-item v-if="props.row.fileName" label="方案附件">
+                <span>: </span>
+                <span v-for="name in props.row.fileName" :key="name" class="blue mr10" @click="dowloadFile()">
+                  <i class="el-icon-download"></i>{{name}}
+                </span>
               </el-form-item>
             </p>
             <p>
-              <el-form-item label="销售方案">
+              <el-form-item label="方案介绍">
                 <span>: {{ props.row.scheme }}</span>
               </el-form-item>
             </p>
@@ -75,7 +77,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { mapActions } from 'vuex';
 export default {
   props: {
@@ -117,7 +118,11 @@ export default {
             }).then((res) => {
               if (res.data.length > 0) {
                 if (_this.data[i].fileInputId === res.data[0].fileInputId) {
-                  _this.data[i].fileName = res.data[0].fileName;
+                  var name = [];
+                  for (let d in res.data) {
+                    name.push(res.data[d].fileName);
+                  }
+                  _this.data[i].fileName = name;
                 }
               }
             });
@@ -127,21 +132,13 @@ export default {
       }
     },
     openDetail(index, row) {
-      if (row.fileInputId) {
-        this.queryElec({fileInputId: row.fileInputId}).then((res) => {
-          if (res.data.length > 0) {
-            this.uploadData.fileName = res.data[0].fileName;
-            this.uploadData.fileTypeId = res.data[0].fileTypeId;
-            this.uploadData.fileSaveName = res.data[0].fileSaveName;
-          }
-        });
-      }
       var id = row.salesId;
-      if (this.expands.indexOf(id) < 0) {
-        this.expands.push(id);
-        _.compact(this.expands);
+      if (id === this.expands[0]) {
+        this.expands = [];
+        this.currIndex = null;
       } else {
-        this.expands = _.pullAll(this.expands, [id]);
+        this.expands = [id];
+        this.currIndex = index;
       }
       this.currIndex = index;
     },
@@ -168,6 +165,7 @@ export default {
   margin-top: 16px;
   padding-bottom: 16px;
   background: #fff;
+  .mr10 {margin-right: 10px;}
   h3 {
     height: 48px;
     line-height: 48px;

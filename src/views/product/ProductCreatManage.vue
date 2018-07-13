@@ -1,28 +1,32 @@
 <template>
 <div class="p-manage">
-  <el-form :inline="true" :model="formData" class="demo-form-inline box">
-    <el-form-item>
-      <el-col>
-        <el-date-picker v-model="timeRange" @change="getTimeRange" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
-        <el-option label="全部" value=""></el-option>
-        <el-option label="个人市场" value="0"></el-option>
-        <el-option label="政企市场" value="1"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item>
-      <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button @click="onSubmit">查询</el-button>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="toCreatProduct">+ 新建产品</el-button>
-    </el-form-item>
+  <el-form :inline="true" :model="formData" class="demo-form-inline">
+    <div class="flex">
+      <el-form-item>
+        <el-col>
+          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
+        </el-col>
+      </el-form-item>
+      <el-form-item>
+        <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+          <el-option label="全部" value=""></el-option>
+          <el-option label="个人市场" value="0"></el-option>
+          <el-option label="政企市场" value="1"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-input style="width: 130px" v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
+      </el-form-item>
+    </div>
+    <div class="flex">
+      <el-form-item>
+        <el-button @click="onSubmit">查询</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="toCreatProduct">+ 新建产品</el-button>
+      </el-form-item>
+    </div>
   </el-form>
   <wm-table
     :source="productList.list"
@@ -32,17 +36,17 @@
     @onPagination="onPagination"
     @onSizePagination="onSizePagination"
   >
-      <el-table-column label="产品编码" property="productId">
+      <el-table-column label="产品编码" show-overflow-tooltip width="180" property="productCode">
       </el-table-column>
       <el-table-column label="产品名称" show-overflow-tooltip property="productName">
       </el-table-column>
-      <el-table-column label="产品类别" property="productType" :formatter="productTypeFn">
+      <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
       </el-table-column>
-      <el-table-column label="创建时间" property="insertdate">
+      <el-table-column label="创建时间" show-overflow-tooltip width="180" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" property="updatedate">
+      <el-table-column label="最近更新时间" show-overflow-tooltip width="180" property="updatedate">
       </el-table-column>
-      <el-table-column label="操作" property="">
+      <el-table-column label="操作" align="center" width="160">
         <template slot-scope="operation">
           <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
           <span class="blue hand" @click="toPageModefiy(operation.row)">修改</span>
@@ -56,7 +60,6 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
-
 export default {
   components: {
     WmTable
@@ -64,6 +67,18 @@ export default {
   data() {
     return {
       timeRange: '',
+      baseInfo: {
+        productId: '',
+        productName: '',
+        productType: '',
+        price: '',
+        description: '',
+        username: '',
+        deptment: '',
+        version: '',
+        position: '',
+        salesList: []
+      },
       formData: {
         startDate: '',
         endDate: '',
@@ -102,6 +117,9 @@ export default {
         this.formData.endDate = '';
       }
     },
+    checkProductName(value) {
+      this.formData.productName = String(value).trim();
+    },
     query() {
       // 产品数据查询方法
       this.getProductCreatList(this.formData);
@@ -110,6 +128,9 @@ export default {
       this.query();
     },
     toCreatProduct() {
+      localStorage.setItem('nextStep', 0);
+      localStorage.setItem('prevStep', 0);
+      this.saveBaseInfo(this.baseInfo);
       this.$router.push({path: '/product/create-base-info'});
     },
     toPageDetail(row) {
@@ -117,6 +138,8 @@ export default {
       this.$router.push(path);
     },
     toPageModefiy(row) {
+      localStorage.setItem('nextStep', 0);
+      localStorage.setItem('prevStep', 0);
       const path = `/product/create-base-info/${row.productId}`;
       this.$router.push(path);
     },
@@ -150,7 +173,8 @@ export default {
     ...mapActions([
       'getProductCreatList',
       'getComposedProduct',
-      'setdeleteProduct'
+      'setdeleteProduct',
+      'saveBaseInfo'
     ])
   }
 };
@@ -160,6 +184,19 @@ export default {
 @import "scss/variables.scss";
 .p-manage {
   padding: 24px; background: #fff;
+  .form-item__lable {
+    margin-left: $blockWidth;
+  }
+  .demo-form-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .form-item__input {
+    width: $inputWidthQuery;
+  }
+  .form-item {
+    margin-left: $formWidth;
+  }
 }
-
 </style>

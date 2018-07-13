@@ -7,11 +7,11 @@
       </div>
       <div class="task-three-detail-item">
         <div class="left">预计协议期：</div>
-        <div class="right">{{orderOverviewDetail.predictAgreementTime}}</div>
+        <div class="right">{{orderOverviewDetail.predictAgreementTime}}年</div>
       </div>
       <div class="task-three-detail-item">
         <div class="left">是否项目招标：</div>
-        <div class="right">{{orderOverviewDetail.isProjectInvitation}}</div>
+        <div class="right">{{keyToValue(orderOverviewDetail.isProjectInvitation, projectInvitationStatic)}}</div>
       </div>
     </div>
     <div class="task-three-detail">
@@ -37,7 +37,7 @@
     </div>
     <div class="task-detail-item">
       <div class="left">联系人：</div>
-      <div class="right">{{orderOverviewDetail.contactName}}；{{orderOverviewDetail.contactGender}} ；{{orderOverviewDetail.contactMobile}} {{orderOverviewDetail.contactEmail}}</div>
+      <div class="right">{{orderOverviewDetail.contactName}}；{{keyToValue(orderOverviewDetail.contactGender, genderStatic)}} ；{{orderOverviewDetail.contactMobile}} {{orderOverviewDetail.contactEmail}}</div>
     </div>
     <div class="task-detail-item">
       <div class="left">订单需求：</div>
@@ -50,9 +50,25 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
   props: {
-    orderOverviewDetail: Object
+    orderOverviewDetail: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  computed: {
+    ...mapState({
+      projectInvitationStatic: ({ root }) => root.staticData.PROJECT_INVITATION,
+      genderStatic: ({ root }) => root.staticData.SEX
+    })
+  },
+  methods: {
+    keyToValue(key, list) {
+      const obj = list.filter(val => parseInt(val.value, 10) === parseInt(key, 10))[0];
+      return obj ? obj.label : '';
+    }
   }
 };
 </script>

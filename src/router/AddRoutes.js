@@ -176,7 +176,7 @@ const dynamicRoutes = [
         meta: { menuId: 22 }
       },
       {
-        path: '/business-manage/transfor-order/:opporId',
+        path: '/business-manage/transfor-order/:opporId/:taskInsId',
         name: 'transfor-order',
         component: TransforOrder,
         meta: { menuId: 22 }

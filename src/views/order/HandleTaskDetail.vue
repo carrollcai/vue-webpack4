@@ -12,9 +12,11 @@
     </div>
     <div class="m-container o-overview-detail">
 
-      <div class="task-detail-content">
-        <detail-bar v-if="routeType === 'detail'" :title="['处理结果：', '付款金额：']" :content="['已完成', '1000万元']" />
-        <detail-content v-if="Object.keys(handleTaskDetail).length" :orderOverviewDetail="handleTaskDetail" />
+      <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
+        <detail-bar v-if="routeType === 'detail' && getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
+
+        <detail-bar v-if="routeType === 'detail' && getProcessContent()" :title="['指派人：', '指派原因：']" :content="getProcessContent()" />
+        <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
       <div class="line"></div>
@@ -38,7 +40,7 @@
 
       <el-form class="handle-task-detail-form" label-width="112px" v-if="routeType === 'pay'" ref="pay" :model="payForm" :rules="payRules">
         <el-form-item label="付款金额：" prop="money">
-          <el-input class="form-input-medium" v-model="payForm.money" placeholder="请输入合同金额">
+          <el-input class="form-input-medium" type="number" v-model.number="payForm.money" placeholder="请输入合同金额" @onmousewheel="cancelNumberScroll">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
@@ -58,10 +60,11 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AuditSteps from 'components/task/AuditSteps.vue';
+import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
-import { multFileValid } from '@/utils/rules.js';
+import { multFileValid, inte5Deci4 } from '@/utils/rules.js';
+import { cancelNumberScroll } from '@/utils/common.js';
 
 export default {
   data() {
@@ -74,7 +77,8 @@ export default {
       },
       payRules: {
         money: [
-          { required: true, message: '请输入合同金额', trigger: 'blur' }
+          { required: true, message: '请输入合同金额', trigger: 'blur' },
+          { validator: inte5Deci4, trigger: 'blur' }
         ]
       },
       assignForm: {
@@ -86,9 +90,9 @@ export default {
           { validator: fileCheck }
         ]
       },
-      // routeType和id不能直接通过在created创建，因为created生命周期里创建的对象不在Vue实例劫持对象里。
       routeType: '',
-      id: ''
+      id: null,
+      taskInsId: null
     };
   },
   components: {
@@ -97,6 +101,7 @@ export default {
     DetailBar
   },
   created() {
+    this.cancelNumberScroll = cancelNumberScroll;
     this.routeChange();
   },
   computed: {
@@ -115,6 +120,22 @@ export default {
     }
   },
   methods: {
+    getPayContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) === 4) {
+        contents.push('已付款');
+        contents.push(`${this.handleTaskDetail.ordPayAmount}万元`);
+        return contents;
+      }
+    },
+    getProcessContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) !== 4 && this.handleTaskDetail.processor) {
+        contents.push(this.handleTaskDetail.processName);
+        contents.push(this.handleTaskDetail.assignReason);
+        return contents;
+      }
+    },
     routeChange() {
       this.routeType = this.$route.params.type;
       this.id = this.$route.params.id;
@@ -140,7 +161,8 @@ export default {
         let params = {
           id: this.id,
           taskInsId: this.taskInsId,
-          resultStatus: '3'
+          resultStatus: '3',
+          dealResult: ''
         };
         this.cancelAssign(params);
         return false;
@@ -164,37 +186,38 @@ export default {
           taskRequest: {
             id: this.id,
             taskInsId: this.taskInsId,
-            resultStatus: '4'
+            resultStatus: '4',
+            dealResult: '' // 这个字段必传，可为空
           }
         };
         await this.submitAssignContract(submitParams);
 
         // 不能利用submit事件，因为会重复提交一次action
         // this.$refs.upload.submit();
-        // let fileData = new FormData();
-        // fileData.append('radio', this.assignForm.radio);
-        // fileData.append('file', this.assignForm.file);
-
-        // 先获取附件id再上传。
-        // this.getNewFileInputId().then(() => {
-        //   this.uploadOrderHandleTask(fileData);
-        // });
       });
     },
     submitSign() {
       // 跳转到付款的详情
       let path = '';
       if (this.routeType === 'detail-sign') {
-        path = `/order/handle-task/sign/${this.id}`;
+        path = `/order/handle-task/sign/${this.id}?taskInsId=${this.taskInsId}`;
       } else {
-        path = `/order/handle-task/pay/${this.id}`;
+        path = `/order/handle-task/pay/${this.id}?taskInsId=${this.taskInsId}`;
       }
       this.$router.push(path);
     },
     submitPayForm() {
+      const params = {
+        ordPayAmount: this.payForm.money,
+        taskRequest: {
+          id: this.id,
+          taskInsId: this.taskInsId,
+          resultStatus: '5'
+        }
+      };
       this.$refs.pay.validate(valid => {
         if (!valid) return false;
-        this.uploadOrderHandleTask();
+        this.submitPay(params);
       });
     },
     ...mapActions([
@@ -202,7 +225,8 @@ export default {
       'getHandleTaskDetail',
       'uploadOrderHandleTask',
       'cancelAssign',
-      'submitAssignContract'
+      'submitAssignContract',
+      'submitPay'
     ])
   }
 };

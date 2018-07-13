@@ -2,9 +2,9 @@
   <div class="detail-container">
       <div class="business-detail-body-item">
         <span class="title">商机类别：</span>
-        <span class="content">{{detailData.opporType}}</span>
+        <span class="content">{{detailData.opporTypeName}}</span>
         <span class="title">预计协议期限：</span>
-        <span class="content">{{detailData.predictAgreementTime}}</span>
+        <span class="content">{{detailData.predictAgreementTimeName}}</span>
         <span class="title">是否项目招标：</span>
         <span class="content" v-if="detailData.isProjectInvitation === '0'">否</span>
         <span class="content" v-if="detailData.isProjectInvitation === '1'">是</span>
@@ -23,7 +23,7 @@
       </div>
       <div class="business-detail-body-item">
         <div class="left">联系人员：</div>
-        <div class="right">{{detailData.contactName}} ；{{detailData.contactGender}} ；{{detailData.contactMobile}} ；{{detailData.contactEmail}}</div>
+        <div class="right">{{detailData.contactName}} ；{{detailData.contactGenderName}} ；{{detailData.contactMobile}} ；{{detailData.contactEmail}}</div>
       </div>
       <div class="business-detail-body-item">
         <div class="left">商机描述：</div>
@@ -44,6 +44,8 @@
 export default {
   props: {
     detailData: JSON
+  },
+  methods: {
   }
 };
 </script>

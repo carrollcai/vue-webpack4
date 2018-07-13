@@ -24,7 +24,11 @@ const actions = {
   },
   getComposedProduct: ({commit}, params) => {
     return API.getComposedProductAPI(params).then((res) => {
-      commit(types.COMPOSED_PRODUCT, res.data);
+      if (!params.productName) {
+        commit(types.COMPOSED_PRODUCT, res.data);
+      } else {
+        return res.data;
+      }
     });
   },
   setAddProduct: ({ commit }, params) => {
@@ -64,6 +68,12 @@ const actions = {
   },
   downloadUplodFile: ({commit}, params) => {
     return API.downloadUplodFileAPI(params);
+  },
+  saveBaseInfo: ({commit}, params) => {
+    return commit(types.SAVE_BASE_INFO, params);
+  },
+  saveSaleStep: ({commit}, params) => {
+    return commit(types.SAVE_SALE_STEP, params);
   }
 };
 

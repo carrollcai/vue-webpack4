@@ -108,8 +108,8 @@ const actions = {
    */
   getDesignatePerson: ({ commit }, params) => {
     return API.getDesignatePersonAPI(params).then(res => {
-      commit(types.DESIGNATE_PERSON, res.data.list);
-      return res.data.list;
+      commit(types.DESIGNATE_PERSON, res.data);
+      return res.data;
     });
   },
   /**
@@ -118,7 +118,7 @@ const actions = {
   submitBusinessSend: ({ commit }, params) => {
     return API.submitBusinessSendAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_SEND_STATUS, res.data);
-      return res.data.list;
+      return res;
     });
   },
   /**
@@ -127,7 +127,7 @@ const actions = {
   submitBusinessCancel: ({ commit }, params) => {
     return API.submitBusinessCancelAPI(params).then(res => {
       commit(types.SUBMIT_BUSINESS_CANCEL_STATUS, res.data);
-      return res.data.list;
+      return res;
     });
   },
   /**
@@ -145,7 +145,7 @@ const actions = {
   saveBusinessOrder: ({ commit }, params) => {
     return API.saveBusinessOrderAPI(params).then(res => {
       commit(types.SAVE_BUSINESS_ORDER, res.data);
-      return res.data.list;
+      return res;
     });
   },
   /**
@@ -180,6 +180,24 @@ const actions = {
   editBusinessDetail: ({ commit }, params) => {
     return API.editBusinessDetailAPI(params).then(res => {
       commit(types.EDIT_BUSINESS_DETAIL_STATUS, res);
+      return res;
+    });
+  },
+  /**
+   * 修改商机详情并提交
+   */
+  editBusinessDetailApprove: ({ commit }, params) => {
+    return API.editBusinessDetailApproveAPI(params).then(res => {
+      commit(types.EDIT_BUSINESS_DETAIL_APPROVE_STATUS, res);
+      return res;
+    });
+  },
+  /**
+   * 根据产品编码或名称查询
+   */
+  getProductNameCode: ({ commit }, params) => {
+    return API.getProductNameCodeAPI(params).then(res => {
+      commit(types.PRODUCT_NAME_CODE, res.data);
     });
   }
 };

@@ -1,7 +1,11 @@
 <template>
   <div class="p-content">
     <div class="crumb-bar">
-      <span>产品创建管理 / </span>新建产品</div>
+      <el-breadcrumb>
+        <el-breadcrumb-item :to="{ path: '/product/product-creat-manage' }">产品创建管理</el-breadcrumb-item>
+        <el-breadcrumb-item>{{!isAddProduct ? '新建' : '编辑'}}产品</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <div class="creat-content">
       <div class="steps-self w380 pt42 pb60">
         <p class="steps read"><span><i class="el-step__icon-inner is-status el-icon-check"></i>1</span>产品基本信息</p>
@@ -10,15 +14,15 @@
       </div>
       <div class="creat-model">
         <wm-table v-if="cacheData && cacheData.length > 0" :source="cacheData">
-          <el-table-column label="销售类型" property="salesType" :formatter="salesTypeFormat">
+          <el-table-column label="销售类型" width="80" property="salesType" :formatter="salesTypeFormat">
           </el-table-column>
-          <el-table-column label="组合产品" property="composedProduct" width="120" :formatter="productNameFormat">
+          <el-table-column label="组合产品" property="composedProduct" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="方案介绍" show-overflow-tooltip property="scheme" prop="">
+          <el-table-column label="方案介绍" align="center" show-overflow-tooltip property="scheme" prop="">
           </el-table-column>
-          <el-table-column label="销售数量" property="salesNumber">
+          <el-table-column label="销售数量" width="80" property="salesNumber">
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" align="center">
             <template slot-scope="operation">
               <span class="blue hand" @click="toPageModefiy(operation.$index ,operation.row)">编辑</span>
               <span class="blue hand" @click="deleteProduct(operation.$index ,operation.row)">删除</span>
@@ -26,9 +30,10 @@
           </el-table-column>
         </wm-table>
         <div class="bor" v-if="isShow">
-          <h3 class="title">添加销售案例
+          <h3 v-if="(!isAddProduct && addItem) || (isAddProduct && addItem)" class="title">添加销售案例
             <span>（可添加多个销售案例）</span>
           </h3>
+          <h3 v-if="(isAddProduct && !addItem) || (!isAddProduct && !addItem)" class="title">编辑销售案例</h3>
           <el-form class="add-content" :model="formData" :rules="formDataValid" :ref="formData" label-width="130px">
             <el-form-item label="销售类型：">
               <el-radio v-model="formData.salesType" @change="getRadioValue" value="0" label="0">单品销售</el-radio>
@@ -42,9 +47,10 @@
                 filterable
                 allow-create
                 default-first-option
+                @change="productNameChange"
                 placeholder="产品名称/编码">
                 <el-option
-                v-for="item in composedProduct"
+                v-for="item in composedProductList"
                 :key="item.productId"
                 :label="item.productName"
                 :value="item.productName"></el-option>
@@ -63,19 +69,22 @@
             <el-form-item label="经验教训：" label-width="130px" prop="experience">
               <el-input v-model="formData.experience" placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
             </el-form-item>
-            <el-form-item label="方案附件：" label-width="130px" prop="fileList">
+            <el-form-item label="方案附件：" label-width="130px">
               <el-upload class="upload-demo"
                 action=""
                 :auto-upload="false"
                 :on-change="fileChange"
                 :multiple="false"
                 :file-list="fileList"
+                :limit="5"
+                :accept="fileType"
                 :on-remove="removeFile">
-                <el-button slot="trigger" size="small">选择文件</el-button>
+                <span class="blue"> <i class="el-icon el-icon-plus fs12"></i>上传附件</span>
+                <div slot="tip" class="el-upload__tip">
+                  <p class="lh1-5">1. 附件格式支持“word、excel、ppt、pdf、rar“格式</p>
+                  <p class="lh1-5">2. 附件大小不超过20M。</p>
+                </div>
               </el-upload>
-            </el-form-item>
-            <el-form-item label="" label-width="130px">
-              <el-button type="primary" round size="mini" @click="submitAssignForm()"><i class="icon-up margin-right-8"></i>上传</el-button>
             </el-form-item>
             <el-row class="mt28 mb10">
               <el-button type="primary" round size="mini" @click="onSubmit(formData)">确定</el-button>
@@ -96,54 +105,58 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
+import { multFileValid } from '@/utils/rules.js';
 export default {
   components: {
     WmTable
   },
   data() {
-    function getWordLen(str) {
+    function getWordLen(str, validNum) {
       var length = 0;
-      for (var i = 0; i < str.length; i++) {
+      for (let i = 0; i < str.length; i++) {
         if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
           length += 2;
         } else {
           length += 1;
         }
       }
-      return length;
+      if (length > validNum) {
+        return true;
+      }
+    };
+    const fileCheck = (rule, value, callback) => {
+      multFileValid(this.formDataValid.files, callback);
     };
     function checkTip(content, value, callback) {
-      var len = getWordLen(value);
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('请输入' + content + '!'));
-      } else if (len > 1000) {
+      } else if (getWordLen(value, 1000)) {
         callback(new Error('请输入500个汉字以内' + content + '!'));
       } else {
         callback();
       }
     };
     var productNameFn = (rule, value, callback) => {
-      var len = getWordLen(value);
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('请输入产品名称!'));
-      } else if (len > 50) {
+      } else if (getWordLen(value, 50)) {
         callback(new Error('请输入在25个汉字以内产品名称!'));
       } else {
         callback();
       }
     };
     var salesTypeFn = (rule, value, callback) => {
-      if (value === '') {
+      if (String(value).trim() === '') {
         callback(new Error('选择产品类型!'));
       } else {
         callback();
       }
     };
     var salesNumberFn = (rule, value, callback) => {
-      var vlaueNum = Number(value);
-      if (value === '') {
+      var reg = /^\d{1,9}$/;
+      if (String(value).trim() === '') {
         callback(new Error('请输入销售数量!'));
-      } else if (!Number.isInteger(vlaueNum) || (Number.isInteger(vlaueNum) && vlaueNum > 100000000)) {
+      } else if (!reg.test(value)) {
         callback(new Error('请输入9位以内的数字!'));
       } else {
         callback();
@@ -155,8 +168,8 @@ export default {
     var experienceFn = (rule, value, callback) => {
       checkTip('经验教训', value, callback);
     };
-    var descriptionFn = (rule, value, callback) => {
-      checkTip('产品介绍', value, callback);
+    var schemeFn = (rule, value, callback) => {
+      checkTip('方案介绍', value, callback);
     };
     return {
       isAddProduct: this.$route.params.id | false,
@@ -165,7 +178,7 @@ export default {
       isShow: true,
       cacheData: [],
       cacheSalesList: [],
-      addItem: Number(this.$route.params.id) < 0,
+      addItem: typeof (this.$route.params.id) === 'undefined',
       fileList: [],
       fileLen: 0,
       formData: {
@@ -178,6 +191,7 @@ export default {
         composedProduct: [],
         fileInputId: null
       },
+      fileType: 'application/pdf,application/rar,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.ms-excel',
       uploadData: {
         fileInputId: '',
         fileTypeId: 502,
@@ -191,7 +205,7 @@ export default {
           { required: true, message: '请输入产品名称或编码', trigger: 'blur' }
         ],
         scheme: [
-          { required: true, message: '请输入产品销售方案', trigger: 'blur' }
+          { required: true, validator: schemeFn, trigger: 'blur' }
         ],
         productName: [
           { required: true, validator: productNameFn, trigger: 'blur' }
@@ -208,35 +222,72 @@ export default {
         experience: [
           { required: true, validator: experienceFn, trigger: 'blur' }
         ],
-        description: [
-          { required: true, validator: descriptionFn, trigger: 'blur' }
+        files: [
+          { validator: fileCheck }
         ]
       }
     };
   },
   computed: {
+    composedProductList() {
+      if (this.composedProduct) {
+        var formData = this.formData;
+        if (this.formData.composedProduct[0] === '无') {
+          formData.composedProduct = [];
+        }
+        return this.composedProduct;
+      }
+    },
     ...mapState({
       composedProduct: ({ product }) => product.composedProduct,
-      productSaleDemo: ({ product }) => product.productSaleDemo
+      productSaleDemo: ({ product }) => product.productSaleDemo,
+      saleStep: ({product}) => product.saleStep
     })
   },
   beforeMount() {
+    let returnStep = Number(localStorage.getItem('nextStep'));
+    let prevStep = Number(localStorage.getItem('prevStep'));
     var _this = this;
     this.getComposedProduct({});
     this.params = JSON.parse(localStorage.getItem('params'));
-    if (this.isAddProduct) {
+    if (this.isAddProduct && this.isAddProduct > 0) {
       this.isShow = false;
-      var data = { productId: Number(this.isAddProduct) };
-      this.getProductDetail(data).then((reques) => {
-        if (_this.productSaleDemo) {
-          var res = _this.productSaleDemo.salesList;
-          for (var i in res) {
+      if (returnStep === 1 && prevStep === 2) {
+        this.formData = this.saleStep;
+        if (this.saleStep.salesList.length > 0) {
+          let res = this.saleStep.salesList;
+          for (let i in res) {
             res[i].state = 3;
           }
-          _this.cacheSalesList = res;
-          _this.cacheData = res.concat();
+          this.cacheSalesList = res;
+          this.cacheData = res.concat();
         }
-      });
+      } else {
+        var data = { productId: Number(this.isAddProduct) };
+        this.getProductDetail(data).then((reques) => {
+          if (_this.productSaleDemo) {
+            let res = _this.productSaleDemo.salesList;
+            for (let i in res) {
+              res[i].state = 3;
+            }
+            _this.cacheSalesList = res;
+            _this.cacheData = res.concat();
+          }
+        });
+      }
+    } else {
+      if (returnStep === 1 && prevStep === 2) {
+        this.formData = this.saleStep;
+        if (this.saleStep.salesList.length > 0) {
+          this.isShow = false;
+          let res = this.saleStep.salesList;
+          for (let i in res) {
+            res[i].state = 3;
+          }
+          this.cacheSalesList = res;
+          this.cacheData = res.concat();
+        }
+      }
     }
   },
   methods: {
@@ -262,10 +313,20 @@ export default {
         this.reset();
       }
     },
+    productNameChange(value) {
+      /* var cloneValue = value;
+      var curValue = value[0];
+      this.getComposedProduct({productName: curValue}).then((res) => {
+        this.composedProductList = res
+        console.log(res)
+      }); */
+    },
     onSubmit(vaildData) {
+      this.isSubmit = true;
       var _this = this;
       this.$refs[vaildData].validate((valid) => {
         if (valid) {
+          this.submitAssignForm();
           if (_this.isAddProduct) {
             if (_this.addItem) {
               _this.formData.state = 2;
@@ -288,6 +349,7 @@ export default {
           _this.params.salesList = _this.cacheSalesList;
           _this.isShow = false;
         } else {
+          _this.isShow = true;
           return false;
         }
         _this.addItem = false;
@@ -295,6 +357,9 @@ export default {
     },
     creartProduct() {
       var _this = this;
+      if (!this.isSubmit) {
+        this.params.salesList = this.cacheSalesList;
+      }
       var salesList = this.params.salesList;
       for (var s in salesList) {
         if (salesList[s].salesType === '单品销售') {
@@ -375,6 +440,7 @@ export default {
           }
         }
         _this.params.salesList = _this.cacheSalesList;
+        _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
       }).catch(() => {
         _this.$message('已取消删除');
       });
@@ -401,10 +467,6 @@ export default {
       }
     },
     fileChange(files, fileList) {
-      if (fileList.length > 1) {
-        // fileList.splice(0, 1);
-      }
-      // this.uploadData.files = files.raw;
       this.uploadData.files.push(files.raw);
     },
     removeFile(files, fileList) {
@@ -412,16 +474,17 @@ export default {
       if (files.elecInstId) {
         this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
           if (res.errorInfo.code === '200') {
-            _this.formDataValid.files = null;
-            _this.uploadData.fileInputId = '';
-            _this.formData.fileInputId = '';
+            if (fileList.length === 0) {
+              _this.uploadData.fileInputId = '';
+              _this.formData.fileInputId = '';
+            }
           }
         });
       } else {
         this.formDataValid.files = null;
       }
     },
-    submitAssignForm(vaildData) {
+    submitAssignForm() {
       var _this = this;
       if (this.isShow && this.isAddProduct) {
         // 修改
@@ -443,6 +506,11 @@ export default {
       }
     },
     prevStep() {
+      if (!this.isSubmit) {
+        this.params.salesList = this.cacheSalesList;
+      }
+      this.saveSaleStep(this.params);
+      localStorage.setItem('prevStep', 2);
       this.$router.go(-1);
     },
     getRadioValue(value) {
@@ -459,7 +527,8 @@ export default {
       'getProductFileId',
       'getComposedProduct',
       'queryElec',
-      'delUplodFile'
+      'delUplodFile',
+      'saveSaleStep'
     ])
   }
 };
@@ -467,56 +536,65 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.el-step.is-horizontal .el-step__line {
-  height: 1px;
-  background: #c0c0c0
-}
+.p-content {
+  .crumb-bar {
+    .el-breadcrumb {
+      line-height: 48px;
+    }
+  }
+  .lh1-5 {line-height: 1.5;}
+  .fs12 {font-size: 12px;}
+  .el-upload__tip {margin-top: 0;}
+  .el-step.is-horizontal .el-step__line {
+    height: 1px;
+    background: #c0c0c0
+  }
 
-.el-step__head.is-process,
-.el-step__title.is-process {
-  color: #8c8c8c;
-  font-weight: 400;
-}
+  .el-step__head.is-process,
+  .el-step__title.is-process {
+    color: #8c8c8c;
+    font-weight: 400;
+  }
 
-.el-step.is-simple .el-step__arrow::before,
-.el-step.is-simple .el-step__arrow:before {
-  display: none
-}
+  .el-step.is-simple .el-step__arrow::before,
+  .el-step.is-simple .el-step__arrow:before {
+    display: none
+  }
 
-.el-step.is-simple .el-step__arrow::after,
-.el-step.is-simple .el-step__arrow:after {
-  -webkit-transform: none;
-  transform: none;
-  height: 1px;
-  width: 320px;
-}
+  .el-step.is-simple .el-step__arrow::after,
+  .el-step.is-simple .el-step__arrow:after {
+    -webkit-transform: none;
+    transform: none;
+    height: 1px;
+    width: 320px;
+  }
 
-.el-step__icon.is-text {
-  border-width: 1px;
-}
+  .el-step__icon.is-text {
+    border-width: 1px;
+  }
 
-.creat-content {
-  background: #fff;
-  margin-top: 16px;
-  min-height: 812px;
-  height: auto;
-}
+  .creat-content {
+    background: #fff;
+    margin-top: 16px;
+    min-height: 812px;
+    height: auto;
+  }
 
-.el-steps--simple {
-  background: none;
-}
+  .el-steps--simple {
+    background: none;
+  }
 
-.el-steps--horizontal {
-  width: 480px;
-  padding: 30px;
-  margin: 0 auto;
-}
+  .el-steps--horizontal {
+    width: 480px;
+    padding: 30px;
+    margin: 0 auto;
+  }
 
-.add-content {
-  width: 430px;
-  margin: 0 auto;
+  .add-content {
+    width: 430px;
+    margin: 0 auto;
+  }
 }
-
 .creat-model {
   width: 587px;
   margin: 0 auto;
