@@ -17,6 +17,20 @@
         </div>
       </div>
     </div>
+    <div class="task-three-detail">
+      <div class="task-three-detail-item">
+        <div class="left">预计收入：</div>
+        <div class="right">{{detailData.predictContractAmount}}</div>
+      </div>
+      <div class="task-three-detail-item">
+        <div class="left">预计签约时间：</div>
+        <div class="right">{{detailData.predictSignTime}}</div>
+      </div>
+      <div class="task-three-detail-item">
+        <div class="left">商机提供人员：</div>
+        <div class="right">{{detailData.opId}}</div>
+      </div>
+    </div>
     <div class="task-detail-item">
       <div class="left">合作集团：</div>
       <div class="right">{{detailData.organizeName}}</div>
