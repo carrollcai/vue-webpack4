@@ -61,7 +61,7 @@
         <el-table-column label="联系人" property="contactName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button type="text" @click="toHandle(scope.row)">
               去处理
             </el-button>
             <el-button type="text" @click="handleDetail(scope.row)">
@@ -103,6 +103,9 @@ export default {
   methods: {
     handleDetail(row) {
       this.$router.push(`/requirement/detail/${row.reqId}`);
+    },
+    toHandle(row) {
+      this.$router.push(`/requirement/handle/${row.reqId}`);
     }
   }
 };

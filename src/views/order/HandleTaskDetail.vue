@@ -19,7 +19,7 @@
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
-      <div class="line"></div>
+      <div class="detail-line"></div>
 
       <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
         <el-form-item label="处理结果：">
@@ -236,12 +236,6 @@ export default {
 <style lang="scss">
 .o-overview-detail {
   margin-top: 16px;
-}
-.line {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid rgba(229, 229, 229, 1);
 }
 .handle-task-detail-form {
   & .el-form-item__label {

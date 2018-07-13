@@ -50,7 +50,7 @@
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="需求单号" property="reqCode" show-overflow-tooltip/>
+        <el-table-column label="需求单号" property="reqId" show-overflow-tooltip/>
         <el-table-column label="创建时间" show-overflow-tooltip>
           <template slot-scope="scope">
             {{formateDate(scope.row.createDate)}}
@@ -108,9 +108,6 @@ export default {
     handleCreate() {
       const path = `/requirement/create`;
       this.$router.push(path);
-    },
-    toHandle() {
-      this.$router.push(`/requirement/detail/${row.reqId}`);
     },
     handleDetail(row) {
       this.$router.push(`/requirement/detail/${row.reqId}`);
