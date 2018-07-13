@@ -1,43 +1,43 @@
 <template>
-  <div class="detail-container">
-      <div class="business-detail-body-item">
-        <span class="title">商机类别：</span>
-        <span class="content">{{detailData.opporTypeName}}</span>
-        <span class="title">预计协议期限：</span>
-        <span class="content">{{detailData.predictAgreementTimeName}}</span>
-        <span class="title">是否项目招标：</span>
-        <span class="content" v-if="detailData.isProjectInvitation === '0'">否</span>
-        <span class="content" v-if="detailData.isProjectInvitation === '1'">是</span>
+  <div>
+    <div class="task-three-detail">
+      <div class="task-three-detail-item">
+        <div class="left">商机类别：</div>
+        <div class="right">{{detailData.opporTypeName}}</div>
       </div>
-      <div class="business-detail-body-item">
-        <span class="title">预计收入：</span>
-        <span class="content">{{detailData.predictContractAmount}}万/月</span>
-        <span class="title">预计签约时间：</span>
-        <span class="content">{{detailData.predictSignTime}}</span>
-        <span class="title">商机提供人员：</span>
-        <span class="content">{{detailData.opId}}</span>
+      <div class="task-three-detail-item">
+        <div class="left">预计协议期限：</div>
+        <div class="right">{{detailData.predictAgreementTimeName}}</div>
       </div>
-      <div class="business-detail-body-item">
-        <div class="left">合作集团：</div>
-        <div class="right">{{detailData.organizeName}}</div>
-      </div>
-      <div class="business-detail-body-item">
-        <div class="left">联系人员：</div>
-        <div class="right">{{detailData.contactName}} ；{{detailData.contactGenderName}} ；{{detailData.contactMobile}} ；{{detailData.contactEmail}}</div>
-      </div>
-      <div class="business-detail-body-item">
-        <div class="left">商机描述：</div>
-        <div class="right">{{detailData.busiDesc}}</div>
-      </div>
-      <div class="business-detail-body-item">
-        <div class="left">业务需求：</div>
-        <div class="right">{{detailData.busiRequire}}</div>
-      </div>
-      <div class="business-detail-body-item">
-        <div class="left">需要协调处：</div>
-        <div class="right">{{detailData.needCoordinationIssue}}</div>
+      <div class="task-three-detail-item">
+        <div class="left">是否项目招标：</div>
+        <div class="right">
+          <span class="content" v-if="detailData.isProjectInvitation === '0'">否</span>
+          <span class="content" v-if="detailData.isProjectInvitation === '1'">是</span>
+        </div>
       </div>
     </div>
+    <div class="task-detail-item">
+      <div class="left">合作集团：</div>
+      <div class="right">{{detailData.organizeName}}</div>
+    </div>
+    <div class="task-detail-item">
+      <div class="left">联系人员：</div>
+      <div class="right">{{detailData.contactName}} ；{{detailData.contactGenderName}} ；{{detailData.contactMobile}} ；{{detailData.contactEmail}}</div>
+    </div>
+    <div class="task-detail-item">
+      <div class="left">商机描述：</div>
+      <div class="right">{{detailData.busiDesc}}</div>
+    </div>
+    <div class="task-detail-item">
+      <div class="left">业务需求：</div>
+      <div class="right">{{detailData.busiRequire}}</div>
+    </div>
+    <div class="task-detail-item">
+      <div class="left">需要协调处：</div>
+      <div class="right">{{detailData.needCoordinationIssue}}</div>
+    </div>
+  </div>
 </template>
 
 <script>

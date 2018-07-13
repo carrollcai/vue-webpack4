@@ -39,31 +39,28 @@ const state = {
   businessTaskList: '',
   businessList: '',
   businessDetail: {},
-  businessCategoryList: [],
   officeAddress: '',
   submitBusinessStatus: '',
   groupAssociationStatus: '',
   delBusinessStatus: '',
-  businessDraftDetail: '',
   designatePerson: [],
   remindPerson: [],
   submitBusinessSendStatus: '',
   submitBusinessCancelStatus: '',
   saveBusinessDrafStatus: '',
   saveBusinessOrder: '',
-  saveBusinessOrderDraft: '',
   myBusinessList: '',
   transforOrderDetail: '',
   submitBusinessDraftStatus: '',
   editBusinessDetailStatus: '',
   editBusinessDetailApproveStatus: '',
-  productNameCode: ''
+  productNameCode: '',
+  queryTask: ''
 };
 
 const mutations = {
   [types.COOPERATION_GROUP](state, data) {
     state.cooperationGroupList = data.list.map(val => Object.assign(val, {value: val.organizeName}));
-    // state.cooperationGroupList = data.list;
   },
   // [types.ORDER_QUERY_ORGANIZE_ADDRESS](state, data) {
   //   state.orderOrganizeAddressList = data.list.map(val => Object.assign(val, {value: val.organizeName}));
@@ -73,9 +70,6 @@ const mutations = {
   },
   [types.BUSINESS_DETAIL](state, data) {
     state.businessDetail = data;
-  },
-  [types.BUSINESS_CATEGORY_LIST](state, data) {
-    state.businessCategoryList = data.list;
   },
   [types.OFFICE_ADDRESS](state, data) {
     state.officeAddress = data.list;
@@ -88,9 +82,6 @@ const mutations = {
   },
   [types.DEL_BUSINESS_STATUS](state, data) {
     state.delBusinessStatus = data;
-  },
-  [types.BUSINESS_DRAFT_DETAIL](state, data) {
-    state.businessDraftDetail = data.list;
   },
   [types.DESIGNATE_PERSON](state, data) {
     state.designatePerson = data.map(val => {
@@ -125,9 +116,6 @@ const mutations = {
   [types.SAVE_BUSINESS_ORDER](state, data) {
     state.saveBusinessOrder = data.list;
   },
-  [types.SAVE_BUSINESS_ORDER_DRAFT](state, data) {
-    state.saveBusinessOrderDraft = data.list;
-  },
   [types.MY_BUSINESS_LIST](state, data) {
     state.myBusinessList = data;
   },
@@ -149,6 +137,9 @@ const mutations = {
   [types.PRODUCT_NAME_CODE](state, data) {
     state.productNameCode = data.list.map(val => Object.assign(val, {value: val.productName}));
     // state.cooperationGroupList = data.list;
+  },
+  [types.QUERY_TASK](state, data) {
+    state.queryTask = data;
   }
 };
 
