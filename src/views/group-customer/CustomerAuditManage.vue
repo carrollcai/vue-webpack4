@@ -50,6 +50,7 @@
         <el-table-column label="所属省份" property="provinceId">
         </el-table-column>
         <el-table-column label="客户经理" property="managerName" />
+        <el-table-column label="审核状态" property="businessStatus" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
