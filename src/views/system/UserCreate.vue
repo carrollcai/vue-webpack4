@@ -153,7 +153,7 @@ export default {
 
       params.provinces = params.provinces.filter(val => val !== 'null');
       params.opRegion = params.opRegion.pop();
-
+      
       this.$refs['userForm'].validate(valid => {
         if (!valid) return false;
 

@@ -105,7 +105,7 @@ export default {
     },
     query() {
       const params = Object.cloneDeep(this.userForm);
-      console.log(params);
+
       params.opRegion = params.opRegion && params.opRegion.pop();
       this.getUserList(params);
     },
