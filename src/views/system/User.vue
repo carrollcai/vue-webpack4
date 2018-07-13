@@ -31,9 +31,14 @@
     <wm-table :source="userObj.list" :pageNo="userForm.pageNo" :pageSize="userForm.pageSize" :total="userObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户姓名" property="staffName" />
       <el-table-column label="登录账号" property="code" />
-      <el-table-column label="手机号" property="code" />
+      <el-table-column label="手机号" property="mobile" />
       <el-table-column label="用户角色" property="roleNames" show-overflow-tooltip />
-      <el-table-column label="用户归属" property="roleNames" />
+      <el-table-column label="用户归属" property="opRegion" />
+      <el-table-column label="所属省份" show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{transformProvinces(scope.row.provinces)}}
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="handleEdit(scope.row)">
@@ -66,14 +71,28 @@ export default {
       userObj: ({ system }) => system.userObj,
       userForm: ({ system }) => system.userForm,
       regionRelationList: ({ system }) => system.regionRelationList,
-      userRoleList: ({ root }) => root.userRoleList
+      userRoleList: ({ root }) => root.userRoleList,
+      province: ({ root }) => root.province
     })
   },
-  beforeMount() {
-    !this.regionRelationList.length && this.queryRegionRelationList({});
-    this.getUserList(this.userForm);
+  async beforeMount() {
+    !this.regionRelationList.length && await this.queryRegionRelationList({});
+    await this.getUserList(this.userForm);
   },
   methods: {
+    transformProvinces(provinces) {
+      let labels = [];
+      if (provinces.length === 31) return '全国';
+
+      provinces.length && provinces.map(val => {
+        this.province.map(cval => {
+          if (cval.key === val) {
+            labels.push(cval.value);
+          }
+        });
+      });
+      return labels.join('，');
+    },
     onPagination(value) {
       this.userForm.pageNo = value;
       this.query();

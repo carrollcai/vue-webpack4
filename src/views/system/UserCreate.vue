@@ -11,7 +11,7 @@
     <div class="m-container user-create">
       <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm" :rules="userCreateRules">
         <el-form-item label="用户姓名：" prop="staffName">
-          <el-input class="form-input-large" v-model="userCreate.staffName"></el-input>
+          <el-input class="form-input-large" v-model="userCreate.staffName" maxlength="6"></el-input>
         </el-form-item>
         <el-form-item label="登录账号：" prop="code">
           <el-input class="form-input-large" v-model="userCreate.code"></el-input>
@@ -53,7 +53,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-import { textLimit, checkPhone, emailCheck } from '@/utils/rules.js';
+import { checkPhone, emailCheck } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -61,8 +61,7 @@ export default {
       localProvinceSelected: [],
       userCreateRules: {
         staffName: [
-          { required: true, message: '请输入用户姓名', trigger: 'blur' },
-          { validator: textLimit, trigger: 'blur' }
+          { required: true, message: '请输入用户姓名', trigger: 'blur' }
         ],
         code: [
           { required: true, message: '请输入登录账号', trigger: 'blur' },
@@ -96,9 +95,9 @@ export default {
       province: ({ root }) => root.province
     })
   },
-  beforeMount() {
-    !this.regionRelationList.length && this.queryRegionRelationList({});
-    this.resetForm();
+  async beforeMount() {
+    !this.regionRelationList.length && await this.queryRegionRelationList({});
+    await this.resetForm();
   },
   methods: {
     routeType() {
@@ -153,7 +152,7 @@ export default {
 
       params.provinces = params.provinces.filter(val => val !== 'null');
       params.opRegion = params.opRegion.pop();
-      
+
       this.$refs['userForm'].validate(valid => {
         if (!valid) return false;
 
