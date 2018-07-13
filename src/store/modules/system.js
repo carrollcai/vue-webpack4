@@ -39,7 +39,7 @@ const state = {
     pageSize: PAGE_SIZE,
     opRegion: null,
     otherField: '',
-    role: ''
+    role: null
   },
   userCreate: Object.cloneDeep(userCreate),
 
@@ -107,6 +107,15 @@ const mutations = {
       });
       return _val;
     });
+  },
+  [types.ROLE_REDIRECT_USER_CREATE](state, data) {
+    state.userForm = {
+      pageNo: PAGE_NO,
+      pageSize: PAGE_SIZE,
+      opRegion: null,
+      otherField: '',
+      role: data
+    };
   }
 };
 

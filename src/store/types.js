@@ -22,6 +22,7 @@ export const USER_GET_LIST = 'USER_GET_LIST';
 export const USER_INIT_FORM = 'USER_INIT_FORM';
 export const USER_GET_INFO = 'USER_GET_INFO';
 export const SYSTEM_QUERY_REGION = 'SYSTEM_QUERY_REGION';
+export const ROLE_REDIRECT_USER_CREATE = 'ROLE_REDIRECT_USER_CREATE';
 
 /* data-analysis */
 export const CLIENT_GET = 'CLIENT_GET';
