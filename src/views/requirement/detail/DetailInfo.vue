@@ -14,7 +14,9 @@
       </el-form-item>
 
       <el-form-item label="需求附件">
-        {{requirement.reqDesc}}
+        <div v-for="(file, index) in files" :key="index" @click="handleDownload(file)">
+          {{file.fileName}}
+        </div>
       </el-form-item>
     </template>
 
@@ -47,6 +49,7 @@
   </el-form>
 </template>
 <script>
+import {mapActions} from 'vuex';
 export default {
   name: 'RequirementDetailInfo',
   props: {
@@ -57,10 +60,42 @@ export default {
       }
     }
   },
-  methods: {
-    handleDownload() {
-      window.open('');
+  data() {
+    return {
+      files: []
+    };
+  },
+  watch: {
+    requirement() {
+      this.initFiles();
     }
+  },
+  methods: {
+    handleDownload(file) {
+      this.downloadUplodFile({
+        fileTypeId: file.fileTypeId,
+        fileSaveName: file.fileSaveName,
+        fileName: file.fileName
+      });
+    },
+    initFiles() {
+      const that = this;
+      if (that.requirement.fileInputId) {
+        that.queryElec({
+          fileInputId: (that.requirement.fileInputId)
+        }).then((res) => {
+          if (res.data && res.data.length) {
+            that.files = res.data;
+          } else {
+            that.files = [];
+          }
+        });
+      }
+    },
+    ...mapActions([
+      'queryElec',
+      'downloadUplodFile'
+    ])
   }
 };
 </script>

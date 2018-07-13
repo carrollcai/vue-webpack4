@@ -322,6 +322,8 @@ export default {
       for (let item of fileList) {
         uploadData.files.push(item.raw);
       }
+
+      this.$refs.baseForm.validateField('fileInputId');
     },
     upload(uploadData) {
       this.uploadProductScheme(uploadData).then(() => {
