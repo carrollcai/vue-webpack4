@@ -194,14 +194,6 @@ export default {
 
         // 不能利用submit事件，因为会重复提交一次action
         // this.$refs.upload.submit();
-        // let fileData = new FormData();
-        // fileData.append('radio', this.assignForm.radio);
-        // fileData.append('file', this.assignForm.file);
-
-        // 先获取附件id再上传。
-        // this.getNewFileInputId().then(() => {
-        //   this.uploadOrderHandleTask(fileData);
-        // });
       });
     },
     submitSign() {
