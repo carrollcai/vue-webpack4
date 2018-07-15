@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     keyToValue(key, list) {
-      const obj = list.filter(val => parseInt(val.value, 10) === parseInt(key, 10))[0];
+      const obj = Array.isArray(list) && list.filter(val => parseInt(val.value, 10) === parseInt(key, 10))[0];
       return obj ? obj.label : '';
     }
   }

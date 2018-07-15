@@ -64,7 +64,7 @@ const mutations = {
     state.staticData = result;
   },
   [types.CURRENT_USER_GET_INFO](state, data) {
-    let menuIds = [12, 13, 14, 15];
+    let menuIds = [];
     let sidebars = Object.cloneDeep(MENU_PERMISSIONS);
     const provinces = data.secOperatorDTO.provinces.split(',');
 

@@ -117,8 +117,16 @@ const actions = {
       });
     });
   },
-  submitAssignContract: ({ commit }, params) => {
-    return API.submitAssignContractAPI(params).then(() => {
+  // 先获取附件id再上传,再提交表单。
+  async submitAssignContract({ dispatch, commit }, { params, submitParams }) {
+    commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
+    let fileInputId = await dispatch('getNewFileInputId');
+    let _params = Object.assign(params, { fileInputId });
+    let _submitParams = Object.assign(submitParams, { fileId: fileInputId });
+
+    await dispatch('uploadOrderHandleTask', _params);
+    await API.submitAssignContractAPI(_submitParams).then(() => {
+      commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
       Message({
         message: '提交成功',
         type: 'success'
@@ -126,6 +134,8 @@ const actions = {
       commit(types.ROUTE_CHANGE, {
         path: '/order/handle-task'
       });
+    }, () => {
+      commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
     });
   },
   submitPay: ({ commit }, params) => {

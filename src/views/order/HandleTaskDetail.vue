@@ -33,7 +33,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitAssignForm()">确定</el-button>
+          <el-button type="primary" @click="submitAssignForm()" :loading="submitAssignButton">{{!submitAssignButton ? '确定' : '加载中'}}</el-button>
           <form-cancel :path="'/order/handle-task'">取消</form-cancel>
         </el-form-item>
       </el-form>
@@ -45,7 +45,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitPayForm()">确定</el-button>
+          <el-button type="primary" @click="submitPayForm">确定</el-button>
           <form-cancel :path="'/order/handle-task'">取消</form-cancel>
         </el-form-item>
       </el-form>
@@ -108,7 +108,8 @@ export default {
   computed: {
     ...mapState({
       handleTaskDetail: ({ order }) => order.handleTaskDetail,
-      processList: ({ order }) => order.processList
+      processList: ({ order }) => order.processList,
+      submitAssignButton: ({ order }) => order.submitAssignButton
     })
   },
   beforeMount() {
@@ -172,21 +173,18 @@ export default {
         return false;
       }
 
-      this.$refs.assign.validate(async valid => {
+      this.$refs.assign.validate(valid => {
         if (!valid) return false;
 
-        // 先获取附件id再上传,再提交表单。
-        let fileInputId = await this.getNewFileInputId();
         let params = {
-          fileInputId,
+          fileInputId: '',
           fileTypeId: 502,
           moduleId: 1,
           files: this.assignForm.files
         };
-        await this.uploadOrderHandleTask(params);
 
         let submitParams = {
-          fileId: fileInputId,
+          fileId: '',
           taskRequest: {
             id: this.id,
             taskInsId: this.taskInsId,
@@ -194,7 +192,7 @@ export default {
             dealResult: '' // 这个字段必传，可为空
           }
         };
-        await this.submitAssignContract(submitParams);
+        this.submitAssignContract({ params, submitParams });
       });
     },
     submitSign() {

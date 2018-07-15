@@ -30,11 +30,11 @@ export const fetch = (url, params, method, config) => {
           message: res.data.errorInfo.message,
           type: 'error'
         });
-        // resolve(res.data);
+        reject(res.data);
       }
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
-
+      reject(err);
       // 出现400+，500+错误
       errorHandle(err);
     });

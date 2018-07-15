@@ -22,6 +22,7 @@ const orderCreate = {
 };
 
 const state = {
+  submitAssignButton: false,
   processInsId: null,
   orderOverviewForm: {
     pageNo: PAGE_NO,
@@ -113,7 +114,6 @@ const mutations = {
       });
       return newVal;
     });
-    console.log(handlers);
     state.assignHandlers = handlers.filter(val => val.children && val.children.length);
   },
   [types.ORDER_GET_HANDLE_TASK_DETAIL](state, data) {
@@ -134,6 +134,9 @@ const mutations = {
   },
   [types.ORDER_QUERY_PRODUCT_NAME](state, data) {
     state.productList = data.list.map(val => Object.assign(val, { value: val.productName }));
+  },
+  [types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS](state, data) {
+    state.submitAssignButton = !state.submitAssignButton;
   }
 };
 
