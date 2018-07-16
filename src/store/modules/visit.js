@@ -1,8 +1,14 @@
+import { createHelpers } from 'vuex-map-fields';
 import * as types from '../types';
 import {
   PAGE_NO,
   PAGE_SIZE
 } from '@/config/index.js';
+
+const { getVisitField, updateVisitField } = createHelpers({
+  getterType: 'getVisitField',
+  mutationType: 'updateVisitField'
+});
 
 const state = {
   myVisitManageFrom: {
@@ -31,7 +37,17 @@ const state = {
     isFirstVisit: '', // 是否首客走访
     visitAuditor: '' // 选择审核人
   },
-  createVisitData: {}
+  createVisitData: {},
+  handleQuery: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    rangeDate: [],
+    status: '',
+    organizeName: '',
+    reqType: '',
+    activeName: 'first'
+  },
+  handleVisits: {}
 };
 const mutations = {
   [types.MY_VISIT_MANAGE](state, data) {
@@ -39,10 +55,19 @@ const mutations = {
   },
   [types.CREATE_VISIT](state, data) {
     state.createVisitData = data;
-  }
+  },
+  [types.HANDLE_VISIT_MANAGE_LIST](state, data) {
+    state.handleVisits = data;
+  },
+  updateVisitField
+};
+
+const getters = {
+  getVisitField
 };
 
 export default {
   state,
-  mutations
+  mutations,
+  getters
 };
