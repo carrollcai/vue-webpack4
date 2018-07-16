@@ -214,3 +214,8 @@ input::-webkit-inner-spin-button {
 .el-textarea .el-textarea__inner {
   resize: none;
 }
+
+/* 让input错误提示在一行显示 */
+.el-form-item__error {
+  right: -20px;
+}

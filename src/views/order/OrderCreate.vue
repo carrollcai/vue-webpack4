@@ -52,15 +52,15 @@
 
         <el-form-item label="合作集团：" required>
           <el-form-item prop="organizeName" style="display:inline-block;">
-            <el-autocomplete class="form-input-half" v-model="orderCreate.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+            <el-autocomplete class="form-input-half" v-model="orderCreate.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="address" style="display:inline-block;">
             <el-input maxlength="50" class="form-input-half" v-model="orderCreate.address" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="订购产品：" prop="productName" required>
-          <el-autocomplete class="form-input-large" v-model="orderCreate.productName" :fetch-suggestions="queryProductAsync" placeholder="订购产品" @select="handleProductSelect" />
+        <el-form-item label="订购产品：" prop="productName">
+          <el-autocomplete class="form-input-large" v-model="orderCreate.productName" :fetch-suggestions="queryProductAsync" placeholder="订购产品" @select="handleProductSelect" :trigger-on-focus="false" />
         </el-form-item>
         <el-form-item label="订单描述：" prop="busiDesc">
           <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiDesc" placeholder="订单描述" />
@@ -81,12 +81,13 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, emailCheck, textLimit, textareaLimit, inte5Deci4, checkLeftRightSpace } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, inte5Deci4 } from '@/utils/rules.js';
 
 export default {
   data() {
     const isProductExist = (rule, value, callback) => {
-      if (this.selectedProduct.productId && this.selectedProduct.productName === this.orderCreate.productName) {
+      if (this.selectedProduct.productId &&
+        this.selectedProduct.productName === this.orderCreate.productName) {
         callback();
       } else {
         callback(new Error('产品名称不存在'));
@@ -95,6 +96,7 @@ export default {
     return {
       pageSize: PAGE_SIZE,
       timeout: null,
+      // isQueryProduct: false, // 是否是产品查询
       selectedProduct: {
         productName: '',
         productId: null
@@ -102,7 +104,6 @@ export default {
       orderCreateRules: {
         ordName: [
           { required: true, message: '请输入订单名称', trigger: 'blur' },
-          { validator: checkLeftRightSpace, trigger: 'blur' },
           { validator: textLimit, trigger: 'blur' }
         ],
         predictContractAmount: [
@@ -113,7 +114,7 @@ export default {
           { required: true, message: '请输入预定签约时间', trigger: 'blur' }
         ],
         predictAgreementTime: [
-          { required: true, message: '请输入预计协议期', trigger: 'change' }
+          { required: true, message: '请选择预计协议期', trigger: 'change' }
         ],
         contactName: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -132,7 +133,7 @@ export default {
         ],
         organizeName: [
           { required: true, message: '请输入合作集团/编码', trigger: 'blur' },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textareaLimit, trigger: 'changes' }
         ],
         address: [
           { required: true, message: '请输入地址', trigger: 'change' },
@@ -140,15 +141,15 @@ export default {
         ],
         productName: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
-          { validator: isProductExist, trigger: 'blur' }
+          { validator: isProductExist, trigger: 'change' }
         ],
         busiDesc: [
           { required: true, message: '请输入订单描述', trigger: 'blur' },
-          { validator: isProductExist, trigger: 'blur' }
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         busiRequire: [
           { required: true, message: '请输入订单需求', trigger: 'blur' },
-          { validator: isProductExist, trigger: 'blur' }
+          { validator: textareaLimit, trigger: 'blur' }
         ]
       }
     };
@@ -192,26 +193,35 @@ export default {
         productId: item.productId
       };
       this.updateOrderCreate({ productId: item.productId });
+      this.$refs.orderCreateForm.validateField('productName');
     },
     async queryProductAsync(queryString, cb) {
-      if (!queryString) return false;
+      // let isNotValid = '';
       let params = {
         pageSize: this.pageSize,
         productName: queryString
       };
+      // this.isQueryProduct = true;
+      // await this.$refs.orderCreateForm.validateField('productName', errorMsg => {
+      //   isNotValid = errorMsg;
+      // });
+      // console.log(isNotValid);
+      // if (isNotValid) return false;
+
       await this.queryProductByCodeOrName(params);
 
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
         cb(this.productList);
       }, 1000);
+      // this.isQueryProduct = false;
     },
     async querySearchAsync(queryString, cb) {
-      if (!queryString) return false;
       let params = {
         pageSize: this.pageSize,
         organizeName: queryString
       };
+
       await this.getOrganizeAddress(params);
 
       await clearTimeout(this.timeout);
@@ -221,18 +231,18 @@ export default {
     },
     submitForm(startProcess) {
       const { type, id } = this.$route.params;
-      const params = this.orderCreate;
+      const params = Object.cloneDeep(this.orderCreate);
       params.startProcess = startProcess;
+
       this.$refs.orderCreateForm.validate(valid => {
         if (!valid) return false;
 
         if (type === 'create') {
           this.createOrder(params);
-          return false;
+        } else {
+          params.ordId = id;
+          this.updateOrder(params);
         }
-
-        params.ordId = id;
-        this.updateOrder(params);
       });
     },
     ...mapMutations({

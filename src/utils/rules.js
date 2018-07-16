@@ -133,7 +133,7 @@ export const checkPhone = (rule, value, callback) => {
   if (reg.test(value)) {
     callback();
   } else {
-    callback(new Error('请输入11位手机号码'));
+    callback(new Error('请输入11位正确手机号'));
   }
 };
 
