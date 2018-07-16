@@ -8,9 +8,9 @@
     </div>
     <div class="m-container info-block">
       <detail-info :requirement="requirement"></detail-info>
-    </div>
-    <div class="m-container info-block">
-      <el-form>
+      <el-form class="handle-detail"
+        label-width="86px"
+        >
         <el-form-item label="处理人">
         </el-form-item>
         <el-form-item label="处理方案">
@@ -38,6 +38,15 @@ export default {
 .requirement-detail{
   .info-block{
     margin-top: 16px;
+  }
+
+  .handle-detail{
+    background-color: #FAFAFA;
+    padding: 24px 72px 24px 0;
+
+    .el-form-item{
+      margin-bottom: 0;
+    }
   }
 }
 </style>
