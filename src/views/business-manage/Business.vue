@@ -4,7 +4,7 @@
     <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="businessForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="businessForm.date" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 225px" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
 
@@ -103,6 +103,15 @@ export default {
       this.$router.push(path);
     },
     query() {
+      const params = this.businessForm;
+
+      if (params.date !== null && params.date.length === 2) {
+        params.startDate = params.date[0];
+        params.endDate = params.date[1];
+      } else {
+        params.startDate = '';
+        params.endDate = '';
+      }
       let { date, ..._params } = this.businessForm;
       if (_params.opporStatus === '0') {
         _params.opporStatus = '';

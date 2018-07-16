@@ -166,6 +166,15 @@ export default {
       this.$router.push(path);
     },
     query() {
+      const params = this.myBusinessForm;
+
+      if (params.date !== null && params.date.length === 2) {
+        params.startDate = params.date[0];
+        params.endDate = params.date[1];
+      } else {
+        params.startDate = '';
+        params.endDate = '';
+      }
       let { date, ..._params } = this.myBusinessForm;
       if (_params.opporStatus > 0) {
         _params.opporStatus = _params.opporStatus - 1;

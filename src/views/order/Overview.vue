@@ -30,7 +30,7 @@
     </div>
 
     <div class="m-container table-container">
-      <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+      <wm-table :source="orderOverviewObj.list" :pageNo="orderOverviewForm.pageNo" :pageSize="orderOverviewForm.pageSize" :total="orderOverviewObj.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
         <el-table-column label="订单编号" property="ordCode" />
         <el-table-column label="订单名称" property="ordName" />
         <el-table-column label="创建时间" property="createDate" />
@@ -57,6 +57,7 @@
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState } from 'vuex';
 import { ORDER_STATUS } from '@/config/index.js';
+import moment from 'moment';
 
 export default {
   data() {
@@ -75,8 +76,9 @@ export default {
     })
   },
   beforeMount() {
-    let { date, ..._params } = this.orderOverviewForm;
-    this.getOrderList(_params);
+    this.$nextTick(() => {
+      this.query();
+    });
   },
   methods: {
     tabChange() {
@@ -95,11 +97,14 @@ export default {
       this.query();
     },
     query() {
-      const params = this.orderOverviewForm;
+      const params = Object.cloneDeep(this.orderOverviewForm);
 
-      if (params.date.length === 2) {
-        params.startDate = params.date[0];
-        params.endDate = params.date[1];
+      if (params.date && params.date.length) {
+        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
+      } else {
+        params.startDate = '';
+        params.endDate = '';
       }
       let { date, ..._params } = params;
       this.$refs['orderOverview'].validate(valid => {
