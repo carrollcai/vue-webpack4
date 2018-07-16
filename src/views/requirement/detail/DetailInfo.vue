@@ -14,9 +14,9 @@
       </el-form-item>
 
       <el-form-item label="需求附件">
-        <div v-for="(file, index) in files" :key="index" @click="handleDownload(file)">
-          {{file.fileName}}
-        </div>
+        <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
+          {{file.fileName + (index === files.length - 1 ? '' : '；')}}
+        </span>
       </el-form-item>
     </template>
 
@@ -39,7 +39,7 @@
     </template>
 
     <el-form-item label="联系人">
-      {{requirement.contactName}}，{{requirement.contactMobile}}，{{requirement.contactEmail}}
+      {{requirement.contactName}}；{{requirement.contactMobile}}；{{requirement.contactEmail}}
     </el-form-item>
 
     <el-form-item label="">
@@ -100,7 +100,12 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
 .requirement-detail-info{
-
+  .file-name{
+    cursor: pointer;
+    color: $primary-color;
+    min-width: 50px;
+  }
 }
 </style>
