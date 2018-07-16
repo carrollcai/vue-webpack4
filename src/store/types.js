@@ -110,3 +110,7 @@ export const QUERY_TASK = 'QUERY_TASK';
 /* requirement */
 export const REQUIREMENT_GET_LIST = 'REQUIREMENT_GET_LIST';
 export const REQUIREMENT_GET_INFO = 'REQUIREMENT_GET_INFO';
+
+/* visit */
+export const MY_VISIT_MANAGE = 'MY_VISIT_MANAGE';
+export const CREATE_VISIT = 'CREATE_VISIT';
