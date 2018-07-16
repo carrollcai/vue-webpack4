@@ -96,7 +96,6 @@ export default {
     return {
       pageSize: PAGE_SIZE,
       timeout: null,
-      // isQueryProduct: false, // 是否是产品查询
       selectedProduct: {
         productName: '',
         productId: null
@@ -133,7 +132,7 @@ export default {
         ],
         organizeName: [
           { required: true, message: '请输入合作集团/编码', trigger: 'blur' },
-          { validator: textareaLimit, trigger: 'changes' }
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         address: [
           { required: true, message: '请输入地址', trigger: 'change' },
@@ -141,7 +140,7 @@ export default {
         ],
         productName: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
-          { validator: isProductExist, trigger: 'change' }
+          { validator: isProductExist, trigger: 'blur' }
         ],
         busiDesc: [
           { required: true, message: '请输入订单描述', trigger: 'blur' },
@@ -196,17 +195,11 @@ export default {
       this.$refs.orderCreateForm.validateField('productName');
     },
     async queryProductAsync(queryString, cb) {
-      // let isNotValid = '';
+      if (!queryString.trim()) return false;
       let params = {
         pageSize: this.pageSize,
         productName: queryString
       };
-      // this.isQueryProduct = true;
-      // await this.$refs.orderCreateForm.validateField('productName', errorMsg => {
-      //   isNotValid = errorMsg;
-      // });
-      // console.log(isNotValid);
-      // if (isNotValid) return false;
 
       await this.queryProductByCodeOrName(params);
 
@@ -214,9 +207,9 @@ export default {
       this.timeout = await setTimeout(() => {
         cb(this.productList);
       }, 1000);
-      // this.isQueryProduct = false;
     },
     async querySearchAsync(queryString, cb) {
+      if (!queryString.trim()) return false;
       let params = {
         pageSize: this.pageSize,
         organizeName: queryString
