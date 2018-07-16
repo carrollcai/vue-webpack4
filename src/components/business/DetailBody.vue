@@ -20,7 +20,7 @@
     <div class="task-three-detail">
       <div class="task-three-detail-item">
         <div class="left">预计收入：</div>
-        <div class="right">{{detailData.predictContractAmount}}</div>
+        <div class="right">{{detailData.predictContractAmount}}万元/月</div>
       </div>
       <div class="task-three-detail-item">
         <div class="left">预计签约时间：</div>

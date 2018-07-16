@@ -32,6 +32,9 @@
               <i class="icon-up margin-right-8"></i>上传文件</el-button>
           </el-upload>
         </el-form-item>
+        <el-form-item v-else label="取消原因" prop="dealResult">
+          <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitAssignForm()" :loading="submitAssignButton">{{!submitAssignButton ? '确定' : '加载中'}}</el-button>
           <form-cancel :path="'/order/handle-task'">取消</form-cancel>
@@ -63,7 +66,7 @@ import { mapActions, mapState } from 'vuex';
 import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
-import { multFileValid, inte5Deci4 } from '@/utils/rules.js';
+import { multFileValid, inte5Deci4, textareaLimit } from '@/utils/rules.js';
 import { cancelNumberScroll } from '@/utils/common.js';
 
 export default {
@@ -83,11 +86,16 @@ export default {
       },
       assignForm: {
         status: 1,
-        files: []
+        files: [],
+        dealResult: ''
       },
       assignRules: {
         files: [
           { validator: fileCheck }
+        ],
+        dealResult: [
+          { required: true, message: '请输入取消原因', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
         ]
       },
       routeType: '',
@@ -167,7 +175,7 @@ export default {
           id: this.id,
           taskInsId: this.taskInsId,
           resultStatus: '3',
-          dealResult: ''
+          dealResult: this.assignForm.dealResult
         };
         this.cancelAssign(params);
         return false;

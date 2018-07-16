@@ -55,7 +55,7 @@ const state = {
   editBusinessDetailStatus: '',
   editBusinessDetailApproveStatus: '',
   productNameCode: '',
-  queryTask: ''
+  queryTask: []
 };
 
 const mutations = {

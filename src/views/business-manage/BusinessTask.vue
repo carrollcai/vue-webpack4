@@ -221,20 +221,28 @@ export default {
     // 分派确定
     sendConfirm() {
       let params = this.sendParam;
-      params.dealResult = this.sendForm.reason;
-      params.dealPerson = this.sendForm.person.pop();
-      let _this = this;
-      this.submitBusinessSend(params).then(res => {
-        if (res.data && res.errorInfo.code === '200') {
-          _this.sendDialogVisible = false;
-          _this.sendForm.person = '';
-          _this.sendForm.reason = '';
-          _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
-          _this.query();
+      if (this.sendForm.person !== '') {
+        if (this.sendForm.reason !== '') {
+          params.dealPerson = this.sendForm.person.pop();
+          params.dealResult = this.sendForm.reason;
+          let _this = this;
+          this.submitBusinessSend(params).then(res => {
+            if (res.data && res.errorInfo.code === '200') {
+              _this.sendDialogVisible = false;
+              _this.sendForm.person = '';
+              _this.sendForm.reason = '';
+              _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+              _this.query();
+            } else {
+              _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+            }
+          });
         } else {
-          _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+          this.$message({ showClose: true, message: '请填写分派的原因！' });
         }
-      });
+      } else {
+        this.$message({ showClose: true, message: '请选择指派处理人！' });
+      }
     },
     // 作废取消
     cancelCancel() {
@@ -264,8 +272,15 @@ export default {
       }
     },
     query() {
-      // const params = this.businessTaskForm;
-      // params.taskHasComplete = this.status;
+      const params = this.businessTaskForm;
+
+      if (params.date !== null && params.date.length === 2) {
+        params.startDate = params.date[0];
+        params.endDate = params.date[1];
+      } else {
+        params.startDate = '';
+        params.endDate = '';
+      }
       let { date, ..._params } = this.businessTaskForm;
       this.getBusinessTaskList(_params);
     },

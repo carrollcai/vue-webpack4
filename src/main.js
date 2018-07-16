@@ -8,7 +8,8 @@ import store from './store';
 // import auth from './auth';
 import EsopButton from 'components/EsopButton.vue';
 import FormCancel from 'components/FormCancel.vue';
-import '@/assets/font/style.css';
+// import '@/assets/font/style.css';
+import '@/assets/font/iconfont.css';
 import VueClipboard from 'vue-clipboard2';
 
 import './utils/http';
