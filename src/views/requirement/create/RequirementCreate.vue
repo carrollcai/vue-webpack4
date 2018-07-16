@@ -16,41 +16,37 @@
             <el-form-item label="需求客户" required key="org-group">
               <el-autocomplete
                 key="org-group_code-input"
-                v-model="requirement.orgCode"
-                :fetch-suggestions="querySearchAsync"
+                v-model="requirement.organizeName"
                 placeholder="集团名称"
+                :fetch-suggestions="querySearchAsync"
                 :trigger-on-focus="false"
-                value-key="staffName"
-                label="operatorId"
                 @select="handleSelect"
               ></el-autocomplete>
             </el-form-item>
-            <el-form-item label="需求类型" prop="type" required key="requirement-type">
-              <el-radio-group v-model="requirement.type">
-                <el-radio label="3">日常需求</el-radio>
-                <el-radio label="6">投诉需求</el-radio>
-                <el-radio label="9">物料需求</el-radio>
+            <el-form-item label="需求类型" prop="reqType" required key="requirement-type">
+              <el-radio-group v-model="requirement.reqType" @change="changeReqType">
+                <el-radio label="0">日常需求</el-radio>
+                <el-radio label="1">投诉需求</el-radio>
+                <el-radio label="2">物料需求</el-radio>
               </el-radio-group>
             </el-form-item>
-            <template v-if="requirement.type === '3' || requirement.type === '6'">
-              <el-form-item label="需求描述" prop="requirementDesc" required key="requirementDesc">
-                <el-input v-model="requirement.requirementDesc"
+            <template v-if="requirement.reqType === '1' || requirement.reqType === '0'">
+              <el-form-item label="需求描述" prop="reqDesc" required key="requirementDesc">
+                <el-input v-model="requirement.reqDesc"
                   :maxlength="500"
                   type="textarea"
                   placeholder="请输入经营范围"
                   key="requirementDesc-input"></el-input>
               </el-form-item>
-              <el-form-item label="需求附件" prop="uploadFiles" required key="provinceId1">
+              <el-form-item label="需求附件" prop="uploadFiles" key="provinceId1">
                 <el-upload
-                  :limit="1"
+                  :limit="5"
                   class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :data="extraData"
-                  :before-upload="handleBeforeUpload"
-                  :on-success="handleSuccess"
+                  :on-change="handleChange"
                   :on-remove="handleRemove"
-                  :file-list="requirement.uploadFiles">
-                  <el-button size="small" type="primary">点击上传</el-button>
+                  :auto-upload="false"
+                  :file-list="uploadFiles">
+                  <el-button size="small" type="primary">选择文件</el-button>
                   <div slot="tip" class="el-upload__tip">
                     1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
                     2、附件大小不超过20M。
@@ -59,39 +55,47 @@
               </el-form-item>
             </template>
             <!-- 物料需求 -->
-            <template v-if="requirement.type === '9'">
+            <template v-if="requirement.reqType === '2'">
               <el-form-item label="物料名称" prop="materialName" required key="materialName">
                 <el-input v-model="requirement.materialName"
                   :maxlength="20"
                   placeholder="请输入物料名称"
                   key="materialName-input"></el-input>
               </el-form-item>
-              <el-form-item label="物料格式要求" prop="materialType" required key="materialType">
+              <el-form-item label="物料格式要求" prop="materialSupplyType" required key="materialSupplyType">
                 <el-input
                     class="col-input"
-                    v-model="requirement.materialType"
-                    placeholder="物料格式要求"
+                    v-model="requirement.materialSupplyType"
+                    placeholder="请输入物料格式要求"
                     :maxlength="50"
                     key="materialType-input">
                   </el-input>
               </el-form-item>
               <el-form-item label="物料使用时间" required key="materialTime">
                 <el-col :span="11">
-                  <el-form-item prop="materialStart">
-                    <el-date-picker type="date"
-                      :editable="false"
+                  <el-form-item prop="materialUseCreateTime">
+                    <el-date-picker
+                      key="materialUseCreateTime"
+                      type="datetime"
                       placeholder="选择日期"
-                      v-model="requirement.materialStart"
+                      v-model="requirement.materialUseCreateTime"
+                      :editable="false"
+                      :picker-options="startOptions"
+                      value-format="yyyy-MM-dd HH:mm:ss"
                       style="width: 100%;"></el-date-picker>
                   </el-form-item>
                 </el-col>
                 <el-col class="line" :span="2"></el-col>
                 <el-col :span="11">
-                  <el-form-item prop="materialEnd">
-                    <el-date-picker type="date"
-                      :editable="false"
+                  <el-form-item prop="materialUseEndTime">
+                    <el-date-picker
+                      key="materialUseEndTime"
+                      type="datetime"
                       placeholder="选择日期"
-                      v-model="requirement.materialEnd"
+                      v-model="requirement.materialUseEndTime"
+                      :editable="false"
+                      :picker-options="endOptions"
+                      value-format="yyyy-MM-dd HH:mm:ss"
                       style="width: 100%;"></el-date-picker>
                   </el-form-item>
                 </el-col>
@@ -144,14 +148,14 @@
           </div>
           <div class="line"></div>
           <div class="block processor-info">
-            <el-form-item label="指派处理人" required key="processor-group">
-              <el-col :span="8">
+            <el-form-item label="指派处理人" key="processor-group">
+              <el-col :span="16">
                 <el-form-item prop="processor" key="processor">
-                  <el-input class="processor"
-                    v-model="requirement.processor"
-                    placeholder="姓名"
-                    :maxlength="6"
-                    key="processor-input"></el-input>
+                    <el-cascader
+                      expand-trigger="hover"
+                      :options="assignHandlers"
+                      clearable
+                      v-model="processor" placeholder="请选择"></el-cascader>
                 </el-form-item>
               </el-col>
               <el-col class="line-container" :span="8">
@@ -167,20 +171,46 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import endsWith from 'lodash/endsWith';
 import mixins from './mixins';
 export default {
   name: 'RequirementCreate',
   mixins: [mixins],
   data() {
+    const that = this;
     return {
       requirement: {
-        type: '3',
+        reqType: '0',
+        fileInputId: '',
+        needSms: '0',
         uploadFiles: []
       },
-      checked: true,
+      processor: [],
+      checked: false,
       extraData: {
+      },
+      startOptions: {
+        disabledDate(time) {
+          if (that.requirement.materialUseEndTime) {
+            return time.getTime() > new Date(that.requirement.materialUseEndTime).getTime();
+          }
+        }
+      },
+      endOptions: {
+        disabledDate(time) {
+          if (that.requirement.materialUseCreateTime) {
+            return time.getTime() < new Date(that.requirement.materialUseCreateTime).getTime();
+          }
+        }
+      },
+      uploadData: {
+        fileInputId: '',
+        fileTypeId: 502,
+        moduleId: 1,
+        expireDate: '',
+        effectiveDate: '',
+        files: []
       },
       ACCEPT: [
         '.rar',
@@ -194,6 +224,22 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapState({
+      assignHandlers: ({ order }) => order.assignHandlers
+    })
+  },
+  watch: {
+    processor(newVal) {
+      this.requirement.processor = newVal && newVal.length ? newVal[newVal.length - 1] : '';
+    },
+    checked(newVal) {
+      this.requirement.needSms = newVal ? '1' : '0';
+    }
+  },
+  created() {
+    this.getAssignhandler();
+  },
   methods: {
     isAcceptable(fileName) {
       const {ACCEPT} = this;
@@ -204,10 +250,37 @@ export default {
         }
       }
 
-      return true;
+      return false;
     },
-    handleBeforeUpload(file) {
+    changeReqType(val) {
+      if (val === '2') {
+        this.clearRequirement();
+      } else {
+        this.clearMaterial();
+      }
+    },
+    clearFile() {
+      this.uploadFiles = [];
+    },
+    clearRequirement() {
+      const {requirement} = this;
+      requirement.reqDesc = '';
+      this.clearFile();
+    },
+    /**
+     * 清除输入的 物料需求信息
+     */
+    clearMaterial() {
+      const {requirement} = this;
+      requirement.materialName = '';
+      requirement.materialSupplyType = '';
+      requirement.materialUseCreateTime = '';
+      requirement.materialUseEndTime = '';
+      requirement.materialDesc = '';
+    },
+    handleChange(file, fileList) {
       let fileName = file.name;
+      let result = true;
       if (this.isAcceptable(fileName)) {
         let fileSize = file.size / (1024 * 1024);
 
@@ -217,35 +290,61 @@ export default {
             type: 'error'
           });
 
-          return false;
+          result = false;
+        } else {
+          this.uploadFiles.push(file.raw);
         }
-        return true;
       } else {
         this.$message({
           message: '只支持word、excel、ppt、pdf、rar格式',
           type: 'error'
         });
-        return false;
+        result = false;
       }
-    },
-    handleSuccess(response, file, fileList) {
-      this.requirement.uploadFiles.splice(0, 1);
-      this.requirement.uploadFiles.push(file);
+
+      if (!result) {
+        fileList.pop();
+      } else {
+        this.$refs.baseForm.validateField('uploadFiles');
+      }
+
+      return result;
     },
     handleRemove(file, fileList) {
-      this.requirement.uploadFiles.splice(0, 1);
-      return true;
+      const that = this;
+      const {uploadFiles} = that;
+
+      uploadFiles.splice(0, uploadFiles.length);
+
+      for (let item of fileList) {
+        uploadFiles.push(item.raw);
+      }
+
+      this.$refs.baseForm.validateField('uploadFiles');
     },
     submitRequirement() {
-      this.$refs.baseForm.validate((valid) => {
+      const that = this;
+      const {uploadData} = this;
+      that.$refs.baseForm.validate((valid) => {
         if (valid) {
-          this.createApproveCustomer(this.requirement);
+          that.getProductFileId().then((res) => {
+            let fileInputId = res.data;
+            uploadData.files = that.uploadFiles;
+            uploadData.fileInputId = fileInputId;
+            that.requirement.fileInputId = fileInputId;
+            that.uploadProductScheme(uploadData).then(() => {
+              delete that.requirement.uploadFiles;
+              that.saveRequirement(that.requirement);
+            });
+          });
         }
       });
     },
     ...mapActions([
-      'createCustomer',
-      'createApproveCustomer'
+      'saveRequirement',
+      'getAssignhandler',
+      'getProductFileId',
+      'uploadProductScheme'
     ])
   }
 };

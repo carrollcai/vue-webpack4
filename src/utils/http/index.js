@@ -1,8 +1,12 @@
 import axios from 'axios';
 import store from '../../store';
 import { Message } from 'element-ui';
+import { toTrim } from '../common.js';
 
 export const fetch = (url, params, method, config) => {
+  // 去掉首尾空格
+  toTrim(params);
+
   store.commit('SHOW_PAGE_LOADING');
 
   return new Promise((resolve, reject) => {
@@ -30,11 +34,11 @@ export const fetch = (url, params, method, config) => {
           message: res.data.errorInfo.message,
           type: 'error'
         });
-        // resolve(res.data);
+        reject(res.data);
       }
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
-
+      reject(err);
       // 出现400+，500+错误
       errorHandle(err);
     });

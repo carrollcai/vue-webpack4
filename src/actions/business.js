@@ -27,14 +27,6 @@ const actions = {
     });
   },
   /**
-   * 查询 “获取商机类别列表” 数据
-   */
-  getBusinessCategoryList: ({ commit }, params) => {
-    return API.getBusinessCategoryListAPI(params).then(res => {
-      commit(types.BUSINESS_CATEGORY_LIST, res.data);
-    });
-  },
-  /**
    * 根据 “合作集团匹配办公地址” 数据
    */
   getOfficeAddress: ({ commit }, params) => {
@@ -85,14 +77,6 @@ const actions = {
     return API.delBusinessOpporityAPI(params).then(res => {
       commit(types.DEL_BUSINESS_STATUS, res);
       return res;
-    });
-  },
-  /**
-   * 查询 “商机草稿详情” 数据
-   */
-  getBusinessDraftDetail: ({ commit }, params) => {
-    return API.getBusinessDraftDetailAPI(params).then(res => {
-      commit(types.BUSINESS_DRAFT_DETAIL, res.data);
     });
   },
   /**
@@ -149,15 +133,6 @@ const actions = {
     });
   },
   /**
-   * 提交 “商机转订单草稿” 数据
-   */
-  saveBusinessOrderDraft: ({ commit }, params) => {
-    return API.saveBusinessOrderDraftAPI(params).then(res => {
-      commit(types.SAVE_BUSINESS_ORDER_DRAFT, res.data);
-      return res.data.list;
-    });
-  },
-  /**
    * 查询 “我的商机列表” 数据
    */
   getMyBusinessList: ({ commit }, params) => {
@@ -198,6 +173,14 @@ const actions = {
   getProductNameCode: ({ commit }, params) => {
     return API.getProductNameCodeAPI(params).then(res => {
       commit(types.PRODUCT_NAME_CODE, res.data);
+    });
+  },
+  /**
+   * 任务查看
+   */
+  getQueryTask: ({ commit }, params) => {
+    return API.getQueryTaskAPI(params).then(res => {
+      commit(types.QUERY_TASK, res.data);
     });
   }
 };

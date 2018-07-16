@@ -1,13 +1,19 @@
 <template>
   <div class="requirement-detail-handle">
     <div class="m-container">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/requirement/manage' }">需求创建管理</el-breadcrumb-item>
+        <el-breadcrumb-item>处理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="m-container">
       <detail-info :requirement="requirement"></detail-info>
     </div>
 
     <div class="m-container info-block">
       <el-form>
         <!-- 物料需求处理 -->
-        <template>
+        <template v-if="requirement.reqType === '2'">
           <el-form-item lable="物料上传">
           </el-form-item>
           <el-form-item lable="备注">
@@ -23,7 +29,7 @@
         </template>
 
         <!-- 日常、投诉需求处理  -->
-        <template>
+        <template v-if="requirement.reqType === '0' || requirement.reqType === '1'">
           <el-form-item lable="处理方式">
             <el-radio-group v-model="handleType">
               <el-radio label="3">本人处理</el-radio>
@@ -51,11 +57,14 @@
           </template>
 
           <template v-if="handleType === '6'">
-            <el-form-item lable="指派处理人">
+            <el-form-item label="指派处理人">
               <el-col :span="8">
-                <el-form-item prop="name" key="contact-name1">
-                  <el-select>
-                  </el-select>
+                <el-form-item prop="processor" key="contact-name1">
+                  <el-cascader
+                    expand-trigger="hover"
+                    :options="assignHandlers"
+                    clearable
+                    v-model="processor" placeholder="请选择"></el-cascader>
                 </el-form-item>
               </el-col>
               <el-col class="line-container" :span="8">
@@ -72,6 +81,7 @@
   </div>
 </template>
 <script>
+import {mapActions, mapState} from 'vuex';
 import mixins from './mixins';
 export default {
   name: 'RequirementHandle',
@@ -79,10 +89,27 @@ export default {
   data() {
     return {
       handleType: '',
-      checked: false
+      checked: false,
+      processor: []
     };
   },
+  computed: {
+    ...mapState({
+      assignHandlers: ({ order }) => order.assignHandlers
+    })
+  },
+  created() {
+    this.getAssignhandler();
+  },
+  watch: {
+    processor() {
+
+    }
+  },
   methods: {
+    ...mapActions([
+      'getAssignhandler'
+    ])
   }
 };
 </script>

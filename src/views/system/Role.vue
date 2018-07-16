@@ -19,7 +19,13 @@
     <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户角色" property="roleName" />
       <el-table-column label="用户描述" property="notes" />
-      <el-table-column label="用户数" property="opreatorNum" />
+      <el-table-column label="用户数" property="opreatorNum">
+        <template slot-scope="scope">
+          <el-button type="text" @click="redirectUserCreate(scope.row)">
+            {{scope.row.opreatorNum}}
+          </el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="handleEdit(scope.row)">
@@ -36,7 +42,7 @@
 
 <script>
 import WmTable from 'components/Table.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -60,6 +66,12 @@ export default {
     this.getRoleList(this.roleForm);
   },
   methods: {
+    redirectUserCreate(row) {
+      this.redirectUserCreateMutation(row.roleId);
+      this.routeChange({
+        path: '/system/user/management'
+      });
+    },
     onPagination(value) {
       this.roleForm.pageNo = value;
       this.query();
@@ -103,6 +115,10 @@ export default {
         }
       });
     },
+    ...mapMutations({
+      redirectUserCreateMutation: 'ROLE_REDIRECT_USER_CREATE',
+      routeChange: 'ROUTE_CHANGE'
+    }),
     ...mapActions([
       'getRoleList',
       'queryRole',

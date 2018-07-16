@@ -8,19 +8,24 @@
         </el-breadcrumb>
       </div>
     </div>
-    <detail-head :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
-    <detail-body :detailData="businessDetail"></detail-body>
-    <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">
-      <el-button type="primary" @click="handleSubmit()">提交处理</el-button>
-      <!--<el-button type="primary" @click="handleTrans()">转订单</el-button>
-      <el-button plain @click="handleSend()">分派</el-button>
-      <el-button plain @click="handleCancel()">作废</el-button>-->
+    <div class="business-container o-overview-detail">
+      <detail-head v-if="this.$route.params.taskHasComplete === '1'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
+      <detail-head v-else :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
+      <detail-body :detailData="businessDetail"></detail-body>
+      <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">
+        <el-button type="primary" @click="handleSubmit()">提交处理</el-button>
+      </div>
+      <div class="pl" v-if="this.$route.params.taskHasComplete === '0' && this.$route.params.taskInsId !== '0'">
+        <el-button type="primary" @click="handleTrans()">转订单</el-button>
+        <el-button plain @click="handleSend()">分派</el-button>
+        <el-button plain @click="handleCancel()">作废</el-button>
+      </div>
     </div>
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
-          <el-cascader style="width: 392px;" v-if="designPerson"
-            :options="designPerson"
+          <el-cascader style="width: 392px;" v-if="assignHandlers"
+            :options="assignHandlers"
             v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
@@ -70,23 +75,34 @@ export default {
       cancelForm: {
         reason: ''
       },
-      designPerson: []
+      designPerson: [],
+      sendParam: {},
+      cancelParam: {}
     };
   },
   beforeMount() {
-    const { opporId } = this.$route.params;
-    this.getBusinessDetail({ opporId });
+    let opprparam = {};
+    opprparam.opporId = this.$route.params.opporId;
+    this.types = this.$route.params.taskInsId;
+    let taskparam = {};
+    taskparam.taskInsId = parseInt(this.$route.params.taskInsId);
+    this.getBusinessDetail(opprparam);
+    if (this.$route.params.taskHasComplete === '1') {
+      this.getQueryTask(taskparam);
+    }
   },
   computed: {
     ...mapState({
-      businessDetail: ({ business }) => business.businessDetail
+      businessDetail: ({ business }) => business.businessDetail,
+      designatePerson: ({business}) => business.designatePerson,
+      queryTask: ({business}) => business.queryTask,
+      assignHandlers: ({ order }) => order.assignHandlers
     })
   },
   methods: {
     // 商机转订单
     handleTrans() {
-      const path = `/business-manage/transfor-order/${this.$route.params.opporId}`;
-      this.$router.push(path);
+      this.$router.push(`/business-manage/transfor-order/${this.$route.params.opporId}/${this.$route.params.taskInsId}`);
     },
     // 商机提交处理
     handleSubmit() {
@@ -96,7 +112,6 @@ export default {
       this.submitBusinessDraft(param).then(res => {
         if (res.data && res.errorInfo.code === '200') {
           _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
-          _this.reset();
           const path = `/business-manage/business-create-manage`;
           _this.$router.push(path);
         } else {
@@ -107,36 +122,44 @@ export default {
     // 点击分派
     handleSend(row) {
       this.sendDialogVisible = true;
-      // 获取指派处理人
-      this.getDesignatePerson().then((res) => {
-        this.designPerson = res;
-      });
+      this.sendParam.taskInsId = this.$route.params.taskInsId;
+      this.sendParam.resultStatus = '0';
+      this.sendParam.id = this.$route.params.opporId;
+      // 初始化输入框内容部数据
+      this.getAssignhandler();
     },
     // 点击作废
     handleCancel(row) {
       this.cancelDialogVisible = true;
+      this.cancelParam.taskInsId = this.$route.params.taskInsId;
+      this.cancelParam.resultStatus = '3';
+      this.cancelParam.id = this.$route.params.opporId;
+      this.cancelParam.dealPerson = '';
+      this.cancelForm.reason = '';
     },
     // 分派取消
     sendCancel() {
       this.sendDialogVisible = false;
-      this.sendForm.person = [];
+      this.sendForm.person = '';
       this.sendForm.reason = '';
     },
     // 分派确定
     sendConfirm() {
-      let params = this.sendForm;
+      let params = this.sendParam;
+      params.dealResult = this.sendForm.reason;
+      params.dealPerson = this.sendForm.person.pop();
+      let _this = this;
       this.submitBusinessSend(params).then(res => {
-        this.$message({
-          type: 'success',
-          message: '您已成功分派！ '
-        });
-        // this.$message({
-        //   type: 'error',
-        //   message: '分派失败！ '
-        // });
-        this.sendDialogVisible = false;
-        this.sendForm.person = [];
-        this.sendForm.reason = '';
+        if (res.data && res.errorInfo.code === '200') {
+          _this.sendDialogVisible = false;
+          _this.sendForm.person = '';
+          _this.sendForm.reason = '';
+          _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+          const path = `/business-manage/business-task`;
+          _this.$router.push(path);
+        } else {
+          _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+        }
       });
     },
     // 作废取消
@@ -146,22 +169,28 @@ export default {
     },
     // 作废确定
     cancelConfirm() {
-      let params = this.cancelForm;
-      this.submitBusinessCancel(params).then(res => {
-        this.$message({
-          type: 'success',
-          message: '作废成功！ '
+      let params = this.cancelParam;
+      params.dealResult = this.cancelForm.reason;
+      if (params.dealResult !== '') {
+        let _this = this;
+        this.submitBusinessCancel(params).then(res => {
+          if (res.data && res.errorInfo.code === '200') {
+            _this.cancelDialogVisible = false;
+            _this.cancelForm.person = '';
+            _this.cancelForm.reason = '';
+            _this.$message({ showClose: true, message: '作废成功！', type: 'success' });
+            const path = `/business-manage/business-task`;
+            _this.$router.push(path);
+          } else {
+            _this.$message({ showClose: true, message: '作废失败！', type: 'error' });
+          }
         });
-        // this.$message({
-        //   type: 'error',
-        //   message: '作废失败！ '
-        // });
-        this.cancelDialogVisible = false;
-        this.cancelForm.reason = '';
-      });
+      } else {
+        this.$message({ showClose: true, message: '请填写作废原因！' });
+      }
     },
     ...mapActions([
-      'getBusinessDetail', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft'
+      'getBusinessDetail', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft', 'getQueryTask', 'getAssignhandler'
     ])
   }
 };
@@ -170,7 +199,7 @@ export default {
 <style lang="scss">
 @import "scss/variables.scss";
 .pl {
-    padding: 0px 0px 40px 135px;
+    padding: 30px 0px 40px 112px;
     background: #fff;
 }
 // 弹出框样式设置
@@ -184,5 +213,10 @@ export default {
   .el-textarea__inner {
     height: 88px;
   }
+}
+.business-container {
+  background:#fff;
+  padding:24px;
+  margin-top:16px;
 }
 </style>

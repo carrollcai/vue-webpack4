@@ -32,8 +32,8 @@
         <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
         <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
         <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
-        <el-table-column label="联系人" v-if="businessTaskForm.taskHasComplete === '0'" show-overflow-tooltip property="contactName" />
-        <el-table-column v-if="businessTaskForm.taskHasComplete === 1" label="处理人" property="contactName" />
+        <el-table-column label="联系人" show-overflow-tooltip property="contactName" />
+        <!--<el-table-column v-if="businessTaskForm.taskHasComplete === 1" label="处理人" property="contactName" />-->
         <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatus" />
         <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
@@ -63,8 +63,8 @@
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
-          <el-cascader style="width: 392px;" v-if="designatePerson"
-            :options="designatePerson"
+          <el-cascader style="width: 392px;" v-if="assignHandlers"
+            :options="assignHandlers"
             v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
@@ -110,8 +110,8 @@ export default {
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       businessTaskForm: ({ business }) => business.businessTaskForm,
       businessTaskList: ({ business }) => business.businessTaskList,
-      designatePerson: ({business}) => business.designatePerson,
-      remindPerson: ({business}) => business.remindPerson
+      remindPerson: ({business}) => business.remindPerson,
+      assignHandlers: ({ order }) => order.assignHandlers
     })
   },
   data() {
@@ -163,6 +163,7 @@ export default {
   methods: {
     tabChange(val) {
       this.businessTaskForm.pageNo = 1;
+      this.businessTaskForm.pageSize = 20;
       this.query();
     },
     getTimeRange(time) {
@@ -186,7 +187,7 @@ export default {
     },
     // 查看详情
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.opporId}`;
+      const path = `/business-manage/business-detail/${row.opporId}/${row.taskInsId}/${this.businessTaskForm.taskHasComplete}`;
       this.$router.push(path);
     },
     // 点击转订单
@@ -199,8 +200,8 @@ export default {
       this.sendParam.taskInsId = row.taskInsId;
       this.sendParam.resultStatus = '0';
       this.sendParam.id = row.opporId;
-      // 获取指派处理人
-      this.getDesignatePerson();
+      // 初始化输入框内容部数据
+      this.getAssignhandler();
     },
     // 点击作废
     handleCancel(row) {
@@ -229,6 +230,7 @@ export default {
           _this.sendForm.person = '';
           _this.sendForm.reason = '';
           _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+          _this.query();
         } else {
           _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
         }
@@ -238,6 +240,7 @@ export default {
     cancelCancel() {
       this.cancelDialogVisible = false;
       this.cancelForm.reason = '';
+      this.sendForm.person = '';
     },
     // 作废确定
     cancelConfirm() {
@@ -312,7 +315,7 @@ export default {
     handleChange(value) {
     },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessTaskList', 'getDesignatePerson', 'getRemindPerson', 'submitBusinessSend', 'submitBusinessCancel'
+      'getCooperationGroupList', 'getBusinessTaskList', 'getRemindPerson', 'submitBusinessSend', 'submitBusinessCancel', 'getAssignhandler'
     ])
   }
 };

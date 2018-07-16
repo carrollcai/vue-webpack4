@@ -4,19 +4,24 @@
       <el-form class="group-form" :model="params">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="organizeType" clearable placeholder="集团属性">
-              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
+            <el-date-picker
+              v-model="rangeDate"
+              type="daterange"
+              :editable="false"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+
+          <el-form-item class="group-form-item__input group-form-item__lable">
+            <el-select v-model="reqType" clearable placeholder="需求类型">
+              <el-option v-for="(item, index) in REQUIREMENT_TYPE" :key="index" :value="item.value" :label="item.label"/>
             </el-select>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
-            <el-select v-model="provinceId" clearable placeholder="需求类型">
-              <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
-            </el-select>
-          </el-form-item>
-
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="managerName" clearable placeholder="客户名称"/>
+          <el-form-item class="group-form-item__input group-form-item__lable">
+            <el-input v-model="organizeName" clearable placeholder="客户名称"/>
           </el-form-item>
         </div>
 
@@ -40,17 +45,23 @@
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="需求单号" property="organizeId" />
-        <el-table-column label="创建时间" property="organizeName">
+        <el-table-column label="需求单号" property="reqCode" show-overflow-tooltip/>
+        <el-table-column label="创建时间" show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{formateDate(scope.row.createDate)}}
+          </template>
         </el-table-column>
-        <el-table-column label="需求客户" property="organizeTypeName">
+        <el-table-column label="需求客户" property="organizeName" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="客户类型" property="provinceName">
+        <el-table-column label="需求类型">
+          <template slot-scope="scope">
+            {{reqTypeFilter(scope.row.reqType)}}
+          </template>
         </el-table-column>
-        <el-table-column label="联系人" property="managerName" />
+        <el-table-column label="联系人" property="contactName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button type="text" @click="toHandle(scope.row)">
               去处理
             </el-button>
             <el-button type="text" @click="handleDetail(scope.row)">
@@ -76,21 +87,25 @@ export default {
   mixins: [mixins],
   data() {
     return {
-      activeName: 'second'
     };
   },
   computed: {
     ...mapFields([
-      'handleQuery.organizeType',
-      'handleQuery.provinceId',
-      'handleQuery.managerName',
+      'handleQuery.rangeDate',
+      'handleQuery.taskStatus',
+      'handleQuery.organizeName',
+      'handleQuery.reqType',
+      'handleQuery.activeName',
       'handleQuery.pageNo',
       'handleQuery.pageSize'
     ])
   },
   methods: {
     handleDetail(row) {
-      this.$router.push(`/requirement/detail/${row.organizeId}`);
+      this.$router.push(`/requirement/detail/${row.reqId}`);
+    },
+    toHandle(row) {
+      this.$router.push(`/requirement/handle/${row.reqId}`);
     }
   }
 };

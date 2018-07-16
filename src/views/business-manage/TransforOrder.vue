@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="transfor-order">
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
@@ -8,20 +8,16 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="business-detail" v-if="orderData.opporProcessor">
-      <div class="business-detail-content">
-        <div class="business-detail-content-item">
-          <span class="left">指派人：</span>
-          <span class="right">{{orderData.opporProcessor}}</span>
+    <div class="detail-bar-container">
+      <div class="detail-bar">
+        <div class="detail-bar-item">
+          <div class="title">指派人：</div>
+          <div>{{orderData.opporProcessor}}</div>
         </div>
-        <div class="business-detail-content-item">
-          <span class="left">指派原因：</span>
-          <span class="right">{{orderData.opporAssignReason}}</span>
+        <div class="detail-bar-item-2">
+          <div class="title">指派原因：</div>
+          <div>{{orderData.opporAssignReason}}</div>
         </div>
-        <!--<div class="business-detail-content-item">
-          <span class="left">合同下载：</span>
-          <a class="down" href="#">第三次签约合同.doc</a>
-        </div>-->
       </div>
     </div>
     <div class="order-container">
@@ -72,7 +68,7 @@
           <el-input maxlength="35" class="form-input-320" v-model="orderData.contactEmail" placeholder="请输入邮箱"></el-input>
         </el-form-item>
         <el-form-item label="合作集团：" prop="organizeName">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="orderData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+          <el-autocomplete disabled maxlength="25" class="form-input-half" v-model="orderData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
           <el-card class="create-business-box-card" v-if="noData">
             <div>
               系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
@@ -80,7 +76,7 @@
           </el-card>
           <span class="form-input-sep">-</span>
           <el-form-item prop="address" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="orderData.address" placeholder="办公地址"></el-input>
+            <el-input disabled maxlength="50" class="form-input-half" v-model="orderData.address" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="订单描述：" prop="busiDesc">
@@ -107,7 +103,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { checkPhone, emailCheck, inte5Deci4 } from '@/utils/rules.js';
+import { checkPhone, emailCheck, inte5Deci4, checkLeftRightSpace } from '@/utils/rules.js';
 import filters from '@/views/business-manage/filters';
 export default {
   mixins: [filters],
@@ -117,36 +113,42 @@ export default {
     return {
       rules: {
         ordName: [
-          { required: true, message: '请输入订单名称', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入订单名称', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         organizeName: [
-          { required: true, message: '请输入合作集团/编码', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入合作集团/编码', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         address: [
-          { required: true, message: '请输入办公地址', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入办公地址', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         contactName: [
-          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         contactGender: [
           { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
         contactMobile: [
-          { required: true, message: '请输入手机号码', trigger: ['blur', 'change'] },
+          {required: true, message: '请输入手机号码', trigger: 'blur'},
           { validator: checkPhone, trigger: 'blur' }
         ],
         contactEmail: [
-          { required: true, message: '请输入电子邮箱', trigger: ['blur', 'change'] },
-          { validator: emailCheck, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入电子邮箱', trigger: 'blur' },
+          { validator: emailCheck, trigger: 'blur' }
         ],
         busiDesc: [
-          { required: true, message: '请输入订单描述', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入订单描述', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         busiRequire: [
-          { required: true, message: '请输入订单需求', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入订单需求', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         income: [
-          { required: true, message: '请输入预计收入', trigger: ['blur', 'change'] },
+          { required: true, message: '请输入预计收入', trigger: 'blur' },
           { validator: inte5Deci4, trigger: ['blur', 'change'] }
         ],
         predictSignTime: [
@@ -159,10 +161,11 @@ export default {
           { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
         ],
         productName: [
-          { required: true, message: '请输入产品名称/编码', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入产品名称/编码', trigger: 'blur' },
+          { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         predictContractAmount: [
-          { required: true, message: '请输入预计合同金额', trigger: ['blur', 'change'] },
+          { required: true, message: '请输入预计合同金额', trigger: 'blur' },
           { pattern: /^\d{1,5}(?:\.\d{1,4})?$/, message: '整数部分最多5位，小数部分最多4位' }
         ]
       },
@@ -172,11 +175,8 @@ export default {
   beforeMount() {
     const opprparam = {};
     opprparam.opporId = this.$route.params.opporId;
-    // const { opporId } = this.$route.params;
-    console.log(this.$route.params);
     this.getBusinessDetail(opprparam);
     this.getTransforOrderDetail(opprparam);
-    // this.getCooperationGroupList();
   },
   computed: {
     businessData() {
@@ -194,6 +194,7 @@ export default {
   },
   methods: {
     async querySearchAsync(queryString, cb) {
+      this.noData = false;
       if (!queryString) return false;
       let params = {
         pageSize: 20,
@@ -284,96 +285,39 @@ export default {
 .business-detail {
   margin-top: $blockWidth;
 }
-.business-detail {
-  margin-top: 16px;
-  background: #ffffff;
-  padding: 32px 36px 8px 32px;
-  & .business-detail-content {
-    height: 42px;
-    background: #fafafa;
-    padding-top: 26px;
-    padding-left: 19px;
-    & .business-detail-content-item {
-      width: 349px;
-      float: left;
-      & .left {
-        height: 22px;
-        line-height: 22px;
-        color: rgba(0, 0, 0, 0.45);
-        font-size: 14px;
-        padding-right: 12px;
-      }
-      & .right {
-        height: 20px;
-        line-height: 20px;
-        color: rgba(0, 0, 0, 0.85);
-        font-size: 14px;
-        text-align: left;
-      }
-    }
-  }
-}
-.business-detail-title {
-  height: 68px;
-  display: flex;
-  background: #FAFAFA 100%;
-  margin: 32px 36px 8px 32px;
-  & .item {
-    flex: 1;
-    text-align: left;
-    color: rgba(0, 0, 0, 0.45);
-  }
-}
-.business-detail-item {
-  display: flex;
-  padding-top: 25px;
-  line-height: 32px;
-  & .left {
-    width: 318px;
-    text-align: right;
-    color: rgba(0, 0, 0, 0.45);
-    padding-right: 12px;
-  }
-  & .left1 {
-    width:318px;
-    text-align: right;
-    color: rgba(0, 0, 0, 0.45);
-    padding-right: 12px;
-  }
-  & .right {
-    flex: 1;
-    text-align: left;
-    padding-right: 108px;
-  }
-  & .down {
-    height: 20px;
-    line-height: 20px;
-    color: rgba(55, 120, 255, 1);
-    font-size: 14px;
-    text-align: left;
-  }
-  & .title {
-    width: 122px;
-    text-align: right;
-    color: rgba(0, 0, 0, 0.45);
-    padding-right: 12px;
-    font-size: 14px;
-    height: 20px;
-    line-height: 20px;
-  }
-  & .content {
-    width: 215px;
-  }
-}
-.el-input-group__append {
-    background-color: #fff;
-    padding: 0 5px;
-}
 .create-business-box-card {
   position:absolute;z-index:2;line-height:20px;
   .el-card__body {
     padding: 10px;
     color: rgba(0,0,0,0.45);
+  }
+}
+.transfor-order {
+  .detail-bar-container {
+    background: rgb(255, 255, 255);margin-top:16px;padding-top: 10px;
+  }
+  .detail-bar {
+    margin: 17px 24px 0px 24px;
+    border-radius: 2px;
+    background-color: #fafafa;
+    padding: 24px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .detail-bar-item {
+      flex: 1;
+      display: flex;
+    }
+    .title {
+      width: 100px;
+      text-align: right;
+      color: rgba(0, 0, 0, 0.45);
+      padding-right: 12px;
+    }
+    .detail-bar-item-2 {
+      flex: 2;
+      display: flex;
+    }
   }
 }
 </style>

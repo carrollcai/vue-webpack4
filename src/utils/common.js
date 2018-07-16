@@ -23,7 +23,12 @@ export function isRepeat(arr, key) {
   }
 };
 
-// 当表单为Array，判断多个规则校验是否都通过
+/**
+ * 当表单为Array，判断多个规则校验是否都通过
+ * @export
+ * @param {*} ref
+ * @returns
+ */
 export function checkMultRules(ref) {
   let count = 0;
   if (ref.length) {
@@ -73,4 +78,23 @@ export function cancelNumberScroll(evt) {
     evt.returnValue = false;
   }
   return false;
+}
+/**
+ * 去除所有string字段的首尾空格
+ * @param {Object} obj
+ */
+export function toTrim(obj = {}) {
+  if (Object.isObject(obj)) {
+    for (let x in obj) {
+      if (typeof obj[x] === 'string') {
+        obj[x] = obj[x].trim();
+      } else if (Array.isArray(x)) {
+        x.forEach(val => {
+          toTrim(val);
+        });
+      } else {
+        toTrim(x);
+      }
+    }
+  }
 }
