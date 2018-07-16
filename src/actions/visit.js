@@ -10,10 +10,18 @@ const actions = {
   setCreateVisit: ({ commit }, params) => {
     return API.setCreateVisitAPI(params).then((res) => {
       return res;
-      // commit(types.CREATE_VISIT, res.data);
+    });
+  },
+  getAppointVisitList: ({ commit }, params) => {
+    return API.getAppointVisitListAPI(params).then((res) => {
+      commit(types.APPOINT_VISIT_LIST, res.data);
+    });
+  },
+  queryHandleVisits: ({ commit }, params) => {
+    return API.getMyVisitManageListAPI(params).then((res) => {
+      commit(types.HANDLE_VISIT_MANAGE_LIST, res.data);
     });
   }
-
 };
 
 export default actions;

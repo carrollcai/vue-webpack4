@@ -14,15 +14,15 @@
       </div>
       <div class="creat-model">
         <wm-table v-if="cacheData && cacheData.length > 0" :source="cacheData">
-          <el-table-column label="销售类型" width="80" property="salesType" :formatter="salesTypeFormat">
+          <el-table-column v-if="state !== 0" label="销售类型" width="80" property="salesType" :formatter="salesTypeFormat">
           </el-table-column>
-          <el-table-column label="组合产品" property="composedProduct" :formatter="composedProductFormat" show-overflow-tooltip >
+          <el-table-column v-if="state !== 0" label="组合产品" property="composedProduct" :formatter="composedProductFormat" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="方案介绍" align="center" show-overflow-tooltip property="scheme" prop="">
+          <el-table-column v-if="state !== 0" label="方案介绍" align="center" show-overflow-tooltip property="scheme" prop="">
           </el-table-column>
-          <el-table-column label="销售数量" width="80" property="salesNumber">
+          <el-table-column v-if="state !== 0" label="销售数量" width="80" property="salesNumber">
           </el-table-column>
-          <el-table-column label="操作" align="center">
+          <el-table-column v-if="state !== 0" label="操作" align="center">
             <template slot-scope="operation">
               <span class="blue hand" @click="toPageModefiy(operation.$index ,operation.row)">编辑</span>
               <span class="blue hand" @click="deleteProduct(operation.$index ,operation.row)">删除</span>
