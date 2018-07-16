@@ -10,7 +10,7 @@
         </el-form-item>
 
         <el-form-item class="user-form-item__input" prop="otherField">
-          <el-cascader expand-trigger="hover" :options="regionRelationList" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属">
+          <el-cascader expand-trigger="hover" :options="addAllInRegion()" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属">
           </el-cascader>
         </el-form-item>
 
@@ -77,9 +77,15 @@ export default {
   },
   async beforeMount() {
     !this.regionRelationList.length && await this.queryRegionRelationList({});
-    await this.getUserList(this.userForm);
+    await this.query();
   },
   methods: {
+    // 归属
+    addAllInRegion() {
+      let newRegions = Object.cloneDeep(this.regionRelationList);
+      newRegions.unshift({value: null, label: '全部类型'});
+      return newRegions;
+    },
     transformProvinces(provinces) {
       let labels = [];
       if (provinces.length === 31) return '全国';
