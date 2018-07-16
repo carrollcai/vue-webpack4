@@ -28,7 +28,7 @@
           <el-button type="primary">查询</el-button>
         </el-form-item>
         <el-form-item class="visit-form-item">
-          <el-button class="el-button--have-icon" @click.prevent="createVisitApplication" icon="el-icon-plus">新建走访申请</el-button>
+          <el-button class="el-button--have-icon" @click.prevent="createVisitApplication" icon="el-icon-plus">新建走访指派</el-button>
         </el-form-item>
       </div>
     </el-form>

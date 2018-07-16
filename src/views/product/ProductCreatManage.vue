@@ -4,7 +4,7 @@
     <div class="flex">
       <el-form-item>
         <el-col>
-          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
           </el-date-picker>
         </el-col>
       </el-form-item>
@@ -34,17 +34,16 @@
     :pageNo="formData.pageNo"
     :pageSize="formData.pageSize"
     @onPagination="onPagination"
-    @onSizePagination="onSizePagination"
-  >
+    @onSizePagination="onSizePagination">
       <el-table-column label="产品编码" show-overflow-tooltip width="180" property="productCode">
       </el-table-column>
       <el-table-column label="产品名称" show-overflow-tooltip property="productName">
       </el-table-column>
       <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
       </el-table-column>
-      <el-table-column label="创建时间" show-overflow-tooltip width="180" property="insertdate">
+      <el-table-column label="创建时间" align="center" show-overflow-tooltip width="180" :formatter="dateFn" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" show-overflow-tooltip width="180" property="updatedate">
+      <el-table-column label="最近更新时间" align="center" show-overflow-tooltip width="180" :formatter="dateFn" property="updatedate">
       </el-table-column>
       <el-table-column label="操作" align="center" width="160">
         <template slot-scope="operation">
@@ -162,6 +161,13 @@ export default {
       }).catch(() => {
         this.$message('已取消删除');
       });
+    },
+    dateFn(row, column, columnValue) {
+      let value = '';
+      if (columnValue) {
+        value = columnValue.split(' ')[0];
+      }
+      return value;
     },
     productTypeFn(row, column, columnValue) {
       if (columnValue === '0') {

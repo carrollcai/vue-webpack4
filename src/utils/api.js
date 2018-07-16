@@ -232,6 +232,9 @@ export default {
   editBusinessDetailAPI: API('esop/bizOppor/edit'),
   // 根据产品编码或名称查询
   getProductNameCodeAPI: API('esop/product/queryByCodeOrName'),
+  /* visit */
+  getMyVisitManageListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   // 任务查看
   getQueryTaskAPI: API('esop/processInfo/queryTask')
 };

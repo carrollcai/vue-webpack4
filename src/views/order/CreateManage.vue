@@ -75,7 +75,7 @@
             <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-dropdown v-if="scope.row.ordStatus === '1'" @command="handleCommand(scope.row, $event)">
+            <el-dropdown v-if="orderCreateManageForm.ordStatus === 1" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -97,6 +97,7 @@
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState } from 'vuex';
 import { ORDER_STATUS } from '@/config/index.js';
+import moment from 'moment';
 
 export default {
   data() {
@@ -122,8 +123,9 @@ export default {
     })
   },
   beforeMount() {
-    let { date, ..._params } = this.orderCreateManageForm;
-    this.getCreateManageList(_params);
+    this.$nextTick(() => {
+      this.query();
+    });
   },
   methods: {
     resetOrganizeInfo() {
@@ -231,12 +233,16 @@ export default {
       this.$router.push(path);
     },
     query() {
-      const params = this.orderCreateManageForm;
+      const params = Object.cloneDeep(this.orderCreateManageForm);
 
-      if (params.date.length === 2) {
-        params.startDate = params.date[0];
-        params.endDate = params.date[1];
+      if (params.date && params.date.length) {
+        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
+      } else {
+        params.startDate = '';
+        params.endDate = '';
       }
+
       let { date, ..._params } = params;
       this.$refs['orderCreateManage'].validate(valid => {
         if (!valid) return false;

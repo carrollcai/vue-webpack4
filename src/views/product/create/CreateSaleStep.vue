@@ -16,7 +16,7 @@
         <wm-table v-if="cacheData && cacheData.length > 0" :source="cacheData">
           <el-table-column label="销售类型" width="80" property="salesType" :formatter="salesTypeFormat">
           </el-table-column>
-          <el-table-column label="组合产品" property="composedProduct" show-overflow-tooltip >
+          <el-table-column label="组合产品" property="composedProduct" :formatter="composedProductFormat" show-overflow-tooltip >
           </el-table-column>
           <el-table-column label="方案介绍" align="center" show-overflow-tooltip property="scheme" prop="">
           </el-table-column>
@@ -42,7 +42,7 @@
             <el-form-item v-if="formData.salesType === '1'" label="组合产品：" prop="composedProduct" label-width="130px">
               <!-- <el-input v-model="formData.composedProduct" placeholder="产品名称/编码"></el-input> -->
               <el-select
-                v-model="formData.composedProduct"
+                v-model="formData.composedProduct" label-width="130px"
                 multiple
                 filterable
                 allow-create
@@ -81,7 +81,7 @@
                 :on-remove="removeFile">
                 <span class="blue"> <i class="el-icon el-icon-plus fs12"></i>上传附件</span>
                 <div slot="tip" class="el-upload__tip">
-                  <p class="lh1-5">1. 附件格式支持“word、excel、ppt、pdf、rar“格式</p>
+                  <p class="lh1-5">1. 附件格式支持“PPT、Excel、World和压缩包“格式</p>
                   <p class="lh1-5">2. 附件大小不超过20M。</p>
                 </div>
               </el-upload>
@@ -298,6 +298,10 @@ export default {
         return '组合销售';
       }
     },
+    composedProductFormat(row, column, cellValue) {
+      let composedStr = cellValue.join('、');
+      return composedStr;
+    },
     productNameFormat(row, column, cellValue) {
       if (row.salesType === '0' || row.salesType === '单品销售' || cellValue[0] === '无') {
         return '无';
@@ -370,6 +374,10 @@ export default {
         }
       }
       if (this.isAddProduct) {
+        if (this.isShow) {
+          this.$message({showClose: true, message: '请先报存，在提交！', type: 'warning'});
+          return false;
+        }
         this.setEditProduct(_this.params).then((res) => {
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({ showClose: true, message: '修改产品成功！', type: 'success' });
@@ -544,6 +552,7 @@ export default {
   }
   .lh1-5 {line-height: 1.5;}
   .fs12 {font-size: 12px;}
+  .el-select {width: 100%;}
   .el-upload__tip {margin-top: 0;}
   .el-step.is-horizontal .el-step__line {
     height: 1px;
