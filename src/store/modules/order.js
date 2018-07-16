@@ -36,7 +36,7 @@ const state = {
   },
   orderOverviewObj: {
     list: [],
-    totalcount: 1
+    totalCount: 1
   },
   orderOverviewDetail: {},
   processList: [],
@@ -71,7 +71,7 @@ const state = {
   },
   orderHandleTaskObj: {
     list: [],
-    totalcount: 1
+    totalCount: 1
   },
   assignHandlers: [],
   handleTaskDetail: {}

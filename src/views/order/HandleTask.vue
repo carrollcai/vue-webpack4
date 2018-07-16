@@ -45,7 +45,7 @@
       </el-tabs>
     </div>
     <div class="m-container table-container">
-      <wm-table :source="orderHandleTaskObj.list" :pageNo="orderHandleTaskForm.pageNo" :pageSize="orderHandleTaskForm.pageSize" :total="orderHandleTaskObj.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+      <wm-table :source="orderHandleTaskObj.list" :pageNo="orderHandleTaskForm.pageNo" :pageSize="orderHandleTaskForm.pageSize" :total="orderHandleTaskObj.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
         <el-table-column label="订单编号" property="ordCode" />
         <el-table-column label="订单名称" property="ordName" />
         <el-table-column label="创建时间" property="createDate" />
@@ -83,6 +83,7 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState } from 'vuex';
+import moment from 'moment';
 
 export default {
   data() {
@@ -118,8 +119,9 @@ export default {
     })
   },
   beforeMount() {
-    let { date, ..._params } = this.orderHandleTaskForm;
-    this.getHandleTaskList(_params);
+    this.$nextTick(() => {
+      this.query();
+    });
   },
   methods: {
     handleHandlerChange() {
@@ -190,10 +192,13 @@ export default {
       this.$router.push(path);
     },
     query() {
-      const params = this.orderHandleTaskForm;
-      if (params.date.length === 2) {
-        params.startDate = params.date[0];
-        params.endDate = params.date[1];
+      const params = Object.cloneDeep(this.orderHandleTaskForm);
+      if (params.date && params.date.length) {
+        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
+      } else {
+        params.startDate = '';
+        params.endDate = '';
       }
 
       let { date, ..._params } = params;
