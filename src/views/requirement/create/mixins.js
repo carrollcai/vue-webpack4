@@ -7,7 +7,7 @@ export default {
     const filesValidator = function(rule, val, callback) {
       const {requirement, uploadFiles} = that;
       if (requirement.resType !== '2' && !uploadFiles.length) {
-        callback(new Error('请上传需求附件'));
+        callback(new Error('请选择需求附件'));
       } else {
         callback();
       }
@@ -36,6 +36,7 @@ export default {
         ],
         uploadFiles: [
           {
+            required: true,
             validator: filesValidator,
             trigger: 'change'
           }
@@ -94,7 +95,7 @@ export default {
         }, 1000);
       });
     },
-    handleSelect(item) {
+    handleSelect() {
     },
     ...mapActions([
       'queryCustomerManagers',
