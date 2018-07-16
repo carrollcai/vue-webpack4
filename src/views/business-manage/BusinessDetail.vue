@@ -140,27 +140,35 @@ export default {
     // 分派取消
     sendCancel() {
       this.sendDialogVisible = false;
-      this.sendForm.person = '';
+      this.sendForm.person = [];
       this.sendForm.reason = '';
     },
     // 分派确定
     sendConfirm() {
       let params = this.sendParam;
-      params.dealResult = this.sendForm.reason;
-      params.dealPerson = this.sendForm.person.pop();
-      let _this = this;
-      this.submitBusinessSend(params).then(res => {
-        if (res.data && res.errorInfo.code === '200') {
-          _this.sendDialogVisible = false;
-          _this.sendForm.person = '';
-          _this.sendForm.reason = '';
-          _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
-          const path = `/business-manage/business-task`;
-          _this.$router.push(path);
+      if (this.sendForm.person.length !== 0) {
+        if (this.sendForm.reason.trim() !== '') {
+          params.dealResult = this.sendForm.reason;
+          params.dealPerson = this.sendForm.person.pop();
+          let _this = this;
+          this.submitBusinessSend(params).then(res => {
+            if (res.data && res.errorInfo.code === '200') {
+              _this.sendDialogVisible = false;
+              _this.sendForm.person = '';
+              _this.sendForm.reason = '';
+              _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+              const path = `/business-manage/business-task`;
+              _this.$router.push(path);
+            } else {
+              _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+            }
+          });
         } else {
-          _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+          this.$message({ showClose: true, message: '请填写分派的原因！' });
         }
-      });
+      } else {
+        this.$message({ showClose: true, message: '请选择指派处理人！' });
+      }
     },
     // 作废取消
     cancelCancel() {

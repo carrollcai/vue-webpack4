@@ -54,7 +54,7 @@
 export default {
   props: {
     type: String,
-    headData: JSON
+    headData: Object
   }
 };
 </script>
