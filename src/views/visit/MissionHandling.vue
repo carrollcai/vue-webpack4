@@ -1,0 +1,180 @@
+<template>
+  <div class="mission-handle-management">
+    <div class="m-container query-block">
+      <el-form class="group-form">
+        <div class="flex">
+          <el-form-item class="user-form-item__input">
+            <el-select v-model="organizeType" clearable placeholder="集团属性">
+              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
+            <el-input v-model="managerName" placeholder="走访公司名称" clearable/>
+          </el-form-item>
+
+          <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
+            <el-select v-model="organizeType" clearable placeholder="是否首客">
+              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
+            </el-select>
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item>
+            <el-button type="primary" @click="query">查询</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="待审核" name="first"></el-tab-pane>
+        <el-tab-pane label="待评价" name="second"></el-tab-pane>
+        <el-tab-pane label="已审核" name="third"></el-tab-pane>
+        <el-tab-pane label="已评价" name="forth"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="m-container visit-list">
+      <wm-table
+        :source="handleVisits.list"
+        :total="handleVisits.totalCount"
+        :pageNo="pageNo"
+        :pageSize="pageSize"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="走访编号" property="organizeCode" />
+        <el-table-column label="走访时间" property="organizeName">
+        </el-table-column>
+        <el-table-column label="走访公司" property="organizeType" >
+        </el-table-column>
+        <el-table-column label="走访发起人" property="provinceId">
+        </el-table-column>
+        <el-table-column label="是否首客" property="managerName" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
+              审核
+            </el-button>
+            <el-button type="text" @click="handleDetail(scope.row)">
+              评价
+            </el-button>
+            <el-button type="text" @click="handleDetail(scope.row)">
+              查看
+            </el-button>
+            <el-button type="text" @click="handleDetail(scope.row)">
+              查看评价
+            </el-button>
+          </template>
+        </el-table-column>
+      </wm-table>
+    </div>
+  </div>
+</template>
+<script>
+import { mapState, mapActions } from 'vuex';
+import { createHelpers } from 'vuex-map-fields';
+
+import WmTable from 'components/Table.vue';
+
+const { mapFields } = createHelpers({
+  getterType: 'getVisitField',
+  mutationType: 'updateVisitField'
+});
+
+export default {
+  components: {
+    WmTable
+  },
+  data() {
+    return {
+      STATUS: {
+        'first': '-1',
+        'second': '1',
+        'third': '0',
+        'forth': '0'
+      }
+    };
+  },
+  computed: {
+    ...mapState({
+      handleVisits: ({ visit }) => visit.handleVisits
+    }),
+    ...mapFields([
+      'handleQuery.organizeType',
+      'handleQuery.provinceId',
+      'handleQuery.managerName',
+      'handleQuery.status',
+      'handleQuery.pageNo',
+      'handleQuery.pageSize',
+      'handleQuery.activeName'
+    ])
+  },
+  beforeMount() {
+    this.query();
+  },
+  methods: {
+    onPagination(value) {
+      this.pageNo = value;
+      this.query();
+    },
+    onSizePagination(value) {
+      this.pageSize = value;
+      this.query();
+    },
+    handleDetail(row) {
+      this.$router.push(`/group-customer/audit/detail/${row.organizeId}`);
+    },
+    handleAudit(row) {
+      this.$router.push(`/group-customer/audit/${row.organizeId}/${row.taskInsId}`);
+    },
+    getParams() {
+      const {
+        pageNo,
+        pageSize,
+        organizeType,
+        provinceId,
+        otherField,
+        managerName
+      } = this;
+
+      return {
+        pageNo,
+        pageSize,
+        organizeType,
+        provinceId,
+        otherField,
+        managerName,
+        status: this.STATUS[this.activeName]
+      };
+    },
+    query() {
+      this.queryHandleVisits(this.getParams());
+    },
+    handleClick() {
+      this.pageNo = 1;
+      this.query();
+    },
+    ...mapActions([
+      'queryHandleVisits'
+    ])
+  }
+};
+</script>
+<style lang="scss">
+@import "scss/variables.scss";
+.group-form-item__lable {
+  margin-left: $blockWidth;
+}
+.group-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.group-form-item__input {
+  width: $inputWidthQuery;
+}
+
+.mission-handle-management{
+  .visit-list{
+    margin-top: $blockWidth;
+  }
+}
+</style>
