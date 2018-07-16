@@ -217,5 +217,8 @@ export default {
   // 修改商机不提交审核
   editBusinessDetailAPI: API('esop/bizOppor/edit'),
   // 根据产品编码或名称查询
-  getProductNameCodeAPI: API('esop/product/queryByCodeOrName')
+  getProductNameCodeAPI: API('esop/product/queryByCodeOrName'),
+  /* visit */
+  getMyVisitManageListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage')
 };

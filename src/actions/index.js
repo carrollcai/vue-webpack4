@@ -9,6 +9,7 @@ import product from './product';
 import business from './business';
 import order from './order';
 import requirement from './requirement';
+import visit from './visit';
 
 export default {
   ...root,
@@ -21,5 +22,6 @@ export default {
   ...product,
   ...business,
   ...order,
-  ...requirement
+  ...requirement,
+  ...visit
 };
