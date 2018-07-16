@@ -311,7 +311,7 @@
             <el-button type="primary" @click="approveCustomer">立即提审</el-button>
             <el-button type="primary" @click="saveCustomer">保存草稿</el-button>
           </template>
-          <el-button v-if="isApproveble()" type="primary" @click="saveCustomer">立即提审</el-button>
+          <el-button v-if="isApproveble()" type="primary" @click="approveCustomer">立即提审</el-button>
           <el-button type="primary" @click="toSecondStepFromThird">上一步</el-button>
         </el-form-item>
       </el-form>

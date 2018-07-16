@@ -5,8 +5,8 @@ export default {
   data() {
     const that = this;
     const filesValidator = function(rule, val, callback) {
-      const {requirement} = that;
-      if (requirement.resType !== '2' && !val) {
+      const {requirement, uploadFiles} = that;
+      if (requirement.resType !== '2' && !uploadFiles.length) {
         callback(new Error('请上传需求附件'));
       } else {
         callback();
@@ -15,7 +15,7 @@ export default {
 
     const processorValidator = function(rule, val, callback) {
       const {requirement} = that;
-      if (requirement.needSms === '1') {
+      if (requirement.needSms === '1' && !requirement.processor) {
         callback(new Error('请选择指派处理人'));
       } else {
         callback();
@@ -23,6 +23,7 @@ export default {
     };
 
     return {
+      uploadFiles: [],
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团编码', trigger: 'blur' }
@@ -33,7 +34,7 @@ export default {
         reqDesc: [
           { required: true, message: '请输入需求描述', trigger: 'blur' }
         ],
-        fileInputId: [
+        uploadFiles: [
           {
             validator: filesValidator,
             trigger: 'change'
@@ -67,7 +68,7 @@ export default {
           { type: 'email', message: '请输入邮箱', trigger: 'blur' }
         ],
         processor: [
-          { validator: processorValidator, trigger: 'blur' }
+          { validator: processorValidator, trigger: 'change' }
         ]
       }
     };

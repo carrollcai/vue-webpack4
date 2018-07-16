@@ -38,7 +38,7 @@
                   placeholder="请输入经营范围"
                   key="requirementDesc-input"></el-input>
               </el-form-item>
-              <el-form-item label="需求附件" prop="fileInputId" required key="provinceId1">
+              <el-form-item label="需求附件" prop="uploadFiles" key="provinceId1">
                 <el-upload
                   :limit="5"
                   class="upload-demo"
@@ -52,9 +52,6 @@
                     2、附件大小不超过20M。
                   </div>
                 </el-upload>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="uploadFile">上传文件</el-button>
               </el-form-item>
             </template>
             <!-- 物料需求 -->
@@ -186,10 +183,10 @@ export default {
       requirement: {
         reqType: '0',
         fileInputId: '',
-        needSms: '0'
+        needSms: '0',
+        uploadFiles: []
       },
       processor: [],
-      uploadFiles: [],
       checked: false,
       extraData: {
       },
@@ -233,10 +230,8 @@ export default {
     })
   },
   watch: {
-    processor(newVal, oldVal) {
-      if (newVal && newVal.length) {
-        this.requirement.processor = newVal[newVal.length - 1];
-      }
+    processor(newVal) {
+      this.requirement.processor = newVal && newVal.length ? newVal[newVal.length - 1] : '';
     },
     checked(newVal) {
       this.requirement.needSms = newVal ? '1' : '0';
@@ -265,7 +260,7 @@ export default {
       }
     },
     clearFile() {
-      this.requirement.fileInputId = '';
+      this.uploadFiles = [];
     },
     clearRequirement() {
       const {requirement} = this;
@@ -297,7 +292,7 @@ export default {
 
           result = false;
         } else {
-          this.uploadData.files.push(file.raw);
+          this.uploadFiles.push(file.raw);
         }
       } else {
         this.$message({
@@ -309,63 +304,45 @@ export default {
 
       if (!result) {
         fileList.pop();
+      } else {
+        this.$refs.baseForm.validateField('uploadFiles');
       }
 
       return result;
     },
     handleRemove(file, fileList) {
       const that = this;
-      const {uploadData} = that;
+      const {uploadFiles} = that;
 
-      uploadData.files.splice(0, uploadData.files.length);
+      uploadFiles.splice(0, uploadFiles.length);
 
       for (let item of fileList) {
-        uploadData.files.push(item.raw);
+        uploadFiles.push(item.raw);
       }
 
-      this.$refs.baseForm.validateField('fileInputId');
-    },
-    upload(uploadData) {
-      this.uploadProductScheme(uploadData).then(() => {
-        this.$message({
-          message: '上传文件成功',
-          type: 'success'
-        });
-        this.$refs.baseForm.validateField('fileInputId');
-      });
-    },
-    uploadFile() {
-      const that = this;
-      const {uploadData} = that;
-      if (uploadData.files.length) {
-        if (this.uploadData.fileInputId) {
-          this.upload(uploadData);
-        } else {
-          this.getProductFileId().then((res) => {
-            let fileInputId = res.data;
-            uploadData.fileInputId = fileInputId;
-            that.requirement.fileInputId = fileInputId;
-            this.upload(uploadData);
-          });
-        }
-      } else {
-        that.$message({
-          message: '请选择文件',
-          type: 'warn'
-        });
-      }
+      this.$refs.baseForm.validateField('uploadFiles');
     },
     submitRequirement() {
-      this.$refs.baseForm.validate((valid) => {
+      const that = this;
+      const {uploadData} = this;
+      that.$refs.baseForm.validate((valid) => {
         if (valid) {
-          this.saveRequirement(this.requirement);
+          that.getProductFileId().then((res) => {
+            let fileInputId = res.data;
+            uploadData.files = that.uploadFiles;
+            uploadData.fileInputId = fileInputId;
+            that.requirement.fileInputId = fileInputId;
+            that.uploadProductScheme(uploadData).then(() => {
+              delete that.requirement.uploadFiles;
+              that.saveRequirement(that.requirement);
+            });
+          });
         }
       });
     },
     ...mapActions([
       'saveRequirement',
       'getAssignhandler',
-      'delUplodFile',
       'getProductFileId',
       'uploadProductScheme'
     ])
