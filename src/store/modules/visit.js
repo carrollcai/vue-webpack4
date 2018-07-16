@@ -31,7 +31,17 @@ const state = {
     isFirstVisit: '', // 是否首客走访
     visitAuditor: '' // 选择审核人
   },
-  createVisitData: {}
+  createVisitData: {},
+  appointVisitForm: {
+    startDate: '',
+    endDate: '',
+    state: 0,
+    organizeName: '',
+    isFirstVisit: '',
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE
+  },
+  appointVisitList: {}
 };
 const mutations = {
   [types.MY_VISIT_MANAGE](state, data) {
@@ -39,6 +49,9 @@ const mutations = {
   },
   [types.CREATE_VISIT](state, data) {
     state.createVisitData = data;
+  },
+  [types.APPOINT_VISIT_LIST](state, data) {
+    state.appointVisitList = data;
   }
 };
 
