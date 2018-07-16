@@ -4,7 +4,7 @@
     <div class="flex">
       <el-form-item>
         <el-col>
-          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
           </el-date-picker>
         </el-col>
       </el-form-item>
@@ -16,7 +16,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-input style="width: 130px" v-model="formData.operatorCn" placeholder="创建人"></el-input>
+        <el-input style="width: 130px" v-model="formData.operatorCn" @change="checkOperatorCn" placeholder="创建人"></el-input>
       </el-form-item>
       <el-form-item>
         <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
@@ -41,9 +41,9 @@
       </el-table-column>
       <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
       </el-table-column>
-      <el-table-column label="创建时间" width="170" property="insertdate">
+      <el-table-column label="创建时间" align="center" width="170" property="insertdate" :formatter="dateFn">
       </el-table-column>
-      <el-table-column label="最近更新时间" width="170" property="updatedate">
+      <el-table-column label="最近更新时间" align="center" width="170" property="updatedate" :formatter="dateFn">
       </el-table-column>
       <el-table-column label="创建人" show-overflow-tooltip property="operatorId" width="100">
       </el-table-column>
@@ -100,6 +100,9 @@ export default {
       this.formData.pageSize = value;
       this.query();
     },
+    checkOperatorCn(value) {
+      this.formData.operatorCn = String(value).trim();
+    },
     checkProductName(value) {
       this.formData.productName = String(value).trim();
     },
@@ -111,6 +114,13 @@ export default {
         this.formData.startDate = '';
         this.formData.endDate = '';
       }
+    },
+    dateFn(row, column, columnValue) {
+      let value = '';
+      if (columnValue) {
+        value = columnValue.split(' ')[0];
+      }
+      return value;
     },
     query() {
       // 产品数据查询方法

@@ -41,11 +41,6 @@
     <el-form-item label="联系人">
       {{requirement.contactName}}；{{requirement.contactMobile}}；{{requirement.contactEmail}}
     </el-form-item>
-
-    <el-form-item label="">
-      {{requirement.processor}}
-    </el-form-item>
-
   </el-form>
 </template>
 <script>
@@ -106,6 +101,8 @@ export default {
     cursor: pointer;
     color: $primary-color;
     min-width: 50px;
+    border-bottom: 1px solid $primary-color;
+    margin-right: 16px;
   }
 }
 </style>

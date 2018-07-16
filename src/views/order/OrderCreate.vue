@@ -233,8 +233,9 @@ export default {
         if (type === 'create') {
           this.createOrder(params);
         } else {
-          params.ordId = id;
-          this.updateOrder(params);
+          let { organizeCode, ordStatus, ..._params } = params;
+          _params.ordId = id;
+          this.updateOrder(_params);
         }
       });
     },

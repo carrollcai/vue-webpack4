@@ -6,10 +6,7 @@
           <el-form-item prop="date">
             <el-date-picker v-model="myBusinessForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
-            <!--<el-date-picker v-model="timeRange" @change="getTimeRange" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-            </el-date-picker>-->
           </el-form-item>
-
           <el-form-item class="task-form-item__input group-form-item__lable">
             <el-autocomplete v-model="myBusinessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
           </el-form-item>
