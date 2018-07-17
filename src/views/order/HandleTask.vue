@@ -59,11 +59,11 @@
             <el-button v-if="orderHandleTaskForm.businessStatus === '4'" class="table-button" type="text" @click="handlePay(scope.row)">
               付款处理
             </el-button>
-            <el-button v-if="orderHandleTaskForm.businessStatus === '1'" class="table-button" type="text" @click="handleDetail(scope.row)">
+            <el-button v-if="orderHandleTaskForm.businessStatus !== '0'" class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
 
-            <el-dropdown v-if="orderHandleTaskForm.businessStatus !== '1'" @command="handleCommand(scope.row, $event)">
+            <el-dropdown v-if="orderHandleTaskForm.businessStatus === '0'" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -179,11 +179,11 @@ export default {
       let path = '';
       // 不同状态，详情页展示不一样
       if (businessStatus === '0') {
-        path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}`;
+        path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${encodeURIComponent(businessStatus)}`;
       } else if (businessStatus === '4') {
-        path = `/order/handle-task/detail-pay/${row.ordId}?taskInsId=${row.taskInsId}`;
+        path = `/order/handle-task/detail-pay/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${encodeURIComponent(businessStatus)}`;
       } else {
-        path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}`;
+        path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${encodeURIComponent(businessStatus)}`;
       }
       this.$router.push(path);
     },
