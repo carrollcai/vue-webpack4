@@ -222,9 +222,9 @@ export default {
     sendConfirm() {
       let params = this.sendParam;
       if (this.sendForm.person !== '') {
-        if (this.sendForm.reason !== '') {
+        if (this.sendForm.reason.trim() !== '') {
           params.dealPerson = this.sendForm.person.pop();
-          params.dealResult = this.sendForm.reason;
+          params.dealResult = this.sendForm.reason.trim();
           let _this = this;
           this.submitBusinessSend(params).then(res => {
             if (res.data && res.errorInfo.code === '200') {
