@@ -233,7 +233,7 @@ export default {
   // 根据产品编码或名称查询
   getProductNameCodeAPI: API('esop/product/queryByCodeOrName'),
   /* visit */
-  getMyVisitManageListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  getMyVisitManageListAPI: API('esop/visit/queryVisitSelf'),
   setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   getAppointVisitListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
