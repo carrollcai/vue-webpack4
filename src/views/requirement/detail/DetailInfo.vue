@@ -5,7 +5,7 @@
     </el-form-item>
 
     <el-form-item label="需求类型">
-      {{requirement.reqType}}
+      {{requirement.reqTypeName}}
     </el-form-item>
 
     <template v-if="requirement.reqType !== '2'">

@@ -2,14 +2,18 @@
   <div>
     <div class="m-container">
       <div class="breadcrumb">
-        <el-breadcrumb>
+        <el-breadcrumb v-if="this.$route.params.type === '0'">
           <el-breadcrumb-item :to="{ path: '/business-manage/business' }">商机总览</el-breadcrumb-item>
+          <el-breadcrumb-item>商机详情</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="this.$route.params.type === '1'">
+          <el-breadcrumb-item :to="{ path: '/business-manage/business-task' }">商机处理任务</el-breadcrumb-item>
           <el-breadcrumb-item>商机详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
     <div class="business-container o-overview-detail">
-      <detail-head v-if="this.$route.params.taskHasComplete === '1'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
+      <detail-head v-if="this.$route.params.taskHasComplete === '1' && queryTask[0]" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
       <detail-head v-else :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
       <detail-body :detailData="businessDetail"></detail-body>
       <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">

@@ -81,7 +81,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, emailCheck, textLimit, textareaLimit, inte5Deci4 } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte5Deci4 } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -144,11 +144,11 @@ export default {
         ],
         busiDesc: [
           { required: true, message: '请输入订单描述', trigger: 'blur' },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         busiRequire: [
           { required: true, message: '请输入订单需求', trigger: 'blur' },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textareaMaxLimit, trigger: 'blur' }
         ]
       }
     };

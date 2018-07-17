@@ -187,7 +187,7 @@ export default {
     },
     // 查看详情
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.opporId}/${row.taskInsId}/${this.businessTaskForm.taskHasComplete}`;
+      const path = `/business-manage/business-detail/${row.opporId}/${row.taskInsId}/${this.businessTaskForm.taskHasComplete}/1`;
       this.$router.push(path);
     },
     // 点击转订单
@@ -222,9 +222,9 @@ export default {
     sendConfirm() {
       let params = this.sendParam;
       if (this.sendForm.person !== '') {
-        if (this.sendForm.reason !== '') {
+        if (this.sendForm.reason.trim() !== '') {
           params.dealPerson = this.sendForm.person.pop();
-          params.dealResult = this.sendForm.reason;
+          params.dealResult = this.sendForm.reason.trim();
           let _this = this;
           this.submitBusinessSend(params).then(res => {
             if (res.data && res.errorInfo.code === '200') {

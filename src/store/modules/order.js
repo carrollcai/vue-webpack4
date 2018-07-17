@@ -74,7 +74,12 @@ const state = {
     totalCount: 1
   },
   assignHandlers: [],
-  handleTaskDetail: {}
+  handleTaskDetail: {},
+  hasSignedFile: {
+    fileTypeId: '',
+    fileSaveName: '',
+    fileName: ''
+  }
 };
 
 const mutations = {
@@ -137,6 +142,9 @@ const mutations = {
   },
   [types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS](state, data) {
     state.submitAssignButton = !state.submitAssignButton;
+  },
+  [types.ORDER_GET_HAS_SIGNED_FILE](state, data) {
+    state.hasSignedFile = data[0];
   }
 };
 

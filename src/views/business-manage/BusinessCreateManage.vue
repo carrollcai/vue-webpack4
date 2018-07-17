@@ -158,7 +158,7 @@ export default {
       }
     },
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.opporId}/0/0`;
+      const path = `/business-manage/business-detail/${row.opporId}/0/0/0`;
       this.$router.push(path);
     },
     createBusiness() {
@@ -279,21 +279,17 @@ export default {
       var _this = this;
       this.editOrgParam.opporId = row.opporId;
       this.editOrgParam.organizeName = this.relationcooperName;
-      if (this.editOrgParam.organizeId) {
-        this.groupAssociation(this.editOrgParam).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
-            this.relationcooperName = '';
-            _this.editOrgParam = {};
-            _this.hideAssociate();
-            _this.query();
-          } else {
-            _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
-          }
-        });
-      } else {
-        this.$message('集团不存在');
-      }
+      this.groupAssociation(this.editOrgParam).then(res => {
+        if (res.data && res.errorInfo.code === '200') {
+          _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
+          this.relationcooperName = '';
+          _this.editOrgParam = {};
+          _this.hideAssociate();
+          _this.query();
+        } else {
+          _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
+        }
+      });
     },
     relationCancel(row) {
       this.relationcooperName = '';

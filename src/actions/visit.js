@@ -22,8 +22,27 @@ const actions = {
       commit(types.VISIT_APPOINT_DETAIL, res.data);
     });
   },
+  /**
+   * 查询走访任务处理列表
+   */
   queryHandleVisits: ({ commit }, params) => {
     return API.getMyVisitManageListAPI(params).then((res) => {
+      commit(types.HANDLE_VISIT_MANAGE_LIST, res.data);
+    });
+  },
+  /**
+   * 评价走访
+   */
+  judgeVisit: ({ commit }, params) => {
+    return API.judgeVisitAPI(params).then((res) => {
+      commit(types.HANDLE_VISIT_MANAGE_LIST, res.data);
+    });
+  },
+  /**
+   * 审核走访
+   */
+  auditVisit: ({ commit }, params) => {
+    return API.auditVisitAPI(params).then((res) => {
       commit(types.HANDLE_VISIT_MANAGE_LIST, res.data);
     });
   }

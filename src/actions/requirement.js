@@ -22,6 +22,39 @@ const actions = {
       }
     });
   },
+
+  /**
+   * 查询 需求任务处理列表
+   *
+   * @param {Store} Store
+   * @param {String} params
+   */
+  queryRequirementTasks: ({commit}, params) => {
+    API.queryRequirementTasksAPI(params).then(res => {
+      if (isSuccess(res)) {
+        commit(types.REQUIREMENT_TASK_LIST, res.data);
+      } else {
+        commit(types.REQUIREMENT_TASK_LIST, {});
+      }
+    });
+  },
+
+  /**
+   * 查询 需求任务处理人
+   *
+   * @param {Store} Store
+   * @param {String} params
+   */
+  queryRequirementProcessors: ({commit}, params) => {
+    API.queryRequirementProcessorsAPI(params).then(res => {
+      if (isSuccess(res)) {
+        commit(types.REQUIREMENT_PROCESSORS, res.data);
+      } else {
+        commit(types.REQUIREMENT_PROCESSORS, []);
+      }
+    });
+  },
+
   saveRequirement({commit}, requirement) {
     API.saveRequirementAPI(requirement).then((res) => {
       if (isSuccess(res)) {
@@ -40,6 +73,38 @@ const actions = {
     API.queryRequirementAPI({
       reqId: id
     }).then((res) => {
+      if (isSuccess(res)) {
+        commit(types.REQUIREMENT_GET_INFO, res.data);
+      } else {
+        commit(types.REQUIREMENT_GET_INFO, {});
+      }
+    });
+  },
+
+  /**
+   * 客户需求-处理物料需求
+   *
+   * @param {Store} Store
+   * @param {String} params
+   */
+  handleRequirementMateriel({commit}, params) {
+    API.handleRequirementMaterielAPI(params).then((res) => {
+      if (isSuccess(res)) {
+        commit(types.REQUIREMENT_GET_INFO, res.data);
+      } else {
+        commit(types.REQUIREMENT_GET_INFO, {});
+      }
+    });
+  },
+
+  /**
+   * 客户需求-处理日常、投诉需求
+   *
+   * @param {Store} Store
+   * @param {String} params
+   */
+  handleDailyComplain({commit}, params) {
+    API.handleDailyComplainAPI(params).then((res) => {
       if (isSuccess(res)) {
         commit(types.REQUIREMENT_GET_INFO, res.data);
       } else {

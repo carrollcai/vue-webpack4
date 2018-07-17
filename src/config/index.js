@@ -280,9 +280,12 @@ export const RETENTION_TREND_RADIO = {
 export const DATE_LIMIT = 30;
 export const MONTH_LIMIT = 12;
 export const INPUT_NUM_MAX = 2000;
-export const INPUT_TEXT_LIMIT = 15;
+export const INPUT_ACCOUNT_LIMIT = 15;
+export const INPUT_TEXT_LIMIT = 30;
 export const INPUT_TEXTAREA_LIMIT = 50;
+export const INPUT_TEXTAREA_MAX_LIMIT = 500;
 export const FILE_UPLOAD_LIMIT = 5;
+export const EMAIL_MAX_LENGTH = 35;
 
 export const CLIENT = [
   {

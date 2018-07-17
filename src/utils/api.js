@@ -28,6 +28,8 @@ export default {
   /* 附件 */
   getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
   uploadFileAPI: upload('/esop/elec/upload'), // 附件上传
+  getFileThroughtFileIdAPI: upload('/esop/elec/queryElec'), // 通过文件id获取文件信息
+  downloadAttachFileAPI: download('/esop/elec/download'), // 文件下载
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -182,9 +184,28 @@ export default {
   queryRequirementListAPI: API('/esop/bizRequire/queryRequirement'),
 
   /**
+   * 查询 需求任务处理 列表
+   */
+  queryRequirementTasksAPI: API('/esop/bizRequire/queryRequireTask'),
+
+  /**
+   * 客户需求-处理日常、投诉需求
+   */
+  handleDailyComplainAPI: API('/esop/bizRequire/handleDailyComplain'),
+
+  /**
+   *客户需求-处理物料需求
+   */
+  handleRequirementMaterielAPI: API('/esop/bizRequire/handleMateriel'),
+
+  /**
    * 新增客户需求
    */
   saveRequirementAPI: API('/esop/bizRequire/create'),
+  /**
+   * 查询投诉处理人
+   */
+  queryRequirementProcessorsAPI: API('/esop/bizRequire/getComplaintProcessor'),
 
   /**
    * 查询客户需求
@@ -236,7 +257,26 @@ export default {
   getMyVisitManageListAPI: API('esop/visit/queryVisitSelf'),
   setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   getAppointVisitListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  /**
+   * 评价走访
+   */
+  judgeVisitAPI: API('/esop/visit/executeEvaluate'),
+  /**
+   * 审核走访
+   */
+  auditVisitAPI: API('/esop/visit/executeEvaluate'),
   queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   // 任务查看
-  getQueryTaskAPI: API('esop/processInfo/queryTask')
+  getQueryTaskAPI: API('esop/processInfo/queryTask'),
+  /**
+   * 首页
+   */
+  // 获取当前用户信息
+  queryCurrentOperatorAPI: API('esop/login/queryCurrentOperator'),
+  // 更新用户首页设置标志位
+  updateHomeModuleAPI: API('esop/operator/updateHomeModule'),
+  // 首页（商机）
+  getHomeBusinessListAPI: API('esop/bizOppor/homePage'),
+  // 首页（订单）
+  getHomeOrderListAPI: API('esop/bizOrder/homePage')
 };

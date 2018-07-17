@@ -77,7 +77,8 @@ const mutations = {
   },
   [types.HANDLE_VISIT_MANAGE_LIST](state, data) {
     state.handleVisits = data;
-  }
+  },
+  updateVisitField
 };
 
 const getters = {
