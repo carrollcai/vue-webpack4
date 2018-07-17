@@ -74,7 +74,7 @@ export default {
       if (String(value).trim() === '') {
         callback(new Error('请输入版本号'));
       } else if (getWordLen(value, 20)) {
-        callback(new Error('请重新输入，最多9位数，小数位最多2位!'));
+        callback(new Error('长度20个字符内'));
       } else {
         callback();
       }
@@ -129,7 +129,7 @@ export default {
       if (String(value).trim() === '') {
         callback(new Error('请输入价格!'));
       } else if (!reg.test(value)) {
-        callback(new Error('请输入9位以内的数字!'));
+        callback(new Error('请重新输入，最多9位数，小数位最多2位!!'));
       } else {
         callback();
       }
@@ -161,7 +161,7 @@ export default {
       },
       formDataValid: {
         version: [
-          { required: true, validator: versionTrim, trigger: 'blur' }
+          { validator: versionTrim, trigger: 'blur' }
         ],
         username: [
           { required: true, validator: validTrim, trigger: 'blur' }
