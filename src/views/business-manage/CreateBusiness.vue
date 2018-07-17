@@ -225,6 +225,7 @@ export default {
       }, 1000);
     },
     handleSelect(item) {
+      this.form.organizeId = item.organizeId;
       this.form.address = item.orgAddress;
     },
     createStateFilter(queryString) {

@@ -4,15 +4,15 @@
     <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="businessForm.date" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 225px" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="businessForm.date" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 225px" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']">
           </el-date-picker>
         </el-form-item>
 
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-autocomplete v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
         </el-form-item>
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-input v-model="businessForm.opporCode" placeholder="商机编码" />
+          <el-input clearable v-model="businessForm.opporCode" placeholder="商机编码" />
         </el-form-item>
       </div>
       <div class="flex">
