@@ -14,15 +14,15 @@
 
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
         <!-- 签约指派 -->
-        <detail-bar v-if="getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
+        <detail-bar v-if="routeType === 'detail' && getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
 
         <!-- 已签约 -->
-        <detail-bar v-if="getHasSignContent()" :title="['处理结果：', '签约合同：']" :content="getHasSignContent()" />
+        <detail-bar v-if="routeType === 'detail' && getHasSignContent()" :title="['处理结果：', '签约合同：']" :content="getHasSignContent()" />
 
         <!-- 已付款 -->
-        <detail-bar v-if="getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
+        <detail-bar v-if="routeType === 'detail' && getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
         <!-- 已取消 -->
-        <detail-bar v-if="getProcessContent()" :title="['处理结果：', '取消原因：']" :content="getProcessContent()" />
+        <detail-bar v-if="routeType === 'detail' && getProcessContent()" :title="['处理结果：', '取消原因：']" :content="getProcessContent()" />
 
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
@@ -37,7 +37,12 @@
         <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files" required>
           <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files">
             <el-button slot="trigger" size="small">
-              <i class="icon-up margin-right-8"></i>上传文件</el-button>
+              <i class="icon-up margin-right-8"></i>上传文件
+            </el-button>
+            <div slot="tip" class="el-upload__tip">
+              <p class="lh1-5">1. 附件格式支持“PPT、Excel、World和压缩包“格式</p>
+              <p class="lh1-5">2. 附件大小不超过20M。</p>
+            </div>
           </el-upload>
         </el-form-item>
         <el-form-item v-else label="取消原因：" prop="dealResult">
