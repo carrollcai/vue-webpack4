@@ -314,9 +314,6 @@ export default {
     },
     filterData(value, row, column) {
       debugger;
-      if (row) {
-        // return row.state !== 0;
-      }      
     },
     addSaleDome() {
       if (this.isShow) {

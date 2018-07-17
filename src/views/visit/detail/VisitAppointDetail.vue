@@ -63,7 +63,7 @@ export default {
       formData: {
         processor: '',
         feedbackNote: '',
-        feedback: '',
+        feedback: ''
       },
       formDataValid: {}
     };
