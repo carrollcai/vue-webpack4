@@ -8,6 +8,7 @@
               v-model="rangeDate"
               type="daterange"
               :editable="false"
+              value-format="yyyy-MM-dd HH:mm:ss"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -33,8 +34,8 @@
       </el-form>
 
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="未处理" name="second"></el-tab-pane>
-        <el-tab-pane label="已处理" name="third"></el-tab-pane>
+        <el-tab-pane label="未处理" name="first"></el-tab-pane>
+        <el-tab-pane label="已处理" name="second"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container requirement-list">
@@ -76,23 +77,33 @@
 
 <script>
 import { createHelpers } from 'vuex-map-fields';
+import { mapState, mapActions } from 'vuex';
+
 import mixins from './mixins';
 
 const { mapFields } = createHelpers({
   getterType: 'getRequirementField',
   mutationType: 'updateRequirementField'
 });
+
 export default {
   name: 'RequirementHandleList',
   mixins: [mixins],
   data() {
     return {
+      STATUS: {
+        'first': 0,
+        'second': 1
+      }
     };
   },
   computed: {
+    ...mapState({
+      requirements: ({ requirement }) => requirement.requirementTasks
+    }),
     ...mapFields([
       'handleQuery.rangeDate',
-      'handleQuery.taskStatus',
+      'handleQuery.taskHasComplete',
       'handleQuery.organizeName',
       'handleQuery.reqType',
       'handleQuery.activeName',
@@ -101,12 +112,41 @@ export default {
     ])
   },
   methods: {
+    getParams() {
+      this.rangeDate = this.rangeDate || ['', ''];
+
+      const {
+        rangeDate,
+        activeName,
+        organizeName,
+        reqType,
+        pageSize,
+        pageNo,
+        STATUS
+      } = this;
+
+      return {
+        startDate: rangeDate[0],
+        endDate: rangeDate[1],
+        organizeName,
+        reqType,
+        pageSize,
+        pageNo,
+        taskHasComplete: STATUS[activeName]
+      };
+    },
+    query() {
+      this.queryRequirementTasks(this.getParams());
+    },
     handleDetail(row) {
       this.$router.push(`/requirement/detail/${row.reqId}`);
     },
     toHandle(row) {
       this.$router.push(`/requirement/handle/${row.reqId}`);
-    }
+    },
+    ...mapActions([
+      'queryRequirementTasks'
+    ])
   }
 };
 </script>

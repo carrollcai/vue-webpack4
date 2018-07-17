@@ -182,9 +182,28 @@ export default {
   queryRequirementListAPI: API('/esop/bizRequire/queryRequirement'),
 
   /**
+   * 查询 需求任务处理 列表
+   */
+  queryRequirementTasksAPI: API('/esop/bizRequire/queryRequireTask'),
+
+  /**
+   * 客户需求-处理日常、投诉需求
+   */
+  handleDailyComplainAPI: API('/esop/bizRequire/handleDailyComplain'),
+
+  /**
+   *客户需求-处理物料需求
+   */
+  handleRequirementMaterielAPI: API('/esop/bizRequire/handleMateriel'),
+
+  /**
    * 新增客户需求
    */
   saveRequirementAPI: API('/esop/bizRequire/create'),
+  /**
+   * 查询投诉处理人
+   */
+  queryRequirementProcessorsAPI: API('/esop/bizRequire/getComplaintProcessor'),
 
   /**
    * 查询客户需求

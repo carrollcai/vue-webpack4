@@ -9,6 +9,7 @@ const { getRequirementField, updateRequirementField } = createHelpers({
 
 const state = {
   requirementList: {},
+  requirementTasks: {},
   requirement: {},
   managementQuery: {
     pageNo: PAGE_NO,
@@ -23,19 +24,45 @@ const state = {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
     rangeDate: [],
-    taskStatus: '',
+    taskHasComplete: '',
     organizeName: '',
     reqType: '',
-    activeName: 'second'
-  }
+    activeName: 'first'
+  },
+  processors: {}
 };
 
 const mutations = {
   [types.REQUIREMENT_GET_LIST](state, data) {
     state.requirementList = data;
   },
+  [types.REQUIREMENT_TASK_LIST](state, data) {
+    state.requirementTasks = data;
+  },
   [types.REQUIREMENT_GET_INFO](state, data) {
     state.requirement = data;
+  },
+  [types.REQUIREMENT_PROCESSORS](state, data) {
+    // 改造指派人结构
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      newVal.children = val.childrenList && val.childrenList.filter(cval => cval.secOperatorDTOList).map(cval => {
+        let newCval = {};
+        newCval.value = cval.codeValue;
+        newCval.label = cval.codeName;
+        newCval.children = cval.secOperatorDTOList && cval.secOperatorDTOList.map(gcval => {
+          return {
+            value: gcval.operatorId,
+            label: gcval.staffName
+          };
+        });
+        return newCval;
+      });
+      return newVal;
+    });
+    state.processors = handlers.filter(val => val.children && val.children.length);
   },
   updateRequirementField
 };
