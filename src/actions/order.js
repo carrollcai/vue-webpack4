@@ -153,6 +153,14 @@ const actions = {
     return API.queryProductByCodeOrNameAPI(params).then(res => {
       commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
     });
+  },
+  gethasSignedFile: ({ commit }, params) => {
+    return API.getFileThroughtFileIdAPI(params).then(res => {
+      commit(types.ORDER_GET_HAS_SIGNED_FILE, res.data);
+    });
+  },
+  orderDownloadFile: ({ commit }, params) => {
+    return API.downloadAttachFileAPI(params);
   }
 };
 

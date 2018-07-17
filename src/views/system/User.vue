@@ -88,6 +88,8 @@ export default {
     },
     transformProvinces(provinces) {
       let labels = [];
+      if (!provinces) return '';
+
       if (provinces.length === 31) return '全国';
 
       provinces.length && provinces.map(val => {

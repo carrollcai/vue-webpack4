@@ -28,6 +28,8 @@ export default {
   /* 附件 */
   getNewFileInputIdAPI: API('/esop/elec/getNewFileInputId'), // 获取附件上传id
   uploadFileAPI: upload('/esop/elec/upload'), // 附件上传
+  getFileThroughtFileIdAPI: upload('/esop/elec/queryElec'), // 通过文件id获取文件信息
+  downloadAttachFileAPI: download('/esop/elec/download'), // 文件下载
 
   /* 角色管理 */
   getRoleListAPI: API('/esop/role/queryRole'),
@@ -236,6 +238,15 @@ export default {
   getMyVisitManageListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   getAppointVisitListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  /**
+   * 评价走访
+   */
+  judgeVisitAPI: API('/esop/visit/executeEvaluate'),
+  /**
+   * 审核走访
+   */
+  auditVisitAPI: API('/esop/visit/executeEvaluate'),
+  queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   // 任务查看
   getQueryTaskAPI: API('esop/processInfo/queryTask')
 };
