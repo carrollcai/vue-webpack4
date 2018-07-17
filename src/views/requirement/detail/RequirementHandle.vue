@@ -168,6 +168,14 @@ export default {
         reqScheme: '',
         materialDesc: ''
       },
+      uploadData: {
+        fileInputId: '',
+        fileTypeId: 502,
+        moduleId: 1,
+        expireDate: '',
+        effectiveDate: '',
+        files: []
+      },
       rules: {
         uploadFiles: [
           {
@@ -300,9 +308,10 @@ export default {
         if (valid) {
           that.getProductFileId().then((res) => {
             let fileInputId = res.data;
+            let {uploadData} = that;
             uploadData.files = that.uploadFiles;
             uploadData.fileInputId = fileInputId;
-            that.requirement.fileInputId = fileInputId;
+
             that.uploadProductScheme(uploadData).then(() => {
               const {
                 materialDesc
@@ -311,7 +320,8 @@ export default {
               let params = {
                 reqId: '',
                 taskInsId: '',
-                processorRemark: materialDesc
+                processorRemark: materialDesc,
+                fileInputId
               };
 
               that.handleRequirementMateriel(params);
