@@ -28,12 +28,12 @@
       </div>
       <div class="task-three-detail-item">
         <div class="left">商机提供人员：</div>
-        <div class="right">{{detailData.opId}}</div>
+        <div class="right">{{detailData.opId}}（{{detailData.opMobile}}）</div>
       </div>
     </div>
     <div class="task-detail-item">
       <div class="left">合作集团：</div>
-      <div class="right">{{detailData.organizeName}}</div>
+      <div class="right">{{detailData.organizeName}}（{{detailData.organizeCode}}）;{{detailData.address}}</div>
     </div>
     <div class="task-detail-item">
       <div class="left">联系人员：</div>

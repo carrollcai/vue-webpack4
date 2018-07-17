@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-bar" v-if="type !== '草稿'">
+  <div class="business-detail-bar" v-if="type !== '草稿'">
       <div v-if="type === '待处理'" class="detail-bar-item">
         <div class="title">处理人员：</div>
         <div>{{headData.processor}}</div>
@@ -41,7 +41,7 @@
       </div>
       <div v-if="type === '已分派'" class="detail-bar-item">
         <div class="title">指派处理人：</div>
-        <div>{{headData.opId}}</div>
+        <div>{{headData.processor}}</div>
       </div>
       <div v-if="type === '已分派'" class="detail-bar-item">
         <div class="title">指派说明：</div>
@@ -61,7 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "scss/variables.scss";
-.detail-bar {
+.business-detail-bar {
   border-radius: 2px;
   background-color: #fafafa;
   padding: 24px 0;

@@ -190,19 +190,10 @@ export default {
 @import "scss/variables.scss";
 .p-manage {
   padding: 24px; background: #fff;
-  .form-item__lable {
-    margin-left: $blockWidth;
-  }
   .demo-form-inline {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  .form-item__input {
-    width: $inputWidthQuery;
-  }
-  .form-item {
-    margin-left: $formWidth;
   }
 }
 </style>

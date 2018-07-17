@@ -12,6 +12,7 @@
         "totalCount": 14,
         "list": [
           {
+            "visitId": 1,
             "visitCode": 1,
             "visitTime": "2018/07/13",
             "organizeName": "产品一",
@@ -19,6 +20,7 @@
             "visitStatus": "1"
           },
           {
+            "visitId": 12,
             "visitCode": 2,
             "visitTime": "2018/07/13",
             "organizeName": "产品二",

@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     submitVisitApplication() {
-      console.log(this.createVisitFrom);
+      // console.log(this.createVisitFrom);
       this.setCreateVisit(this.createVisitFrom).then((res) => {
         if (res.errorInfo.code === 200) {
           this.$message({message: '请求成功', type: 'success'});

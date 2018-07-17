@@ -4,8 +4,10 @@
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitManageFrom">
       <div class="flex">
         <el-form-item prop="date">
-          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
+          <el-col>
+            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            </el-date-picker>
+          </el-col>
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item>
@@ -124,7 +126,6 @@ export default {
     handleDetail(row) {
     },
     query() {
-      debugger;
       console.log(this.myVisitManageFrom);
       this.getMyVisitManageList(this.myVisitManageFrom);
     },

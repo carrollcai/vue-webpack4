@@ -57,7 +57,10 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="方案介绍：" label-width="130px" prop="scheme">
+            <el-form-item
+             :filter-method="filterData"
+             :filters="[{text: 0, value: 0}]"
+             label="方案介绍：" label-width="130px" prop="scheme">
               <el-input v-model="formData.scheme" placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
             </el-form-item>
             <el-form-item label="销售数量：" label-width="130px" prop="salesNumber">
@@ -308,6 +311,9 @@ export default {
       } else {
         return cellValue;
       }
+    },
+    filterData(value, row, column) {
+      debugger;
     },
     addSaleDome() {
       if (this.isShow) {
@@ -569,7 +575,6 @@ export default {
   .el-step.is-simple .el-step__arrow:before {
     display: none
   }
-
   .el-step.is-simple .el-step__arrow::after,
   .el-step.is-simple .el-step__arrow:after {
     -webkit-transform: none;
@@ -598,7 +603,12 @@ export default {
     padding: 30px;
     margin: 0 auto;
   }
-
+  .el-select .el-tag {
+    max-width: 258px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .add-content {
     width: 430px;
     margin: 0 auto;

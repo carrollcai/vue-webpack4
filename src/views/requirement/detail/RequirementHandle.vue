@@ -17,37 +17,31 @@
         :model="form"
         label-width="130px"
         >
-        <!-- 物料需求处理 -->
-        <template v-if="requirement.reqType === '2'">
-          <el-form-item label="物料上传" prop="uploadFiles" key="material-upload">
-            <el-upload
-              :limit="5"
-              class="upload-demo"
-              :on-change="handleChange"
-              :on-remove="handleRemove"
-              :auto-upload="false"
-              :file-list="uploadFiles">
-              <el-button size="small" type="primary">选择文件</el-button>
-              <div slot="tip" class="el-upload__tip">
-                1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
-                2、附件大小不超过20M。
-              </div>
-            </el-upload>
-          </el-form-item>
-          <el-form-item label="备注" required prop="materialDesc" key="materialDesc">
+        <!--日常需求处理-->
+        <template v-if="requirement.reqType === '0'">
+          <el-form-item label="处理方案" required prop="plan" key="plan">
             <el-input class="col-input"
               type="textarea"
-              v-model="form.materialDesc"
+              v-model="form.plan"
+              placeholder="简要描述一下处理方案"
+              :maxlength="6"
+              key="plan-input"></el-input>
+          </el-form-item>
+          <el-form-item label="备注" required prop="planDesc" key="plan-desc">
+            <el-input class="col-input"
+              v-model="form.planDesc"
+              type="textarea"
               placeholder="备注"
-              key="material-desc-input-desc"></el-input>
+              :maxlength="6"
+              key="plan-desc-input"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm">提交处理</el-button>
           </el-form-item>
         </template>
 
-        <!-- 日常、投诉需求处理  -->
-        <template v-if="requirement.reqType === '0' || requirement.reqType === '1'">
+        <!-- 投诉需求处理  -->
+        <template v-if="requirement.reqType === '1'">
           <el-form-item label="处理方式" required>
             <el-radio-group v-model="handleType" @change="handleChangeType">
               <el-radio label="3">本人处理</el-radio>
@@ -90,6 +84,35 @@
               </el-col>
             </el-form-item>
           </template>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm">提交处理</el-button>
+          </el-form-item>
+        </template>
+
+        <!-- 物料需求处理 -->
+        <template v-if="requirement.reqType === '2'">
+          <el-form-item label="物料上传" prop="uploadFiles" key="material-upload">
+            <el-upload
+              :limit="5"
+              class="upload-demo"
+              :on-change="handleChange"
+              :on-remove="handleRemove"
+              :auto-upload="false"
+              :file-list="uploadFiles">
+              <el-button size="small" type="primary">选择文件</el-button>
+              <div slot="tip" class="el-upload__tip">
+                1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
+                2、附件大小不超过20M。
+              </div>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="备注" required prop="materialDesc" key="materialDesc">
+            <el-input class="col-input"
+              type="textarea"
+              v-model="form.materialDesc"
+              placeholder="备注"
+              key="material-desc-input-desc"></el-input>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm">提交处理</el-button>
           </el-form-item>
