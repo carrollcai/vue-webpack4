@@ -80,7 +80,7 @@ const mutations = {
     let opRegion = [];
     state.regionRelationList.map(val => {
       val.children.map(cval => {
-        if (cval.value === data.opRegion.toString()) {
+        if (cval.value === String(data.opRegion).toString()) {
           opRegion = [val.value, cval.value];
         }
       });

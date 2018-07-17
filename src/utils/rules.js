@@ -8,8 +8,11 @@ import {
   DATE_LIMIT,
   MONTH_LIMIT,
   INPUT_TEXT_LIMIT,
+  INPUT_ACCOUNT_LIMIT,
   INPUT_TEXTAREA_LIMIT,
-  FILE_UPLOAD_LIMIT
+  FILE_UPLOAD_LIMIT,
+  INPUT_TEXTAREA_MAX_LIMIT,
+  EMAIL_MAX_LENGTH
 } from '@/config/index.js';
 import moment from 'moment';
 
@@ -85,12 +88,23 @@ export const monthRange = (startDate, endDate, callback) => {
   }
 };
 
-// text input最大字符校验
+// input account最大15字符校验
 export const textLimit = (rule, value, callback) => {
   if (String(value).trim() === '') {
     callback(new Error('输入内容不能为空'));
   } else if (String(value).trim().length > INPUT_TEXT_LIMIT) {
     callback(new Error(`输入内容字符不能超过${INPUT_TEXT_LIMIT}`));
+  } else {
+    callback();
+  }
+};
+
+//  input 常规最大30字符校验
+export const textAccountLimit = (rule, value, callback) => {
+  if (String(value).trim() === '') {
+    callback(new Error('输入内容不能为空'));
+  } else if (String(value).trim().length > INPUT_ACCOUNT_LIMIT) {
+    callback(new Error(`输入内容字符不能超过${INPUT_ACCOUNT_LIMIT}`));
   } else {
     callback();
   }
@@ -102,6 +116,17 @@ export const textareaLimit = (rule, value, callback) => {
     callback(new Error('输入内容不能为空'));
   } else if (String(value).trim().length > INPUT_TEXTAREA_LIMIT) {
     callback(new Error(`输入内容字符不能超过${INPUT_TEXTAREA_LIMIT}`));
+  } else {
+    callback();
+  }
+};
+
+// textarea 最大500字符校验
+export const textareaMaxLimit = (rule, value, callback) => {
+  if (String(value).trim() === '') {
+    callback(new Error('输入内容不能为空'));
+  } else if (String(value).trim().length > INPUT_TEXTAREA_MAX_LIMIT) {
+    callback(new Error(`输入内容字符不能超过${INPUT_TEXTAREA_MAX_LIMIT}`));
   } else {
     callback();
   }
@@ -140,7 +165,9 @@ export const checkPhone = (rule, value, callback) => {
 // 邮箱验证
 export const emailCheck = (rule, value, callback) => {
   const reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
-  if (reg.test(value)) {
+  if (value.length > EMAIL_MAX_LENGTH) {
+    callback(new Error(`邮箱长度不得超过${EMAIL_MAX_LENGTH}`));
+  } else if (reg.test(value)) {
     callback();
   } else {
     callback(new Error('请输入正确邮箱'));
