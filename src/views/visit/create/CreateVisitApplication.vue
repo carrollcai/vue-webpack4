@@ -95,17 +95,7 @@ export default {
       levelOptions: [],
       auditorOptions: [],
       fromVaild: {},
-      pointAuditor: [
-        {value: '1', label: '一级', children: [
-          {value: '1-1', label: '一级1', children: [
-            {value: '1-1-1', label: '一级11', children: [
-              {value: '1-1-1-1', label: '一级111'}
-            ]}
-          ]},
-          {value: '1-2', label: '一级2'}
-        ]},
-        {value: '2', label: '二级'}
-      ]
+      pointAuditor: []
     };
   },
   computed: {
