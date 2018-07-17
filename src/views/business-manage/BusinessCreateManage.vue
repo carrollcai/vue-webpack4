@@ -158,7 +158,7 @@ export default {
       }
     },
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.opporId}/0/0`;
+      const path = `/business-manage/business-detail/${row.opporId}/0/0/0`;
       this.$router.push(path);
     },
     createBusiness() {

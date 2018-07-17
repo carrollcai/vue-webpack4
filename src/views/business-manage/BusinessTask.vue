@@ -187,7 +187,7 @@ export default {
     },
     // 查看详情
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.opporId}/${row.taskInsId}/${this.businessTaskForm.taskHasComplete}`;
+      const path = `/business-manage/business-detail/${row.opporId}/${row.taskInsId}/${this.businessTaskForm.taskHasComplete}/1`;
       this.$router.push(path);
     },
     // 点击转订单
