@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="business-container o-overview-detail">
-      <detail-head v-if="this.$route.params.taskHasComplete === '1'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
+      <detail-head v-if="this.$route.params.taskHasComplete === '1' && queryTask[0]" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
       <detail-head v-else :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
       <detail-body :detailData="businessDetail"></detail-body>
       <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">

@@ -34,7 +34,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderData.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="date" v-model="orderData.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="orderData.predictAgreementTime" placeholder="请选择">
@@ -242,6 +242,9 @@ export default {
     submit() {
       // const params = {};
       const params = this.orderData;
+      if (params.predictSignTime.length < 18) {
+        params.predictSignTime = params.predictSignTime + ' 00:00:00';
+      }
       delete params.opporProcessor;
       delete params.opporAssignReason;
       params.taskInsId = this.$route.params.taskInsId;
