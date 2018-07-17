@@ -244,6 +244,7 @@ export default {
    * 审核走访
    */
   auditVisitAPI: API('/esop/visit/executeEvaluate'),
+  queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   // 任务查看
   getQueryTaskAPI: API('esop/processInfo/queryTask')
 };

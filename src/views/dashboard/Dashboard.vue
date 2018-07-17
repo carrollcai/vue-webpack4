@@ -1,202 +1,101 @@
 <template>
   <div class="home">
-    <div class="home-container">
-      <div class="home-title">我的集团客户</div>
-      <div class="group-customer">
-        <div class="group-customer-item">
-          <div class="group-customer-item-content">
-            <div class="name">
-              中国石化上海石油股份…
-            </div>
-            <div class="code">
-              2012568489
-            </div>
-            <div class="detail">
-              <ul>
-                <li>客户经理</li>
-                <li>订购产品</li>
-              </ul>
-              <ul>
-                <li>订购产品</li>
-                <li>4</li>
-              </ul>
+    <div>
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>我的集团客户</span>
+        </div>
+        <div class="group-customer">
+          <!--{{'列表内容 ' + o }}-->
+          <div v-for="o in 4" :key="o" class="group-customer-item">
+            <div class="group-customer-item-content">
+              <div class="name">
+                中国石化上海石油股份…
+              </div>
+              <div class="code">
+                2012568489
+              </div>
+              <div class="detail">
+                <ul>
+                  <li>客户经理</li>
+                  <li>订购产品</li>
+                </ul>
+                <ul>
+                  <li>订购产品</li>
+                  <li>4</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="group-customer-item">
-          <div class="group-customer-item-content">
-            <div class="name">
-              中国石化上海石油股份…
-            </div>
-            <div class="code">
-              2012568489
-            </div>
-            <div class="detail">
-              <ul>
-                <li>客户经理</li>
-                <li>订购产品</li>
-              </ul>
-              <ul>
-                <li>订购产品</li>
-                <li>4</li>
-              </ul>
-            </div>
+          <div class="group-customer-item-more">
+            查看更多
           </div>
         </div>
-        <div class="group-customer-item">
-          <div class="group-customer-item-content">
-            <div class="name">
-              中国石化上海石油股份…
-            </div>
-            <div class="code">
-              2012568489
-            </div>
-            <div class="detail">
-              <ul>
-                <li>客户经理</li>
-                <li>订购产品</li>
-              </ul>
-              <ul>
-                <li>订购产品</li>
-                <li>4</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="group-customer-item">
-          <div class="group-customer-item-content">
-            <div class="name">
-              中国石化上海石油股份…
-            </div>
-            <div class="code">
-              2012568489
-            </div>
-            <div class="detail">
-              <ul>
-                <li>客户经理</li>
-                <li>订购产品</li>
-              </ul>
-              <ul>
-                <li>订购产品</li>
-                <li>4</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="group-customer-item-more">
-          查看更多
-        </div>
-      </div>
+      </el-card>
     </div>
-    <div class="home-container mt16">
-      <div class="home-title">我的待办事项</div>
-    </div>
-    <div class="hr"></div>
-    <div class="todo-list">
-      <ul class="todo-list-item">
-        <li>
-          <p>
-            <span><i class="el-icon-edit"></i></span>
-            <span>集团客户录入</span>
-          </p>
-        </li>
-        <li>
-          <p>
-            <i class="el-icon-edit"></i>
-            <span>订单处理</span>
-          </p>
-        </li>
-        <li>
-          <p>
-            <i class="el-icon-edit"></i>
-            <span>商机处理</span>
-          </p>
-        </li>
-        <li>
-          <p>
-            <i class="el-icon-edit"></i>
-            <span>需求处理</span>
-          </p>
-        </li>
-        <li>
-          <p>
-            <i class="el-icon-edit"></i>
-            <span>走访处理</span>
-          </p>
-        </li>
-      </ul>
-      <ul class="todo-list-item">
-        <li>
-          <p class="item-content">
-            <span>待审核</span>
-            <span>0</span>
-          </p>
-          <p class="item-content">
-            <span>已审核</span>
-            <span>0</span>
-          </p>
-        </li>
-        <li>
-          <p class="item-content">
-            <span>待审核</span>
-            <span>0</span>
-          </p>
-          <p class="item-content">
-            <span>已审核</span>
-            <span>0</span>
-          </p>
-        </li>
-        <li>
-          <p class="item-content">
-            <span>待审核</span>
-            <span>0</span>
-          </p>
-          <p class="item-content">
-            <span>已审核</span>
-            <span>0</span>
-          </p>
-        </li>
-        <li>
-          <p class="item-content">
-            <span>待审核</span>
-            <span>0</span>
-          </p>
-          <p class="item-content">
-            <span>已审核</span>
-            <span>0</span>
-          </p>
-        </li>
-        <li>
-          <p class="item-content">
-            <span>待审核</span>
-            <span>0</span>
-          </p>
-          <p class="item-content">
-            <span>已审核</span>
-            <span>0</span>
-          </p>
-        </li>
-      </ul>
+    <div class="mt16">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>我的待办事项</span>
+        </div>
+        <div class="todo-list">
+          <ul class="todo-list-item">
+            <li v-for="o in 5" :key="o">
+              <p>
+                <span><i class="icon-jituan"></i></span>
+                <span>集团客户录入</span>
+              </p>
+            </li>
+          </ul>
+          <ul class="todo-list-item">
+            <li v-for="o in 5" :key="o">
+              <p class="item-content">
+                <span>待审核</span>
+                <span>0</span>
+              </p>
+              <p class="item-content">
+                <span>已审核</span>
+                <span>0</span>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </el-card>
     </div>
     <div class="mt16">
       <div class="business mr16">
-        <div class="home-container">
-          <div class="home-title">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
             <span>合作商机</span>
-            <span class="more">更多></span>
+            <el-button style="float: right; padding: 3px 0" type="text">更多></el-button>
           </div>
-          <div class=""></div>
-        </div>
-        <div class="hr"></div>
+          <div class="box-content" :key="o" v-for="o in 5">
+            <div class="bar-title">
+              北京华夏联信科技有限公司上海分公司
+            </div>
+            <div class="bar-content">
+              <span>我的待办事项</span>
+              <span style="float: right; padding: 3px 0">2018-05-06 12:08</span>
+            </div>
+          </div>
+        </el-card>
       </div>
       <div class="order">
-        <div class="home-container">
-          <div class="home-title">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
             <span>订单总览</span>
-            <span class="more">更多></span>
+            <el-button style="float: right; padding: 3px 0" type="text">更多></el-button>
           </div>
-        </div>
-        <div class="hr"></div>
+          <div class="box-content" :key="o" v-for="o in 5">
+            <div class="bar-title">
+              北京华夏联信科技有限公司上海分公司
+            </div>
+            <div class="bar-content">
+              <span>订购：咪咕电子阅读器kindle</span>
+              <el-button style="float: right; padding: 3px 0" type="text">待签约</el-button>
+            </div>
+          </div>
+        </el-card>
       </div>
     </div>
   </div>
@@ -244,7 +143,6 @@ export default {
     }
   }
   .group-customer {
-    margin-top: 22px;
     height: 152px;
     .group-customer-item {
       width: 225px;
@@ -252,7 +150,7 @@ export default {
       background-color: rgba(255, 255, 255, 1);
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
       float: left;
-      margin-right: 35px;
+      margin-right: 40px;
       .group-customer-item-content {
         padding: 20px 16px;
         .name {
@@ -310,13 +208,8 @@ export default {
       font-size: 12px;
     }
   }
-  .hr {
-    width: 100%;
-    border: 1px solid rgba(230, 230, 230, 1);
-  }
   .todo-list {
     background-color: #fff;
-    padding: 28px 0px 0px 16px;
     height: 110px;
     .todo-list-item li {
       float: left;
@@ -348,6 +241,23 @@ export default {
     width: 559px;
     float: left;
     background: #fff;
+    .box-content {
+      border-bottom: 1px solid #ebeef5;
+      padding: 20px 0px;
+      .bar-title {
+        width: 238px;
+        height: 20px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 14px;
+      }
+      .bar-content {
+        height: 20px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 14px;
+      }
+    }
   }
 }
 </style>

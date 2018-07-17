@@ -4,7 +4,7 @@
       <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
-            <el-date-picker v-model="businessTaskForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker v-model="businessTaskForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']">
             </el-date-picker>
           </el-form-item>
 
