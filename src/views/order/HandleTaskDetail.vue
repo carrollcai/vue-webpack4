@@ -13,9 +13,17 @@
     <div class="m-container o-overview-detail">
 
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
-        <detail-bar v-if="routeType === 'detail' && getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
+        <!-- 签约指派 -->
+        <detail-bar v-if="getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
 
-        <detail-bar v-if="routeType === 'detail' && getProcessContent()" :title="['指派人：', '指派原因：']" :content="getProcessContent()" />
+        <!-- 已签约 -->
+        <detail-bar v-if="getHasSignContent()" :title="['处理结果：', '签约合同：']" :content="getHasSignContent()" />
+
+        <!-- 已付款 -->
+        <detail-bar v-if="getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
+        <!-- 已取消 -->
+        <detail-bar v-if="getProcessContent()" :title="['处理结果：', '取消原因：']" :content="getProcessContent()" />
+
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
@@ -26,13 +34,13 @@
           <el-radio v-model="assignForm.status" :label="1">完成签约</el-radio>
           <el-radio v-model="assignForm.status" :label="0">客户取消</el-radio>
         </el-form-item>
-        <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files">
+        <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files" required>
           <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files">
             <el-button slot="trigger" size="small">
               <i class="icon-up margin-right-8"></i>上传文件</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item v-else label="取消原因" prop="dealResult">
+        <el-form-item v-else label="取消原因：" prop="dealResult">
           <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
         </el-form-item>
         <el-form-item>
@@ -53,8 +61,9 @@
         </el-form-item>
       </el-form>
 
-      <div class="task-submit-button" v-if="routeType === 'detail-sign' || routeType === 'detail-pay'">
-        <el-button type="primary" @click="submitSign">签约处理</el-button>
+      <div class="task-submit-button">
+        <el-button type="primary" @click="submitSign" v-if="routeType === 'detail-sign'">签约处理</el-button>
+        <el-button type="primary" @click="submitSign" v-if="routeType === 'detail-pay'">付款处理</el-button>
       </div>
 
     </div>
@@ -110,19 +119,25 @@ export default {
   },
   created() {
     this.cancelNumberScroll = cancelNumberScroll;
-    this.processComplete = 4; // 流程已完成状态
+    this.processCompleteStatus = 4; // 流程已完成状态
+    this.dispatchSignStatus = 2; // 分派签约处理
+    this.hasSignStatus = 3;
+    this.cancelStatus = 5;
     this.routeChange();
   },
   computed: {
     ...mapState({
       handleTaskDetail: ({ order }) => order.handleTaskDetail,
       processList: ({ order }) => order.processList,
-      submitAssignButton: ({ order }) => order.submitAssignButton
+      submitAssignButton: ({ order }) => order.submitAssignButton,
+      hasSignedFile: ({ order }) => order.hasSignedFile
     })
   },
-  beforeMount() {
+  async beforeMount() {
     const { id } = this.$route.params;
-    this.getHandleTaskDetail({ ordId: id });
+    await this.getHandleTaskDetail({ ordId: id });
+    // 获取文件名和地址
+    await this.handleTaskDetail.fileId && this.gethasSignedFile({ fileInputId: this.handleTaskDetail.fileId });
   },
   watch: {
     '$route'() {
@@ -130,9 +145,26 @@ export default {
     }
   },
   methods: {
+    getHasSignContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) === this.hasSignStatus) {
+        contents.push('已签约');
+        contents.push(this.hasSignedFile);
+        return contents;
+      }
+    },
+    getTodoSignContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) === this.dispatchSignStatus) {
+        contents.push('签约指派');
+        contents.push(this.handleTaskDetail.processName);
+        contents.push(this.handleTaskDetail.assignReason);
+        return contents;
+      }
+    },
     getPayContent() {
       let contents = [];
-      if (Number(this.handleTaskDetail.ordStatus) === this.processComplete) {
+      if (Number(this.handleTaskDetail.ordStatus) === this.processCompleteStatus) {
         contents.push('已付款');
         contents.push(`${this.handleTaskDetail.ordPayAmount}万元`);
         return contents;
@@ -140,7 +172,7 @@ export default {
     },
     getProcessContent() {
       let contents = [];
-      if (Number(this.handleTaskDetail.ordStatus) !== this.processComplete && this.handleTaskDetail.processor) {
+      if (Number(this.handleTaskDetail.ordStatus) === this.cancelStatus) {
         contents.push(this.handleTaskDetail.processName);
         contents.push(this.handleTaskDetail.assignReason);
         return contents;
@@ -196,7 +228,7 @@ export default {
           taskRequest: {
             id: this.id,
             taskInsId: this.taskInsId,
-            resultStatus: this.processComplete,
+            resultStatus: this.processCompleteStatus,
             dealResult: '' // 这个字段必传，可为空
           }
         };
@@ -233,7 +265,8 @@ export default {
       'uploadOrderHandleTask',
       'cancelAssign',
       'submitAssignContract',
-      'submitPay'
+      'submitPay',
+      'gethasSignedFile'
     ])
   }
 };

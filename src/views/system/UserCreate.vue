@@ -14,7 +14,7 @@
           <el-input class="form-input-large" v-model="userCreate.staffName" maxlength="6"></el-input>
         </el-form-item>
         <el-form-item label="登录账号：" prop="code">
-          <el-input class="form-input-large" v-model="userCreate.code"></el-input>
+          <el-input :maxlength="15" class="form-input-large" v-model="userCreate.code"></el-input>
         </el-form-item>
         <el-form-item label="手机号码：" prop="mobile">
           <el-input class="form-input-large" v-model="userCreate.mobile"></el-input>
@@ -53,7 +53,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-import { checkPhone, emailCheck } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -61,11 +61,12 @@ export default {
       localProvinceSelected: [],
       userCreateRules: {
         staffName: [
-          { required: true, message: '请输入用户姓名', trigger: 'blur' }
+          { required: true, message: '请输入用户姓名', trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         code: [
           { required: true, message: '请输入登录账号', trigger: 'blur' },
-          { max: 20, message: '登录账号不能超过20个字符', trigger: 'blur' }
+          { validator: textLimit, trigger: 'blur' }
         ],
         mobile: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },

@@ -2,11 +2,15 @@
   <div class="detail-bar">
     <div class="detail-bar-item" v-for="(item, i) in title" :key="i">
       <div class="title">{{item}}</div>
-      <div>{{content[i]}}</div>
+      <div v-if="!content[i].fileName">{{content[i]}}</div>
+      <div v-else class="file" @click="downloadFile(content[i])">
+        {{content[i].fileName}}
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 export default {
   props: {
     title: {
@@ -21,10 +25,23 @@ export default {
       },
       type: Array
     }
+  },
+  methods: {
+    downloadFile(obj) {
+      let params = {
+        fileTypeId: obj.fileTypeId,
+        fileSaveName: obj.fileSaveName,
+        fileName: obj.fileName
+      };
+      this.orderDownloadFile(params);
+    },
+    ...mapActions([
+      'orderDownloadFile'
+    ])
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .detail-bar {
   border-radius: 2px;
   background-color: #fafafa;
@@ -46,5 +63,9 @@ export default {
     flex: 2;
     display: flex;
   }
+}
+.file {
+  color: #3778ff;
+  cursor: pointer;
 }
 </style>
