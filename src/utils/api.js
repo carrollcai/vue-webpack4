@@ -267,5 +267,16 @@ export default {
   auditVisitAPI: API('/esop/visit/executeEvaluate'),
   queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   // 任务查看
-  getQueryTaskAPI: API('esop/processInfo/queryTask')
+  getQueryTaskAPI: API('esop/processInfo/queryTask'),
+  /**
+   * 首页
+   */
+  // 获取当前用户信息
+  queryCurrentOperatorAPI: API('esop/login/queryCurrentOperator'),
+  // 更新用户首页设置标志位
+  updateHomeModuleAPI: API('esop/operator/updateHomeModule'),
+  // 首页（商机）
+  getHomeBusinessListAPI: API('esop/bizOppor/homePage'),
+  // 首页（订单）
+  getHomeOrderListAPI: API('esop/bizOrder/homePage')
 };
