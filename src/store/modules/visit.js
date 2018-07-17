@@ -48,6 +48,7 @@ const state = {
     pageSize: PAGE_SIZE
   },
   appointVisitList: {},
+  visitAppointDetail: {},
   handleQuery: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
@@ -60,19 +61,21 @@ const state = {
   handleVisits: {}
 };
 const mutations = {
-  [types.MY_VISIT_MANAGE](state, data) {
+  [types.MY_VISIT_MANAGE_LIST](state, data) {
     state.myVisitManageList = data;
   },
-  [types.CREATE_VISIT](state, data) {
+  [types.CREATE_VISIT_DATA](state, data) {
     state.createVisitData = data;
   },
   [types.APPOINT_VISIT_LIST](state, data) {
     state.appointVisitList = data;
   },
+  [types.VISIT_APPOINT_DETAIL](state, data) {
+    state.visitAppointDetail = data;
+  },
   [types.HANDLE_VISIT_MANAGE_LIST](state, data) {
     state.handleVisits = data;
-  },
-  updateVisitField
+  }
 };
 
 const getters = {
