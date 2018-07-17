@@ -279,7 +279,7 @@ export default {
       var _this = this;
       this.editOrgParam.opporId = row.opporId;
       this.editOrgParam.organizeName = this.relationcooperName;
-      if (this.editOrgParam.organizeId) {
+      // if (this.editOrgParam.organizeId) {
         this.groupAssociation(this.editOrgParam).then(res => {
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
@@ -291,9 +291,9 @@ export default {
             _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
           }
         });
-      } else {
-        this.$message('集团不存在');
-      }
+      // } else {
+      //   this.$message('集团不存在');
+      // }
     },
     relationCancel(row) {
       this.relationcooperName = '';
