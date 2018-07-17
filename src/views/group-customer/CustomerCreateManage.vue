@@ -57,6 +57,8 @@
         <el-table-column label="所属省份" property="provinceName">
         </el-table-column>
         <el-table-column label="客户经理" property="managerName" />
+        <el-table-column label="集团状态" property="orgTaskStatusName">
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">
