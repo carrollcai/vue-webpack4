@@ -45,21 +45,23 @@
               <span class="info_label">集团规模：</span>
               <span class="info_content">{{customer.memberNumValue}}</span>
             </el-col>
-            <el-col :span="8">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <span class="info_label">经营范围：</span>
-              <span class="info_content">{{customer.businessScope}}</span>
+              <div class="info_content">{{customer.businessScope}}</div>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <span class="info_label">办公地址：</span>
-              <span class="info_content">{{customer.orgAddress}}</span>
+              <div class="info_content">{{customer.orgAddress}}</div>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <span class="info_label">优势能力：</span>
-              <span class="info_content">{{customer.orgAdvantage}}</span>
+              <div class="info_content">{{customer.orgAdvantage}}</div>
             </el-col>
           </el-row>
           <div class="line"></div>
@@ -215,7 +217,8 @@ export default {
   }
 
   .info_label{
-    width: 60px;
+    min-width: 90px;
+    max-width: 130px;
     height: 20px;
     line-height: 20px;
     color: rgba(0, 0, 0, 0.45);
@@ -225,7 +228,7 @@ export default {
 
   .info_content{
     flex: 1;
-    height: 20px;
+    min-height: 20px;
     line-height: 20px;
     color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
@@ -237,6 +240,10 @@ export default {
 
     color: rgba(0, 0, 0, 0.85);
     font-size: 16px;
+  }
+
+  .el-col{
+    display: flex;
   }
 }
 </style>
