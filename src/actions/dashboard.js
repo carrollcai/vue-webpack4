@@ -38,6 +38,18 @@ const actions = {
     return API.getHomeOrderListAPI(params).then(res => {
       commit(types.HOME_ORDER_LIST, res.data.list);
     });
+  },
+  // 我的处理任务
+  queryTaskInfo: ({ commit }, params) => {
+    return API.queryTaskInfoAPI(params).then(res => {
+      commit(types.HOME_QUERY_TASK_INFO, res.data.list);
+    });
+  },
+  // 首页集团查询
+  queryOrganizeInfo: ({ commit }, params) => {
+    return API.queryOrganizeInfoAPI(params).then(res => {
+      commit(types.HOME_QUERY_ORGANIZE_INFO, res.data.list);
+    });
   }
 };
 

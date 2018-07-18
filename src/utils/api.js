@@ -282,5 +282,9 @@ export default {
   // 首页（商机）
   getHomeBusinessListAPI: API('esop/bizOppor/homePage'),
   // 首页（订单）
-  getHomeOrderListAPI: API('esop/bizOrder/homePage')
+  getHomeOrderListAPI: API('esop/bizOrder/homePage'),
+  // 我的处理任务
+  queryTaskInfoAPI: API('esop/index/queryTaskInfo'),
+  // 首页集团查询
+  queryOrganizeInfoAPI: API('esop/index/queryOrganizeInfo')
 };

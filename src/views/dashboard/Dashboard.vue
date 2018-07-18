@@ -11,14 +11,14 @@
         </div>
         <div class="group-customer">
           <!--{{'列表内容 ' + o }}-->
-          <div v-for="o in 4" :key="o" class="group-customer-wrap">
+          <div v-for="o in homeQueryOrganizeInfo" :key="o" class="group-customer-wrap">
             <div class="group-customer-item">
               <div class="group-customer-item-content">
                 <div class="name">
-                  中国石化上海石油股份…
+                  {{o.organizeName}}
                 </div>
                 <div class="code">
-                  2012568489
+                  {{o.organizeCode}}
                 </div>
                 <div class="detail">
                   <ul>
@@ -26,15 +26,15 @@
                     <li>订购产品</li>
                   </ul>
                   <ul>
-                    <li>订购产品</li>
-                    <li>4</li>
+                    <li>{{o.managerName}}</li>
+                    <li>{{o.orderCount}}</li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
           <div class="group-customer-item-more">
-            <span>查看更多</span>
+            <el-button @click="goGroup()" type="text">查看更多</el-button>
           </div>
         </div>
       </el-card>
@@ -98,7 +98,7 @@
             </div>
             <div class="bar-content">
               <span class="product">订购：{{o.productName}}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</el-button>
+              <span style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</span>
             </div>
           </div>
         </el-card>
@@ -193,6 +193,23 @@ export default {
     });
     this.getHomeBusinessList();
     this.getHomeOrderList();
+    let organizeParams = {};
+    organizeParams.processId = 10001;
+    organizeParams.taskId = [10001, 10002];
+    let businessParams = {};
+    businessParams.processId = 10002;
+    let orderParams = {};
+    orderParams.processId = 10003;
+    let requireParams = {};
+    requireParams.processId = 10004;
+    let visitParams = {};
+    visitParams.processId = 10005;
+    this.queryTaskInfo(organizeParams);
+    this.queryTaskInfo(businessParams);
+    this.queryTaskInfo(orderParams);
+    this.queryTaskInfo(requireParams);
+    this.queryTaskInfo(visitParams);
+    this.queryOrganizeInfo();
   },
   computed: {
     ...mapState({
@@ -200,7 +217,9 @@ export default {
       homeModuleFromMenu: ({ dashboard }) => dashboard.homeModuleFromMenu,
       updateHomeModuleStatus: ({ dashboard }) => dashboard.updateHomeModuleStatus,
       homeBusinessList: ({ dashboard }) => dashboard.homeBusinessList,
-      homeOrderList: ({ dashboard }) => dashboard.homeOrderList
+      homeOrderList: ({ dashboard }) => dashboard.homeOrderList,
+      homeQueryTaskInfo: ({ dashboard }) => dashboard.homeQueryTaskInfo,
+      homeQueryOrganizeInfo: ({ dashboard }) => dashboard.homeQueryOrganizeInfo
     })
   },
   methods: {
@@ -252,8 +271,12 @@ export default {
       const path = `/order/overview`;
       this.$router.push(path);
     },
+    goGroup() {
+      const path = `group-customer/overview`;
+      this.$router.push(path);
+    },
     ...mapActions([
-      'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList'
+      'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList', 'queryTaskInfo', 'queryOrganizeInfo'
     ])
   }
 };
@@ -298,15 +321,15 @@ export default {
         padding: 20px 16px;
         .name {
           width: 154px;
-          height: 20px;
-          line-height: 20px;
+          height: 25px;
+          line-height: 25px;
           color: rgba(0, 0, 0, 0.65);
           font-size: 14px;
         }
         .code {
           width: 154px;
-          height: 14px;
-          line-height: 14px;
+          height: 18px;
+          line-height: 18px;
           color: rgba(0, 0, 0, 0.45);
           font-size: 12px;
           text-align: left;
@@ -315,6 +338,8 @@ export default {
           margin-top: 17px;
           ul li {
             width: 50%;
+            height: 20px;
+            line-height: 20px;
             float: left;
           }
           ul:nth-child(1) {
@@ -365,8 +390,9 @@ export default {
       color: rgba(55, 120, 255, 1);
       font-size: 12px;
       float: right;
-      span {
+      button {
         display:inline-block;
+        white-space: pre-wrap;
         width: 30px;
       }
     }
@@ -383,10 +409,6 @@ export default {
         width: 16%;
       }
     }
-    // .todo-list-item li {
-    //   float: left;
-    //   width: 21%;
-    // }
     .item-content {
       padding-left: 20px;
       margin-top: 12px;
