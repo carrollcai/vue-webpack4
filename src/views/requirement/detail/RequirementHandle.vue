@@ -70,7 +70,7 @@
 
           <template v-if="handleType === '2'">
             <el-form-item label="指派处理人" required key="processor">
-              <el-col :span="8">
+              <el-col :span="16">
                 <el-form-item prop="processor" key="processor-item">
                   <el-cascader
                     expand-trigger="hover"
@@ -361,7 +361,7 @@ export default {
         font-size: 14px;
       }
       .el-form-item__content{
-        width: 340px;
+        width: 400px;
       }
       .el-textarea{
         width: $formLargeWidth;

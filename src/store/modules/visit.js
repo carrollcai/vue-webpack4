@@ -41,9 +41,9 @@ const state = {
   },
   createVisitData: {},
   appointVisitForm: {
-    startDate: '',
-    endDate: '',
-    state: 0,
+    visitStartTime: '',
+    visitEndTime: '',
+    visitStatus: ['0'],
     organizeName: '',
     isFirstVisit: '',
     pageNo: PAGE_NO,

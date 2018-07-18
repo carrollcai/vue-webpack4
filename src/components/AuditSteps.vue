@@ -3,8 +3,9 @@
     <div v-if="title" class="title">{{title}}</div>
     <div>
       <div style="display: flex;">
-        <div class="child-title" v-for="item in processList" :key="item.processId" :style="{'flex-basis': percent()}">
-          {{item.taskName}}
+        <div class="child-title" v-for="(item, i) in processList" :key="item.processId" :style="{'flex-basis': percent()}">
+          <!-- 商机转订单特殊处理 -->
+          {{!(businessToOrderId && i === 0) ? item.taskName : '商机转订单'}}
         </div>
       </div>
       <el-steps :active="activeIndex()" align-center>
@@ -28,6 +29,10 @@
 */
 export default {
   props: {
+    businessToOrderId: {
+      type: String,
+      default: ''
+    },
     title: {
       type: String,
       default: ''

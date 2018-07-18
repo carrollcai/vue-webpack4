@@ -71,9 +71,7 @@ export default {
       }
     };
     var versionTrim = (rule, value, callback) => {
-      if (String(value).trim() === '') {
-        callback(new Error('请输入版本号'));
-      } else if (getWordLen(value, 20)) {
+      if (getWordLen(value, 20)) {
         callback(new Error('长度20个字符内'));
       } else {
         callback();
