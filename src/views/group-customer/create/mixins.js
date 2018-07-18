@@ -70,7 +70,8 @@ export default {
       },
       managerRules: {
         managerName: [
-          { required: true, message: '请输入客户经理', trigger: 'blur' }
+          { required: true, message: '请输入客户经理', trigger: 'blur' },
+          { type: 'string', len: 6, message: '请输入6个以内字符', trigger: 'blur' }
         ],
         managerMobile: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
