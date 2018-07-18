@@ -150,7 +150,7 @@ export default {
   async beforeMount() {
     await this.getHandleTaskDetail({ ordId: this.id });
     // 签约获取指派人流程
-    if (this.handleTaskDetail.assignReason && this.taskInsId ) {
+    if (this.handleTaskDetail.assignReason && this.taskInsId) {
       await this.getOrderProcessInfo({ taskInsId: this.taskInsId });
     }
     // 获取文件名和地址
