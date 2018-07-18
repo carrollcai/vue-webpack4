@@ -145,27 +145,26 @@ export default {
     deleteProduct(row) {
       let relateOrd = row.relateOrd;
       let productId = row.productId;
-      // 校验商机和订单是否有用到
-      if (relateOrd > 0) {
-        this.$confirm('删除该产品数据, 是否继续?', ' ', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var _this = this;
-          this.setdeleteProduct({'productId': productId, 'state': 0}).then((res) => {
-            if (res.data && res.errorInfo.code === '200') {
+      this.$confirm('删除该产品数据, 是否继续?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var _this = this;
+        this.setdeleteProduct({'productId': productId, 'state': 0}).then((res) => {
+          if (res.data) {
+            if (res.data > -1) {
               _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
               var data = { pageNo: '1', pageSize: '20' };
               _this.getProductCreatList(data);
+            } else {
+              _this.$message({showClose: true, message: '该产品关联订单，不允许删除', type: 'warning'});
             }
-          });
-        }).catch(() => {
-          this.$message('已取消删除');
+          }
         });
-      } else {
-        this.$message({showClose: true, message: '该产品关联订单，不允许删除', type: 'warning'});
-      }
+      }).catch((res) => {
+        this.$message('已取消删除');
+      });
     },
     dateFn(row, column, columnValue) {
       let value = '';
