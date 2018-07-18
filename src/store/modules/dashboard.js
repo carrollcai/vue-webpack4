@@ -6,7 +6,9 @@ const state = {
   homeModuleFromMenu: '',
   updateHomeModuleStatus: '',
   homeBusinessList: '',
-  homeOrderList: ''
+  homeOrderList: '',
+  homeQueryTaskInfo: '',
+  homeQueryOrganizeInfo: ''
 };
 
 const getters = {
@@ -33,6 +35,12 @@ const mutations = {
   },
   [types.HOME_ORDER_LIST](state, data) {
     state.homeOrderList = data;
+  },
+  [types.HOME_QUERY_TASK_INFO](state, data) {
+    state.homeQueryTaskInfo = data;
+  },
+  [types.HOME_QUERY_ORGANIZE_INFO](state, data) {
+    state.homeQueryOrganizeInfo = data;
   }
 };
 
