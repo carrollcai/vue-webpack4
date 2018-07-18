@@ -333,7 +333,7 @@ export default {
   }
 
   .base-info_advantage{
-    height: 34px;
+    min-height: 34px;
     line-height: 17px;
     color: rgba(0, 0, 0, 0.65);
     font-size: 12px;

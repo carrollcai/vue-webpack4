@@ -39,7 +39,9 @@
             <span class="info_label">集团规模：</span>
             <span class="info_content">{{customer.memberNumValue}}</span>
           </el-col>
-          <el-col :span="8">
+        </el-row>
+         <el-row>
+          <el-col :span="24">
             <span class="info_label">经营范围：</span>
             <span class="info_content">{{customer.businessScope}}</span>
           </el-col>
@@ -320,8 +322,7 @@ export default {
 
     .block-info{
       .el-row{
-        height: 20px;
-        line-height: 20px;
+        line-height: 1.25;
         margin-bottom: 16px;
         &:last-child{
           margin-bottom: 0;
@@ -343,8 +344,7 @@ export default {
 
       .info_content{
         flex: 1;
-        height: 20px;
-        line-height: 20px;
+        line-height: 1.25;
         color: rgba(0, 0, 0, 0.85);
         font-size: 14px;
       }

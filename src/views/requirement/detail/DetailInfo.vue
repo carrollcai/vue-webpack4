@@ -14,8 +14,8 @@
       </el-form-item>
 
       <el-form-item label="需求附件">
-        <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
-          {{file.fileName + (index === files.length - 1 ? '' : '；')}}
+        <span v-for="(file, index) in internalValue" :key="index" @click="handleDownload(file)" class="file-name">
+          {{file.fileName + (index === internalValue.length - 1 ? '' : '；')}}
         </span>
       </el-form-item>
     </template>
@@ -53,19 +53,32 @@ export default {
       default() {
         return {};
       }
-    }
+    },
+    value: null
   },
   data() {
     return {
-      files: []
+      internalValue: []
     };
   },
   watch: {
     requirement() {
       this.initFiles();
+      this.initialize();
+    },
+    internalValue() {
+      this.$emit('input', this.getValue());
     }
   },
   methods: {
+    initialize() {
+      this.internalValue = Array.isArray(this.value)
+        ? this.value.slice()
+        : [];
+    },
+    getValue() {
+      return this.internalValue.slice();
+    },
     handleDownload(file) {
       this.downloadUplodFile({
         fileTypeId: file.fileTypeId,
@@ -80,9 +93,9 @@ export default {
           fileInputId: (that.requirement.fileInputId)
         }).then((res) => {
           if (res.data && res.data.length) {
-            that.files = res.data;
+            that.internalValue = res.data;
           } else {
-            that.files = [];
+            that.internalValue = [];
           }
         });
       }
