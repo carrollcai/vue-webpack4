@@ -205,7 +205,7 @@ export default {
     beforeUpload(file, fileList) {
       const isOverLimit = file.size > FILE_MAX_SIZE;
       if (isOverLimit) {
-        this.$message.error('上传文件不能超过20MB!');
+        this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
         let index = fileList.findIndex(val => val.uid === file.raw.uid);
         fileList.splice(index, 1);
       }

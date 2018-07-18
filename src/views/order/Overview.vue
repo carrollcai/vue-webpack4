@@ -8,10 +8,10 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderOverviewForm.ordNameOrCode" placeholder="订单名称/编码" />
+            <el-input clearable v-model="orderOverviewForm.ordNameOrCode" placeholder="订单名称/编码" />
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderOverviewForm.organizeNameOrCode" placeholder="集团名称/编码" />
+            <el-input clearable v-model="orderOverviewForm.organizeNameOrCode" placeholder="集团名称/编码" />
           </el-form-item>
         </div>
         <div class="flex">
