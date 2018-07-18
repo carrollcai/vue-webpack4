@@ -44,7 +44,7 @@ export default {
       },
       auditRules: {
         dealResult: [
-          {required: true, message: '请输入审核意见', trigger: 'blur'}
+          {required: true, message: '请输入审核意见', trigger: ['blur', 'change']}
         ]
       }
     };

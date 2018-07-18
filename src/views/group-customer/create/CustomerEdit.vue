@@ -291,6 +291,7 @@
         </el-form-item>
         <el-form-item label="员工工号" prop="managerNo" required key="managerNo">
           <el-input v-model="customer.managerNo"
+            :maxlength="15"
             placeholder="请输入员工工号"
             key="managerId-input"></el-input>
         </el-form-item>

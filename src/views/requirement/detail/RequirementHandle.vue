@@ -6,7 +6,7 @@
         <el-breadcrumb-item>处理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="m-container">
+    <div class="m-container info-block">
       <detail-info :requirement="requirement"></detail-info>
     </div>
 
@@ -186,14 +186,14 @@ export default {
           }
         ],
         materialDesc: [
-          { required: true, message: '请输入备注', trigger: 'blur' }
+          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
         ],
 
         reqScheme: [
-          { required: true, message: '请输入处理方案', trigger: 'blur' }
+          { required: true, message: '请输入处理方案', trigger: ['blur', 'change'] }
         ],
         processorRemark: [
-          { required: true, message: '请输入备注', trigger: 'blur' }
+          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
         ],
         processor: [
           { validator: processorValidator, trigger: 'change' }
@@ -324,8 +324,8 @@ export default {
               } = that.form;
 
               let params = {
-                reqId: '',
-                taskInsId: '',
+                reqId: parseInt(that.$route.params.id),
+                taskInsId: parseInt(that.$route.params.taskInsId),
                 processorRemark: materialDesc,
                 fileInputId
               };

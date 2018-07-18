@@ -18,10 +18,10 @@ import moment from 'moment';
 
 // 输入内容不能为空格
 export const isEmpty = (rule, value, callback) => {
-  if (String(value).trim() && value !== null) {
+  if (value && String(value).trim()) {
     callback();
   } else {
-    callback(new Error('输入内容不能为空'));
+    callback(new Error('输入内容不能全为空格'));
   }
 };
 

@@ -4,13 +4,19 @@
       <el-form class="group-form">
         <div class="flex">
           <el-form-item class="user-form-item__input">
-            <el-select v-model="organizeType" clearable placeholder="集团属性">
-              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
-            </el-select>
+            <el-date-picker
+              v-model="rangeDate"
+              type="daterange"
+              :editable="false"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
-            <el-input v-model="managerName" placeholder="走访公司名称" clearable/>
+            <el-input v-model="organizeName" placeholder="走访公司名称" clearable/>
           </el-form-item>
 
           <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
@@ -53,13 +59,13 @@
             <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
               审核
             </el-button>
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'second'" @click="handleDetail(scope.row)">
               评价
             </el-button>
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'third'" @click="handleDetail(scope.row)">
               查看
             </el-button>
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'forth'" @click="handleDetail(scope.row)">
               查看评价
             </el-button>
           </template>
@@ -98,10 +104,9 @@ export default {
       handleVisits: ({ visit }) => visit.handleVisits
     }),
     ...mapFields([
-      'handleQuery.organizeType',
-      'handleQuery.provinceId',
-      'handleQuery.managerName',
-      'handleQuery.status',
+      'handleQuery.rangeDate',
+      'handleQuery.organizeName',
+      'handleQuery.businessStatus',
       'handleQuery.pageNo',
       'handleQuery.pageSize',
       'handleQuery.activeName'
@@ -129,20 +134,18 @@ export default {
       const {
         pageNo,
         pageSize,
-        organizeType,
-        provinceId,
-        otherField,
-        managerName
+        organizeName
       } = this;
 
+      let rangeDate = this.rangeDate || ['', ''];
+
       return {
+        startDate: rangeDate[0],
+        endDate: rangeDate[1],
         pageNo,
         pageSize,
-        organizeType,
-        provinceId,
-        otherField,
-        managerName,
-        status: this.STATUS[this.activeName]
+        organizeName,
+        businessStatus: this.STATUS[this.activeName]
       };
     },
     query() {

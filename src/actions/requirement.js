@@ -119,8 +119,6 @@ const actions = {
         commit(types.ROUTE_CHANGE, {
           path: '/requirement/list'
         });
-      } else {
-        commit(types.REQUIREMENT_GET_INFO, {});
       }
     });
   }

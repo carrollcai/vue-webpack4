@@ -1,3 +1,4 @@
+import {Message} from 'element-ui';
 import * as types from '../store/types';
 import API from '../utils/api';
 
@@ -26,7 +27,7 @@ const actions = {
    * 查询走访任务处理列表
    */
   queryHandleVisits: ({ commit }, params) => {
-    return API.getMyVisitManageListAPI(params).then((res) => {
+    return API.queryVisitTasksAPI(params).then((res) => {
       commit(types.HANDLE_VISIT_MANAGE_LIST, res.data);
     });
   },
@@ -35,7 +36,14 @@ const actions = {
    */
   judgeVisit: ({ commit }, params) => {
     return API.judgeVisitAPI(params).then((res) => {
-      commit(types.HANDLE_VISIT_MANAGE_LIST, res.data);
+      Message({
+        message: '评价成功',
+        type: 'success',
+        duration: 3000
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/visit/mission-handling'
+      });
     });
   },
   /**
@@ -43,7 +51,14 @@ const actions = {
    */
   auditVisit: ({ commit }, params) => {
     return API.auditVisitAPI(params).then((res) => {
-      commit(types.HANDLE_VISIT_MANAGE_LIST, res.data);
+      Message({
+        message: '审核成功',
+        type: 'success',
+        duration: 3000
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/visit/mission-handling'
+      });
     });
   }
 };

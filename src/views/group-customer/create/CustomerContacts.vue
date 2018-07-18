@@ -160,6 +160,9 @@
 <script>
 import {mapActions} from 'vuex';
 import filters from '../filters';
+import {
+  isEmpty as emptyValidator
+} from '@/utils/rules';
 import FamilyContact from './FamilyContact.vue';
 export default {
   name: 'CustomerContacts',
@@ -186,8 +189,9 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 1, max: 6, message: '姓名过长，长度 6 个字符内', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] },
+          { min: 1, max: 6, message: '姓名过长，长度 6 个字符内', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         gender: [
           { required: true, message: '请选择性别', trigger: 'change' }
@@ -196,23 +200,27 @@ export default {
           { required: true, message: '请选择年龄', trigger: 'change' }
         ],
         department: [
-          { required: true, message: '请输入部门', trigger: 'blur' }
+          { required: true, message: '请输入部门', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         position: [
-          { required: true, message: '请输入职位', trigger: 'blur' }
+          { required: true, message: '请输入职位', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         mobile: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { type: 'string', pattern: /^1\d{10}$/, message: '请输入正确的手机号码', trigger: 'blur' }
+          { required: true, message: '请输入手机号码', trigger: ['blur', 'change'] },
+          { type: 'string', pattern: /^1\d{10}$/, message: '请输入正确的手机号码', trigger: ['blur', 'change'] }
         ],
         email: [
-          { type: 'email', required: true, message: '请输入邮箱', trigger: 'blur' }
+          { type: 'email', required: true, message: '请输入邮箱', trigger: ['blur', 'change'] }
         ],
         manageScope: [
-          { required: true, message: '请输入管理范畴', trigger: 'blur' }
+          { required: true, message: '请输入管理范畴', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         responsibility: [
-          { required: true, message: '请输入工作职责', trigger: 'blur' }
+          { required: true, message: '请输入工作职责', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ]
       }
     };
