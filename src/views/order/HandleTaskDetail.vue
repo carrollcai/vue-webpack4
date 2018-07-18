@@ -203,7 +203,7 @@ export default {
       this.taskInsId = this.$route.query.taskInsId;
     },
     beforeUpload(file, fileList) {
-      const isOverLimit = file.size > FILE_MAX_SIZE;
+      const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
       if (isOverLimit) {
         this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
         let index = fileList.findIndex(val => val.uid === file.raw.uid);
