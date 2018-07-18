@@ -1,4 +1,7 @@
 import {mapActions, mapState} from 'vuex';
+import {
+  isEmpty
+} from '@/utils/rules';
 export default {
   components: {
   },
@@ -26,7 +29,8 @@ export default {
       uploadFiles: [],
       baseInfoRules: {
         organizeName: [
-          { required: true, message: '请输入集团编码', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入集团名称', trigger: ['blur', 'change'] },
+          { required: true, validator: isEmpty, trigger: ['blur', 'change'] }
         ],
         reqType: [
           { required: true, message: '请选择需求类型', trigger: 'change' }

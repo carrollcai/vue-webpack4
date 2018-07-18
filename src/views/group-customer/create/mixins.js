@@ -3,6 +3,9 @@ import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
+import {
+  isEmpty as emptyValidator
+} from '@/utils/rules';
 export default {
   components: {
     CustomerContacts,
@@ -21,7 +24,8 @@ export default {
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 50, message: '集团名称过长，长度 50 个字符内', trigger: ['blur', 'change'] }
+          { min: 1, max: 50, message: '集团名称过长，长度 50 个字符内', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         organizeType: [
           { required: true, message: '请选择集团属性', trigger: 'change' }
@@ -42,13 +46,16 @@ export default {
           { required: true, message: '请选择集团客户规模', trigger: 'change' }
         ],
         orgAdvantage: [
-          { required: true, message: '请输入优势能力', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入优势能力', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         businessScope: [
-          { required: true, message: '请输入经营范围', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入经营范围', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         orgAddress: [
-          { required: true, message: '请输入详细地址', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入详细地址', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         registerNum: [
           { type: 'string', pattern: /^\d{13}$/, message: '请输入13位数字', trigger: ['blur', 'change'] }
@@ -71,7 +78,8 @@ export default {
       managerRules: {
         managerName: [
           { required: true, message: '请输入客户经理', trigger: ['blur', 'change'] },
-          { type: 'string', len: 6, message: '请输入6个以内字符', trigger: ['blur', 'change'] }
+          { type: 'string', len: 6, message: '请输入6个以内字符', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         managerMobile: [
           { required: true, message: '请输入手机号码', trigger: ['blur', 'change'] },
@@ -82,10 +90,12 @@ export default {
           { type: 'string', pattern: /^\d+$/, message: '请输入数字', trigger: ['blur', 'change'] }
         ],
         managerDepartment: [
-          { required: true, message: '请输入所在部门', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入所在部门', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         managerPosition: [
-          { required: true, message: '请输入所在职位', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入所在职位', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ]
       }
     };
