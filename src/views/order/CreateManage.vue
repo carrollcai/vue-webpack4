@@ -95,8 +95,8 @@
 
 <script>
 import WmTable from 'components/Table.vue';
-import { mapActions, mapState } from 'vuex';
-import { ORDER_STATUS } from '@/config/index.js';
+import { mapActions, mapState, mapMutations } from 'vuex';
+import { ORDER_STATUS, PAGE_SIZE } from '@/config/index.js';
 import moment from 'moment';
 
 export default {
@@ -106,7 +106,7 @@ export default {
       orderCreateManageRules: {},
       organizeNameInfoRules: {},
       organizeNameInfo: {
-        pageSize: 20,
+        pageSize: PAGE_SIZE,
         organizeName: ''
       },
       organizeNameList: []
@@ -168,6 +168,7 @@ export default {
       }
     },
     tabChange(val) {
+      this.pageChange();
       this.query();
     },
     handleCommand(row, command) {
@@ -179,11 +180,11 @@ export default {
       this[COMMANDS[command]](row);
     },
     onPagination(value) {
-      this.orderCreateManageForm.pageNo = value;
+      this.pageChange({ pageNo: value });
       this.query();
     },
     onSizePagination(value) {
-      this.orderCreateManageForm.pageSize = value;
+      this.pageChange({ pageSize: value });
       this.query();
     },
     handleEdit(row) {
@@ -250,6 +251,9 @@ export default {
         this.getCreateManageList(_params);
       });
     },
+    ...mapMutations({
+      pageChange: 'ORDER_CM_PAGE_CHANGE'
+    }),
     ...mapActions([
       'getCreateManageList',
       'submitOrderRow',
