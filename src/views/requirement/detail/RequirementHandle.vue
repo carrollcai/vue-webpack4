@@ -6,7 +6,7 @@
         <el-breadcrumb-item>处理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="m-container">
+    <div class="m-container info-block">
       <detail-info :requirement="requirement"></detail-info>
     </div>
 
@@ -324,8 +324,8 @@ export default {
               } = that.form;
 
               let params = {
-                reqId: '',
-                taskInsId: '',
+                reqId: parseInt(that.$route.params.id),
+                taskInsId: parseInt(that.$route.params.taskInsId),
                 processorRemark: materialDesc,
                 fileInputId
               };
