@@ -143,7 +143,6 @@ export default {
       this.$router.push(path);
     },
     deleteProduct(row) {
-      let relateOrd = row.relateOrd;
       let productId = row.productId;
       this.$confirm('删除该产品数据, 是否继续?', ' ', {
         confirmButtonText: '确定',
