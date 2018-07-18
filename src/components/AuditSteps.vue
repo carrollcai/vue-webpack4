@@ -8,12 +8,12 @@
         </div>
       </div>
       <el-steps :active="activeIndex()" align-center>
-        <el-step v-for="item in processList" :key="item.processId" :title="titleFilter(item)" :description="item.opName">
+        <el-step v-for="item in processList" :key="item.processId" :title="titleFilter(item)" :description="taskDesc(item)">
         </el-step>
       </el-steps>
       <div style="display: flex;">
-        <div v-if="Number(item.businessStatus) === cancelReasonStatus && item.dealResult" class="child" v-for="item in processList" :key="item.processId" :style="{'flex-basis': percent()}">
-          <el-popover placement="top" width="200" trigger="click" :content="item.dealResult">
+        <div class="child" v-for="item in processList" :key="item.processId" :style="{'flex-basis': percent()}">
+          <el-popover v-if="isNotPassed(item)" placement="top" width="200" trigger="click" :content="item.dealResult">
             <el-button slot="reference" type="text">查看原因</el-button>
           </el-popover>
         </div>
@@ -38,11 +38,22 @@ export default {
     }
   },
   created() {
-    this.cancelReasonStatus = 3;
   },
   methods: {
     titleFilter(item) {
       return item.doneDate ? item.doneDate : '';
+    },
+    taskDesc(item) {
+      let result = '';
+
+      if (item.hasComplete === 1) {
+        result = (item.opName ? item.opName : '') + (item.businessStatusName ? item.businessStatusName : (item.businessStatus ? item.businessStatus : ''));
+      }
+
+      return result;
+    },
+    isNotPassed(item) {
+      return item.businessStatus === '0' && !!item.dealResult;
     },
     percent() {
       return this.processList.length && parseFloat(1 / this.processList.length * 100).toFixed(4) + '%';
