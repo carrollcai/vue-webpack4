@@ -18,10 +18,10 @@ import moment from 'moment';
 
 // 输入内容不能为空格
 export const isEmpty = (rule, value, callback) => {
-  if (String(value).trim() && value !== null) {
+  if (value && String(value).trim()) {
     callback();
   } else {
-    callback(new Error('输入内容不能为空'));
+    callback(new Error('输入内容不能全为空格'));
   }
 };
 
@@ -177,7 +177,7 @@ export const emailCheck = (rule, value, callback) => {
 // 整数部分最多5位，小数部分最多4位
 export const inte5Deci4 = (rule, value, callback) => {
   const reg = /^\d{1,5}(?:\.\d{1,4})?$/;
-  if (reg.test(value)) {
+  if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
     callback();
   } else {
     callback(new Error('整数部分最多5位，小数部分最多4位'));

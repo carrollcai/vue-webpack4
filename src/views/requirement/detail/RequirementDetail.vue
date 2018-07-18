@@ -8,15 +8,28 @@
     </div>
     <div class="m-container info-block">
       <detail-info :requirement="requirement"></detail-info>
-      <el-form class="handle-detail"
+      <!-- 已处理 -->
+      <el-form class="handle-detail" v-if="requirement.reqStatus === '2'"
         label-width="86px"
         >
-        <el-form-item label="处理人">
-          {{requirement.processor}}
-        </el-form-item>
-        <el-form-item label="处理方案">
-          {{requirement.reqScheme}}
-        </el-form-item>
+        <template v-if="requirement.reqType !== '2'">
+          <el-form-item label="处理人">
+            {{requirement.processor}}
+          </el-form-item>
+          <el-form-item label="处理方式" v-if="requirement.reqType === '1'">
+            {{requirement.reqScheme}}
+          </el-form-item>
+          <el-form-item label="处理方案">
+            {{requirement.reqScheme}}
+          </el-form-item>
+        </template>
+        <template v-if="requirement.reqType === '2'">
+          <el-form-item label="物料">
+            <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
+              {{file.fileName + (index === files.length - 1 ? '' : '；')}}
+            </span>
+          </el-form-item>
+        </template>
         <el-form-item label="备注">
           {{requirement.processorRemark}}
         </el-form-item>

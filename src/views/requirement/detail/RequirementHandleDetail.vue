@@ -7,14 +7,26 @@
       </el-breadcrumb>
     </div>
     <div class="m-container info-block">
-      <detail-info :requirement="requirement" ></detail-info>
+      <detail-info :requirement="requirement" v-model="files"></detail-info>
       <el-form class="handle-detail" label-width="86px">
-        <el-form-item label="处理方式">
-          {{requirement.reqScheme}}
-        </el-form-item>
-        <el-form-item label="处理方案">
-          {{requirement.reqScheme}}
-        </el-form-item>
+        <template v-if="requirement.reqType !== '2'">
+          <el-form-item label="处理人">
+            {{requirement.processor}}
+          </el-form-item>
+          <el-form-item label="处理方式" v-if="requirement.reqType === '1'">
+            {{requirement.reqScheme}}
+          </el-form-item>
+          <el-form-item label="处理方案">
+            {{requirement.reqScheme}}
+          </el-form-item>
+        </template>
+        <template v-if="requirement.reqType === '2'">
+          <el-form-item label="物料">
+            <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
+              {{file.fileName + (index === files.length - 1 ? '' : '；')}}
+            </span>
+          </el-form-item>
+        </template>
         <el-form-item label="备注">
           {{requirement.processorRemark}}
         </el-form-item>
@@ -29,13 +41,22 @@ export default {
   mixins: [mixins],
   data() {
     return {
+      files: []
     };
   },
   methods: {
+    handleDownload(file) {
+      this.downloadUplodFile({
+        fileTypeId: file.fileTypeId,
+        fileSaveName: file.fileSaveName,
+        fileName: file.fileName
+      });
+    }
   }
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
 .requirement-handle-detail{
   .info-block{
     margin-top: 16px;
@@ -48,6 +69,14 @@ export default {
     .el-form-item{
       margin-bottom: 0;
     }
+  }
+
+  .file-name{
+    cursor: pointer;
+    color: $primary-color;
+    min-width: 50px;
+    border-bottom: 1px solid $primary-color;
+    margin-right: 16px;
   }
 }
 </style>

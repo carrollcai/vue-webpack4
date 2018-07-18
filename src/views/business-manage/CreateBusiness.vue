@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb>
           <el-breadcrumb-item :to="{ path: '/business-manage/business-create-manage' }">商机创建管理</el-breadcrumb-item>
-          <el-breadcrumb-item>商机详情</el-breadcrumb-item>
+          <el-breadcrumb-item>新建商机</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
