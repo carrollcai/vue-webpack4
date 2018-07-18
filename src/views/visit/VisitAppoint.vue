@@ -151,7 +151,7 @@ export default {
       this.getAppointVisitList(this.appointVisitForm);
     },
     createVisitApplication() {
-      const path = '/visit/create-visit-application';
+      const path = '/visit/create-visit-appoint';
       this.$router.push(path);
     },
     ...mapActions([
