@@ -10,7 +10,10 @@
       <detail-info :requirement="requirement" v-model="files"></detail-info>
       <el-form class="handle-detail" label-width="86px">
         <template v-if="requirement.reqType !== '2'">
-          <el-form-item label="处理方式">
+          <el-form-item label="处理人">
+            {{requirement.processor}}
+          </el-form-item>
+          <el-form-item label="处理方式" v-if="requirement.reqType === '1'">
             {{requirement.reqScheme}}
           </el-form-item>
           <el-form-item label="处理方案">
