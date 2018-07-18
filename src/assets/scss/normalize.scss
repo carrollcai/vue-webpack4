@@ -219,3 +219,17 @@ input::-webkit-inner-spin-button {
 .el-form-item__error {
   right: -20px;
 }
+
+.el-button_upload{
+  width: 108px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+
+  .icon-up{
+    margin-right: $fontWidth;
+  }
+}

@@ -4,7 +4,7 @@
     <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="businessForm.date" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 225px" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']">
+          <el-date-picker v-model="businessForm.date" style="width: 225px" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
 
@@ -52,6 +52,7 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import moment from 'moment';
 export default {
   components: {
     WmTable
@@ -106,8 +107,8 @@ export default {
       const params = this.businessForm;
 
       if (params.date !== null && params.date.length === 2) {
-        params.startDate = params.date[0];
-        params.endDate = params.date[1];
+        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
       } else {
         params.startDate = '';
         params.endDate = '';

@@ -10,7 +10,7 @@
     }
 
     .block{
-      width: 450px;
+      width: 455px;
       margin: 0 auto;
     }
 
@@ -23,5 +23,12 @@
     height: 1px;
     border-top: 1px solid $line-color;
     margin-top: 20px;
+  }
+
+  .el-upload__tip{
+    height: 44px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 14px;
   }
 }

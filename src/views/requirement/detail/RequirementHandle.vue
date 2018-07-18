@@ -10,7 +10,7 @@
       <detail-info :requirement="requirement"></detail-info>
     </div>
 
-    <div class="m-container info-block">
+    <div class="m-container info-block handle-info">
       <el-form
         ref="baseForm"
         :rules="rules"
@@ -19,17 +19,17 @@
         >
         <!--日常需求处理-->
         <template v-if="requirement.reqType === '0'">
-          <el-form-item label="处理方案" required prop="plan" key="plan">
+          <el-form-item label="处理方案" required prop="reqScheme" key="plan">
             <el-input class="col-input"
               type="textarea"
-              v-model="form.plan"
+              v-model="form.reqScheme"
               placeholder="简要描述一下处理方案"
               :maxlength="6"
               key="plan-input"></el-input>
           </el-form-item>
-          <el-form-item label="备注" required prop="planDesc" key="plan-desc">
+          <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
             <el-input class="col-input"
-              v-model="form.planDesc"
+              v-model="form.processorRemark"
               type="textarea"
               placeholder="备注"
               :maxlength="6"
@@ -99,7 +99,7 @@
               :on-remove="handleRemove"
               :auto-upload="false"
               :file-list="uploadFiles">
-              <el-button size="small" type="primary">选择文件</el-button>
+              <el-button type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
               <div slot="tip" class="el-upload__tip">
                 1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
                 2、附件大小不超过20M。
@@ -166,7 +166,16 @@ export default {
         uploadFiles: [],
         processorRemark: '',
         reqScheme: '',
-        materialDesc: ''
+        materialDesc: '',
+        needSms: '0'
+      },
+      uploadData: {
+        fileInputId: '',
+        fileTypeId: 502,
+        moduleId: 1,
+        expireDate: '',
+        effectiveDate: '',
+        files: []
       },
       rules: {
         uploadFiles: [
@@ -203,6 +212,9 @@ export default {
   watch: {
     processor(newVal) {
       this.form.processor = newVal && newVal.length ? newVal[newVal.length - 1] : '';
+    },
+    checked(newVal) {
+      this.form.needSms = newVal ? '1' : '0';
     }
   },
   methods: {
@@ -278,16 +290,18 @@ export default {
           const {
             processor,
             reqScheme,
-            processorRemark
+            processorRemark,
+            needSms
           } = that.form;
 
           let params = {
-            reqId: '',
-            taskInsId: '',
+            reqId: that.$route.params.id,
+            taskInsId: that.$route.params.taskInsId,
             handleType: that.handleType,
             processorRemark,
             reqScheme,
-            processor
+            processor,
+            needSms
           };
 
           this.handleDailyComplain(params);
@@ -300,9 +314,10 @@ export default {
         if (valid) {
           that.getProductFileId().then((res) => {
             let fileInputId = res.data;
+            let {uploadData} = that;
             uploadData.files = that.uploadFiles;
             uploadData.fileInputId = fileInputId;
-            that.requirement.fileInputId = fileInputId;
+
             that.uploadProductScheme(uploadData).then(() => {
               const {
                 materialDesc
@@ -311,7 +326,8 @@ export default {
               let params = {
                 reqId: '',
                 taskInsId: '',
-                processorRemark: materialDesc
+                processorRemark: materialDesc,
+                fileInputId
               };
 
               that.handleRequirementMateriel(params);
@@ -331,9 +347,25 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "scss/variables.scss";
   .requirement-detail-handle{
     .info-block{
       margin-top: 16px;
+    }
+
+    .handle-info {
+      .el-upload__tip{
+        height: 44px;
+        line-height: 22px;
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 14px;
+      }
+      .el-form-item__content{
+        width: 340px;
+      }
+      .el-textarea{
+        width: $formLargeWidth;
+      }
     }
   }
 </style>
