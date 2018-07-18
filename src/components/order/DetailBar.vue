@@ -1,13 +1,17 @@
 <template>
   <div class="detail-bar">
-    <div class="detail-bar-item" v-for="(item, i) in arr" :key="item">
+    <div class="detail-bar-item2" v-if="title.length === 2" v-for="(item, i) in title" :key="item">
       <div class="title">{{title[i]}}</div>
-      <div v-if="content[i]">
-        <div v-if="!content[i].fileName">{{content[i]}}</div>
-        <div v-else class="file" @click="downloadFile(content[i])">
-          {{content[i].fileName}}
+      <div v-if="content[i]" class="flex">
+        <div v-if="!content[i].files">{{content[i]}}</div>
+        <div class="file margin-left-8" v-else v-for="(file, ci) in content[i].files" :key="ci" @click="downloadFile(file)">
+          {{file.fileName}}
         </div>
       </div>
+    </div>
+    <div class="detail-bar-item" v-else v-for="(item, i) in arr" :key="item">
+      <div class="title">{{title[i]}}</div>
+      <div>{{content[i]}}</div>
     </div>
   </div>
 </template>
@@ -66,9 +70,20 @@ export default {
     color: rgba(0, 0, 0, 0.45);
     padding-right: 12px;
   }
+  & .detail-bar-item2:nth-child(odd) {
+    flex: 1;
+    display: flex;
+  }
+  & .detail-bar-item2:nth-child(even) {
+    flex: 2;
+    display: flex;
+  }
 }
 .file {
   color: #3778ff;
   cursor: pointer;
+}
+.margin-left-8 {
+  margin-left: 8px;
 }
 </style>

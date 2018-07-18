@@ -14,7 +14,11 @@ const actions = {
     });
   },
   uploadOrderHandleTask: ({ commit }, params) => {
-    return API.uploadFileAPI(params);
+    return API.uploadFileAPI(params).then(res => {
+      return '';
+    }, err => {
+      return err;
+    });
   },
   getOrganizeAddress: ({ commit }, params) => {
     return API.getOrganizeAddressAPI(params).then((res) => {
@@ -124,7 +128,12 @@ const actions = {
     let _params = Object.assign(params, { fileInputId });
     let _submitParams = Object.assign(submitParams, { fileId: fileInputId });
 
-    await dispatch('uploadOrderHandleTask', _params);
+    // 如果上传失败，还原按钮状态，退出程序
+    let error = await dispatch('uploadOrderHandleTask', _params);
+    if (error) {
+      commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
+      return false;
+    }
     await API.submitAssignContractAPI(_submitParams).then(() => {
       commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
       Message({

@@ -144,7 +144,7 @@ const mutations = {
     state.submitAssignButton = !state.submitAssignButton;
   },
   [types.ORDER_GET_HAS_SIGNED_FILE](state, data) {
-    state.hasSignedFile = data[0];
+    state.hasSignedFile = data;
   }
 };
 

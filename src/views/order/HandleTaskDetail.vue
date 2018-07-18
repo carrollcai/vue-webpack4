@@ -13,8 +13,11 @@
     <div class="m-container o-overview-detail">
 
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
+        <!-- 签约处理，必须是指派任务才能显示 -->
+        <detail-bar v-if="routeType === 'sign' && getSignHandleContent()" :title="['处理人：', '指派原因：']" :content="getSignHandleContent()" />
+
         <!-- 签约指派 -->
-        <detail-bar v-if="routeType === 'detail-sign' && getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
+        <detail-bar v-if="routeType === 'detail' && getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
 
         <!-- 已签约 -->
         <detail-bar v-if="routeType === 'detail' && getHasSignContent()" :title="['处理结果：', '签约合同：']" :content="getHasSignContent()" />
@@ -35,12 +38,12 @@
           <el-radio v-model="assignForm.status" :label="0">客户取消</el-radio>
         </el-form-item>
         <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files" required>
-          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files">
+          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files" :accept="FILE_ACCEPT">
             <el-button slot="trigger" size="small">
               <i class="icon-up margin-right-8"></i>上传文件
             </el-button>
             <div slot="tip" class="el-upload__tip">
-              <p class="lh1-5">1. 附件格式支持“PPT、Excel、World和压缩包“格式</p>
+              <p class="lh1-5">1. 附件格式支持“PPT、Excel、Word和压缩包“格式</p>
               <p class="lh1-5">2. 附件大小不超过20M。</p>
             </div>
           </el-upload>
@@ -82,6 +85,7 @@ import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
 import { multFileValid, inte5Deci4, textareaLimit } from '@/utils/rules.js';
 import { cancelNumberScroll } from '@/utils/common.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE } from '@/config/index.js';
 
 export default {
   data() {
@@ -89,6 +93,8 @@ export default {
       multFileValid(this.assignForm.files, callback);
     };
     return {
+      FILE_ACCEPT,
+      FILE_MAX_SIZE,
       payForm: {
         money: null
       },
@@ -150,17 +156,25 @@ export default {
     }
   },
   methods: {
+    getSignHandleContent() {
+      let contents = [];
+      if (Number(this.handleTaskDetail.ordStatus) === this.dispatchSignStatus) {
+        contents.push(this.handleTaskDetail.processName);
+        contents.push(this.handleTaskDetail.assignReason);
+        return contents;
+      }
+    },
     getHasSignContent() {
       let contents = [];
       if (Number(this.handleTaskDetail.ordStatus) === this.hasSignStatus) {
         contents.push('已签约');
-        contents.push(this.hasSignedFile);
+        contents.push({ files: this.hasSignedFile });
         return contents;
       }
     },
     getTodoSignContent() {
       let contents = [];
-      if (Number(this.handleTaskDetail.ordStatus) === this.dispatchSignStatus) {
+      if (Number(this.handleTaskDetail.ordStatus) === this.dispatchSignStatus && this.handleTaskDetail.processName) {
         contents.push('签约指派');
         contents.push(this.handleTaskDetail.processName);
         contents.push(this.handleTaskDetail.assignReason);
@@ -188,7 +202,18 @@ export default {
       this.id = this.$route.params.id;
       this.taskInsId = this.$route.query.taskInsId;
     },
+    beforeUpload(file, fileList) {
+      const isOverLimit = file.size > FILE_MAX_SIZE;
+      if (isOverLimit) {
+        this.$message.error('上传文件不能超过20MB!');
+        let index = fileList.findIndex(val => val.uid === file.raw.uid);
+        fileList.splice(index, 1);
+      }
+      return isOverLimit;
+    },
     fileChange(file, fileList) {
+      if (this.beforeUpload(file, fileList)) return false;
+
       this.assignForm.files.push(file.raw);
 
       // 校验文件
