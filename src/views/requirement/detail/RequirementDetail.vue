@@ -12,10 +12,13 @@
         label-width="86px"
         >
         <el-form-item label="处理人">
+          {{requirement.processor}}
         </el-form-item>
         <el-form-item label="处理方案">
+          {{requirement.reqScheme}}
         </el-form-item>
         <el-form-item label="备注">
+          {{requirement.processorRemark}}
         </el-form-item>
       </el-form>
     </div>

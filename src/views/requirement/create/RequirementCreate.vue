@@ -35,7 +35,7 @@
                 <el-input v-model="requirement.reqDesc"
                   :maxlength="500"
                   type="textarea"
-                  placeholder="请输入经营范围"
+                  placeholder="简要描述一下需求"
                   key="requirementDesc-input"></el-input>
               </el-form-item>
               <el-form-item label="需求附件" prop="uploadFiles" key="provinceId1">
@@ -46,7 +46,7 @@
                   :on-remove="handleRemove"
                   :auto-upload="false"
                   :file-list="uploadFiles">
-                  <el-button size="small" type="primary">选择文件</el-button>
+                  <el-button size="small" type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
                   <div slot="tip" class="el-upload__tip">
                     1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
                     2、附件大小不超过20M。
@@ -226,7 +226,7 @@ export default {
   },
   computed: {
     ...mapState({
-      processors: ({ requirement }) => requirement.processors
+      processors: ({ order }) => order.assignHandlers
     })
   },
   watch: {
@@ -238,7 +238,7 @@ export default {
     }
   },
   created() {
-    this.queryRequirementProcessors();
+    this.getAssignhandler();
   },
   methods: {
     isAcceptable(fileName) {
@@ -342,7 +342,7 @@ export default {
     },
     ...mapActions([
       'saveRequirement',
-      'queryRequirementProcessors',
+      'getAssignhandler',
       'getProductFileId',
       'uploadProductScheme'
     ])

@@ -90,9 +90,14 @@ const actions = {
   handleRequirementMateriel({commit}, params) {
     API.handleRequirementMaterielAPI(params).then((res) => {
       if (isSuccess(res)) {
-        commit(types.REQUIREMENT_GET_INFO, res.data);
-      } else {
-        commit(types.REQUIREMENT_GET_INFO, {});
+        Message({
+          message: '处理成功',
+          type: 'success',
+          duration: 3000
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: '/requirement/list'
+        });
       }
     });
   },
@@ -106,7 +111,14 @@ const actions = {
   handleDailyComplain({commit}, params) {
     API.handleDailyComplainAPI(params).then((res) => {
       if (isSuccess(res)) {
-        commit(types.REQUIREMENT_GET_INFO, res.data);
+        Message({
+          message: '处理成功',
+          type: 'success',
+          duration: 3000
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: '/requirement/list'
+        });
       } else {
         commit(types.REQUIREMENT_GET_INFO, {});
       }
