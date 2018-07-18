@@ -12,22 +12,24 @@
         <div class="group-customer">
           <!--{{'列表内容 ' + o }}-->
           <div v-for="o in 4" :key="o" class="group-customer-item">
-            <div class="group-customer-item-content">
-              <div class="name">
-                中国石化上海石油股份…
-              </div>
-              <div class="code">
-                2012568489
-              </div>
-              <div class="detail">
-                <ul>
-                  <li>客户经理</li>
-                  <li>订购产品</li>
-                </ul>
-                <ul>
-                  <li>订购产品</li>
-                  <li>4</li>
-                </ul>
+            <div>
+              <div class="group-customer-item-content">
+                <div class="name">
+                  中国石化上海石油股份…
+                </div>
+                <div class="code">
+                  2012568489
+                </div>
+                <div class="detail">
+                  <ul>
+                    <li>客户经理</li>
+                    <li>订购产品</li>
+                  </ul>
+                  <ul>
+                    <li>订购产品</li>
+                    <li>4</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -40,14 +42,14 @@
     <div class="mt16">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>我的待办事项</span>
+          <span>我的处理任务</span>
         </div>
         <div class="todo-list">
           <ul class="todo-list-item">
-            <li v-for="o in 5" :key="o">
+            <li v-for="o in taskList" :key="o">
               <p>
-                <span><i class="icon-jituan"></i></span>
-                <span>集团客户录入</span>
+                <span><i :class="o.icon"></i></span>
+                <span>{{o.name}}</span>
               </p>
             </li>
           </ul>
@@ -67,7 +69,7 @@
       </el-card>
     </div>
     <div class="mt16">
-      <div class="business mr16">
+      <div class="business">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>合作商机</span>
@@ -95,7 +97,7 @@
               {{o.ordName}}
             </div>
             <div class="bar-content">
-              <span>订购：{{o.productName}}</span>
+              <span class="product">订购：{{o.productName}}</span>
               <el-button style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</el-button>
             </div>
           </div>
@@ -128,7 +130,14 @@ export default {
     return {
       homeSetDialogVisible: false,
       checkList: [],
-      moduleList: []
+      moduleList: [],
+      taskList: [
+        {'name': '集团客户审核', 'icon': 'icon-jituan'},
+        {'name': '订单处理', 'icon': 'icon-dindan'},
+        {'name': '商机处理', 'icon': 'icon-shangji'},
+        {'name': '需求处理', 'icon': 'icon-needs'},
+        {'name': '走访处理', 'icon': 'icon-zoufang'}
+      ]
     };
   },
   beforeMount() {
@@ -280,12 +289,11 @@ export default {
   .group-customer {
     height: 152px;
     .group-customer-item {
-      width: 225px;
-      height: 152px;
+      width: 220px;
+      height: 145px;
       background-color: rgba(255, 255, 255, 1);
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
       float: left;
-      margin-right: 40px;
       .group-customer-item-content {
         padding: 20px 16px;
         .name {
@@ -372,16 +380,31 @@ export default {
       }
     }
   }
-  .business, .order {
-    width: 559px;
+  .business {
     float: left;
+  }
+  .order {
+    float: right;
+  }
+  .business, .order {
+    width: 49.3%;
     background: #fff;
     margin-bottom: 16px;
     .box-content {
       border-bottom: 1px solid #ebeef5;
       padding: 20px 0px;
+      .product {
+        display: inline-block;
+        width: 85%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .bar-title {
-        width: 238px;
+        width: 85%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         height: 20px;
         line-height: 20px;
         color: rgba(0, 0, 0, 0.65);
