@@ -367,7 +367,5 @@ export default {
         width: $formLargeWidth;
       }
     }
-
-
   }
 </style>
