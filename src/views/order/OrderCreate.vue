@@ -22,7 +22,7 @@
           <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderCreate.predictSignTime" placeholder="请选择时间" :editable="false"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
-          <el-select class="form-input-medium" v-model="orderCreate.predictAgreementTime" placeholder="合同金额">
+          <el-select class="form-input-medium" v-model="orderCreate.predictAgreementTime" placeholder="请选择时间">
             <el-option v-for="item in agreementTimeStatic" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>

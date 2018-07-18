@@ -50,7 +50,7 @@
         <el-table-column label="订单名称" property="ordName" />
         <el-table-column label="创建时间" property="createDate" />
         <el-table-column label="合作集团" property="organizeName" />
-        <el-table-column v-if="orderHandleTaskForm.businessStatus === '1'" label="订单状态" property="businessStatus" />
+        <el-table-column v-if="orderHandleTaskForm.businessStatus === '1'" label="订单状态" property="businessStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button v-if="orderHandleTaskForm.businessStatus === '0'" class="table-button" type="text" @click="handleSign(scope.row)">
