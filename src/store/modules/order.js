@@ -144,7 +144,31 @@ const mutations = {
     state.submitAssignButton = !state.submitAssignButton;
   },
   [types.ORDER_GET_HAS_SIGNED_FILE](state, data) {
-    state.hasSignedFile = data[0];
+    state.hasSignedFile = data;
+  },
+  [types.ORDER_OVERVIEW_PAGE_CHANGE](state, data) {
+    state.orderOverviewForm = data
+      ? Object.assign(state.orderOverviewForm, data)
+      : Object.assign(state.orderOverviewForm, {
+        pageNo: PAGE_NO,
+        pageSize: PAGE_SIZE
+      });
+  },
+  [types.ORDER_CM_PAGE_CHANGE](state, data) {
+    state.orderCreateManageForm = data
+      ? Object.assign(state.orderCreateManageForm, data)
+      : Object.assign(state.orderCreateManageForm, {
+        pageNo: PAGE_NO,
+        pageSize: PAGE_SIZE
+      });
+  },
+  [types.ORDER_HT_PAGE_CHANGE](state, data) {
+    state.orderHandleTaskForm = data
+      ? Object.assign(state.orderHandleTaskForm, data)
+      : Object.assign(state.orderHandleTaskForm, {
+        pageNo: PAGE_NO,
+        pageSize: PAGE_SIZE
+      });
   }
 };
 

@@ -62,10 +62,10 @@
         <el-table-column label="联系人" property="contactName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="toHandle(scope.row)">
+            <el-button type="text" v-if="scope.row.hasComplete === '0'" @click="toHandle(scope.row)">
               去处理
             </el-button>
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button type="text" v-else @click="handleDetail(scope.row)">
               查看
             </el-button>
           </template>
@@ -139,10 +139,10 @@ export default {
       this.queryRequirementTasks(this.getParams());
     },
     handleDetail(row) {
-      this.$router.push(`/requirement/detail/${row.reqId}`);
+      this.$router.push(`/requirement/handle-detail/${row.reqId}`);
     },
     toHandle(row) {
-      this.$router.push(`/requirement/handle/${row.reqId}`);
+      this.$router.push(`/requirement/handle/${row.reqId}/${row.taskInsId}`);
     },
     ...mapActions([
       'queryRequirementTasks'

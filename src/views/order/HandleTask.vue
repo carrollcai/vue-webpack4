@@ -25,10 +25,10 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编码" />
+            <el-input clearable v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编码" />
           </el-form-item>
           <el-form-item class="o-form-item__input">
-            <el-input v-model="orderHandleTaskForm.organizeNameOrCode" placeholder="合作集团/编码" />
+            <el-input clearable v-model="orderHandleTaskForm.organizeNameOrCode" placeholder="合作集团/编码" />
           </el-form-item>
         </div>
         <div class="flex">
@@ -50,7 +50,7 @@
         <el-table-column label="订单名称" property="ordName" />
         <el-table-column label="创建时间" property="createDate" />
         <el-table-column label="合作集团" property="organizeName" />
-        <el-table-column v-if="orderHandleTaskForm.businessStatus === '1'" label="订单状态" property="businessStatus" />
+        <el-table-column v-if="orderHandleTaskForm.businessStatus === '1'" label="处理结果" property="businessStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button v-if="orderHandleTaskForm.businessStatus === '0'" class="table-button" type="text" @click="handleSign(scope.row)">
@@ -82,7 +82,7 @@
 
 <script>
 import WmTable from 'components/Table.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 import moment from 'moment';
 
 export default {
@@ -124,9 +124,6 @@ export default {
     });
   },
   methods: {
-    handleHandlerChange() {
-
-    },
     submitAssign() {
       let params = Object.cloneDeep(this.assignHandle);
       params.dealPerson = params.dealPerson.pop();
@@ -143,6 +140,7 @@ export default {
       });
     },
     tabChange() {
+      this.pageChange();
       this.query();
     },
     handleCommand(row, command) {
@@ -153,11 +151,11 @@ export default {
       this[COMMANDS[command]](row);
     },
     onPagination(value) {
-      this.orderHandleTaskForm.pageNo = value;
+      this.pageChange({ pageNo: value });
       this.query();
     },
     onSizePagination(value) {
-      this.orderHandleTaskForm.pageSize = value;
+      this.pageChange({ pageSize: value });
       this.query();
     },
     handlePay(row) {
@@ -208,6 +206,9 @@ export default {
         this.getHandleTaskList(_params);
       });
     },
+    ...mapMutations({
+      pageChange: 'ORDER_CM_PAGE_CHANGE'
+    }),
     ...mapActions([
       'getHandleTaskList',
       'getAssignhandler',

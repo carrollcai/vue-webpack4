@@ -26,7 +26,7 @@ const state = {
   roleForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    totalcount: 1,
+    roleForm: 1,
     roleName: ''
   },
   roleCreate: Object.cloneDeep(roleCreate),
@@ -49,7 +49,7 @@ const state = {
 const mutations = {
   [types.ROLE_LIST](state, data) {
     state.roleObj = data;
-    state.roleForm.totalcount = data.totalcount;
+    state.roleForm.totalCount = data.totalCount;
   },
   [types.ROLE_INIT_FORM](state, data) {
     state.roleCreate = Object.cloneDeep(roleCreate);

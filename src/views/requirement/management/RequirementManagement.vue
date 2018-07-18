@@ -6,7 +6,7 @@
           <el-form-item class="user-form-item__input">
             <el-date-picker
               v-model="rangeDate"
-              type="datetimerange"
+              type="daterange"
               :editable="false"
               value-format="yyyy-MM-dd HH:mm:ss"
               range-separator="至"

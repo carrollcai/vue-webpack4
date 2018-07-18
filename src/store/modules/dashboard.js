@@ -2,6 +2,7 @@ import * as types from '../types';
 
 const state = {
   demoList: [],
+  homeModule: '',
   homeModuleFromMenu: '',
   updateHomeModuleStatus: '',
   homeBusinessList: '',
@@ -17,6 +18,9 @@ const getters = {
 const mutations = {
   [types.DEMO_LIST](state, data) {
     state.demoList = data;
+  },
+  [types.HOME_MODULE](state, data) {
+    state.homeModule = data.secOperatorDTO.homeModule;
   },
   [types.HOME_MODULE_FROM_MENU](state, data) {
     state.homeModuleFromMenu = data.secOperatorDTO.homeModuleFromMenu;
