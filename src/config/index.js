@@ -288,7 +288,7 @@ export const FILE_UPLOAD_LIMIT = 5;
 export const EMAIL_MAX_LENGTH = 35;
 
 // 上传文件支持类型
-export const FILE_ACCEPT = '.ppt,.xlsx,.xls,.word,.zip,.rar';
+export const FILE_ACCEPT = '.ppt,.pptx,.xlsx,.xls,.doc,.docx,.txt,.pdf,.zip,.rar';
 // 20M
 export const FILE_MAX_SIZE = 20;
 
