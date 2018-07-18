@@ -34,7 +34,7 @@
         <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
         <el-table-column label="联系人" show-overflow-tooltip property="contactName" />
         <!--<el-table-column v-if="businessTaskForm.taskHasComplete === 1" label="处理人" property="contactName" />-->
-        <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatus" />
+        <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatusName" />
         <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
           <template slot-scope="scope">
