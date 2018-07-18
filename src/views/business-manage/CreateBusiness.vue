@@ -3,7 +3,7 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/business-manage/business' }">商机总览</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/business-manage/business-create-manage' }">商机创建管理</el-breadcrumb-item>
           <el-breadcrumb-item>商机详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>

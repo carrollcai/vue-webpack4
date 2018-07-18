@@ -71,7 +71,7 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>合作商机</span>
-            <el-button style="float: right; padding: 3px 0" type="text">更多></el-button>
+            <el-button style="float: right; padding: 3px 0" type="text" @click="goBusiness()">更多></el-button>
           </div>
           <div class="box-content" :key="o" v-for="o in homeBusinessList">
             <div class="bar-title">
@@ -88,7 +88,7 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>订单总览</span>
-            <el-button style="float: right; padding: 3px 0" type="text">更多></el-button>
+            <el-button style="float: right; padding: 3px 0" type="text" @click="goOrder()">更多></el-button>
           </div>
           <div class="box-content" :key="o" v-for="o in homeOrderList">
             <div class="bar-title">
@@ -110,15 +110,11 @@
       <div class="dialog-setitle">请选择首页需要展示的模块</div>
       <div class="dialog-content">
         <el-checkbox-group v-model="checkList">
-          <el-checkbox label="集团任务" value="24"></el-checkbox>
-          <el-checkbox label="处理任务" value="8"></el-checkbox>
-          <el-checkbox label="合作商机" value="20"></el-checkbox>
-          <el-checkbox label="订单预览" value="13"></el-checkbox>
-          <el-checkbox label="数据分析" disabled></el-checkbox>
+          <el-checkbox v-for="item in moduleList" :label="item.label" :key="item.value">{{item.label}}</el-checkbox>
         </el-checkbox-group>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="homeSetDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="submit()">确 定</el-button>
         <el-button @click="homeSetDialogVisible = false">取 消</el-button>
       </span>
     </el-dialog>
@@ -131,16 +127,67 @@ export default {
   data() {
     return {
       homeSetDialogVisible: false,
-      checkList: []
+      checkList: [],
+      moduleList: []
     };
   },
   beforeMount() {
-    this.queryCurrentOperator();
+    this.queryCurrentOperator().then(res => {
+      if (res.homeModuleFromMenu && res.homeModuleFromMenu.length !== 0) {
+        let list = [];
+        for(let i = 0; i < res.homeModuleFromMenu.length; i++) {
+          let json = {};
+          switch(res.homeModuleFromMenu[i]) {
+            case '24':
+              json.label = '集团任务';
+              json.value = 24;
+              break;
+            case '8':
+              json.label = '处理任务';
+              json.value = 8;
+              break;
+            case '20':
+              json.label = '合作商机';
+              json.value = 20;
+              break;
+            case '13':
+              json.label = '订单预览';
+              json.value = 13;
+              break;
+          }
+          list.push(json);
+        };
+        this.moduleList = list;
+      }
+      if (res.homeModule && res.homeModule.length !== 0) {
+        let list = [];
+        for(let i = 0; i < res.homeModule.length; i++) {
+          let str = '';
+          switch(res.homeModule[i]) {
+            case '24':
+              str = '集团任务'
+              break;
+            case '8':
+              str = '处理任务';
+              break;
+            case '20':
+              str = '合作商机';
+              break;
+            case '13':
+              str = '订单预览';
+              break;
+          }
+          list.push(str);
+        };
+        this.checkList = list;
+      }
+    });
     this.getHomeBusinessList();
     this.getHomeOrderList();
   },
   computed: {
     ...mapState({
+      homeModule: ({ dashboard }) => dashboard.homeModule,
       homeModuleFromMenu: ({ dashboard }) => dashboard.homeModuleFromMenu,
       updateHomeModuleStatus: ({ dashboard }) => dashboard.updateHomeModuleStatus,
       homeBusinessList: ({ dashboard }) => dashboard.homeBusinessList,
@@ -154,6 +201,47 @@ export default {
       } else {
         this.$message({ showClose: true, message: '您没有足够的权限！' });
       }
+    },
+    submit() {
+      if (this.checkList.length > 0) {
+        let list = [];
+        for(let i = 0; i < this.checkList.length; i++) {
+          let str = '';
+          switch(this.checkList[i]) {
+            case '集团任务':
+              str = '24'
+              break;
+            case '处理任务':
+              str = '8';
+              break;
+            case '合作商机':
+              str = '20';
+              break;
+            case '订单预览':
+              str = '13';
+              break;
+          }
+          list.push(str);
+        };
+        this.updateHomeModule({'homeModule': list}).then(res => {
+          if (res.errorInfo.code === '200') {
+            this.homeSetDialogVisible = false;
+            this.$message({ showClose: true, message: '设置成功！', type: 'success' });
+          } else {
+            this.$message({ showClose: true, message: '设置失败！', type: 'error' });
+          }
+        })
+      } else {
+        this.$message({ showClose: true, message: '请至少选择一项！' });
+      }
+    },
+    goBusiness() {
+      const path = `/business-manage/business`;
+      this.$router.push(path);
+    },
+    goOrder() {
+      const path = `/order/overview`;
+      this.$router.push(path);
     },
     ...mapActions([
       'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList'
@@ -288,6 +376,7 @@ export default {
     width: 559px;
     float: left;
     background: #fff;
+    margin-bottom: 16px;
     .box-content {
       border-bottom: 1px solid #ebeef5;
       padding: 20px 0px;
@@ -304,6 +393,9 @@ export default {
         color: rgba(0, 0, 0, 0.45);
         font-size: 14px;
       }
+    }
+    .el-card__body {
+      padding: 0px 20px;
     }
   }
   .dialog-setitle {
