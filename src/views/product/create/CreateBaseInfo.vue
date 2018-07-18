@@ -239,7 +239,7 @@ export default {
       this.isRepeat = false;
       let comArr = this.composedProduct;
       for (let item of comArr) {
-        if (item.productName === value && value != this.currProductName) {
+        if (item.productName === value && value !== this.currProductName) {
           this.isRepeat = true;
         }
       }
