@@ -45,7 +45,7 @@ export default {
           { required: true, message: '请输入优势能力', trigger: 'blur' }
         ],
         businessScope: [
-          { required: true, message: '请输入经营范围', trigger: 'blur' }
+          { required: true, message: '请输入经营范围', trigger: 'blur,change' }
         ],
         orgAddress: [
           { required: true, message: '请输入详细地址', trigger: 'blur' }
