@@ -11,9 +11,9 @@
     <div class="m-container role-create">
       <el-form :label-position="'right'" label-width="120px" :model="roleCreate" ref="roleForm" :rules="roleRules">
         <el-form-item label="角色名称：" prop="roleName">
-          <el-input class="form-input-large" v-model="roleCreate.roleName"></el-input>
+          <el-input :maxlength="15" class="form-input-large" v-model="roleCreate.roleName"></el-input>
         </el-form-item>
-        <el-form-item label="角色描述：" prop="notes">
+        <el-form-item :maxlength="50" label="角色描述：" prop="notes">
           <el-input class="form-input-large" type="textarea" v-model="roleCreate.notes"></el-input>
         </el-form-item>
         <el-form-item label="菜单权限：" v-if="!Object.isNullArray(menuList)" prop="menuIds">

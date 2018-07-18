@@ -18,8 +18,9 @@
       :ref="formData"
       label-width="90px">
       <el-form-item label="产品名称：" label-width="110px" prop="productName">
-        <el-input v-model="formData.productName" placeholder="请输入名称"></el-input>
+        <el-input v-model="formData.productName" @change="vaildRepeat" placeholder="请输入名称"></el-input>
       </el-form-item>
+
       <el-form-item label="产品类别：" label-width="110px" prop="productType">
         <el-select style="width: 100%;" v-model="formData.productType" placeholder="请选择类别">
           <el-option label="个人市场" value="0"></el-option>
@@ -56,22 +57,32 @@ export default {
   },
   data() {
     function getWordLen(str, validNum) {
-      var length = 0;
+      let length = str.length;
+      /* var length = 0;
       for (let i = 0; i < str.length; i++) {
         if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
           length += 2;
         } else {
           length += 1;
         }
-      }
+      } */
       if (length > validNum) {
         return true;
+      }
+    };
+    var versionTrim = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('请输入版本号'));
+      } else if (getWordLen(value, 20)) {
+        callback(new Error('长度20个字符内'));
+      } else {
+        callback();
       }
     };
     var validTrim = (rule, value, callback) => {
       if (String(value).trim() === '') {
         callback(new Error('请输入负责人姓名'));
-      } else if (getWordLen(value, 12)) {
+      } else if (getWordLen(value, 6)) {
         callback(new Error('长度6个字符内!'));
       } else {
         callback();
@@ -80,7 +91,7 @@ export default {
     var deptmentTrim = (rule, value, callback) => {
       if (String(value).trim() === '') {
         callback(new Error('请输入部门名称'));
-      } else if (getWordLen(value, 30)) {
+      } else if (getWordLen(value, 15)) {
         callback(new Error('长度15个字符内!'));
       } else {
         callback();
@@ -89,7 +100,7 @@ export default {
     var positionTrim = (rule, value, callback) => {
       if (String(value).trim() === '') {
         callback(new Error('请输入岗位名称'));
-      } else if (getWordLen(value, 30)) {
+      } else if (getWordLen(value, 15)) {
         callback(new Error('长度15个字符内!'));
       } else {
         callback();
@@ -98,8 +109,10 @@ export default {
     var productNameFn = (rule, value, callback) => {
       if (String(value).trim() === '') {
         callback(new Error('请输入产品名称!'));
-      } else if (getWordLen(value, 50)) {
+      } else if (getWordLen(value, 25)) {
         callback(new Error('请输入在25个字符以内产品名称!'));
+      } else if (this.isRepeat) {
+        callback(new Error('请重新输入，该产品名称已存在!'));
       } else {
         callback();
       }
@@ -116,7 +129,7 @@ export default {
       if (String(value).trim() === '') {
         callback(new Error('请输入价格!'));
       } else if (!reg.test(value)) {
-        callback(new Error('请输入9位以内的数字!'));
+        callback(new Error('请重新输入，最多9位数，小数位最多2位!!'));
       } else {
         callback();
       }
@@ -124,7 +137,7 @@ export default {
     var descriptionFn = (rule, value, callback) => {
       if (String(value).trim() === '') {
         callback(new Error('请输入产品介绍!'));
-      } else if (getWordLen(value, 1000)) {
+      } else if (getWordLen(value, 500)) {
         callback(new Error('请输入500个字符以内产品介绍!'));
       } else {
         callback();
@@ -132,6 +145,8 @@ export default {
     };
     return {
       isAddProduct: this.$route.params.id | false,
+      isRepeat: false,
+      currProductName: '',
       formData: {
         productId: '',
         productName: '',
@@ -145,6 +160,9 @@ export default {
         salesList: []
       },
       formDataValid: {
+        version: [
+          { validator: versionTrim, trigger: 'blur' }
+        ],
         username: [
           { required: true, validator: validTrim, trigger: 'blur' }
         ],
@@ -172,10 +190,12 @@ export default {
   computed: {
     ...mapState({
       baseInfo: ({ product }) => product.baseInfo,
+      composedProduct: ({ product }) => product.composedProduct,
       productSaleDemo: ({ product }) => product.productSaleDemo
     })
   },
   beforeMount() {
+    this.getComposedProduct({});
     let returnStep = Number(localStorage.getItem('prevStep'));
     if (this.isAddProduct && this.isAddProduct > 0) {
       if (returnStep === 2) {
@@ -202,6 +222,7 @@ export default {
             position: res.position,
             salesList: []
           };
+          _this.currProductName = res.productName;
         });
       }
     } else {
@@ -213,6 +234,15 @@ export default {
   methods: {
     query() {
       // 产品数据查询方法
+    },
+    vaildRepeat(value) {
+      this.isRepeat = false;
+      let comArr = this.composedProduct;
+      for (let item of comArr) {
+        if (item.productName === value && value !== this.currProductName) {
+          this.isRepeat = true;
+        }
+      }
     },
     nextStep(vaildData) {
       this.$refs[vaildData].validate((valid) => {
@@ -232,7 +262,8 @@ export default {
     },
     ...mapActions([
       'getProductDetail',
-      'saveBaseInfo'
+      'saveBaseInfo',
+      'getComposedProduct'
     ])
   }
 };

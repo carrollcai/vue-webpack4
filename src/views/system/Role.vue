@@ -16,7 +16,7 @@
       </div>
     </el-form>
 
-    <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalcount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户角色" property="roleName" />
       <el-table-column label="用户描述" property="notes" />
       <el-table-column label="用户数" property="opreatorNum">

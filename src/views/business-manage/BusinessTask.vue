@@ -4,7 +4,7 @@
       <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
-            <el-date-picker v-model="businessTaskForm.date" style="width: 225px" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']">
+            <el-date-picker v-model="businessTaskForm.date" style="width: 225px" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
 
@@ -34,7 +34,7 @@
         <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
         <el-table-column label="联系人" show-overflow-tooltip property="contactName" />
         <!--<el-table-column v-if="businessTaskForm.taskHasComplete === 1" label="处理人" property="contactName" />-->
-        <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatus" />
+        <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatusName" />
         <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -96,6 +96,7 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import moment from 'moment';
 export default {
   components: {
     WmTable
@@ -222,9 +223,9 @@ export default {
     sendConfirm() {
       let params = this.sendParam;
       if (this.sendForm.person !== '') {
-        if (this.sendForm.reason !== '') {
+        if (this.sendForm.reason.trim() !== '') {
           params.dealPerson = this.sendForm.person.pop();
-          params.dealResult = this.sendForm.reason;
+          params.dealResult = this.sendForm.reason.trim();
           let _this = this;
           this.submitBusinessSend(params).then(res => {
             if (res.data && res.errorInfo.code === '200') {
@@ -275,8 +276,8 @@ export default {
       const params = this.businessTaskForm;
 
       if (params.date !== null && params.date.length === 2) {
-        params.startDate = params.date[0];
-        params.endDate = params.date[1];
+        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
       } else {
         params.startDate = '';
         params.endDate = '';

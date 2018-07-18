@@ -27,7 +27,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
@@ -78,7 +78,7 @@
           <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.busiDesc"></el-input>
         </el-form-item>
         <el-form-item label="业务需求：" prop="busiRequire">
-          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.busiRequire"></el-input>
+          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="form.busiRequire"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
           <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="form.needCoordinationIssue"></el-input>

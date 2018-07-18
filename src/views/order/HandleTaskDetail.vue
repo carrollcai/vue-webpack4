@@ -14,7 +14,7 @@
 
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
         <!-- 签约指派 -->
-        <detail-bar v-if="routeType === 'detail' && getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
+        <detail-bar v-if="routeType === 'detail-sign' && getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
 
         <!-- 已签约 -->
         <detail-bar v-if="routeType === 'detail' && getHasSignContent()" :title="['处理结果：', '签约合同：']" :content="getHasSignContent()" />
@@ -206,38 +206,37 @@ export default {
       this.$refs.assign.validateField('files');
     },
     submitAssignForm() {
-      // 客户取消
-      if (!this.assignForm.status) {
-        let params = {
-          id: this.id,
-          taskInsId: this.taskInsId,
-          resultStatus: '3',
-          dealResult: this.assignForm.dealResult
-        };
-        this.cancelAssign(params);
-        return false;
-      }
-
       this.$refs.assign.validate(valid => {
         if (!valid) return false;
 
-        let params = {
-          fileInputId: '',
-          fileTypeId: 502,
-          moduleId: 1,
-          files: this.assignForm.files
-        };
-
-        let submitParams = {
-          fileId: '',
-          taskRequest: {
+        // 客户取消
+        if (!this.assignForm.status) {
+          let assignParams = {
             id: this.id,
             taskInsId: this.taskInsId,
-            resultStatus: this.processCompleteStatus,
-            dealResult: '' // 这个字段必传，可为空
-          }
-        };
-        this.submitAssignContract({ params, submitParams });
+            resultStatus: '3',
+            dealResult: this.assignForm.dealResult
+          };
+          this.cancelAssign(assignParams);
+        } else {
+          let params = {
+            fileInputId: '',
+            fileTypeId: 502,
+            moduleId: 1,
+            files: this.assignForm.files
+          };
+
+          let submitParams = {
+            fileId: '',
+            taskRequest: {
+              id: this.id,
+              taskInsId: this.taskInsId,
+              resultStatus: this.processCompleteStatus,
+              dealResult: '' // 这个字段必传，可为空
+            }
+          };
+          this.submitAssignContract({ params, submitParams });
+        }
       });
     },
     submitSign() {

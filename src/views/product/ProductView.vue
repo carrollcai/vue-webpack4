@@ -4,22 +4,22 @@
     <div class="flex">
       <el-form-item>
         <el-col>
-          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
           </el-date-picker>
         </el-col>
       </el-form-item>
       <el-form-item>
-        <el-select style="width: 130px" v-model="formData.productType" placeholder="产品类型">
+        <el-select class="item-width" v-model="formData.productType" clearable placeholder="产品类型">
           <el-option label="全部" value="" />
           <el-option label="个人市场" value="0" />
           <el-option label="政企市场" value="1" />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-input style="width: 130px" v-model="formData.operatorCn" @change="checkOperatorCn" placeholder="创建人"></el-input>
+        <el-input class="item-width" clearable v-model="formData.operatorCn" @change="checkOperatorCn" placeholder="创建人"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input style="width: 130px" v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
+        <el-input class="item-width" clearable v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
       </el-form-item>
     </div>
     <div class="flex">
@@ -155,6 +155,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+  .item-width {
+    width: $inputWidthQuery;
   }
 }
 </style>
