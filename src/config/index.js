@@ -183,7 +183,8 @@ export const MENU_PERMISSIONS = [
       }
     ]
   },
-  {menuId: 27,
+  {
+    menuId: 27,
     name: '客户需求管理',
     url: '/requirement',
     icon: 'icon-business',
@@ -288,7 +289,19 @@ export const FILE_UPLOAD_LIMIT = 5;
 export const EMAIL_MAX_LENGTH = 35;
 
 // 上传文件支持类型
-export const FILE_ACCEPT = '.ppt,.pptx,.xlsx,.xls,.doc,.docx,.txt,.pdf,.zip,.rar';
+export const FILE_ACCEPT = 'application/vnd.ms-powerpoint,text/plain,application/vnd.ms-excel,application/msword,.zip,.rar';
+
+// export const FILE_ACCEPT = [
+//   '.ppt',
+//   '.pptx',
+//   '.xlsx',
+//   '.xls',
+//   '.doc',
+//   '.docx',
+//   '.txt',
+//   '.zip',
+//   '.rar'
+// ];
 // 20M
 export const FILE_MAX_SIZE = 20;
 

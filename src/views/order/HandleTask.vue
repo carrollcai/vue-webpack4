@@ -159,7 +159,7 @@ export default {
       this.query();
     },
     handlePay(row) {
-      const path = `/order/handle-task/pay/${row.ordId}?taskInsId=${row.taskInsId}`;
+      const path = `/order/handle-task/pay/${row.ordId}`;
       this.$router.push(path);
     },
     handleSign(row) {
@@ -177,11 +177,11 @@ export default {
       let path = '';
       // 不同状态，详情页展示不一样
       if (businessStatus === '0') {
-        path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${encodeURIComponent(businessStatus)}`;
+        path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}`;
       } else if (businessStatus === '4') {
-        path = `/order/handle-task/detail-pay/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${encodeURIComponent(businessStatus)}`;
+        path = `/order/handle-task/detail-pay/${row.ordId}`;
       } else {
-        path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${encodeURIComponent(businessStatus)}`;
+        path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${businessStatus}`;
       }
       this.$router.push(path);
     },

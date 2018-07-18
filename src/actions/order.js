@@ -170,6 +170,11 @@ const actions = {
   },
   orderDownloadFile: ({ commit }, params) => {
     return API.downloadAttachFileAPI(params);
+  },
+  getOrderProcessInfo: ({ commit }, params) => {
+    return API.getQueryTaskAPI(params).then(res => {
+      commit(types.ORDER_LAST_PROCESS_INFO, res.data);
+    });
   }
 };
 
