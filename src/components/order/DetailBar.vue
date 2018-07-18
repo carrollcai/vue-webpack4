@@ -1,10 +1,12 @@
 <template>
   <div class="detail-bar">
-    <div class="detail-bar-item" v-for="(item, i) in title" :key="i">
-      <div class="title">{{item}}</div>
-      <div v-if="!content[i].fileName">{{content[i]}}</div>
-      <div v-else class="file" @click="downloadFile(content[i])">
-        {{content[i].fileName}}
+    <div class="detail-bar-item" v-for="(item, i) in arr" :key="item">
+      <div class="title">{{title[i]}}</div>
+      <div v-if="content[i]">
+        <div v-if="!content[i].fileName">{{content[i]}}</div>
+        <div v-else class="file" @click="downloadFile(content[i])">
+          {{content[i].fileName}}
+        </div>
       </div>
     </div>
   </div>
@@ -25,6 +27,11 @@ export default {
       },
       type: Array
     }
+  },
+  data() {
+    return {
+      arr: [1, 2, 3]
+    };
   },
   methods: {
     downloadFile(obj) {
@@ -49,19 +56,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .detail-bar-item:nth-child(odd) {
+  & .detail-bar-item {
     flex: 1;
     display: flex;
   }
-  .title {
+  & .title {
     width: 100px;
     text-align: right;
     color: rgba(0, 0, 0, 0.45);
     padding-right: 12px;
-  }
-  .detail-bar-item:nth-child(even) {
-    flex: 2;
-    display: flex;
   }
 }
 .file {
