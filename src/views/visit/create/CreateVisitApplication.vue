@@ -50,7 +50,7 @@
         <el-form-item label="涉及商机编码：" required>
           <el-input v-model="createVisitFrom.relOpporCode" class="form-input-medium" placeholder="请输入商机编码" />
           <div class="form-input-sep">-</div>
-          <el-input v-model="createVisitFrom.visitAddress" class="form-input-large" placeholder="请输入商机名称">
+          <el-input v-model="createVisitFrom.relOpporName" class="form-input-large" placeholder="请输入商机名称">
           </el-input>
         </el-form-item>
         <el-form-item label="问题协调：" required prop="problemCoordinate">

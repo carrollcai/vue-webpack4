@@ -40,32 +40,33 @@
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <p class="sale-type">
-              <el-form-item label="销售类型">
-              <span>: {{ props.row.salesType }}</span>
+              <el-form-item label="销售类型：">
+              <span>{{ props.row.salesType }}</span>
               </el-form-item>
-              <el-form-item label="销售数量">
-                <span>: {{ props.row.salesNumber }}</span>
+              <el-form-item label="销售数量：">
+                <span>{{ props.row.salesNumber }}</span>
               </el-form-item>
             </p>
-            <p class="sale-type">
-              <el-form-item label="创新点/借鉴点">
-                <span>: {{ props.row.keypoint }}</span>
+            <p>
+              <el-form-item label="创新点/借鉴点：">
+                <span>{{ props.row.keypoint }}</span>
               </el-form-item>
-              <el-form-item v-if="props.row.fileName" label="方案附件">
-                <span>: </span>
+            </p>
+            <p v-if="props.row.fileName">
+              <el-form-item label="方案附件：">
                 <span v-for="name in props.row.fileName" :key="name" class="blue mr10" @click="dowloadFile()">
                   <i class="el-icon-download"></i>{{name}}
                 </span>
               </el-form-item>
             </p>
             <p>
-              <el-form-item label="方案介绍">
-                <span>: {{ props.row.scheme }}</span>
+              <el-form-item label-width="300" label="方案介绍：">
+                <span>{{ props.row.scheme }}</span>
               </el-form-item>
             </p>
             <p>
-              <el-form-item label="经验教训">
-                <span>: {{ props.row.experience }}</span>
+              <el-form-item label-width="300" label="经验教训：">
+                <span>{{ props.row.experience }}</span>
               </el-form-item>
             </p>
           </el-form>
@@ -144,7 +145,11 @@ export default {
     },
     composedProductFn(row, column, columnValue) {
       if (columnValue) {
-        return columnValue;
+        let composedStr = '';
+        if (columnValue && columnValue.length > 0) {
+          composedStr = columnValue.join('、');
+        }
+        return composedStr;
       } else {
         return '无';
       }
@@ -194,13 +199,18 @@ export default {
     padding: 32px;
   }
   .demo-table-expand {
+    .el-form-item {margin-bottom: 0;}
     .el-form-item__label {
       color: #c0c0c0;
     }
     p {
-      height: 28px;
+      min-height: 28px;
       line-height: 28px;
       color: #262626;
+      .el-form-item__content {
+        line-height: 1.5;
+        margin-top: 9px;
+      }
     }
     .sale-type {
       .el-form-item {
