@@ -26,13 +26,13 @@ export default {
       uploadFiles: [],
       baseInfoRules: {
         organizeName: [
-          { required: true, message: '请输入集团编码', trigger: 'blur' }
+          { required: true, message: '请输入集团编码', trigger: ['blur', 'change'] }
         ],
         reqType: [
           { required: true, message: '请选择需求类型', trigger: 'change' }
         ],
         reqDesc: [
-          { required: true, message: '请输入需求描述', trigger: 'blur' }
+          { required: true, message: '请输入需求描述', trigger: ['blur', 'change'] }
         ],
         uploadFiles: [
           {
@@ -42,7 +42,7 @@ export default {
           }
         ],
         materialName: [
-          { required: true, message: '请输入物料名称', trigger: 'blur' }
+          { required: true, message: '请输入物料名称', trigger: ['blur', 'change'] }
         ],
         materialSupplyType: [
           { required: true, message: '请选择物料格式要求', trigger: 'change' }
@@ -55,18 +55,18 @@ export default {
         ],
 
         materialDesc: [
-          { required: true, message: '请输入物料描述', trigger: 'blur' }
+          { required: true, message: '请输入物料描述', trigger: ['blur', 'change'] }
         ],
         contactName: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
         ],
         contactMobile: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          { type: 'string', pattern: /^1\d{10}$/, message: '请输入手机号', trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
+          { type: 'string', pattern: /^1\d{10}$/, message: '请输入手机号', trigger: ['blur', 'change'] }
         ],
         contactEmail: [
-          { required: true, message: '请输入邮箱', trigger: 'blur' },
-          { type: 'email', message: '请输入邮箱', trigger: 'blur' }
+          { required: true, message: '请输入邮箱', trigger: ['blur', 'change'] },
+          { type: 'email', message: '请输入邮箱', trigger: ['blur', 'change'] }
         ],
         processor: [
           { validator: processorValidator, trigger: 'change' }

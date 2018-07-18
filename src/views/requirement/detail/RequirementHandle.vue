@@ -186,14 +186,14 @@ export default {
           }
         ],
         materialDesc: [
-          { required: true, message: '请输入备注', trigger: 'blur' }
+          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
         ],
 
         reqScheme: [
-          { required: true, message: '请输入处理方案', trigger: 'blur' }
+          { required: true, message: '请输入处理方案', trigger: ['blur', 'change'] }
         ],
         processorRemark: [
-          { required: true, message: '请输入备注', trigger: 'blur' }
+          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
         ],
         processor: [
           { validator: processorValidator, trigger: 'change' }
