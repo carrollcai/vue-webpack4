@@ -16,7 +16,7 @@
       </div>
     </el-form>
 
-    <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleForm.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
+    <wm-table :source="roleObj.list" :pageNo="roleForm.pageNo" :pageSize="roleForm.pageSize" :total="roleObj.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
       <el-table-column label="用户角色" property="roleName" />
       <el-table-column label="用户描述" property="notes" />
       <el-table-column label="用户数" property="opreatorNum">
@@ -28,10 +28,10 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleEdit(scope.row)">
+          <el-button class="table-button" type="text" @click="handleEdit(scope.row)">
             编辑
           </el-button>
-          <el-button type="text" @click="handleDelete(scope.row)">
+          <el-button class="table-button" type="text" @click="handleDelete(scope.row)">
             删除
           </el-button>
         </template>

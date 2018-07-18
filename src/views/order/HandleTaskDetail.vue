@@ -39,7 +39,7 @@
         </el-form-item>
         <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files" required>
           <!-- accept属性不能完全支持 -->
-          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files" :accept="FILE_ACCEPT">
+          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files">
             <el-button slot="trigger" size="small">
               <i class="icon-up margin-right-8"></i>上传文件
             </el-button>
@@ -86,7 +86,7 @@ import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
 import { multFileValid, inte5Deci4, textareaLimit } from '@/utils/rules.js';
 import { cancelNumberScroll } from '@/utils/common.js';
-import { FILE_ACCEPT, FILE_MAX_SIZE } from '@/config/index.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_TIP } from '@/config/index.js';
 
 export default {
   data() {
@@ -95,7 +95,6 @@ export default {
     };
     return {
       relOpporId: '',
-      FILE_ACCEPT,
       FILE_MAX_SIZE,
       payForm: {
         money: null
@@ -150,7 +149,7 @@ export default {
   async beforeMount() {
     await this.getHandleTaskDetail({ ordId: this.id });
     // 签约获取指派人流程
-    if (this.handleTaskDetail.assignReason && this.taskInsId ) {
+    if (this.handleTaskDetail.assignReason && this.taskInsId) {
       await this.getOrderProcessInfo({ taskInsId: this.taskInsId });
     }
     // 获取文件名和地址
@@ -210,14 +209,27 @@ export default {
         return contents;
       }
     },
+    isAcceptable(fileName) {
+      for (let accept of FILE_ACCEPT) {
+        if (accept.endsWith(fileName)) {
+          return true;
+        }
+      }
+      return false;
+    },
     beforeUpload(file, fileList) {
       const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
-      if (isOverLimit) {
-        this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
-        let index = fileList.findIndex(val => val.uid === file.raw.uid);
+      const isFormat = !this.isAcceptable(file.name);
+      let index = fileList.findIndex(val => val.uid === file.raw.uid);
+      if (isFormat) {
+        this.$message.error(FILE_TIP);
         fileList.splice(index, 1);
       }
-      return isOverLimit;
+      if (isOverLimit) {
+        this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
+        fileList.splice(index, 1);
+      }
+      return isOverLimit || isFormat;
     },
     fileChange(file, fileList) {
       if (this.beforeUpload(file, fileList)) return false;
