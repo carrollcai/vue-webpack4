@@ -22,11 +22,13 @@ const userCreate = {
 };
 
 const state = {
-  roleObj: [],
+  roleObj: {
+    list: [],
+    totalCount: 1
+  },
   roleForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    roleForm: 1,
     roleName: ''
   },
   roleCreate: Object.cloneDeep(roleCreate),
