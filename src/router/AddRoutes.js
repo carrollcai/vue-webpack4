@@ -42,6 +42,7 @@ import RequirementHandleList from '@/views/requirement/management/RequirementHan
 import RequirementCreate from '@/views/requirement/create/RequirementCreate.vue';
 import RequirementDetail from '@/views/requirement/detail/RequirementDetail.vue';
 import RequirementHandle from '@/views/requirement/detail/RequirementHandle.vue';
+import RequirementHandleDetail from '@/views/requirement/detail/RequirementHandleDetail.vue';
 
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/RoleCreate.vue';
@@ -271,9 +272,15 @@ const dynamicRoutes = [
         meta: { menuId: 29 }
       },
       {
-        path: '/requirement/handle/:id',
+        path: '/requirement/handle/:id/:taskInsId',
         name: 'requirement-handle',
         component: RequirementHandle,
+        meta: { menuId: 29 }
+      },
+      {
+        path: '/requirement/handle-detail/:id',
+        name: 'requirement-handle-detail',
+        component: RequirementHandleDetail,
         meta: { menuId: 29 }
       },
 
