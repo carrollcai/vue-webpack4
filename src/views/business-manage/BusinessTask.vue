@@ -70,7 +70,7 @@
           </el-cascader>
         </el-form-item>
         <el-form-item label="分派的原因：">
-          <el-input resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
+          <el-input maxlength="500" resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -75,6 +75,10 @@ const state = {
   },
   assignHandlers: [],
   handleTaskDetail: {},
+  lastProcessInfo: {
+    lastOpName: '',
+    lastDealResult: ''
+  },
   hasSignedFile: {
     fileTypeId: '',
     fileSaveName: '',
@@ -169,6 +173,9 @@ const mutations = {
         pageNo: PAGE_NO,
         pageSize: PAGE_SIZE
       });
+  },
+  [types.ORDER_LAST_PROCESS_INFO](state, data) {
+    state.lastProcessInfo = data[0];
   }
 };
 

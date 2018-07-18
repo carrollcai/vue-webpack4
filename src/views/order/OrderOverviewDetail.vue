@@ -10,7 +10,7 @@
     </div>
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
-        <audit-steps v-if="this.$route.params.processId && processList.length" :processList="processList" />
+        <audit-steps v-if="this.$route.params.processId && processList.length" :processList="processList" :businessToOrderId="orderOverviewDetail.relOpporId" />
 
         <detail-content v-if="Object.keys(orderOverviewDetail).length" :orderOverviewDetail="orderOverviewDetail" />
       </div>
@@ -39,8 +39,8 @@ export default {
     const { id, processId } = this.$route.params;
 
     // 如果这边不让getOrderOverviewDetail在后面执行，会导致orderOverviewDetail里的对象消失，因为orderOverviewDetail没定义对象内属性
-    await processId && this.getOrderOverviewProcess({ processInsId: processId });
     await this.getOrderOverviewDetail({ ordId: id });
+    await processId && this.getOrderOverviewProcess({ processInsId: processId });
   },
   methods: {
     ...mapActions([

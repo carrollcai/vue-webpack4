@@ -9,8 +9,8 @@
         </div>
       </div>
     </div>
-    <div class="detail-bar-item" v-else v-for="(item, i) in arr" :key="item">
-      <div class="title">{{title[i]}}</div>
+    <div class="detail-bar-item" v-if="title.length === 3" v-for="(item, i) in title" :key="item">
+      <div class="title">{{item}}</div>
       <div>{{content[i]}}</div>
     </div>
   </div>
@@ -31,11 +31,6 @@ export default {
       },
       type: Array
     }
-  },
-  data() {
-    return {
-      arr: [1, 2, 3]
-    };
   },
   methods: {
     downloadFile(obj) {
