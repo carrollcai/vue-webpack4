@@ -50,22 +50,16 @@
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="需求单号" property="reqId" show-overflow-tooltip/>
-        <el-table-column label="创建时间" show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{formateDate(scope.row.createDate)}}
-          </template>
+        <el-table-column label="需求单号" property="reqCode" show-overflow-tooltip/>
+        <el-table-column label="创建时间" property="createDate" show-overflow-tooltip>
         </el-table-column>
         <el-table-column label="需求客户" property="organizeName" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="需求类型">
-          <template slot-scope="scope">
-            {{reqTypeFilter(scope.row.reqType)}}
-          </template>
+        <el-table-column label="需求类型" property="reqTypeName">
         </el-table-column>
         <el-table-column label="联系人" property="contactName" />
         <el-table-column label="处理人" property="processor" />
-        <el-table-column label="处理状态" property="reqStatus" />
+        <el-table-column label="处理状态" property="reqStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">
@@ -79,6 +73,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import { createHelpers } from 'vuex-map-fields';
 import mixins from './mixins';
 
@@ -91,6 +86,11 @@ export default {
   mixins: [mixins],
   data() {
     return {
+      STATUS: {
+        'first': '',
+        'second': '1',
+        'third': '2'
+      }
     };
   },
   computed: {
@@ -102,7 +102,10 @@ export default {
       'managementQuery.pageNo',
       'managementQuery.pageSize',
       'managementQuery.activeName'
-    ])
+    ]),
+    ...mapState({
+      requirements: ({ requirement }) => requirement.requirementList
+    })
   },
   methods: {
     handleCreate() {
@@ -111,7 +114,32 @@ export default {
     },
     handleDetail(row) {
       this.$router.push(`/requirement/detail/${row.reqId}`);
-    }
+    },
+    getParams() {
+      this.rangeDate = this.rangeDate || [];
+
+      const {
+        rangeDate,
+        activeName,
+        organizeName,
+        reqType,
+        STATUS
+      } = this;
+
+      return {
+        startDate: rangeDate[0],
+        endDate: rangeDate[1],
+        organizeName,
+        reqType,
+        taskStatus: STATUS[activeName]
+      };
+    },
+    query() {
+      this.queryRequirementList(this.getParams());
+    },
+    ...mapActions([
+      'queryRequirementList'
+    ])
   }
 };
 </script>

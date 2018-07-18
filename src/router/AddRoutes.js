@@ -149,7 +149,7 @@ const dynamicRoutes = [
         meta: { menuId: 20 }
       },
       {
-        path: '/business-manage/business-detail/:opporId/:taskInsId/:taskHasComplete',
+        path: '/business-manage/business-detail/:opporId/:taskInsId/:taskHasComplete/:type',
         name: 'business-detail',
         component: BusinessDetail,
         meta: { menuId: 20 }

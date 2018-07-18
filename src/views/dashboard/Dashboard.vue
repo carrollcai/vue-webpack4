@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <div>
+    <div class="m-container">
+      <span>工作台</span>
+      <el-button style="float: right; padding: 3px 0" type="text" @click="homeSet()">首页设置</el-button>
+    </div>
+    <div class="mt16">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>我的集团客户</span>
@@ -69,13 +73,13 @@
             <span>合作商机</span>
             <el-button style="float: right; padding: 3px 0" type="text">更多></el-button>
           </div>
-          <div class="box-content" :key="o" v-for="o in 5">
+          <div class="box-content" :key="o" v-for="o in homeBusinessList">
             <div class="bar-title">
-              北京华夏联信科技有限公司上海分公司
+              {{o.organizeName}}
             </div>
             <div class="bar-content">
-              <span>我的待办事项</span>
-              <span style="float: right; padding: 3px 0">2018-05-06 12:08</span>
+              <span>{{o.opporType}}</span>
+              <span style="float: right; padding: 3px 0">{{o.createDate}}</span>
             </div>
           </div>
         </el-card>
@@ -86,30 +90,73 @@
             <span>订单总览</span>
             <el-button style="float: right; padding: 3px 0" type="text">更多></el-button>
           </div>
-          <div class="box-content" :key="o" v-for="o in 5">
+          <div class="box-content" :key="o" v-for="o in homeOrderList">
             <div class="bar-title">
-              北京华夏联信科技有限公司上海分公司
+              {{o.ordName}}
             </div>
             <div class="bar-content">
-              <span>订购：咪咕电子阅读器kindle</span>
-              <el-button style="float: right; padding: 3px 0" type="text">待签约</el-button>
+              <span>订购：{{o.productName}}</span>
+              <el-button style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</el-button>
             </div>
           </div>
         </el-card>
       </div>
     </div>
+    <el-dialog
+      title="首页设置"
+      :visible.sync="homeSetDialogVisible"
+      width="30%"
+      center>
+      <div class="dialog-setitle">请选择首页需要展示的模块</div>
+      <div class="dialog-content">
+        <el-checkbox-group v-model="checkList">
+          <el-checkbox label="集团任务" value="24"></el-checkbox>
+          <el-checkbox label="处理任务" value="8"></el-checkbox>
+          <el-checkbox label="合作商机" value="20"></el-checkbox>
+          <el-checkbox label="订单预览" value="13"></el-checkbox>
+          <el-checkbox label="数据分析" disabled></el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="homeSetDialogVisible = false">确 定</el-button>
+        <el-button @click="homeSetDialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
+  data() {
+    return {
+      homeSetDialogVisible: false,
+      checkList: []
+    };
+  },
   beforeMount() {
-    // this.getDemo();
+    this.queryCurrentOperator();
+    this.getHomeBusinessList();
+    this.getHomeOrderList();
+  },
+  computed: {
+    ...mapState({
+      homeModuleFromMenu: ({ dashboard }) => dashboard.homeModuleFromMenu,
+      updateHomeModuleStatus: ({ dashboard }) => dashboard.updateHomeModuleStatus,
+      homeBusinessList: ({ dashboard }) => dashboard.homeBusinessList,
+      homeOrderList: ({ dashboard }) => dashboard.homeOrderList
+    })
   },
   methods: {
+    homeSet() {
+      if (this.homeModuleFromMenu.length > 0) {
+        this.homeSetDialogVisible = true;
+      } else {
+        this.$message({ showClose: true, message: '您没有足够的权限！' });
+      }
+    },
     ...mapActions([
-      // 'getDemo'
+      'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList'
     ])
   }
 };
@@ -258,6 +305,34 @@ export default {
         font-size: 14px;
       }
     }
+  }
+  .dialog-setitle {
+    height: 17px;
+    line-height: 17px;
+    opacity: 0.7;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 12px;
+    text-align: center;
+  }
+  .el-dialog--center .el-dialog__body {
+    padding: 0px;
+    .dialog-setitle {
+      text-align: center;
+      margin: 0 auto;
+      padding: 0px;
+    }
+    .dialog-content {
+      padding: 0px 53px;
+      margin-top: 8px;
+      .el-checkbox {
+        margin-right: 21px;
+        margin-left: 0px;
+        margin-top: 8px;
+      }
+    }
+  }
+  .el-dialog__footer {
+    text-align: center !important;
   }
 }
 </style>

@@ -2,8 +2,12 @@
   <div>
     <div class="m-container">
       <div class="breadcrumb">
-        <el-breadcrumb>
+        <el-breadcrumb v-if="this.$route.params.type === '0'">
           <el-breadcrumb-item :to="{ path: '/business-manage/business' }">商机总览</el-breadcrumb-item>
+          <el-breadcrumb-item>商机详情</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="this.$route.params.type === '1'">
+          <el-breadcrumb-item :to="{ path: '/business-manage/business-task' }">商机处理任务</el-breadcrumb-item>
           <el-breadcrumb-item>商机详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>

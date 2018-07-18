@@ -15,7 +15,7 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-select v-model="myVisitManageFrom.isFirstGuest" placeholder="是否首客">
+          <el-select v-model="myVisitManageFrom.isFirstVisit" placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
               :key="item.value"
@@ -34,12 +34,14 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="myVisitManageFrom.state" @change="getState">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="待执行"></el-tab-pane>
-      <el-tab-pane label="已完成"></el-tab-pane>
-      <el-tab-pane label="待审核"></el-tab-pane>
-      <el-tab-pane label="已驳回"></el-tab-pane>
+    <el-tabs v-model="visitStatus" @tab-click="getState">
+      <el-tab-pane
+        v-for="item in visitStatusList"
+        :key="item.name"
+        :label="item.label"
+        :name="item.name"
+      >
+      </el-tab-pane>
     </el-tabs>
   </div>
   <div class="m-container table-container">
@@ -51,9 +53,9 @@
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="走访编号" property="visitCode" />
-      <el-table-column label="走访时间" property="visitTime" />
+      <el-table-column label="走访时间" property="visitStartTime" />
       <el-table-column label="走访公司" property="organizeName" />
-      <el-table-column label="是否首客" property="isFirstGuest" />
+      <el-table-column label="是否首客" property="isFirstVisit" />
       <el-table-column label="走访状态" property="visitStatus" />
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -86,13 +88,36 @@ export default {
   data() {
     return {
       timeRange: '',
+      visitStatus: '',
       firstGuestOption: [{
         value: '1',
         label: '否'
       }, {
         value: '2',
         label: '是'
-      }]
+      }],
+      visitStatusList: [
+        {
+          name: '0',
+          label: '全部'
+        },
+        {
+          name: '1',
+          label: '待执行'
+        },
+        {
+          name: '2',
+          label: '已完成'
+        },
+        {
+          name: '3',
+          label: '待审核'
+        },
+        {
+          name: '4',
+          label: '已驳回'
+        }
+      ]
     };
   },
   watch: {
@@ -105,15 +130,15 @@ export default {
   methods: {
     getTimeRange(time) {
       if (time) {
-        this.myVisitManageFrom.startDate = time[0];
-        this.myVisitManageFrom.endDate = time[1];
+        this.myVisitManageFrom.visitStartTime = time[0];
+        this.myVisitManageFrom.visitEndTime = time[1];
       } else {
-        this.myVisitManageFrom.startDate = '';
-        this.myVisitManageFrom.endDate = '';
+        this.myVisitManageFrom.visitStartTime = '';
+        this.myVisitManageFrom.visitEndTime = '';
       }
     },
     getState(value) {
-      this.myVisitManageFrom.state = value;
+      this.myVisitManageFrom.visitStatus = [value.name];
     },
     onPagination(value) {
       this.myVisitManageFrom.pageNo = value;
@@ -126,7 +151,6 @@ export default {
     handleDetail(row) {
     },
     query() {
-      console.log(this.myVisitManageFrom);
       this.getMyVisitManageList(this.myVisitManageFrom);
     },
     createVisitApplication() {

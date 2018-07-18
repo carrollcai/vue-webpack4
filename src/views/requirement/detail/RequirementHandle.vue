@@ -44,23 +44,23 @@
         <template v-if="requirement.reqType === '1'">
           <el-form-item label="处理方式" required>
             <el-radio-group v-model="handleType" @change="handleChangeType">
-              <el-radio label="3">本人处理</el-radio>
-              <el-radio label="6">投诉升级 <span>（转交给更高级级别的人处理）</span></el-radio>
+              <el-radio label="1">本人处理</el-radio>
+              <el-radio label="2">投诉升级 <span>（转交给更高级级别的人处理）</span></el-radio>
             </el-radio-group>
           </el-form-item>
 
-          <template v-if="handleType === '3'">
-            <el-form-item label="处理方案" required prop="plan" key="plan">
+          <template v-if="handleType === '1'">
+            <el-form-item label="处理方案" required prop="reqScheme" key="plan">
               <el-input class="col-input"
                 type="textarea"
-                v-model="form.plan"
+                v-model="form.reqScheme"
                 placeholder="简要描述一下处理方案"
                 :maxlength="6"
                 key="plan-input"></el-input>
             </el-form-item>
-            <el-form-item label="备注" required prop="planDesc" key="plan-desc">
+            <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
               <el-input class="col-input"
-                v-model="form.planDesc"
+                v-model="form.processorRemark"
                 type="textarea"
                 placeholder="备注"
                 :maxlength="6"
@@ -68,13 +68,13 @@
             </el-form-item>
           </template>
 
-          <template v-if="handleType === '6'">
+          <template v-if="handleType === '2'">
             <el-form-item label="指派处理人" required key="processor">
               <el-col :span="8">
                 <el-form-item prop="processor" key="processor-item">
                   <el-cascader
                     expand-trigger="hover"
-                    :options="assignHandlers"
+                    :options="processors"
                     clearable
                     v-model="processor" placeholder="请选择"></el-cascader>
                 </el-form-item>
@@ -114,7 +114,7 @@
               key="material-desc-input-desc"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm">提交处理</el-button>
+            <el-button type="primary" @click="submitMaterial">提交处理</el-button>
           </el-form-item>
         </template>
       </el-form>
@@ -148,7 +148,7 @@ export default {
       }
     };
     return {
-      handleType: '',
+      handleType: '1',
       checked: false,
       processor: [],
       uploadFiles: [],
@@ -163,7 +163,10 @@ export default {
         '.pdf'
       ],
       form: {
-        uploadFiles: []
+        uploadFiles: [],
+        processorRemark: '',
+        reqScheme: '',
+        materialDesc: ''
       },
       rules: {
         uploadFiles: [
@@ -177,10 +180,10 @@ export default {
           { required: true, message: '请输入备注', trigger: 'blur' }
         ],
 
-        plan: [
+        reqScheme: [
           { required: true, message: '请输入处理方案', trigger: 'blur' }
         ],
-        planDesc: [
+        processorRemark: [
           { required: true, message: '请输入备注', trigger: 'blur' }
         ],
         processor: [
@@ -191,11 +194,11 @@ export default {
   },
   computed: {
     ...mapState({
-      assignHandlers: ({ order }) => order.assignHandlers
+      processors: ({ requirement }) => requirement.processors
     })
   },
   created() {
-    this.getAssignhandler();
+    this.queryRequirementProcessors();
   },
   watch: {
     processor(newVal) {
@@ -260,23 +263,69 @@ export default {
     },
     handleChangeType(val) {
       const {form} = this;
-      if (val === '6') {
-        form.plan = '';
-        form.planDesc = '';
+      if (val === '2') {
+        form.reqScheme = '';
+        form.processorRemark = '';
       } else {
         form.processor = '';
         this.processor = '';
       }
     },
     submitForm() {
-      this.$refs.baseForm.validate((valid) => {
+      const that = this;
+      that.$refs.baseForm.validate((valid) => {
         if (valid) {
+          const {
+            processor,
+            reqScheme,
+            processorRemark
+          } = that.form;
 
+          let params = {
+            reqId: '',
+            taskInsId: '',
+            handleType: that.handleType,
+            processorRemark,
+            reqScheme,
+            processor
+          };
+
+          this.handleDailyComplain(params);
+        }
+      });
+    },
+    submitMaterial() {
+      const that = this;
+      that.$refs.baseForm.validate((valid) => {
+        if (valid) {
+          that.getProductFileId().then((res) => {
+            let fileInputId = res.data;
+            uploadData.files = that.uploadFiles;
+            uploadData.fileInputId = fileInputId;
+            that.requirement.fileInputId = fileInputId;
+            that.uploadProductScheme(uploadData).then(() => {
+              const {
+                materialDesc
+              } = that.form;
+
+              let params = {
+                reqId: '',
+                taskInsId: '',
+                processorRemark: materialDesc
+              };
+
+              that.handleRequirementMateriel(params);
+            });
+          });
         }
       });
     },
     ...mapActions([
-      'getAssignhandler'
+      'queryRequirementProcessors',
+      'handleDailyComplain',
+      'handleRequirementMateriel',
+      'getProductFileId',
+      'uploadProductScheme'
     ])
   }
 };

@@ -13,7 +13,9 @@
         <p class="steps current"><span>2</span>产品销售案例</p>
       </div>
       <div class="creat-model">
-        <wm-table v-if="cacheData && cacheData.length > 0" :source="cacheData">
+        <wm-table v-if="cacheData && cacheData.length > 0"
+          :source="cacheData"
+          row-style="rowStyle">
           <el-table-column label="销售类型" width="80" property="salesType" :formatter="salesTypeFormat">
           </el-table-column>
           <el-table-column label="组合产品" property="composedProduct" :formatter="composedProductFormat" show-overflow-tooltip >
@@ -57,10 +59,7 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item
-             :filter-method="filterData"
-             :filters="[{text: 0, value: 0}]"
-             label="方案介绍：" label-width="130px" prop="scheme">
+            <el-form-item label="方案介绍：" label-width="130px" prop="scheme">
               <el-input v-model="formData.scheme" placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
             </el-form-item>
             <el-form-item label="销售数量：" label-width="130px" prop="salesNumber">
@@ -84,7 +83,7 @@
                 :on-remove="removeFile">
                 <span class="blue"> <i class="el-icon el-icon-plus fs12"></i>上传附件</span>
                 <div slot="tip" class="el-upload__tip">
-                  <p class="lh1-5">1. 附件格式支持“PPT、Excel、World和压缩包“格式</p>
+                  <p class="lh1-5">1. 附件格式支持“PPT、Excel、Word和压缩包“格式</p>
                   <p class="lh1-5">2. 附件大小不超过20M。</p>
                 </div>
               </el-upload>
@@ -115,14 +114,15 @@ export default {
   },
   data() {
     function getWordLen(str, validNum) {
-      var length = 0;
+      let length = str.length;
+      /* var length = 0;
       for (let i = 0; i < str.length; i++) {
         if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
           length += 2;
         } else {
           length += 1;
         }
-      }
+      } */
       if (length > validNum) {
         return true;
       }
@@ -133,8 +133,8 @@ export default {
     function checkTip(content, value, callback) {
       if (String(value).trim() === '') {
         callback(new Error('请输入' + content + '!'));
-      } else if (getWordLen(value, 1000)) {
-        callback(new Error('请输入500个汉字以内' + content + '!'));
+      } else if (getWordLen(value, 500)) {
+        callback(new Error('请输入500个字符以内' + content + '!'));
       } else {
         callback();
       }
@@ -142,8 +142,8 @@ export default {
     var productNameFn = (rule, value, callback) => {
       if (String(value).trim() === '') {
         callback(new Error('请输入产品名称!'));
-      } else if (getWordLen(value, 50)) {
-        callback(new Error('请输入在25个汉字以内产品名称!'));
+      } else if (getWordLen(value, 25)) {
+        callback(new Error('请输入在25个字符以内产品名称!'));
       } else {
         callback();
       }
@@ -160,7 +160,7 @@ export default {
       if (String(value).trim() === '') {
         callback(new Error('请输入销售数量!'));
       } else if (!reg.test(value)) {
-        callback(new Error('请输入9位以内的数字!'));
+        callback(new Error('请输入正整数，最多9位数!'));
       } else {
         callback();
       }
@@ -257,7 +257,7 @@ export default {
       this.isShow = false;
       if (returnStep === 1 && prevStep === 2) {
         this.formData = this.saleStep;
-        if (this.saleStep.salesList.length > 0) {
+        if (this.saleStep.salesList && this.saleStep.salesList.length > 0) {
           let res = this.saleStep.salesList;
           for (let i in res) {
             res[i].state = 3;
@@ -281,7 +281,7 @@ export default {
     } else {
       if (returnStep === 1 && prevStep === 2) {
         this.formData = this.saleStep;
-        if (this.saleStep.salesList.length > 0) {
+        if (this.saleStep.salesList && this.saleStep.salesList.length > 0) {
           this.isShow = false;
           let res = this.saleStep.salesList;
           for (let i in res) {
@@ -302,7 +302,10 @@ export default {
       }
     },
     composedProductFormat(row, column, cellValue) {
-      let composedStr = cellValue.join('、');
+      let composedStr = '';
+      if (cellValue && cellValue.length > 0) {
+        composedStr = cellValue.join('、');
+      }
       return composedStr;
     },
     productNameFormat(row, column, cellValue) {
@@ -313,7 +316,14 @@ export default {
       }
     },
     filterData(value, row, column) {
-      debugger;
+    },
+    rowStyle(row, rowIndex) {
+      console.log(row);
+      if (row.state === 0) {
+        return 'display: none';
+      } else {
+        return '';
+      }
     },
     addSaleDome() {
       if (this.isShow) {
@@ -603,11 +613,21 @@ export default {
     padding: 30px;
     margin: 0 auto;
   }
-  .el-select .el-tag {
-    max-width: 258px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .el-select {
+    .el-tag {
+      max-width: 235px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      padding-right: 25px;
+    }
+    .el-tag__close {
+      position: absolute;
+      top:5px;
+      right: 5px;
+    }
+
   }
   .add-content {
     width: 430px;

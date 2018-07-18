@@ -153,7 +153,7 @@
                 <el-form-item prop="processor" key="processor">
                     <el-cascader
                       expand-trigger="hover"
-                      :options="assignHandlers"
+                      :options="processors"
                       clearable
                       v-model="processor" placeholder="请选择"></el-cascader>
                 </el-form-item>
@@ -226,7 +226,7 @@ export default {
   },
   computed: {
     ...mapState({
-      assignHandlers: ({ order }) => order.assignHandlers
+      processors: ({ requirement }) => requirement.processors
     })
   },
   watch: {
@@ -238,7 +238,7 @@ export default {
     }
   },
   created() {
-    this.getAssignhandler();
+    this.queryRequirementProcessors();
   },
   methods: {
     isAcceptable(fileName) {
@@ -342,7 +342,7 @@ export default {
     },
     ...mapActions([
       'saveRequirement',
-      'getAssignhandler',
+      'queryRequirementProcessors',
       'getProductFileId',
       'uploadProductScheme'
     ])
