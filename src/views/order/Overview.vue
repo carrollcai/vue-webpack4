@@ -55,7 +55,7 @@
 
 <script>
 import WmTable from 'components/Table.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 import { ORDER_STATUS } from '@/config/index.js';
 import moment from 'moment';
 
@@ -82,6 +82,7 @@ export default {
   },
   methods: {
     tabChange() {
+      this.pageChange();
       this.query();
     },
     handleDetail(row) {
@@ -89,11 +90,11 @@ export default {
       this.$router.push(path);
     },
     onPagination(value) {
-      this.orderOverviewForm.pageNo = value;
+      this.pageChange({ pageNo: value });
       this.query();
     },
     onSizePagination(value) {
-      this.orderOverviewForm.pageSize = value;
+      this.pageChange({ pageSize: value });
       this.query();
     },
     query() {
@@ -113,6 +114,9 @@ export default {
         this.getOrderList(_params);
       });
     },
+    ...mapMutations({
+      pageChange: 'ORDER_OVERVIEW_PAGE_CHANGE'
+    }),
     ...mapActions([
       'getOrderList'
     ])

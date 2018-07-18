@@ -177,7 +177,7 @@ export const emailCheck = (rule, value, callback) => {
 // 整数部分最多5位，小数部分最多4位
 export const inte5Deci4 = (rule, value, callback) => {
   const reg = /^\d{1,5}(?:\.\d{1,4})?$/;
-  if (reg.test(value)) {
+  if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
     callback();
   } else {
     callback(new Error('整数部分最多5位，小数部分最多4位'));

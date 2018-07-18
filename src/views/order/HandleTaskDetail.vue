@@ -14,7 +14,7 @@
 
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
         <!-- 签约处理，必须是指派任务才能显示 -->
-        <detail-bar v-if="routeType === 'sign' && getSignHandleContent()" :title="['处理人：', '指派原因：']" :content="getSignHandleContent()" />
+        <detail-bar v-if="getSignHandleContent()" :title="['指派人：', '指派原因：']" :content="getSignHandleContent()" />
 
         <!-- 签约指派 -->
         <detail-bar v-if="routeType === 'detail' && getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
@@ -59,7 +59,7 @@
 
       <el-form class="handle-task-detail-form" label-width="112px" v-if="routeType === 'pay'" ref="pay" :model="payForm" :rules="payRules">
         <el-form-item label="付款金额：" prop="money">
-          <el-input class="form-input-medium" type="number" v-model.number="payForm.money" placeholder="请输入合同金额" @onmousewheel="cancelNumberScroll">
+          <el-input class="form-input-medium" type="text" maxlength="10" v-model="payForm.money" placeholder="请输入合同金额">
             <template slot="append">万元/月</template>
           </el-input>
         </el-form-item>
@@ -156,9 +156,10 @@ export default {
     }
   },
   methods: {
+    // 显示签约指派人，必须要有指派原因
     getSignHandleContent() {
       let contents = [];
-      if (Number(this.handleTaskDetail.ordStatus) === this.dispatchSignStatus) {
+      if (Number(this.handleTaskDetail.ordStatus) === this.dispatchSignStatus && this.handleTaskDetail.assignReason) {
         contents.push(this.handleTaskDetail.processName);
         contents.push(this.handleTaskDetail.assignReason);
         return contents;
@@ -192,7 +193,7 @@ export default {
     getProcessContent() {
       let contents = [];
       if (Number(this.handleTaskDetail.ordStatus) === this.cancelStatus) {
-        contents.push(this.handleTaskDetail.processName);
+        contents.push('已取消');
         contents.push(this.handleTaskDetail.assignReason);
         return contents;
       }
@@ -203,7 +204,7 @@ export default {
       this.taskInsId = this.$route.query.taskInsId;
     },
     beforeUpload(file, fileList) {
-      const isOverLimit = file.size > FILE_MAX_SIZE;
+      const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
       if (isOverLimit) {
         this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
         let index = fileList.findIndex(val => val.uid === file.raw.uid);

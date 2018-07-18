@@ -82,7 +82,7 @@
 
 <script>
 import WmTable from 'components/Table.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 import moment from 'moment';
 
 export default {
@@ -124,9 +124,6 @@ export default {
     });
   },
   methods: {
-    handleHandlerChange() {
-
-    },
     submitAssign() {
       let params = Object.cloneDeep(this.assignHandle);
       params.dealPerson = params.dealPerson.pop();
@@ -143,6 +140,7 @@ export default {
       });
     },
     tabChange() {
+      this.pageChange();
       this.query();
     },
     handleCommand(row, command) {
@@ -153,11 +151,11 @@ export default {
       this[COMMANDS[command]](row);
     },
     onPagination(value) {
-      this.orderHandleTaskForm.pageNo = value;
+      this.pageChange({ pageNo: value });
       this.query();
     },
     onSizePagination(value) {
-      this.orderHandleTaskForm.pageSize = value;
+      this.pageChange({ pageSize: value });
       this.query();
     },
     handlePay(row) {
@@ -208,6 +206,9 @@ export default {
         this.getHandleTaskList(_params);
       });
     },
+    ...mapMutations({
+      pageChange: 'ORDER_CM_PAGE_CHANGE'
+    }),
     ...mapActions([
       'getHandleTaskList',
       'getAssignhandler',
