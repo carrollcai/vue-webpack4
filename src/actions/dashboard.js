@@ -15,13 +15,16 @@ const actions = {
   // 获取当前用户信息
   queryCurrentOperator: ({ commit }, params) => {
     return API.queryCurrentOperatorAPI(params).then(res => {
+      commit(types.HOME_MODULE, res.data);
       commit(types.HOME_MODULE_FROM_MENU, res.data);
+      return res.data.secOperatorDTO;
     });
   },
   // 更新用户首页设置标志位
   updateHomeModule: ({ commit }, params) => {
     return API.updateHomeModuleAPI(params).then(res => {
-      commit(types.HOME_MODULE_FROM_MENU, res.data);
+      commit(types.UPDATE_HOME_MODULE_STATUS, res.data);
+      return res;
     });
   },
   // 首页（商机）

@@ -1,6 +1,11 @@
 <template>
 <div class="p-content">
-  <div class="crumb-bar"><span>产品总览 / </span>产品详情</div>
+  <div class="crumb-bar">
+    <el-breadcrumb>
+      <el-breadcrumb-item :to="{ path: toPath }">{{isDetail === '0' ? '产品总览' : '产品创建管理'}}</el-breadcrumb-item>
+      <el-breadcrumb-item>产品详情</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
   <baseInfo :product="productSaleDemo"></baseInfo>
   <saleDome :data="productSaleDemo.salesList"></saleDome>
 </div>
@@ -18,7 +23,9 @@ export default {
   },
   data() {
     return {
-      productId: this.$route.params.id
+      productId: this.$route.params.id,
+      isDetail: this.$route.query.isDetail,
+      toPath: this.$route.query.isDetail === '0' ? '/product/product-view' : '/product/product-creat-manage'
     };
   },
   computed: {
@@ -39,18 +46,12 @@ export default {
 </script>
 
 <style lang="scss">
-.crumb-bar {
-  height: 48px;
-  line-height: 48px;
-  font-size: 12px;
-  color: #595959;
-  background: #fff;
-  padding: 0 32px;
-  span {
-    color: #c0c0c0;
-  }
-}
 .p-content {
+  .crumb-bar {
+    .el-breadcrumb {
+      line-height: 48px;
+    }
+  }
   .el-table__expand-column {
     display: none;
   }

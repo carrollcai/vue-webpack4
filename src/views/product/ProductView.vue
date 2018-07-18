@@ -130,7 +130,7 @@ export default {
       this.query();
     },
     toPageDetail(row) {
-      const path = `/product/product-detail/${row.productId}`;
+      const path = `/product/product-detail/${row.productId}?isDetail=0`;
       this.$router.push(path);
     },
     productTypeFn(row, column, columnValue) {
