@@ -27,7 +27,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
+          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="预计协议期：" prop="predictAgreementTime">
           <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
