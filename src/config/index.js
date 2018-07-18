@@ -289,19 +289,19 @@ export const FILE_UPLOAD_LIMIT = 5;
 export const EMAIL_MAX_LENGTH = 35;
 
 // 上传文件支持类型
-export const FILE_ACCEPT = 'application/vnd.ms-powerpoint,text/plain,application/vnd.ms-excel,application/msword,.zip,.rar';
+export const FILE_ACCEPT = [
+  '.ppt',
+  '.pptx',
+  '.xlsx',
+  '.xls',
+  '.doc',
+  '.docx',
+  '.txt',
+  '.zip',
+  '.rar'
+];
+export const FILE_TIP = '只支持word、excel、ppt、pdf、rar格式';
 
-// export const FILE_ACCEPT = [
-//   '.ppt',
-//   '.pptx',
-//   '.xlsx',
-//   '.xls',
-//   '.doc',
-//   '.docx',
-//   '.txt',
-//   '.zip',
-//   '.rar'
-// ];
 // 20M
 export const FILE_MAX_SIZE = 20;
 
