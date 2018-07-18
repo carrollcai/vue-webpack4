@@ -71,8 +71,22 @@
             <el-form-item label="经验教训：" label-width="130px" prop="experience">
               <el-input v-model="formData.experience" placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
             </el-form-item>
-            <el-form-item label="方案附件：" label-width="130px">
-              <el-upload class="upload-demo"
+            <el-form-item label="方案附件：" label-width="130px" prop="files">
+              <el-upload class="upload-demo" action=""
+                :auto-upload="false"
+                :on-change="fileChange"
+                :multiple="false"
+                :on-remove="removeFile"
+                :file-list="fileList">
+                <el-button slot="trigger" size="small">
+                  <i class="icon-up margin-right-8"></i>上传文件
+                </el-button>
+                <div slot="tip" class="el-upload__tip">
+                  <p class="lh1-5">1. 附件格式支持“PPT、Excel、Word和压缩包“格式</p>
+                  <p class="lh1-5">2. 附件大小不超过20M。</p>
+                </div>
+              </el-upload>
+              <!-- <el-upload class="upload-demo"
                 action=""
                 :auto-upload="false"
                 :on-change="fileChange"
@@ -86,7 +100,7 @@
                   <p class="lh1-5">1. 附件格式支持“PPT、Excel、Word和压缩包“格式</p>
                   <p class="lh1-5">2. 附件大小不超过20M。</p>
                 </div>
-              </el-upload>
+              </el-upload> -->
             </el-form-item>
             <el-row class="mt28 mb10">
               <el-button type="primary" round size="mini" @click="onSubmit(formData)">确定</el-button>
@@ -108,6 +122,7 @@
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
 import { multFileValid } from '@/utils/rules.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_TIP } from '@/config/index.js';
 export default {
   components: {
     WmTable
@@ -175,6 +190,7 @@ export default {
       checkTip('方案介绍', value, callback);
     };
     return {
+      FILE_MAX_SIZE,
       isAddProduct: this.$route.params.id | false,
       modefiyIndex: -1,
       params: {},
@@ -318,7 +334,6 @@ export default {
     filterData(value, row, column) {
     },
     rowStyle(row, rowIndex) {
-      console.log(row);
       if (row.state === 0) {
         return 'display: none';
       } else {
@@ -490,14 +505,31 @@ export default {
         this.isShow = true;
       }
     },
-    fileChange(files, fileList) {
-      this.uploadData.files.push(files.raw);
+    beforeUpload(file, fileList) {
+      const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
+      const isFormat = !this.isAcceptable(file.name);
+      let index = fileList.findIndex(val => val.uid === file.raw.uid);
+      if (isFormat) {
+        this.$message.error(FILE_TIP);
+        fileList.splice(index, 1);
+      }
+      if (isOverLimit) {
+        this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
+        fileList.splice(index, 1);
+      }
+      return isOverLimit || isFormat;
+    },
+    fileChange(file, fileList) {
+      if (this.beforeUpload(file, fileList)) return false;
+      this.fileList.push(file.raw);
+      // this.fileList.push(file.raw);
     },
     removeFile(files, fileList) {
       var _this = this;
       if (files.elecInstId) {
         this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
           if (res.errorInfo.code === '200') {
+            this.$message.success(`已删除成功!`);
             if (fileList.length === 0) {
               _this.uploadData.fileInputId = '';
               _this.formData.fileInputId = '';
@@ -507,6 +539,14 @@ export default {
       } else {
         this.formDataValid.files = null;
       }
+    },
+    isAcceptable(fileName) {
+      for (let accept of FILE_ACCEPT) {
+        if (fileName.endsWith(accept)) {
+          return true;
+        }
+      }
+      return false;
     },
     submitAssignForm() {
       var _this = this;
