@@ -269,6 +269,7 @@ export default {
     var _this = this;
     this.getComposedProduct({});
     this.params = JSON.parse(localStorage.getItem('params'));
+    let cacheData = JSON.parse(localStorage.getItem('cacheData'));
     if (this.isAddProduct && this.isAddProduct > 0) {
       this.isShow = false;
       if (returnStep === 1 && prevStep === 2) {
@@ -279,7 +280,7 @@ export default {
             res[i].state = 3;
           }
           this.cacheSalesList = res;
-          this.cacheData = res.concat();
+          _this.cacheData = cacheData;
         }
       } else {
         var data = { productId: Number(this.isAddProduct) };
@@ -304,7 +305,7 @@ export default {
             res[i].state = 3;
           }
           this.cacheSalesList = res;
-          this.cacheData = res.concat();
+          this.cacheData = cacheData;
         }
       }
     }
@@ -467,6 +468,10 @@ export default {
     },
     deleteProduct(index, row) {
       var _this = this;
+      if (this.isShow) {
+        this.$message({showClose: true, message: '请先报存，在提交！', type: 'warning'});
+        return false;
+      }
       this.$confirm('删除该产品数据, 是否继续?', ' ', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -478,6 +483,7 @@ export default {
             _this.cacheSalesList[i].state = 0;
           }
         }
+        localStorage.setItem('cacheData', JSON.stringify(_this.cacheData));
         _this.params.salesList = _this.cacheSalesList;
         _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
       }).catch(() => {
@@ -522,7 +528,7 @@ export default {
     fileChange(file, fileList) {
       if (this.beforeUpload(file, fileList)) return false;
       this.fileList.push(file.raw);
-      // this.fileList.push(file.raw);
+      this.uploadData.files.push(file.raw);
     },
     removeFile(files, fileList) {
       var _this = this;
