@@ -41,11 +41,11 @@
       </div>
       <div v-if="type === '已分派'" class="detail-bar-item">
         <div class="title">指派处理人：</div>
-        <div>{{headData.processor}}</div>
+        <div>{{headData.lastOpName}}</div>
       </div>
       <div v-if="type === '已分派'" class="detail-bar-item">
         <div class="title">指派说明：</div>
-        <div class="ellipsis" :title="headData.assignReason">{{headData.assignReason}}</div>
+        <div class="ellipsis" :title="headData.lastDealResult">{{headData.lastDealResult}}</div>
       </div>
   </div>
 </template>

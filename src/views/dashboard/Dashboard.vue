@@ -11,8 +11,8 @@
         </div>
         <div class="group-customer">
           <!--{{'列表内容 ' + o }}-->
-          <div v-for="o in 4" :key="o" class="group-customer-item">
-            <div>
+          <div v-for="o in 4" :key="o" class="group-customer-wrap">
+            <div class="group-customer-item">
               <div class="group-customer-item-content">
                 <div class="name">
                   中国石化上海石油股份…
@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="group-customer-item-more">
-            查看更多
+            <span>查看更多</span>
           </div>
         </div>
       </el-card>
@@ -332,32 +332,61 @@ export default {
         }
       }
     }
-    .group-customer-item:nth-child(1) {
-      border-top: 3px solid rgba(154, 81, 233, 1);
+    .group-customer-wrap {
+       display: inline-block;
     }
-    .group-customer-item:nth-child(2) {
-      border-top: 3px solid rgba(75, 155, 255, 1);
+    .group-customer-wrap:nth-child(1) {
+      width: 23.7%;
+      .group-customer-item {
+        border-top: 3px solid rgba(154, 81, 233, 1);
+      }
     }
-    .group-customer-item:nth-child(3) {
-      border-top: 3px solid rgba(65, 204, 204, 1);
+    .group-customer-wrap:nth-child(2) {
+      width: 23.7%;
+      .group-customer-item {
+        border-top: 3px solid rgba(75, 155, 255, 1);
+      }
     }
-    .group-customer-item:nth-child(4) {
-      border-top: 3px solid rgba(241, 99, 126, 1);
+    .group-customer-wrap:nth-child(3) {
+      width: 23.7%;
+      .group-customer-item {
+        border-top: 3px solid rgba(65, 204, 204, 1);
+      }
+    }
+    .group-customer-wrap:nth-child(4) {
+      width: 23.7%;
+      .group-customer-item {
+        border-top: 3px solid rgba(241, 99, 126, 1);
+      }
     }
     .group-customer-item-more {
-      height: 150px;
+      width: 5.2%;
       padding-top: 50px;
       color: rgba(55, 120, 255, 1);
       font-size: 12px;
+      float: right;
+      span {
+        display:inline-block;
+        width: 30px;
+      }
     }
   }
   .todo-list {
     background-color: #fff;
     height: 110px;
-    .todo-list-item li {
-      float: left;
-      width: 20%;
+    .todo-list-item {
+      li {
+        float: left;
+        width: 21%;
+      }
+      li:nth-last-child(1) {
+        width: 16%;
+      }
     }
+    // .todo-list-item li {
+    //   float: left;
+    //   width: 21%;
+    // }
     .item-content {
       padding-left: 20px;
       margin-top: 12px;
