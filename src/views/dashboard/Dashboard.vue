@@ -135,9 +135,9 @@ export default {
     this.queryCurrentOperator().then(res => {
       if (res.homeModuleFromMenu && res.homeModuleFromMenu.length !== 0) {
         let list = [];
-        for(let i = 0; i < res.homeModuleFromMenu.length; i++) {
+        for (let i = 0; i < res.homeModuleFromMenu.length; i++) {
           let json = {};
-          switch(res.homeModuleFromMenu[i]) {
+          switch (res.homeModuleFromMenu[i]) {
             case '24':
               json.label = '集团任务';
               json.value = 24;
@@ -161,11 +161,11 @@ export default {
       }
       if (res.homeModule && res.homeModule.length !== 0) {
         let list = [];
-        for(let i = 0; i < res.homeModule.length; i++) {
+        for (let i = 0; i < res.homeModule.length; i++) {
           let str = '';
-          switch(res.homeModule[i]) {
+          switch (res.homeModule[i]) {
             case '24':
-              str = '集团任务'
+              str = '集团任务';
               break;
             case '8':
               str = '处理任务';
@@ -205,11 +205,11 @@ export default {
     submit() {
       if (this.checkList.length > 0) {
         let list = [];
-        for(let i = 0; i < this.checkList.length; i++) {
+        for (let i = 0; i < this.checkList.length; i++) {
           let str = '';
-          switch(this.checkList[i]) {
+          switch (this.checkList[i]) {
             case '集团任务':
-              str = '24'
+              str = '24';
               break;
             case '处理任务':
               str = '8';
@@ -230,7 +230,7 @@ export default {
           } else {
             this.$message({ showClose: true, message: '设置失败！', type: 'error' });
           }
-        })
+        });
       } else {
         this.$message({ showClose: true, message: '请至少选择一项！' });
       }
