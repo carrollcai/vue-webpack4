@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="m-container visit-create">
-      <el-form :label-position="'right'" label-width="140px">
+      <el-form :label-position="'right'" :model="createVisitFrom" ref="createVisitFrom" :rules="createVisitVaild">
         <el-form-item label="走访主题：" required prop="visitTheme">
           <el-input v-model="createVisitFrom.visitTheme" class="form-input-medium" placeholder="请输入主题" />
         </el-form-item>
@@ -48,11 +48,16 @@
           <el-input v-model="createVisitFrom.visitContent" type="textarea" class="form-input-large" placeholder="请输入走访内容" />
         </el-form-item>
         <el-form-item label="涉及商机编码：" required>
+          <el-form-item prop="relOpporCode" style="display:inline-block;">
+            <el-autocomplete class="form-input-half" v-model="createVisitFrom.relOpporCode" :fetch-suggestions="querySearchAsync" placeholder="请输入商机编码" @select="getRelOpporId" :trigger-on-focus="false" />
+          </el-form-item>
+        </el-form-item>
+        <!-- <el-form-item label="涉及商机编码：" required>
           <el-input v-model="createVisitFrom.relOpporCode" class="form-input-medium" placeholder="请输入商机编码" />
           <div class="form-input-sep">-</div>
           <el-input v-model="createVisitFrom.relOpporName" class="form-input-large" placeholder="请输入商机名称">
           </el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="问题协调：" required prop="problemCoordinate">
           <el-input v-model="createVisitFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
         </el-form-item>
@@ -95,7 +100,57 @@ export default {
       levelOptions: [],
       auditorOptions: [],
       fromVaild: {},
-      pointAuditor: []
+      pointAuditor: [],
+      createVisitVaild: {
+        visitTheme: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        organizeId: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        organizeName: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitAddress: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        intervieweeName: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        intervieweeMobile: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitPresentMembers: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitContent: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        relOpporId: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        relOpporCode: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        problemCoordinate: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitAuditor: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        isFirstVisit: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitStartTime: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitEndTime: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        isSubmit: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ]
+      }
     };
   },
   computed: {
@@ -121,6 +176,14 @@ export default {
         this.createVisitFrom.visitStartTime = '';
         this.createVisitFrom.visitEndTime = '';
       }
+    },
+    getRelOpporId(item) {
+      let data = {
+        opporCode: item.relOpporCode,
+        pageNo: 1,
+        pageSize: 5
+      };
+      this.queryRegisterList(data);
     },
     handleSelect(item) {
       this.createVisitFrom.visitAddress = item.orgAddress;
@@ -169,7 +232,8 @@ export default {
       'setCreateVisit',
       'getOrganizeAddress',
       'queryProductByCodeOrName',
-      'getAssignhandler'
+      'getAssignhandler',
+      'queryRegisterList'
     ])
   }
 };
