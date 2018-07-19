@@ -70,6 +70,8 @@ import VisitAppointDetail from '@/views/visit/detail/VisitAppointDetail.vue';
 import CreateVisitApplication from '@/views/visit/create/CreateVisitApplication.vue';
 import ExecuteProcess from '@/views/visit/ExecuteProcess.vue';
 import MyVisitView from '@/views/visit/MyVisitView.vue';
+import VisitMissionHandle from '@/views/visit/handle/MissionHandle.vue';
+import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
 
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
@@ -289,6 +291,18 @@ const dynamicRoutes = [
         path: '/visit/mission-handling',
         name: 'visit-mission-handling',
         component: MissionHandling,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/visit/mission/handle/:id',
+        name: 'visit-mission-handle',
+        component: VisitMissionHandle,
+        meta: { menuId: 14 }
+      },
+      {
+        path: '/visit/mission/handle-detail/:id',
+        name: 'visit-mission-handle-detail',
+        component: VisitMissionDetail,
         meta: { menuId: 14 }
       },
       {
