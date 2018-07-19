@@ -296,7 +296,6 @@ export const FILE_ACCEPT = [
   '.xls',
   '.doc',
   '.docx',
-  '.txt',
   '.zip',
   '.rar'
 ];
