@@ -3,7 +3,7 @@
     <div class="m-container">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/visit/mission-handling' }">走访任务处理</el-breadcrumb-item>
-        <el-breadcrumb-item>评价</el-breadcrumb-item>
+        <el-breadcrumb-item>{{title()}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="m-container info-block">
@@ -11,19 +11,21 @@
     </div>
 
     <div class="m-container info-block">
-      <el-form ref="baseForm" :model="baseForm" :rules="rules" label-width="130px">
-        <el-form-item label="走访评价" required prop="estimation">
-          <el-input type="textarea" placeholder="请输入走访评价" v-model="baseForm.estimation">
+      <!-- 评价 -->
+      <el-form v-if="visit.visitStatus === ''" ref="baseForm" :model="baseForm" :rules="rules" label-width="130px" key="judge-form">
+        <el-form-item label="走访评价" required prop="visitEvaluate">
+          <el-input type="textarea" placeholder="请输入走访评价" v-model="baseForm.visitEvaluate">
           </el-input>
         </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" @click="judge">确认</el-button>
+        <el-form-item key="judge-btns">
+          <el-button type="primary" key="judge-btn" @click="judge">确认</el-button>
           <el-button type="default" @click="back">取消</el-button>
         </el-form-item>
       </el-form>
 
-      <el-form ref="auditForm" :model="baseForm" :rules="rules" label-width="130px">
+      <!-- 审核 -->
+      <el-form v-if="visit.visitStatus === '1'" ref="auditForm" :model="baseForm" :rules="rules" label-width="130px" key="audit-form">
         <el-form-item label="审核结果" required prop="resultStatus">
           <el-radio-group v-model="baseForm.resultStatus" key="status-radio">
             <el-radio label="1">通过</el-radio>
@@ -31,13 +33,13 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item v-if="baseForm.resultStatus === '0'" label="审核建议" prop="suggestions">
-          <el-input type="textarea" placeholder="如审核不通过，请填写原因供创建者查看！" v-model="baseForm.suggestions">
+        <el-form-item v-if="baseForm.resultStatus === '0'" label="审核建议" prop="dealResult">
+          <el-input type="textarea" placeholder="如审核不通过，请填写原因供创建者查看！" v-model="baseForm.dealResult">
           </el-input>
         </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" @click="audit">确认</el-button>
+        <el-form-item key="audit-btns">
+          <el-button type="primary" key="audit-btn" @click="audit">确认</el-button>
           <el-button type="default" @click="back">取消</el-button>
         </el-form-item>
       </el-form>
@@ -55,17 +57,18 @@ export default {
   data() {
     return {
       baseForm: {
-        estimation: '',
-        resultStatus: '1'
+        visitEvaluate: '',
+        resultStatus: '1',
+        dealResult: ''
       },
       rules: {
-        estimation: [
+        visitEvaluate: [
           {required: true, message: '请输入走访评价', trigger: 'blur'}
         ],
         resultStatus: [
           {required: true, message: '请选择审核结果', trigger: 'change'}
         ],
-        suggestions: [
+        dealResult: [
           {required: true, message: '请输入审核建议', trigger: 'blur'}
         ]
       }
@@ -76,8 +79,8 @@ export default {
   },
   computed: {
     ...mapState({
-      visit: ({ requirement }) => {
-        return {};
+      visit: ({ visit }) => {
+        return visit.visitDetail;
       }
     })
   },
@@ -85,7 +88,12 @@ export default {
     initVisit() {
       let visitId = this.$route.params.id;
 
-      return visitId;
+      this.queryVisitDetail({
+        visitId
+      });
+    },
+    title() {
+      return this.visit.visitStatus === '1' ? '审核' : '评价';
     },
     /**
      * 评价走访任务
@@ -96,7 +104,7 @@ export default {
         if (valid) {
           that.judgeVisit({
             visitId: that.$route.params.id,
-            visitEvaluate: ''
+            visitEvaluate: this.baseForm.visitEvaluate
           });
         }
       });
@@ -108,10 +116,15 @@ export default {
       const that = this;
       that.$refs.auditForm.validate((valid) => {
         if (valid) {
+          const {
+            dealResult,
+            resultStatus
+          } = that.baseForm;
           that.auditVisit({
-            resultStatus: '',
             id: that.$route.params.id,
-            dealResult: ''
+            taskInsId: that.$route.params.taskInsId,
+            resultStatus,
+            dealResult
           });
         }
       });
@@ -121,7 +134,8 @@ export default {
     },
     ...mapActions([
       'auditVisit',
-      'judgeVisit'
+      'judgeVisit',
+      'queryVisitDetail'
     ])
   }
 };

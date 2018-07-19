@@ -107,12 +107,15 @@ export default {
    * 查询集团客户创建列表
    */
   getGroupCustomerListAPI: API('/esop/organize/queryMyOrganize'),
+
   /**
    * 查询集团客户审核列表
    */
   queryCustomerAuditListAPI: API('/esop/organize/queryTaskInfo'),
 
-  // 生成集团客户联系人ID
+  /**
+   * 生成集团客户联系人ID
+   */
   generateContactIdAPI: API('/esop/organize/contactId'),
   /* 产品管理 */
   // 产品总览
@@ -131,8 +134,12 @@ export default {
   downloadUplodFileAPI: download('/esop/elec/download'),
   // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
-  // 新增集团客户
+
+  /**
+   * 新增集团客户
+   */
   createCustomerAPI: API('/esop/organize/create'),
+
   /**
    * 新增集团客户-立即提审
    */
@@ -142,10 +149,12 @@ export default {
    * 修改集团客户
    */
   updateCustomerAPI: API('/esop/organize/edit'),
+
   /**
    * 修改-立即提审集团客户
    */
   editApproveCustomerAPI: API('/esop/organize/editApprove'),
+
   /**
    * 查询客户经理
    */
@@ -155,10 +164,12 @@ export default {
    * 查询集团客户
    */
   queryCustomerAPI: API('/esop/organize/queryOrganizeById'),
+
   /**
    * 查询集团客户 快照
    */
   queryCustomerSnapshotAPI: API('/esop/organize/querySnapShort'),
+
   /**
    * 查询审核集团客户的流程
    */
@@ -173,6 +184,7 @@ export default {
    * 提审集团客户
    */
   approveCustomerAPI: API('/esop/organize/startProcess'),
+
   /**
    * 审核集团客户
    */
@@ -202,6 +214,7 @@ export default {
    * 新增客户需求
    */
   saveRequirementAPI: API('/esop/bizRequire/create'),
+
   /**
    * 查询投诉处理人
    */
@@ -258,18 +271,26 @@ export default {
   setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   getAppointVisitListAPI: API('esop/visit/queryVisitAssign'),
   queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+
   /**
    * 查询 走访任务处理 列表
    */
   queryVisitTasksAPI: API('/esop/visit/queryVisitTaskInfo'),
+
   /**
-   * 评价走访
+   * 查询走访详情
+   */
+  queryVisitDetailAPI: API('/esop/visit/queryDetailVisit'),
+
+  /**
+   * 评价走访任务
    */
   judgeVisitAPI: API('/esop/visit/executeEvaluate'),
+
   /**
-   * 审核走访
+   * 审核走访任务
    */
-  auditVisitAPI: API('/esop/visit/executeEvaluate'),
+  auditVisitAPI: API('/esop/visit/approveVisit'),
   // 任务查看
   getQueryTaskAPI: API('esop/processInfo/queryTask'),
   /**

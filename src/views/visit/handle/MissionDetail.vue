@@ -43,8 +43,8 @@ export default {
   },
   computed: {
     ...mapState({
-      visit: ({ requirement }) => {
-        return {};
+      visit: ({ visit }) => {
+        return visit.visitDetail;
       }
     })
   },
@@ -52,10 +52,12 @@ export default {
     initVisit() {
       let visitId = this.$route.params.id;
 
-      return visitId;
+      this.queryVisitDetail({
+        visitId
+      });
     },
     ...mapActions([
-      ''
+      'queryVisitDetail'
     ])
   }
 };

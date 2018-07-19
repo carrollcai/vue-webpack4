@@ -46,17 +46,17 @@
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="走访编号" property="organizeCode" />
-        <el-table-column label="走访时间" property="organizeName">
+        <el-table-column label="走访编号" property="visitCode" show-overflow-tooltip/>
+        <el-table-column label="走访时间" property="visitStartTime">
         </el-table-column>
-        <el-table-column label="走访公司" property="organizeType" >
+        <el-table-column label="走访公司" property="organizeName" >
         </el-table-column>
-        <el-table-column label="走访发起人" property="provinceId">
+        <el-table-column label="走访发起人" property="opName">
         </el-table-column>
-        <el-table-column label="是否首客" property="managerName" />
+        <el-table-column label="是否首客" property="isFirstVisit" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" v-if="activeName === 'first'" @click="toHandle(scope.row)">
+            <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
               审核
             </el-button>
             <el-button type="text" v-if="activeName === 'second'" @click="toHandle(scope.row)">
@@ -92,10 +92,10 @@ export default {
   data() {
     return {
       STATUS: {
-        'first': '-1',
+        'first': '0',
         'second': '1',
-        'third': '0',
-        'forth': '0'
+        'third': '2',
+        'forth': '3'
       }
     };
   },
@@ -125,13 +125,13 @@ export default {
       this.query();
     },
     toDetail(row) {
-      this.$router.push(`/visit/mission/handle-detail/${row.organizeId}`);
+      this.$router.push(`/visit/mission/handle-detail/${row.visitId}`);
     },
     toHandle(row) {
-      this.$router.push(`/visit/mission/handle/${row.organizeId}`);
+      this.$router.push(`/visit/mission/handle/${row.visitId}`);
     },
     handleAudit(row) {
-      this.$router.push(`/group-customer/audit/${row.organizeId}/${row.taskInsId}`);
+      this.$router.push(`/visit/mission/handle-audit/${row.visitId}/${row.taskInsId}`);
     },
     getParams() {
       const {

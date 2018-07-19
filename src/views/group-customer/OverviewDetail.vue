@@ -65,7 +65,7 @@
         <el-table-column label="产品名称" property="productName" />
         <el-table-column label="订单编号" property="ordCode">
         </el-table-column>
-        <el-table-column label="创建时间" property="ordCreateDate">
+        <el-table-column label="订单创建时间" property="ordCreateDate">
         </el-table-column>
       </wm-table>
     </div>
