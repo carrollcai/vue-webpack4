@@ -207,7 +207,7 @@ export default {
       });
     },
     ...mapMutations({
-      pageChange: 'ORDER_CM_PAGE_CHANGE'
+      pageChange: 'ORDER_HT_PAGE_CHANGE'
     }),
     ...mapActions([
       'getHandleTaskList',

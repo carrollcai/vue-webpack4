@@ -50,7 +50,7 @@
 
                 <el-form style="margin-top: 16px;" ref="organizeNameInfo" :rules="organizeNameInfoRules" :model="organizeNameInfo">
                   <el-form-item class="margin-bottom-16" prop="organizeName">
-                    <el-autocomplete class="form-input-medium" v-model="organizeNameInfo.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+                    <el-autocomplete :maxLength="25" class="form-input-medium" v-model="organizeNameInfo.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
                   </el-form-item>
                   <el-form-item class="margin-bottom-16" prop="organizeName">
                     <el-button type="primary" @click="connectOrganize(scope.row)">确 定</el-button>
@@ -148,24 +148,21 @@ export default {
     },
     async connectOrganize(row) {
       let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.organizeNameInfo.organizeName)[0];
-      if (selectedObj) {
-        await this.setConnectOriganize({
-          ordId: row.ordId,
-          organizeId: selectedObj.organizeId,
-          organizeName: selectedObj.organizeName
-        });
+      // if (selectedObj) {
+      await this.setConnectOriganize({
+        ordId: row.ordId,
+        organizeId: selectedObj.organizeId,
+        organizeName: selectedObj.organizeName
+      });
 
-        await this.$message({
-          type: 'success',
-          message: '关联集团成功'
-        });
+      await this.$message.success('关联集团成功');
 
-        row.dialogVisible = false;
+      row.dialogVisible = false;
 
-        await this.query();
-      } else {
-        this.$message('集团不存在');
-      }
+      await this.query();
+      // } else {
+      //   this.$message('集团不存在');
+      // }
     },
     tabChange(val) {
       this.pageChange();
