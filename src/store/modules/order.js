@@ -175,7 +175,7 @@ const mutations = {
       });
   },
   [types.ORDER_LAST_PROCESS_INFO](state, data) {
-    state.lastProcessInfo = data[0];
+    state.lastProcessInfo = data.length ? data[0] : state.lastProcessInfo;
   }
 };
 
