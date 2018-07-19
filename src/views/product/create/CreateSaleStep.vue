@@ -443,7 +443,7 @@ export default {
         await this.queryElec({'fileInputId': row.fileInputId}).then((res) => {
           if (res.data) {
             (res.data).forEach(function(item, index) {
-              item.name = item.fileName
+              item.name = item.fileName;
               _this.fileList.push(item);
             }, _this);
           }
@@ -560,20 +560,20 @@ export default {
     },
     async submitAssignForm() {
       var _this = this;
-      let isId = this.uploadData.fileInputId ? true : false;
+      let isId = this.uploadData.fileInputId || false;
       await this.getProductFileId().then((res) => {
         _this.uploadData.fileInputId = res.data;
         _this.formData.fileInputId = res.data;
       });
-        if (this.isShow && this.isAddProduct) {
-          if (isId) {
-            this.uploadProductScheme(this.uploadData);
-          } else {
-            this.uploadProductScheme(this.uploadData);
-          }
+      if (this.isShow && this.isAddProduct) {
+        if (isId) {
+          this.uploadProductScheme(this.uploadData);
         } else {
           this.uploadProductScheme(this.uploadData);
         }
+      } else {
+        this.uploadProductScheme(this.uploadData);
+      }
     },
     prevStep() {
       if (!this.isSubmit) {
