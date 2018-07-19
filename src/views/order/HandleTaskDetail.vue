@@ -170,7 +170,7 @@ export default {
     // 显示签约指派人，必须要有指派原因
     getSignHandleContent() {
       let contents = [];
-      if (!this.businessStatus && this.handleTaskDetail.assignReason) {
+      if (!this.businessStatus && this.handleTaskDetail.assignReason && this.lastProcessInfo.lastOpName) {
         contents.push(this.lastProcessInfo.lastOpName);
         contents.push(this.lastProcessInfo.lastDealResult);
         return contents;
@@ -211,7 +211,7 @@ export default {
     },
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
-        if (accept.endsWith(fileName)) {
+        if (fileName.endsWith(accept)) {
           return true;
         }
       }
