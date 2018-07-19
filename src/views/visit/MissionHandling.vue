@@ -20,8 +20,8 @@
           </el-form-item>
 
           <el-form-item class="visit-form-item__input visit-form-item__lable" prop="code">
-            <el-select v-model="organizeType" clearable placeholder="是否首客">
-              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
+            <el-select v-model="isFirstVisit" clearable placeholder="是否首客">
+              <el-option v-for="(item, i) in VISIT_FIST_VISIT" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
         </div>
@@ -80,6 +80,10 @@ import { createHelpers } from 'vuex-map-fields';
 
 import WmTable from 'components/Table.vue';
 
+import {
+  VISIT_FIST_VISIT
+} from '@/config';
+
 const { mapFields } = createHelpers({
   getterType: 'getVisitField',
   mutationType: 'updateVisitField'
@@ -91,6 +95,7 @@ export default {
   },
   data() {
     return {
+      VISIT_FIST_VISIT,
       STATUS: {
         'first': '0',
         'second': '1',
@@ -109,6 +114,7 @@ export default {
       'handleQuery.businessStatus',
       'handleQuery.pageNo',
       'handleQuery.pageSize',
+      'handleQuery.isFirstVisit',
       'handleQuery.activeName'
     ])
   },
@@ -137,7 +143,8 @@ export default {
       const {
         pageNo,
         pageSize,
-        organizeName
+        organizeName,
+        isFirstVisit
       } = this;
 
       let rangeDate = this.rangeDate || ['', ''];
@@ -148,6 +155,7 @@ export default {
         pageNo,
         pageSize,
         organizeName,
+        isFirstVisit,
         businessStatus: this.STATUS[this.activeName]
       };
     },

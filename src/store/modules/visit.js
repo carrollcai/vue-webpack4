@@ -57,7 +57,7 @@ const state = {
     rangeDate: [],
     status: '',
     organizeName: '',
-    reqType: '',
+    isFirstVisit: '',
     activeName: 'first'
   },
   handleVisits: {},

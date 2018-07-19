@@ -36,7 +36,7 @@
       {{visit.isFirstVisit}}
     </el-form-item>
 
-    <template>
+    <template v-if="visit.visitStatus === '2'">
       <div class="line"></div>
 
       <el-form-item label="执行汇报">

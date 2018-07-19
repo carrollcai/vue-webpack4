@@ -359,6 +359,17 @@ export const REQUIREMENT_TYPE = [
   }
 ];
 
+export const VISIT_FIST_VISIT = [
+  {
+    'value': '0',
+    'label': '否'
+  },
+  {
+    'value': '1',
+    'label': '是'
+  }
+];
+
 export const ORDER_STATUS = {
   1: '草稿',
   2: '待签约',

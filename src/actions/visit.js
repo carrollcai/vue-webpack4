@@ -67,6 +67,8 @@ const actions = {
   queryVisitDetail: ({ commit }, params) => {
     return API.queryVisitDetailAPI(params).then((res) => {
       commit(types.VISIT_DETAIL, res.data);
+    }, () => {
+      commit(types.VISIT_DETAIL, {});
     });
   }
 };

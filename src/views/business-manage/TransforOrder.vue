@@ -8,7 +8,7 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="detail-bar-container" v-if="orderData.opporAssignPerson">
+    <div class="detail-bar-container" v-if="orderData.opporAssignReason">
       <div class="detail-bar">
         <div class="detail-bar-item">
           <div class="title">指派人：</div>

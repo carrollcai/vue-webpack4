@@ -2,10 +2,6 @@ import * as types from '../store/types';
 import API from '../utils/api';
 import {Message} from 'element-ui';
 
-function isSuccess(res) {
-  return res.errorInfo && res.errorInfo.code && res.errorInfo.code === '200';
-}
-
 function removeAttributs(customer) {
   // 删除不需要传的值
   delete customer.organizeTypeValue;
@@ -37,11 +33,9 @@ const actions = {
    */
   queryCustomerOverviewList: ({commit}, params) => {
     API.queryCustomerOverviewListAPI(params).then(res => {
-      if (isSuccess(res)) {
-        commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
-      } else {
-        commit(types.GROUP_CUSTOMER_GET_LIST, {});
-      }
+      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    }, () => {
+      commit(types.GROUP_CUSTOMER_GET_LIST, {});
     });
   },
   /**
@@ -52,11 +46,9 @@ const actions = {
    */
   getGroupCustomerList: ({commit}, params) => {
     API.getGroupCustomerListAPI(params).then(res => {
-      if (isSuccess(res)) {
-        commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
-      } else {
-        commit(types.GROUP_CUSTOMER_GET_LIST, {});
-      }
+      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    }, () => {
+      commit(types.GROUP_CUSTOMER_GET_LIST, {});
     });
   },
   /**
@@ -67,11 +59,9 @@ const actions = {
    */
   queryCustomerAuditList: ({commit}, params) => {
     API.queryCustomerAuditListAPI(params).then(res => {
-      if (isSuccess(res)) {
-        commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
-      } else {
-        commit(types.GROUP_CUSTOMER_GET_LIST, {});
-      }
+      commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
+    }, () => {
+      commit(types.GROUP_CUSTOMER_GET_LIST, {});
     });
   },
   /**
@@ -96,17 +86,15 @@ const actions = {
    */
   createCustomer({commit}, customer) {
     API.createCustomerAPI(customer).then((res) => {
-      if (isSuccess(res)) {
-        Message({
-          message: '创建成功',
-          type: 'success',
-          duration: 3000
-        });
-        // 创建成功
-        commit(types.ROUTE_CHANGE, {
-          path: '/group-customer/create-manage'
-        });
-      }
+      Message({
+        message: '创建成功',
+        type: 'success',
+        duration: 3000
+      });
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/group-customer/create-manage'
+      });
     });
   },
   /**
@@ -116,17 +104,15 @@ const actions = {
    */
   createApproveCustomer({commit}, customer) {
     API.createApproveCustomerAPI(customer).then((res) => {
-      if (isSuccess(res)) {
-        Message({
-          message: '创建并提审成功',
-          type: 'success',
-          duration: 3000
-        });
-        // 创建成功
-        commit(types.ROUTE_CHANGE, {
-          path: '/group-customer/create-manage'
-        });
-      }
+      Message({
+        message: '创建并提审成功',
+        type: 'success',
+        duration: 3000
+      });
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/group-customer/create-manage'
+      });
     });
   },
   /**
@@ -137,16 +123,14 @@ const actions = {
   updateCustomer({commit}, customer) {
     removeAttributs(customer);
     API.updateCustomerAPI(customer).then((res) => {
-      if (isSuccess(res)) {
-        Message({
-          message: '修改成功',
-          type: 'success',
-          duration: 3000
-        });
-        commit(types.ROUTE_CHANGE, {
-          path: '/group-customer/create-manage'
-        });
-      }
+      Message({
+        message: '修改成功',
+        type: 'success',
+        duration: 3000
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/group-customer/create-manage'
+      });
     });
   },
   /**
@@ -158,16 +142,14 @@ const actions = {
     removeAttributs(customer);
 
     API.editApproveCustomerAPI(customer).then((res) => {
-      if (isSuccess(res)) {
-        Message({
-          message: '修改并提审成功',
-          type: 'success',
-          duration: 3000
-        });
-        commit(types.ROUTE_CHANGE, {
-          path: '/group-customer/create-manage'
-        });
-      }
+      Message({
+        message: '修改并提审成功',
+        type: 'success',
+        duration: 3000
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/group-customer/create-manage'
+      });
     });
   },
   /**
@@ -179,11 +161,9 @@ const actions = {
     return API.queryCustomerAPI({
       organizeId: customerId
     }).then((res) => {
-      if (isSuccess(res)) {
-        commit(types.GROUP_CUSTOMER_DETAIL, res.data);
-      } else {
-        commit(types.GROUP_CUSTOMER_DETAIL, {});
-      }
+      commit(types.GROUP_CUSTOMER_DETAIL, res.data);
+    }, () => {
+      commit(types.GROUP_CUSTOMER_DETAIL, {});
     });
   },
   /**
@@ -195,11 +175,9 @@ const actions = {
     return API.queryCustomerSnapshotAPI({
       organizeId: customerId
     }).then((res) => {
-      if (isSuccess(res)) {
-        commit(types.GROUP_CUSTOMER_DETAIL, res.data);
-      } else {
-        commit(types.GROUP_CUSTOMER_DETAIL, {});
-      }
+      commit(types.GROUP_CUSTOMER_DETAIL, res.data);
+    }, () => {
+      commit(types.GROUP_CUSTOMER_DETAIL, {});
     });
   },
   /**
@@ -210,15 +188,13 @@ const actions = {
   deleteCustomer({commit}, customerId) {
     return API.deleteCustomerAPI({
       organizeId: customerId
-    }).then((res) => {
-      if (isSuccess(res)) {
-        Message({
-          showClose: true,
-          message: '您已成功删除该条集团客户信息！',
-          type: 'success',
-          duration: 3000
-        });
-      }
+    }).then(() => {
+      Message({
+        showClose: true,
+        message: '您已成功删除该条集团客户信息！',
+        type: 'success',
+        duration: 3000
+      });
     });
   },
   /**
@@ -230,14 +206,12 @@ const actions = {
     return API.approveCustomerAPI({
       id: customerId
     }).then((res) => {
-      if (isSuccess(res)) {
-        Message({
-          showClose: true,
-          message: '您已成功提审该条集团客户信息！',
-          type: 'success',
-          duration: 3000
-        });
-      }
+      Message({
+        showClose: true,
+        message: '您已成功提审该条集团客户信息！',
+        type: 'success',
+        duration: 3000
+      });
     });
   },
   /**
@@ -247,16 +221,14 @@ const actions = {
    */
   auditCustomer({commit}, params) {
     return API.auditCustomerAPI(params).then((res) => {
-      if (isSuccess(res)) {
-        Message({
-          message: '审核成功',
-          type: 'success',
-          duration: 3000
-        });
-        commit(types.ROUTE_CHANGE, {
-          path: '/group-customer/audit-manage'
-        });
-      }
+      Message({
+        message: '审核成功',
+        type: 'success',
+        duration: 3000
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/group-customer/audit-manage'
+      });
     });
   },
   /**
@@ -266,11 +238,9 @@ const actions = {
    */
   querySubscribeProducts({commit}, params) {
     API.querySubscribeProductsAPI(params).then(res => {
-      if (isSuccess(res)) {
-        commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, res.data);
-      } else {
-        commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, {});
-      }
+      commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, res.data);
+    }, () => {
+      commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, {});
     });
   },
   /**
@@ -280,11 +250,9 @@ const actions = {
     API.queryCustomerProcessedAPI({
       processInsId
     }).then(res => {
-      if (isSuccess(res)) {
-        commit(types.GROUP_CUSTOMER_PROCESSES, res.data);
-      } else {
-        commit(types.GROUP_CUSTOMER_PROCESSES, []);
-      }
+      commit(types.GROUP_CUSTOMER_PROCESSES, res.data);
+    }, () => {
+      commit(types.GROUP_CUSTOMER_PROCESSES, []);
     });
   }
 };
