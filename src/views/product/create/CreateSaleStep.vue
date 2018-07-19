@@ -280,7 +280,7 @@ export default {
           for (let i in res) {
             res[i].state = 3;
           }
-          this.cacheSalesList = res;
+          this.cacheSalesList = cacheSalesList;
           this.cacheData = cacheData;
         }
       } else {
@@ -293,7 +293,6 @@ export default {
             }
             _this.cacheSalesList = res;
             _this.cacheData = res.concat();
-            _this.params.salesList = cacheSalesList;
           }
         });
       }
@@ -306,9 +305,8 @@ export default {
           for (let i in res) {
             res[i].state = 3;
           }
-          this.cacheSalesList = res;
+          this.cacheSalesList = cacheSalesList;
           this.cacheData = cacheData;
-          this.params.salesList = cacheSalesList;
         }
       }
     }
