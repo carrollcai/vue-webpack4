@@ -1,49 +1,53 @@
 <template>
-  <div class="mission-handle">
+  <div class="visit-mission-handle">
     <div class="m-container">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/visit/mission-handling' }">走访任务处理</el-breadcrumb-item>
-        <el-breadcrumb-item>评价</el-breadcrumb-item>
+        <el-breadcrumb-item>{{title()}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="m-container">
+    <div class="m-container info-block">
       <visit-detail-info :visit="visit"></visit-detail-info>
     </div>
 
-    <el-form ref="baseForm" :model="baseForm" :rules="rules">
-      <el-form-item label="走访评价" required prop="estimation">
-        <el-input type="textarea" placeholder="请输入走访评价" v-model="baseForm.estimation">
-        </el-input>
-      </el-form-item>
+    <div class="m-container info-block">
+      <!-- 评价 -->
+      <el-form v-if="visit.visitStatus === ''" ref="baseForm" :model="baseForm" :rules="rules" label-width="130px" key="judge-form">
+        <el-form-item label="走访评价" required prop="visitEvaluate">
+          <el-input type="textarea" placeholder="请输入走访评价" v-model="baseForm.visitEvaluate">
+          </el-input>
+        </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="judge">确认</el-button>
-        <el-button type="default" @click="back">取消</el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item key="judge-btns">
+          <el-button type="primary" key="judge-btn" @click="judge">确认</el-button>
+          <el-button type="default" @click="back">取消</el-button>
+        </el-form-item>
+      </el-form>
 
-    <el-form ref="auditForm" :model="baseForm" :rules="rules">
-      <el-form-item label="审核结果" required prop="resultStatus">
-        <el-radio-group v-model="baseForm.resultStatus" key="status-radio">
-          <el-radio label="1">通过</el-radio>
-          <el-radio label="0">驳回</el-radio>
-        </el-radio-group>
-      </el-form-item>
+      <!-- 审核 -->
+      <el-form v-if="visit.visitStatus === '1'" ref="auditForm" :model="baseForm" :rules="rules" label-width="130px" key="audit-form">
+        <el-form-item label="审核结果" required prop="resultStatus">
+          <el-radio-group v-model="baseForm.resultStatus" key="status-radio">
+            <el-radio label="1">通过</el-radio>
+            <el-radio label="0">驳回</el-radio>
+          </el-radio-group>
+        </el-form-item>
 
-      <el-form-item v-if="baseForm.status === '0'" label="审核建议" prop="suggestions">
-        <el-input type="textarea" placeholder="如审核不通过，请填写原因供创建者查看！" v-model="baseForm.suggestions">
-        </el-input>
-      </el-form-item>
+        <el-form-item v-if="baseForm.resultStatus === '0'" label="审核建议" prop="dealResult">
+          <el-input type="textarea" placeholder="如审核不通过，请填写原因供创建者查看！" v-model="baseForm.dealResult">
+          </el-input>
+        </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="audit">确认</el-button>
-        <el-button type="default" @click="back">取消</el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item key="audit-btns">
+          <el-button type="primary" key="audit-btn" @click="audit">确认</el-button>
+          <el-button type="default" @click="back">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import VisitDetailInfo from './DetailInfo.vue';
 export default {
   name: 'MissionHandle',
@@ -53,50 +57,98 @@ export default {
   data() {
     return {
       baseForm: {
-        estimation: '',
-        resultStatus: '1'
+        visitEvaluate: '',
+        resultStatus: '1',
+        dealResult: ''
       },
-      visit: {},
       rules: {
-        estimation: [
+        visitEvaluate: [
           {required: true, message: '请输入走访评价', trigger: 'blur'}
         ],
         resultStatus: [
           {required: true, message: '请选择审核结果', trigger: 'change'}
         ],
-        suggestions: [
+        dealResult: [
           {required: true, message: '请输入审核建议', trigger: 'blur'}
         ]
       }
     };
   },
+  created() {
+    this.initVisit();
+  },
+  computed: {
+    ...mapState({
+      visit: ({ visit }) => {
+        return visit.visitDetail;
+      }
+    })
+  },
   methods: {
+    initVisit() {
+      let visitId = this.$route.params.id;
+
+      this.queryVisitDetail({
+        visitId
+      });
+    },
+    title() {
+      return this.visit.visitStatus === '1' ? '审核' : '评价';
+    },
+    /**
+     * 评价走访任务
+     */
     judge() {
-      this.$refs.baseForm.validate((valid) => {
+      const that = this;
+      that.$refs.baseForm.validate((valid) => {
         if (valid) {
-          this.judgeVisit();
+          that.judgeVisit({
+            visitId: that.$route.params.id,
+            visitEvaluate: this.baseForm.visitEvaluate
+          });
         }
       });
     },
+    /**
+     * 审核走访任务
+     */
     audit() {
-      this.$refs.auditForm.validate((valid) => {
+      const that = this;
+      that.$refs.auditForm.validate((valid) => {
         if (valid) {
-          this.auditVisit();
+          const {
+            dealResult,
+            resultStatus
+          } = that.baseForm;
+          that.auditVisit({
+            id: that.$route.params.id,
+            taskInsId: that.$route.params.taskInsId,
+            resultStatus,
+            dealResult
+          });
         }
       });
     },
     back() {
-
+      this.$router.replace('/visit/mission-handling');
     },
     ...mapActions([
       'auditVisit',
-      'judgeVisit'
+      'judgeVisit',
+      'queryVisitDetail'
     ])
   }
 };
 </script>
 <style lang="scss">
-.mission-handle{
+@import "scss/variables.scss";
+.visit-mission-handle{
+  .info-block{
+    margin-top: 16px;
+  }
 
+  .el-textarea{
+    width: $formLargeWidth;
+  }
 }
 </style>

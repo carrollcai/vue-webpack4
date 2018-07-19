@@ -30,7 +30,7 @@
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
-      <div class="detail-line"></div>
+      <div v-if="routeType === 'pay' || routeType === 'sign'" class="detail-line"></div>
 
       <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
         <el-form-item label="处理结果：">
@@ -170,7 +170,7 @@ export default {
     // 显示签约指派人，必须要有指派原因
     getSignHandleContent() {
       let contents = [];
-      if (!this.businessStatus && this.handleTaskDetail.assignReason) {
+      if (!this.businessStatus && this.handleTaskDetail.assignReason && this.lastProcessInfo.lastOpName) {
         contents.push(this.lastProcessInfo.lastOpName);
         contents.push(this.lastProcessInfo.lastDealResult);
         return contents;
@@ -211,7 +211,7 @@ export default {
     },
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
-        if (accept.endsWith(fileName)) {
+        if (fileName.endsWith(accept)) {
           return true;
         }
       }

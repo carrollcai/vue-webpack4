@@ -60,6 +60,14 @@ const actions = {
         path: '/visit/mission-handling'
       });
     });
+  },
+  /**
+   * 查询走访详情
+   */
+  queryVisitDetail: ({ commit }, params) => {
+    return API.queryVisitDetailAPI(params).then((res) => {
+      commit(types.VISIT_DETAIL, res.data);
+    });
   }
 };
 

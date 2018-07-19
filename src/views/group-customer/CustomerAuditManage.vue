@@ -3,7 +3,7 @@
     <div class="m-container query-block">
       <el-form class="group-form">
         <div class="flex">
-          <el-form-item class="user-form-item__input">
+          <el-form-item class="group-form-item__input">
             <el-select v-model="organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
@@ -22,7 +22,7 @@
             <el-input v-model="otherField" placeholder="集团名称/编码" clearable />
           </el-form-item>
         </div>
-        <div class="flex">
+        <div class="flex customer-query-btns">
           <el-form-item>
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
@@ -161,19 +161,22 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.group-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.group-form-item__input {
-  width: $inputWidthQuery;
-}
-
 .customer-audit-management{
+  .group-form-item__lable {
+    margin-left: $blockWidth;
+  }
+  .group-form {
+    display: flex;
+    align-items: center;
+  }
+  .group-form-item__input {
+    width: $inputWidthQuery;
+  }
+
+  .customer-query-btns{
+    margin-left: 40px;
+  }
+
   .customer-list{
     margin-top: $blockWidth;
   }

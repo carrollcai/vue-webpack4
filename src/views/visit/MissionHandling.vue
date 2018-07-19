@@ -1,9 +1,9 @@
 <template>
   <div class="mission-handle-management">
     <div class="m-container query-block">
-      <el-form class="group-form">
+      <el-form class="visit-form">
         <div class="flex">
-          <el-form-item class="user-form-item__input">
+          <el-form-item>
             <el-date-picker
               v-model="rangeDate"
               type="daterange"
@@ -15,17 +15,17 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
+          <el-form-item class="visit-form-item__input visit-form-item__lable" prop="staffName">
             <el-input v-model="organizeName" placeholder="走访公司名称" clearable/>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
+          <el-form-item class="visit-form-item__input visit-form-item__lable" prop="code">
             <el-select v-model="organizeType" clearable placeholder="是否首客">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
         </div>
-        <div class="flex">
+        <div class="flex visit-query-btns">
           <el-form-item>
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
@@ -46,26 +46,26 @@
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="走访编号" property="organizeCode" />
-        <el-table-column label="走访时间" property="organizeName">
+        <el-table-column label="走访编号" property="visitCode" show-overflow-tooltip/>
+        <el-table-column label="走访时间" property="visitStartTime">
         </el-table-column>
-        <el-table-column label="走访公司" property="organizeType" >
+        <el-table-column label="走访公司" property="organizeName" >
         </el-table-column>
-        <el-table-column label="走访发起人" property="provinceId">
+        <el-table-column label="走访发起人" property="opName">
         </el-table-column>
-        <el-table-column label="是否首客" property="managerName" />
+        <el-table-column label="是否首客" property="isFirstVisit" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
               审核
             </el-button>
-            <el-button type="text" v-if="activeName === 'second'" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'second'" @click="toHandle(scope.row)">
               评价
             </el-button>
-            <el-button type="text" v-if="activeName === 'third'" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'third'" @click="toDetail(scope.row)">
               查看
             </el-button>
-            <el-button type="text" v-if="activeName === 'forth'" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'forth'" @click="toDetail(scope.row)">
               查看评价
             </el-button>
           </template>
@@ -92,10 +92,10 @@ export default {
   data() {
     return {
       STATUS: {
-        'first': '-1',
+        'first': '0',
         'second': '1',
-        'third': '0',
-        'forth': '0'
+        'third': '2',
+        'forth': '3'
       }
     };
   },
@@ -124,11 +124,14 @@ export default {
       this.pageSize = value;
       this.query();
     },
-    handleDetail(row) {
-      this.$router.push(`/group-customer/audit/detail/${row.organizeId}`);
+    toDetail(row) {
+      this.$router.push(`/visit/mission/handle-detail/${row.visitId}`);
+    },
+    toHandle(row) {
+      this.$router.push(`/visit/mission/handle/${row.visitId}`);
     },
     handleAudit(row) {
-      this.$router.push(`/group-customer/audit/${row.organizeId}/${row.taskInsId}`);
+      this.$router.push(`/visit/mission/handle-audit/${row.visitId}/${row.taskInsId}`);
     },
     getParams() {
       const {
@@ -163,19 +166,21 @@ export default {
 </script>
 <style lang="scss">
 @import "scss/variables.scss";
-.group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.group-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.group-form-item__input {
-  width: $inputWidthQuery;
-}
-
 .mission-handle-management{
+  .visit-form-item__lable {
+    margin-left: $blockWidth;
+  }
+  .visit-form {
+    display: flex;
+    align-items: center;
+  }
+  .visit-form-item__input {
+    width: $inputWidthQuery;
+  }
+
+  .visit-query-btns{
+    margin-left: 40px;
+  }
   .visit-list{
     margin-top: $blockWidth;
   }

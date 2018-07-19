@@ -1,9 +1,9 @@
 <template>
   <div class="requirement-handle-management">
     <div class="m-container">
-      <el-form class="group-form" :model="params">
+      <el-form class="requirement-query-form">
         <div class="flex">
-          <el-form-item class="user-form-item__input">
+          <el-form-item class="">
             <el-date-picker
               v-model="rangeDate"
               type="daterange"
@@ -15,19 +15,19 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable">
+          <el-form-item class=" requirement-form-item__lable requirement-form-item__input">
             <el-select v-model="reqType" clearable placeholder="需求类型">
               <el-option v-for="(item, index) in REQUIREMENT_TYPE" :key="index" :value="item.value" :label="item.label"/>
             </el-select>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable">
+          <el-form-item class=" requirement-form-item__lable requirement-form-item__input">
             <el-input v-model="organizeName" clearable placeholder="客户名称"/>
           </el-form-item>
         </div>
 
-        <div class="flex">
-          <el-form-item class="role-form-item">
+        <div class="flex requirement-query-btns">
+          <el-form-item>
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
         </div>
@@ -153,23 +153,28 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.group-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.group-form-item__input {
-  width: $inputWidthQuery;
-}
-
-.role-form-item {
-  margin-left: $formWidth;
-}
-
 .requirement-handle-management {
+  .requirement-query-form {
+    display: flex;
+    align-items: center;
+  }
+
+  .requirement-form-item__lable {
+    margin-left: $blockWidth;
+  }
+
+   .requirement-form-item__input {
+    width: $inputWidthQuery;
+  }
+
+  .requirement-query-btns{
+    margin-left: 40px;
+  }
+
+  .requirement-form-item {
+    margin-left: $formWidth;
+  }
+
   .requirement-list{
     margin-top: $blockWidth;
   }

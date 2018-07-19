@@ -4,10 +4,8 @@
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitForm">
       <div class="flex">
         <el-form-item prop="date">
-          <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
-            </el-date-picker>
-          </el-col>
+          <el-date-picker style="width: 230px !important;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
@@ -38,7 +36,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="appointVisitForm.visitStatus" @tab-click="getState">
+    <!-- <el-tabs v-model="" @tab-click="getState">
       <el-tab-pane
         v-for="item in visitStatusList"
         :key="item.name"
@@ -46,7 +44,7 @@
         :name="item.name"
       >
       </el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
    </div>
    <div class="m-container table-container">
     <wm-table
@@ -172,7 +170,7 @@ export default {
   justify-content: space-between;
 }
 .visit-form-item__input {
-  width: $inputWidthQuery;
+  width: 135px;
 }
 .visit-form-item {
   margin-left: $formWidth;
