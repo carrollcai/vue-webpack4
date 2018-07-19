@@ -3,7 +3,7 @@
   <div class="m-container">
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitManageFrom">
       <div class="flex">
-        <el-form-item prop="date">
+        <el-form-item prop="date" style="width: 230px;">
           <el-col>
             <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
@@ -34,7 +34,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="visitStatus" @tab-click="getState">
+    <el-tabs v-model="myVisitManageFrom.visitStatus" @tab-click="getState">
       <el-tab-pane
         v-for="item in visitStatusList"
         :key="item.name"
@@ -88,7 +88,6 @@ export default {
   data() {
     return {
       timeRange: '',
-      visitStatus: '',
       firstGuestOption: [{
         value: '1',
         label: '否'

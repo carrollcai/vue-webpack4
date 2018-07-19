@@ -48,13 +48,13 @@
               </el-form-item>
             </p>
             <p>
-              <el-form-item label="创新点/借鉴点：">
+              <el-form-item class="key-point" label="创新点/借鉴点：">
                 <span>{{ props.row.keypoint }}</span>
               </el-form-item>
             </p>
             <p v-if="props.row.fileName">
               <el-form-item label="方案附件：">
-                <span v-for="name in props.row.fileName" :key="name" class="blue mr10" @click="dowloadFile()">
+                <span v-for="name in props.row.fileName" :key="name" class="blue down" @click="dowloadFile()">
                   <i class="el-icon-download"></i>{{name}}
                 </span>
               </el-form-item>
@@ -170,7 +170,7 @@ export default {
   margin-top: 16px;
   padding-bottom: 16px;
   background: #fff;
-  .mr10 {margin-right: 10px;}
+  .down {display: inline-block; min-width: 366px; margin-right: 10px;}
   h3 {
     height: 48px;
     line-height: 48px;
@@ -199,10 +199,12 @@ export default {
     padding: 32px;
   }
   .demo-table-expand {
-    .el-form-item {margin-bottom: 0;}
+    .el-form-item {margin-bottom: 0; display: flex;}
     .el-form-item__label {
       color: #c0c0c0;
+      min-width: 82px;
     }
+    .key-point .el-form-item__label {min-width: 116px;}
     p {
       min-height: 28px;
       line-height: 28px;
