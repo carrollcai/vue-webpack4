@@ -198,8 +198,7 @@ export default {
       }, 1000);
     },
     async relationConfirm(row) {
-      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.relationcooperName 
-      || val.organizeCode === this.relationcooperName)[0];
+      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.relationcooperName || val.organizeCode === this.relationcooperName)[0];
       if (selectedObj) {
         await this.groupAssociation({
           opporId: row.opporId,
