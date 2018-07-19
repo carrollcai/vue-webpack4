@@ -21,10 +21,10 @@
     </div>
     <div class="flex">
       <el-form-item>
-        <el-button @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="toCreatProduct">+ 新建产品</el-button>
+        <el-button @click="toCreatProduct">+ 新建产品</el-button>
       </el-form-item>
     </div>
   </el-form>
