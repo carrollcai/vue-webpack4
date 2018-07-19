@@ -51,6 +51,7 @@ const state = {
   },
   appointVisitList: {},
   visitAppointDetail: {},
+  registerList: [],
   handleQuery: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
@@ -75,6 +76,9 @@ const mutations = {
   },
   [types.VISIT_APPOINT_DETAIL](state, data) {
     state.visitAppointDetail = data;
+  },
+  [types.REGISTER_LIST](state, data) {
+    state.registerList = data.list;
   },
   [types.HANDLE_VISIT_MANAGE_LIST](state, data) {
     state.handleVisits = data;

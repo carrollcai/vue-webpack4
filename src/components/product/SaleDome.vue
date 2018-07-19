@@ -52,10 +52,10 @@
                 <span>{{ props.row.keypoint }}</span>
               </el-form-item>
             </p>
-            <p v-if="props.row.fileName">
+            <p v-if="props.row.fileNames">
               <el-form-item label="方案附件：">
-                <span v-for="name in props.row.fileName" :key="name" class="blue down" @click="dowloadFile()">
-                  <i class="el-icon-download"></i>{{name}}
+                <span v-for="name in props.row.fileNames" :key="name" class="blue down" @click="dowloadFile(name.fileName, name.fileSaveName)">
+                  <i class="el-icon-download"></i>{{name.fileName}}
                 </span>
               </el-form-item>
             </p>
@@ -119,11 +119,16 @@ export default {
             }).then((res) => {
               if (res.data.length > 0) {
                 if (_this.data[i].fileInputId === res.data[0].fileInputId) {
-                  var name = [];
+                  let name = [];
                   for (let d in res.data) {
-                    name.push(res.data[d].fileName);
+                    let obj = {
+                      fileName: res.data[d].fileName,
+                      fileSaveName: res.data[d].fileSaveName
+                    };
+                    name.push(obj);
                   }
-                  _this.data[i].fileName = name;
+                  _this.data[i].fileNames = name;
+                  _this.uploadData = name;
                 }
               }
             });
@@ -154,7 +159,12 @@ export default {
         return '无';
       }
     },
-    dowloadFile() {
+    dowloadFile(name, path) {
+      this.uploadData = {
+        fileTypeId: 502,
+        fileSaveName: path,
+        fileName: name
+      };
       this.downloadUplodFile(this.uploadData);
     },
     ...mapActions([
@@ -212,6 +222,7 @@ export default {
       .el-form-item__content {
         line-height: 1.5;
         margin-top: 9px;
+        word-break: break-all;
       }
     }
     .sale-type {

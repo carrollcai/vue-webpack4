@@ -3,9 +3,9 @@
   <div class="m-container">
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitManageFrom">
       <div class="flex">
-        <el-form-item prop="date" style="width: 230px;">
+        <el-form-item prop="date">
           <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-col>
         </el-form-item>
@@ -34,14 +34,12 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="myVisitManageFrom.visitStatus" @tab-click="getState">
-      <el-tab-pane
-        v-for="item in visitStatusList"
-        :key="item.name"
-        :label="item.label"
-        :name="item.name"
-      >
-      </el-tab-pane>
+    <el-tabs v-model="visitStatus" @tab-click="getState">
+      <el-tab-pane label="全部" name="0"></el-tab-pane>
+      <el-tab-pane label="待执行" name="1"></el-tab-pane>
+      <el-tab-pane label="已完成" name="2"></el-tab-pane>
+      <el-tab-pane label="待审核" name="3"></el-tab-pane>
+      <el-tab-pane label="已驳回" name="4"></el-tab-pane>
     </el-tabs>
   </div>
   <div class="m-container table-container">
@@ -88,6 +86,7 @@ export default {
   data() {
     return {
       timeRange: '',
+      visitStatus: '0',
       firstGuestOption: [{
         value: '1',
         label: '否'
@@ -150,6 +149,7 @@ export default {
     handleDetail(row) {
     },
     query() {
+      console.log(this.myVisitManageFrom);
       this.getMyVisitManageList(this.myVisitManageFrom);
     },
     createVisitApplication() {

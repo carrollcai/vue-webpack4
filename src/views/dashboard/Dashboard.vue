@@ -256,8 +256,7 @@ export default {
       this.$router.push(path);
     },
     goGroupUncomplete() {
-      // console.log(this.$store.state.groupCustomer);
-      // this.$store.state.groupCustomer.auditQuery.businessStatus = '-1';
+      this.$store.state.groupCustomer.auditQuery.activeName = 'first';
       const path = `group-customer/audit-manage`;
       this.$router.push(path);
     },
@@ -272,10 +271,12 @@ export default {
       this.$router.push(path);
     },
     goRequireUncomplete() {
+      this.$store.state.requirement.handleQuery.activeName = 'first';
       const path = `requirement/list`;
       this.$router.push(path);
     },
     goVisitUncomplete() {
+      this.$store.state.visit.handleQuery.activeName = 'first';
       const path = `visit/mission-handling`;
       this.$router.push(path);
     },
