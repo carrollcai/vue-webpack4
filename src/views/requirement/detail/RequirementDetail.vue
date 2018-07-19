@@ -12,17 +12,20 @@
       <el-form class="handle-detail" v-if="requirement.reqStatus === '2'"
         label-width="86px"
         >
+        <!-- 投诉、日常 -->
         <template v-if="requirement.reqType !== '2'">
           <el-form-item label="处理人">
             {{requirement.processor}}
           </el-form-item>
           <el-form-item label="处理方式" v-if="requirement.reqType === '1'">
-            {{requirement.reqScheme}}
+            {{requirement.handleTypeName}}
           </el-form-item>
-          <el-form-item label="处理方案">
+          <el-form-item label="处理方案" v-if="requirement.handleType !== '2'">
             {{requirement.reqScheme}}
           </el-form-item>
         </template>
+
+        <!-- 物料 -->
         <template v-if="requirement.reqType === '2'">
           <el-form-item label="物料">
             <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
@@ -30,7 +33,7 @@
             </span>
           </el-form-item>
         </template>
-        <el-form-item label="备注">
+        <el-form-item label="备注" v-if="requirement.handleType !== '2'">
           {{requirement.processorRemark}}
         </el-form-item>
       </el-form>
