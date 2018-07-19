@@ -270,6 +270,7 @@ export default {
     this.getComposedProduct({});
     this.params = JSON.parse(localStorage.getItem('params'));
     let cacheData = JSON.parse(localStorage.getItem('cacheData'));
+    let cacheSalesList = JSON.parse(localStorage.getItem('cacheSalesList'));
     if (this.isAddProduct && this.isAddProduct > 0) {
       this.isShow = false;
       if (returnStep === 1 && prevStep === 2) {
@@ -280,7 +281,7 @@ export default {
             res[i].state = 3;
           }
           this.cacheSalesList = res;
-          _this.cacheData = cacheData;
+          this.cacheData = cacheData;
         }
       } else {
         var data = { productId: Number(this.isAddProduct) };
@@ -292,6 +293,7 @@ export default {
             }
             _this.cacheSalesList = res;
             _this.cacheData = res.concat();
+            _this.params.salesList = cacheSalesList;
           }
         });
       }
@@ -306,6 +308,7 @@ export default {
           }
           this.cacheSalesList = res;
           this.cacheData = cacheData;
+          this.params.salesList = cacheSalesList;
         }
       }
     }
@@ -483,8 +486,9 @@ export default {
             _this.cacheSalesList[i].state = 0;
           }
         }
-        localStorage.setItem('cacheData', JSON.stringify(_this.cacheData));
         _this.params.salesList = _this.cacheSalesList;
+        localStorage.setItem('cacheData', JSON.stringify(_this.cacheData));
+        localStorage.setItem('cacheSalesList', JSON.stringify(_this.cacheSalesList));
         _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
       }).catch(() => {
         _this.$message('已取消删除');
