@@ -147,8 +147,9 @@ export default {
       }, 1000);
     },
     async connectOrganize(row) {
-      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.organizeNameInfo.organizeName)[0];
-      // if (selectedObj) {
+      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.organizeNameInfo.organizeName 
+    || val.organizeCode === this.organizeNameInfo.organizeName)[0];
+      if (selectedObj) {
       await this.setConnectOriganize({
         ordId: row.ordId,
         organizeId: selectedObj.organizeId,
@@ -160,9 +161,9 @@ export default {
       row.dialogVisible = false;
 
       await this.query();
-      // } else {
-      //   this.$message('集团不存在');
-      // }
+      } else {
+        this.$message('集团不存在');
+      }
     },
     tabChange(val) {
       this.pageChange();
