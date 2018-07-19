@@ -39,10 +39,34 @@ const actions = {
       commit(types.HOME_ORDER_LIST, res.data.list);
     });
   },
-  // 我的处理任务
-  queryTaskInfo: ({ commit }, params) => {
+  // 我的处理任务集团
+  queryTaskInfoOrangize: ({ commit }, params) => {
     return API.queryTaskInfoAPI(params).then(res => {
-      commit(types.HOME_QUERY_TASK_INFO, res.data.list);
+      commit(types.HOME_QUERY_TASK_INFO_ORANGIZE, res.data);
+    });
+  },
+  // 我的处理任务订单
+  queryTaskInfoOrder: ({ commit }, params) => {
+    return API.queryTaskInfoAPI(params).then(res => {
+      commit(types.HOME_QUERY_TASK_INFO_ORDER, res.data);
+    });
+  },
+  // 我的处理任务商机
+  queryTaskInfoBusiness: ({ commit }, params) => {
+    return API.queryTaskInfoAPI(params).then(res => {
+      commit(types.HOME_QUERY_TASK_INFO_BUSINESS, res.data);
+    });
+  },
+  // 我的处理任务需求
+  queryTaskInfoRequire: ({ commit }, params) => {
+    return API.queryTaskInfoAPI(params).then(res => {
+      commit(types.HOME_QUERY_TASK_INFO_REQUIRE, res.data);
+    });
+  },
+  // 我的处理任务走访
+  queryTaskInfoVisit: ({ commit }, params) => {
+    return API.queryTaskInfoAPI(params).then(res => {
+      commit(types.HOME_QUERY_TASK_INFO_VISIT, res.data);
     });
   },
   // 首页集团查询
