@@ -256,7 +256,8 @@ export default {
   /* visit */
   getMyVisitManageListAPI: API('esop/visit/queryVisitSelf'),
   setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
-  getAppointVisitListAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  getAppointVisitListAPI: API('esop/visit/queryVisitAssign'),
+  queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   /**
    * 查询 走访任务处理 列表
    */
@@ -269,7 +270,6 @@ export default {
    * 审核走访
    */
   auditVisitAPI: API('/esop/visit/executeEvaluate'),
-  queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   // 任务查看
   getQueryTaskAPI: API('esop/processInfo/queryTask'),
   /**
@@ -282,5 +282,9 @@ export default {
   // 首页（商机）
   getHomeBusinessListAPI: API('esop/bizOppor/homePage'),
   // 首页（订单）
-  getHomeOrderListAPI: API('esop/bizOrder/homePage')
+  getHomeOrderListAPI: API('esop/bizOrder/homePage'),
+  // 我的处理任务
+  queryTaskInfoAPI: API('esop/index/queryTaskInfo'),
+  // 首页集团查询
+  queryOrganizeInfoAPI: API('esop/index/queryOrganizeInfo')
 };

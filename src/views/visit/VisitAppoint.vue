@@ -4,18 +4,16 @@
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitForm">
       <div class="flex">
         <el-form-item prop="date">
-          <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期">
-            </el-date-picker>
-          </el-col>
+          <el-date-picker style="width: 230px !important;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-input placeholder="走访公司名称" />
+          <el-input v-model="appointVisitForm.organizeName" placeholder="走访公司名称" />
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-select v-model="myVisitForm.isFirstGuest" placeholder="是否首客">
+          <el-select v-model="appointVisitForm.isFirstGuest" placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
               :key="item.value"
@@ -26,23 +24,27 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-input placeholder="指派走访人" />
+          <el-input v-model="appointVisitForm.isFirstVisit" placeholder="指派走访人" />
         </el-form-item>
       </div>
       <div class="flex">
         <el-form-item class="visit-form-item">
-          <el-button type="primary">查询</el-button>
+          <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
         <el-form-item class="visit-form-item">
           <el-button class="el-button--have-icon" @click.prevent="createVisitApplication" icon="el-icon-plus">新建走访指派</el-button>
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="status">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="待执行"></el-tab-pane>
-      <el-tab-pane label="已执行"></el-tab-pane>
-    </el-tabs>
+    <!-- <el-tabs v-model="" @tab-click="getState">
+      <el-tab-pane
+        v-for="item in visitStatusList"
+        :key="item.name"
+        :label="item.label"
+        :name="item.name"
+      >
+      </el-tab-pane>
+    </el-tabs> -->
    </div>
    <div class="m-container table-container">
     <wm-table
@@ -56,7 +58,7 @@
       <el-table-column label="走访时间" property="visitTime" />
       <el-table-column label="走访公司" property="organizeName" />
       <el-table-column label="指派走访人" property="visitStatus" />
-      <el-table-column label="是否首客" property="isFirstGuest" />
+      <el-table-column label="是否首客" property="isFirstVisit" />
       <el-table-column label="走访状态" property="visitStatus" />
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -86,17 +88,28 @@ export default {
   data() {
     return {
       timeRange: '',
-      status: 0,
-      myVisitForm: {
-        isFirstGuest: ''
-      },
+      myVisitForm: {},
       firstGuestOption: [{
         value: '1',
         label: '否'
       }, {
         value: '2',
         label: '是'
-      }]
+      }],
+      visitStatusList: [
+        {
+          name: '0',
+          label: '全部'
+        },
+        {
+          name: '1',
+          label: '待执行'
+        },
+        {
+          name: '2',
+          label: '已执行'
+        }
+      ]
     };
   },
   watch: {
@@ -109,11 +122,11 @@ export default {
   methods: {
     getTimeRange(time) {
       if (time) {
-        this.appointVisitForm.startDate = time[0];
-        this.appointVisitForm.endDate = time[1];
+        this.appointVisitForm.visitStartTime = time[0];
+        this.appointVisitForm.visitEndTime = time[1];
       } else {
-        this.appointVisitForm.startDate = '';
-        this.appointVisitForm.endDate = '';
+        this.appointVisitForm.visitStartTime = '';
+        this.appointVisitForm.visitEndTime = '';
       }
     },
     onPagination(value) {
@@ -124,15 +137,19 @@ export default {
       this.appointVisitForm.pageSize = value;
       this.query();
     },
+    getState(value) {
+      this.myVisitManageFrom.visitStatus = [value.name];
+    },
     handleDetail(row) {
       const path = '/visit/visit-appoint-detail/' + row.visitId;
       this.$router.push(path);
     },
     query() {
+      console.log(this.appointVisitForm);
       this.getAppointVisitList(this.appointVisitForm);
     },
     createVisitApplication() {
-      const path = '/visit/create-visit-application';
+      const path = '/visit/create-visit-appoint';
       this.$router.push(path);
     },
     ...mapActions([
@@ -153,7 +170,7 @@ export default {
   justify-content: space-between;
 }
 .visit-form-item__input {
-  width: $inputWidthQuery;
+  width: 135px;
 }
 .visit-form-item {
   margin-left: $formWidth;

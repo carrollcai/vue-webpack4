@@ -1,5 +1,5 @@
 <template>
-  <el-form class="m-container" label-width="130px">
+  <el-form label-width="130px" class="visit-mission-detail-info">
     <el-form-item label="走访主题">
       {{visit.name}}
     </el-form-item>
@@ -66,5 +66,11 @@ export default {
 };
 </script>
 <style lang="scss">
-
+.visit-mission-detail-info{
+  .line{
+    height: 1px;
+    border-top: 1px solid rgba(229, 229, 229, 1);
+    margin: 2px 0 24px 0;
+  }
+}
 </style>

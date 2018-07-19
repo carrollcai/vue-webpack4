@@ -4,21 +4,20 @@
       <span>工作台</span>
       <el-button style="float: right; padding: 3px 0" type="text" @click="homeSet()">首页设置</el-button>
     </div>
-    <div class="mt16">
+    <div class="mt16" v-if="showOrangize">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>我的集团客户</span>
         </div>
         <div class="group-customer">
-          <!--{{'列表内容 ' + o }}-->
-          <div v-for="o in 4" :key="o" class="group-customer-wrap">
+          <div v-for="o in homeQueryOrganizeInfo" :key="o" class="group-customer-wrap">
             <div class="group-customer-item">
               <div class="group-customer-item-content">
                 <div class="name">
-                  中国石化上海石油股份…
+                  {{o.organizeName}}
                 </div>
                 <div class="code">
-                  2012568489
+                  {{o.organizeCode}}
                 </div>
                 <div class="detail">
                   <ul>
@@ -26,20 +25,20 @@
                     <li>订购产品</li>
                   </ul>
                   <ul>
-                    <li>订购产品</li>
-                    <li>4</li>
+                    <li>{{o.managerName}}</li>
+                    <li>{{o.orderCount}}</li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
           <div class="group-customer-item-more">
-            <span>查看更多</span>
+            <el-button @click="goGroup()" type="text">查看更多</el-button>
           </div>
         </div>
       </el-card>
     </div>
-    <div class="mt16">
+    <div class="mt16" v-if="showTask">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>我的处理任务</span>
@@ -54,14 +53,64 @@
             </li>
           </ul>
           <ul class="todo-list-item">
-            <li v-for="o in 5" :key="o">
+            <li>
               <p class="item-content">
                 <span>待审核</span>
-                <span>0</span>
+                <el-button @click="goGroupUncomplete('0')" v-if="homeQueryTaskInfoOrangize[0] && homeQueryTaskInfoOrangize[0].count > 0" type="text">{{homeQueryTaskInfoOrangize[0].count}}</el-button>
+                <span v-else>0</span>
               </p>
               <p class="item-content">
                 <span>已审核</span>
-                <span>0</span>
+                <el-button @click="goGroupUncomplete('1')" v-if="homeQueryTaskInfoOrangize[1] && homeQueryTaskInfoOrangize[1].count > 0" type="text">{{homeQueryTaskInfoOrangize[1].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+            </li>
+            <li>
+              <p class="item-content">
+                <span>待审核</span>
+                <el-button @click="goOrderUncomplete('0')" v-if="homeQueryTaskInfoOrder[0] && homeQueryTaskInfoOrder[0].count > 0" type="text">{{homeQueryTaskInfoOrder[0].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+              <p class="item-content">
+                <span>已审核</span>
+                <el-button @click="goOrderUncomplete('1')" v-if="homeQueryTaskInfoOrder[1] && homeQueryTaskInfoOrder[1].count > 0" type="text">{{homeQueryTaskInfoOrder[1].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+            </li>
+            <li>
+              <p class="item-content">
+                <span>待审核</span>
+                <el-button @click="goBusinessUncomplete('0')" v-if="homeQueryTaskInfoBusiness[0] && homeQueryTaskInfoBusiness[0].count > 0" type="text">{{homeQueryTaskInfoBusiness[0].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+              <p class="item-content">
+                <span>已审核</span>
+                <el-button @click="goBusinessUncomplete('1')" v-if="homeQueryTaskInfoBusiness[1] && homeQueryTaskInfoBusiness[1].count > 0" type="text">{{homeQueryTaskInfoBusiness[1].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+            </li>
+            <li>
+              <p class="item-content">
+                <span>待审核</span>
+                <el-button @click="goRequireUncomplete('0')" v-if="homeQueryTaskInfoRequire[0] && homeQueryTaskInfoRequire[0].count > 0" type="text">{{homeQueryTaskInfoRequire[0].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+              <p class="item-content">
+                <span>已审核</span>
+                <el-button @click="goRequireUncomplete('1')" v-if="homeQueryTaskInfoRequire[1] && homeQueryTaskInfoRequire[1].count > 0" type="text">{{homeQueryTaskInfoRequire[1].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+            </li>
+            <li>
+              <p class="item-content">
+                <span>待审核</span>
+                <el-button @click="goVisitUncomplete('0')" v-if="homeQueryTaskInfoVisit[0] && homeQueryTaskInfoVisit[0].count > 0" type="text">{{homeQueryTaskInfoVisit[0].count}}</el-button>
+                <span v-else>0</span>
+              </p>
+              <p class="item-content">
+                <span>已审核</span>
+                <el-button @click="goVisitUncomplete('1')" v-if="homeQueryTaskInfoVisit[1] && homeQueryTaskInfoVisit[1].count > 0" type="text">{{homeQueryTaskInfoVisit[1].count}}</el-button>
+                <span v-else>0</span>
               </p>
             </li>
           </ul>
@@ -69,7 +118,7 @@
       </el-card>
     </div>
     <div class="mt16">
-      <div class="business">
+      <div class="business" v-if="showBusiness">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>合作商机</span>
@@ -86,7 +135,7 @@
           </div>
         </el-card>
       </div>
-      <div class="order">
+      <div class="order" v-if="showOrder">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>订单总览</span>
@@ -98,7 +147,7 @@
             </div>
             <div class="bar-content">
               <span class="product">订购：{{o.productName}}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</el-button>
+              <span style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</span>
             </div>
           </div>
         </el-card>
@@ -137,62 +186,15 @@ export default {
         {'name': '商机处理', 'icon': 'icon-shangji'},
         {'name': '需求处理', 'icon': 'icon-needs'},
         {'name': '走访处理', 'icon': 'icon-zoufang'}
-      ]
+      ],
+      showOrangize: false,
+      showTask: false,
+      showBusiness: false,
+      showOrder: false
     };
   },
   beforeMount() {
-    this.queryCurrentOperator().then(res => {
-      if (res.homeModuleFromMenu && res.homeModuleFromMenu.length !== 0) {
-        let list = [];
-        for (let i = 0; i < res.homeModuleFromMenu.length; i++) {
-          let json = {};
-          switch (res.homeModuleFromMenu[i]) {
-            case '24':
-              json.label = '集团任务';
-              json.value = 24;
-              break;
-            case '8':
-              json.label = '处理任务';
-              json.value = 8;
-              break;
-            case '20':
-              json.label = '合作商机';
-              json.value = 20;
-              break;
-            case '13':
-              json.label = '订单预览';
-              json.value = 13;
-              break;
-          }
-          list.push(json);
-        };
-        this.moduleList = list;
-      }
-      if (res.homeModule && res.homeModule.length !== 0) {
-        let list = [];
-        for (let i = 0; i < res.homeModule.length; i++) {
-          let str = '';
-          switch (res.homeModule[i]) {
-            case '24':
-              str = '集团任务';
-              break;
-            case '8':
-              str = '处理任务';
-              break;
-            case '20':
-              str = '合作商机';
-              break;
-            case '13':
-              str = '订单预览';
-              break;
-          }
-          list.push(str);
-        };
-        this.checkList = list;
-      }
-    });
-    this.getHomeBusinessList();
-    this.getHomeOrderList();
+    this.query();
   },
   computed: {
     ...mapState({
@@ -200,7 +202,13 @@ export default {
       homeModuleFromMenu: ({ dashboard }) => dashboard.homeModuleFromMenu,
       updateHomeModuleStatus: ({ dashboard }) => dashboard.updateHomeModuleStatus,
       homeBusinessList: ({ dashboard }) => dashboard.homeBusinessList,
-      homeOrderList: ({ dashboard }) => dashboard.homeOrderList
+      homeOrderList: ({ dashboard }) => dashboard.homeOrderList,
+      homeQueryTaskInfoOrangize: ({ dashboard }) => dashboard.homeQueryTaskInfoOrangize,
+      homeQueryTaskInfoOrder: ({ dashboard }) => dashboard.homeQueryTaskInfoOrder,
+      homeQueryTaskInfoBusiness: ({ dashboard }) => dashboard.homeQueryTaskInfoBusiness,
+      homeQueryTaskInfoRequire: ({ dashboard }) => dashboard.homeQueryTaskInfoRequire,
+      homeQueryTaskInfoVisit: ({ dashboard }) => dashboard.homeQueryTaskInfoVisit,
+      homeQueryOrganizeInfo: ({ dashboard }) => dashboard.homeQueryOrganizeInfo
     })
   },
   methods: {
@@ -236,6 +244,7 @@ export default {
           if (res.errorInfo.code === '200') {
             this.homeSetDialogVisible = false;
             this.$message({ showClose: true, message: '设置成功！', type: 'success' });
+            this.query();
           } else {
             this.$message({ showClose: true, message: '设置失败！', type: 'error' });
           }
@@ -252,8 +261,123 @@ export default {
       const path = `/order/overview`;
       this.$router.push(path);
     },
+    goGroup() {
+      const path = `group-customer/overview`;
+      this.$router.push(path);
+    },
+    goGroupUncomplete(type) {
+      const path = `group-customer/create-manage`;
+      this.$router.push(path);
+    },
+    goOrderUncomplete(type) {
+      const path = `order/handle-task`;
+      this.$router.push(path);
+    },
+    goBusinessUncomplete(type) {
+      const path = `business-manage/business-task`;
+      this.$router.push(path);
+    },
+    goRequireUncomplete(type) {
+      const path = `requirement/list`;
+      this.$router.push(path);
+    },
+    goVisitUncomplete(type) {
+      const path = `visit/mission-handling`;
+      this.$router.push(path);
+    },
+    query() {
+      this.queryCurrentOperator().then(res => {
+        if (res.homeModuleFromMenu && res.homeModuleFromMenu.length !== 0) {
+          let list = [];
+          for (let i = 0; i < res.homeModuleFromMenu.length; i++) {
+            let json = {};
+            switch (res.homeModuleFromMenu[i]) {
+              case '24':
+                json.label = '集团任务';
+                json.value = 24;
+                break;
+              case '8':
+                json.label = '处理任务';
+                json.value = 8;
+                break;
+              case '20':
+                json.label = '合作商机';
+                json.value = 20;
+                break;
+              case '13':
+                json.label = '订单预览';
+                json.value = 13;
+                break;
+            }
+            list.push(json);
+          };
+          this.moduleList = list;
+        }
+        if (res.homeModule && res.homeModule.length !== 0) {
+          let list = [];
+          for (let i = 0; i < res.homeModule.length; i++) {
+            let str = '';
+            switch (res.homeModule[i]) {
+              case '24':
+                str = '集团任务';
+                break;
+              case '8':
+                str = '处理任务';
+                break;
+              case '20':
+                str = '合作商机';
+                break;
+              case '13':
+                str = '订单预览';
+                break;
+            }
+            list.push(str);
+          };
+          this.checkList = list;
+          this.showOrangize = false;
+          this.showTask = false;
+          this.showBusiness = false;
+          this.showOrder = false;
+          for (let j = 0; j < this.checkList.length; j++) {
+            switch (this.checkList[j]) {
+              case '集团任务':
+                this.showOrangize = true;
+                break;
+              case '处理任务':
+                this.showTask = true;
+                break;
+              case '合作商机':
+                this.showBusiness = true;
+                break;
+              case '订单预览':
+                this.showOrder = true;
+                break;
+            }
+          }
+        }
+      });
+      this.getHomeBusinessList();
+      this.getHomeOrderList();
+      let organizeParams = {};
+      organizeParams.processId = 10001;
+      organizeParams.taskId = [10001, 10002];
+      let businessParams = {};
+      businessParams.processId = 10002;
+      let orderParams = {};
+      orderParams.processId = 10003;
+      let requireParams = {};
+      requireParams.processId = 10004;
+      let visitParams = {};
+      visitParams.processId = 10005;
+      this.queryTaskInfoOrangize(organizeParams);
+      this.queryTaskInfoBusiness(businessParams);
+      this.queryTaskInfoOrder(orderParams);
+      this.queryTaskInfoRequire(requireParams);
+      this.queryTaskInfoVisit(visitParams);
+      this.queryOrganizeInfo();
+    },
     ...mapActions([
-      'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList'
+      'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList', 'queryTaskInfoOrangize', 'queryTaskInfoBusiness', 'queryTaskInfoOrder', 'queryTaskInfoRequire', 'queryTaskInfoVisit', 'queryOrganizeInfo'
     ])
   }
 };
@@ -298,15 +422,15 @@ export default {
         padding: 20px 16px;
         .name {
           width: 154px;
-          height: 20px;
-          line-height: 20px;
+          height: 25px;
+          line-height: 25px;
           color: rgba(0, 0, 0, 0.65);
           font-size: 14px;
         }
         .code {
           width: 154px;
-          height: 14px;
-          line-height: 14px;
+          height: 18px;
+          line-height: 18px;
           color: rgba(0, 0, 0, 0.45);
           font-size: 12px;
           text-align: left;
@@ -315,6 +439,8 @@ export default {
           margin-top: 17px;
           ul li {
             width: 50%;
+            height: 20px;
+            line-height: 20px;
             float: left;
           }
           ul:nth-child(1) {
@@ -365,8 +491,9 @@ export default {
       color: rgba(55, 120, 255, 1);
       font-size: 12px;
       float: right;
-      span {
+      button {
         display:inline-block;
+        white-space: pre-wrap;
         width: 30px;
       }
     }
@@ -383,10 +510,6 @@ export default {
         width: 16%;
       }
     }
-    // .todo-list-item li {
-    //   float: left;
-    //   width: 21%;
-    // }
     .item-content {
       padding-left: 20px;
       margin-top: 12px;
@@ -411,9 +534,10 @@ export default {
   }
   .business {
     float: left;
+    margin-right: 1.4%;
   }
   .order {
-    float: right;
+    float: left;
   }
   .business, .order {
     width: 49.3%;
@@ -477,6 +601,17 @@ export default {
   }
   .el-dialog__footer {
     text-align: center !important;
+  }
+  [class^="icon-"], [class*=" icon-"] {
+    color: #8EAAE4;
+    font-size: 12px;
+  }
+  .el-button--text {
+    text-align: left;
+    padding: 0px;
+    span {
+      color: #3778FF !important;
+    }
   }
 }
 </style>

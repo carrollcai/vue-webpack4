@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="business-container o-overview-detail">
-      <detail-head v-if="this.$route.params.taskHasComplete === '1' && queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="queryTask[0]"></detail-head>
-      <detail-head v-else-if="this.$route.params.taskHasComplete === '1' && !queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
+      <detail-head v-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="queryTask[0]"></detail-head>
+      <detail-head v-else-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && !queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
       <detail-head v-else :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
       <detail-body :detailData="businessDetail"></detail-body>
       <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">

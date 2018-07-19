@@ -5,8 +5,8 @@
     <li><span>产品名称：</span>{{productList.productName}}</li>
     <li><span>产品价格：</span>{{productList.price}}元</li>
     <li><span>产品类别：</span>{{productList.productType}}</li>
-    <li><span>负责人员：</span>{{productList.username}}-{{productList.deptment}}-{{productList.position}}</li>
-    <li><span>产品介绍：</span>{{productList.scheme}}</li>
+    <li><span>负责人员：</span><label>{{productList.username}}-{{productList.deptment}}-{{productList.position}}</label></li>
+    <li class="pro-w-67"><span>产品介绍：</span><label>{{productList.description}}</label></li>
   </ul>
 </div>
 </template>
@@ -54,17 +54,20 @@ export default {
     flex-flow: wrap;
     padding: 10px 32px 0;
     li {
-      height: 28px;
-      line-height: 28px;
+      height: auto !important;
+      display: flex;
+      line-height: 1.5 !important;
       font-size: 14px;
       width: 33%;
       color: #262626;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin: 5px 0;
       span {
+        min-width: 71px;
         color: #c0c0c0;
       }
+    }
+    .pro-w-67 {
+      width: 67%;
     }
   }
 }

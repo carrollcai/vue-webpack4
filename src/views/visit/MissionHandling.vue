@@ -56,16 +56,16 @@
         <el-table-column label="是否首客" property="managerName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
+            <el-button type="text" v-if="activeName === 'first'" @click="toHandle(scope.row)">
               审核
             </el-button>
-            <el-button type="text" v-if="activeName === 'second'" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'second'" @click="toHandle(scope.row)">
               评价
             </el-button>
-            <el-button type="text" v-if="activeName === 'third'" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'third'" @click="toDetail(scope.row)">
               查看
             </el-button>
-            <el-button type="text" v-if="activeName === 'forth'" @click="handleDetail(scope.row)">
+            <el-button type="text" v-if="activeName === 'forth'" @click="toDetail(scope.row)">
               查看评价
             </el-button>
           </template>
@@ -124,8 +124,11 @@ export default {
       this.pageSize = value;
       this.query();
     },
-    handleDetail(row) {
-      this.$router.push(`/group-customer/audit/detail/${row.organizeId}`);
+    toDetail(row) {
+      this.$router.push(`/visit/mission/handle-detail/${row.organizeId}`);
+    },
+    toHandle(row) {
+      this.$router.push(`/visit/mission/handle/${row.organizeId}`);
     },
     handleAudit(row) {
       this.$router.push(`/group-customer/audit/${row.organizeId}/${row.taskInsId}`);
