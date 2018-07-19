@@ -36,15 +36,11 @@
         </el-form-item>
       </div>
     </el-form>
-    <!-- <el-tabs v-model="" @tab-click="getState">
-      <el-tab-pane
-        v-for="item in visitStatusList"
-        :key="item.name"
-        :label="item.label"
-        :name="item.name"
-      >
-      </el-tab-pane>
-    </el-tabs> -->
+    <el-tabs v-model="visitStatus" @tab-click="getState">
+      <el-tab-pane label="全部" name="0"></el-tab-pane>
+      <el-tab-pane label="待执行" name="1"></el-tab-pane>
+      <el-tab-pane label="已执行" name="2"></el-tab-pane>
+    </el-tabs>
    </div>
    <div class="m-container table-container">
     <wm-table
@@ -88,6 +84,7 @@ export default {
   data() {
     return {
       timeRange: '',
+      visitStatus: '',
       myVisitForm: {},
       firstGuestOption: [{
         value: '1',
@@ -95,21 +92,7 @@ export default {
       }, {
         value: '2',
         label: '是'
-      }],
-      visitStatusList: [
-        {
-          name: '0',
-          label: '全部'
-        },
-        {
-          name: '1',
-          label: '待执行'
-        },
-        {
-          name: '2',
-          label: '已执行'
-        }
-      ]
+      }]
     };
   },
   watch: {
@@ -138,7 +121,7 @@ export default {
       this.query();
     },
     getState(value) {
-      this.myVisitManageFrom.visitStatus = [value.name];
+      this.appointVisitForm.visitStatus = [value.name];
     },
     handleDetail(row) {
       const path = '/visit/visit-appoint-detail/' + row.visitId;

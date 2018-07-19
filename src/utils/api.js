@@ -258,6 +258,7 @@ export default {
   setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
   getAppointVisitListAPI: API('esop/visit/queryVisitAssign'),
   queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  queryRegisterListAPI: API('esop/api/user/register'),
   /**
    * 查询 走访任务处理 列表
    */

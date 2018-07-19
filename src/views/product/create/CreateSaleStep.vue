@@ -36,7 +36,7 @@
             <span>（可添加多个销售案例）</span>
           </h3>
           <h3 v-if="(isAddProduct && !addItem) || (!isAddProduct && !addItem)" class="title">编辑销售案例</h3>
-          <el-form class="add-content" :model="formData" :rules="formDataValid" :ref="formData" label-width="130px">
+          <el-form class="add-content" :model="formData" :rules="formDataValid" ref="formProduct" label-width="130px">
             <el-form-item label="销售类型：">
               <el-radio v-model="formData.salesType" @change="getRadioValue" value="0" label="0">单品销售</el-radio>
               <el-radio v-model="formData.salesType" @change="getRadioValue" value="1" label="1">组合销售</el-radio>
@@ -143,7 +143,7 @@ export default {
       }
     };
     const fileCheck = (rule, value, callback) => {
-      multFileValid(this.formDataValid.files, callback);
+      multFileValid(this.uploadData.files, callback);
     };
     function checkTip(content, value, callback) {
       if (String(value).trim() === '') {
@@ -282,6 +282,7 @@ export default {
           }
           this.cacheSalesList = cacheSalesList;
           this.cacheData = cacheData;
+          this.params.salesList = cacheSalesList;
         }
       } else {
         var data = { productId: Number(this.isAddProduct) };
@@ -307,6 +308,7 @@ export default {
           }
           this.cacheSalesList = cacheSalesList;
           this.cacheData = cacheData;
+          this.params.salesList = cacheSalesList;
         }
       }
     }
@@ -351,17 +353,14 @@ export default {
       }
     },
     productNameChange(value) {
-      /* var cloneValue = value;
       var curValue = value[0];
       this.getComposedProduct({productName: curValue}).then((res) => {
-        this.composedProductList = res
-        console.log(res)
-      }); */
+      });
     },
     onSubmit(vaildData) {
       this.isSubmit = true;
       var _this = this;
-      this.$refs[vaildData].validate((valid) => {
+      this.$refs.formProduct.validate((valid) => {
         if (valid) {
           this.submitAssignForm();
           if (_this.isAddProduct) {
@@ -406,11 +405,11 @@ export default {
           salesList[s].salesType = '1';
         }
       }
+      if (this.isShow) {
+        this.$message({showClose: true, message: '请先报存，在提交！', type: 'warning'});
+        return false;
+      }
       if (this.isAddProduct) {
-        if (this.isShow) {
-          this.$message({showClose: true, message: '请先报存，在提交！', type: 'warning'});
-          return false;
-        }
         this.setEditProduct(_this.params).then((res) => {
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({ showClose: true, message: '修改产品成功！', type: 'success' });
@@ -478,15 +477,19 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        _this.cacheData.splice(index, index + 1);
-        for (var i in _this.cacheSalesList) {
-          if (_this.cacheSalesList[i].salesId === row.salesId) {
-            _this.cacheSalesList[i].state = 0;
+        _this.cacheData.splice(index, 1);
+        if (this.isAddProduct && this.isAddProduct > 0) {
+          for (var i in _this.cacheSalesList) {
+            if (_this.cacheSalesList[i].salesId === row.salesId) {
+              _this.cacheSalesList[i].state = 0;
+            }
           }
+          _this.params.salesList = _this.cacheSalesList;
+        } else {
+          _this.params.salesList = _this.cacheData;
         }
-        _this.params.salesList = _this.cacheSalesList;
-        localStorage.setItem('cacheData', JSON.stringify(_this.cacheData));
         localStorage.setItem('cacheSalesList', JSON.stringify(_this.cacheSalesList));
+        localStorage.setItem('cacheData', JSON.stringify(_this.cacheData));
         _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
       }).catch(() => {
         _this.$message('已取消删除');
@@ -507,7 +510,7 @@ export default {
       this.fileList = [];
       this.modefiyIndex = null;
       if (validData) {
-        this.$refs[validData].resetFields();
+        this.$refs.formProduct.resetFields();
         this.isShow = false;
       } else {
         this.isShow = true;
@@ -531,6 +534,7 @@ export default {
       if (this.beforeUpload(file, fileList)) return false;
       this.fileList.push(file.raw);
       this.uploadData.files.push(file.raw);
+      this.$refs.formProduct.validateField('files');
     },
     removeFile(files, fileList) {
       var _this = this;
@@ -547,6 +551,7 @@ export default {
       } else {
         this.formDataValid.files = null;
       }
+      this.$refs.formProduct.validateField('files');
     },
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
@@ -558,10 +563,18 @@ export default {
     },
     submitAssignForm() {
       var _this = this;
-      if (this.isShow && this.isAddProduct) {
-        // 修改
-        if (this.uploadData.fileInputId) {
-          this.uploadProductScheme(this.uploadData);
+      this.$refs.formProduct.validate(valid => {
+        if (this.isShow && this.isAddProduct) {
+          // 修改
+          if (this.uploadData.fileInputId) {
+            this.uploadProductScheme(this.uploadData);
+          } else {
+            this.getProductFileId().then((res) => {
+              _this.uploadData.fileInputId = res.data;
+              _this.formData.fileInputId = res.data;
+              this.uploadProductScheme(this.uploadData);
+            });
+          }
         } else {
           this.getProductFileId().then((res) => {
             _this.uploadData.fileInputId = res.data;
@@ -569,13 +582,7 @@ export default {
             this.uploadProductScheme(this.uploadData);
           });
         }
-      } else {
-        this.getProductFileId().then((res) => {
-          _this.uploadData.fileInputId = res.data;
-          _this.formData.fileInputId = res.data;
-          this.uploadProductScheme(this.uploadData);
-        });
-      }
+      });
     },
     prevStep() {
       if (!this.isSubmit) {

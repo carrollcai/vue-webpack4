@@ -23,6 +23,11 @@ const actions = {
       commit(types.VISIT_APPOINT_DETAIL, res.data);
     });
   },
+  queryRegisterList: ({ commit }, params) => {
+    return API.queryRegisterListAPI(params).then((res) => {
+      commit(types.REGISTER_LIST, res.data);
+    });
+  },
   /**
    * 查询走访任务处理列表
    */
