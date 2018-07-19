@@ -17,7 +17,7 @@
           <el-input :maxlength="15" class="form-input-large" v-model="userCreate.code"></el-input>
         </el-form-item>
         <el-form-item label="手机号码：" prop="mobile">
-          <el-input class="form-input-large" v-model="userCreate.mobile"></el-input>
+          <el-input :maxlength="11" class="form-input-large" v-model="userCreate.mobile"></el-input>
         </el-form-item>
         <el-form-item label="电子邮箱：" prop="email">
           <el-input class="form-input-large" v-model="userCreate.email"></el-input>

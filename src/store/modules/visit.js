@@ -58,10 +58,11 @@ const state = {
     rangeDate: [],
     status: '',
     organizeName: '',
-    reqType: '',
+    isFirstVisit: '',
     activeName: 'first'
   },
-  handleVisits: {}
+  handleVisits: {},
+  visitDetail: {}
 };
 const mutations = {
   [types.MY_VISIT_MANAGE_LIST](state, data) {
@@ -81,6 +82,9 @@ const mutations = {
   },
   [types.HANDLE_VISIT_MANAGE_LIST](state, data) {
     state.handleVisits = data;
+  },
+  [types.VISIT_DETAIL](state, data) {
+    state.visitDetail = data;
   },
   updateVisitField
 };

@@ -52,7 +52,7 @@
 
         <el-form-item label="合作集团：" required>
           <el-form-item prop="organizeName" style="display:inline-block;">
-            <el-autocomplete class="form-input-half" v-model="orderCreate.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" :trigger-on-focus="false" />
+            <el-autocomplete :maxLength="25" class="form-input-half" v-model="orderCreate.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="address" style="display:inline-block;">

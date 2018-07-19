@@ -3,7 +3,7 @@
     <el-form class="role-form" ref="roleManageForm" :model="roleForm" :rules="roleManageRules">
       <div class="flex">
         <el-form-item class="role-form-item__input" prop="roleName">
-          <el-input v-model="roleForm.roleName" placeholder="角色名称" />
+          <el-input v-model="roleForm.roleName" placeholder="角色名称" clearable />
         </el-form-item>
       </div>
       <div class="flex">

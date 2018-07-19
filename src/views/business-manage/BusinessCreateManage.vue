@@ -8,7 +8,8 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="task-form-item__input group-form-item__lable">
-            <el-autocomplete clearable v-model="myBusinessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+            <el-input clearable v-model="myBusinessForm.organizeNameOrCode" placeholder="合作集团/编码" />
+            <!--<el-autocomplete clearable v-model="myBusinessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
           </el-form-item>
           <el-form-item class="task-form-item__input group-form-item__lable">
             <el-input clearable v-model="myBusinessForm.opporCode" placeholder="商机编码" />
@@ -63,9 +64,7 @@
         <el-table-column label="商机状态" show-overflow-tooltip property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">
-              详情
-            </el-button>
+            <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">详情</el-button>
             <template v-if="isDraft(scope.row)">
               <el-dropdown @command="handleCommand(scope.row, $event)">
                 <span class="el-dropdown-link">
@@ -113,7 +112,8 @@ export default {
       relationDialogVisible: false,
       relationcooperName: '',
       noData: false,
-      editOrgParam: {}
+      editOrgParam: {},
+      organizeNameList: []
     };
   },
   watch: {
@@ -159,7 +159,7 @@ export default {
       }
     },
     handleDetail(row) {
-      const path = `/business-manage/business-detail/${row.opporId}/0/0/0`;
+      const path = `/business-manage/business-detail/${row.opporId}/0/0/1`;
       this.$router.push(path);
     },
     createBusiness() {
@@ -201,15 +201,35 @@ export default {
       await this.getCooperationGroupList(params);
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
-        var cooperationGroupList = this.cooperationGroupList;
-        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
-        // if (results.length === 0) {
-        //   this.noData = true;
-        // } else {
-        //   this.noData = false;
-        // };
-        cb(results);
+        this.organizeNameList = this.cooperationGroupList;
+        cb(this.cooperationGroupList);
       }, 1000);
+    },
+    async relationConfirm(row) {
+      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.relationcooperName)[0];
+      if (selectedObj) {
+        await this.groupAssociation({
+          opporId: row.opporId,
+          organizeId: selectedObj.organizeId,
+          organizeName: selectedObj.organizeName
+        });
+        this.relationcooperName = '';
+        await this.hideAssociate();
+        await this.$message({
+          type: 'success',
+          message: '关联集团成功'
+        });
+        await this.query();
+      } else {
+        this.$message('集团不存在');
+      }
+    },
+    relationCancel(row) {
+      this.relationcooperName = '';
+      row.dialogVisible = false;
+    },
+    hideAssociate() {
+      this.relationDialogVisible = false;
     },
     createStateFilter(queryString) {
       return (state) => {
@@ -275,29 +295,6 @@ export default {
     showAssociate(row) {
       this.editOrgParam.opporId = row.opporId;
       this.relationDialogVisible = true;
-    },
-    relationConfirm(row) {
-      var _this = this;
-      this.editOrgParam.opporId = row.opporId;
-      this.editOrgParam.organizeName = this.relationcooperName;
-      this.groupAssociation(this.editOrgParam).then(res => {
-        if (res.data && res.errorInfo.code === '200') {
-          _this.$message({ showClose: true, message: '您已成功关联!', type: 'success' });
-          this.relationcooperName = '';
-          _this.editOrgParam = {};
-          _this.hideAssociate();
-          _this.query();
-        } else {
-          _this.$message({ showClose: true, message: '关联失败！', type: 'error' });
-        }
-      });
-    },
-    relationCancel(row) {
-      this.relationcooperName = '';
-      row.dialogVisible = false;
-    },
-    hideAssociate() {
-      this.relationDialogVisible = false;
     },
     ...mapActions([
       'getCooperationGroupList', 'getMyBusinessList', 'groupAssociation', 'delBusinessOppority', 'submitBusinessDraft'

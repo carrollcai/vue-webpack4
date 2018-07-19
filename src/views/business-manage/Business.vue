@@ -9,7 +9,8 @@
         </el-form-item>
 
         <el-form-item class="task-form-item__input group-form-item__lable">
-          <el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+          <el-input clearable v-model="businessForm.organizeNameOrCode" placeholder="合作集团/编码" />
+          <!--<el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
         </el-form-item>
         <el-form-item class="task-form-item__input group-form-item__lable">
           <el-input clearable v-model="businessForm.opporCode" placeholder="商机编码" />
@@ -39,9 +40,7 @@
         <el-table-column label="处理结果" property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">
-              详情
-            </el-button>
+            <el-button type="text" class="el-dropdown-link" @click="handleDetail(scope.row)">详情</el-button>
           </template>
         </el-table-column>
       </wm-table>
@@ -160,14 +159,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-
 .group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.task-header {
-  margin-bottom: 16px;
-}
-.task-form-item__lable {
   margin-left: $blockWidth;
 }
 .task-form {

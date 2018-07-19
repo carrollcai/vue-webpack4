@@ -40,7 +40,10 @@ export default {
 
     // 如果这边不让getOrderOverviewDetail在后面执行，会导致orderOverviewDetail里的对象消失，因为orderOverviewDetail没定义对象内属性
     await this.getOrderOverviewDetail({ ordId: id });
-    await processId && this.getOrderOverviewProcess({ processInsId: processId });
+    await processId && this.getOrderOverviewProcess({
+      processInsId: processId,
+      businessStatus: ['1']
+    });
   },
   methods: {
     ...mapActions([

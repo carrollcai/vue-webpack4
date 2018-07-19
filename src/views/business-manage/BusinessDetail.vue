@@ -7,6 +7,10 @@
           <el-breadcrumb-item>商机详情</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="this.$route.params.type === '1'">
+          <el-breadcrumb-item :to="{ path: '/business-manage/business-create-manage' }">商机创建管理</el-breadcrumb-item>
+          <el-breadcrumb-item>商机详情</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="this.$route.params.type === '2'">
           <el-breadcrumb-item :to="{ path: '/business-manage/business-task' }">商机处理任务</el-breadcrumb-item>
           <el-breadcrumb-item>商机详情</el-breadcrumb-item>
         </el-breadcrumb>
@@ -47,7 +51,7 @@
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="作废" :visible.sync="cancelDialogVisible">
       <el-form ref="form" :model="cancelForm">
         <el-form-item label="作废原因：">
-          <el-input resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
+          <el-input maxlength="500" resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
         </el-form-item>
         <p class="tipsText">*如确定要作废该商机，请填写原因供创建者查看</p>
       </el-form>
@@ -183,7 +187,7 @@ export default {
     // 作废确定
     cancelConfirm() {
       let params = this.cancelParam;
-      params.dealResult = this.cancelForm.reason;
+      params.dealResult = this.cancelForm.reason.trim();
       if (params.dealResult !== '') {
         let _this = this;
         this.submitBusinessCancel(params).then(res => {

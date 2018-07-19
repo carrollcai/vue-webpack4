@@ -3,19 +3,19 @@
     <el-form class="user-form" ref="userManageForm" :model="userForm" :rules="userManageRules">
       <div class="flex">
         <el-form-item class="user-form-item__input" prop="role">
-          <el-select v-model="userForm.role" placeholder="用户角色">
+          <el-select v-model="userForm.role" placeholder="用户角色" clearable>
             <el-option :key="null" label="全部类型" :value="null"></el-option>
             <el-option v-for="item in userRoleList" :key="item.role" :value="item.roleId" :label="item.roleName" />
           </el-select>
         </el-form-item>
 
         <el-form-item class="user-form-item__input" prop="otherField">
-          <el-cascader expand-trigger="hover" :options="addAllInRegion()" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属">
+          <el-cascader expand-trigger="hover" :options="addAllInRegion()" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属" clearable>
           </el-cascader>
         </el-form-item>
 
         <el-form-item class="user-form-item__input" prop="code">
-          <el-input v-model="userForm.otherField" placeholder="姓名/账号/手机" />
+          <el-input v-model="userForm.otherField" placeholder="姓名/账号/手机" clearable />
         </el-form-item>
       </div>
 
