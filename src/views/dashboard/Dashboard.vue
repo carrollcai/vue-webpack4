@@ -56,61 +56,51 @@
             <li>
               <p class="item-content">
                 <span>待审核</span>
-                <el-button @click="goGroupUncomplete('0')" v-if="homeQueryTaskInfoOrangize[0] && homeQueryTaskInfoOrangize[0].count > 0" type="text">{{homeQueryTaskInfoOrangize[0].count}}</el-button>
-                <span v-else>0</span>
+                <el-button v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[0]" @click="goGroupUncomplete('0')" type="text">{{homeQueryTaskInfoOrangize[0].count}}</el-button>
               </p>
               <p class="item-content">
                 <span>已审核</span>
-                <el-button @click="goGroupUncomplete('1')" v-if="homeQueryTaskInfoOrangize[1] && homeQueryTaskInfoOrangize[1].count > 0" type="text">{{homeQueryTaskInfoOrangize[1].count}}</el-button>
-                <span v-else>0</span>
+                <span v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[1]">{{homeQueryTaskInfoOrangize[1].count}}</span>
+              </p>
+            </li>
+            <li v-if="homeQueryTaskInfoOrder">
+              <p class="item-content">
+                <span>待处理</span>
+                <el-button v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[0]" @click="goOrderUncomplete('0')" type="text">{{homeQueryTaskInfoOrder[0].count}}</el-button>
+              </p>
+              <p class="item-content">
+                <span>已处理</span>
+                <span v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[1]">{{homeQueryTaskInfoOrder[1].count}}</span>
               </p>
             </li>
             <li>
               <p class="item-content">
-                <span>待审核</span>
-                <el-button @click="goOrderUncomplete('0')" v-if="homeQueryTaskInfoOrder[0] && homeQueryTaskInfoOrder[0].count > 0" type="text">{{homeQueryTaskInfoOrder[0].count}}</el-button>
-                <span v-else>0</span>
+                <span>待处理</span>
+                <el-button v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[0]" @click="goBusinessUncomplete('0')" type="text">{{homeQueryTaskInfoBusiness[0].count}}</el-button>
               </p>
               <p class="item-content">
-                <span>已审核</span>
-                <el-button @click="goOrderUncomplete('1')" v-if="homeQueryTaskInfoOrder[1] && homeQueryTaskInfoOrder[1].count > 0" type="text">{{homeQueryTaskInfoOrder[1].count}}</el-button>
-                <span v-else>0</span>
+                <span>已处理</span>
+                <span v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[1]">{{homeQueryTaskInfoBusiness[1].count}}</span>
               </p>
             </li>
             <li>
               <p class="item-content">
-                <span>待审核</span>
-                <el-button @click="goBusinessUncomplete('0')" v-if="homeQueryTaskInfoBusiness[0] && homeQueryTaskInfoBusiness[0].count > 0" type="text">{{homeQueryTaskInfoBusiness[0].count}}</el-button>
-                <span v-else>0</span>
+                <span>待处理</span>
+                <el-button v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[0]" @click="goRequireUncomplete('0')" type="text">{{homeQueryTaskInfoRequire[0].count}}</el-button>
               </p>
               <p class="item-content">
-                <span>已审核</span>
-                <el-button @click="goBusinessUncomplete('1')" v-if="homeQueryTaskInfoBusiness[1] && homeQueryTaskInfoBusiness[1].count > 0" type="text">{{homeQueryTaskInfoBusiness[1].count}}</el-button>
-                <span v-else>0</span>
+                <span>已处理</span>
+                <span v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[1]">{{homeQueryTaskInfoRequire[1].count}}</span>
               </p>
             </li>
             <li>
               <p class="item-content">
-                <span>待审核</span>
-                <el-button @click="goRequireUncomplete('0')" v-if="homeQueryTaskInfoRequire[0] && homeQueryTaskInfoRequire[0].count > 0" type="text">{{homeQueryTaskInfoRequire[0].count}}</el-button>
-                <span v-else>0</span>
+                <span>待处理</span>
+                <el-button v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[0]" @click="goVisitUncomplete('0')" type="text">{{homeQueryTaskInfoVisit[0].count}}</el-button>
               </p>
               <p class="item-content">
-                <span>已审核</span>
-                <el-button @click="goRequireUncomplete('1')" v-if="homeQueryTaskInfoRequire[1] && homeQueryTaskInfoRequire[1].count > 0" type="text">{{homeQueryTaskInfoRequire[1].count}}</el-button>
-                <span v-else>0</span>
-              </p>
-            </li>
-            <li>
-              <p class="item-content">
-                <span>待审核</span>
-                <el-button @click="goVisitUncomplete('0')" v-if="homeQueryTaskInfoVisit[0] && homeQueryTaskInfoVisit[0].count > 0" type="text">{{homeQueryTaskInfoVisit[0].count}}</el-button>
-                <span v-else>0</span>
-              </p>
-              <p class="item-content">
-                <span>已审核</span>
-                <el-button @click="goVisitUncomplete('1')" v-if="homeQueryTaskInfoVisit[1] && homeQueryTaskInfoVisit[1].count > 0" type="text">{{homeQueryTaskInfoVisit[1].count}}</el-button>
-                <span v-else>0</span>
+                <span>已处理</span>
+                <span v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[1]">{{homeQueryTaskInfoVisit[1].count}}</span>
               </p>
             </li>
           </ul>
@@ -266,18 +256,23 @@ export default {
       this.$router.push(path);
     },
     goGroupUncomplete(type) {
-      const path = `group-customer/create-manage`;
+      this.$store.state.groupCustomer.auditQuery.businessStatus = '-1';
+      const path = `group-customer/audit-manage`;
       this.$router.push(path);
     },
     goOrderUncomplete(type) {
+      this.$store.state.order.orderHandleTaskForm.businessStatus = '0';
       const path = `order/handle-task`;
       this.$router.push(path);
     },
     goBusinessUncomplete(type) {
+      this.$store.state.business.businessTaskForm.taskHasComplete = '0';
       const path = `business-manage/business-task`;
       this.$router.push(path);
     },
     goRequireUncomplete(type) {
+      // console.log(this.$store.state);
+      this.$store.requirement.handleQuery.taskHasComplete = '0';
       const path = `requirement/list`;
       this.$router.push(path);
     },
@@ -421,19 +416,25 @@ export default {
       .group-customer-item-content {
         padding: 20px 16px;
         .name {
-          width: 154px;
+          width: 188px;
           height: 25px;
           line-height: 25px;
           color: rgba(0, 0, 0, 0.65);
           font-size: 14px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .code {
-          width: 154px;
+          width: 188px;
           height: 18px;
           line-height: 18px;
           color: rgba(0, 0, 0, 0.45);
           font-size: 12px;
           text-align: left;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .detail {
           margin-top: 17px;
@@ -442,6 +443,9 @@ export default {
             height: 20px;
             line-height: 20px;
             float: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           ul:nth-child(1) {
             height: 17px;
@@ -487,6 +491,7 @@ export default {
     }
     .group-customer-item-more {
       width: 5.2%;
+      text-align: center;
       padding-top: 50px;
       color: rgba(55, 120, 255, 1);
       font-size: 12px;

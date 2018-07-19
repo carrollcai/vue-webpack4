@@ -1,39 +1,39 @@
 <template>
   <el-form label-width="130px" class="visit-mission-detail-info">
     <el-form-item label="走访主题">
-      {{visit.name}}
+      {{visit.visitTheme}}
     </el-form-item>
 
     <el-form-item label="走访公司">
-      {{visit.name}}
+      {{visit.organizeName}}
     </el-form-item>
 
     <el-form-item label="走访对象">
-      {{visit.name}}
+      {{visit.intervieweeName}}； {{visit.intervieweeMobile}}
     </el-form-item>
 
     <el-form-item label="我方出席人员">
-      {{visit.name}}
+      {{visit.visitPresentMembers}}
     </el-form-item>
 
     <el-form-item label="走访时间">
-      {{visit.name}}
+      {{visit.visitStartTime}} - {{visit.visitEndTime}}
     </el-form-item>
 
     <el-form-item label="走访内容">
-      {{visit.name}}
+      {{visit.visitContent}}
     </el-form-item>
 
     <el-form-item label="涉及商机编码">
-      {{visit.name}}
+      {{visit.relOpporCode}}
     </el-form-item>
 
     <el-form-item label="问题协调">
-      {{visit.name}}
+      {{visit.problemCoordinate}}
     </el-form-item>
 
     <el-form-item label="是否首客走访">
-      {{visit.name}}
+      {{visit.isFirstVisit}}
     </el-form-item>
 
     <template>

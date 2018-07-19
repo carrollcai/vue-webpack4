@@ -300,6 +300,12 @@ const dynamicRoutes = [
         meta: { menuId: 14 }
       },
       {
+        path: '/visit/mission/handle-audit/:id/:taskInsId',
+        name: 'visit-mission-handle',
+        component: VisitMissionHandle,
+        meta: { menuId: 14 }
+      },
+      {
         path: '/visit/mission/handle-detail/:id',
         name: 'visit-mission-handle-detail',
         component: VisitMissionDetail,

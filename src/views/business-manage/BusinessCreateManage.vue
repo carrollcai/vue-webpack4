@@ -8,7 +8,8 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="task-form-item__input group-form-item__lable">
-            <el-autocomplete clearable v-model="myBusinessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+            <el-input clearable v-model="myBusinessForm.organizeNameOrCode" placeholder="合作集团/编码" />
+            <!--<el-autocomplete clearable v-model="myBusinessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
           </el-form-item>
           <el-form-item class="task-form-item__input group-form-item__lable">
             <el-input clearable v-model="myBusinessForm.opporCode" placeholder="商机编码" />
@@ -63,9 +64,7 @@
         <el-table-column label="商机状态" show-overflow-tooltip property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">
-              详情
-            </el-button>
+            <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">详情</el-button>
             <template v-if="isDraft(scope.row)">
               <el-dropdown @command="handleCommand(scope.row, $event)">
                 <span class="el-dropdown-link">
@@ -201,8 +200,8 @@ export default {
       await this.getCooperationGroupList(params);
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
-        var cooperationGroupList = this.cooperationGroupList;
-        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        var results = this.cooperationGroupList;
+        // var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
         // if (results.length === 0) {
         //   this.noData = true;
         // } else {
@@ -213,6 +212,7 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
+        console.log(state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },

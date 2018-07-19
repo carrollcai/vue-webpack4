@@ -9,7 +9,8 @@
           </el-form-item>
 
           <el-form-item class="task-form-item__input group-form-item__lable">
-            <el-autocomplete clearable v-model="businessTaskForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+            <el-input clearable v-model="businessTaskForm.organizeNameOrCode" placeholder="合作集团/编码" />
+            <!--<el-autocomplete clearable v-model="businessTaskForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
           </el-form-item>
           <el-form-item class="task-form-item__input group-form-item__lable">
             <el-input clearable v-model="businessTaskForm.opporCode" placeholder="商机编码" />
@@ -294,8 +295,7 @@ export default {
       await this.getCooperationGroupList(params);
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
-        var cooperationGroupList = this.cooperationGroupList;
-        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        var results = this.cooperationGroupList;
         if (results.length === 0) {
           this.noData = true;
         } else {

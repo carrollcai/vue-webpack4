@@ -214,8 +214,7 @@ export default {
       await this.getCooperationGroupList(params);
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
-        var cooperationGroupList = this.cooperationGroupList;
-        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        var results = this.cooperationGroupList;
         if (results.length === 0) {
           this.noData = true;
         } else {
