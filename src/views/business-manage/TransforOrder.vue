@@ -8,11 +8,11 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="detail-bar-container" v-if="orderData.opporProcessor">
+    <div class="detail-bar-container" v-if="orderData.opporAssignPerson">
       <div class="detail-bar">
         <div class="detail-bar-item">
           <div class="title">指派人：</div>
-          <div>{{orderData.opporProcessor}}</div>
+          <div>{{orderData.opporAssignPerson}}</div>
         </div>
         <div class="detail-bar-item-2">
           <div class="title">指派原因：</div>
@@ -203,8 +203,7 @@ export default {
       await this.getCooperationGroupList(params);
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
-        var cooperationGroupList = this.cooperationGroupList;
-        var results = queryString ? cooperationGroupList.filter(this.createStateFilter(queryString)) : cooperationGroupList;
+        var results = this.cooperationGroupList;
         if (results.length === 0) {
           this.noData = true;
         } else {
