@@ -510,6 +510,7 @@ export default {
       li {
         float: left;
         width: 21%;
+        font-size: 14px;
       }
       li:nth-last-child(1) {
         width: 16%;
@@ -617,6 +618,9 @@ export default {
     span {
       color: #3778FF !important;
     }
+  }
+  .el-card__header {
+    font-size: 16px;
   }
 }
 </style>

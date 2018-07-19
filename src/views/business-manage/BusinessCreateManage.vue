@@ -183,14 +183,6 @@ export default {
         _params.opporStatus = '';
       }
       this.getMyBusinessList(_params);
-      // const params = this.myBusinessForm;
-      // if (parseInt(this.status) > 0) {
-      //   this.myBusinessForm.opporStatus = parseInt(this.status) - 1;
-      // } else {
-      //   this.myBusinessForm.opporStatus = '';
-      // }
-      // // params.opporStatus = parseInt(this.status);
-      // this.getMyBusinessList(params);
     },
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
@@ -206,7 +198,8 @@ export default {
       }, 1000);
     },
     async relationConfirm(row) {
-      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.relationcooperName)[0];
+      let selectedObj = this.organizeNameList.filter(val => val.organizeName === this.relationcooperName 
+      || val.organizeCode === this.relationcooperName)[0];
       if (selectedObj) {
         await this.groupAssociation({
           opporId: row.opporId,
