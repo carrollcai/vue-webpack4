@@ -2,6 +2,10 @@ import {Message} from 'element-ui';
 import * as types from '../store/types';
 import API from '../utils/api';
 
+function isSuccess(res) {
+  return res.errorInfo && res.errorInfo.code && res.errorInfo.code === '200';
+}
+
 const actions = {
   getMyVisitManageList: ({ commit }, params) => {
     return API.getMyVisitManageListAPI(params).then((res) => {
@@ -67,6 +71,8 @@ const actions = {
   queryVisitDetail: ({ commit }, params) => {
     return API.queryVisitDetailAPI(params).then((res) => {
       commit(types.VISIT_DETAIL, res.data);
+    }, () => {
+      commit(types.VISIT_DETAIL, {});
     });
   }
 };
