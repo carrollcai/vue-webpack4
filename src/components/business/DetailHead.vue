@@ -2,7 +2,7 @@
   <div class="business-detail-bar" v-if="type !== '草稿'">
       <div v-if="type === '待处理'" class="detail-bar-item">
         <div class="title">处理人员：</div>
-        <div>{{headData.assignPerson}}</div>
+        <div>{{headData.processor}}</div>
       </div>
       <div v-if="type === '待处理'" class="detail-bar-item-2">
         <div class="title">处理结果：</div>
