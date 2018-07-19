@@ -30,7 +30,7 @@
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
 
-      <div class="detail-line"></div>
+      <div v-if="routeType === 'pay' || routeType === 'sign'" class="detail-line"></div>
 
       <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
         <el-form-item label="处理结果：">

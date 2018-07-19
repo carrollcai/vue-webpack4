@@ -300,7 +300,7 @@ export const FILE_ACCEPT = [
   '.zip',
   '.rar'
 ];
-export const FILE_TIP = '只支持word、excel、ppt、pdf、rar格式';
+export const FILE_TIP = '只支持“PPT、Excel、Word和压缩包“格式';
 
 // 20M
 export const FILE_MAX_SIZE = 20;
