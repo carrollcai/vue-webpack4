@@ -58,14 +58,14 @@
       <wm-table
         :source="customerSubscribeProducts.list"
         :total="0"
-        :pageNo="params.pageNo"
-        :pageSize="params.pageSize"
+        :pageNo="productParams.pageNo"
+        :pageSize="productParams.pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="产品名称" property="organizeId" />
-        <el-table-column label="订单编号" property="organizeName">
+        <el-table-column label="产品名称" property="productName" />
+        <el-table-column label="订单编号" property="ordCode">
         </el-table-column>
-        <el-table-column label="签约时间" property="organizeTypeName">
+        <el-table-column label="创建时间" property="ordCreateDate">
         </el-table-column>
       </wm-table>
     </div>
@@ -173,6 +173,10 @@ export default {
         provinceId: '',
         managerName: '',
         otherField: ''
+      },
+      productParams: {
+        pageNo: PAGE_NO,
+        pageSize: PAGE_SIZE
       }
     };
   },
@@ -196,12 +200,12 @@ export default {
       this.$router.push(`/group-customer/overview/detail/${this.customer.organizeId}/more`);
     },
     onPagination(value) {
-      this.params.pageNo = value;
-      this.query();
+      this.productParams.pageNo = value;
+      this.queryProducts();
     },
     onSizePagination(value) {
-      this.params.pageSize = value;
-      this.query();
+      this.productParams.pageSize = value;
+      this.queryProducts();
     },
     handleDetail(row) {
       this.$router.push(`/group-customer/detail/${row.organizeId}`);
@@ -242,7 +246,16 @@ export default {
       this.getGroupCustomerList(this.getParams());
     },
     init() {
-      this.queryCustomer(this.$route.params.id);
+      this.queryCustomer(this.$route.params.id).then(() => {
+        this.queryProducts();
+      });
+    },
+    queryProducts() {
+      this.querySubscribeProducts({
+        organizeId: this.customer.organizeId,
+        pageNo: this.productParams.pageNo,
+        pageSize: this.productParams.pageSize
+      });
     },
     setDom() {
       let list = document.querySelectorAll('.el-table__expand-icon');
@@ -259,7 +272,8 @@ export default {
     },
     ...mapActions([
       'getGroupCustomerList',
-      'queryCustomer'
+      'queryCustomer',
+      'querySubscribeProducts'
     ])
   }
 };

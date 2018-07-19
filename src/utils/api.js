@@ -101,7 +101,7 @@ export default {
   /**
    * 集团客户总览-查看主页-查询订购产品
    */
-  querySubscribeProductsAPI: API('/esop/organize/queryOrganize'),
+  querySubscribeProductsAPI: API('/esop/organize/queryOrganizeOrder'),
 
   /**
    * 查询集团客户创建列表
