@@ -14,7 +14,7 @@
       </el-steps>
       <div style="display: flex;">
         <div class="child" v-for="item in processList" :key="item.processId" :style="{'flex-basis': percent()}">
-          <el-popover v-if="isNotPassed(item)" placement="top" width="200" trigger="click" :content="item.dealResult">
+          <el-popover popper-class="audit-deal-result" v-if="isNotPassed(item)" placement="top" width="200" trigger="click" :content="item.dealResult">
             <el-button slot="reference" type="text">查看原因</el-button>
           </el-popover>
         </div>
