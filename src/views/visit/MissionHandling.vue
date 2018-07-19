@@ -1,9 +1,9 @@
 <template>
   <div class="mission-handle-management">
     <div class="m-container query-block">
-      <el-form class="group-form">
+      <el-form class="visit-form">
         <div class="flex">
-          <el-form-item class="user-form-item__input">
+          <el-form-item>
             <el-date-picker
               v-model="rangeDate"
               type="daterange"
@@ -15,17 +15,17 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
+          <el-form-item class="visit-form-item__input visit-form-item__lable" prop="staffName">
             <el-input v-model="organizeName" placeholder="走访公司名称" clearable/>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
+          <el-form-item class="visit-form-item__input visit-form-item__lable" prop="code">
             <el-select v-model="organizeType" clearable placeholder="是否首客">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
         </div>
-        <div class="flex">
+        <div class="flex visit-query-btns">
           <el-form-item>
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
@@ -166,19 +166,21 @@ export default {
 </script>
 <style lang="scss">
 @import "scss/variables.scss";
-.group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.group-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.group-form-item__input {
-  width: $inputWidthQuery;
-}
-
 .mission-handle-management{
+  .visit-form-item__lable {
+    margin-left: $blockWidth;
+  }
+  .visit-form {
+    display: flex;
+    align-items: center;
+  }
+  .visit-form-item__input {
+    width: $inputWidthQuery;
+  }
+
+  .visit-query-btns{
+    margin-left: 40px;
+  }
   .visit-list{
     margin-top: $blockWidth;
   }
