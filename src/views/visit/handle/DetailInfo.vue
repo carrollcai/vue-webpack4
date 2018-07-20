@@ -36,7 +36,7 @@
       {{visit.isFirstVisit}}
     </el-form-item>
 
-    <template v-if="visit.visitStatus === '2'">
+    <template v-if="visit.visitStatus === '4'">
       <div class="line"></div>
 
       <el-form-item label="执行汇报">
@@ -44,12 +44,15 @@
       </el-form-item>
 
       <el-form-item label="上传附件">
-        {{visit.name}}
+        <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
+          {{file.fileName + (index === files.length - 1 ? '' : '；')}}
+        </span>
       </el-form-item>
     </template>
   </el-form>
 </template>
 <script>
+import {mapActions} from 'vuex';
 export default {
   name: 'VisitDetailInfo',
   props: {
@@ -60,8 +63,42 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      files: []
+    };
+  },
+  watch: {
+    visit() {
+      this.initFiles();
+    }
+  },
   methods: {
-
+    handleDownload(file) {
+      this.downloadUplodFile({
+        fileTypeId: file.fileTypeId,
+        fileSaveName: file.fileSaveName,
+        fileName: file.fileName
+      });
+    },
+    initFiles() {
+      const that = this;
+      if (that.visit.fileInputId) {
+        that.queryElec({
+          fileInputId: (that.visit.fileInputId)
+        }).then((res) => {
+          if (res.data && res.data.length) {
+            that.files = res.data;
+          } else {
+            that.files = [];
+          }
+        });
+      }
+    },
+    ...mapActions([
+      'queryElec',
+      'downloadUplodFile'
+    ])
   }
 };
 </script>

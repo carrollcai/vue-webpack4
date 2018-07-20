@@ -19,15 +19,16 @@ export default {
       this.pageNo = value;
       this.query();
     },
+    onSizePagination(value) {
+      this.pageSize = value;
+      this.query();
+    },
     reqTypeFilter(val) {
       let result = find(this.REQUIREMENT_TYPE, {value: val});
 
       return result ? result.label : '';
     },
-    onSizePagination(value) {
-      this.pageSize = value;
-      this.query();
-    },
+
     formateDate(date) {
       return moment(date).format('YYYY-MM-DD HH:MM:SS');
     },

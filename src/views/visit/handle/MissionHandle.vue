@@ -29,11 +29,11 @@
         <el-form-item label="审核结果" required prop="resultStatus">
           <el-radio-group v-model="baseForm.resultStatus" key="status-radio">
             <el-radio label="1">通过</el-radio>
-            <el-radio label="0">驳回</el-radio>
+            <el-radio label="3">驳回</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item v-if="baseForm.resultStatus === '0'" label="审核建议" prop="dealResult">
+        <el-form-item v-if="baseForm.resultStatus === '3'" label="审核建议" prop="dealResult">
           <el-input type="textarea" placeholder="如审核不通过，请填写原因供创建者查看！" v-model="baseForm.dealResult">
           </el-input>
         </el-form-item>

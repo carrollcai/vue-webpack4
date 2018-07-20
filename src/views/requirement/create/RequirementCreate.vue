@@ -17,7 +17,7 @@
               <el-autocomplete
                 key="org-group_code-input"
                 v-model="requirement.organizeName"
-                placeholder="集团名称"
+                placeholder="集团名称/编码"
                 :fetch-suggestions="querySearchAsync"
                 :trigger-on-focus="false"
                 @select="handleSelect"
@@ -158,7 +158,7 @@
                       v-model="processor" placeholder="请选择"></el-cascader>
                 </el-form-item>
               </el-col>
-              <el-col class="line-container" :span="8">
+              <el-col class="line-container checkbox-sms" :span="7">
                 <el-checkbox v-model="checked">短信提醒他</el-checkbox>
               </el-col>
             </el-form-item>
