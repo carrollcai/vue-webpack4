@@ -57,7 +57,7 @@
       </div>
       <wm-table
         :source="customerSubscribeProducts.list"
-        :total="0"
+        :total="customerSubscribeProducts.totalCount"
         :pageNo="productParams.pageNo"
         :pageSize="productParams.pageSize"
         @onPagination="onPagination"

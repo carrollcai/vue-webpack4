@@ -13,7 +13,7 @@
         label-width="130px"
         key="baseForm">
           <div class="block">
-            <el-form-item label="需求客户" required key="org-group">
+            <el-form-item label="需求客户" prop="organizeName" key="org-group">
               <el-autocomplete
                 key="org-group_code-input"
                 v-model="requirement.organizeName"
