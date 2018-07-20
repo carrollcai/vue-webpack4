@@ -3,7 +3,8 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/order/overview' }">订单总览</el-breadcrumb-item>
+          <el-breadcrumb-item v-if="isOverview" :to="{ path: '/order/overview' }">订单总览</el-breadcrumb-item>
+          <el-breadcrumb-item v-if="!isOverview" :to="{ path: '/order/create-manage' }">订单创建管理</el-breadcrumb-item>
           <el-breadcrumb-item>订单详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -34,6 +35,9 @@ export default {
       orderOverviewDetail: ({ order }) => order.orderOverviewDetail,
       processList: ({ order }) => order.processList
     })
+  },
+  created() {
+    this.isOverview = this.$route.fullPath.includes('/overview/detail/');
   },
   async beforeMount() {
     const { id, processId } = this.$route.params;

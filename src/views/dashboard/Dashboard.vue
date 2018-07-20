@@ -146,7 +146,7 @@
     <el-dialog
       title="首页设置"
       :visible.sync="homeSetDialogVisible"
-      width="30%"
+      width="437px"
       center>
       <div class="dialog-setitle">请选择首页需要展示的模块</div>
       <div class="dialog-content">
@@ -599,9 +599,12 @@ export default {
       padding: 0px 53px;
       margin-top: 8px;
       .el-checkbox {
-        margin-right: 21px;
+        width: 35%;
         margin-left: 0px;
         margin-top: 8px;
+      }
+      .el-checkbox:nth-child(3) {
+        width: 29%;
       }
     }
   }

@@ -159,7 +159,7 @@ export default {
       this.query();
     },
     handlePay(row) {
-      const path = `/order/handle-task/pay/${row.ordId}`;
+      const path = `/order/handle-task/pay/${row.ordId}?taskInsId=${row.taskInsId}`;
       this.$router.push(path);
     },
     handleSign(row) {
@@ -179,7 +179,7 @@ export default {
       if (businessStatus === '0') {
         path = `/order/handle-task/detail-sign/${row.ordId}?taskInsId=${row.taskInsId}`;
       } else if (businessStatus === '4') {
-        path = `/order/handle-task/detail-pay/${row.ordId}`;
+        path = `/order/handle-task/detail-pay/${row.ordId}?taskInsId=${row.taskInsId}`;
       } else {
         path = `/order/handle-task/detail/${row.ordId}?taskInsId=${row.taskInsId}&businessStatus=${businessStatus}`;
       }
