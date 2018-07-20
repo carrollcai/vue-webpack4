@@ -30,7 +30,7 @@ export default {
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: ['blur', 'change'] },
-          { required: true, validator: isEmpty, trigger: ['blur', 'change'] }
+          { validator: isEmpty, trigger: ['blur', 'change'] }
         ],
         reqType: [
           { required: true, message: '请选择需求类型', trigger: 'change' }
@@ -49,7 +49,7 @@ export default {
           { required: true, message: '请输入物料名称', trigger: ['blur', 'change'] }
         ],
         materialSupplyType: [
-          { required: true, message: '请选择物料格式要求', trigger: 'change' }
+          { required: true, message: '请选择物料格式要求', trigger: ['blur', 'change'] }
         ],
         materialUseCreateTime: [
           { required: true, message: '请选开始时间', trigger: 'change' }
