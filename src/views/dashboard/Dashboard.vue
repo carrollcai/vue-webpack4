@@ -281,6 +281,23 @@ export default {
       this.$router.push(path);
     },
     query() {
+      this.queryOrganizeInfo();
+      let organizeParams = {};
+      organizeParams.processId = 10001;
+      organizeParams.taskId = [10001, 10002];
+      let businessParams = {};
+      businessParams.processId = 10002;
+      let orderParams = {};
+      orderParams.processId = 10003;
+      let requireParams = {};
+      requireParams.processId = 10004;
+      let visitParams = {};
+      visitParams.processId = 10005;
+      this.queryTaskInfoOrangize(organizeParams);
+      this.queryTaskInfoBusiness(businessParams);
+      this.queryTaskInfoOrder(orderParams);
+      this.queryTaskInfoRequire(requireParams);
+      this.queryTaskInfoVisit(visitParams);
       this.queryCurrentOperator().then(res => {
         if (res.homeModuleFromMenu && res.homeModuleFromMenu.length !== 0) {
           let list = [];
@@ -353,23 +370,6 @@ export default {
       });
       this.getHomeBusinessList();
       this.getHomeOrderList();
-      let organizeParams = {};
-      organizeParams.processId = 10001;
-      organizeParams.taskId = [10001, 10002];
-      let businessParams = {};
-      businessParams.processId = 10002;
-      let orderParams = {};
-      orderParams.processId = 10003;
-      let requireParams = {};
-      requireParams.processId = 10004;
-      let visitParams = {};
-      visitParams.processId = 10005;
-      this.queryTaskInfoOrangize(organizeParams);
-      this.queryTaskInfoBusiness(businessParams);
-      this.queryTaskInfoOrder(orderParams);
-      this.queryTaskInfoRequire(requireParams);
-      this.queryTaskInfoVisit(visitParams);
-      this.queryOrganizeInfo();
     },
     ...mapActions([
       'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList', 'queryTaskInfoOrangize', 'queryTaskInfoBusiness', 'queryTaskInfoOrder', 'queryTaskInfoRequire', 'queryTaskInfoVisit', 'queryOrganizeInfo'
