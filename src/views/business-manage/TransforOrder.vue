@@ -243,6 +243,7 @@ export default {
       const params = this.orderData;
       delete params.opporProcessor;
       delete params.opporAssignReason;
+      delete params.opporAssignPerson;
       params.taskInsId = this.$route.params.taskInsId;
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
