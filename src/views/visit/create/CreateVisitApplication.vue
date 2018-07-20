@@ -17,7 +17,7 @@
           <el-form-item prop="organizeName" style="display:inline-block;">
             <el-autocomplete class="form-input-half" v-model="createVisitFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作名称" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
-          <div class="form-input-sep">-</div>
+          <div class="form-input-sep" style="display:inline-block;">-</div>
           <el-form-item prop="visitAddress" style="display:inline-block;">
             <el-input maxlength="50" class="form-input-half" v-model="createVisitFrom.visitAddress" placeholder="办公地址"></el-input>
           </el-form-item>
@@ -88,6 +88,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
+import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -103,37 +104,44 @@ export default {
       pointAuditor: [],
       createVisitVaild: {
         visitTheme: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         organizeId: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         organizeName: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textLimit, trigger: 'blur' }
         ],
         visitAddress: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         intervieweeName: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         intervieweeMobile: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: checkPhone, trigger: 'blur' }
         ],
         visitPresentMembers: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         visitContent: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
-        relOpporId: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         relOpporCode: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         problemCoordinate: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         visitAuditor: [
           { required: true, message: '请输入', trigger: 'blur' }
@@ -141,13 +149,10 @@ export default {
         isFirstVisit: [
           { required: true, message: '请输入', trigger: 'blur' }
         ],
-        visitStartTime: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
-        visitEndTime: [
-          { required: true, message: '请输入', trigger: 'blur' }
-        ],
         isSubmit: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitTime: [
           { required: true, message: '请输入', trigger: 'blur' }
         ]
       }
@@ -241,10 +246,10 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-
 .visit-create {
   margin-top: $blockWidth;
   display: flex;
   justify-content: center;
+  .el-form-item__content {float: left;}
 }
 </style>

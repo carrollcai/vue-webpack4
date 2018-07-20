@@ -146,7 +146,7 @@
     <el-dialog
       title="首页设置"
       :visible.sync="homeSetDialogVisible"
-      width="30%"
+      width="437px"
       center>
       <div class="dialog-setitle">请选择首页需要展示的模块</div>
       <div class="dialog-content">
@@ -351,8 +351,7 @@ export default {
           }
         }
       });
-      this.getHomeBusinessList();
-      this.getHomeOrderList();
+      this.queryOrganizeInfo();
       let organizeParams = {};
       organizeParams.processId = 10001;
       organizeParams.taskId = [10001, 10002];
@@ -369,7 +368,8 @@ export default {
       this.queryTaskInfoOrder(orderParams);
       this.queryTaskInfoRequire(requireParams);
       this.queryTaskInfoVisit(visitParams);
-      this.queryOrganizeInfo();
+      this.getHomeBusinessList();
+      this.getHomeOrderList();
     },
     ...mapActions([
       'queryCurrentOperator', 'updateHomeModule', 'getHomeBusinessList', 'getHomeOrderList', 'queryTaskInfoOrangize', 'queryTaskInfoBusiness', 'queryTaskInfoOrder', 'queryTaskInfoRequire', 'queryTaskInfoVisit', 'queryOrganizeInfo'
@@ -510,6 +510,7 @@ export default {
       li {
         float: left;
         width: 21%;
+        font-size: 14px;
       }
       li:nth-last-child(1) {
         width: 16%;
@@ -598,13 +599,17 @@ export default {
       padding: 0px 53px;
       margin-top: 8px;
       .el-checkbox {
-        margin-right: 21px;
+        width: 35%;
         margin-left: 0px;
         margin-top: 8px;
+      }
+      .el-checkbox:nth-child(3) {
+        width: 29%;
       }
     }
   }
   .el-dialog__footer {
+    margin-top: 7px;
     text-align: center !important;
   }
   [class^="icon-"], [class*=" icon-"] {
@@ -617,6 +622,15 @@ export default {
     span {
       color: #3778FF !important;
     }
+  }
+  .el-card__header {
+    font-size: 16px;
+  }
+  .el-button--primary, .el-button--default {
+    line-height: 23px;
+    padding: 0;
+    width: 72px;
+    height: 24px;
   }
 }
 </style>

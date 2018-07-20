@@ -98,8 +98,8 @@ export default {
       VISIT_FIST_VISIT,
       STATUS: {
         'first': '0',
-        'second': '1',
-        'third': '2',
+        'second': '2',
+        'third': '1',
         'forth': '3'
       }
     };

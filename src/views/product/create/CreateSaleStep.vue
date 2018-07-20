@@ -357,12 +357,12 @@ export default {
       this.getComposedProduct({productName: curValue}).then((res) => {
       });
     },
-    onSubmit(vaildData) {
+    async onSubmit(vaildData) {
       this.isSubmit = true;
       var _this = this;
+      await this.submitAssignForm();
       this.$refs.formProduct.validate((valid) => {
         if (valid) {
-          this.submitAssignForm();
           if (_this.isAddProduct) {
             if (_this.addItem) {
               _this.formData.state = 2;
@@ -383,6 +383,8 @@ export default {
           _this.cacheData.push(_this.formData);
           _this.cacheSalesList.push(_this.formData);
           _this.params.salesList = _this.cacheSalesList;
+          localStorage.setItem('cacheData', JSON.stringify(_this.cacheData));
+          localStorage.setItem('cacheSalesList', JSON.stringify(_this.cacheSalesList));
           _this.isShow = false;
         } else {
           _this.isShow = true;
@@ -425,7 +427,7 @@ export default {
         });
       }
     },
-    toPageModefiy(index, row) {
+    async toPageModefiy(index, row) {
       var _this = this;
       if (row.salesType === '单品销售') {
         row.salesType = '0';
@@ -436,14 +438,13 @@ export default {
       this.addItem = false;
       this.fileList = [];
       if (row.fileInputId) {
-        this.queryElec({'fileInputId': row.fileInputId}).then((res) => {
+        this.formData.fileInputId = row.fileInputId;
+        this.uploadData.fileInputId = row.fileInputId;
+        await this.queryElec({'fileInputId': row.fileInputId}).then((res) => {
           if (res.data) {
             (res.data).forEach(function(item, index) {
-              var file = {
-                name: item.fileName,
-                elecInstId: item.elecInstId
-              };
-              _this.fileList.push(file);
+              item.name = item.fileName;
+              _this.fileList.push(item);
             }, _this);
           }
         });
@@ -460,10 +461,6 @@ export default {
         experience: row.experience || '',
         composedProduct: row.composedProduct || []
       };
-      if (row.fileInputId) {
-        this.formData.fileInputId = row.fileInputId;
-        this.uploadData.fileInputId = row.fileInputId;
-      }
       this.isShow = true;
     },
     deleteProduct(index, row) {
@@ -561,28 +558,22 @@ export default {
       }
       return false;
     },
-    submitAssignForm() {
+    async submitAssignForm() {
       var _this = this;
-      this.$refs.formProduct.validate(valid => {
-        if (this.isShow && this.isAddProduct) {
-          // 修改
-          if (this.uploadData.fileInputId) {
-            this.uploadProductScheme(this.uploadData);
-          } else {
-            this.getProductFileId().then((res) => {
-              _this.uploadData.fileInputId = res.data;
-              _this.formData.fileInputId = res.data;
-              this.uploadProductScheme(this.uploadData);
-            });
-          }
-        } else {
-          this.getProductFileId().then((res) => {
-            _this.uploadData.fileInputId = res.data;
-            _this.formData.fileInputId = res.data;
-            this.uploadProductScheme(this.uploadData);
-          });
-        }
+      let isId = this.uploadData.fileInputId || false;
+      await this.getProductFileId().then((res) => {
+        _this.uploadData.fileInputId = res.data;
+        _this.formData.fileInputId = res.data;
       });
+      if (this.isShow && this.isAddProduct) {
+        if (isId) {
+          this.uploadProductScheme(this.uploadData);
+        } else {
+          this.uploadProductScheme(this.uploadData);
+        }
+      } else {
+        this.uploadProductScheme(this.uploadData);
+      }
     },
     prevStep() {
       if (!this.isSubmit) {
