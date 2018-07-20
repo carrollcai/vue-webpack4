@@ -34,10 +34,10 @@ const state = {
     relOpporCode: '',
     problemCoordinate: '',
     visitAuditor: '',
-    isFirstVisit: '',
+    isFirstVisit: '0',
     visitStartTime: '',
     visitEndTime: '',
-    isSubmit: ''
+    isSubmit: '0'
   },
   createVisitData: {},
   appointVisitForm: {
@@ -45,7 +45,7 @@ const state = {
     visitEndTime: '',
     visitStatus: ['0'],
     organizeName: '',
-    isFirstVisit: '',
+    isFirstVisit: '0',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
