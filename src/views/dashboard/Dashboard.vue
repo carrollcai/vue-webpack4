@@ -281,23 +281,6 @@ export default {
       this.$router.push(path);
     },
     query() {
-      this.queryOrganizeInfo();
-      let organizeParams = {};
-      organizeParams.processId = 10001;
-      organizeParams.taskId = [10001, 10002];
-      let businessParams = {};
-      businessParams.processId = 10002;
-      let orderParams = {};
-      orderParams.processId = 10003;
-      let requireParams = {};
-      requireParams.processId = 10004;
-      let visitParams = {};
-      visitParams.processId = 10005;
-      this.queryTaskInfoOrangize(organizeParams);
-      this.queryTaskInfoBusiness(businessParams);
-      this.queryTaskInfoOrder(orderParams);
-      this.queryTaskInfoRequire(requireParams);
-      this.queryTaskInfoVisit(visitParams);
       this.queryCurrentOperator().then(res => {
         if (res.homeModuleFromMenu && res.homeModuleFromMenu.length !== 0) {
           let list = [];
@@ -368,6 +351,23 @@ export default {
           }
         }
       });
+      this.queryOrganizeInfo();
+      let organizeParams = {};
+      organizeParams.processId = 10001;
+      organizeParams.taskId = [10001, 10002];
+      let businessParams = {};
+      businessParams.processId = 10002;
+      let orderParams = {};
+      orderParams.processId = 10003;
+      let requireParams = {};
+      requireParams.processId = 10004;
+      let visitParams = {};
+      visitParams.processId = 10005;
+      this.queryTaskInfoOrangize(organizeParams);
+      this.queryTaskInfoBusiness(businessParams);
+      this.queryTaskInfoOrder(orderParams);
+      this.queryTaskInfoRequire(requireParams);
+      this.queryTaskInfoVisit(visitParams);
       this.getHomeBusinessList();
       this.getHomeOrderList();
     },
@@ -606,6 +606,7 @@ export default {
     }
   }
   .el-dialog__footer {
+    margin-top: 7px;
     text-align: center !important;
   }
   [class^="icon-"], [class*=" icon-"] {
@@ -621,6 +622,12 @@ export default {
   }
   .el-card__header {
     font-size: 16px;
+  }
+  .el-button--primary, .el-button--default {
+    line-height: 23px;
+    padding: 0;
+    width: 72px;
+    height: 24px;
   }
 }
 </style>
