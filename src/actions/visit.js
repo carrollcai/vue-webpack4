@@ -8,8 +8,33 @@ const actions = {
       commit(types.MY_VISIT_MANAGE_LIST, res.data);
     });
   },
-  setCreateVisit: ({ commit }, params) => {
-    return API.setCreateVisitAPI(params).then((res) => {
+  addCreateVisit: ({ commit }, params) => {
+    let path = '/visit/my-visit-manage';
+    return API.addCreateVisitAPI(params).then((res) => {
+      if (res.data === 1) {
+        Message({
+          message: '新增成功',
+          type: 'success'
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: path
+        });
+      }
+      return res;
+    });
+  },
+  addCreateAppiont: ({ commit }, params) => {
+    let path = '/visit/create-visit-application';
+    return API.addCreateAppiontAPI(params).then((res) => {
+      if (res.data === 1) {
+        Message({
+          message: '新增成功',
+          type: 'success'
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: path
+        });
+      }
       return res;
     });
   },
@@ -23,9 +48,36 @@ const actions = {
       commit(types.VISIT_APPOINT_DETAIL, res.data);
     });
   },
+  queryRegionManager: ({ commit }, params) => {
+    return API.queryRegionManagerAPI(params).then((res) => {
+      commit(types.REGION_MANAGE_LIST, res.data);
+    });
+  },
   queryRegisterList: ({ commit }, params) => {
     return API.queryRegisterListAPI(params).then((res) => {
       commit(types.REGISTER_LIST, res.data);
+    });
+  },
+  editVisitApp: ({ commit }, params) => {
+    return API.editVisitAppAPI(params).then((res) => {
+      if (res.data === 1) {
+        Message({
+          message: '编辑成功',
+          type: 'success'
+        });
+      }
+      return res;
+    });
+  },
+  deleteVisitApp: ({ commit }, params) => {
+    return API.deleteVisitAppAPI(params).then((res) => {
+      if (res.data === 1) {
+        Message({
+          message: '删除成功',
+          type: 'success'
+        });
+      }
+      return res;
     });
   },
   /**

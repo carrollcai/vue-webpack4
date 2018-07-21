@@ -1,22 +1,22 @@
 <template>
 <div>
   <div class="m-container">
-    <Vdetail detailDate="detailData"></Vdetail>
+    <Vdetail :visitDetail="visitDetailData" :isPoint="isPoint"></Vdetail>
   </div>
-  <div class="m-container transfer-out">
+  <div v-if="isExecute === 'true'" class="m-container transfer-out">
     <el-form
       :model="formData"
       :rules="formDataValid"
       :ref="formData">
-      <el-form-item label="转发人：" label-width="130px" prop="processor">
+      <el-form-item label="转发人：" required prop="processor">
         <el-select
           v-model="formData.processor"
           placeholder="请选择">
           <el-option></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="转发说明：" label-width="130px" prop="">
-        <el-input v-model="formData.feedbackNote" placeholder="请输入"></el-input>
+      <el-form-item label="转发说明：" required>
+        <el-input v-model="formData.visitEvaluator" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="走访汇报：" label-width="130px" prop="">
         <el-input v-model="formData.feedback" placeholder="简要描述一下处理方案" type="textarea" :rows="4"></el-input>
@@ -26,8 +26,7 @@
           action=""
           :auto-upload="false"
           :multiple="false"
-          :limit="5"
-          :accept="fileType">
+          :limit="5">
           <span class="blue"> <i class="el-icon el-icon-plus fs12"></i>上传附件</span>
           <div slot="tip" class="el-upload__tip">
             <p class="lh1-5">1. 附件格式支持“PPT、Excel、World和压缩包“格式</p>
@@ -53,13 +52,20 @@ export default {
     Vdetail
   },
   computed: {
+    visitDetailData() {
+      if (this.visitAppointDetail) {
+        return this.visitAppointDetail;
+      }
+    },
     ...mapState({
-      detailData: ({ visit }) => visit.visitAppointDetail
+      visitAppointDetail: ({ visit }) => visit.visitAppointDetail
     })
   },
   data() {
     return {
-      fileType: 'application/pdf,application/rar,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.ms-excel',
+      visitId: this.$route.params.id,
+      isExecute: this.$route.query.isExecute,
+      isPoint: this.$route.query.point,
       formData: {
         processor: '',
         feedbackNote: '',
@@ -68,18 +74,15 @@ export default {
       formDataValid: {}
     };
   },
-  watch: {
-    status(newValue) {
-    }
-  },
   beforeMount() {
     this.query();
   },
   methods: {
     query() {
+      this.queryVisitAppointDetail({visitId: this.visitId});
     },
     ...mapActions([
-      'queryVisitAppointDetailAPI'
+      'queryVisitAppointDetail'
     ])
   }
 };

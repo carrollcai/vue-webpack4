@@ -210,7 +210,6 @@ export default {
         composedProduct: [],
         fileInputId: null
       },
-      fileType: 'application/pdf,application/rar,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.ms-excel',
       uploadData: {
         fileInputId: '',
         fileTypeId: 502,

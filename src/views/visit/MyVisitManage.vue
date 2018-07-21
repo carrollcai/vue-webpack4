@@ -5,17 +5,17 @@
       <div class="flex">
         <el-form-item prop="date">
           <el-col>
-            <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-col>
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item>
-          <el-input v-model="myVisitManageFrom.organizeName" placeholder="走访公司名称"></el-input>
+          <el-input v-model="myVisitManageFrom.organizeName" clearable placeholder="走访公司名称"></el-input>
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-select v-model="myVisitManageFrom.isFirstVisit" placeholder="是否首客">
+          <el-select v-model="myVisitManageFrom.isFirstVisit" clearable placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
               :key="item.value"
@@ -30,16 +30,16 @@
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
         <el-form-item class="visit-form-item">
-          <el-button class="el-button--have-icon" @click.prevent="createVisitApplication" icon="el-icon-plus">新建走访申请</el-button>
+          <el-button class="el-button--have-icon" @click.prevent="createVisit" icon="el-icon-plus">新建走访申请</el-button>
         </el-form-item>
       </div>
     </el-form>
     <el-tabs v-model="visitStatus" @tab-click="getState">
-      <el-tab-pane label="全部" name="0"></el-tab-pane>
-      <el-tab-pane label="待执行" name="1"></el-tab-pane>
-      <el-tab-pane label="已完成" name="2"></el-tab-pane>
-      <el-tab-pane label="待审核" name="3"></el-tab-pane>
-      <el-tab-pane label="已驳回" name="4"></el-tab-pane>
+      <el-tab-pane label="全部" name=""></el-tab-pane>
+      <el-tab-pane label="待执行" name="2"></el-tab-pane>
+      <el-tab-pane label="已完成" name="4"></el-tab-pane>
+      <el-tab-pane label="待审核" name="1"></el-tab-pane>
+      <el-tab-pane label="已驳回" name="3"></el-tab-pane>
     </el-tabs>
   </div>
   <div class="m-container table-container">
@@ -53,15 +53,21 @@
       <el-table-column label="走访编号" property="visitCode" />
       <el-table-column label="走访时间" property="visitStartTime" />
       <el-table-column label="走访公司" property="organizeName" />
-      <el-table-column label="是否首客" property="isFirstVisit" />
-      <el-table-column label="走访状态" property="visitStatus" />
+      <el-table-column label="是否首客" property="isFirstVisit" :formatter="isFirstVisitFn" />
+      <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail(scope.row)">
+          <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button type="text" @click="handleDetail(scope.row)">
+          <el-button v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
             执行处理
+          </el-button>
+          <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
+            修改
+          </el-button>
+          <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -86,36 +92,14 @@ export default {
   data() {
     return {
       timeRange: '',
-      visitStatus: '0',
+      visitStatus: '',
       firstGuestOption: [{
         value: '1',
         label: '否'
       }, {
         value: '2',
         label: '是'
-      }],
-      visitStatusList: [
-        {
-          name: '0',
-          label: '全部'
-        },
-        {
-          name: '1',
-          label: '待执行'
-        },
-        {
-          name: '2',
-          label: '已完成'
-        },
-        {
-          name: '3',
-          label: '待审核'
-        },
-        {
-          name: '4',
-          label: '已驳回'
-        }
-      ]
+      }]
     };
   },
   watch: {
@@ -126,6 +110,29 @@ export default {
     this.query();
   },
   methods: {
+    isFirstVisitFn(row, clo, value) {
+      if (value === 0) {
+        return '否';
+      } else {
+        return '是';
+      }
+    },
+    visitStatusFn(row, clo, value) {
+      let state = '';
+      switch (value) {
+        case '1':
+        state = '待审核';
+        break;
+        case '2' || '0':
+        state = '待执行';
+        break;
+        case '3':
+        state = '已驳回';
+        break;
+        default:
+        state = '已完成';
+      }
+    },
     getTimeRange(time) {
       if (time) {
         this.myVisitManageFrom.visitStartTime = time[0];
@@ -136,7 +143,12 @@ export default {
       }
     },
     getState(value) {
-      this.myVisitManageFrom.visitStatus = [value.name];
+      if (value.name !== '') {
+        this.myVisitManageFrom.visitStatus = [value.name];
+      } else {
+        this.myVisitManageFrom.visitStatus = [];
+      }
+      this.query();
     },
     onPagination(value) {
       this.myVisitManageFrom.pageNo = value;
@@ -146,18 +158,28 @@ export default {
       this.myVisitManageFrom.pageSize = value;
       this.query();
     },
-    handleDetail(row) {
+    viewDetail(row, execution) {
+      let path = `/visit/visit-appoint-detail/${row.visitId}?isExecute=${execution}`;
+      this.$router.push(path);
     },
     query() {
       console.log(this.myVisitManageFrom);
       this.getMyVisitManageList(this.myVisitManageFrom);
     },
-    createVisitApplication() {
-      const path = '/visit/create-visit-application';
+    createVisit(row) {
+      let path = '/visit/create-visit-application';
+      if (row.visitId) {
+        path = `/visit/create-visit-application/${row.visitId}`;
+      }
       this.$router.push(path);
     },
+    async deleteVisite(row) {
+      await this.deleteVisitApp({visitId: row.visitId});
+      this.query();
+    },
     ...mapActions([
-      'getMyVisitManageList'
+      'getMyVisitManageList',
+      'deleteVisitApp'
     ])
   }
 };

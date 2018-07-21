@@ -39,18 +39,31 @@
         <el-form-item label="我方出席人员：" required prop="visitPresentMembers">
           <el-input v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“；”隔开" />
         </el-form-item>
-        <el-form-item label="走访时间：" required prop="visitTime">
-          <el-date-picker v-model="visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
-          <div class="form-input-sep">-</div>
-          <el-time-picker :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
+        <el-form-item label="走访时间：" required>
+          <el-form-item style="width: 230px; float: left;">
+            <el-date-picker v-model="visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
+          </el-form-item>
+          <div class="form-input-sep" style="width: 30px; float: left;">-</div>
+          <el-form-item style="width: 210px; float: left">
+            <!-- <el-time-picker style="width: 210px;" prop="visitTimeHour" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker> -->
+            <el-time-picker style="width: 210px;" prop="visitTimeHour" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
+          </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" required prop="visitContent">
           <el-input v-model="createVisitFrom.visitContent" type="textarea" class="form-input-large" placeholder="请输入走访内容" />
         </el-form-item>
-        <el-form-item label="涉及商机编码：" required>
-          <el-form-item prop="relOpporCode" style="display:inline-block;">
-            <el-autocomplete class="form-input-half" v-model="createVisitFrom.relOpporCode" :fetch-suggestions="querySearchAsync" placeholder="请输入商机编码" @select="getRelOpporId" :trigger-on-focus="false" />
-          </el-form-item>
+        <el-form-item label="涉及商机编码：" required  prop="relOpporCode">
+          <el-select
+            v-model="createVisitFrom.relOpporCode"
+            @change="relOpporValue"
+            filterable placeholder="请选择">
+            <el-option
+              v-for="item in registerList"
+              :key="item.opporCode"
+              :label="item.id"
+              :value="item.opporCode">
+            </el-option>
+          </el-select>
         </el-form-item>
         <!-- <el-form-item label="涉及商机编码：" required>
           <el-input v-model="createVisitFrom.relOpporCode" class="form-input-medium" placeholder="请输入商机编码" />
@@ -69,15 +82,21 @@
           <el-radio v-model="createVisitFrom.isSubmit" :value="1" :label="1">是</el-radio>
           <el-radio v-model="createVisitFrom.isSubmit" :value="0" :label="0">否</el-radio>
         </el-form-item>
-        <el-form-item label="选择审核人：" prop="visitAuditor">
-          <el-cascader style="width: 392px;" v-if="assignHandlers"
-            :options="assignHandlers"
-            v-model="createVisitFrom.visitAuditor">
-          </el-cascader>
+        <el-form-item label="选择审核人：" prop="processor">
+          <el-select
+            v-if="processorList"
+            v-model="createVisitFrom.visitAuditor"
+            filterable placeholder="请选择">
+            <el-option
+              v-for="item in processorList"
+              :key="item.operatorId"
+              :label="item.staffName"
+              :value="item.operatorId">
+            </el-option>
+          </el-select>
         </el-form-item>
-
         <el-form-item>
-          <el-button type="primary" @click="submitVisitApplication()">提交</el-button>
+          <el-button type="primary" @click="query()">提交</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -87,12 +106,14 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
-import { PAGE_SIZE } from '@/config/index.js';
+import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
 import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
     return {
+      visitId: Number(this.$route.params.id),
+      pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeout: null,
       timeRange: '',
@@ -102,6 +123,25 @@ export default {
       auditorOptions: [],
       fromVaild: {},
       pointAuditor: [],
+      editValue: {
+        visitId: '',
+        visitTheme: '',
+        organizeId: '',
+        organizeName: '',
+        visitAddress: '',
+        intervieweeName: '',
+        intervieweeMobile: '',
+        visitPresentMembers: '',
+        visitContent: '',
+        relOpporId: '',
+        relOpporCode: '',
+        problemCoordinate: '',
+        visitAuditor: '',
+        isFirstVisit: 0,
+        visitStartTime: '',
+        visitEndTime: '',
+        isSubmit: 0
+      },
       createVisitVaild: {
         visitTheme: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -154,6 +194,9 @@ export default {
         ],
         visitTime: [
           { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        visitTimeHour: [
+          { required: true, message: '请输入', trigger: 'blur' }
         ]
       }
     };
@@ -163,11 +206,58 @@ export default {
       createVisitFrom: ({ visit }) => visit.createVisitFrom,
       productList: ({ order }) => order.productList,
       orderOrganizeAddressList: ({ order }) => order.orderOrganizeAddressList,
-      assignHandlers: ({ order }) => order.assignHandlers
+      assignHandlers: ({ order }) => order.assignHandlers,
+      registerList: ({ visit }) => visit.registerList,
+      processorList: ({ visit }) => visit.regionManageList,
+      visitAppointDetail: ({ visit }) => visit.visitAppointDetail
     })
   },
-  beforeMount() {
+  async beforeMount() {
+    this.queryRegionManager({});
+    this.getRelOpporId('');
     this.getAssignhandler();
+    if (this.visitId && this.visitId > 0) {
+      await this.queryVisitAppointDetail({visitId: this.visitId}).then(() => {
+        if (this.createVisitFrom.visitStartTime) {
+          this.createVisitFrom.isFirstVisit = Number(this.createVisitFrom.isFirstVisit);
+          this.checkTime = false;
+          this.visitTime = this.createVisitFrom.visitStartTime;
+        }
+        this.createVisitFrom.visitTheme = this.visitAppointDetail.visitTheme;
+        this.createVisitFrom.organizeId = this.visitAppointDetail.organizeId;
+        this.createVisitFrom.organizeName = this.visitAppointDetail.organizeName;
+        this.createVisitFrom.visitAddress = this.visitAppointDetail.visitAddress;
+        this.createVisitFrom.intervieweeName = this.visitAppointDetail.intervieweeName;
+        this.createVisitFrom.intervieweeMobile = this.visitAppointDetail.intervieweeMobile;
+        this.createVisitFrom.visitPresentMembers = this.visitAppointDetail.visitPresentMembers;
+        this.createVisitFrom.visitContent = this.visitAppointDetail.visitContent;
+        this.createVisitFrom.relOpporId = this.visitAppointDetail.relOpporId;
+        this.createVisitFrom.relOpporCode = this.visitAppointDetail.relOpporCode;
+        this.createVisitFrom.problemCoordinate = this.visitAppointDetail.problemCoordinate;
+        this.createVisitFrom.visitAuditor = this.visitAppointDetail.visitAuditor;
+        this.createVisitFrom.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
+        this.createVisitFrom.visitStartTime = this.visitAppointDetail.visitStartTime;
+        this.createVisitFrom.visitEndTime = this.visitAppointDetail.visitEndTime;
+        this.createVisitFrom.isSubmit = this.visitAppointDetail.isSubmit ? Number(this.visitAppointDetail.isSubmit) : 0;
+      });
+    } else {
+      this.createVisitFrom.visitTheme = '';
+      this.createVisitFrom.organizeId = '';
+      this.createVisitFrom.organizeName = '';
+      this.createVisitFrom.visitAddress = '';
+      this.createVisitFrom.intervieweeName = '';
+      this.createVisitFrom.intervieweeMobile = '';
+      this.createVisitFrom.visitPresentMembers = '';
+      this.createVisitFrom.visitContent = '';
+      this.createVisitFrom.relOpporId = '';
+      this.createVisitFrom.relOpporCode = '';
+      this.createVisitFrom.problemCoordinate = '';
+      this.createVisitFrom.visitAuditor = '';
+      this.createVisitFrom.isFirstVisit = 0;
+      this.createVisitFrom.visitStartTime = '';
+      this.createVisitFrom.visitEndTime = '';
+      this.createVisitFrom.isSubmit = 0;
+    }
   },
   methods: {
     getTimeVisit(time) {
@@ -182,16 +272,29 @@ export default {
         this.createVisitFrom.visitEndTime = '';
       }
     },
-    getRelOpporId(item) {
+    relOpporValue(value) {
+      let _this = this;
+      this.registerList.filter(function(element, index, self) {
+        if (element.opporCode === value) {
+          _this.createVisitFrom.relOpporId = element.opporId;
+        }
+      })
+    },
+    async getRelOpporId(item) {
       let data = {
-        opporCode: item.relOpporCode,
-        pageNo: 1,
-        pageSize: 5
-      };
-      this.queryRegisterList(data);
+        opporCode: item,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      }
+      await this.queryRegisterList(data);
     },
     handleSelect(item) {
       this.createVisitFrom.visitAddress = item.orgAddress;
+      this.orderOrganizeAddressList.filter(function(element, index, self) {
+        if (element.organizeCode === item.organizeCode) {
+          this.createVisitFrom.organizeId = element.organizeId + '';
+        }
+      }, this)
       this.updateOrderCreate({ address: item.orgAddress });
     },
     async queryProductAsync(queryString, cb) {
@@ -222,34 +325,73 @@ export default {
         cb(this.orderOrganizeAddressList);
       }, 1000);
     },
-    submitVisitApplication() {
-      console.log(this.createVisitFrom);
-      this.setCreateVisit(this.createVisitFrom).then((res) => {
-        if (res.errorInfo.code === 200) {
-          this.$message({message: '请求成功', type: 'success'});
-        }
-      });
+    query() {
+      if (this.visitId > 0) {
+        this.editValue = {
+          visitId: this.createVisitFrom.visitId,
+          visitTheme: this.createVisitFrom.visitTheme,
+          organizeId: this.createVisitFrom.organizeId,
+          organizeName: this.createVisitFrom.organizeName,
+          visitAddress: this.createVisitFrom.visitAddress,
+          intervieweeName: this.createVisitFrom.intervieweeName,
+          intervieweeMobile: this.createVisitFrom.intervieweeMobile,
+          visitPresentMembers: this.createVisitFrom.visitPresentMembers,
+          visitContent: this.createVisitFrom.visitContent,
+          relOpporId: this.createVisitFrom.relOpporId,
+          relOpporCode: this.createVisitFrom.relOpporCode,
+          problemCoordinate: this.createVisitFrom.problemCoordinate,
+          visitAuditor: this.createVisitFrom.visitAuditor,
+          isFirstVisit: this.createVisitFrom.isFirstVisit,
+          visitStartTime: this.createVisitFrom.visitStartTime,
+          visitEndTime: this.createVisitFrom.visitEndTime,
+          isSubmit: this.createVisitFrom.isSubmit
+        };
+        this.editVisitApp(this.editValue);
+      } else {
+        this.addCreateVisit(this.createVisitFrom);
+      }
     },
     ...mapMutations({
       updateOrderCreate: 'ORDER_UPDATE_CREATE'
     }),
     ...mapActions([
-      'setCreateVisit',
+      'addCreateVisit',
       'getOrganizeAddress',
       'queryProductByCodeOrName',
       'getAssignhandler',
-      'queryRegisterList'
+      'queryRegisterList',
+      'queryVisitAppointDetail',
+      'editVisitApp',
+      'queryRegionManager'
     ])
   }
 };
 </script>
 
 <style lang="scss">
-@import "scss/variables.scss";
 .visit-create {
-  margin-top: $blockWidth;
   display: flex;
   justify-content: center;
-  .el-form-item__content {float: left;}
+  form {
+    width: 650px;
+  }
+  .crumb-bar {
+    .el-breadcrumb {
+      line-height: 48px;
+    }
+  }
+  .el-step.is-horizontal .el-step__line {height: 1px; background: #c0c0c0}
+  .el-step__head.is-process, .el-step__title.is-process {color: #8c8c8c; font-weight: 400;}
+  .el-step.is-simple .el-step__arrow::before, .el-step.is-simple  .el-step__arrow:before {display: none}
+  .el-step.is-simple .el-step__arrow::after, .el-step.is-simple  .el-step__arrow:after {-webkit-transform: none; transform: none; height: 1px; width: 320px;}
+  .el-step__icon.is-text {border-width: 1px;}
+  .creat-content {background: #fff; margin-top: 16px; min-height: 812px; height: auto;}
+  .el-steps--simple {background: none;}
+  .el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
+  .add-content {width: 460px; margin: 0 auto;}
+  .demo-input-size .split {display: inline-block; width: 15px; color: #8c8c8c; text-align: center;}
+  .w380 {width: 380px; margin: 0 auto;}
+  .pt42 {padding-top: 42px;}
+  .pb60 {padding-bottom: 60px;}
 }
 </style>

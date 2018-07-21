@@ -37,9 +37,9 @@
       </div>
     </el-form>
     <el-tabs v-model="visitStatus" @tab-click="getState">
-      <el-tab-pane label="全部" name="0"></el-tab-pane>
-      <el-tab-pane label="待执行" name="1"></el-tab-pane>
-      <el-tab-pane label="已执行" name="2"></el-tab-pane>
+      <el-tab-pane label="全部" name=""></el-tab-pane>
+      <el-tab-pane label="待执行" name="2"></el-tab-pane>
+      <el-tab-pane label="已执行" name="4"></el-tab-pane>
     </el-tabs>
    </div>
    <div class="m-container table-container">
@@ -53,12 +53,12 @@
       <el-table-column label="走访编号" property="visitCode" />
       <el-table-column label="走访时间" property="visitTime" />
       <el-table-column label="走访公司" property="organizeName" />
-      <el-table-column label="指派走访人" property="visitStatus" />
-      <el-table-column label="是否首客" property="isFirstVisit" />
-      <el-table-column label="走访状态" property="visitStatus" />
+      <el-table-column label="指派走访人" property="visitStatus"/>
+      <el-table-column label="是否首客" property="isFirstVisit" :formatter="isFirstVisitFn" />
+      <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail(scope.row)">
+          <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
         </template>
@@ -103,6 +103,26 @@ export default {
     this.query();
   },
   methods: {
+    isFirstVisitFn(row, clo, value) {
+      console.log(value)
+      if (value === 0) {
+        return '否';
+      } else {
+        return '是';
+      }
+    },
+    visitStatusFn(row, clo, value) {
+      switch (value) {
+        case '1':
+        return '待审核';
+        case '2' || '0':
+        return '待执行';
+        case '3':
+        return '已驳回';
+        default:
+        return '已完成';
+      }
+    },
     getTimeRange(time) {
       if (time) {
         this.appointVisitForm.visitStartTime = time[0];
@@ -121,10 +141,15 @@ export default {
       this.query();
     },
     getState(value) {
-      this.appointVisitForm.visitStatus = [value.name];
+      if (value.name !== '') {
+        this.appointVisitForm.visitStatus = [value.name];
+      } else {
+        this.appointVisitForm.visitStatus = [];
+      }
+      this.query();
     },
-    handleDetail(row) {
-      const path = '/visit/visit-appoint-detail/' + row.visitId;
+    viewDetail(row, execution) {
+      let path = `/visit/visit-appoint-detail/${row.visitId}?isExecute=${execution}&point=true`;
       this.$router.push(path);
     },
     query() {

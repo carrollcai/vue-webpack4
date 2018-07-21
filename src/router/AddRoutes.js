@@ -336,6 +336,12 @@ const dynamicRoutes = [
         meta: { menuId: 15 }
       },
       {
+        path: '/visit/visit-appoint-detail',
+        name: 'visit-appoint-detail',
+        component: VisitAppointDetail,
+        meta: { menuId: 15 }
+      },
+      {
         path: '/visit/visit-appoint-detail/:id',
         name: 'visit-appoint-detail',
         component: VisitAppointDetail,
@@ -343,6 +349,12 @@ const dynamicRoutes = [
       },
       {
         path: '/visit/create-visit-application',
+        name: 'create-visit-application',
+        component: CreateVisitApplication,
+        meta: { menuId: 15 }
+      },
+      {
+        path: '/visit/create-visit-application/:id',
         name: 'create-visit-application',
         component: CreateVisitApplication,
         meta: { menuId: 15 }

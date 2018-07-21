@@ -268,10 +268,14 @@ export default {
   getProductNameCodeAPI: API('esop/product/queryByCodeOrName'),
   /* visit */
   getMyVisitManageListAPI: API('esop/visit/queryVisitSelf'),
-  setCreateVisitAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
+  addCreateVisitAPI: API('esop/visit/addVisitSelf'),
+  addCreateAppiontAPI: API('esop/visit/addVisitAssign'),
   getAppointVisitListAPI: API('esop/visit/queryVisitAssign'),
-  queryVisitAppointDetailAPI: API('http://localhost:3618/esop/visit/myVisitManage'),
-  queryRegisterListAPI: API('esop/api/user/register'),
+  queryVisitAppointDetailAPI: API('esop/visit/queryDetailVisit'),
+  queryRegisterListAPI: API('esop/bizOppor/queryOpporByCode'),
+  editVisitAppAPI: API('esop/visit/editVisit'),
+  deleteVisitAppAPI: API('esop/visit/deleteVisit'),
+  queryRegionManagerAPI: API('esop/visit/selectRegionManager'),
   /**
    * 查询 走访任务处理 列表
    */
