@@ -118,19 +118,14 @@ export default {
       }
     },
     visitStatusFn(row, clo, value) {
-      let state = '';
-      switch (value) {
-        case '1':
-        state = '待审核';
-        break;
-        case '2' || '0':
-        state = '待执行';
-        break;
-        case '3':
-        state = '已驳回';
-        break;
-        default:
-        state = '已完成';
+      if (value === '1') {
+        return '待审核';
+      } else if (value === '2' || value === '0') {
+        return '待执行';
+      } else if (value === '3') {
+        return '已驳回';
+      } else {
+        return '已完成';
       }
     },
     getTimeRange(time) {

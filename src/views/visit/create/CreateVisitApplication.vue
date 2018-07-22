@@ -278,14 +278,14 @@ export default {
         if (element.opporCode === value) {
           _this.createVisitFrom.relOpporId = element.opporId;
         }
-      })
+      });
     },
     async getRelOpporId(item) {
       let data = {
         opporCode: item,
         pageNo: this.pageNo,
         pageSize: this.pageSize
-      }
+      };
       await this.queryRegisterList(data);
     },
     handleSelect(item) {
@@ -294,7 +294,7 @@ export default {
         if (element.organizeCode === item.organizeCode) {
           this.createVisitFrom.organizeId = element.organizeId + '';
         }
-      }, this)
+      }, this);
       this.updateOrderCreate({ address: item.orgAddress });
     },
     async queryProductAsync(queryString, cb) {

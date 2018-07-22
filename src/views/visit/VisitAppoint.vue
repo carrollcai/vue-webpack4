@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     isFirstVisitFn(row, clo, value) {
-      console.log(value)
+      console.log(value);
       if (value === 0) {
         return '否';
       } else {
@@ -112,14 +112,13 @@ export default {
       }
     },
     visitStatusFn(row, clo, value) {
-      switch (value) {
-        case '1':
+      if (value === '1') {
         return '待审核';
-        case '2' || '0':
+      } else if (value === '2' || value === '0') {
         return '待执行';
-        case '3':
+      } else if (value === '3') {
         return '已驳回';
-        default:
+      } else {
         return '已完成';
       }
     },
