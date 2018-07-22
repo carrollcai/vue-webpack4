@@ -3,7 +3,7 @@
     <div class="m-container">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/visit/mission-handling' }">走访任务处理</el-breadcrumb-item>
-        <el-breadcrumb-item>查看评价</el-breadcrumb-item>
+        <el-breadcrumb-item>{{title()}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="m-container info-block">
@@ -11,15 +11,18 @@
     </div>
     <div class="m-container info-block">
       <el-form label-width="130px">
-        <template>
-          <el-form-item label="审核结果">
-          </el-form-item>
-          <el-form-item label="审核建议">
+        <template v-if="visit.isEvaluate === '1'">
+          <el-form-item label="走访评价">
+            {{visit.visitEvaluate}}
           </el-form-item>
         </template>
 
-        <template>
-          <el-form-item label="走访评价">
+        <template v-else>
+          <el-form-item label="审核结果">
+            {{visit.advice ? '驳回' : '通过'}}
+          </el-form-item>
+          <el-form-item label="审核建议" v-if="visit.advice">
+            {{visit.advice}}
           </el-form-item>
         </template>
       </el-form>
@@ -49,6 +52,9 @@ export default {
     })
   },
   methods: {
+    title() {
+      return this.visit.isEvaluate === '1' ? '查看评价' : '查看';
+    },
     initVisit() {
       let visitId = this.$route.params.id;
 

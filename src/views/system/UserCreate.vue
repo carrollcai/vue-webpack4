@@ -73,7 +73,7 @@ export default {
           { validator: checkPhone, trigger: 'blur' }
         ],
         email: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' },
+          // { required: true, message: '请输入电子邮箱', trigger: 'blur' },
           { validator: emailCheck, trigger: 'blur' }
         ],
         roleId: [

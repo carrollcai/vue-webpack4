@@ -19,6 +19,7 @@
           <el-input v-model="auditInfo.dealResult"
             :rows="3"
             type="textarea"
+            :maxlength="500"
             placeholder="如审核不通过，请填写原因供创建者查看"
             key="desc-input"></el-input>
         </el-form-item>

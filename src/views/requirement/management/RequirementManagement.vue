@@ -123,7 +123,9 @@ export default {
         activeName,
         organizeName,
         reqType,
-        STATUS
+        STATUS,
+        pageSize,
+        pageNo
       } = this;
 
       return {
@@ -131,6 +133,8 @@ export default {
         endDate: rangeDate[1],
         organizeName,
         reqType,
+        pageSize,
+        pageNo,
         taskStatus: STATUS[activeName]
       };
     },
