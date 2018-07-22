@@ -10,7 +10,7 @@
     </div>
     <div class="task-detail-item">
       <div class="left">走访对象：</div>
-      <div class="right">{{visitDetails.intervieweeName}}；高管；{{visitDetails.intervieweeMobile}}</div>
+      <div class="right">{{visitDetails.intervieweeName}}；{{visitDetails.intervieweeMobile}}</div>
     </div>
     <div class="task-detail-item">
       <div class="left">我方出席人员：</div>

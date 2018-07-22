@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="m-container visit-create">
-      <el-form :label-position="'right'" label-width="140px" :model="createAppointFrom"  ref="createAppointFrom" :rules="createAppointVaild">
+      <el-form :label-position="'right'" label-width="140px" :model="createAppointFrom"  ref="visitRef" :rules="createAppointVaild">
         <el-form-item label="走访主题：" required prop="visitTheme">
           <el-input v-model="createAppointFrom.visitTheme" class="form-input-medium" placeholder="请输入主题" />
         </el-form-item>
@@ -40,12 +40,12 @@
           <el-input v-model="createAppointFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“；”隔开" />
         </el-form-item>
         <el-form-item label="走访时间：" required>
-          <el-form-item style="width: 230px; float: left;">
+          <el-form-item style="width: 230px; float: left;" prop="visitTime">
             <el-date-picker v-model="visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
           </el-form-item>
           <div class="form-input-sep" style="width: 30px; float: left;">-</div>
-          <el-form-item style="width: 230px; float: left;">
-          <el-time-picker prop="visitTimeHour" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
+          <el-form-item style="width: 230px; float: left;" prop="visitTimeHour">
+          <el-time-picker :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" required prop="visitContent">
@@ -71,6 +71,7 @@
           <el-radio v-model="createAppointFrom.isFirstVisit" value="1" label="1">是</el-radio>
           <el-radio v-model="createAppointFrom.isFirstVisit" value="0" label="0">否</el-radio>
         </el-form-item>
+        <div class="hr"></div>
         <el-form-item label="指派审核人：" prop="processor">
           <el-select
             v-if="processorList"
@@ -89,7 +90,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitVisitApplication()">提交</el-button>
+          <el-button type="primary" @click="submitVisitApplication()">立即指派</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -100,12 +101,21 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
+    const textLimit = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 25) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else {
+        callback();
+      }
+    };
     return {
-      visitId: this.$route.params.id,
+      visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeout: null,
@@ -116,24 +126,6 @@ export default {
       auditorOptions: [],
       fromVaild: {},
       pointAuditor: [],
-      initPrams: {
-        visitTheme: '',
-        organizeId: '',
-        organizeName: '',
-        visitAddress: '',
-        intervieweeName: '',
-        intervieweeMobile: '',
-        visitPresentMembers: '',
-        visitContent: '',
-        relOpporId: '',
-        relOpporCode: '',
-        processor: '',
-        assignNote: '',
-        problemCoordinate: '',
-        isFirstVisit: '',
-        visitStartTime: '',
-        visitEndTime: ''
-      },
       createAppointVaild: {
         visitTheme: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -185,10 +177,10 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         visitTime: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
         ],
         visitTimeHour: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
         ],
         assignNote: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -279,9 +271,12 @@ export default {
       }, 1000);
     },
     submitVisitApplication() {
-      this.addCreateAppiont(this.createAppointFrom).then((res) => {
-        if (res.errorInfo.code === 200) {
-          this.$message({message: '请求成功', type: 'success'});
+      let _this = this;
+      this.$refs.visitRef.validate((valid) => {
+        if (valid) {
+          _this.addCreateAppiont(this.createAppointFrom);
+        } else {
+          return false;
         }
       });
     },
@@ -307,5 +302,20 @@ export default {
   margin-top: $blockWidth;
   display: flex;
   justify-content: center;
+  .hr {
+    margin: 0px 32px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .hr:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 960px;
+    margin-right: -190px;
+    border-bottom: 1px #e5e5e5 solid;
+    margin-right: -170px;
+  }
 }
 </style>

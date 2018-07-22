@@ -50,9 +50,9 @@
       :pageSize="myVisitManageFrom.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
-      <el-table-column label="走访编号" property="visitCode" />
+      <el-table-column label="走访编号" property="visitCode" width="180"/>
       <el-table-column label="走访时间" property="visitStartTime" />
-      <el-table-column label="走访公司" property="organizeName" />
+      <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column label="是否首客" property="isFirstVisit" :formatter="isFirstVisitFn" />
       <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
       <el-table-column label="操作">
@@ -158,7 +158,6 @@ export default {
       this.$router.push(path);
     },
     query() {
-      console.log(this.myVisitManageFrom);
       this.getMyVisitManageList(this.myVisitManageFrom);
     },
     createVisit(row) {

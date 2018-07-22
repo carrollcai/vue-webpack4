@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="m-container visit-create">
-      <el-form :label-position="'right'" :model="createVisitFrom" ref="createVisitFrom" :rules="createVisitVaild">
+      <el-form :label-position="'right'" :model="createVisitFrom" ref="visitRef" :rules="createVisitVaild">
         <el-form-item label="走访主题：" label-width="140px" required prop="visitTheme">
           <el-input v-model="createVisitFrom.visitTheme" class="form-input-medium" placeholder="请输入主题" />
         </el-form-item>
@@ -19,7 +19,7 @@
           </el-form-item>
           <div class="form-input-sep" style="display:inline-block;">-</div>
           <el-form-item prop="visitAddress" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="createVisitFrom.visitAddress" placeholder="办公地址"></el-input>
+            <el-input class="form-input-half" v-model="createVisitFrom.visitAddress" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <!-- <el-form-item label="合作企业：">
@@ -29,8 +29,8 @@
           <el-input v-model="createVisitFrom.visitAddress" class="form-input-large" placeholder="企业地址">
           </el-input>
         </el-form-item> -->
-        <el-form-item label="走访对象：" label-width="140px" required prop="intervieweeName">
-          <el-input v-model="createVisitFrom.intervieweeName" maxlength="6" class="form-input-80" placeholder="姓名"></el-input>
+        <el-form-item label="走访对象：" label-width="140px" required>
+          <el-input v-model="createVisitFrom.intervieweeName" prop="intervieweeName" class="form-input-80" placeholder="姓名"></el-input>
           <div class="form-input-sep">-</div>
           <el-form-item style="display: inline-block;" prop="intervieweeMobile">
             <el-input v-model="createVisitFrom.intervieweeMobile" maxlength="11" class="form-input-120" placeholder="联系电话"></el-input>
@@ -41,18 +41,18 @@
         </el-form-item>
         <el-form-item label="走访时间：" label-width="140px" required>
           <el-form-item style="width: 230px; float: left;">
-            <el-date-picker v-model="visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
+            <el-date-picker v-model="visitTime" prop="visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
           </el-form-item>
           <div class="form-input-sep" label-width="140px" style="width: 30px; float: left;">-</div>
           <el-form-item style="width: 210px; float: left">
             <!-- <el-time-picker style="width: 210px;" prop="visitTimeHour" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker> -->
-            <el-time-picker style="width: 210px;" prop="visitTimeHour" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
+            <el-time-picker prop="visitTimeHour" style="width: 210px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" label-width="140px" required prop="visitContent">
           <el-input v-model="createVisitFrom.visitContent" type="textarea" class="form-input-large" placeholder="请输入走访内容" />
         </el-form-item>
-        <el-form-item label="涉及商机编码：" label-width="140px" required  prop="relOpporCode">
+        <el-form-item label="涉及商机编码：" label-width="140px" required prop="relOpporCode">
           <el-select
             v-model="createVisitFrom.relOpporCode"
             @change="relOpporValue"
@@ -82,7 +82,8 @@
           <el-radio v-model="createVisitFrom.isSubmit" :value="1" :label="1">是</el-radio>
           <el-radio v-model="createVisitFrom.isSubmit" :value="0" :label="0">否</el-radio>
         </el-form-item>
-        <el-form-item label="选择审核人：" label-width="140px" prop="processor">
+        <div class="hr"></div>
+        <el-form-item label="选择审核人：" label-width="140px" prop="visitAuditor">
           <el-select
             v-if="processorList"
             v-model="createVisitFrom.visitAuditor"
@@ -107,10 +108,19 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
+    const textLimit = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 25) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else {
+        callback();
+      }
+    };
     return {
       visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
@@ -193,10 +203,10 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         visitTime: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
         ],
         visitTimeHour: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
         ]
       }
     };
@@ -240,6 +250,7 @@ export default {
         this.createVisitFrom.visitStartTime = this.visitAppointDetail.visitStartTime;
         this.createVisitFrom.visitEndTime = this.visitAppointDetail.visitEndTime;
         this.createVisitFrom.isSubmit = this.visitAppointDetail.isSubmit ? Number(this.visitAppointDetail.isSubmit) : 0;
+        this.visitTime = this.visitAppointDetail.visitStartTime;
       });
     } else {
       this.createVisitFrom.visitTheme = '';
@@ -327,6 +338,7 @@ export default {
       }, 1000);
     },
     query() {
+      var _this = this;
       if (this.visitId > 0) {
         this.editValue = {
           visitId: this.createVisitFrom.visitId,
@@ -347,9 +359,21 @@ export default {
           visitEndTime: this.createVisitFrom.visitEndTime,
           isSubmit: this.createVisitFrom.isSubmit
         };
-        this.editVisitApp(this.editValue);
+        this.$refs.visitRef.validate((valid) => {
+          if (valid) {
+            _this.editVisitApp(this.editValue);
+          } else {
+            return false;
+          }
+        });
       } else {
-        this.addCreateVisit(this.createVisitFrom);
+        this.$refs.visitRef.validate((valid) => {
+          if (valid) {
+            _this.addCreateVisit(this.createVisitFrom);
+          } else {
+            return false;
+          }
+        });
       }
     },
     ...mapMutations({
@@ -380,6 +404,20 @@ export default {
     .el-breadcrumb {
       line-height: 48px;
     }
+  }
+  .hr {
+    margin: 0px 32px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .hr:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 940px;
+    border-bottom: 1px #e5e5e5 solid;
+    margin-right: -170px;
   }
   .el-step.is-horizontal .el-step__line {height: 1px; background: #c0c0c0}
   .el-step__head.is-process, .el-step__title.is-process {color: #8c8c8c; font-weight: 400;}

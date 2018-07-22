@@ -7,7 +7,7 @@
     <el-form
       :model="formData"
       :rules="formDataValid"
-      ref="formVaild">
+      ref="visitRef">
       <el-form-item label="转发人：" label-width="130px" required prop="visitEvaluator">
         <el-select
           v-if="processorList"
@@ -46,7 +46,7 @@
       <el-form-item class="mt28 mb10" label-width="130px">
         <el-button type="primary" @click="onSubmit">提交</el-button>
       </el-form-item>
-    </el-form>    
+    </el-form>
   </div>
 </div>
 </template>
@@ -55,8 +55,8 @@
 import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
-import { multFileValid } from '@/utils/rules.js';
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_TIP } from '@/config/index.js';
+import { textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 export default {
   components: {
     WmTable,
@@ -75,7 +75,7 @@ export default {
   },
   data() {
     const fileCheck = (rule, value, callback) => {
-      multFileValid(this.uploadData.files, callback);
+      // multFileValid(this.uploadData.files, callback);
     };
     return {
       visitId: this.$route.params.id,
@@ -98,6 +98,17 @@ export default {
         fileInputId: ''
       },
       formDataValid: {
+        visitEvaluator: [
+          { required: true, message: '请选择', trigger: 'blur' }
+        ],
+        feedbackNote: [
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaLimit, trigger: 'blur' }
+        ],
+        feedback: [
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: textareaMaxLimit, trigger: 'blur' }
+        ],
         files: [
           { validator: fileCheck }
         ]
@@ -167,8 +178,11 @@ export default {
       this.query();
     },
     async query() {
-      console.log(this.formData);
-      await this.addApproveVisit(this.formData);
+      this.$refs.visitRef.validate((valid) => {
+        if (valid) {
+          this.addApproveVisit(this.formData);
+        }
+      });
     },
     ...mapActions([
       'queryVisitAppointDetail',

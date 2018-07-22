@@ -24,7 +24,7 @@ const actions = {
     });
   },
   addCreateAppiont: ({ commit }, params) => {
-    let path = '/visit/create-visit-application';
+    let path = '/visit/visit-appoint';
     return API.addCreateAppiontAPI(params).then((res) => {
       if (res.data === 1) {
         Message({
