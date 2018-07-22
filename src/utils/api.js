@@ -275,6 +275,7 @@ export default {
   queryRegisterListAPI: API('esop/bizOppor/queryOpporByCode'),
   editVisitAppAPI: API('esop/visit/editVisit'),
   deleteVisitAppAPI: API('esop/visit/deleteVisit'),
+  addAppointVisitAPI: API('/esop/visit/handleVisit'),
   queryRegionManagerAPI: API('esop/visit/selectRegionManager'),
   /**
    * 查询 走访任务处理 列表

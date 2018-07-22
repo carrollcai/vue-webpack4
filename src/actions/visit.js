@@ -53,6 +53,18 @@ const actions = {
       commit(types.REGION_MANAGE_LIST, res.data);
     });
   },
+  addApproveVisit: ({ commit }, params) => {
+    return API.addAppointVisitAPI(params).then((res) => {
+      Message({
+        message: '执行处理成功',
+        type: 'success',
+        duration: 3000
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/visit/my-visit-manage'
+      });
+    });
+  },
   queryRegisterList: ({ commit }, params) => {
     return API.queryRegisterListAPI(params).then((res) => {
       commit(types.REGISTER_LIST, res.data);
