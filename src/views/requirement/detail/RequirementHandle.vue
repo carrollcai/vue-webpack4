@@ -125,6 +125,9 @@
 <script>
 import {mapActions, mapState} from 'vuex';
 import endsWith from 'lodash/endsWith';
+import {
+  isEmpty as emptyValidator
+} from '@/utils/rules';
 import mixins from './mixins';
 export default {
   name: 'RequirementHandle',
@@ -187,14 +190,17 @@ export default {
           }
         ],
         materialDesc: [
-          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入备注', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
 
         reqScheme: [
-          { required: true, message: '请输入处理方案', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入处理方案', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         processorRemark: [
-          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入备注', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         processor: [
           { validator: processorValidator, trigger: 'change' }
