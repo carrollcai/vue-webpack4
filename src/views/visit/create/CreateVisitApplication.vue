@@ -30,7 +30,9 @@
           </el-input>
         </el-form-item> -->
         <el-form-item label="走访对象：" label-width="140px" required>
-          <el-input v-model="createVisitFrom.intervieweeName" prop="intervieweeName" class="form-input-80" placeholder="姓名"></el-input>
+          <el-form-item style="display: inline-block;" prop="intervieweeName">
+            <el-input v-model="createVisitFrom.intervieweeName" class="form-input-80" placeholder="姓名"></el-input>
+          </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item style="display: inline-block;" prop="intervieweeMobile">
             <el-input v-model="createVisitFrom.intervieweeMobile" maxlength="11" class="form-input-120" placeholder="联系电话"></el-input>
@@ -39,14 +41,14 @@
         <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
           <el-input v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“；”隔开" />
         </el-form-item>
-        <el-form-item label="走访时间：" label-width="140px" required>
-          <el-form-item style="width: 230px; float: left;">
-            <el-date-picker v-model="visitTime" prop="visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
+
+        <el-form-item label="走访时间：" required>
+          <el-form-item style="width: 230px; float: left;" prop="visitTime">
+            <el-date-picker v-model="visitTime" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
           </el-form-item>
           <div class="form-input-sep" label-width="140px" style="width: 30px; float: left;">-</div>
-          <el-form-item style="width: 210px; float: left">
-            <!-- <el-time-picker style="width: 210px;" prop="visitTimeHour" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker> -->
-            <el-time-picker prop="visitTimeHour" style="width: 210px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
+          <el-form-item style="width: 210px; float: left" prop="timeRange">
+            <el-time-picker style="width: 210px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" label-width="140px" required prop="visitContent">
@@ -108,19 +110,10 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
-    const textLimit = (rule, value, callback) => {
-      if (String(value).trim() === '') {
-        callback(new Error('输入内容不能为空'));
-      } else if (String(value).trim().length > 25) {
-        callback(new Error(`输入内容字符不能超过25`));
-      } else {
-        callback();
-      }
-    };
     return {
       visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
@@ -171,7 +164,7 @@ export default {
         ],
         intervieweeName: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textLimit, trigger: 'blur' }
         ],
         intervieweeMobile: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -203,10 +196,12 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         visitTime: [
-          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' },
+          { required: true, type: 'date', message: '请选择日期', trigger: 'blur' }
         ],
-        visitTimeHour: [
-          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
+        timeRange: [
+          { type: 'date', required: true, message: '请选择时间', trigger: 'change' },
+          { required: true, type: 'date', message: '请选择时间', trigger: 'blur' }
         ]
       }
     };
@@ -341,7 +336,7 @@ export default {
       var _this = this;
       if (this.visitId > 0) {
         this.editValue = {
-          visitId: this.createVisitFrom.visitId,
+          visitId: this.visitId,
           visitTheme: this.createVisitFrom.visitTheme,
           organizeId: this.createVisitFrom.organizeId,
           organizeName: this.createVisitFrom.organizeName,
@@ -369,6 +364,7 @@ export default {
       } else {
         this.$refs.visitRef.validate((valid) => {
           if (valid) {
+            console.log(this.createVisitFrom);
             _this.addCreateVisit(this.createVisitFrom);
           } else {
             return false;

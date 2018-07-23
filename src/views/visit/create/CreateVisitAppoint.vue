@@ -19,7 +19,7 @@
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="visitAddress" style="display:inline-block;">
-            <el-input maxlength="50" class="form-input-half" v-model="createAppointFrom.visitAddress" placeholder="办公地址"></el-input>
+            <el-input class="form-input-half" v-model="createAppointFrom.visitAddress" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <!-- <el-form-item label="合作企业：">
@@ -29,8 +29,10 @@
           <el-input v-model="createAppointFrom.visitAddress" class="form-input-large" placeholder="企业地址">
           </el-input>
         </el-form-item> -->
-        <el-form-item label="走访对象：" required prop="intervieweeName">
-          <el-input v-model="createAppointFrom.intervieweeName" maxlength="6" class="form-input-80" placeholder="姓名"></el-input>
+        <el-form-item label="走访对象：" required>
+          <el-form-item style="display: inline-block;" prop="intervieweeName">
+            <el-input v-model="createAppointFrom.intervieweeName" placeholder="姓名"></el-input>
+          </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item style="display: inline-block;" prop="intervieweeMobile">
             <el-input v-model="createAppointFrom.intervieweeMobile" maxlength="11" class="form-input-120" placeholder="联系电话"></el-input>
@@ -90,7 +92,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitVisitApplication()">立即指派</el-button>
+          <el-button type="primary" @click="submitVisitApplication()">提交</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -101,19 +103,10 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
-    const textLimit = (rule, value, callback) => {
-      if (String(value).trim() === '') {
-        callback(new Error('输入内容不能为空'));
-      } else if (String(value).trim().length > 25) {
-        callback(new Error(`输入内容字符不能超过25`));
-      } else {
-        callback();
-      }
-    };
     return {
       visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
@@ -141,11 +134,12 @@ export default {
         ],
         visitAddress: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { validator: textareaLimit, trigger: 'blur' }
+          { required: true, validator: textareaLimit, trigger: 'blur' },
+          { required: true, validator: textareaLimit, trigger: 'blur' }
         ],
         intervieweeName: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textLimit, trigger: 'blur' }
         ],
         intervieweeMobile: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -168,7 +162,8 @@ export default {
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         processor: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请选择', trigger: 'blur' },
+          { required: true, message: '请选择', trigger: 'change' }
         ],
         isFirstVisit: [
           { required: true, message: '请输入', trigger: 'blur' }
@@ -177,10 +172,12 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         visitTime: [
-          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' },
+          { required: true, type: 'date', message: '请选择日期', trigger: 'blur' }
         ],
         visitTimeHour: [
-          { required: true, type: 'date', message: '请输入', trigger: 'blur' }
+          { type: 'date', required: true, message: '请选择时间', trigger: 'change' },
+          { required: true, type: 'date', message: '请选择时间', trigger: 'blur' }
         ],
         assignNote: [
           { required: true, message: '请输入', trigger: 'blur' },
