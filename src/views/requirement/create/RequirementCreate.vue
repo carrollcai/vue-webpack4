@@ -151,11 +151,11 @@
             <el-form-item label="指派处理人" required key="processor-group">
               <el-col :span="16">
                 <el-form-item prop="processor" key="processor">
-                    <el-cascader
-                      expand-trigger="hover"
-                      :options="processors"
-                      clearable
-                      v-model="processor" placeholder="请选择"></el-cascader>
+                    <el-select
+                      v-model="requirement.processor"
+                      placeholder="请选择指派处理人">
+                      <el-option v-for="(item, index) in processors" :key="index" :value="item.operatorId" :label="item.staffName"/>
+                    </el-select>
                 </el-form-item>
               </el-col>
               <el-col class="line-container checkbox-sms" :span="7">
@@ -226,19 +226,16 @@ export default {
   },
   computed: {
     ...mapState({
-      processors: ({ order }) => order.assignHandlers
+      processors: ({ requirement }) => requirement.createProcessors
     })
   },
   watch: {
-    processor(newVal) {
-      this.requirement.processor = newVal && newVal.length ? newVal[newVal.length - 1] : '';
-    },
     checked(newVal) {
       this.requirement.needSms = newVal ? '1' : '0';
     }
   },
   created() {
-    this.getAssignhandler();
+    this.queryRequirementCreateProcessors();
   },
   methods: {
     isAcceptable(fileName) {
@@ -342,7 +339,7 @@ export default {
     },
     ...mapActions([
       'saveRequirement',
-      'getAssignhandler',
+      'queryRequirementCreateProcessors',
       'getProductFileId',
       'uploadProductScheme'
     ])

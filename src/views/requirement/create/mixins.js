@@ -16,15 +16,6 @@ export default {
       }
     };
 
-    const processorValidator = function(rule, val, callback) {
-      const {requirement} = that;
-      if (!requirement.processor) {
-        callback(new Error('请选择指派处理人'));
-      } else {
-        callback();
-      }
-    };
-
     return {
       uploadFiles: [],
       baseInfoRules: {
@@ -79,7 +70,7 @@ export default {
           { type: 'email', message: '请输入邮箱', trigger: ['blur', 'change'] }
         ],
         processor: [
-          { required: true, validator: processorValidator, trigger: 'change' }
+          { required: true, message: '请选择指派处理人', trigger: 'change' }
         ]
       }
     };

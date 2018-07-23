@@ -32,7 +32,7 @@ const actions = {
   },
 
   /**
-   * 查询 需求任务处理人
+   * 处理需求任务 查询 需求任务处理人
    *
    * @param {Store} Store
    * @param {String} params
@@ -42,6 +42,20 @@ const actions = {
       commit(types.REQUIREMENT_PROCESSORS, res.data);
     }, () => {
       commit(types.REQUIREMENT_PROCESSORS, {});
+    });
+  },
+
+  /**
+   * 创建需求任务 查询 需求任务处理人
+   *
+   * @param {Store} Store
+   * @param {String} params
+   */
+  queryRequirementCreateProcessors: ({commit}, params) => {
+    API.queryRequirementCreateProcessorsAPI(params).then(res => {
+      commit(types.REQUIREMENT_CREATE_PROCESSORS, res.data);
+    }, () => {
+      commit(types.REQUIREMENT_CREATE_PROCESSORS, {});
     });
   },
 
