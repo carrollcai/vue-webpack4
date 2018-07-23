@@ -24,7 +24,7 @@
               type="textarea"
               v-model="form.reqScheme"
               placeholder="简要描述一下处理方案"
-              :maxlength="6"
+              :maxlength="200"
               key="plan-input"></el-input>
           </el-form-item>
           <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
@@ -32,7 +32,7 @@
               v-model="form.processorRemark"
               type="textarea"
               placeholder="备注"
-              :maxlength="6"
+              :maxlength="50"
               key="plan-desc-input"></el-input>
           </el-form-item>
           <el-form-item>
@@ -55,7 +55,7 @@
                 type="textarea"
                 v-model="form.reqScheme"
                 placeholder="简要描述一下处理方案"
-                :maxlength="6"
+                :maxlength="200"
                 key="plan-input"></el-input>
             </el-form-item>
             <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
@@ -63,7 +63,7 @@
                 v-model="form.processorRemark"
                 type="textarea"
                 placeholder="备注"
-                :maxlength="6"
+                :maxlength="50"
                 key="plan-desc-input"></el-input>
             </el-form-item>
           </template>
@@ -111,6 +111,7 @@
               type="textarea"
               v-model="form.materialDesc"
               placeholder="备注"
+              :maxlength="50"
               key="material-desc-input-desc"></el-input>
           </el-form-item>
           <el-form-item>
