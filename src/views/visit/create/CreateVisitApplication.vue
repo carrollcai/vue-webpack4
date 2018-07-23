@@ -265,10 +265,10 @@ export default {
       this.createVisitFrom.relOpporCode = '';
       this.createVisitFrom.problemCoordinate = '';
       this.createVisitFrom.visitAuditor = '';
-      this.createVisitFrom.isFirstVisit = 0;
+      this.createVisitFrom.isFirstVisit = 1;
       this.createVisitFrom.visitStartTime = '';
       this.createVisitFrom.visitEndTime = '';
-      this.createVisitFrom.isSubmit = 0;
+      this.createVisitFrom.isSubmit = 1;
     }
   },
   methods: {

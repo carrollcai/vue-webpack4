@@ -67,9 +67,9 @@
         <el-form-item label="问题协调：" required prop="problemCoordinate">
           <el-input v-model="createAppointFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
         </el-form-item>
-        <el-form-item label="是否首客走访：" required prop="isFirstVisit">
-          <el-radio v-model="createAppointFrom.isFirstVisit" value="1" label="1">是</el-radio>
-          <el-radio v-model="createAppointFrom.isFirstVisit" value="0" label="0">否</el-radio>
+        <el-form-item label="是否首客走访：" label-width="140px" required prop="isFirstVisit">
+          <el-radio v-model="createAppointFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
+          <el-radio v-model="createAppointFrom.isFirstVisit" :value="0" :label="0">否</el-radio>
         </el-form-item>
         <div class="hr"></div>
         <el-form-item label="指派审核人：" prop="processor">

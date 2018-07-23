@@ -34,10 +34,10 @@ const state = {
     relOpporCode: '',
     problemCoordinate: '',
     visitAuditor: '',
-    isFirstVisit: 0,
+    isFirstVisit: 1,
     visitStartTime: '',
     visitEndTime: '',
-    isSubmit: 0
+    isSubmit: 1
   },
   createVisitData: {},
   appointVisitForm: {
@@ -63,7 +63,7 @@ const state = {
     processor: '',
     assignNote: '',
     problemCoordinate: '',
-    isFirstVisit: '',
+    isFirstVisit: 1,
     visitStartTime: '',
     visitEndTime: ''
   },
