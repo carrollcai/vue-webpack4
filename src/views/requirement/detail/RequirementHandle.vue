@@ -362,7 +362,7 @@ export default {
 
     .handle-info {
       .el-upload__tip{
-        height: 44px;
+        min-height: 44px;
         line-height: 22px;
         color: rgba(0, 0, 0, 0.45);
         font-size: 14px;
