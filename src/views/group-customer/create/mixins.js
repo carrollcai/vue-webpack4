@@ -183,7 +183,10 @@ export default {
       this.customer.managerName = item.staffName;
       this.customer.managerMobile = item.mobile;
       this.customer.managerNo = `${item.operatorId}`;
-      this.customer.managerPosition = item.postion;
+
+      if (item.postion) {
+        this.customer.managerPosition = item.postion;
+      }
     },
     ...mapActions(['queryCustomerManagers'])
   }

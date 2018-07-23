@@ -28,13 +28,16 @@
       <el-form v-if="visit.visitStatus === '1'" ref="auditForm" :model="baseForm" :rules="rules" label-width="130px" key="audit-form">
         <el-form-item label="审核结果" required prop="resultStatus">
           <el-radio-group v-model="baseForm.resultStatus" key="status-radio">
-            <el-radio label="1">通过</el-radio>
+            <el-radio label="2">通过</el-radio>
             <el-radio label="3">驳回</el-radio>
           </el-radio-group>
         </el-form-item>
 
         <el-form-item v-if="baseForm.resultStatus === '3'" label="审核建议" prop="dealResult">
-          <el-input type="textarea" placeholder="如审核不通过，请填写原因供创建者查看！" v-model="baseForm.dealResult">
+          <el-input type="textarea"
+            :maxlength="500"
+            placeholder="如审核不通过，请填写原因供创建者查看！"
+            v-model="baseForm.dealResult">
           </el-input>
         </el-form-item>
 
@@ -49,6 +52,9 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import VisitDetailInfo from './DetailInfo.vue';
+import {
+  isEmpty as emptyValidator
+} from '@/utils/rules';
 export default {
   name: 'MissionHandle',
   components: {
@@ -58,18 +64,20 @@ export default {
     return {
       baseForm: {
         visitEvaluate: '',
-        resultStatus: '1',
+        resultStatus: '2',
         dealResult: ''
       },
       rules: {
         visitEvaluate: [
-          {required: true, message: '请输入走访评价', trigger: 'blur'}
+          {required: true, message: '请输入走访评价', trigger: ['blur', 'change']},
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         resultStatus: [
           {required: true, message: '请选择审核结果', trigger: 'change'}
         ],
         dealResult: [
-          {required: true, message: '请输入审核建议', trigger: 'blur'}
+          {required: true, message: '请输入审核建议', trigger: ['blur', 'change']},
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ]
       }
     };

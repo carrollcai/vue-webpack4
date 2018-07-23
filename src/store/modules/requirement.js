@@ -29,7 +29,8 @@ const state = {
     reqType: '',
     activeName: 'first'
   },
-  processors: {}
+  processors: {},
+  createProcessors: []
 };
 
 const mutations = {
@@ -63,6 +64,9 @@ const mutations = {
       return newVal;
     });
     state.processors = handlers.filter(val => val.children && val.children.length);
+  },
+  [types.REQUIREMENT_CREATE_PROCESSORS](state, data) {
+    state.createProcessors = data;
   },
   updateRequirementField
 };

@@ -1,6 +1,6 @@
 import {mapActions, mapState} from 'vuex';
 import {
-  isEmpty
+  isEmpty as emptyValidator
 } from '@/utils/rules';
 export default {
   components: {
@@ -16,10 +16,10 @@ export default {
       }
     };
 
-    const processorValidator = function(rule, val, callback) {
+    const orgValidator = function(rule, val, callback) {
       const {requirement} = that;
-      if (requirement.needSms === '1' && !requirement.processor) {
-        callback(new Error('请选择指派处理人'));
+      if (!requirement.orgId) {
+        callback(new Error('请选择正确的集团'));
       } else {
         callback();
       }
@@ -30,13 +30,15 @@ export default {
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: ['blur', 'change'] },
-          { validator: isEmpty, trigger: ['blur', 'change'] }
+          { validator: orgValidator, trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         reqType: [
           { required: true, message: '请选择需求类型', trigger: 'change' }
         ],
         reqDesc: [
-          { required: true, message: '请输入需求描述', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入需求描述', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         uploadFiles: [
           {
@@ -46,10 +48,12 @@ export default {
           }
         ],
         materialName: [
-          { required: true, message: '请输入物料名称', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入物料名称', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         materialSupplyType: [
-          { required: true, message: '请选择物料格式要求', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择物料格式要求', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         materialUseCreateTime: [
           { required: true, message: '请选开始时间', trigger: 'change' }
@@ -59,10 +63,12 @@ export default {
         ],
 
         materialDesc: [
-          { required: true, message: '请输入物料描述', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入物料描述', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         contactName: [
-          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         contactMobile: [
           { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
@@ -73,7 +79,7 @@ export default {
           { type: 'email', message: '请输入邮箱', trigger: ['blur', 'change'] }
         ],
         processor: [
-          { validator: processorValidator, trigger: 'change' }
+          { required: true, message: '请选择指派处理人', trigger: 'change' }
         ]
       }
     };
@@ -85,6 +91,7 @@ export default {
   },
   methods: {
     querySearchAsync(queryString, cb) {
+      this.requirement.orgId = '';
       if (!queryString) {
         return false;
       }
@@ -99,7 +106,9 @@ export default {
         }, 1000);
       });
     },
-    handleSelect() {
+    handleSelect(item) {
+      console.log(item);
+      this.requirement.orgId = item.organizeId;
     },
     ...mapActions([
       'queryCustomerManagers',

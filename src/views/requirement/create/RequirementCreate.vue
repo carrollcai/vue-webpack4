@@ -148,14 +148,14 @@
           </div>
           <div class="line"></div>
           <div class="block processor-info">
-            <el-form-item label="指派处理人" key="processor-group">
+            <el-form-item label="指派处理人" required key="processor-group">
               <el-col :span="16">
                 <el-form-item prop="processor" key="processor">
-                    <el-cascader
-                      expand-trigger="hover"
-                      :options="processors"
-                      clearable
-                      v-model="processor" placeholder="请选择"></el-cascader>
+                    <el-select
+                      v-model="requirement.processor"
+                      placeholder="请选择指派处理人">
+                      <el-option v-for="(item, index) in processors" :key="index" :value="item.operatorId" :label="item.staffName"/>
+                    </el-select>
                 </el-form-item>
               </el-col>
               <el-col class="line-container checkbox-sms" :span="7">
@@ -163,7 +163,7 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitRequirement">提交处理</el-button>
+              <el-button type="primary" @click="submitRequirement()" :loading="isSubmit">{{ isSubmit ? '加载中' : '提交处理'}}</el-button>
             </el-form-item>
           </div>
       </el-form>
@@ -180,7 +180,9 @@ export default {
   data() {
     const that = this;
     return {
+      isSubmit: false,
       requirement: {
+        orgId: '',
         reqType: '0',
         fileInputId: '',
         needSms: '0',
@@ -226,19 +228,16 @@ export default {
   },
   computed: {
     ...mapState({
-      processors: ({ order }) => order.assignHandlers
+      processors: ({ requirement }) => requirement.createProcessors
     })
   },
   watch: {
-    processor(newVal) {
-      this.requirement.processor = newVal && newVal.length ? newVal[newVal.length - 1] : '';
-    },
     checked(newVal) {
       this.requirement.needSms = newVal ? '1' : '0';
     }
   },
   created() {
-    this.getAssignhandler();
+    this.queryRequirementCreateProcessors();
   },
   methods: {
     isAcceptable(fileName) {
@@ -327,6 +326,7 @@ export default {
       const {uploadData} = this;
       that.$refs.baseForm.validate((valid) => {
         if (valid) {
+          that.isSubmit = true;
           that.getProductFileId().then((res) => {
             let fileInputId = res.data;
             uploadData.files = that.uploadFiles;
@@ -342,7 +342,7 @@ export default {
     },
     ...mapActions([
       'saveRequirement',
-      'getAssignhandler',
+      'queryRequirementCreateProcessors',
       'getProductFileId',
       'uploadProductScheme'
     ])

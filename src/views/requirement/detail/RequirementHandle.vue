@@ -24,15 +24,15 @@
               type="textarea"
               v-model="form.reqScheme"
               placeholder="简要描述一下处理方案"
-              :maxlength="6"
+              :maxlength="200"
               key="plan-input"></el-input>
           </el-form-item>
-          <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
+          <el-form-item label="备注" prop="processorRemark" key="plan-desc">
             <el-input class="col-input"
               v-model="form.processorRemark"
               type="textarea"
               placeholder="备注"
-              :maxlength="6"
+              :maxlength="50"
               key="plan-desc-input"></el-input>
           </el-form-item>
           <el-form-item>
@@ -55,15 +55,15 @@
                 type="textarea"
                 v-model="form.reqScheme"
                 placeholder="简要描述一下处理方案"
-                :maxlength="6"
+                :maxlength="200"
                 key="plan-input"></el-input>
             </el-form-item>
-            <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
+            <el-form-item label="备注" prop="processorRemark" key="plan-desc">
               <el-input class="col-input"
                 v-model="form.processorRemark"
                 type="textarea"
                 placeholder="备注"
-                :maxlength="6"
+                :maxlength="50"
                 key="plan-desc-input"></el-input>
             </el-form-item>
           </template>
@@ -106,11 +106,12 @@
               </div>
             </el-upload>
           </el-form-item>
-          <el-form-item label="备注" required prop="materialDesc" key="materialDesc">
+          <el-form-item label="备注" prop="materialDesc" key="materialDesc">
             <el-input class="col-input"
               type="textarea"
               v-model="form.materialDesc"
               placeholder="备注"
+              :maxlength="50"
               key="material-desc-input-desc"></el-input>
           </el-form-item>
           <el-form-item>
@@ -124,6 +125,9 @@
 <script>
 import {mapActions, mapState} from 'vuex';
 import endsWith from 'lodash/endsWith';
+import {
+  isEmpty as emptyValidator
+} from '@/utils/rules';
 import mixins from './mixins';
 export default {
   name: 'RequirementHandle',
@@ -147,6 +151,7 @@ export default {
         callback();
       }
     };
+
     return {
       handleType: '1',
       checked: false,
@@ -186,14 +191,15 @@ export default {
           }
         ],
         materialDesc: [
-          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
 
         reqScheme: [
-          { required: true, message: '请输入处理方案', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入处理方案', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         processorRemark: [
-          { required: true, message: '请输入备注', trigger: ['blur', 'change'] }
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         processor: [
           { validator: processorValidator, trigger: 'change' }
@@ -355,7 +361,7 @@ export default {
 
     .handle-info {
       .el-upload__tip{
-        height: 44px;
+        min-height: 44px;
         line-height: 22px;
         color: rgba(0, 0, 0, 0.45);
         font-size: 14px;

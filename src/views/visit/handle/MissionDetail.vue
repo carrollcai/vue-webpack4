@@ -21,7 +21,7 @@
           <el-form-item label="审核结果">
             {{visit.advice ? '驳回' : '通过'}}
           </el-form-item>
-          <el-form-item label="审核建议" v-if="visit.advice">
+          <el-form-item label="审核建议" v-if="visit.advice" class="visit-advice">
             {{visit.advice}}
           </el-form-item>
         </template>
@@ -72,6 +72,12 @@ export default {
 .visit-mission-handle-detail{
   .info-block{
     margin-top: 16px;
+  }
+
+  .visit-advice{
+    .el-form-item__content{
+      word-break: break-all;
+    }
   }
 }
 </style>

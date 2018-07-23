@@ -216,9 +216,14 @@ export default {
   saveRequirementAPI: API('/esop/bizRequire/create'),
 
   /**
-   * 查询投诉处理人
+   * 处理客户需求 查询投诉处理人
    */
   queryRequirementProcessorsAPI: API('/esop/bizRequire/getComplaintProcessor'),
+
+  /**
+   * 新增客户需求 查询处理人
+   */
+  queryRequirementCreateProcessorsAPI: API('/esop/bizRequire/getReqProcessor'),
 
   /**
    * 查询客户需求

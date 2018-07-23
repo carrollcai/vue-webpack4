@@ -62,14 +62,19 @@ import OrderCreate from '@/views/order/OrderCreate.vue';
 import OrderOverviewDetail from '@/views/order/OrderOverviewDetail.vue';
 import OrderHandleTaskDetail from '@/views/order/HandleTaskDetail.vue';
 
-import MissionHandling from '@/views/visit/MissionHandling.vue';
+/* 我的走访管理 */
 import MyVisitManage from '@/views/visit/MyVisitManage.vue';
-import VisitAppoint from '@/views/visit/VisitAppoint.vue';
-import CreateVisitAppoint from '@/views/visit/create/CreateVisitAppoint.vue';
-import VisitAppointDetail from '@/views/visit/detail/VisitAppointDetail.vue';
 import CreateVisitApplication from '@/views/visit/create/CreateVisitApplication.vue';
 import ExecuteProcess from '@/views/visit/ExecuteProcess.vue';
 import MyVisitView from '@/views/visit/MyVisitView.vue';
+
+/* 走访指派 */
+import VisitAppoint from '@/views/visit/VisitAppoint.vue';
+import CreateVisitAppoint from '@/views/visit/create/CreateVisitAppoint.vue';
+import VisitAppointDetail from '@/views/visit/detail/VisitAppointDetail.vue';
+
+/* 走访任务处理 */
+import MissionHandling from '@/views/visit/MissionHandling.vue';
 import VisitMissionHandle from '@/views/visit/handle/MissionHandle.vue';
 import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
 
@@ -286,90 +291,88 @@ const dynamicRoutes = [
         component: RequirementHandleDetail,
         meta: { menuId: 29 }
       },
-
-      {
-        path: '/visit/mission-handling',
-        name: 'visit-mission-handling',
-        component: MissionHandling,
-        meta: { menuId: 14 }
-      },
-      {
-        path: '/visit/mission/handle/:id',
-        name: 'visit-mission-handle',
-        component: VisitMissionHandle,
-        meta: { menuId: 14 }
-      },
-      {
-        path: '/visit/mission/handle-audit/:id/:taskInsId',
-        name: 'visit-mission-handle',
-        component: VisitMissionHandle,
-        meta: { menuId: 14 }
-      },
-      {
-        path: '/visit/mission/handle-detail/:id',
-        name: 'visit-mission-handle-detail',
-        component: VisitMissionDetail,
-        meta: { menuId: 14 }
-      },
+      /* 我的走访管理 */
       {
         path: '/visit/my-visit-manage',
         name: 'visit-my-manage',
         component: MyVisitManage,
-        meta: { menuId: 15 }
-      },
-      {
-        path: '/visit/my-visit-manage',
-        name: 'visit-my-manage',
-        component: MyVisitManage,
-        meta: { menuId: 15 }
-      },
-      {
-        path: '/visit/visit-appoint',
-        name: 'visit-appoint',
-        component: VisitAppoint,
-        meta: { menuId: 15 }
-      },
-      {
-        path: '/visit/create-visit-appoint',
-        name: 'create-visit-appoint',
-        component: CreateVisitAppoint,
-        meta: { menuId: 15 }
-      },
-      {
-        path: '/visit/visit-appoint-detail',
-        name: 'visit-appoint-detail',
-        component: VisitAppointDetail,
-        meta: { menuId: 15 }
-      },
-      {
-        path: '/visit/visit-appoint-detail/:id',
-        name: 'visit-appoint-detail',
-        component: VisitAppointDetail,
-        meta: { menuId: 15 }
+        meta: { menuId: 31 }
       },
       {
         path: '/visit/create-visit-application',
         name: 'create-visit-application',
         component: CreateVisitApplication,
-        meta: { menuId: 15 }
+        meta: { menuId: 31 }
       },
       {
         path: '/visit/create-visit-application/:id',
         name: 'create-visit-application',
         component: CreateVisitApplication,
-        meta: { menuId: 15 }
-      },
-      {
-        path: '/visit/execute-process',
-        name: 'execute-process',
-        component: ExecuteProcess,
-        meta: { menuId: 15 }
+        meta: { menuId: 31 }
       },
       {
         path: '/visit/my-visit-view',
         name: 'my-visit-view',
         component: MyVisitView,
-        meta: { menuId: 15 }
+        meta: { menuId: 31 }
+      },
+      {
+        path: '/visit/execute-process',
+        name: 'execute-process',
+        component: ExecuteProcess,
+        meta: { menuId: 31 }
+      },
+
+      /* 走访指派 */
+      {
+        path: '/visit/visit-appoint',
+        name: 'visit-appoint',
+        component: VisitAppoint,
+        meta: { menuId: 32 }
+      },
+      {
+        path: '/visit/create-visit-appoint',
+        name: 'create-visit-appoint',
+        component: CreateVisitAppoint,
+        meta: { menuId: 32 }
+      },
+      {
+        path: '/visit/visit-appoint-detail',
+        name: 'visit-appoint-detail',
+        component: VisitAppointDetail,
+        meta: { menuId: 32 }
+      },
+      {
+        path: '/visit/visit-appoint-detail/:id',
+        name: 'visit-appoint-detail',
+        component: VisitAppointDetail,
+        meta: { menuId: 32 }
+      },
+
+      /* 走访任务处理 */
+      {
+        path: '/visit/mission-handling',
+        name: 'visit-mission-handling',
+        component: MissionHandling,
+        meta: { menuId: 33 }
+      },
+      {
+        path: '/visit/mission/handle/:id',
+        name: 'visit-mission-handle',
+        component: VisitMissionHandle,
+        meta: { menuId: 33 }
+      },
+      {
+        path: '/visit/mission/handle-audit/:id/:taskInsId',
+        name: 'visit-mission-handle',
+        component: VisitMissionHandle,
+        meta: { menuId: 33 }
+      },
+      {
+        path: '/visit/mission/handle-detail/:id',
+        name: 'visit-mission-handle-detail',
+        component: VisitMissionDetail,
+        meta: { menuId: 33 }
       },
 
       { path: '/system/role/management', component: Role, meta: { menuId: 10 } },
