@@ -64,6 +64,8 @@ const state = {
     assignNote: '',
     problemCoordinate: '',
     isFirstVisit: 1,
+    visitTime: null,
+    timeRange: null,
     visitStartTime: '',
     visitEndTime: ''
   },

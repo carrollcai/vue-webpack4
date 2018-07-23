@@ -43,11 +43,11 @@
         </el-form-item>
         <el-form-item label="走访时间：" required>
           <el-form-item style="width: 230px; float: left;" prop="visitTime">
-            <el-date-picker v-model="visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
+            <el-date-picker v-model="createAppointFrom.visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
           </el-form-item>
           <div class="form-input-sep" style="width: 30px; float: left;">-</div>
-          <el-form-item style="width: 230px; float: left;" prop="visitTimeHour">
-          <el-time-picker :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
+          <el-form-item style="width: 230px; float: left;" prop="timeRange">
+            <el-time-picker :disabled="checkTime" v-model="createAppointFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" required prop="visitContent">
@@ -112,7 +112,7 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeout: null,
-      timeRange: '',
+      // timeRange: '',
       visitTime: '',
       checkTime: true,
       levelOptions: [],
@@ -172,12 +172,12 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         visitTime: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' },
-          { required: true, type: 'date', message: '请选择日期', trigger: 'blur' }
+          { required: true, message: '请选择日期', trigger: 'change' }
+          // { required: true, type: 'date', message: '请选择日期', trigger: 'blur' }
         ],
-        visitTimeHour: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' },
-          { required: true, type: 'date', message: '请选择时间', trigger: 'blur' }
+        timeRange: [
+          { required: true, message: '请选择时间', trigger: 'change' }
+          // { required: true, type: 'date', message: '请选择时间', trigger: 'blur' }
         ],
         assignNote: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -223,8 +223,8 @@ export default {
     },
     getTimeRange(time) {
       if (time) {
-        this.createAppointFrom.visitStartTime = this.visitTime + ' ' + time[0];
-        this.createAppointFrom.visitEndTime = this.visitTime + ' ' + time[1];
+        this.createAppointFrom.visitStartTime = this.createAppointFrom.visitTime + ' ' + time[0];
+        this.createAppointFrom.visitEndTime = this.createAppointFrom.visitTime + ' ' + time[1];
       } else {
         this.createAppointFrom.visitStartTime = '';
         this.createAppointFrom.visitEndTime = '';
@@ -268,10 +268,10 @@ export default {
       }, 1000);
     },
     submitVisitApplication() {
-      let _this = this;
+      let { visitTime, timeRange, ...params } = this.createAppointFrom
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
-          _this.addCreateAppiont(this.createAppointFrom);
+          this.addCreateAppiont(params);
         } else {
           return false;
         }
