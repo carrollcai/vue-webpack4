@@ -74,7 +74,7 @@
           <el-radio v-model="createAppointFrom.isFirstVisit" :value="0" :label="0">否</el-radio>
         </el-form-item>
         <div class="hr"></div>
-        <el-form-item label="指派审核人：" prop="processor">
+        <el-form-item label="指派走访人：" prop="processor">
           <el-select
             v-if="processorList"
             v-model="createAppointFrom.processor"
@@ -93,7 +93,7 @@
 
         <el-form-item>
           <el-button type="primary" @click="submitVisitApplication()">提交</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -162,8 +162,7 @@ export default {
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         processor: [
-          { required: true, message: '请选择', trigger: 'blur' },
-          { required: true, message: '请选择', trigger: 'change' }
+          { required: true, message: '请选择', trigger: 'blur' }
         ],
         isFirstVisit: [
           { required: true, message: '请输入', trigger: 'blur' }
@@ -276,6 +275,9 @@ export default {
           return false;
         }
       });
+    },
+    cancel() {
+      this.$router.push({path: '/visit/visit-appoint'});
     },
     ...mapMutations({
       updateOrderCreate: 'ORDER_UPDATE_CREATE'

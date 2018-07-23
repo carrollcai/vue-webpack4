@@ -94,10 +94,10 @@ export default {
       timeRange: '',
       visitStatus: '',
       firstGuestOption: [{
-        value: '1',
+        value: '0',
         label: '否'
       }, {
-        value: '2',
+        value: '1',
         label: '是'
       }]
     };
@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     isFirstVisitFn(row, clo, value) {
-      if (value === 0) {
+      if (value === '0') {
         return '否';
       } else {
         return '是';

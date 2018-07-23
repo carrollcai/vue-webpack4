@@ -100,7 +100,7 @@
         </el-form-item>
         <el-form-item label-width="140px" >
           <el-button type="primary" @click="query()">提交</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -371,6 +371,9 @@ export default {
           }
         });
       }
+    },
+    cancel() {
+      this.$router.push({path: '/visit/my-visit-manage'});
     },
     ...mapMutations({
       updateOrderCreate: 'ORDER_UPDATE_CREATE'
