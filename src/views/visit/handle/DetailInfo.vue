@@ -33,7 +33,7 @@
     </el-form-item>
 
     <el-form-item label="是否首客走访">
-      {{visit.isFirstVisit}}
+      {{visit.isFirstVisit === '1' ? '是' : '否'}}
     </el-form-item>
 
     <template v-if="visit.visitStatus === '4'">

@@ -47,10 +47,7 @@
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
         <el-table-column label="需求单号" property="reqCode" show-overflow-tooltip/>
-        <el-table-column label="创建时间" show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{formateDate(scope.row.createDate)}}
-          </template>
+        <el-table-column label="创建时间" property="taskCreateDate" show-overflow-tooltip>
         </el-table-column>
         <el-table-column label="需求客户" property="organizeName" show-overflow-tooltip>
         </el-table-column>
