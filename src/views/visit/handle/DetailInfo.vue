@@ -20,7 +20,7 @@
       {{visit.visitStartTime}} - {{visit.visitEndTime}}
     </el-form-item>
 
-    <el-form-item label="走访内容">
+    <el-form-item label="走访内容" class="too-long-content">
       {{visit.visitContent}}
     </el-form-item>
 
@@ -28,7 +28,7 @@
       {{visit.relOpporCode}}
     </el-form-item>
 
-    <el-form-item label="问题协调">
+    <el-form-item label="问题协调" class="too-long-content">
       {{visit.problemCoordinate}}
     </el-form-item>
 
@@ -108,6 +108,12 @@ export default {
     height: 1px;
     border-top: 1px solid rgba(229, 229, 229, 1);
     margin: 2px 0 24px 0;
+  }
+
+  .too-long-content{
+    .el-form-item__content{
+      word-break: break-all;
+    }
   }
 }
 </style>
