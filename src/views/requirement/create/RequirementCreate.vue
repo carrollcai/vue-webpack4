@@ -163,7 +163,7 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitRequirement">提交处理</el-button>
+              <el-button type="primary" @click="submitRequirement()" :loading="isSubmit">{{ isSubmit ? '加载中' : '提交处理'}}</el-button>
             </el-form-item>
           </div>
       </el-form>
@@ -180,6 +180,7 @@ export default {
   data() {
     const that = this;
     return {
+      isSubmit: false,
       requirement: {
         reqType: '0',
         fileInputId: '',
@@ -324,6 +325,7 @@ export default {
       const {uploadData} = this;
       that.$refs.baseForm.validate((valid) => {
         if (valid) {
+          that.isSubmit = true;
           that.getProductFileId().then((res) => {
             let fileInputId = res.data;
             uploadData.files = that.uploadFiles;
