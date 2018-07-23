@@ -121,7 +121,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
-import { multFileValid } from '@/utils/rules.js';
+// import { multFileValid } from '@/utils/rules.js';
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_TIP } from '@/config/index.js';
 export default {
   components: {
@@ -141,9 +141,6 @@ export default {
       if (length > validNum) {
         return true;
       }
-    };
-    const fileCheck = (rule, value, callback) => {
-      multFileValid(this.uploadData.files, callback);
     };
     function checkTip(content, value, callback) {
       if (String(value).trim() === '') {
@@ -240,9 +237,7 @@ export default {
         experience: [
           { required: true, validator: experienceFn, trigger: 'blur' }
         ],
-        files: [
-          { validator: fileCheck }
-        ]
+        files: []
       }
     };
   },
@@ -255,6 +250,16 @@ export default {
         }
         return this.composedProduct;
       }
+    },
+    cacheDataFn() {
+      let cacheData = JSON.parse(localStorage.getItem('cacheData'));
+      let data = this.cacheData;
+      if (cacheData) {
+        data = cacheData;
+      } else if (this.cacheData) {
+        data = this.cacheData;
+      }
+      return data;
     },
     ...mapState({
       composedProduct: ({ product }) => product.composedProduct,
@@ -358,11 +363,11 @@ export default {
     },
     async onSubmit(vaildData) {
       this.isSubmit = true;
-      var _this = this;
+      let _this = this;
       await this.submitAssignForm();
       this.$refs.formProduct.validate((valid) => {
         if (valid) {
-          if (_this.isAddProduct) {
+          if (_this.isAddProduct && _this.isAddProduct > 0) {
             if (_this.addItem) {
               _this.formData.state = 2;
             } else {
@@ -410,7 +415,7 @@ export default {
         this.$message({showClose: true, message: '请先报存，在提交！', type: 'warning'});
         return false;
       }
-      if (this.isAddProduct) {
+      if (this.isAddProduct && this.isAddProduct > 0) {
         this.setEditProduct(_this.params).then((res) => {
           if (res.data && res.errorInfo.code === '200') {
             _this.$message({ showClose: true, message: '修改产品成功！', type: 'success' });
@@ -434,14 +439,16 @@ export default {
       } else if (row.salesType === '组合销售') {
         row.salesType = '1';
       }
+      this.formData.fileInputId = row.fileInputId;
+      this.uploadData.fileInputId = row.fileInputId;
       this.addItem = false;
       this.fileList = [];
+      this.uploadData.files = [];
       if (row.fileInputId) {
-        this.formData.fileInputId = row.fileInputId;
-        this.uploadData.fileInputId = row.fileInputId;
         await this.queryElec({'fileInputId': row.fileInputId}).then((res) => {
           if (res.data) {
             (res.data).forEach(function(item, index) {
+              _this.uploadData.files.push(item);
               item.name = item.fileName;
               _this.fileList.push(item);
             }, _this);
@@ -557,21 +564,25 @@ export default {
       }
       return false;
     },
-    async submitAssignForm() {
+    submitAssignForm() {
       var _this = this;
-      let isId = this.uploadData.fileInputId || false;
-      await this.getProductFileId().then((res) => {
-        _this.uploadData.fileInputId = res.data;
-        _this.formData.fileInputId = res.data;
-      });
-      if (this.isShow && this.isAddProduct) {
-        if (isId) {
+      if (this.isShow && this.isAddProduct && this.isAddProduct > 0) {
+        // 修改
+        if (this.uploadData.fileInputId) {
           this.uploadProductScheme(this.uploadData);
         } else {
-          this.uploadProductScheme(this.uploadData);
+          this.getProductFileId().then((res) => {
+            _this.uploadData.fileInputId = res.data;
+            _this.formData.fileInputId = res.data;
+            this.uploadProductScheme(this.uploadData);
+          });
         }
       } else {
-        this.uploadProductScheme(this.uploadData);
+        this.getProductFileId().then((res) => {
+          _this.uploadData.fileInputId = res.data;
+          _this.formData.fileInputId = res.data;
+          this.uploadProductScheme(this.uploadData);
+        });
       }
     },
     prevStep() {
