@@ -56,7 +56,8 @@
             <li>
               <p class="item-content">
                 <span>待审核</span>
-                <el-button v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[0]" @click="goGroupUncomplete()" type="text">{{homeQueryTaskInfoOrangize[0].count}}</el-button>
+                <el-button v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[0] && homeQueryTaskInfoOrangize[0].count > 0" @click="goGroupUncomplete()" type="text">{{homeQueryTaskInfoOrangize[0].count}}</el-button>
+                <span v-else>0</span>
               </p>
               <p class="item-content">
                 <span>已审核</span>
@@ -66,7 +67,8 @@
             <li v-if="homeQueryTaskInfoOrder">
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[0]" @click="goOrderUncomplete()" type="text">{{homeQueryTaskInfoOrder[0].count}}</el-button>
+                <el-button v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[0] && homeQueryTaskInfoOrder[0].count > 0" @click="goOrderUncomplete()" type="text">{{homeQueryTaskInfoOrder[0].count}}</el-button>
+                <span v-else>0</span>
               </p>
               <p class="item-content">
                 <span>已处理</span>
@@ -76,7 +78,8 @@
             <li>
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[0]" @click="goBusinessUncomplete()" type="text">{{homeQueryTaskInfoBusiness[0].count}}</el-button>
+                <el-button v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[0] && homeQueryTaskInfoBusiness[0].count > 0" @click="goBusinessUncomplete()" type="text">{{homeQueryTaskInfoBusiness[0].count}}</el-button>
+                <span v-else>0</span>
               </p>
               <p class="item-content">
                 <span>已处理</span>
@@ -86,7 +89,8 @@
             <li>
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[0]" @click="goRequireUncomplete()" type="text">{{homeQueryTaskInfoRequire[0].count}}</el-button>
+                <el-button v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[0] && homeQueryTaskInfoRequire[0].count > 0" @click="goRequireUncomplete()" type="text">{{homeQueryTaskInfoRequire[0].count}}</el-button>
+                <span v-else>0</span>
               </p>
               <p class="item-content">
                 <span>已处理</span>
@@ -96,7 +100,8 @@
             <li>
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[0]" @click="goVisitUncomplete()" type="text">{{homeQueryTaskInfoVisit[0].count}}</el-button>
+                <el-button v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[0] && homeQueryTaskInfoVisit[0].count > 0" @click="goVisitUncomplete()" type="text">{{homeQueryTaskInfoVisit[0].count}}</el-button>
+                <span v-else>0</span>
               </p>
               <p class="item-content">
                 <span>已处理</span>
