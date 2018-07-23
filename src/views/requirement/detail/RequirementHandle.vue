@@ -27,7 +27,7 @@
               :maxlength="200"
               key="plan-input"></el-input>
           </el-form-item>
-          <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
+          <el-form-item label="备注" prop="processorRemark" key="plan-desc">
             <el-input class="col-input"
               v-model="form.processorRemark"
               type="textarea"
@@ -58,7 +58,7 @@
                 :maxlength="200"
                 key="plan-input"></el-input>
             </el-form-item>
-            <el-form-item label="备注" required prop="processorRemark" key="plan-desc">
+            <el-form-item label="备注" prop="processorRemark" key="plan-desc">
               <el-input class="col-input"
                 v-model="form.processorRemark"
                 type="textarea"
@@ -106,7 +106,7 @@
               </div>
             </el-upload>
           </el-form-item>
-          <el-form-item label="备注" required prop="materialDesc" key="materialDesc">
+          <el-form-item label="备注" prop="materialDesc" key="materialDesc">
             <el-input class="col-input"
               type="textarea"
               v-model="form.materialDesc"
@@ -151,6 +151,7 @@ export default {
         callback();
       }
     };
+
     return {
       handleType: '1',
       checked: false,
@@ -190,7 +191,6 @@ export default {
           }
         ],
         materialDesc: [
-          { required: true, message: '请输入备注', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
 
@@ -199,7 +199,6 @@ export default {
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         processorRemark: [
-          { required: true, message: '请输入备注', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         processor: [

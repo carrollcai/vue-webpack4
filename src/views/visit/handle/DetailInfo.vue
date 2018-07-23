@@ -5,7 +5,7 @@
     </el-form-item>
 
     <el-form-item label="走访公司">
-      {{visit.organizeName}}
+      {{visit.organizeName}}；{{visit.visitAddress}}
     </el-form-item>
 
     <el-form-item label="走访对象">
