@@ -267,7 +267,7 @@ export default {
       }, 1000);
     },
     submitVisitApplication() {
-      let { visitTime, timeRange, ...params } = this.createAppointFrom
+      let { visitTime, timeRange, ...params } = this.createAppointFrom;
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
           this.addCreateAppiont(params);
