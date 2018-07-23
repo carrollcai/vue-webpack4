@@ -6,7 +6,7 @@
     <li><span>产品价格：</span>{{productList.price}}元</li>
     <li><span>产品类别：</span>{{productList.productType}}</li>
     <li><span>负责人员：</span><label>{{productList.username}}-{{productList.deptment}}-{{productList.position}}</label></li>
-    <li class="pro-w-67"><span>产品介绍：</span><label>{{productList.description}}</label></li>
+    <li class="pro-w-67"><span>产品介绍：</span><label class="product-desc">{{productList.description}}</label></li>
   </ul>
 </div>
 </template>
@@ -69,6 +69,10 @@ export default {
     .pro-w-67 {
       width: 67%;
     }
+  }
+
+  .product-desc{
+    word-break: break-all;
   }
 }
 </style>
