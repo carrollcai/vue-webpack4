@@ -28,7 +28,7 @@
       <el-form v-if="visit.visitStatus === '1'" ref="auditForm" :model="baseForm" :rules="rules" label-width="130px" key="audit-form">
         <el-form-item label="审核结果" required prop="resultStatus">
           <el-radio-group v-model="baseForm.resultStatus" key="status-radio">
-            <el-radio label="1">通过</el-radio>
+            <el-radio label="2">通过</el-radio>
             <el-radio label="3">驳回</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -64,7 +64,7 @@ export default {
     return {
       baseForm: {
         visitEvaluate: '',
-        resultStatus: '1',
+        resultStatus: '2',
         dealResult: ''
       },
       rules: {
