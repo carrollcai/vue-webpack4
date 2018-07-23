@@ -148,7 +148,7 @@
           </div>
           <div class="line"></div>
           <div class="block processor-info">
-            <el-form-item label="指派处理人" key="processor-group">
+            <el-form-item label="指派处理人" required key="processor-group">
               <el-col :span="16">
                 <el-form-item prop="processor" key="processor">
                     <el-cascader
