@@ -55,12 +55,12 @@
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column label="是否首客" property="isFirstVisit" :formatter="isFirstVisitFn" />
       <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="230">
         <template slot-scope="scope">
           <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
+          <el-button v-if="scope.row.visitStatus === '2' || scope.row.visitStatus === '0'" type="text" @click="viewDetail(scope.row, true)">
             执行处理
           </el-button>
           <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
@@ -139,7 +139,11 @@ export default {
     },
     getState(value) {
       if (value.name !== '') {
-        this.myVisitManageFrom.visitStatus = [value.name];
+        if (value.name === '2') {
+          this.myVisitManageFrom.visitStatus = ['0', '2'];
+        } else {
+          this.myVisitManageFrom.visitStatus = [value.name];
+        }
       } else {
         this.myVisitManageFrom.visitStatus = [];
       }
@@ -154,7 +158,7 @@ export default {
       this.query();
     },
     viewDetail(row, execution) {
-      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}`;
+      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}&point=false`;
       this.$router.push(path);
     },
     query() {
@@ -181,6 +185,9 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+.table-container {
+  .el-button + .el-button {margin-left: 0}
+}
 .visit-form-item__lable {
   margin-left: $blockWidth;
 }

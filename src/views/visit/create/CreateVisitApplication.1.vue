@@ -14,12 +14,12 @@
           <el-input v-model="createVisitFrom.visitTheme" class="form-input-medium" placeholder="请输入主题" />
         </el-form-item>
         <el-form-item label="合作企业：" label-width="140px" required>
-          <el-form-item prop="organizeName">
+          <el-form-item prop="organizeName" style="display:inline-block;">
             <el-autocomplete class="form-input-half" v-model="createVisitFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作名称" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
-          <div class="form-input-sep">-</div>
-          <el-form-item prop="visitAddress">
-            <el-input v-model="createVisitFrom.visitAddress" class="form-input-260" style=" margin-right: 20px;" placeholder="办公地址"></el-input>
+          <div class="form-input-sep" style="display:inline-block;">-</div>
+          <el-form-item prop="visitAddress" style="display:inline-block;">
+            <el-input class="form-input-half" v-model="createVisitFrom.visitAddress" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <!-- <el-form-item label="合作企业：">
@@ -30,12 +30,12 @@
           </el-input>
         </el-form-item> -->
         <el-form-item label="走访对象：" label-width="140px" required>
-          <el-form-item prop="intervieweeName">
-            <el-input v-model="createVisitFrom.intervieweeName" class="form-input-half" placeholder="姓名"></el-input>
+          <el-form-item style="display: inline-block;" prop="intervieweeName">
+            <el-input class="form-input-half" v-model="createVisitFrom.intervieweeName" class="form-input-80" placeholder="姓名"></el-input>
           </el-form-item>
           <div class="form-input-sep">-</div>
-          <el-form-item prop="intervieweeMobile">
-            <el-input v-model="createVisitFrom.intervieweeMobile" maxlength="11" class="form-input-260" style=" margin-right: 20px;" placeholder="联系电话"></el-input>
+          <el-form-item style="display: inline-block;" prop="intervieweeMobile">
+            <el-input v-model="createVisitFrom.intervieweeMobile" maxlength="11" class="form-input-120" placeholder="联系电话"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
@@ -43,12 +43,12 @@
         </el-form-item>
 
         <el-form-item label="走访时间：" label-width="140px">
-          <el-form-item prop="visitTime">
-            <el-date-picker v-model="visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
+          <el-form-item style="float: left;" prop="visitTime">
+            <el-date-picker v-model="visitTime" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
           </el-form-item>
-          <div class="form-input-sep">-</div>
-          <el-form-item prop="timeRange">
-            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
+          <div class="form-input-sep" label-width="140px" style="width: 30px; float: left;">-</div>
+          <el-form-item style="width: 210px; float: left" prop="timeRange">
+            <el-time-picker style="width: 210px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" label-width="140px" required prop="visitContent">
@@ -77,12 +77,12 @@
           <el-input v-model="createVisitFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
         </el-form-item>
         <el-form-item label="是否首客走访：" label-width="140px" required prop="isFirstVisit">
-          <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
-          <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isFirstVisit" :value="0" :label="0">否</el-radio>
+          <el-radio v-model="createVisitFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
+          <el-radio v-model="createVisitFrom.isFirstVisit" :value="0" :label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="是否提交申请：" label-width="140px" required prop="isSubmit">
-          <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isSubmit" :value="1" :label="1">是</el-radio>
-          <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isSubmit" :value="0" :label="0">否</el-radio>
+          <el-radio v-model="createVisitFrom.isSubmit" :value="1" :label="1">是</el-radio>
+          <el-radio v-model="createVisitFrom.isSubmit" :value="0" :label="0">否</el-radio>
         </el-form-item>
         <div class="hr" v-if="createVisitFrom.isSubmit === 1"></div>
         <el-form-item v-if="createVisitFrom.isSubmit === 1" label="选择审核人：" label-width="140px" prop="visitAuditor">
@@ -192,10 +192,12 @@ export default {
           { required: true, message: '请选择是否提交', trigger: 'change' }
         ],
         visitTime: [
-          { message: '请选择日期', trigger: 'change' }
+          { type: 'date', message: '请选择日期', trigger: 'change' },
+          { type: 'date', message: '请选择日期', trigger: 'blur' }
         ],
         timeRange: [
-          { message: '请选择时间', trigger: 'change' }
+          { type: 'date', message: '请选择时间', trigger: 'change' },
+          { type: 'date', message: '请选择时间', trigger: 'blur' }
         ]
       }
     };
@@ -258,8 +260,6 @@ export default {
       this.createVisitFrom.visitStartTime = '';
       this.createVisitFrom.visitEndTime = '';
       this.createVisitFrom.isSubmit = 1;
-      this.timeRange = '';
-      this.visitTime = '';
     }
   },
   methods: {
@@ -350,7 +350,6 @@ export default {
           visitEndTime: this.createVisitFrom.visitEndTime,
           isSubmit: this.createVisitFrom.isSubmit
         };
-        // let { visitTime, timeRange, ...params } = this.editValue;
         this.$refs.visitRef.validate((valid) => {
           if (valid) {
             _this.editVisitApp(this.editValue);
@@ -359,7 +358,6 @@ export default {
           }
         });
       } else {
-        // let { visitTime, timeRange, ...params } = this.createVisitFrom;
         this.$refs.visitRef.validate((valid) => {
           if (valid) {
             console.log(this.createVisitFrom);
@@ -395,8 +393,7 @@ export default {
   display: flex;
   justify-content: center;
   form {
-    width: 562px;
-    margin-right: 90px;
+    width: 650px;
   }
   .crumb-bar {
     .el-breadcrumb {
@@ -413,15 +410,26 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    width: 960px;
+    width: 940px;
     border-bottom: 1px #e5e5e5 solid;
-    margin-right: -275px;
+    margin-right: -170px;
   }
-  .el-form-item__content {
-    margin-right: 0; display: flex;
-    .form-input-medium, .el-input, .form-input-large, .el-select {
-      flex: 1;
-    }
+  .el-form-item__content {width: 420px; padding-right: 90px;}
+  .form-input-medium, .el-input, .form-input-large, .el-select {
+    width: 100% !important;
   }
+  .el-step.is-horizontal .el-step__line {height: 1px; background: #c0c0c0}
+  .el-step__head.is-process, .el-step__title.is-process {color: #8c8c8c; font-weight: 400;}
+  .el-step.is-simple .el-step__arrow::before, .el-step.is-simple  .el-step__arrow:before {display: none}
+  .el-step.is-simple .el-step__arrow::after, .el-step.is-simple  .el-step__arrow:after {-webkit-transform: none; transform: none; height: 1px; width: 320px;}
+  .el-step__icon.is-text {border-width: 1px;}
+  .creat-content {background: #fff; margin-top: 16px; min-height: 812px; height: auto;}
+  .el-steps--simple {background: none;}
+  .el-steps--horizontal {width: 480px; padding: 30px; margin: 0 auto;}
+  .add-content {width: 460px; margin: 0 auto;}
+  .demo-input-size .split {display: inline-block; width: 15px; color: #8c8c8c; text-align: center;}
+  .w380 {width: 380px; margin: 0 auto;}
+  .pt42 {padding-top: 42px;}
+  .pb60 {padding-bottom: 60px;}
 }
 </style>
