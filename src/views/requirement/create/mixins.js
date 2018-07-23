@@ -16,12 +16,21 @@ export default {
       }
     };
 
+    const orgValidator = function(rule, val, callback) {
+      const {requirement} = that;
+      if (!requirement.orgId) {
+        callback(new Error('请选择正确的集团'));
+      } else {
+        callback();
+      }
+    };
+
     return {
       uploadFiles: [],
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 25, message: '请输入25个以内字符', trigger: ['blur', 'change'] },
+          { validator: orgValidator, trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         reqType: [
@@ -82,6 +91,7 @@ export default {
   },
   methods: {
     querySearchAsync(queryString, cb) {
+      this.requirement.orgId = '';
       if (!queryString) {
         return false;
       }
@@ -96,7 +106,9 @@ export default {
         }, 1000);
       });
     },
-    handleSelect() {
+    handleSelect(item) {
+      console.log(item);
+      this.requirement.orgId = item.organizeId;
     },
     ...mapActions([
       'queryCustomerManagers',

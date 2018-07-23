@@ -182,6 +182,7 @@ export default {
     return {
       isSubmit: false,
       requirement: {
+        orgId: '',
         reqType: '0',
         fileInputId: '',
         needSms: '0',

@@ -60,6 +60,8 @@ const actions = {
   },
 
   saveRequirement({commit}, requirement) {
+    delete requirement.orgId;
+
     API.saveRequirementAPI(requirement).then((res) => {
       Message({
         message: '新增成功',
