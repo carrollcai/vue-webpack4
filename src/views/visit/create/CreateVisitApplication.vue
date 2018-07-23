@@ -42,7 +42,7 @@
           <el-input v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“；”隔开" />
         </el-form-item>
 
-        <el-form-item label="走访时间：" required>
+        <el-form-item label="走访时间：">
           <el-form-item style="width: 230px; float: left;" prop="visitTime">
             <el-date-picker v-model="visitTime" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"></el-date-picker>
           </el-form-item>
@@ -196,12 +196,12 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         visitTime: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' },
-          { required: true, type: 'date', message: '请选择日期', trigger: 'blur' }
+          { type: 'date', message: '请选择日期', trigger: 'change' },
+          { type: 'date', message: '请选择日期', trigger: 'blur' }
         ],
         timeRange: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' },
-          { required: true, type: 'date', message: '请选择时间', trigger: 'blur' }
+          { type: 'date', message: '请选择时间', trigger: 'change' },
+          { type: 'date', message: '请选择时间', trigger: 'blur' }
         ]
       }
     };
