@@ -64,7 +64,7 @@
         <el-table-column label="商机状态" show-overflow-tooltip property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button class="el-dropdown-link" type="text" @click="handleDetail(scope.row)">详情</el-button>
+            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">详情</el-button>
             <template v-if="isDraft(scope.row)">
               <el-dropdown @command="handleCommand(scope.row, $event)">
                 <span class="el-dropdown-link">
