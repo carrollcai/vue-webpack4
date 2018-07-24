@@ -1,10 +1,9 @@
 <template>
   <div class="product-case">
     <div class="title">添加销售案例 <span class="sub-title">（可添加多个销售案例）</span></div>
-    {{productCase}}
     <el-form class="product-case_form" :model="productCase" :rules="rules" ref="baseForm" label-width="130px">
       <el-form-item label="销售类型：">
-        <el-radio-group v-model="productCase.salesType" @change="getRadioValue">
+        <el-radio-group v-model="productCase.salesType" @change="handleChangeSalesType">
           <el-radio label="0">单品销售</el-radio>
           <el-radio label="1">组合销售</el-radio>
         </el-radio-group>
@@ -51,16 +50,16 @@
       </el-form-item>
 
       <el-form-item label="方案附件" prop="files">
-        <el-upload class="upload-demo" action=""
+        <el-upload class="upload-files"
+          :limit="5"
           :auto-upload="false"
-          :on-change="fileChange"
-          :multiple="false"
-          :on-remove="removeFile"
-          :file-list="fileList">
+          :on-change="handleChangeFile"
+          :on-remove="handleRemoveFile"
+          :file-list="uploadFiles">
           <el-button type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
           <div slot="tip" class="el-upload__tip">
-            <p class="lh1-5">1. 附件格式支持“PPT、Excel、Word和压缩包”格式</p>
-            <p class="lh1-5">2. 附件大小不超过20M。</p>
+            1、附件格式支持“PPT、Excel、Word和压缩包”格式<br/>
+            2、附件大小不超过20M。
           </div>
         </el-upload>
       </el-form-item>
@@ -73,6 +72,8 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex';
+import endsWith from 'lodash/endsWith';
+import {FILE_ACCEPT} from '@/config';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
@@ -104,6 +105,7 @@ export default {
         salesType: '0',
         composedProduct: []
       },
+      uploadFiles: [],
       rules: {
         composedProduct: [
           { required: true, message: '请输入产品名称或编码', trigger: ['blur', 'change'] },
@@ -161,8 +163,56 @@ export default {
         this.index = index;
       });
     },
-    getRadioValue(value) {
-      this.productCase.salesType = value;
+    isAcceptable(fileName) {
+      for (let accept of FILE_ACCEPT) {
+        if (endsWith(fileName.toLowerCase(), accept)) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    handleChangeFile(file, fileList) {
+      let fileName = file.name;
+      let result = true;
+      if (this.isAcceptable(fileName)) {
+        let fileSize = file.size / (1024 * 1024);
+
+        if (fileSize > 20) {
+          this.$message({
+            message: '附件超过20M',
+            type: 'error'
+          });
+
+          result = false;
+        } else {
+          this.uploadFiles.push(file.raw);
+        }
+      } else {
+        this.$message({
+          message: '只支持word、excel、ppt、pdf、rar格式',
+          type: 'error'
+        });
+        result = false;
+      }
+
+      if (!result) {
+        fileList.pop();
+      }
+
+      return result;
+    },
+    handleRemoveFile(file, fileList) {
+      const that = this;
+      const {uploadFiles} = that;
+
+      uploadFiles.splice(0, uploadFiles.length);
+
+      for (let item of fileList) {
+        uploadFiles.push(item.raw);
+      }
+    },
+    handleChangeSalesType(value) {
       if (value === '0') {
         this.productCase.composedProduct = [];
       }
@@ -177,12 +227,10 @@ export default {
           if (this.index > -1) {
             this.list[this.index] = Object.assign({}, this.productCase);
           } else {
-            /*
-            this.generateContactId().then((res) => {
-              this.productCase.contactId = res.data;
-              this.list.push(this.contact);
-            });
-            */
+            if (this.uploadFiles && this.uploadFiles.length) {
+              this.productCase.files = this.uploadFiles;
+            }
+
            this.list.push(this.productCase);
           }
           this.cancel();
@@ -239,6 +287,9 @@ $form-item-width: $formLargeWidth;
     line-height: 24px;
   }
 
+  .upload-files{
+    width: $form-item-width;
+  }
   .el-upload__tip{
     min-height: 44px;
     line-height: 22px;

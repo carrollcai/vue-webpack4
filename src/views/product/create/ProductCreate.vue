@@ -116,7 +116,10 @@
       <product-case ref="prodctCases" v-if="isAddingCase" @cancel="cancelAddingCase" :list="cases"></product-case>
       <div class="">
         <el-button type="primary" @click="toFirstStep">上一步</el-button>
-        <el-button type="primary" @click="submitProduct" :disabled="isNotAbleToSubmit()">确定</el-button>
+        <el-button type="primary"
+          @click="submitProduct"
+          :disabled="isNotAbleToSubmit()"
+          :loading="isSubmit">{{ isSubmit ? '加载中' : '确定'}}</el-button>
       </div>
     </div>
   </div>
@@ -134,14 +137,79 @@ export default {
       step: 0,
       product: {
         salesList: []
-      }
+      },
+      isSubmit: false
     };
   },
   beforeMount() {
   },
   methods: {
     submitProduct() {
-      this.saveProduct(this.product);
+      const that = this;
+      const {cases} = that;
+      that.isSubmit = true;
+
+      // 有方案附件, 先上传文件
+      if (this.hasFiles(cases)) {
+        let promises = [];
+        for (let productCase of cases) {
+          let files = productCase.files;
+          if (files && files.length) {
+            let promise = new Promise((resolve, reject) => {
+              that.getProductFileId().then((res) => {
+                let fileInputId = res.data;
+
+                let uploadData = {
+                  fileInputId,
+                  fileTypeId: 502,
+                  moduleId: 1,
+                  expireDate: '',
+                  effectiveDate: '',
+                  files: []
+                }
+                uploadData.files = files;
+                that.uploadProductScheme(uploadData).then(() => {
+                  productCase.fileInputId = fileInputId;
+                  resolve();
+                }, () => {
+                  reject();
+                });
+              }, () => {
+                reject();
+              });
+            });
+
+            promises.push(promise);
+          }
+        }
+
+        Promise.all(promises).then(() => {
+          for (let productCase of cases) {
+            delete productCase.files;
+          }
+          this.saveProduct(this.product).then(() => {
+          }, () => {
+            that.isSubmit = false;
+          });
+        }, () => {
+          that.isSubmit = false;
+        });
+      } else {
+        this.saveProduct(this.product);
+      }
+    },
+    /**
+     * 判断销售案例中是否有方案附件
+     */
+    hasFiles(cases) {
+      for (let productCase of cases) {
+        let files = productCase.files;
+        if (files && files.length) {
+          return true;
+        }
+      }
+
+      return false;
     },
     ...mapActions([
       'saveProduct'

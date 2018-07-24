@@ -82,7 +82,7 @@ const actions = {
    * @param {Object} product
    */
   saveProduct({commit}, product) {
-    API.setAddProductAPI(product).then(() => {
+    return API.setAddProductAPI(product).then(() => {
       Message({
         message: '新增产品成功',
         type: 'success',

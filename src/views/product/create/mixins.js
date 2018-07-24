@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
@@ -123,5 +122,9 @@ export default {
     cancelAddingCase() {
       this.isAddingCase = false;
     },
+    ...mapActions([
+      'getProductFileId',
+      'uploadProductScheme'
+    ])
   }
 };
