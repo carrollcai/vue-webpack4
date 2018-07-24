@@ -31,7 +31,7 @@
         </el-form-item> -->
         <el-form-item label="走访对象：" label-width="140px" required>
           <el-form-item style="display: inline-block;" prop="intervieweeName">
-            <el-input class="form-input-half" v-model="createVisitFrom.intervieweeName" class="form-input-80" placeholder="姓名"></el-input>
+            <el-input class="form-input-half form-input-80" v-model="createVisitFrom.intervieweeName" placeholder="姓名"></el-input>
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item style="display: inline-block;" prop="intervieweeMobile">
@@ -48,7 +48,7 @@
           </el-form-item>
           <div class="form-input-sep" label-width="140px" style="width: 30px; float: left;">-</div>
           <el-form-item style="width: 210px; float: left" prop="timeRange">
-            <el-time-picker style="width: 210px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
+            <el-time-picker style="width: 210px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围"></el-time-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" label-width="140px" required prop="visitContent">

@@ -41,7 +41,7 @@ const state = {
     pageSize: PAGE_SIZE,
     opRegion: null,
     otherField: '',
-    role: null
+    role: ''
   },
   userCreate: Object.cloneDeep(userCreate),
 
