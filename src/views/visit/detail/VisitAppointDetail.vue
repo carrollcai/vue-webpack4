@@ -167,7 +167,7 @@ export default {
     },
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
-        if (fileName.endsWith(accept)) {
+        if (fileName.toLowerCase().endsWith(accept)) {
           return true;
         }
       }
