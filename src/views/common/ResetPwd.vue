@@ -15,9 +15,6 @@
         <el-button @click="handleClose" class="btn-cancel">取 消</el-button>
       </el-form-item>
     </el-form>
-    <!-- <div slot="footer" class="dialog-footer">
-      
-    </div> -->
   </el-dialog>
 </template>
 <script>
