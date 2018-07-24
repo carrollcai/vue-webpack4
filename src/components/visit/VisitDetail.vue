@@ -15,11 +15,11 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div v-if="visitDetails.visitResource === 2" class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派走访人：</div>
         <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
       </div>
-      <div v-if="visitDetails.visitResource === 2" class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派说明：</div>
         <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
@@ -45,7 +45,10 @@
       </div>
       <div class="task-detail-item">
         <div class="left">执行汇报：</div>
-        <div class="right" v-if="visitDetails.feedback">{{visitDetails.feedback}}</div>
+        <div class="right" v-if="visitDetails.feedback">
+          <span style="display: block;">{{visitDetails.feedback}}</span>
+          <p v-if="visitDetail.fileInputId" class="download-style"><span v-for="item in fileArrList" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
+        </div>
       </div>
     </div>
     <div class="task-detail-item">
@@ -87,13 +90,33 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   props: {
     visitDetail: {
       type: Object
     }
   },
+  data() {
+    return {
+      fileArr: [],
+      uploadData: {
+        fileTypeId: 502,
+        fileSaveName: '',
+        fileName: ''
+      }
+    };
+  },
+  beforeMount() {
+    this.queryFiles();
+  },
   computed: {
+    fileArrList() {
+      if (this.fileArr) {
+        return this.fileArr;
+      }
+    },
     visitDetails() {
       let _this = this;
       if (this.visitDetail) {
@@ -110,11 +133,41 @@ export default {
         return this.visitDetail;
       }
     }
+  },
+  methods: {
+    async queryFiles() {
+      if (this.visitDetail.fileInputId) {
+        await this.queryElec({
+          fileInputId: this.visitDetail.fileInputId
+        }).then((res) => {
+          (res.data).map(item => {
+            let data = {
+              path: item.fileSaveName,
+              name: item.fileName
+            };
+            this.fileArr.push(data);
+          });
+        });
+      }
+    },
+    async dowloadFile(name, path) {
+      this.uploadData = {
+        fileTypeId: 502,
+        fileSaveName: path,
+        fileName: name
+      };
+      await this.downloadUplodFile(this.uploadData);
+    },
+    ...mapActions([
+      'queryElec',
+      'downloadUplodFile'
+    ])
   }
 };
 </script>
 <style lang="scss">
 .visit-datil {
+  .ml15 {margin-left: 15px;}
   .visit-title {
     display: flex;
     background: #FAFAFA;
@@ -129,6 +182,12 @@ export default {
     }
     .right {
       word-break: break-all;
+    }
+  }
+  .download-style {
+    display: block;
+    span {
+      display: block;
     }
   }
 }

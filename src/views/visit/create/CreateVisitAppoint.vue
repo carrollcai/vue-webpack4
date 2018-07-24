@@ -106,7 +106,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitVisitApplication()">提交</el-button>
+          <el-button type="primary" @click="submitVisitApplication()">立即指派</el-button>
           <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>

@@ -1,6 +1,16 @@
 <template>
 <div>
   <div class="m-container">
+    <div class="breadcrumb">
+      <el-breadcrumb>
+        <el-breadcrumb-item v-if="routeName === 'visit-application-detail'" :to="{ path: '/visit/my-visit-manage' }">我的走访管理</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="routeName === 'visit-appoint-detail'" :to="{ path: '/visit/visit-appoint' }">走访指派</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="routeName === 'visit-application-detail'">{{isExecute === 'false' ? '查看详情' : '执行处理'}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="routeName === 'visit-appoint-detail'">查看详情</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+  </div>
+  <div class="m-container container-mt16">
     <Vdetail :visitDetail="visitDetailData"></Vdetail>
   </div>
   <div v-if="isExecute === 'true'" class="m-container transfer-out">
@@ -78,6 +88,7 @@ export default {
       FILE_TIP,
       visitId: this.$route.params.id,
       isExecute: this.$route.query.isExecute,
+      routeName: this.$route.name,
       fileList: [],
       uploadData: {
         fileInputId: '',
@@ -192,6 +203,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+.container-mt16 {margin-top: 16px;}
 .transfer-out {
   margin-top: 20px;
   form {
