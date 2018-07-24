@@ -233,7 +233,7 @@ export default {
   methods: {
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
-        if (endsWith(fileName, accept)) {
+        if (endsWith(fileName.toLowerCase(), accept)) {
           return true;
         }
       }
