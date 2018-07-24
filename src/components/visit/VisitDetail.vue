@@ -13,9 +13,9 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div class="task-detail-item" v-if="visitDetails.visitEvaluate && isPoint === 'false'">
+      <div class="task-detail-item" v-if="visitDetails.assignNote && isPoint === 'false'">
         <div class="left">指派说明：</div>
-        <div class="right">{{visitDetails.visitEvaluate}}</div>
+        <div class="right">{{visitDetails.assignNote}}</div>
       </div>
     </div>
     <div class="task-detail-item">
