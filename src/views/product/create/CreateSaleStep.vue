@@ -552,10 +552,7 @@ export default {
           }
         });
       } else {
-        let index = this.uploadData.files.findIndex(val => val.uid === files.uid);
-
-        this.uploadData.files.splice(index, 1);
-        // this.formDataValid.files = null;
+        this.formDataValid.files = null;
       }
       this.$refs.formProduct.validateField('files');
     },
