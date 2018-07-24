@@ -91,7 +91,7 @@
     <div style="background: #fff;">
       <div class="hr"></div>
       <div class="b-container">
-          <el-form label-width="140px" style="width: 460px;">
+          <el-form label-width="140px" style="width: 545px;">
             <el-form-item label="提醒人：">
               <el-select class="form-input-medium" multiple v-model="businessData.remindersArr" placeholder="请选择提醒人" @change="changeReminders">
                   <el-option
