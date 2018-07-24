@@ -22,7 +22,7 @@
         <el-input class="item-width" clearable v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
       </el-form-item>
     </div>
-    <div class="flex">
+    <div class="flex product-query-btns">
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
@@ -154,10 +154,13 @@ export default {
   .demo-form-inline {
     display: flex;
     align-items: center;
-    justify-content: space-between;
   }
   .item-width {
     width: $inputWidthQuery;
+  }
+
+  .product-query-btns{
+    margin-left: 40px;
   }
 }
 </style>
