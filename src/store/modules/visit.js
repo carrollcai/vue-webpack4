@@ -37,7 +37,9 @@ const state = {
     isFirstVisit: 1,
     visitStartTime: '',
     visitEndTime: '',
-    isSubmit: 1
+    isSubmit: 1,
+    visitTime: null,
+    timeRange: null
   },
   createVisitData: {},
   appointVisitForm: {
