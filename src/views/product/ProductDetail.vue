@@ -1,14 +1,18 @@
 <template>
-<div class="p-content">
-  <div class="crumb-bar">
-    <el-breadcrumb>
-      <el-breadcrumb-item :to="{ path: toPath }">{{isDetail === '0' ? '产品总览' : '产品创建管理'}}</el-breadcrumb-item>
-      <el-breadcrumb-item>产品详情</el-breadcrumb-item>
-    </el-breadcrumb>
+  <div>
+    <div class="m-container">
+      <div class="breadcrumb">
+        <el-breadcrumb>
+          <el-breadcrumb-item :to="{ path: toPath }">{{isDetail === '0' ? '产品总览' : '产品创建管理'}}</el-breadcrumb-item>
+          <el-breadcrumb-item>产品详情</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+    </div>
+    <div>
+      <baseInfo :product="productSaleDemo"></baseInfo>
+      <saleDome :data="productSaleDemo.salesList"></saleDome>
+    </div>
   </div>
-  <baseInfo :product="productSaleDemo"></baseInfo>
-  <saleDome :data="productSaleDemo.salesList"></saleDome>
-</div>
 </template>
 
 <script>
@@ -49,7 +53,7 @@ export default {
 .p-content {
   .crumb-bar {
     .el-breadcrumb {
-      line-height: 48px;
+      line-height: 62px;
     }
   }
   .el-table__expand-column {
