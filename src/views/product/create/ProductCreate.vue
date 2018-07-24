@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import mixins from './mixins';
 export default {
   name: 'ProductCreate',
@@ -166,16 +166,16 @@ export default {
                   expireDate: '',
                   effectiveDate: '',
                   files: []
-                }
+                };
                 uploadData.files = files;
                 that.uploadProductScheme(uploadData).then(() => {
                   productCase.fileInputId = fileInputId;
                   resolve();
-                }, () => {
-                  reject();
+                }, (err) => {
+                  reject(new Error(err));
                 });
-              }, () => {
-                reject();
+              }, (err) => {
+                reject(new Error(err));
               });
             });
 

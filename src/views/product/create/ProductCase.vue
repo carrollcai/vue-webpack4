@@ -231,7 +231,7 @@ export default {
               this.productCase.files = this.uploadFiles;
             }
 
-           this.list.push(this.productCase);
+            this.list.push(this.productCase);
           }
           this.cancel();
         }
