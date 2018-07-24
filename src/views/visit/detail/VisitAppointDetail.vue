@@ -138,7 +138,7 @@ export default {
       if (this.beforeUpload(file, fileList)) return false;
       this.fileList.push(file.raw);
       this.uploadData.files.push(file.raw);
-      this.$refs.formVaild.validateField('files');
+      this.$refs.visitRef.validateField('files');
     },
     removeFile(files, fileList) {
       let _this = this;
@@ -155,7 +155,7 @@ export default {
       } else {
         this.uploadData.files = null;
       }
-      this.$refs.formVaild.validateField('files');
+      this.$refs.visitRef.validateField('files');
     },
     async submitAssignForm() {
       let _this = this;

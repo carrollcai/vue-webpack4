@@ -1,19 +1,19 @@
 <template>
   <div class="visit-datil">
     <div class="visit-title">
-      <div class="task-detail-item" v-if="isPoint === 'true' && visitDetails.visitAuditor">
+      <div class="task-detail-item" v-if="isPoint === 'true'">
         <div class="left">指派人员：</div>
-        <div class="right">{{visitDetails.visitAuditor}}</div>
+        <div class="right" v-if="visitDetails.visitAuditor">{{visitDetails.visitAuditor}}</div>
       </div>
-      <div class="task-detail-item" v-if="isPoint === 'true' && visitDetails.assignNote">
+      <div class="task-detail-item" v-if="isPoint === 'true'">
         <div class="left">指派说明：</div>
-        <div class="right">{{visitDetails.assignNote}}</div>
-      </div>
-      <div class="task-detail-item" v-if="isPoint === 'false' && visitDetails.visitAuditor">
-        <div class="left">审核人员：</div>
-        <div class="right">{{visitDetails.visitAuditor}}</div>
+        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
       <div class="task-detail-item" v-if="isPoint === 'false'">
+        <div class="left">审核人员：</div>
+        <div class="right" v-if="visitDetails.visitAuditor">{{visitDetails.visitAuditor}}</div>
+      </div>
+      <div class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
@@ -24,7 +24,7 @@
     </div>
     <div class="task-detail-item">
       <div class="left">走访公司：</div>
-      <div class="right">{{visitDetails.organizeName}}</div>
+      <div class="right">{{visitDetails.organizeName}}；{{visitDetails.visitAddress}}</div>
     </div>
     <div class="task-detail-item">
       <div class="left">走访对象：</div>
