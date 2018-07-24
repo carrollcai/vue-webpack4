@@ -103,7 +103,27 @@ const mutations = {
     // state.createVisitFrom = Object.assign(state.createVisitFrom, data) ;
   },
   [types.GET_PROCESSOR_LIST](state, data) {
-    state.getProcessorList = data;
+    // 审核人结构
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      newVal.children = val.childrenList && val.childrenList.filter(cval => cval.secOperatorDTOList).map(cval => {
+        let newCval = {};
+        newCval.value = cval.codeValue;
+        newCval.label = cval.codeName;
+        newCval.children = cval.secOperatorDTOList && cval.secOperatorDTOList.map(gcval => {
+          return {
+            value: gcval.operatorId,
+            label: gcval.staffName
+          };
+        });
+        return newCval;
+      });
+      return newVal;
+    });
+    state.getProcessorList = handlers.filter(val => val.children && val.children.length);
+    state.getProcessorList = state.getProcessorList[0].children[0].children;
   },
   [types.REGION_MANAGE_LIST](state, data) {
     state.regionManageList = data;

@@ -81,6 +81,26 @@
         </el-form-item>
         <div class="hr"></div>
         <el-form-item label="选择审核人：" label-width="140px" prop="visitAuditor">
+        <!-- <el-form-item label="选择审核人：" label-width="140px" prop="visitAuditor">
+          <el-cascader style="width: 392px;" v-if="getProcessorList"
+            :options="getProcessorList"
+            v-model="createVisitFrom.visitAuditor"
+            >
+          </el-cascader>
+        </el-form-item>
+        <el-form-item label="选择指派人：" label-width="140px" prop="visitAuditor">
+          <el-select
+            v-if="getProcessorList"
+            v-model="createVisitFrom.visitAuditor"
+            filterable
+            placeholder="请选择">
+            <el-option
+              v-for="item in getProcessorList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select> -->
           <el-select
             v-if="processorList"
             v-model="createVisitFrom.visitAuditor"
@@ -146,6 +166,7 @@ export default {
       auditorOptions: [],
       fromVaild: {},
       pointAuditor: [],
+      codeValue: [],
       editValue: {
         visitId: '',
         visitTheme: '',
@@ -223,14 +244,15 @@ export default {
       orderOrganizeAddressList: ({ order }) => order.orderOrganizeAddressList,
       assignHandlers: ({ order }) => order.assignHandlers,
       registerList: ({ visit }) => visit.registerList,
-      p: ({ visit }) => visit.regionManageList,
       visitAppointDetail: ({ visit }) => visit.visitAppointDetail,
-      processorList: ({ visit }) => visit.regionManageList
+      processorList: ({ visit }) => visit.regionManageList,
+      getProcessorList: ({ visit }) => visit.getProcessorList
     })
   },
   async beforeMount() {
     this.queryRegionManager({});
     this.getRelOpporId('');
+    this.queryProcessor({});
     this.getAssignhandler();
     if (this.visitId && this.visitId > 0) {
       await this.queryVisitAppointDetail({visitId: this.visitId}).then(() => {
@@ -409,7 +431,8 @@ export default {
       'queryRegisterList',
       'queryVisitAppointDetail',
       'editVisitApp',
-      'queryRegionManager'
+      'queryRegionManager',
+      'queryProcessor'
     ])
   }
 };
