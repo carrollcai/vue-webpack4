@@ -1,7 +1,9 @@
 import * as types from '../types';
 
 const state = {
-  productSaleDemo: {},
+  productSaleDemo: {
+    salesList: []
+  },
   productList: {},
   productCreatList: {},
   detailSale: [],

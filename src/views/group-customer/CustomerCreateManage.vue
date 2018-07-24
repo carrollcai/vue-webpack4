@@ -179,7 +179,6 @@ export default {
           this.query();
         });
       }).catch((e) => {
-        console.log(e);
         this.$message('已取消提审');
       });
     },

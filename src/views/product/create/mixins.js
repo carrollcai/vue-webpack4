@@ -69,11 +69,6 @@ export default {
       }
     };
   },
-  computed: {
-    cases() {
-      return this.product.salesList;
-    }
-  },
   methods: {
     isFirstStep() {
       return this.step === 0;
@@ -94,8 +89,12 @@ export default {
         }
       });
     },
-    handleDeleteCase(index, id) {
-      this.cases.splice(index, 1);
+    handleDeleteCase(index, productCase) {
+      if (productCase.salesId) {
+        productCase.state = '0';
+      } else {
+        this.cases.splice(index, 1);
+      }
     },
     handleEditCase(productCase, index) {
       this.isAddingCase = true;

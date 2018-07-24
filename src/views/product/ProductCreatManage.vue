@@ -130,7 +130,7 @@ export default {
       localStorage.setItem('nextStep', 0);
       localStorage.setItem('prevStep', 0);
       this.saveBaseInfo(this.baseInfo);
-      this.$router.push({path: '/product/create-base-info'});
+      this.$router.push({path: '/product/create'});
     },
     toPageDetail(row) {
       const path = `/product/product-detail/${row.productId}?isDetail=1`;
@@ -139,7 +139,7 @@ export default {
     toPageModefiy(row) {
       localStorage.setItem('nextStep', 0);
       localStorage.setItem('prevStep', 0);
-      const path = `/product/create-base-info/${row.productId}`;
+      const path = `/product/edit/${row.productId}`;
       this.$router.push(path);
     },
     deleteProduct(row) {
