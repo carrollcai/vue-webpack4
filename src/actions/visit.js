@@ -55,7 +55,7 @@ const actions = {
   },
   addApproveVisit: ({ commit }, params) => {
     return API.addAppointVisitAPI(params).then((res) => {
-      if (res.data === 1) {
+      if (res.errorInfo.code === '200') {
         Message({
           message: '执行处理成功',
           type: 'success',

@@ -114,11 +114,11 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2') {
+      } else if (value === '2' || value === '0') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';
-      } else {
+      } else if (value === '4') {
         return '已完成';
       }
     },
@@ -141,7 +141,11 @@ export default {
     },
     getState(value) {
       if (value.name !== '') {
-        this.appointVisitForm.visitStatus = [value.name];
+        if (value.name === '2') {
+          this.appointVisitForm.visitStatus = ['0', value.name];
+        } else {
+          this.appointVisitForm.visitStatus = [value.name];
+        }
       } else {
         this.appointVisitForm.visitStatus = [];
       }
