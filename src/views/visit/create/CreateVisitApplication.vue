@@ -39,7 +39,7 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
-          <el-input v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“；”隔开" />
+          <el-input v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“;”隔开" />
         </el-form-item>
         <el-form-item label="走访时间：" label-width="140px" required>
           <el-form-item prop="visitTime">
@@ -121,23 +121,26 @@ export default {
     };
     const textFormat = (rule, value, callback) => {
       let reg = /^[A-Za-z0-9\u4e00-\u9fa5;]+$/;
+      let valueArr = value.split(';');
+      const nullLen = valueArr.filter(val => val === '').length;
       if (String(value).trim() === '') {
         callback(new Error('输入内容不能为空'));
       } else if (String(value).trim().length > 50) {
         callback(new Error(`输入内容字符不能超过25`));
       } else if (!reg.test(value)) {
         callback(new Error(`输入格式不正确`));
+      } else if (nullLen) {
+        callback(new Error(`输入格式不正确`));
       } else {
         callback();
       }
     };
     return {
+      localBusinessList: [],
       visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeout: null,
-      // timeRange: '',
-      // visitTime: '',
       checkTime: true,
       levelOptions: [],
       auditorOptions: [],
@@ -274,6 +277,16 @@ export default {
     }
   },
   methods: {
+    connectOrganize() {
+      const isSelected = val => val.organizeName === this.createVisitFrom.organizeName || val.organizeCode === this.createVisitFrom.organizeName;
+      let selectedObj = this.localBusinessList.filter(isSelected)[0];
+      if (selectedObj) {
+        return true;
+      } else {
+        this.$message.error('集团不存在');
+        return false;
+      }
+    },
     getTimeVisit(time) {
       this.checkTime = false;
     },
@@ -336,6 +349,7 @@ export default {
 
       await clearTimeout(this.timeout);
       this.timeout = await setTimeout(() => {
+        this.localBusinessList = this.orderOrganizeAddressList;
         cb(this.orderOrganizeAddressList);
       }, 1000);
     },
@@ -363,6 +377,7 @@ export default {
         let { visitTime, timeRange, ...params } = this.editValue;
         this.$refs.visitRef.validate((valid) => {
           if (valid) {
+            if (!this.connectOrganize()) return false;
             _this.editVisitApp(params);
           } else {
             return false;
@@ -372,7 +387,7 @@ export default {
         let { visitTime, timeRange, ...params } = this.createVisitFrom;
         this.$refs.visitRef.validate((valid) => {
           if (valid) {
-            // console.log(this.createVisitFrom);
+            if (!this.connectOrganize()) return false;
             _this.addCreateVisit(params);
           } else {
             return false;

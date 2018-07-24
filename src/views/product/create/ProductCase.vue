@@ -56,9 +56,13 @@
           :on-change="handleChangeFile"
           :on-remove="handleRemoveFile"
           :file-list="uploadFiles">
-          <el-button type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
-          <p class="lh1-5">{{FILE_TIP[0]}}</p>
-          <p class="lh1-5">{{FILE_TIP[1]}}</p>
+          <el-button slot="trigger" size="small">
+            <i class="icon-up margin-right-8"></i>上传文件
+          </el-button>
+          <div slot="tip" class="el-upload__tip">
+            <p class="lh1-5">{{FILE_TIP[0]}}</p>
+            <p class="lh1-5">{{FILE_TIP[1]}}</p>
+          </div>
         </el-upload>
       </el-form-item>
       <el-form-item class="btn-groups">
@@ -105,6 +109,9 @@ export default {
         composedProduct: []
       },
       uploadFiles: [],
+      // 用于保存，修改产品时， 修改销售案例删除的方案文件
+      deleteFiles: [],
+      newFiles: [],
       rules: {
         composedProduct: [
           { required: true, message: '请输入产品名称或编码', trigger: ['blur', 'change'] },
@@ -160,6 +167,24 @@ export default {
       this.$nextTick(() => {
         this.productCase = Object.assign({}, productCase);
         this.index = index;
+
+        if (this.productCase.files) {
+          this.uploadFiles = this.productCase.files;
+          return;
+        }
+
+        // 修改产品时，对销售案例进行修改
+        if (this.productCase.fileInputId) {
+          const that = this;
+          this.queryElec({'fileInputId': this.productCase.fileInputId}).then((res) => {
+            if (res.data) {
+              (res.data).forEach(function(item) {
+                item.name = item.fileName;
+                that.uploadFiles.push(item);
+              });
+            }
+          });
+        }
       });
     },
     isAcceptable(fileName) {
@@ -208,7 +233,11 @@ export default {
       uploadFiles.splice(0, uploadFiles.length);
 
       for (let item of fileList) {
-        uploadFiles.push(item.raw);
+        uploadFiles.push(item);
+      }
+
+      if (file.elecInstId) {
+        this.deleteFiles.push(file);
       }
     },
     handleChangeSalesType(value) {
@@ -223,14 +252,27 @@ export default {
     saveCase() {
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
+          const {productCase} = this;
+          // 修改
           if (this.index > -1) {
-            this.list[this.index] = Object.assign({}, this.productCase);
+            productCase.files = this.uploadFiles;
+            productCase.deleteFiles = this.deleteFiles;
+
+            if (productCase.salesId) {
+              productCase.state = '3';
+            }
+            productCase.deleteFiles = this.deleteFiles;
+
+            this.list[this.index] = Object.assign({}, productCase);
           } else {
+            // 新增
             if (this.uploadFiles && this.uploadFiles.length) {
-              this.productCase.files = this.uploadFiles;
+              productCase.files = this.uploadFiles;
             }
 
-            this.list.push(this.productCase);
+            productCase.state = '2';
+
+            this.list.push(productCase);
           }
           this.cancel();
         }
@@ -240,7 +282,8 @@ export default {
       this.$emit('cancel');
     },
     ...mapActions([
-      'getComposedProduct'
+      'getComposedProduct',
+      'queryElec'
     ])
   }
 };

@@ -35,7 +35,6 @@
           <h3 v-if="(!isAddProduct && addItem) || (isAddProduct && addItem)" class="title">添加销售案例
             <span>（可添加多个销售案例）</span>
           </h3>
-          {{formData}}
           <h3 v-if="(isAddProduct && !addItem) || (!isAddProduct && !addItem)" class="title">编辑销售案例</h3>
           <el-form class="add-content" :model="formData" :rules="formDataValid" ref="formProduct" label-width="130px">
             <el-form-item label="销售类型：">
@@ -624,7 +623,6 @@ export default {
       line-height: 48px;
     }
   }
-  .lh1-5 {line-height: 1.5;}
   .fs12 {font-size: 12px;}
   .el-select {width: 100%;}
   .el-upload__tip {margin-top: 0;}

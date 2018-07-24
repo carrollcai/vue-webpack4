@@ -141,6 +141,11 @@ export default {
       isSubmit: false
     };
   },
+  computed: {
+    cases() {
+      return this.product.salesList;
+    }
+  },
   beforeMount() {
   },
   methods: {
@@ -186,6 +191,7 @@ export default {
         Promise.all(promises).then(() => {
           for (let productCase of cases) {
             delete productCase.files;
+            delete productCase.deleteFiles;
           }
           this.saveProduct(this.product).then(() => {
           }, () => {
