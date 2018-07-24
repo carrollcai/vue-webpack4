@@ -58,7 +58,7 @@
           :file-list="uploadFiles">
           <el-button type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
           <div slot="tip" class="el-upload__tip">
-            1、附件格式支持“PPT、Excel、Word和压缩包”格式<br/>
+            1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
             2、附件大小不超过20M。
           </div>
         </el-upload>
@@ -106,6 +106,9 @@ export default {
         composedProduct: []
       },
       uploadFiles: [],
+      // 用于保存，修改产品时， 修改销售案例删除的方案文件
+      deleteFiles: [],
+      newFiles: [],
       rules: {
         composedProduct: [
           { required: true, message: '请输入产品名称或编码', trigger: ['blur', 'change'] },
@@ -159,8 +162,27 @@ export default {
      */
     init(productCase, index) {
       this.$nextTick(() => {
+        console.log(productCase);
         this.productCase = Object.assign({}, productCase);
         this.index = index;
+
+        if (this.productCase.files) {
+          this.uploadFiles = this.productCase.files;
+          return;
+        }
+
+        // 修改产品时，对销售案例进行修改
+        if (this.productCase.fileInputId) {
+          const that = this;
+          this.queryElec({'fileInputId': this.productCase.fileInputId}).then((res) => {
+            if (res.data) {
+              (res.data).forEach(function(item) {
+                item.name = item.fileName;
+                that.uploadFiles.push(item);
+              });
+            }
+          });
+        }
       });
     },
     isAcceptable(fileName) {
@@ -204,12 +226,17 @@ export default {
     },
     handleRemoveFile(file, fileList) {
       const that = this;
+      console.log(file);
       const {uploadFiles} = that;
 
       uploadFiles.splice(0, uploadFiles.length);
 
       for (let item of fileList) {
-        uploadFiles.push(item.raw);
+        uploadFiles.push(item);
+      }
+
+      if (file.elecInstId) {
+        this.deleteFiles.push(file);
       }
     },
     handleChangeSalesType(value) {
@@ -224,14 +251,27 @@ export default {
     saveCase() {
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
+          const {productCase} = this;
+          // 修改
           if (this.index > -1) {
-            this.list[this.index] = Object.assign({}, this.productCase);
+            productCase.files = this.uploadFiles;
+            productCase.deleteFiles = this.deleteFiles;
+
+            if (productCase.salesId) {
+              productCase.state = '3';
+            }
+            productCase.deleteFiles = this.deleteFiles;
+
+            this.list[this.index] = Object.assign({}, productCase);
           } else {
+            // 新增
             if (this.uploadFiles && this.uploadFiles.length) {
-              this.productCase.files = this.uploadFiles;
+              productCase.files = this.uploadFiles;
             }
 
-            this.list.push(this.productCase);
+            productCase.state = '2';
+
+            this.list.push(productCase);
           }
           this.cancel();
         }
@@ -241,7 +281,8 @@ export default {
       this.$emit('cancel');
     },
     ...mapActions([
-      'getComposedProduct'
+      'getComposedProduct',
+      'queryElec'
     ])
   }
 };
