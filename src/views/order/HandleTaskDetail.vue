@@ -11,17 +11,13 @@
       </div>
     </div>
     <div class="m-container o-overview-detail">
-
       <div class="task-detail-content" v-if="Object.keys(handleTaskDetail).length">
         <!-- 签约处理，必须是指派任务才能显示 -->
         <detail-bar v-if="getSignHandleContent()" :title="['指派人：', '指派原因：']" :content="getSignHandleContent()" />
-
         <!-- 签约指派 -->
         <detail-bar v-if="getTodoSignContent()" :title="['处理结果：', '指派处理人：', '指派原因：']" :content="getTodoSignContent()" />
-
         <!-- 已签约 -->
         <detail-bar v-if="getHasSignContent()" :title="['处理结果：', '签约合同：']" :content="getHasSignContent()" />
-
         <!-- 已付款 -->
         <detail-bar v-if="getPayContent()" :title="['处理结果：', '付款金额：']" :content="getPayContent()" />
         <!-- 已取消 -->
@@ -29,7 +25,6 @@
 
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
-
       <div v-if="routeType === 'pay' || routeType === 'sign'" class="detail-line"></div>
 
       <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
@@ -44,8 +39,8 @@
               <i class="icon-up margin-right-8"></i>上传文件
             </el-button>
             <div slot="tip" class="el-upload__tip">
-              <p class="lh1-5">1. 附件格式支持“PPT、Excel、Word和压缩包“格式</p>
-              <p class="lh1-5">2. 附件大小不超过20M。</p>
+              <p class="lh1-5">{{FILE_TIP[0]}}</p>
+              <p class="lh1-5">{{FILE_TIP[1]}}</p>
             </div>
           </el-upload>
         </el-form-item>
@@ -74,7 +69,6 @@
         <el-button type="primary" @click="submitSign" v-if="routeType === 'detail-sign'">签约处理</el-button>
         <el-button type="primary" @click="submitSign" v-if="routeType === 'detail-pay'">付款处理</el-button>
       </div>
-
     </div>
   </div>
 </template>
@@ -85,17 +79,21 @@ import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
 import { multFileValid, inte5Deci4, textareaLimit } from '@/utils/rules.js';
-import { cancelNumberScroll } from '@/utils/common.js';
-import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_TIP } from '@/config/index.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP } from '@/config/index.js';
 
 export default {
+  components: {
+    AuditSteps,
+    DetailContent,
+    DetailBar
+  },
   data() {
     const fileCheck = (rule, value, callback) => {
       multFileValid(this.assignForm.files, callback);
     };
     return {
-      relOpporId: '',
       FILE_MAX_SIZE,
+      FILE_TIP,
       payForm: {
         money: null
       },
@@ -124,13 +122,7 @@ export default {
       taskInsId: null
     };
   },
-  components: {
-    AuditSteps,
-    DetailContent,
-    DetailBar
-  },
   created() {
-    this.cancelNumberScroll = cancelNumberScroll;
     this.processCompleteStatus = 4; // 流程已完成状态
     this.dispatchSignStatus = 2; // 分派签约处理
     this.hasSignStatus = 3;
@@ -167,53 +159,38 @@ export default {
       this.taskInsId = this.$route.query.taskInsId;
       this.businessStatus = this.$route.query.businessStatus;
     },
+    pushArr(...args) {
+      return [...args];
+    },
     // 显示签约指派人，必须要有指派原因
     getSignHandleContent() {
-      let contents = [];
       if (!this.businessStatus && this.handleTaskDetail.assignReason && this.lastProcessInfo.lastOpName) {
-        contents.push(this.lastProcessInfo.lastOpName);
-        contents.push(this.lastProcessInfo.lastDealResult);
-        return contents;
+        return this.pushArr(this.lastProcessInfo.lastOpNamem, this.lastProcessInfo.lastDealResult);
       }
     },
     getHasSignContent() {
-      let contents = [];
       if (this.businessStatus && Number(this.handleTaskDetail.ordStatus) === this.hasSignStatus) {
-        contents.push('已签约');
-        contents.push({ files: this.hasSignedFile });
-        return contents;
+        return this.pushArr('已签约', { files: this.hasSignedFile });
       }
     },
     getTodoSignContent() {
-      let contents = [];
       if (this.businessStatus && Number(this.handleTaskDetail.ordStatus) === this.dispatchSignStatus) {
-        contents.push('签约指派');
-        contents.push(this.handleTaskDetail.processName);
-        contents.push(this.handleTaskDetail.assignReason);
-        return contents;
+        return this.pushArr('签约指派', this.handleTaskDetail.processName, this.handleTaskDetail.assignReason);
       }
     },
     getPayContent() {
-      let contents = [];
       if (this.businessStatus && Number(this.handleTaskDetail.ordStatus) === this.processCompleteStatus) {
-        contents.push('已付款');
-        contents.push(`${this.handleTaskDetail.ordPayAmount}万元`);
-        return contents;
+        return this.pushArr('已付款', `${this.handleTaskDetail.ordPayAmount}万元`);
       }
     },
     getProcessContent() {
-      let contents = [];
       if (this.businessStatus && Number(this.handleTaskDetail.ordStatus) === this.cancelStatus) {
-        contents.push('已取消');
-        contents.push(this.handleTaskDetail.assignReason);
-        return contents;
+        return this.pushArr('已取消', this.handleTaskDetail.assignReason);
       }
     },
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
-        if (fileName.toLowerCase().endsWith(accept)) {
-          return true;
-        }
+        if (fileName.toLowerCase().endsWith(accept)) return true;
       }
       return false;
     },
@@ -222,7 +199,7 @@ export default {
       const isFormat = !this.isAcceptable(file.name);
       let index = fileList.findIndex(val => val.uid === file.raw.uid);
       if (isFormat) {
-        this.$message.error(FILE_TIP);
+        this.$message.error(FILE_ERROR_TIP);
         fileList.splice(index, 1);
       }
       if (isOverLimit) {
@@ -235,7 +212,6 @@ export default {
       if (this.beforeUpload(file, fileList)) return false;
 
       this.assignForm.files.push(file.raw);
-
       // 校验文件
       this.$refs.assign.validateField('files');
     },
@@ -245,7 +221,6 @@ export default {
       */
       // 筛选选中的文件
       let index = this.assignForm.files.findIndex(val => val.uid === file.uid);
-
       this.assignForm.files.splice(index, 1);
 
       this.$refs.assign.validateField('files');
@@ -321,20 +296,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.o-overview-detail {
-  margin-top: 16px;
-}
-.handle-task-detail-form {
-  & .el-form-item__label {
-    color: rgba(0, 0, 0, 0.45);
-  }
-}
-.margin-right-8 {
-  margin-right: 8px;
-}
-.upload-demo {
-  width: 300px;
-}
-</style>
