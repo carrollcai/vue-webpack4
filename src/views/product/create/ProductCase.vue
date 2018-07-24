@@ -56,9 +56,13 @@
           :on-change="handleChangeFile"
           :on-remove="handleRemoveFile"
           :file-list="uploadFiles">
-          <el-button type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
-          <p class="lh1-5">{{FILE_TIP[0]}}</p>
-          <p class="lh1-5">{{FILE_TIP[1]}}</p>
+          <el-button slot="trigger" size="small">
+            <i class="icon-up margin-right-8"></i>上传文件
+          </el-button>
+          <div slot="tip" class="el-upload__tip">
+            <p class="lh1-5">{{FILE_TIP[0]}}</p>
+            <p class="lh1-5">{{FILE_TIP[1]}}</p>
+          </div>
         </el-upload>
       </el-form-item>
       <el-form-item class="btn-groups">
