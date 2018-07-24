@@ -7,15 +7,6 @@ export default {
   },
   data() {
     const that = this;
-    const filesValidator = function(rule, val, callback) {
-      const {requirement, uploadFiles} = that;
-      if (requirement.resType !== '2' && !uploadFiles.length) {
-        callback(new Error('请选择需求附件'));
-      } else {
-        callback();
-      }
-    };
-
     const orgValidator = function(rule, val, callback) {
       const {requirement} = that;
       if (!requirement.orgId) {
@@ -39,13 +30,6 @@ export default {
         reqDesc: [
           { required: true, message: '请输入需求描述', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
-        ],
-        uploadFiles: [
-          {
-            required: true,
-            validator: filesValidator,
-            trigger: 'change'
-          }
         ],
         materialName: [
           { required: true, message: '请输入物料名称', trigger: ['blur', 'change'] },
