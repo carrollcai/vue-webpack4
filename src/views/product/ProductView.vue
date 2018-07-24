@@ -41,9 +41,9 @@
       </el-table-column>
       <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
       </el-table-column>
-      <el-table-column label="创建时间" align="center" width="170" property="insertdate" :formatter="dateFn">
+      <el-table-column label="创建时间" width="170" property="insertdate" :formatter="dateFn">
       </el-table-column>
-      <el-table-column label="最近更新时间" align="center" width="170" property="updatedate" :formatter="dateFn">
+      <el-table-column label="最近更新时间" width="170" property="updatedate" :formatter="dateFn">
       </el-table-column>
       <el-table-column label="创建人" show-overflow-tooltip property="operatorId" width="100">
       </el-table-column>

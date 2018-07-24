@@ -41,11 +41,11 @@
       </el-table-column>
       <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
       </el-table-column>
-      <el-table-column label="创建时间" align="center" show-overflow-tooltip width="180" :formatter="dateFn" property="insertdate">
+      <el-table-column label="创建时间" show-overflow-tooltip width="180" :formatter="dateFn" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" align="center" show-overflow-tooltip width="180" :formatter="dateFn" property="updatedate">
+      <el-table-column label="最近更新时间" show-overflow-tooltip width="180" :formatter="dateFn" property="updatedate">
       </el-table-column>
-      <el-table-column label="操作" align="center" width="160">
+      <el-table-column label="操作" width="160">
         <template slot-scope="operation">
           <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
           <span class="blue hand" @click="toPageModefiy(operation.row)">修改</span>
