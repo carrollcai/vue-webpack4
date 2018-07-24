@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-select v-model="appointVisitForm.isFirstGuest" placeholder="是否首客">
+          <el-select v-model="appointVisitForm.isFirstVisit" placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
               :key="item.value"
@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-input v-model="appointVisitForm.isFirstVisit" placeholder="指派走访人" />
+          <el-input v-model="appointVisitForm.processor" placeholder="指派走访人" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -114,7 +114,7 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2' || value === '0') {
+      } else if (value === '2') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';

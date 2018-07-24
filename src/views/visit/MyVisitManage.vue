@@ -60,7 +60,7 @@
           <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '2' || scope.row.visitStatus === '0'" type="text" @click="viewDetail(scope.row, true)">
+          <el-button v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
             执行处理
           </el-button>
           <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
@@ -120,7 +120,7 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2' || value === '0') {
+      } else if (value === '2') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';
@@ -139,11 +139,7 @@ export default {
     },
     getState(value) {
       if (value.name !== '') {
-        if (value.name === '2') {
-          this.myVisitManageFrom.visitStatus = ['0', '2'];
-        } else {
-          this.myVisitManageFrom.visitStatus = [value.name];
-        }
+        this.myVisitManageFrom.visitStatus = [value.name];
       } else {
         this.myVisitManageFrom.visitStatus = [];
       }
