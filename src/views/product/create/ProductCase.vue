@@ -57,10 +57,8 @@
           :on-remove="handleRemoveFile"
           :file-list="uploadFiles">
           <el-button type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
-          <div slot="tip" class="el-upload__tip">
-            1、附件格式支持“PPT、Excel、Word和压缩包”格式<br/>
-            2、附件大小不超过20M。
-          </div>
+          <p class="lh1-5">{{FILE_TIP[0]}}</p>
+          <p class="lh1-5">{{FILE_TIP[1]}}</p>
         </el-upload>
       </el-form-item>
       <el-form-item class="btn-groups">
@@ -73,7 +71,7 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import endsWith from 'lodash/endsWith';
-import {FILE_ACCEPT} from '@/config';
+import {FILE_ACCEPT, FILE_TIP} from '@/config';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
@@ -100,6 +98,7 @@ export default {
     };
 
     return {
+      FILE_TIP,
       index: -1,
       productCase: {
         salesType: '0',

@@ -47,10 +47,8 @@
                   :auto-upload="false"
                   :file-list="uploadFiles">
                   <el-button size="small" type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
-                  <div slot="tip" class="el-upload__tip">
-                    1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
-                    2、附件大小不超过20M。
-                  </div>
+                  <p class="lh1-5">{{FILE_TIP[0]}}</p>
+                  <p class="lh1-5">{{FILE_TIP[1]}}</p>
                 </el-upload>
               </el-form-item>
             </template>
@@ -174,13 +172,14 @@
 import { mapActions, mapState } from 'vuex';
 import endsWith from 'lodash/endsWith';
 import mixins from './mixins';
-import {FILE_ACCEPT} from '@/config';
+import { FILE_ACCEPT, FILE_TIP } from '@/config';
 export default {
   name: 'RequirementCreate',
   mixins: [mixins],
   data() {
     const that = this;
     return {
+      FILE_TIP,
       isSubmit: false,
       requirement: {
         orgId: '',
