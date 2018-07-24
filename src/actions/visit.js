@@ -55,14 +55,16 @@ const actions = {
   },
   addApproveVisit: ({ commit }, params) => {
     return API.addAppointVisitAPI(params).then((res) => {
-      Message({
-        message: '执行处理成功',
-        type: 'success',
-        duration: 3000
-      });
-      commit(types.ROUTE_CHANGE, {
-        path: '/visit/my-visit-manage'
-      });
+      if (res.data === 1) {
+        Message({
+          message: '执行处理成功',
+          type: 'success',
+          duration: 3000
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: '/visit/my-visit-manage'
+        });
+      }
     });
   },
   queryRegisterList: ({ commit }, params) => {
@@ -76,6 +78,9 @@ const actions = {
         Message({
           message: '编辑成功',
           type: 'success'
+        });
+        commit(types.ROUTE_CHANGE, {
+          path: '/visit/my-visit-manage'
         });
       }
       return res;

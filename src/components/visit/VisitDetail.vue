@@ -1,5 +1,23 @@
 <template>
-  <div>
+  <div class="visit-datil">
+    <div class="visit-title">
+      <div class="task-detail-item" v-if="visitDetails.visitAuditor && isPoint === 'true'">
+        <div class="left">指派人员：</div>
+        <div class="right">{{visitDetails.visitAuditor}}</div>
+      </div>
+      <div class="task-detail-item" v-if="visitDetails.visitAuditor && isPoint === 'false'">
+        <div class="left">审核人员：</div>
+        <div class="right">{{visitDetails.visitAuditor}}</div>
+      </div>
+      <div class="task-detail-item" v-if="isPoint === 'true'">
+        <div class="left">走访状态：</div>
+        <div class="right">{{visitDetails.visitStatus}}</div>
+      </div>
+      <div class="task-detail-item" v-if="visitDetails.visitEvaluate && isPoint === 'false'">
+        <div class="left">指派说明：</div>
+        <div class="right">{{visitDetails.visitEvaluate}}</div>
+      </div>
+    </div>
     <div class="task-detail-item">
       <div class="left">走访主题：</div>
       <div class="right">{{visitDetails.visitTheme}}</div>
@@ -49,15 +67,46 @@ export default {
       type: Object
     },
     isPoint: {
-      type: Boolean
+      type: String
     }
   },
   computed: {
     visitDetails() {
+      let _this = this;
       if (this.visitDetail) {
+        let state = this.visitDetail.visitStatus;
+        if (state === '1') {
+          _this.visitDetail.visitStatus = '待审核';
+        } else if (state === '2' || state === '0') {
+          _this.visitDetail.visitStatus = '待执行';
+        } else if (state === '3') {
+          _this.visitDetail.visitStatus = '已驳回';
+        } else {
+          _this.visitDetail.visitStatus = '已完成';
+        }
         return this.visitDetail;
       }
     }
   }
 };
 </script>
+<style lang="scss">
+.visit-datil {
+  .visit-title {
+    display: flex;
+    background: #FAFAFA;
+    .task-detail-item {
+      width: 50%;
+      margin-bottom: 16px;
+    }
+  }
+  .task-detail-item {
+    .left {
+      min-width: 120px;
+    }
+    .right {
+      word-break: break-all;
+    }
+  }
+}
+</style>

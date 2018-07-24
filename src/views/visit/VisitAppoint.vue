@@ -87,10 +87,10 @@ export default {
       visitStatus: '',
       myVisitForm: {},
       firstGuestOption: [{
-        value: '1',
+        value: '0',
         label: '否'
       }, {
-        value: '2',
+        value: '1',
         label: '是'
       }]
     };
@@ -105,7 +105,7 @@ export default {
   methods: {
     isFirstVisitFn(row, clo, value) {
       console.log(value);
-      if (value === 0) {
+      if (value === '0') {
         return '否';
       } else {
         return '是';

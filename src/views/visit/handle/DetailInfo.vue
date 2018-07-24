@@ -17,7 +17,7 @@
     </el-form-item>
 
     <el-form-item label="走访时间">
-      {{visit.visitStartTime}} - {{visit.visitEndTime}}
+      {{date}} {{time}}
     </el-form-item>
 
     <el-form-item label="走访内容" class="too-long-content">
@@ -36,7 +36,7 @@
       {{visit.isFirstVisit === '1' ? '是' : '否'}}
     </el-form-item>
 
-    <template v-if="visit.visitStatus === '4'">
+    <template v-if="visit.visitStatus === ''">
       <div class="line"></div>
 
       <el-form-item label="执行汇报">
@@ -65,15 +65,29 @@ export default {
   },
   data() {
     return {
-      files: []
+      files: [],
+      date: '',
+      time: ''
     };
   },
   watch: {
-    visit() {
+    visit(newVal) {
       this.initFiles();
+      this.initTime(newVal);
     }
   },
   methods: {
+    initTime(visit) {
+      if (visit.visitStartTime && visit.visitEndTime) {
+        let start = visit.visitStartTime.split(' ');
+        let end = visit.visitEndTime.split(' ');
+        this.date = start[0];
+        this.time = `${start[1]} - ${end[1]}`;
+      } else {
+        this.date = '';
+        this.time = '';
+      }
+    },
     handleDownload(file) {
       this.downloadUplodFile({
         fileTypeId: file.fileTypeId,

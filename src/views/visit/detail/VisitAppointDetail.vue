@@ -99,14 +99,14 @@ export default {
       },
       formDataValid: {
         visitEvaluator: [
-          { required: true, message: '请选择', trigger: 'blur' }
+          { required: true, message: '请选择转发人', trigger: 'blur' }
         ],
         feedbackNote: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入转发说明', trigger: ['change', 'blur'] },
           { validator: textareaLimit, trigger: 'blur' }
         ],
         feedback: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入走访汇报', trigger: 'blur' },
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         files: [
@@ -115,9 +115,15 @@ export default {
       }
     };
   },
-  beforeMount() {
-    this.queryRegionManager({});
-    this.queryVisitAppointDetail({visitId: this.visitId});
+  async beforeMount() {
+    await this.queryVisitAppointDetail({visitId: this.visitId});
+    await this.queryRegionManager({}).then((res) => {
+      this.processorList.filter(function(element, index, self) {
+        if (element.operatorId === this.visitAppointDetail.visitAuditor) {
+          this.visitAppointDetail.visitAuditor = element.staffName + '';
+        }
+      }, this);
+    });
   },
   methods: {
     beforeUpload(file, fileList) {

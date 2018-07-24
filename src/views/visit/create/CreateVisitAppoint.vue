@@ -11,15 +11,15 @@
     <div class="m-container visit-create">
       <el-form :label-position="'right'" label-width="140px" :model="createAppointFrom"  ref="visitRef" :rules="createAppointVaild">
         <el-form-item label="走访主题：" required prop="visitTheme">
-          <el-input v-model="createAppointFrom.visitTheme" class="form-input-medium" placeholder="请输入主题" />
+          <el-input v-model="createAppointFrom.visitTheme" class="form-input-120" placeholder="请输入主题" />
         </el-form-item>
         <el-form-item label="合作企业：" required>
-          <el-form-item prop="organizeName" style="display:inline-block;">
+          <el-form-item prop="organizeName">
             <el-autocomplete class="form-input-half" v-model="createAppointFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作名称" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
           <div class="form-input-sep">-</div>
-          <el-form-item prop="visitAddress" style="display:inline-block;">
-            <el-input class="form-input-half" v-model="createAppointFrom.visitAddress" placeholder="办公地址"></el-input>
+          <el-form-item prop="visitAddress">
+            <el-input class="form-input-260" style=" margin-right: 20px;" v-model="createAppointFrom.visitAddress" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <!-- <el-form-item label="合作企业：">
@@ -31,23 +31,23 @@
         </el-form-item> -->
         <el-form-item label="走访对象：" required>
           <el-form-item style="display: inline-block;" prop="intervieweeName">
-            <el-input v-model="createAppointFrom.intervieweeName" placeholder="姓名"></el-input>
+            <el-input v-model="createAppointFrom.intervieweeName" placeholder="姓名" class="form-input-half"></el-input>
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item style="display: inline-block;" prop="intervieweeMobile">
-            <el-input v-model="createAppointFrom.intervieweeMobile" maxlength="11" class="form-input-120" placeholder="联系电话"></el-input>
+            <el-input v-model="createAppointFrom.intervieweeMobile" maxlength="11" class="form-input-260" style=" margin-right: 20px;" placeholder="联系电话"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="我方出席人员：" required prop="visitPresentMembers">
           <el-input v-model="createAppointFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“；”隔开" />
         </el-form-item>
-        <el-form-item label="走访时间：">
-          <el-form-item style="width: 230px; float: left;" prop="visitTime">
-            <el-date-picker v-model="createAppointFrom.visitTime" @change="getTimeVisit" class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
+        <el-form-item label="走访时间：" label-width="140px" required>
+          <el-form-item prop="visitTime">
+            <el-date-picker v-model="createAppointFrom.visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
           </el-form-item>
-          <div class="form-input-sep" style="width: 30px; float: left;">-</div>
-          <el-form-item style="width: 230px; float: left;" prop="timeRange">
-            <el-time-picker :disabled="checkTime" v-model="createAppointFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
+          <div class="form-input-sep">-</div>
+          <el-form-item  prop="timeRange">
+            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createAppointFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" required prop="visitContent">
@@ -70,11 +70,11 @@
           <el-input v-model="createAppointFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
         </el-form-item>
         <el-form-item label="是否首客走访：" label-width="140px" required prop="isFirstVisit">
-          <el-radio v-model="createAppointFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
-          <el-radio v-model="createAppointFrom.isFirstVisit" :value="0" :label="0">否</el-radio>
+          <el-radio style="margin-top: 14px;" v-model="createAppointFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
+          <el-radio style="margin-top: 14px;" v-model="createAppointFrom.isFirstVisit" :value="0" :label="0">否</el-radio>
         </el-form-item>
         <div class="hr"></div>
-        <el-form-item label="指派审核人：" prop="processor">
+        <el-form-item label="指派走访人：" prop="processor">
           <el-select
             v-if="processorList"
             v-model="createAppointFrom.processor"
@@ -93,7 +93,7 @@
 
         <el-form-item>
           <el-button type="primary" @click="submitVisitApplication()">提交</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -121,66 +121,58 @@ export default {
       pointAuditor: [],
       createAppointVaild: {
         visitTheme: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { validator: textLimit, trigger: 'blur' }
-        ],
-        organizeId: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入走访主题', trigger: ['change', 'blur'] },
           { validator: textLimit, trigger: 'blur' }
         ],
         organizeName: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入公司名称', trigger: ['change', 'blur'] },
           { validator: textLimit, trigger: 'blur' }
         ],
         visitAddress: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { required: true, validator: textareaLimit, trigger: 'blur' },
+          { required: true, message: '请输入公司地址', trigger: ['change', 'blur'] },
           { required: true, validator: textareaLimit, trigger: 'blur' }
         ],
         intervieweeName: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入走访对象姓名', trigger: ['change', 'blur'] },
           { validator: textLimit, trigger: 'blur' }
         ],
         intervieweeMobile: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入联系电话', trigger: 'blur' },
           { validator: checkPhone, trigger: 'blur' }
         ],
         visitPresentMembers: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入我方出席人员', trigger: ['change', 'blur'] },
           { validator: textareaLimit, trigger: 'blur' }
         ],
         visitContent: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入走访内容', trigger: ['change', 'blur'] },
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         relOpporCode: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入涉及商机', trigger: ['change', 'blur'] },
           { validator: textareaLimit, trigger: 'blur' }
         ],
         problemCoordinate: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入问题协调', trigger: ['change', 'blur'] },
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         processor: [
-          { required: true, message: '请选择', trigger: 'blur' },
-          { required: true, message: '请选择', trigger: 'change' }
+          { required: true, message: '请选择指派人', trigger: 'change' }
         ],
         isFirstVisit: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请选择是否首课走访', trigger: 'change' }
         ],
         isSubmit: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请选择是否提交', trigger: 'change' }
         ],
         visitTime: [
           { required: true, message: '请选择日期', trigger: 'change' }
-          // { required: true, type: 'date', message: '请选择日期', trigger: 'blur' }
         ],
         timeRange: [
           { required: true, message: '请选择时间', trigger: 'change' }
-          // { required: true, type: 'date', message: '请选择时间', trigger: 'blur' }
         ],
         assignNote: [
-          { required: true, message: '请输入', trigger: 'blur' },
+          { required: true, message: '请输入指派说明', trigger: ['change', 'blur'] },
           { validator: textareaMaxLimit, trigger: 'blur' }
         ]
       }
@@ -277,6 +269,9 @@ export default {
         }
       });
     },
+    cancel() {
+      this.$router.push({path: '/visit/visit-appoint'});
+    },
     ...mapMutations({
       updateOrderCreate: 'ORDER_UPDATE_CREATE'
     }),
@@ -299,6 +294,10 @@ export default {
   margin-top: $blockWidth;
   display: flex;
   justify-content: center;
+  form {
+    width: 562px;
+    margin-right: 90px;
+  }
   .hr {
     margin: 0px 32px;
     margin-bottom: 48px;
@@ -310,9 +309,14 @@ export default {
     top: 0;
     right: 0;
     width: 960px;
-    margin-right: -190px;
+    margin-right: -275px;
     border-bottom: 1px #e5e5e5 solid;
-    margin-right: -170px;
+  }
+  .el-form-item__content {
+    margin-right: 0; display: flex;
+    .form-input-medium, .el-input, .form-input-large, .el-select {
+      flex: 1;
+    }
   }
 }
 </style>
