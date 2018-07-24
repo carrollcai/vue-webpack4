@@ -57,10 +57,10 @@
       <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
       <el-table-column label="操作" width="230">
         <template slot-scope="scope">
-          <el-button type="text" @click="viewDetail(scope.row, false)">
+          <el-button v-if="scope.row.visitStatus === '1' || scope.row.visitStatus > '2'" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
+          <el-button v-if="scope.row.visitStatus === '2' || scope.row.visitStatus === '0'" type="text" @click="viewDetail(scope.row, true)">
             执行处理
           </el-button>
           <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
@@ -79,6 +79,7 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import {PAGE_NO, PAGE_SIZE} from '@/config/index.js';
 export default {
   components: {
     WmTable
@@ -94,6 +95,8 @@ export default {
   },
   data() {
     return {
+      pageNo: PAGE_NO,
+      pageSize: PAGE_SIZE,
       timeRange: '',
       // visitStatus: '',
       firstGuestOption: [{
@@ -123,11 +126,11 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2') {
+      } else if (value === '2' || value === '0') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';
-      } else {
+      } else if (value === '4') {
         return '已完成';
       }
     },
@@ -141,8 +144,14 @@ export default {
       }
     },
     getState(value) {
+      this.myVisitManageFrom.pageNo = this.pageNo;
+      this.myVisitManageFrom.pageSize = this.pageSize;
       if (value.name !== '') {
-        this.myVisitManageFrom.visitStatus = [value.name];
+        if (value.name === '2') {
+          this.myVisitManageFrom.visitStatus = ['0', value.name];
+        } else {
+          this.myVisitManageFrom.visitStatus = [value.name];
+        }
       } else {
         this.myVisitManageFrom.visitStatus = [];
       }

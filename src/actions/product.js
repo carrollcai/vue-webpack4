@@ -93,6 +93,19 @@ const actions = {
         path: '/product/product-creat-manage'
       });
     });
+  },
+  updateProduct({ commit }, product) {
+    return API.setEditProductAPI(product).then((res) => {
+      Message({
+        message: '修改产品成功',
+        type: 'success',
+        duration: 3000
+      });
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/product/product-creat-manage'
+      });
+    });
   }
 };
 

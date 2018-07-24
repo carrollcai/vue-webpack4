@@ -282,6 +282,7 @@ export default {
   deleteVisitAppAPI: API('esop/visit/deleteVisit'),
   addAppointVisitAPI: API('/esop/visit/handleVisit'),
   queryRegionManagerAPI: API('esop/visit/selectRegionManager'),
+  queryProcessorAPI: API('esop/visit/getProcessor'),
   /**
    * 查询 走访任务处理 列表
    */

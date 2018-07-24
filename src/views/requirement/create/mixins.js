@@ -91,7 +91,6 @@ export default {
       });
     },
     handleSelect(item) {
-      console.log(item);
       this.requirement.orgId = item.organizeId;
     },
     ...mapActions([

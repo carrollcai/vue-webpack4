@@ -31,8 +31,8 @@
                 action="">
                 <el-button size="small" type="primary">+上传附件</el-button>
                 <div slot="tip" class="el-upload__tip">
-                  <p>1. 附件格式支持“word、excel、ppt、pdf、rar“格式</p>
-                  <p>2. 附件大小不超过20M。</p>
+                  <p class="lh1-5">{{FILE_TIP[0]}}</p>
+                  <p class="lh1-5">{{FILE_TIP[1]}}</p>
                 </div>
               </el-upload>
             </div>
@@ -73,10 +73,12 @@
 import { mapActions } from 'vuex';
 import HandleBar from 'components/visit/HandleBar.vue';
 import HandleContent from 'components/visit/HandleContent.vue';
+import { FILE_TIP } from '@/config/index.js';
 
 export default {
   data() {
     return {
+      FILE_TIP,
       forwarderPerson: [],
       form: {
         forwarder: ''

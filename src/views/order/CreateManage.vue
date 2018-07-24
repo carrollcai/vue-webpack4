@@ -23,7 +23,6 @@
           </el-form-item>
         </div>
       </el-form>
-
       <el-tabs v-model="orderCreateManageForm.ordStatus" @tab-click="tabChange">
         <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="草稿" :name="1"></el-tab-pane>
@@ -47,7 +46,6 @@
                 <div class="o-popover-title">
                   系统暂未录入该集团，请尽快关联已录入集团！
                 </div>
-
                 <el-form style="margin-top: 16px;" ref="organizeNameInfo" :rules="organizeNameInfoRules" :model="organizeNameInfo">
                   <el-form-item class="margin-bottom-16" prop="organizeName">
                     <el-autocomplete :maxLength="25" class="form-input-medium" v-model="organizeNameInfo.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
@@ -57,11 +55,9 @@
                     <el-button @click="scope.row.dialogVisible = false">取 消</el-button>
                   </el-form-item>
                 </el-form>
-
                 <i slot="reference" class="el-icon-info"></i>
               </el-popover>
             </div>
-
           </template>
         </el-table-column>
         <el-table-column label="处理人" property="processorName" />
@@ -262,31 +258,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@import "scss/variables.scss";
-.o-overview-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.o-form-item__input {
-  width: $inputWidthQuery;
-  margin-left: $blockWidth;
-}
-.order-form-item {
-  margin-left: $formWidth;
-}
-.el-dropdown-link {
-  color: $buttonColor;
-  cursor: pointer;
-}
-.o-popover-title {
-  margin: 8px;
-}
-.o-popover-button {
-  margin: 8px 0;
-  width: 100%;
-  text-align: center;
-}
-</style>

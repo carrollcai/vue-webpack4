@@ -8,3 +8,43 @@
   padding-left: 4px;
   padding-right: 4px;
 }
+
+.o-overview-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.o-form-item__input {
+  width: $inputWidthQuery;
+  margin-left: $blockWidth;
+}
+.order-form-item {
+  margin-left: $formWidth;
+}
+.el-dropdown-link {
+  color: $buttonColor;
+  cursor: pointer;
+}
+.o-popover-title {
+  margin: 8px;
+}
+.o-popover-button {
+  margin: 8px 0;
+  width: 100%;
+  text-align: center;
+}
+
+.o-overview-detail {
+  margin-top: 16px;
+}
+.handle-task-detail-form {
+  & .el-form-item__label {
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+.margin-right-8 {
+  margin-right: 8px;
+}
+.upload-demo {
+  width: 300px;
+}

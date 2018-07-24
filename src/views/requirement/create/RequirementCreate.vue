@@ -46,11 +46,9 @@
                   :on-remove="handleRemove"
                   :auto-upload="false"
                   :file-list="uploadFiles">
-                  <el-button size="small" type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
-                  <div slot="tip" class="el-upload__tip">
-                    1、附件格式支持word、excel、ppt、pdf、rar格式<br/>
-                    2、附件大小不超过20M。
-                  </div>
+                  <el-button size="small" type="default"><i class="icon-up"></i>选择文件</el-button>
+                  <p class="lh1-5">{{FILE_TIP[0]}}</p>
+                  <p class="lh1-5">{{FILE_TIP[1]}}</p>
                 </el-upload>
               </el-form-item>
             </template>
@@ -109,41 +107,43 @@
               </el-form-item>
             </template>
             <el-form-item label="联系人" required key="contact">
-              <el-col :span="7">
-                <el-form-item prop="contactName" key="contactName">
-                  <el-input class="col-input"
-                    v-model="requirement.contactName"
-                    placeholder="姓名"
-                    :maxlength="6"
-                    key="contact-name-input"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col class="line-container" :span="1">
-                <div class="line">
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item prop="contactMobile" key="contactMobile">
-                  <el-input class="col-input"
-                    v-model="requirement.contactMobile"
-                    placeholder="手机号"
-                    :maxlength="11"
-                    key="contactMobile-input"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col class="line-container" :span="1">
-                <div class="line">
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item prop="contactEmail" key="contact-email">
-                  <el-input class="col-input"
-                    v-model="requirement.contactEmail"
-                    placeholder="邮箱"
-                    :maxlength="35"
-                    key="contact-email-input"></el-input>
-                </el-form-item>
-              </el-col>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item prop="contactName" key="contactName">
+                    <el-input class="col-input"
+                      v-model="requirement.contactName"
+                      placeholder="姓名"
+                      :maxlength="6"
+                      key="contact-name-input"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col class="line-container" :span="1">
+                  <div class="line">
+                  </div>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item prop="contactMobile" key="contactMobile">
+                    <el-input class="col-input"
+                      v-model="requirement.contactMobile"
+                      placeholder="手机号"
+                      :maxlength="11"
+                      key="contactMobile-input"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item key="contact-llll">
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item prop="contactEmail" key="contact-email">
+                    <el-input class="col-input"
+                      v-model="requirement.contactEmail"
+                      placeholder="邮箱"
+                      :maxlength="35"
+                      key="contact-email-input"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
             </el-form-item>
           </div>
           <div class="line"></div>
@@ -174,13 +174,14 @@
 import { mapActions, mapState } from 'vuex';
 import endsWith from 'lodash/endsWith';
 import mixins from './mixins';
-import {FILE_ACCEPT} from '@/config';
+import { FILE_ACCEPT, FILE_TIP } from '@/config';
 export default {
   name: 'RequirementCreate',
   mixins: [mixins],
   data() {
     const that = this;
     return {
+      FILE_TIP,
       isSubmit: false,
       requirement: {
         orgId: '',

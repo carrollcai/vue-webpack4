@@ -35,7 +35,6 @@
           <h3 v-if="(!isAddProduct && addItem) || (isAddProduct && addItem)" class="title">添加销售案例
             <span>（可添加多个销售案例）</span>
           </h3>
-          {{formData}}
           <h3 v-if="(isAddProduct && !addItem) || (!isAddProduct && !addItem)" class="title">编辑销售案例</h3>
           <el-form class="add-content" :model="formData" :rules="formDataValid" ref="formProduct" label-width="130px">
             <el-form-item label="销售类型：">
@@ -83,8 +82,8 @@
                   <i class="icon-up margin-right-8"></i>上传文件
                 </el-button>
                 <div slot="tip" class="el-upload__tip">
-                  <p class="lh1-5">1. 附件格式支持“PPT、Excel、Word和压缩包“格式</p>
-                  <p class="lh1-5">2. 附件大小不超过20M。</p>
+                  <p class="lh1-5">{{FILE_TIP[0]}}</p>
+                  <p class="lh1-5">{{FILE_TIP[1]}}</p>
                 </div>
               </el-upload>
               <!-- <el-upload class="upload-demo"
@@ -123,7 +122,7 @@
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
 // import { multFileValid } from '@/utils/rules.js';
-import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_TIP } from '@/config/index.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP } from '@/config/index.js';
 export default {
   components: {
     WmTable
@@ -188,6 +187,7 @@ export default {
       checkTip('方案介绍', value, callback);
     };
     return {
+      FILE_TIP,
       FILE_MAX_SIZE,
       isAddProduct: this.$route.params.id | false,
       modefiyIndex: -1,
@@ -525,7 +525,7 @@ export default {
       const isFormat = !this.isAcceptable(file.name);
       let index = fileList.findIndex(val => val.uid === file.raw.uid);
       if (isFormat) {
-        this.$message.error(FILE_TIP);
+        this.$message.error(FILE_ERROR_TIP);
         fileList.splice(index, 1);
       }
       if (isOverLimit) {
@@ -623,7 +623,6 @@ export default {
       line-height: 48px;
     }
   }
-  .lh1-5 {line-height: 1.5;}
   .fs12 {font-size: 12px;}
   .el-select {width: 100%;}
   .el-upload__tip {margin-top: 0;}
