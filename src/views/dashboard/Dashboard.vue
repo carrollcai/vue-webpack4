@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="m-container">
+    <div class="top-container">
       <span>工作台</span>
-      <el-button style="float: right; padding: 3px 0" type="text" @click="homeSet()">首页设置</el-button>
+      <el-button style="float: right; padding: 3px 0px;" type="text" @click="homeSet()">首页设置</el-button>
     </div>
     <div class="mt16" v-if="showOrangize">
       <el-card class="box-card">
@@ -47,7 +47,7 @@
           <ul class="todo-list-item">
             <li v-for="o in taskList" :key="o">
               <p>
-                <span><i :class="o.icon"></i></span>
+                <span class="icon"><i :class="o.icon"></i></span>
                 <span>{{o.name}}</span>
               </p>
             </li>
@@ -56,7 +56,7 @@
             <li>
               <p class="item-content">
                 <span>待审核</span>
-                <el-button v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[0] && homeQueryTaskInfoOrangize[0].count > 0" @click="goGroupUncomplete()" type="text">{{homeQueryTaskInfoOrangize[0].count}}</el-button>
+                <span class="link" v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[0] && homeQueryTaskInfoOrangize[0].count > 0" @click="goGroupUncomplete()">{{homeQueryTaskInfoOrangize[0].count}}</span>
                 <span v-else>0</span>
               </p>
               <p class="item-content">
@@ -67,7 +67,7 @@
             <li v-if="homeQueryTaskInfoOrder">
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[0] && homeQueryTaskInfoOrder[0].count > 0" @click="goOrderUncomplete()" type="text">{{homeQueryTaskInfoOrder[0].count}}</el-button>
+                <span class="link" v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[0] && homeQueryTaskInfoOrder[0].count > 0" @click="goOrderUncomplete()">{{homeQueryTaskInfoOrder[0].count}}</span>
                 <span v-else>0</span>
               </p>
               <p class="item-content">
@@ -78,7 +78,7 @@
             <li>
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[0] && homeQueryTaskInfoBusiness[0].count > 0" @click="goBusinessUncomplete()" type="text">{{homeQueryTaskInfoBusiness[0].count}}</el-button>
+                <span class="link" v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[0] && homeQueryTaskInfoBusiness[0].count > 0" @click="goBusinessUncomplete()">{{homeQueryTaskInfoBusiness[0].count}}</span>
                 <span v-else>0</span>
               </p>
               <p class="item-content">
@@ -89,7 +89,7 @@
             <li>
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[0] && homeQueryTaskInfoRequire[0].count > 0" @click="goRequireUncomplete()" type="text">{{homeQueryTaskInfoRequire[0].count}}</el-button>
+                <span class="link" v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[0] && homeQueryTaskInfoRequire[0].count > 0" @click="goRequireUncomplete()">{{homeQueryTaskInfoRequire[0].count}}</span>
                 <span v-else>0</span>
               </p>
               <p class="item-content">
@@ -100,7 +100,7 @@
             <li>
               <p class="item-content">
                 <span>待处理</span>
-                <el-button v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[0] && homeQueryTaskInfoVisit[0].count > 0" @click="goVisitUncomplete()" type="text">{{homeQueryTaskInfoVisit[0].count}}</el-button>
+                <span class="link" v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[0] && homeQueryTaskInfoVisit[0].count > 0" @click="goVisitUncomplete()">{{homeQueryTaskInfoVisit[0].count}}</span>
                 <span v-else>0</span>
               </p>
               <p class="item-content">
@@ -385,6 +385,10 @@ export default {
 
 <style lang="scss">
 .home {
+  .top-container {
+    background-color: #fff;
+    padding: 12px 20px;
+  }
   .home-container {
     background-color: #fff;
     padding: 16px 32px;
@@ -520,6 +524,10 @@ export default {
       li:nth-last-child(1) {
         width: 16%;
       }
+      .icon {
+        display:inline-block;
+        width: 15px;
+      }
     }
     .item-content {
       padding-left: 20px;
@@ -527,7 +535,7 @@ export default {
       span {
         display: inline-block;
       }
-      span:nth-child(1) {
+      & span:nth-child(1) {
         width: 63px;
         left: 394px;
         height: 20px;
@@ -535,11 +543,14 @@ export default {
         color: rgba(0, 0, 0, 0.45);
         font-size: 14px;
       }
-      span:nth-child(2) {
-        height: 16px;
-        line-height: 16px;
+      & span:nth-child(2) {
+        height: 20px;
+        line-height: 20px;
         color: rgba(0, 0, 0, 0.85);
         font-size: 14px;
+      }
+      .link {
+        color: #3778FF !important; cursor: pointer;
       }
     }
   }
