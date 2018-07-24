@@ -4,7 +4,7 @@
       <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
-            <el-date-picker v-model="businessTaskForm.date" style="width: 225px" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker v-model="businessTaskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
 
@@ -54,7 +54,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </template>
-            <el-button v-else type="text" @click="handleDetail(scope.row)">
+            <el-button v-else type="text" class="table-button" @click="handleDetail(scope.row)">
               详情
             </el-button>
           </template>

@@ -3,8 +3,8 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/business-manage/business' }">商机总览</el-breadcrumb-item>
-          <el-breadcrumb-item>商机详情</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/business-manage/business-create-manage' }">商机创建管理</el-breadcrumb-item>
+          <el-breadcrumb-item>商机修改</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
@@ -91,7 +91,7 @@
     <div style="background: #fff;">
       <div class="hr"></div>
       <div class="b-container">
-          <el-form label-width="140px" style="width: 460px;">
+          <el-form label-width="140px" style="width: 545px;">
             <el-form-item label="提醒人：">
               <el-select class="form-input-medium" multiple v-model="businessData.remindersArr" placeholder="请选择提醒人" @change="changeReminders">
                   <el-option

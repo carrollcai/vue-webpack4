@@ -13,9 +13,9 @@
         <el-form-item label="走访主题：" label-width="140px" required prop="visitTheme">
           <el-input v-model="createVisitFrom.visitTheme" class="form-input-medium" placeholder="请输入主题" />
         </el-form-item>
-        <el-form-item label="合作企业：" label-width="140px" required>
+        <el-form-item label="集团企业：" label-width="140px" required>
           <el-form-item prop="organizeName">
-            <el-autocomplete class="form-input-half" v-model="createVisitFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作名称" @select="handleSelect" :trigger-on-focus="false" />
+            <el-autocomplete class="form-input-half" v-model="createVisitFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="集团名称" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="visitAddress">
@@ -44,11 +44,11 @@
 
         <el-form-item label="走访时间：" label-width="140px">
           <el-form-item prop="visitTime">
-            <el-date-picker v-model="visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
+            <el-date-picker v-model="createVisitFrom.visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="timeRange">
-            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
+            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createVisitFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" label-width="140px" required prop="visitContent">
@@ -110,17 +110,38 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
+    const textLimit = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 25) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else {
+        callback();
+      }
+    };
+    const textFormat = (rule, value, callback) => {
+      let reg = /^[A-Za-z0-9\u4e00-\u9fa5;]+$/;
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 50) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else if (!reg.test(value)) {
+        callback(new Error(`输入格式不正确`));
+      } else {
+        callback();
+      }
+    };
     return {
       visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeout: null,
-      timeRange: '',
-      visitTime: '',
+      // timeRange: '',
+      // visitTime: '',
       checkTime: true,
       levelOptions: [],
       auditorOptions: [],
@@ -168,7 +189,7 @@ export default {
         ],
         visitPresentMembers: [
           { required: true, message: '请输入我方出席人员', trigger: ['change', 'blur'] },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textFormat, trigger: 'blur' }
         ],
         visitContent: [
           { required: true, message: '请输入走访内容', trigger: ['change', 'blur'] },
@@ -192,10 +213,10 @@ export default {
           { required: true, message: '请选择是否提交', trigger: 'change' }
         ],
         visitTime: [
-          { message: '请选择日期', trigger: 'change' }
+          { required: true, message: '请选择日期', trigger: 'change' }
         ],
         timeRange: [
-          { message: '请选择时间', trigger: 'change' }
+          { required: true, message: '请选择时间', trigger: 'change' }
         ]
       }
     };
@@ -221,7 +242,7 @@ export default {
         if (this.createVisitFrom.visitStartTime) {
           this.createVisitFrom.isFirstVisit = Number(this.createVisitFrom.isFirstVisit);
           this.checkTime = false;
-          this.visitTime = this.createVisitFrom.visitStartTime;
+          this.createVisitFrom.visitTime = this.createVisitFrom.visitStartTime;
         }
         this.createVisitFrom.visitTheme = this.visitAppointDetail.visitTheme;
         this.createVisitFrom.organizeId = this.visitAppointDetail.organizeId;
@@ -239,7 +260,7 @@ export default {
         this.createVisitFrom.visitStartTime = this.visitAppointDetail.visitStartTime;
         this.createVisitFrom.visitEndTime = this.visitAppointDetail.visitEndTime;
         this.createVisitFrom.isSubmit = this.visitAppointDetail.isSubmit ? Number(this.visitAppointDetail.isSubmit) : 0;
-        this.visitTime = this.visitAppointDetail.visitStartTime;
+        this.createVisitFrom.visitTime = this.visitAppointDetail.visitStartTime;
       });
     } else {
       this.createVisitFrom.visitTheme = '';
@@ -258,8 +279,8 @@ export default {
       this.createVisitFrom.visitStartTime = '';
       this.createVisitFrom.visitEndTime = '';
       this.createVisitFrom.isSubmit = 1;
-      this.timeRange = '';
-      this.visitTime = '';
+      this.createVisitFrom.timeRange = '';
+      this.createVisitFrom.visitTime = '';
     }
   },
   methods: {
@@ -268,8 +289,8 @@ export default {
     },
     getTimeRange(time) {
       if (time) {
-        this.createVisitFrom.visitStartTime = this.visitTime + ' ' + time[0];
-        this.createVisitFrom.visitEndTime = this.visitTime + ' ' + time[1];
+        this.createVisitFrom.visitStartTime = this.createVisitFrom.visitTime + ' ' + time[0];
+        this.createVisitFrom.visitEndTime = this.createVisitFrom.visitTime + ' ' + time[1];
       } else {
         this.createVisitFrom.visitStartTime = '';
         this.createVisitFrom.visitEndTime = '';
@@ -350,20 +371,20 @@ export default {
           visitEndTime: this.createVisitFrom.visitEndTime,
           isSubmit: this.createVisitFrom.isSubmit
         };
-        // let { visitTime, timeRange, ...params } = this.editValue;
+        let { visitTime, timeRange, ...params } = this.editValue;
         this.$refs.visitRef.validate((valid) => {
           if (valid) {
-            _this.editVisitApp(this.editValue);
+            _this.editVisitApp(params);
           } else {
             return false;
           }
         });
       } else {
-        // let { visitTime, timeRange, ...params } = this.createVisitFrom;
+        let { visitTime, timeRange, ...params } = this.createVisitFrom;
         this.$refs.visitRef.validate((valid) => {
           if (valid) {
-            console.log(this.createVisitFrom);
-            _this.addCreateVisit(this.createVisitFrom);
+            // console.log(this.createVisitFrom);
+            _this.addCreateVisit(params);
           } else {
             return false;
           }

@@ -4,7 +4,7 @@
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitForm">
       <div class="flex">
         <el-form-item prop="date">
-          <el-date-picker style="width: 230px !important;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-select v-model="appointVisitForm.isFirstGuest" placeholder="是否首客">
+          <el-select v-model="appointVisitForm.isFirstVisit" placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
               :key="item.value"
@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-input v-model="appointVisitForm.isFirstVisit" placeholder="指派走访人" />
+          <el-input v-model="appointVisitForm.processor" placeholder="指派走访人" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -51,12 +51,12 @@
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="走访编号" property="visitCode" width="180" />
-      <el-table-column label="走访时间" align="center" property="visitStartTime" width="130" />
-      <el-table-column label="走访公司" property="organizeName" width="210" show-overflow-tooltip />
-      <el-table-column label="指派走访人" property="visitStatus"/>
-      <el-table-column label="是否首客" align="center" property="isFirstVisit" width="90" :formatter="isFirstVisitFn" />
-      <el-table-column label="走访状态" align="center" property="visitStatus" width="90" :formatter="visitStatusFn" />
-      <el-table-column label="操作" align="center">
+      <el-table-column label="走访时间"  property="visitStartTime" width="180" />
+      <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
+      <el-table-column label="指派走访人" property="visitStatus"  width="210"/>
+      <el-table-column label="是否首客"  property="isFirstVisit" width="90" :formatter="isFirstVisitFn" />
+      <el-table-column label="走访状态"  property="visitStatus" width="90" :formatter="visitStatusFn" />
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
@@ -114,7 +114,7 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2' || value === '0') {
+      } else if (value === '2') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';

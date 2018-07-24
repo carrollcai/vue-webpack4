@@ -1,6 +1,6 @@
 <template>
   <el-dialog title="修改密码" :visible.sync="dialogFormVisible" class="reset-pwd-dialog" :show-close="false" :center="true" @close="handleClose" :close-on-click-modal="false" width="470px">
-    <el-form :model="form" ref="resetForm" :rules="rules" label-width="145px">
+    <el-form :model="form" ref="resetForm" :rules="rules" label-width="120px" class="reset-pwd-form">
       <el-form-item label="原密码" prop="oldPassword">
         <el-input type="password" v-model="form.oldPassword" auto-complete="off"></el-input>
       </el-form-item>
@@ -10,11 +10,11 @@
       <el-form-item label="确认密码" prop="cNewPassword">
         <el-input type="password" v-model="form.cNewPassword" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button @click="handleClose" class="btn-cancel">取 消</el-button>
+      </el-form-item>
     </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSubmit">确 定</el-button>
-      <el-button @click="handleClose" class="btn-cancel">取 消</el-button>
-    </div>
   </el-dialog>
 </template>
 <script>
@@ -131,6 +131,9 @@ export default {
     .btn-cancel {
       margin-left: 24px;
     }
+  }
+  .reset-pwd-form {
+    padding-bottom: 16px;
   }
 }
 </style>

@@ -4,7 +4,7 @@
     <el-form class="task-form" ref="businessForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="businessForm.date" style="width: 225px" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
 
@@ -40,7 +40,7 @@
         <el-table-column label="处理结果" property="opporStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" class="el-dropdown-link" @click="handleDetail(scope.row)">详情</el-button>
+            <el-button type="text" class="table-button" @click="handleDetail(scope.row)">详情</el-button>
           </template>
         </el-table-column>
       </wm-table>

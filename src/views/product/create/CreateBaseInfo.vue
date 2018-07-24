@@ -271,7 +271,7 @@ export default {
 .p-content {
   .crumb-bar {
     .el-breadcrumb {
-      line-height: 48px;
+      line-height: 62px;
     }
   }
   .el-step.is-horizontal .el-step__line {height: 1px; background: #c0c0c0}

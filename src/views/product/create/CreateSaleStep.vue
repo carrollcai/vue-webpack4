@@ -20,11 +20,11 @@
           </el-table-column>
           <el-table-column label="组合产品" property="composedProduct" :formatter="composedProductFormat" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="方案介绍" align="center" show-overflow-tooltip property="scheme" prop="">
+          <el-table-column label="方案介绍" show-overflow-tooltip property="scheme" prop="">
           </el-table-column>
           <el-table-column label="销售数量" width="80" property="salesNumber">
           </el-table-column>
-          <el-table-column label="操作" align="center">
+          <el-table-column label="操作">
             <template slot-scope="operation">
               <span class="blue hand" @click="toPageModefiy(operation.$index ,operation.row)">编辑</span>
               <span class="blue hand" @click="deleteProduct(operation.$index ,operation.row)">删除</span>

@@ -5,7 +5,7 @@
       <div class="flex">
         <el-form-item prop="date">
           <el-col>
-            <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-col>
         </el-form-item>
@@ -60,7 +60,7 @@
           <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '2' || scope.row.visitStatus === '0'" type="text" @click="viewDetail(scope.row, true)">
+          <el-button v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
             执行处理
           </el-button>
           <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
@@ -120,7 +120,7 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2' || value === '0') {
+      } else if (value === '2') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';
@@ -139,11 +139,7 @@ export default {
     },
     getState(value) {
       if (value.name !== '') {
-        if (value.name === '2') {
-          this.myVisitManageFrom.visitStatus = ['0', '2'];
-        } else {
-          this.myVisitManageFrom.visitStatus = [value.name];
-        }
+        this.myVisitManageFrom.visitStatus = [value.name];
       } else {
         this.myVisitManageFrom.visitStatus = [];
       }

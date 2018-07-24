@@ -13,9 +13,9 @@
         <el-form-item label="走访主题：" required prop="visitTheme">
           <el-input v-model="createAppointFrom.visitTheme" class="form-input-120" placeholder="请输入主题" />
         </el-form-item>
-        <el-form-item label="合作企业：" required>
+        <el-form-item label="集团企业：" required>
           <el-form-item prop="organizeName">
-            <el-autocomplete class="form-input-half" v-model="createAppointFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作名称" @select="handleSelect" :trigger-on-focus="false" />
+            <el-autocomplete class="form-input-half" v-model="createAppointFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="集团名称" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="visitAddress">
@@ -47,7 +47,7 @@
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item  prop="timeRange">
-            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createAppointFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
+            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createAppointFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" required prop="visitContent">
@@ -103,10 +103,31 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
+    const textLimit = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 25) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else {
+        callback();
+      }
+    };
+    const textFormat = (rule, value, callback) => {
+      let reg = /^[A-Za-z0-9\u4e00-\u9fa5;]+$/;
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 50) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else if (!reg.test(value)) {
+        callback(new Error(`输入格式不正确`));
+      } else {
+        callback();
+      }
+    };
     return {
       visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
@@ -142,7 +163,7 @@ export default {
         ],
         visitPresentMembers: [
           { required: true, message: '请输入我方出席人员', trigger: ['change', 'blur'] },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textFormat, trigger: 'blur' }
         ],
         visitContent: [
           { required: true, message: '请输入走访内容', trigger: ['change', 'blur'] },
