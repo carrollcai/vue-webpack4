@@ -1,3 +1,4 @@
+import {Message} from 'element-ui';
 import * as types from '../store/types';
 import API from '../utils/api';
 
@@ -74,6 +75,24 @@ const actions = {
   },
   saveSaleStep: ({commit}, params) => {
     return commit(types.SAVE_SALE_STEP, params);
+  },
+  /**
+   * 新增产品
+   * @param {*} param0
+   * @param {Object} product
+   */
+  saveProduct({commit}, product) {
+    API.setAddProductAPI(product).then(() => {
+      Message({
+        message: '新增产品成功',
+        type: 'success',
+        duration: 3000
+      });
+      // 创建成功
+      commit(types.ROUTE_CHANGE, {
+        path: '/product/product-creat-manage'
+      });
+    });
   }
 };
 
