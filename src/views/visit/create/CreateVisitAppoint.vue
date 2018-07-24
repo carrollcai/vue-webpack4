@@ -13,9 +13,9 @@
         <el-form-item label="走访主题：" required prop="visitTheme">
           <el-input v-model="createAppointFrom.visitTheme" class="form-input-120" placeholder="请输入主题" />
         </el-form-item>
-        <el-form-item label="合作企业：" required>
+        <el-form-item label="集团企业：" required>
           <el-form-item prop="organizeName">
-            <el-autocomplete class="form-input-half" v-model="createAppointFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作名称" @select="handleSelect" :trigger-on-focus="false" />
+            <el-autocomplete class="form-input-half" v-model="createAppointFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="集团名称" @select="handleSelect" :trigger-on-focus="false" />
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="visitAddress">
