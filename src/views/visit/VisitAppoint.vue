@@ -1,10 +1,10 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitForm">
+    <el-form class="visit-form" ref="myVisitManageForm" v-model="appointVisitForm">
       <div class="flex">
-        <el-form-item prop="date">
-          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-form-item prop="date" style="width: 230px;">
+          <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
@@ -36,7 +36,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="visitStatus" @tab-click="getState">
+    <el-tabs v-model="state" @tab-click="getState">
       <el-tab-pane label="全部" name=""></el-tab-pane>
       <el-tab-pane label="待执行" name="2"></el-tab-pane>
       <el-tab-pane label="已执行" name="4"></el-tab-pane>
@@ -53,7 +53,7 @@
       <el-table-column label="走访编号" property="visitCode" width="180" />
       <el-table-column label="走访时间"  property="visitStartTime" width="180" />
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
-      <el-table-column label="指派走访人" property="visitStatus"  width="210"/>
+      <el-table-column label="指派走访人" property=""  width="210"/>
       <el-table-column label="是否首客"  property="isFirstVisit" width="90" :formatter="isFirstVisitFn" />
       <el-table-column label="走访状态"  property="visitStatus" width="90" :formatter="visitStatusFn" />
       <el-table-column label="操作">
@@ -71,6 +71,7 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
+import {PAGE_NO, PAGE_SIZE} from '@/config/index.js';
 export default {
   components: {
     WmTable
@@ -83,9 +84,10 @@ export default {
   },
   data() {
     return {
+      pageNo: PAGE_NO,
+      pageSize: PAGE_SIZE,
       timeRange: '',
-      visitStatus: '',
-      myVisitForm: {},
+      state: '',
       firstGuestOption: [{
         value: '0',
         label: '否'
@@ -94,10 +96,6 @@ export default {
         label: '是'
       }]
     };
-  },
-  watch: {
-    status(newValue) {
-    }
   },
   beforeMount() {
     this.query();
@@ -113,7 +111,7 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2' || value === '0') {
+      } else if (value === '2') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';
@@ -139,12 +137,10 @@ export default {
       this.query();
     },
     getState(value) {
+      this.appointVisitForm.pageNo = this.pageNo;
+      this.appointVisitForm.pageSize = this.pageSize;
       if (value.name !== '') {
-        if (value.name === '2') {
-          this.appointVisitForm.visitStatus = ['0', value.name];
-        } else {
-          this.appointVisitForm.visitStatus = [value.name];
-        }
+        this.appointVisitForm.visitStatus = [value.name];
       } else {
         this.appointVisitForm.visitStatus = [];
       }
@@ -179,7 +175,7 @@ export default {
   justify-content: space-between;
 }
 .visit-form-item__input {
-  width: 135px;
+  width: 135px !important;
 }
 .visit-form-item {
   margin-left: $formWidth;

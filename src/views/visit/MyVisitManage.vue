@@ -3,9 +3,9 @@
   <div class="m-container">
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitManageFrom">
       <div class="flex">
-        <el-form-item prop="date">
+        <el-form-item style="width: 230px;" prop="date">
           <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-col>
         </el-form-item>
@@ -34,7 +34,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="visitStatus" @tab-click="getState">
+    <el-tabs v-model="myVisitManageFrom.visitStatus[0]" @tab-click="getState">
       <el-tab-pane label="全部" name=""></el-tab-pane>
       <el-tab-pane label="待执行" name="2"></el-tab-pane>
       <el-tab-pane label="已完成" name="4"></el-tab-pane>
@@ -95,7 +95,6 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeRange: '',
-      visitStatus: '',
       firstGuestOption: [{
         value: '0',
         label: '否'
@@ -104,10 +103,6 @@ export default {
         label: '是'
       }]
     };
-  },
-  watch: {
-    status(newValue) {
-    }
   },
   beforeMount() {
     this.query();
