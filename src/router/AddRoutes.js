@@ -49,9 +49,11 @@ import RoleCreate from '@/views/system/RoleCreate.vue';
 import User from '@/views/system/User.vue';
 import UserCreate from '@/views/system/UserCreate.vue';
 
-import ProductDetail from '@/views/product/ProductDetail.vue';
-import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
 import ProductView from '@/views/product/ProductView.vue';
+import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
+import ProductDetail from '@/views/product/ProductDetail.vue';
+import ProductCreate from '@/views/product/create/ProductCreate.vue';
+import ProductEdit from '@/views/product/create/ProductEdit.vue';
 import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
 import CreateSaleStep from '@/views/product/create/CreateSaleStep.vue';
 
@@ -116,6 +118,18 @@ const dynamicRoutes = [
         path: '/product/product-creat-manage',
         name: 'product-creat-manage',
         component: ProductCreatManage,
+        meta: { menuId: 18 }
+      },
+      {
+        path: '/product/create',
+        name: 'product-creat',
+        component: ProductCreate,
+        meta: { menuId: 18 }
+      },
+      {
+        path: '/product/edit/:id',
+        name: 'product-edit',
+        component: ProductEdit,
         meta: { menuId: 18 }
       },
       {
