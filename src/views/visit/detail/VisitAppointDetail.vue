@@ -117,13 +117,7 @@ export default {
   },
   async beforeMount() {
     await this.queryVisitAppointDetail({visitId: this.visitId});
-    await this.queryRegionManager({}).then((res) => {
-      this.processorList.filter(function(element, index, self) {
-        if (element.operatorId === this.visitAppointDetail.visitAuditor) {
-          this.visitAppointDetail.visitAuditor = element.staffName + '';
-        }
-      }, this);
-    });
+    await this.queryRegionManager({});
   },
   methods: {
     beforeUpload(file, fileList) {

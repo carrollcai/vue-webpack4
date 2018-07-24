@@ -103,10 +103,31 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_NO, PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, textLimit, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
+    const textLimit = (rule, value, callback) => {
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 25) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else {
+        callback();
+      }
+    };
+    const textFormat = (rule, value, callback) => {
+      let reg = /^[A-Za-z0-9\u4e00-\u9fa5;]+$/;
+      if (String(value).trim() === '') {
+        callback(new Error('输入内容不能为空'));
+      } else if (String(value).trim().length > 50) {
+        callback(new Error(`输入内容字符不能超过25`));
+      } else if (!reg.test(value)) {
+        callback(new Error(`输入格式不正确`));
+      } else {
+        callback();
+      }
+    };
     return {
       visitId: Number(this.$route.params.id),
       pageNo: PAGE_NO,
@@ -142,7 +163,7 @@ export default {
         ],
         visitPresentMembers: [
           { required: true, message: '请输入我方出席人员', trigger: ['change', 'blur'] },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: textFormat, trigger: 'blur' }
         ],
         visitContent: [
           { required: true, message: '请输入走访内容', trigger: ['change', 'blur'] },

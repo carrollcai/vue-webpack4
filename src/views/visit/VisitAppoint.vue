@@ -114,7 +114,7 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2' || value === '0') {
+      } else if (value === '2') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';
