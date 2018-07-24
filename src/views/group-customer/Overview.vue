@@ -29,31 +29,31 @@
           </el-form-item>
         </div>
       </el-form>
-    </div>
-    <div class="m-container customer-overview-management">
-      <wm-table
-        :source="groupCustomerList.list"
-        :total="groupCustomerList.totalCount"
-        :pageNo="pageNo"
-        :pageSize="pageSize"
-        @onPagination="onPagination"
-        @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
-        <el-table-column label="集团名称" property="organizeName" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column label="集团属性" property="organizeTypeName" >
-        </el-table-column>
-        <el-table-column label="所属省份" property="provinceName">
-        </el-table-column>
-        <el-table-column label="客户经理" property="managerName" />
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">
-              查看主页
-            </el-button>
-          </template>
-        </el-table-column>
-      </wm-table>
+      <div class="customer-overview-management">
+        <wm-table
+          :source="groupCustomerList.list"
+          :total="groupCustomerList.totalCount"
+          :pageNo="pageNo"
+          :pageSize="pageSize"
+          @onPagination="onPagination"
+          @onSizePagination="onSizePagination">
+          <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
+          <el-table-column label="集团名称" property="organizeName" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column label="集团属性" property="organizeTypeName" >
+          </el-table-column>
+          <el-table-column label="所属省份" property="provinceName">
+          </el-table-column>
+          <el-table-column label="客户经理" property="managerName" />
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button type="text" @click="handleDetail(scope.row)">
+                查看主页
+              </el-button>
+            </template>
+          </el-table-column>
+        </wm-table>
+      </div>
     </div>
   </div>
 </template>
