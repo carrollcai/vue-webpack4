@@ -1,12 +1,12 @@
-# vue-template
+### esop系统
 
-> vue基础模板，可以搭建vue项目，也可以练习vue项目
+> 咪咕销售管理系统，主要提供数据统计，信息录入功能，销售统一管理，大区权限分配，角色分配。
 
-## 项目扩展功能
+### 项目扩展功能
 
 > 基于vue-cli搭建的基础项目，下面为扩展功能
 
-> 集成Mock服务，格式为JSON，支持Restful格式的api，基于MockJs
+> 集成Mock服务，格式为JSON，支持Restful格式的API，基于MockJs
 
 > 基于axios的接口请求
 
@@ -16,7 +16,11 @@
 
 > 用scss管理样式
 
-## 项目结构介绍（src）
+> 添加git hook，在pre-commit触发eslint校验，20180724
+
+### 项目结构介绍（src）
+
+> actions，vuex处理异步请求
 
 > assets，静态资源
 
@@ -32,7 +36,7 @@
 
 > views，容器组件（以页面为单位的组件）
 
-## Build Setup
+### Build Setup
 
 ``` bash
 
@@ -47,13 +51,4 @@ npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```

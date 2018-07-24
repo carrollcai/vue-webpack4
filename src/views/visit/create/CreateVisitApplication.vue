@@ -41,13 +41,13 @@
         <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
           <el-input v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“；”隔开" />
         </el-form-item>
-        <el-form-item label="走访时间：" label-width="140px">
+        <el-form-item label="走访时间：" label-width="140px" required>
           <el-form-item prop="visitTime">
             <el-date-picker v-model="createVisitFrom.visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="timeRange">
-            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createVisitFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" />
+            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createVisitFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访内容：" label-width="140px" required prop="visitContent">
