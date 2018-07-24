@@ -128,6 +128,7 @@ import endsWith from 'lodash/endsWith';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
+import {FILE_ACCEPT} from '@/config';
 import mixins from './mixins';
 export default {
   name: 'RequirementHandle',
@@ -157,16 +158,6 @@ export default {
       checked: false,
       processor: [],
       uploadFiles: [],
-      ACCEPT: [
-        '.rar',
-        '.docx',
-        '.doc',
-        '.ppt',
-        '.pptx',
-        '.xls',
-        '.xlsx',
-        '.pdf'
-      ],
       form: {
         uploadFiles: [],
         processorRemark: '',
@@ -225,10 +216,8 @@ export default {
   },
   methods: {
     isAcceptable(fileName) {
-      const {ACCEPT} = this;
-
-      for (let accept of ACCEPT) {
-        if (endsWith(fileName, accept)) {
+      for (let accept of FILE_ACCEPT) {
+        if (endsWith(fileName.toLowerCase(), accept)) {
           return true;
         }
       }

@@ -104,7 +104,6 @@ export default {
   },
   methods: {
     isFirstVisitFn(row, clo, value) {
-      console.log(value);
       if (value === '0') {
         return '否';
       } else {
@@ -156,7 +155,6 @@ export default {
       this.$router.push(path);
     },
     query() {
-      console.log(this.appointVisitForm);
       this.getAppointVisitList(this.appointVisitForm);
     },
     createVisitApplication() {

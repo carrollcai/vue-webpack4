@@ -368,6 +368,7 @@ export default {
       requireParams.processId = 10004;
       let visitParams = {};
       visitParams.processId = 10005;
+      visitParams.taskId = [10009];
       this.queryTaskInfoOrangize(organizeParams);
       this.queryTaskInfoBusiness(businessParams);
       this.queryTaskInfoOrder(orderParams);

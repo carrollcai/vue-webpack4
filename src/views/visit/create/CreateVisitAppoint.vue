@@ -133,8 +133,6 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeout: null,
-      // timeRange: '',
-      visitTime: '',
       checkTime: true,
       levelOptions: [],
       auditorOptions: [],

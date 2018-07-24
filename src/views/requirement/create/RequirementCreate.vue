@@ -76,12 +76,12 @@
                   <el-form-item prop="materialUseCreateTime">
                     <el-date-picker
                       key="materialUseCreateTime"
-                      type="datetime"
+                      type="date"
                       placeholder="选择日期"
                       v-model="requirement.materialUseCreateTime"
                       :editable="false"
                       :picker-options="startOptions"
-                      value-format="yyyy-MM-dd HH:mm:ss"
+                      value-format="yyyy-MM-dd"
                       style="width: 100%;"></el-date-picker>
                   </el-form-item>
                 </el-col>
@@ -90,12 +90,12 @@
                   <el-form-item prop="materialUseEndTime">
                     <el-date-picker
                       key="materialUseEndTime"
-                      type="datetime"
+                      type="date"
                       placeholder="选择日期"
                       v-model="requirement.materialUseEndTime"
                       :editable="false"
                       :picker-options="endOptions"
-                      value-format="yyyy-MM-dd HH:mm:ss"
+                      value-format="yyyy-MM-dd"
                       style="width: 100%;"></el-date-picker>
                   </el-form-item>
                 </el-col>
@@ -174,6 +174,7 @@
 import { mapActions, mapState } from 'vuex';
 import endsWith from 'lodash/endsWith';
 import mixins from './mixins';
+import {FILE_ACCEPT} from '@/config';
 export default {
   name: 'RequirementCreate',
   mixins: [mixins],
@@ -213,17 +214,7 @@ export default {
         expireDate: '',
         effectiveDate: '',
         files: []
-      },
-      ACCEPT: [
-        '.rar',
-        '.docx',
-        '.doc',
-        '.ppt',
-        '.pptx',
-        '.xls',
-        '.xlsx',
-        '.pdf'
-      ]
+      }
     };
   },
   computed: {
@@ -241,10 +232,8 @@ export default {
   },
   methods: {
     isAcceptable(fileName) {
-      const {ACCEPT} = this;
-
-      for (let accept of ACCEPT) {
-        if (endsWith(fileName, accept)) {
+      for (let accept of FILE_ACCEPT) {
+        if (endsWith(fileName.toLowerCase(), accept)) {
           return true;
         }
       }
