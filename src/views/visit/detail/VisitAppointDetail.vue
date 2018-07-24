@@ -74,9 +74,6 @@ export default {
     })
   },
   data() {
-    const fileCheck = (rule, value, callback) => {
-      // multFileValid(this.uploadData.files, callback);
-    };
     return {
       FILE_TIP,
       visitId: this.$route.params.id,
@@ -110,9 +107,7 @@ export default {
           { required: true, message: '请输入走访汇报', trigger: 'blur' },
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
-        files: [
-          { validator: fileCheck }
-        ]
+        files: []
       }
     };
   },
