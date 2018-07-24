@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="m-container">
-    <Vdetail :visitDetail="visitDetailData" :isPoint="isPoint"></Vdetail>
+    <Vdetail :visitDetail="visitDetailData"></Vdetail>
   </div>
   <div v-if="isExecute === 'true'" class="m-container transfer-out">
     <el-form
@@ -77,7 +77,6 @@ export default {
     return {
       visitId: this.$route.params.id,
       isExecute: this.$route.query.isExecute,
-      isPoint: this.$route.query.point,
       fileList: [],
       uploadData: {
         fileInputId: '',

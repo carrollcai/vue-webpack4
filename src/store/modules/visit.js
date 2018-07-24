@@ -74,6 +74,7 @@ const state = {
   appointVisitList: {},
   visitAppointDetail: {},
   regionManageList: [],
+  getProcessorList: [],
   registerList: [],
   handleQuery: {
     pageNo: PAGE_NO,
@@ -100,6 +101,9 @@ const mutations = {
   [types.VISIT_APPOINT_DETAIL](state, data) {
     state.visitAppointDetail = data;
     // state.createVisitFrom = Object.assign(state.createVisitFrom, data) ;
+  },
+  [types.GET_PROCESSOR_LIST](state, data) {
+    state.getProcessorList = data;
   },
   [types.REGION_MANAGE_LIST](state, data) {
     state.regionManageList = data;

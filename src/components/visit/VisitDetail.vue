@@ -1,39 +1,51 @@
 <template>
   <div class="visit-datil">
-    <!-- <div class="visit-title">
-      <div class="task-detail-item" v-if="isPoint === 'true'">
-        <div class="left">指派人员：</div>
-        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
-      </div>
-      <div class="task-detail-item" v-if="isPoint === 'true'">
-        <div class="left">指派说明：</div>
-        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
-      </div>
-      <div class="task-detail-item" v-if="isPoint === 'false'">
-        <div class="left">审核人员：</div>
-        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
-      </div>
+    <div class="visit-title" v-if="visitDetails.visitStatus === '1' || visitDetails.visitStatus === '待审核'">
       <div class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-    </div> -->
-    <div class="visit-title">
-      <div class="task-detail-item" v-if="isPoint === 'true'">
-        <div class="left">指派人员：</div>
-        <div class="right" v-if="visitDetails.visitAuditor">{{visitDetails.visitAuditor}}</div>
+      <div class="task-detail-item">
+        <div class="left">审核人：</div>
+        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
       </div>
-      <div class="task-detail-item" v-if="isPoint === 'true'">
-        <div class="left">指派说明：</div>
-        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
-      </div>
-      <div class="task-detail-item" v-if="isPoint === 'false'">
-        <div class="left">审核人员：</div>
-        <div class="right" v-if="visitDetails.visitAuditor">{{visitDetails.visitAuditor}}</div>
-      </div>
+    </div>
+    <div class="visit-title" v-if="visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行'">
       <div class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
+      </div>
+      <div v-if="visitDetails.visitResource === 2" class="task-detail-item">
+        <div class="left">指派走访人：</div>
+        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
+      </div>
+      <div v-if="visitDetails.visitResource === 2" class="task-detail-item">
+        <div class="left">指派说明：</div>
+        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
+      </div>
+    </div>
+    <div class="visit-title" v-if="visitDetails.visitStatus === '3' || visitDetails.visitStatus === '已驳回'">
+      <div class="task-detail-item">
+        <div class="left">走访状态：</div>
+        <div class="right">{{visitDetails.visitStatus}}</div>
+      </div>
+      <div class="task-detail-item">
+        <div class="left">审核人：</div>
+        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
+      </div>
+      <div class="task-detail-item">
+        <div class="left">驳回原因：</div>
+        <div class="right" v-if="visitDetails.advice">{{visitDetails.advice}}</div>
+      </div>
+    </div>
+    <div class="visit-title" v-if="visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成'">
+      <div class="task-detail-item">
+        <div class="left">走访状态：</div>
+        <div class="right">{{visitDetails.visitStatus}}</div>
+      </div>
+      <div class="task-detail-item">
+        <div class="left">执行汇报：</div>
+        <div class="right" v-if="visitDetails.feedback">{{visitDetails.feedback}}</div>
       </div>
     </div>
     <div class="task-detail-item">
@@ -72,10 +84,6 @@
       <div class="left">是否首客走访：</div>
       <div class="right">{{visitDetails.isFirstVisit === 0 || visitDetails.isFirstVisit === '0' ? '否' : '是'}}</div>
     </div>
-    <!-- <div v-if="isPoint && visitDetails.isFirstVisit" class="task-detail-item">
-      <div class="left">走访汇报：</div>
-      <div class="right">{{visitDetails.isFirstVisit}}</div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -83,9 +91,6 @@ export default {
   props: {
     visitDetail: {
       type: Object
-    },
-    isPoint: {
-      type: String
     }
   },
   computed: {

@@ -79,16 +79,13 @@
           <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
           <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isFirstVisit" :value="0" :label="0">否</el-radio>
         </el-form-item>
-        <el-form-item label="是否提交申请：" label-width="140px" required prop="isSubmit">
-          <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isSubmit" :value="1" :label="1">是</el-radio>
-          <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isSubmit" :value="0" :label="0">否</el-radio>
-        </el-form-item>
-        <div class="hr" v-if="createVisitFrom.isSubmit === 1"></div>
-        <el-form-item v-if="createVisitFrom.isSubmit === 1" label="选择审核人：" label-width="140px" prop="visitAuditor">
+        <div class="hr"></div>
+        <el-form-item label="选择审核人：" label-width="140px" prop="visitAuditor">
           <el-select
             v-if="processorList"
             v-model="createVisitFrom.visitAuditor"
-            filterable placeholder="请选择">
+            filterable
+            placeholder="请选择">
             <el-option
               v-for="item in processorList"
               :key="item.operatorId"
@@ -162,8 +159,7 @@ export default {
         visitAuditor: '',
         isFirstVisit: 0,
         visitStartTime: '',
-        visitEndTime: '',
-        isSubmit: 0
+        visitEndTime: ''
       },
       createVisitVaild: {
         visitTheme: [
@@ -207,9 +203,6 @@ export default {
         ],
         isFirstVisit: [
           { required: true, message: '请选择是否首课走访', trigger: 'change' }
-        ],
-        isSubmit: [
-          { required: true, message: '请选择是否提交', trigger: 'change' }
         ],
         visitTime: [
           { required: true, message: '请选择日期', trigger: 'change' }
@@ -258,7 +251,6 @@ export default {
         this.createVisitFrom.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
         this.createVisitFrom.visitStartTime = this.visitAppointDetail.visitStartTime;
         this.createVisitFrom.visitEndTime = this.visitAppointDetail.visitEndTime;
-        this.createVisitFrom.isSubmit = this.visitAppointDetail.isSubmit ? Number(this.visitAppointDetail.isSubmit) : 0;
         this.createVisitFrom.visitTime = this.visitAppointDetail.visitStartTime;
       });
     } else {
@@ -277,7 +269,6 @@ export default {
       this.createVisitFrom.isFirstVisit = 1;
       this.createVisitFrom.visitStartTime = '';
       this.createVisitFrom.visitEndTime = '';
-      this.createVisitFrom.isSubmit = 1;
       this.createVisitFrom.timeRange = '';
       this.createVisitFrom.visitTime = '';
     }
@@ -367,8 +358,7 @@ export default {
           visitAuditor: this.createVisitFrom.visitAuditor,
           isFirstVisit: this.createVisitFrom.isFirstVisit,
           visitStartTime: this.createVisitFrom.visitStartTime,
-          visitEndTime: this.createVisitFrom.visitEndTime,
-          isSubmit: this.createVisitFrom.isSubmit
+          visitEndTime: this.createVisitFrom.visitEndTime
         };
         let { visitTime, timeRange, ...params } = this.editValue;
         this.$refs.visitRef.validate((valid) => {
