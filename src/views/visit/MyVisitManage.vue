@@ -84,6 +84,9 @@ export default {
     WmTable
   },
   computed: {
+    visitStatus() {
+      return this.myVisitManageFrom.visitStatus.toString();
+    },
     ...mapState({
       myVisitManageFrom: ({ visit }) => visit.myVisitManageFrom,
       myVisitManageList: ({ visit }) => visit.myVisitManageList
@@ -92,7 +95,7 @@ export default {
   data() {
     return {
       timeRange: '',
-      visitStatus: '',
+      // visitStatus: '',
       firstGuestOption: [{
         value: '0',
         label: '否'

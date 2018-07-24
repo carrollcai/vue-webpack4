@@ -281,8 +281,8 @@ export default {
       this.$router.push(path);
     },
     goVisitUncomplete() {
-      this.$store.state.visit.handleQuery.activeName = 'first';
-      const path = `visit/mission-handling`;
+      this.$store.state.visit.myVisitManageFrom.visitStatus = [2];
+      const path = `visit/my-visit-manage`;
       this.$router.push(path);
     },
     query() {
