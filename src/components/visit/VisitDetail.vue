@@ -1,5 +1,23 @@
 <template>
   <div class="visit-datil">
+    <!-- <div class="visit-title">
+      <div class="task-detail-item" v-if="isPoint === 'true'">
+        <div class="left">指派人员：</div>
+        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
+      </div>
+      <div class="task-detail-item" v-if="isPoint === 'true'">
+        <div class="left">指派说明：</div>
+        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
+      </div>
+      <div class="task-detail-item" v-if="isPoint === 'false'">
+        <div class="left">审核人员：</div>
+        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
+      </div>
+      <div class="task-detail-item">
+        <div class="left">走访状态：</div>
+        <div class="right">{{visitDetails.visitStatus}}</div>
+      </div>
+    </div> -->
     <div class="visit-title">
       <div class="task-detail-item" v-if="isPoint === 'true'">
         <div class="left">指派人员：</div>
@@ -77,11 +95,11 @@ export default {
         let state = this.visitDetail.visitStatus;
         if (state === '1') {
           _this.visitDetail.visitStatus = '待审核';
-        } else if (state === '2') {
+        } else if (state === '2' || state === '0') {
           _this.visitDetail.visitStatus = '待执行';
         } else if (state === '3') {
           _this.visitDetail.visitStatus = '已驳回';
-        } else {
+        } else if (state === '4') {
           _this.visitDetail.visitStatus = '已完成';
         }
         return this.visitDetail;

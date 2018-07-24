@@ -251,7 +251,6 @@ export default {
           this.removeCaseAttributs(cases);
           this.removeAttributes(this.product);
           this.dealWidthCases(this.product, this.cases);
-          console.log(this.product);
           this.updateProduct(this.product).then(() => {
           }, () => {
             that.isSubmit = false;
