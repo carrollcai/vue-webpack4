@@ -323,20 +323,26 @@ export default {
     },
     submitRequirement() {
       const that = this;
-      const {uploadData} = this;
+      const {uploadData, uploadFiles} = this;
       that.$refs.baseForm.validate((valid) => {
         if (valid) {
           that.isSubmit = true;
-          that.getProductFileId().then((res) => {
-            let fileInputId = res.data;
-            uploadData.files = that.uploadFiles;
-            uploadData.fileInputId = fileInputId;
-            that.requirement.fileInputId = fileInputId;
-            that.uploadProductScheme(uploadData).then(() => {
-              delete that.requirement.uploadFiles;
-              that.saveRequirement(that.requirement);
+
+          if (uploadFiles && uploadFiles.length) {
+            that.getProductFileId().then((res) => {
+              let fileInputId = res.data;
+              uploadData.files = uploadFiles;
+              uploadData.fileInputId = fileInputId;
+              that.requirement.fileInputId = fileInputId;
+              that.uploadProductScheme(uploadData).then(() => {
+                delete that.requirement.uploadFiles;
+                that.saveRequirement(that.requirement);
+              });
             });
-          });
+          } else {
+            delete that.requirement.uploadFiles;
+            that.saveRequirement(that.requirement);
+          }
         }
       });
     },

@@ -8,8 +8,7 @@
               v-model="rangeDate"
               type="daterange"
               :editable="false"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              range-separator="至"
+              value-format="yyyy-MM-dd"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>

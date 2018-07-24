@@ -74,7 +74,7 @@ export const MENU_PERMISSIONS = [
     menuId: 12,
     name: '订单管理',
     url: '/order',
-    icon: 'icon-task',
+    icon: 'icon-order',
     enable: false,
     children: [
       {
@@ -157,7 +157,7 @@ export const MENU_PERMISSIONS = [
     menuId: 23,
     name: '集团客户管理',
     url: '/group-customer',
-    icon: 'el-icon-service',
+    icon: 'icon-client',
     enable: false,
     children: [
       {
@@ -187,7 +187,7 @@ export const MENU_PERMISSIONS = [
     menuId: 27,
     name: '客户需求管理',
     url: '/requirement',
-    icon: 'icon-business',
+    icon: 'icon-kehuxuqiu',
     enable: false,
     children: [
       {
@@ -210,7 +210,7 @@ export const MENU_PERMISSIONS = [
     menuId: 30,
     name: '走访管理',
     url: '/visit',
-    icon: 'icon-business',
+    icon: 'icon-zoufangguanli',
     enable: false,
     children: [
       {

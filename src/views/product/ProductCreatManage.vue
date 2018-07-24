@@ -1,6 +1,6 @@
 <template>
 <div class="p-manage">
-  <el-form :inline="true" :model="formData" class="demo-form-inline">
+  <el-form :model="formData" class="demo-form-inline">
     <div class="flex">
       <el-form-item>
         <el-col>
@@ -8,23 +8,23 @@
           </el-date-picker>
         </el-col>
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="p-form-item__lable">
         <el-select class="item-width" v-model="formData.productType" clearable placeholder="产品类型">
           <el-option label="全部" value=""></el-option>
           <el-option label="个人市场" value="0"></el-option>
           <el-option label="政企市场" value="1"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="p-form-item__lable">
         <el-input class="item-width" clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
       </el-form-item>
     </div>
-    <div class="flex">
+    <div class="flex product-query-btns">
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
-      <el-form-item>
-        <el-button @click="toCreatProduct">+ 新建产品</el-button>
+      <el-form-item class="product-form-item">
+        <el-button class="el-button--have-icon" @click="toCreatProduct" icon="el-icon-plus">新建产品</el-button>
       </el-form-item>
     </div>
   </el-form>
@@ -41,11 +41,11 @@
       </el-table-column>
       <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
       </el-table-column>
-      <el-table-column label="创建时间" align="center" show-overflow-tooltip width="180" :formatter="dateFn" property="insertdate">
+      <el-table-column label="创建时间" show-overflow-tooltip width="180" :formatter="dateFn" property="insertdate">
       </el-table-column>
-      <el-table-column label="最近更新时间" align="center" show-overflow-tooltip width="180" :formatter="dateFn" property="updatedate">
+      <el-table-column label="最近更新时间" show-overflow-tooltip width="180" :formatter="dateFn" property="updatedate">
       </el-table-column>
-      <el-table-column label="操作" align="center" width="160">
+      <el-table-column label="操作" width="160">
         <template slot-scope="operation">
           <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
           <span class="blue hand" @click="toPageModefiy(operation.row)">修改</span>
@@ -191,6 +191,10 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+.p-form-item__lable {
+  width: $inputWidthQuery;
+  margin-left: $blockWidth;
+}
 .p-manage {
   padding: 24px; background: #fff;
   .demo-form-inline {
@@ -200,6 +204,14 @@ export default {
   }
   .item-width {
     width: $inputWidthQuery;
+  }
+
+  .product-query-btns{
+    margin-left: 40px;
+  }
+
+  .product-form-item{
+    margin-left: $formWidth;
   }
 }
 </style>
