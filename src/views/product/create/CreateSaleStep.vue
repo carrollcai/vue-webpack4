@@ -624,7 +624,6 @@ export default {
       line-height: 48px;
     }
   }
-  .lh1-5 {line-height: 1.5;}
   .fs12 {font-size: 12px;}
   .el-select {width: 100%;}
   .el-upload__tip {margin-top: 0;}
