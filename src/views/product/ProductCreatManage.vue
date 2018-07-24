@@ -19,12 +19,12 @@
         <el-input class="item-width" clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
       </el-form-item>
     </div>
-    <div class="flex">
+    <div class="flex product-query-btns">
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
-      <el-form-item>
-        <el-button @click="toCreatProduct">+ 新建产品</el-button>
+      <el-form-item class="product-form-item">
+        <el-button class="el-button--have-icon" @click="toCreatProduct" icon="el-icon-plus">新建产品</el-button>
       </el-form-item>
     </div>
   </el-form>
@@ -196,10 +196,17 @@ export default {
   .demo-form-inline {
     display: flex;
     align-items: center;
-    justify-content: space-between;
   }
   .item-width {
     width: $inputWidthQuery;
+  }
+
+  .product-query-btns{
+    margin-left: 40px;
+  }
+
+  .product-form-item{
+    margin-left: $formWidth;
   }
 }
 </style>

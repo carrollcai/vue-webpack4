@@ -13,7 +13,7 @@
         {{requirement.reqDesc}}
       </el-form-item>
 
-      <el-form-item label="需求附件">
+      <el-form-item label="需求附件" v-if="internalValue && internalValue.length">
         <span v-for="(file, index) in internalValue" :key="index" @click="handleDownload(file)" class="file-name">
           {{file.fileName + (index === internalValue.length - 1 ? '' : '；')}}
         </span>
