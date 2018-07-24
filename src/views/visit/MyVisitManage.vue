@@ -55,7 +55,7 @@
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column label="是否首客" property="isFirstVisit" :formatter="isFirstVisitFn" />
       <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
-      <el-table-column label="操作" width="230">
+      <el-table-column label="操作" width="130">
         <template slot-scope="scope">
           <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
@@ -162,6 +162,9 @@ export default {
       this.$router.push(path);
     },
     query() {
+      if(!this.myVisitManageFrom.visitStatus) {
+        this.myVisitManageFrom.visitStatus = [];
+      }
       this.getMyVisitManageList(this.myVisitManageFrom);
     },
     createVisit(row) {
