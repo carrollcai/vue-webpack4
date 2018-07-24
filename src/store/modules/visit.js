@@ -18,7 +18,9 @@ const state = {
     organizeName: '',
     isFirstVisit: '',
     pageNo: PAGE_NO,
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    state: null
+    // visitTime: ''
   },
   myVisitManageList: {},
   createVisitFrom: {
@@ -49,7 +51,9 @@ const state = {
     organizeName: '',
     isFirstVisit: '',
     pageNo: PAGE_NO,
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    state: null
+    // timeRang: ''
   },
   createAppointFrom: {
     visitTheme: '',

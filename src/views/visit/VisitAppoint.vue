@@ -9,11 +9,11 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-input v-model="appointVisitForm.organizeName" placeholder="走访公司名称" />
+          <el-input v-model="appointVisitForm.organizeName" clearable placeholder="走访公司名称" />
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-select v-model="appointVisitForm.isFirstVisit" placeholder="是否首客">
+          <el-select v-model="appointVisitForm.isFirstVisit" clearable placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
               :key="item.value"
@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item class="visit-form-item__lable"></el-form-item>
         <el-form-item class="visit-form-item__input">
-          <el-input v-model="appointVisitForm.processor" placeholder="指派走访人" />
+          <el-input v-model="appointVisitForm.processor" clearable placeholder="指派走访人" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -36,7 +36,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="state" @tab-click="getState">
+    <el-tabs v-model="appointVisitForm.state" @tab-click="getState">
       <el-tab-pane label="全部" name=""></el-tab-pane>
       <el-tab-pane label="待执行" name="2"></el-tab-pane>
       <el-tab-pane label="已执行" name="4"></el-tab-pane>
@@ -53,7 +53,7 @@
       <el-table-column label="走访编号" property="visitCode" width="180" />
       <el-table-column label="走访时间"  property="visitStartTime" width="180" />
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
-      <el-table-column label="指派走访人" property=""  width="210"/>
+      <el-table-column label="指派走访人" property="processor"  width="210"/>
       <el-table-column label="是否首客"  property="isFirstVisit" width="90" :formatter="isFirstVisitFn" />
       <el-table-column label="走访状态"  property="visitStatus" width="90" :formatter="visitStatusFn" />
       <el-table-column label="操作">
@@ -87,7 +87,6 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeRange: '',
-      state: '',
       firstGuestOption: [{
         value: '0',
         label: '否'
@@ -151,7 +150,8 @@ export default {
       this.$router.push(path);
     },
     query() {
-      this.getAppointVisitList(this.appointVisitForm);
+      let { state, ...params } = this.appointVisitForm;
+      this.getAppointVisitList(params);
     },
     createVisitApplication() {
       const path = '/visit/create-visit-appoint';

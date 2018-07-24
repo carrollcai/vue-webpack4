@@ -34,7 +34,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="myVisitManageFrom.visitStatus[0]" @tab-click="getState">
+    <el-tabs v-model="myVisitManageFrom.state" @tab-click="getState">
       <el-tab-pane label="全部" name=""></el-tab-pane>
       <el-tab-pane label="待执行" name="2"></el-tab-pane>
       <el-tab-pane label="已完成" name="4"></el-tab-pane>
@@ -98,7 +98,6 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeRange: '',
-      // visitStatus: '',
       firstGuestOption: [{
         value: '0',
         label: '否'
@@ -162,10 +161,8 @@ export default {
       this.$router.push(path);
     },
     query() {
-      if(!this.myVisitManageFrom.visitStatus) {
-        this.myVisitManageFrom.visitStatus = [];
-      }
-      this.getMyVisitManageList(this.myVisitManageFrom);
+      let { state, ...params } = this.myVisitManageFrom;
+      this.getMyVisitManageList(params);
     },
     createVisit(row) {
       let path = '/visit/create-visit-application';
