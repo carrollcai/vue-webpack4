@@ -120,6 +120,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
 .visit-mission-detail-info{
   .line{
     height: 1px;
@@ -131,6 +132,14 @@ export default {
     .el-form-item__content{
       word-break: break-all;
     }
+  }
+
+  .file-name{
+    cursor: pointer;
+    color: $primary-color;
+    min-width: 50px;
+    border-bottom: 1px solid $primary-color;
+    margin-right: 16px;
   }
 }
 </style>
