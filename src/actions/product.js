@@ -32,16 +32,6 @@ const actions = {
       }
     });
   },
-  setAddProduct: ({ commit }, params) => {
-    return API.setAddProductAPI(params).then((res) => {
-      return res;
-    });
-  },
-  setEditProduct: ({ commit }, params) => {
-    return API.setEditProductAPI(params).then((res) => {
-      return res;
-    });
-  },
   setdeleteProduct: ({commit}, params) => {
     return API.deleteProductAPI(params).then((res) => {
       return res;
@@ -70,12 +60,6 @@ const actions = {
   downloadUplodFile: ({commit}, params) => {
     return API.downloadUplodFileAPI(params);
   },
-  saveBaseInfo: ({commit}, params) => {
-    return commit(types.SAVE_BASE_INFO, params);
-  },
-  saveSaleStep: ({commit}, params) => {
-    return commit(types.SAVE_SALE_STEP, params);
-  },
   /**
    * 新增产品
    * @param {*} param0
@@ -94,6 +78,11 @@ const actions = {
       });
     });
   },
+  /**
+   * 修改产品
+   * @param {*} param0
+   * @param {Object} product
+   */
   updateProduct({ commit }, product) {
     return API.setEditProductAPI(product).then((res) => {
       Message({
