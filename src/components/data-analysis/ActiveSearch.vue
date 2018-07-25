@@ -41,9 +41,6 @@ export default {
       client: CLIENT,
       localProvinceSelected: [],
       activeSearchRules: {
-        provinceSelected: [
-          // { required: true, message: '请选择省份', trigger: 'change' }
-        ],
         clientSelected: [
           { required: true, message: '请选择客户端', trigger: 'change' }
         ]
@@ -52,7 +49,6 @@ export default {
   },
   computed: {
     ...mapState({
-      // province: ({ root }) => root.province,
       activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj,
       currentUser: ({ root }) => root.currentUser
     })

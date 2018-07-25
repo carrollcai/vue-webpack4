@@ -2,7 +2,6 @@ import * as types from '../store/types';
 import API from '../utils/api';
 
 const actions = {
-  // 获取getDemo列表
   getProvince: ({ commit }, params) => {
     const req = { codeType: 'PROVINCE' };
     return API.getProvinceAPI(req).then(res => {
@@ -46,7 +45,6 @@ const actions = {
         'PREDICT_AGREEMENT_TIME'// 预计协议期
       ]
     };
-
     return API.queryStaticDataAPI(params).then(res => {
       commit(types.STATIC_DATA, res.data);
     });

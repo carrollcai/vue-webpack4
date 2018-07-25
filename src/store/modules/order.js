@@ -24,6 +24,7 @@ const orderCreate = {
 const state = {
   submitAssignButton: false,
   processInsId: null,
+  // 总览
   orderOverviewForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
@@ -41,6 +42,7 @@ const state = {
   orderOverviewDetail: {},
   processList: [],
 
+  // 创建管理
   orderCreateManageForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
@@ -59,6 +61,7 @@ const state = {
   orderOrganizeAddressList: [],
   productList: [],
 
+  // 处理任务
   orderHandleTaskForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,

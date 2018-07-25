@@ -9,7 +9,6 @@
             <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
-
       </div>
       <div class="active-search__client">
         <el-form-item class="normalize-form-item">客户端：</el-form-item>
@@ -39,9 +38,7 @@ export default {
       client: CLIENT,
       localProvinceSelected: [],
       retSearchRules: {
-        provinceSelected: [
-          // { required: true, message: '请选择省份', trigger: 'change' }
-        ],
+        provinceSelected: [],
         clientSelected: [
           { required: true, message: '请选择客户端', trigger: 'change' }
         ]
@@ -50,7 +47,6 @@ export default {
   },
   computed: {
     ...mapState({
-      // province: ({ root }) => root.province,
       retentionObj: ({ dataAnalysis }) => dataAnalysis.retentionObj,
       currentUser: ({ root }) => root.currentUser
     })
