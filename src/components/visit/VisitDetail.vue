@@ -61,7 +61,7 @@
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
-          <p v-if="visitDetail.fileInputId" class="download-style"><span v-for="item in fileArrList" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
+          <p v-if="isFileInputId" class="download-style"><span v-for="item in fileArrList" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
         </div>
       </div>
     </div>
@@ -123,10 +123,16 @@ export default {
       }
     };
   },
-  beforeMount() {
-    this.queryFiles();
+  async beforeMount() {
+    await this.queryFiles();
+    console.log(this.fileArr);
   },
   computed: {
+    isFileInputId() {
+      if (this.visitDetail.fileInputId) {
+        return this.visitDetail.fileInputId;
+      }
+    },
     fileArrList() {
       if (this.fileArr) {
         return this.fileArr;
