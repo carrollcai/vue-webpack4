@@ -236,13 +236,9 @@ export default {
           list.push(str);
         };
         this.updateHomeModule({'homeModule': list}).then(res => {
-          if (res.errorInfo.code === '200') {
-            this.homeSetDialogVisible = false;
-            this.$message({ showClose: true, message: '设置成功！', type: 'success' });
-            this.query();
-          } else {
-            this.$message({ showClose: true, message: '设置失败！', type: 'error' });
-          }
+          this.homeSetDialogVisible = false;
+          this.$message({ showClose: true, message: '设置成功！', type: 'success' });
+          this.query();
         });
       } else {
         this.$message({ showClose: true, message: '请至少选择一项！' });

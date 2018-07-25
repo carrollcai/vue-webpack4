@@ -89,7 +89,7 @@
     <div style="background: #fff;">
       <div class="hr"></div>
       <div class="b-container">
-          <el-form label-width="140px" style="width: 460px;">
+          <el-form label-width="140px" style="width: 545px;">
             <el-form-item label="提醒人设置：">
               <el-select class="form-input-medium" v-model="form.remindersArr" placeholder="请选择提醒人" multiple>
                   <el-option
@@ -233,39 +233,33 @@ export default {
       };
     },
     submit() {
-      // if (this.form.reminders !== '') {
-      //   this.form.reminders = this.form.reminders.join(',');
-      // }
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
-        var _this = this;
         this.submitBusinessOppority(params).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
-            _this.reset();
+          if (res.data) {
+            this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+            this.reset();
             const path = `/business-manage/business-create-manage`;
-            _this.$router.push(path);
+            this.$router.push(path);
           } else {
-            _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+            this.$message({ showClose: true, message: '提交失败！', type: 'error' });
           }
         });
       });
     },
     save() {
-      // this.form.reminders = this.form.reminders.join(',');
       const params = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
-        var _this = this;
         this.saveBusinessDraft(params).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.$message({ showClose: true, message: '您已成功保存该条商机！', type: 'success' });
-            _this.reset();
+          if (res.data) {
+            this.$message({ showClose: true, message: '您已成功保存该条商机！', type: 'success' });
+            this.reset();
             const path = `/business-manage/business-create-manage`;
-            _this.$router.push(path);
+            this.$router.push(path);
           } else {
-            _this.$message({ showClose: true, message: '保存失败！', type: 'error' });
+            this.$message({ showClose: true, message: '保存失败！', type: 'error' });
           }
         });
       });

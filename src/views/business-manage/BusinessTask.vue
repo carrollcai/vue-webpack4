@@ -39,12 +39,12 @@
         <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="businessTaskForm.taskHasComplete === '0'" type="text" @click="handleTrans(scope.row)">
+            <el-button class="table-button" v-if="businessTaskForm.taskHasComplete === '0'" type="text" @click="handleTrans(scope.row)">
               转订单
             </el-button>
             <template v-if="businessTaskForm.taskHasComplete === '0'">
-              <el-dropdown @command="handleCommand(scope.row, $event)">
-                <el-button type="text">
+              <el-dropdown class="table-more-btn" @command="handleCommand(scope.row, $event)">
+                <el-button class="table-button" type="text">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -227,16 +227,15 @@ export default {
         if (this.sendForm.reason.trim() !== '') {
           params.dealPerson = this.sendForm.person.pop();
           params.dealResult = this.sendForm.reason.trim();
-          let _this = this;
           this.submitBusinessSend(params).then(res => {
-            if (res.data && res.errorInfo.code === '200') {
-              _this.sendDialogVisible = false;
-              _this.sendForm.person = '';
-              _this.sendForm.reason = '';
-              _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
-              _this.query();
+            if (res.data) {
+              this.sendDialogVisible = false;
+              this.sendForm.person = '';
+              this.sendForm.reason = '';
+              this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+              this.query();
             } else {
-              _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+              this.$message({ showClose: true, message: '分派失败！', type: 'error' });
             }
           });
         } else {
@@ -256,15 +255,14 @@ export default {
       let params = this.cancelParam;
       params.dealResult = this.cancelForm.reason.trim();
       if (params.dealResult !== '') {
-        let _this = this;
         this.submitBusinessCancel(params).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.cancelDialogVisible = false;
-            _this.cancelForm.reason = '';
-            _this.$message({ showClose: true, message: '作废成功！', type: 'success' });
-            _this.query();
+          if (res.data) {
+            this.cancelDialogVisible = false;
+            this.cancelForm.reason = '';
+            this.$message({ showClose: true, message: '作废成功！', type: 'success' });
+            this.query();
           } else {
-            _this.$message({ showClose: true, message: '作废失败！', type: 'error' });
+            this.$message({ showClose: true, message: '作废失败！', type: 'error' });
           }
         });
       } else {
@@ -302,15 +300,6 @@ export default {
         cb(results);
       }, 1000);
     },
-    // querySearchAsync(queryString, cb) {
-    //   var cooperNumList = this.cooperNumList;
-    //   var results = queryString ? cooperNumList.filter(this.createStateFilter(queryString)) : cooperNumList;
-
-    //   clearTimeout(this.timeout);
-    //   this.timeout = setTimeout(() => {
-    //     cb(results);
-    //   }, 100 * Math.random());
-    // },
     createStateFilter(queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);

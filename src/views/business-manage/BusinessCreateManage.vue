@@ -66,7 +66,7 @@
           <template slot-scope="scope">
             <el-button class="table-button" type="text" @click="handleDetail(scope.row)">详情</el-button>
             <template v-if="isDraft(scope.row)">
-              <el-dropdown @command="handleCommand(scope.row, $event)">
+              <el-dropdown class="table-more-btn" @command="handleCommand(scope.row, $event)">
                 <span class="el-dropdown-link">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
@@ -240,19 +240,18 @@ export default {
       }).then(() => {
         const param = {};
         param.id = row.opporId.toString();
-        var _this = this;
         this.submitBusinessDraft(param).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
+          if (res.data) {
             const h = this.$createElement;
-            _this.$message({
+            this.$message({
               message: h('p', null, [
                 h('p', null, '您已成功提交该条商机！ '),
                 h('p', null, '处理人' + res.data.dealPersonName)
               ])
             });
-            _this.query();
+            this.query();
           } else {
-            _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+            this.$message({ showClose: true, message: '提交失败！', type: 'error' });
           }
         });
       }).catch(() => {
@@ -267,13 +266,12 @@ export default {
       }).then(() => {
         const param = {};
         param.opporId = row.opporId;
-        var _this = this;
         this.delBusinessOppority(param).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.$message({ showClose: true, message: '您已成功删除该条商机！', type: 'success' });
-            _this.query();
+          if (res.data) {
+            this.$message({ showClose: true, message: '您已成功删除该条商机！', type: 'success' });
+            this.query();
           } else {
-            _this.$message({ showClose: true, message: '删除失败！', type: 'error' });
+            this.$message({ showClose: true, message: '删除失败！', type: 'error' });
           }
         });
       }).catch(() => {

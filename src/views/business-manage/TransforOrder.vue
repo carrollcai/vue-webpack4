@@ -228,7 +228,6 @@ export default {
     },
     selectProduct(item) {
       this.businessData.productId = item.productId;
-      // this.getOfficeAddress();
     },
     createStateFilter(queryString) {
       return (state) => {
@@ -239,7 +238,6 @@ export default {
       this.businessData.organizeId = item.organizeId;
     },
     submit() {
-      // const params = {};
       const params = this.orderData;
       delete params.opporProcessor;
       delete params.opporAssignReason;
@@ -248,13 +246,12 @@ export default {
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
         if (params.productId !== '') {
-          var _this = this;
-          _this.saveBusinessOrder(params).then(res => {
-            if (res.data && res.errorInfo.code === '200') {
-              _this.$message({ showClose: true, message: '您已成功提交！', type: 'success' });
-              _this.cancel();
+          this.saveBusinessOrder(params).then(res => {
+            if (res.data) {
+              this.$message({ showClose: true, message: '您已成功提交！', type: 'success' });
+              this.cancel();
             } else {
-              _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+              this.$message({ showClose: true, message: '提交失败！', type: 'error' });
             }
           });
         } else {

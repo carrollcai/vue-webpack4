@@ -71,10 +71,9 @@
             <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-dropdown v-if="scope.row.ordStatus === 1" @command="handleCommand(scope.row, $event)">
+            <el-dropdown class="table-more-btn" v-if="scope.row.ordStatus === 1" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
-                更多
-                <i class="el-icon-arrow-down el-icon--right"></i>
+                更多<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item class="el-dropdown-link" command="submit">提交</el-dropdown-item>

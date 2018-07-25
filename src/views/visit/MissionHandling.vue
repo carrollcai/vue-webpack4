@@ -55,16 +55,16 @@
         <el-table-column label="是否首客" property="isFirstVisit" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
+            <el-button class="table-button" type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
               审核
             </el-button>
-            <el-button type="text" v-if="activeName === 'second'" @click="toHandle(scope.row)">
+            <el-button class="table-button" type="text" v-if="activeName === 'second'" @click="toHandle(scope.row)">
               评价
             </el-button>
-            <el-button type="text" v-if="activeName === 'third'" @click="toDetail(scope.row)">
+            <el-button class="table-button" type="text" v-if="activeName === 'third'" @click="toDetail(scope.row)">
               查看
             </el-button>
-            <el-button type="text" v-if="activeName === 'forth'" @click="toDetail(scope.row)">
+            <el-button class="table-button" type="text" v-if="activeName === 'forth'" @click="toDetail(scope.row)">
               查看评价
             </el-button>
           </template>

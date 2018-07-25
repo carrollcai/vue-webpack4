@@ -89,9 +89,7 @@ export default {
     };
   },
   beforeMount() {
-    var data = { pageNo: 1, pageSize: 20 };
-    this.getProductCreatList(data);
-    // this.getComposedProduct();
+    this.getProductCreatList({ pageNo: 1, pageSize: 20 });
   },
   computed: {
     ...mapState({
@@ -127,20 +125,13 @@ export default {
       this.query();
     },
     toCreatProduct() {
-      localStorage.setItem('nextStep', 0);
-      localStorage.setItem('prevStep', 0);
-      this.saveBaseInfo(this.baseInfo);
       this.$router.push({path: '/product/create'});
     },
     toPageDetail(row) {
-      const path = `/product/product-detail/${row.productId}?isDetail=1`;
-      this.$router.push(path);
+      this.$router.push(`/product/product-detail/${row.productId}?isDetail=1`);
     },
     toPageModefiy(row) {
-      localStorage.setItem('nextStep', 0);
-      localStorage.setItem('prevStep', 0);
-      const path = `/product/edit/${row.productId}`;
-      this.$router.push(path);
+      this.$router.push(`/product/edit/${row.productId}`);
     },
     deleteProduct(row) {
       let productId = row.productId;
@@ -173,17 +164,12 @@ export default {
       return value;
     },
     productTypeFn(row, column, columnValue) {
-      if (columnValue === '0') {
-        return '个人市场';
-      } else {
-        return '政企市场';
-      }
+      return columnValue === '0' ? '个人市场' : '政企市场';
     },
     ...mapActions([
       'getProductCreatList',
       'getComposedProduct',
-      'setdeleteProduct',
-      'saveBaseInfo'
+      'setdeleteProduct'
     ])
   }
 };
