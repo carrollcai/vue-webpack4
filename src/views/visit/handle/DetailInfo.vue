@@ -36,11 +36,11 @@
       {{visit.isFirstVisit === '1' ? '是' : '否'}}
     </el-form-item>
 
-    <template v-if="visit.visitStatus === ''">
+    <template v-if="visit.visitStatus === '4'">
       <div class="line"></div>
 
       <el-form-item label="执行汇报">
-        {{visit.name}}
+        {{visit.feedback}}
       </el-form-item>
 
       <el-form-item label="上传附件" v-if="files && files.length">
