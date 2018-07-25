@@ -66,7 +66,7 @@ import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP, FILE_UPLOAD_LIMIT } from '@/config/index.js';
-import { textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
 export default {
   components: {
     WmTable,
@@ -84,12 +84,8 @@ export default {
     })
   },
   data() {
-    const multFileValid = (files, callback) => {
-      if (files.length > FILE_UPLOAD_LIMIT) {
-        callback(new Error(`文件上传数量不能超过${FILE_UPLOAD_LIMIT}个`));
-      } else {
-        callback();
-      }
+    const fileCheck = (rule, value, callback) => {
+      fileValidLen(this.uploadData.files, callback);
     };
     return {
       FILE_TIP,
@@ -125,7 +121,7 @@ export default {
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         files: [
-          { validator: multFileValid }
+          { validator: fileCheck }
         ]
       }
     };
