@@ -97,6 +97,7 @@ import moment from 'moment';
 export default {
   data() {
     return {
+      isNotPageChange: true,
       orderStatus: ORDER_STATUS,
       orderCreateManageRules: {},
       organizeNameInfoRules: {},
@@ -170,9 +171,11 @@ export default {
       };
       this[COMMANDS[command]](row);
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.pageChange({ pageNo: value });
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.pageChange({ pageSize: value });
@@ -225,6 +228,8 @@ export default {
       this.$router.push(path);
     },
     query() {
+      // 查询的时候，需要将pageNo置为1
+      this.isNotPageChange && this.pageChange({ pageNo: 1 });
       const params = Object.cloneDeep(this.orderCreateManageForm);
 
       if (params.date && params.date.length) {

@@ -46,6 +46,7 @@ import { mapActions, mapState, mapMutations } from 'vuex';
 export default {
   data() {
     return {
+      isNotPageChange: true,
       roleManageRules: {}
     };
   },
@@ -59,7 +60,7 @@ export default {
     })
   },
   beforeMount() {
-    this.getRoleList(this.roleForm);
+    this.query();
   },
   methods: {
     redirectUserCreate(row) {
@@ -68,9 +69,11 @@ export default {
         path: '/system/user/management'
       });
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.roleForm.pageNo = value;
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.roleForm.pageSize = value;
@@ -104,12 +107,9 @@ export default {
       });
     },
     query() {
+      this.roleForm.pageNo = this.isNotPageChange ? 1 : this.roleForm.pageNo;
       const params = this.roleForm;
-      this.$refs['roleManageForm'].validate(valid => {
-        if (valid) {
-          this.getRoleList(params);
-        }
-      });
+      this.getRoleList(params);
     },
     ...mapMutations({
       redirectUserCreateMutation: 'ROLE_REDIRECT_USER_CREATE',

@@ -63,7 +63,8 @@ export default {
   data() {
     return {
       orderStatus: ORDER_STATUS,
-      overviewRules: {}
+      overviewRules: {},
+      isNotPageChange: true
     };
   },
   components: {
@@ -89,15 +90,19 @@ export default {
       const path = `/order/overview/detail/${row.ordId}/${row.processInsId}`;
       this.$router.push(path);
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.pageChange({ pageNo: value });
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.pageChange({ pageSize: value });
       this.query();
     },
     query() {
+      // 查询的时候，需要将pageNo置为1
+      this.isNotPageChange && this.pageChange({ pageNo: 1 });
       const params = Object.cloneDeep(this.orderOverviewForm);
 
       if (params.date && params.date.length) {
@@ -111,7 +116,7 @@ export default {
       this.$refs['orderOverview'].validate(valid => {
         if (!valid) return false;
 
-        this.getOrderOverviewList(_params);
+        return this.getOrderOverviewList(_params);
       });
     },
     ...mapMutations({

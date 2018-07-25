@@ -62,7 +62,6 @@
             <el-button v-if="orderHandleTaskForm.businessStatus !== '0'" class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-
             <el-dropdown class="table-more-btn" v-if="orderHandleTaskForm.businessStatus === '0'" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
@@ -88,6 +87,7 @@ import moment from 'moment';
 export default {
   data() {
     return {
+      isNotPageChange: true,
       orderHandleTaskRules: {},
       dialogVisible: false,
       currentRow: {},
@@ -95,7 +95,7 @@ export default {
         id: null,
         dealPerson: null,
         dealResult: '',
-        resultStatus: '0', // 写死
+        resultStatus: '0', // 这里值固定
         taskInsId: null
       },
       assignHandleRules: {
@@ -150,9 +150,11 @@ export default {
       };
       this[COMMANDS[command]](row);
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.pageChange({ pageNo: value });
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.pageChange({ pageSize: value });
@@ -190,6 +192,8 @@ export default {
       this.$router.push(path);
     },
     query() {
+      // 查询的时候，需要将pageNo置为1
+      this.isNotPageChange && this.pageChange({ pageNo: 1 });
       const params = Object.cloneDeep(this.orderHandleTaskForm);
       if (params.date && params.date.length) {
         params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
