@@ -39,12 +39,12 @@
         <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="businessTaskForm.taskHasComplete === '0'" type="text" @click="handleTrans(scope.row)">
+            <el-button class="table-button" v-if="businessTaskForm.taskHasComplete === '0'" type="text" @click="handleTrans(scope.row)">
               转订单
             </el-button>
             <template v-if="businessTaskForm.taskHasComplete === '0'">
               <el-dropdown class="table-more-btn" @command="handleCommand(scope.row, $event)">
-                <el-button type="text">
+                <el-button class="table-button" type="text">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
