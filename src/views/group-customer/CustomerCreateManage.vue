@@ -26,7 +26,7 @@
 
         <div class="flex customer-query-btns">
           <el-form-item>
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary" @click="handleQuery">查询</el-button>
           </el-form-item>
           <el-form-item class="group-form-item">
             <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建集团客户</el-button>
@@ -212,6 +212,10 @@ export default {
     },
     query() {
       this.getGroupCustomerList(this.getParams());
+    },
+    handleQuery() {
+      this.pageNo = 1;
+      this.query();
     },
     handleClick(tab, event) {
       this.pageNo = 1;
