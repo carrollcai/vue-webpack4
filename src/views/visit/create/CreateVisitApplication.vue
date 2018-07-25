@@ -55,6 +55,7 @@
         </el-form-item>
         <el-form-item label="涉及商机编码：" label-width="140px" required prop="relOpporCode">
           <el-select
+            filterable
             v-model="createVisitFrom.relOpporCode"
             @change="relOpporValue"
             filterable placeholder="请选择">
@@ -102,6 +103,7 @@
             </el-option>
           </el-select> -->
           <el-select
+            filterable
             v-if="processorList"
             v-model="createVisitFrom.visitAuditor"
             filterable
@@ -146,7 +148,7 @@ export default {
       if (String(value).trim() === '') {
         callback(new Error('输入内容不能为空'));
       } else if (String(value).trim().length > 50) {
-        callback(new Error(`输入内容字符不能超过25`));
+        callback(new Error(`输入内容字符不能超过50`));
       } else if (!reg.test(value)) {
         callback(new Error(`输入格式不正确`));
       } else if (nullLen) {
