@@ -122,7 +122,6 @@ export default {
   },
   data() {
     return {
-      // test: [10093],
       form: {
         opporType: '',
         predictContractAmount: '',
@@ -196,7 +195,6 @@ export default {
     const { opporId } = this.$route.params;
     this.getBusinessDetail({ opporId });
     this.getRemindPerson();
-    // this.getDesignatePerson();
   },
   computed: {
     businessData() {
@@ -286,7 +284,6 @@ export default {
     submit() {
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
-        var _this = this;
         const params = this.businessData;
         delete params.opporCode;
         delete params.contactGenderName;
@@ -301,12 +298,12 @@ export default {
         delete params.opporTypeName;
         delete params.predictAgreementTimeName;
         this.editBusinessDetailApprove(params).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+          if (res.data) {
+            this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
             const path = `/business-manage/business-create-manage`;
-            _this.$router.push(path);
+            this.$router.push(path);
           } else {
-            _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+            this.$message({ showClose: true, message: '提交失败！', type: 'error' });
           }
         });
       });
