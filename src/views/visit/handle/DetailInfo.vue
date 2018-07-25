@@ -39,14 +39,17 @@
     <template v-if="visit.visitStatus === '4'">
       <div class="line"></div>
 
-      <el-form-item label="执行汇报">
+      <el-form-item label="执行汇报" class="too-long-content">
         {{visit.feedback}}
       </el-form-item>
 
-      <el-form-item label="上传附件" v-if="files && files.length">
-        <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
-          {{file.fileName + (index === files.length - 1 ? '' : '；')}}
-        </span>
+      <el-form-item label="上传附件" >
+        <template v-if="files && files.length">
+          <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
+            {{file.fileName + (index === files.length - 1 ? '' : '；')}}
+          </span>
+        </template>
+        <span v-else>无</span>
       </el-form-item>
     </template>
   </el-form>
