@@ -14,7 +14,9 @@
       <!-- 评价 -->
       <el-form v-if="visit.visitStatus === '4'" ref="baseForm" :model="baseForm" :rules="rules" label-width="130px" key="judge-form">
         <el-form-item label="走访评价" required prop="visitEvaluate">
-          <el-input type="textarea" placeholder="请输入走访评价" v-model="baseForm.visitEvaluate">
+          <el-input type="textarea" placeholder="请输入走访评价"
+            :maxlength="500"
+            v-model="baseForm.visitEvaluate">
           </el-input>
         </el-form-item>
 
