@@ -118,7 +118,7 @@
         <el-button type="primary" @click="toFirstStep">上一步</el-button>
         <el-button type="primary"
           @click="submitProduct"
-          :disabled="isNotAbleToSubmit()"
+          :disabled="isDisabled()"
           :loading="isSubmit">{{ isSubmit ? '加载中' : '确定'}}</el-button>
       </div>
     </div>
@@ -157,6 +157,9 @@ export default {
     },
     getTableData() {
       return this.cases.filter((item) => item.state !== '0');
+    },
+    isDisabled() {
+      return !(!this.isAddingCase);
     },
     submitProduct() {
       const that = this;
