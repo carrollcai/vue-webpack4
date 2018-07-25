@@ -61,7 +61,7 @@
         <el-table-column label="处理状态" property="reqStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
               查看
             </el-button>
           </template>
@@ -156,6 +156,7 @@ export default {
   .requirement-query-form {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 
   .requirement-form-item {

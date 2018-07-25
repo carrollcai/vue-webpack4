@@ -58,7 +58,7 @@
       <el-table-column label="走访状态"  property="visitStatus" width="90" :formatter="visitStatusFn" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="viewDetail(scope.row, false)">
+          <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
         </template>

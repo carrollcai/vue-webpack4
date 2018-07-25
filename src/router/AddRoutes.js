@@ -12,10 +12,10 @@ import DailyLive from '@/views/data-analysis/DailyLive.vue';
 // import TaskManagement from '@/views/task/Query.vue';
 // import TaskPush from '@/views/task/Push.vue';
 // import TaskTodo from '@/views/task/Todo.vue';
-// import TaskApprove from '@/views/task/Approve.vue';
-// import TaskQueryDetail from '@/views/task/QueryDetail.vue';
-// import TaskPushDetail from '@/views/task/PushDetail.vue';
-// import TaskTodoDetail from '@/views/task/TodoDetail.vue';
+// import TaskApprove from '@/views/task/app/approve/Approve.vue';
+// import TaskQueryDetail from '@/views/task/detail/QueryDetail.vue';
+// import TaskPushDetail from '@/views/task/detail/PushDetail.vue';
+// import TaskTodoDetail from '@/views/task/detail/TodoDetail.vue';
 
 import Business from '@/views/business-manage/Business.vue';
 import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';
@@ -54,8 +54,6 @@ import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
 import ProductDetail from '@/views/product/ProductDetail.vue';
 import ProductCreate from '@/views/product/create/ProductCreate.vue';
 import ProductEdit from '@/views/product/create/ProductEdit.vue';
-import createBaseInfo from '@/views/product/create/CreateBaseInfo.vue';
-import CreateSaleStep from '@/views/product/create/CreateSaleStep.vue';
 
 import OrderCreateManage from '@/views/order/CreateManage.vue';
 import OrderHandleTask from '@/views/order/HandleTask.vue';
@@ -130,30 +128,6 @@ const dynamicRoutes = [
         path: '/product/edit/:id',
         name: 'product-edit',
         component: ProductEdit,
-        meta: { menuId: 18 }
-      },
-      {
-        path: '/product/create-base-info/:id',
-        name: 'create-base-infos',
-        component: createBaseInfo,
-        meta: { menuId: 18 }
-      },
-      {
-        path: '/product/create-base-info/',
-        name: 'create-base-info',
-        component: createBaseInfo,
-        meta: { menuId: 18 }
-      },
-      {
-        path: '/product/create-sale-step/',
-        name: 'create-sale-step',
-        component: CreateSaleStep,
-        meta: { menuId: 18 }
-      },
-      {
-        path: '/product/create-sale-step/:id',
-        name: 'create-sale-step',
-        component: CreateSaleStep,
         meta: { menuId: 18 }
       },
 
