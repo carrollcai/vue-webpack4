@@ -281,7 +281,7 @@ export default {
       this.$router.push(path);
     },
     goVisitUncomplete() {
-      this.$store.state.visit.myVisitManageFrom.visitStatus = [2];
+      this.$store.state.visit.myVisitManageFrom.state = '2';
       const path = `visit/my-visit-manage`;
       this.$router.push(path);
     },
