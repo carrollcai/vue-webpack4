@@ -93,11 +93,12 @@
         <template v-if="requirement.reqType === '2'">
           <el-form-item label="物料上传" prop="uploadFiles" key="material-upload">
             <el-upload
-              :limit="5"
+              :limit="FILE_MAX_COUNT"
               class="upload-demo"
               :on-change="handleChange"
               :on-remove="handleRemove"
               :auto-upload="false"
+              :on-exceed="handleExceed"
               :file-list="uploadFiles">
               <el-button type="primary" class="el-button_upload"><i class="icon-up"></i>选择文件</el-button>
               <p class="lh1-5">{{FILE_TIP[0]}}</p>
@@ -126,7 +127,13 @@ import endsWith from 'lodash/endsWith';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
-import {FILE_ACCEPT, FILE_TIP} from '@/config';
+import {
+  FILE_ACCEPT,
+  FILE_TIP,
+  FILE_MAX_COUNT,
+  FILE_MAX_SIZE,
+  FILE_ERROR_TIP
+} from '@/config';
 import mixins from './mixins';
 export default {
   name: 'RequirementHandle',
@@ -153,6 +160,7 @@ export default {
 
     return {
       FILE_TIP,
+      FILE_MAX_COUNT,
       handleType: '1',
       checked: false,
       processor: [],
@@ -223,15 +231,23 @@ export default {
 
       return false;
     },
+    handleExceed() {
+      this.$message({
+        message: `附件个数已满${FILE_MAX_COUNT}个`,
+        type: 'warning'
+      });
+    },
     handleChange(file, fileList) {
       let fileName = file.name;
       let result = true;
       if (this.isAcceptable(fileName)) {
+
+        // 文件大小转为 M
         let fileSize = file.size / (1024 * 1024);
 
-        if (fileSize > 20) {
+        if (fileSize > FILE_MAX_SIZE) {
           this.$message({
-            message: '附件超过20M',
+            message: `附件超过${FILE_MAX_SIZE}M`,
             type: 'error'
           });
 
@@ -241,7 +257,7 @@ export default {
         }
       } else {
         this.$message({
-          message: '只支持word、excel、ppt、pdf、rar格式',
+          message: FILE_ERROR_TIP,
           type: 'error'
         });
         result = false;

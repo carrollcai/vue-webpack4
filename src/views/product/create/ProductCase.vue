@@ -49,10 +49,11 @@
 
       <el-form-item label="方案附件" prop="files">
         <el-upload class="upload-files"
-          :limit="5"
+          :limit="FILE_MAX_COUNT"
           :auto-upload="false"
           :on-change="handleChangeFile"
           :on-remove="handleRemoveFile"
+          :on-exceed="handleExceed"
           :file-list="uploadFiles">
           <el-button slot="trigger" size="small">
             <i class="icon-up margin-right-8"></i>上传文件
@@ -73,7 +74,13 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import endsWith from 'lodash/endsWith';
-import {FILE_ACCEPT, FILE_TIP} from '@/config';
+import {
+  FILE_ACCEPT,
+  FILE_TIP,
+  FILE_MAX_COUNT,
+  FILE_MAX_SIZE,
+  FILE_ERROR_TIP
+} from '@/config';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
@@ -101,6 +108,7 @@ export default {
 
     return {
       FILE_TIP,
+      FILE_MAX_COUNT,
       index: -1,
       productCase: {
         salesType: '0',
@@ -194,15 +202,21 @@ export default {
 
       return false;
     },
+    handleExceed() {
+      this.$message({
+        message: `附件个数已满${FILE_MAX_COUNT}个`,
+        type: 'warning'
+      });
+    },
     handleChangeFile(file, fileList) {
       let fileName = file.name;
       let result = true;
       if (this.isAcceptable(fileName)) {
         let fileSize = file.size / (1024 * 1024);
 
-        if (fileSize > 20) {
+        if (fileSize > FILE_MAX_SIZE) {
           this.$message({
-            message: '附件超过20M',
+            message: `附件超过${FILE_MAX_SIZE}M`,
             type: 'error'
           });
 
@@ -212,7 +226,7 @@ export default {
         }
       } else {
         this.$message({
-          message: '只支持word、excel、ppt、pdf、rar格式',
+          message: FILE_ERROR_TIP,
           type: 'error'
         });
         result = false;
