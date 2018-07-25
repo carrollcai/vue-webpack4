@@ -151,25 +151,27 @@ export default {
       this.uploadData.files.push(file.raw);
       this.$refs.visitRef.validateField('files');
     },
-    removeFile(files, fileList) {
+    async removeFile(files, fileList) {
       let _this = this;
-      if (files.elecInstId) {
-        this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
-          if (res.errorInfo.code === '200') {
-            this.$message.success(`已删除成功!`);
-            if (fileList.length === 0) {
-              _this.uploadData.fileInputId = '';
-              _this.formData.fileInputId = '';
+      if (this.uploadData.fileInputId) {
+        await this.queryElec({ fileInputId: this.uploadData.fileInputId }).then((res) => {
+          (res.data).map(item => {
+            if (item.elecInstId === files.elecInstId) {
+              this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
+                this.$message.success(`已删除成功!`);
+                if (fileList.length === 0) {
+                  _this.uploadData.fileInputId = '';
+                  _this.formData.fileInputId = '';
+                }
+              });
             }
-          }
+          });
         });
-      } else {
-        this.uploadData.files = null;
+        this.$refs.visitRef.validateField('files');
       }
-      this.$refs.visitRef.validateField('files');
     },
-    submitAssignForm() {
-      this.getProductFileId().then((res) => {
+    async submitAssignForm() {
+      await this.getProductFileId().then((res) => {
         this.uploadData.fileInputId = res.data;
         this.formData.fileInputId = res.data;
         this.uploadProductScheme(this.uploadData);
@@ -184,19 +186,13 @@ export default {
       return false;
     },
     onSubmit() {
-      // this.submitAssignForm();
+      this.submitAssignForm();
       this.query();
     },
-    async query() {
+    query() {
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
-          this.getProductFileId().then((res) => {
-            this.uploadData.fileInputId = res.data;
-            this.formData.fileInputId = res.data;
-            this.uploadProductScheme(this.uploadData);
-          }).then((res) => {
-            this.addApproveVisit(this.formData);
-          });
+          this.addApproveVisit(this.formData);
         }
       });
     },
