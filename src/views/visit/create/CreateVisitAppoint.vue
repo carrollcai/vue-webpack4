@@ -76,6 +76,20 @@
         <div class="hr"></div>
         <el-form-item label="指派走访人：" prop="processor">
           <el-select
+            v-if="getProcessorList"
+            v-model="createAppointFrom.processor"
+            filterable
+            placeholder="请选择">
+            <el-option
+              v-for="item in getProcessorList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <!-- <el-form-item label="指派走访人：" prop="processor">
+          <el-select
             v-if="processorList"
             v-model="createAppointFrom.processor"
             filterable placeholder="请选择">
@@ -86,13 +100,13 @@
               :value="item.operatorId">
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="指派说明：" required prop="assignNote">
           <el-input v-model="createAppointFrom.assignNote" type="textarea" class="form-input-large" placeholder="请输入指派说明" />
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitVisitApplication()">提交</el-button>
+          <el-button type="primary" @click="submitVisitApplication()">立即指派</el-button>
           <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>
@@ -209,11 +223,13 @@ export default {
       orderOrganizeAddressList: ({ order }) => order.orderOrganizeAddressList,
       assignHandlers: ({ order }) => order.assignHandlers,
       registerList: ({ visit }) => visit.registerList,
-      processorList: ({ visit }) => visit.regionManageList
+      processorList: ({ visit }) => visit.regionManageList,
+      getProcessorList: ({ visit }) => visit.getProcessorList
     })
   },
   beforeMount() {
     this.getRelOpporId('');
+    this.queryProcessor({});
     this.getAssignhandler();
     this.queryRegionManager({});
   },
@@ -317,7 +333,8 @@ export default {
       'queryProductByCodeOrName',
       'getAssignhandler',
       'queryRegisterList',
-      'queryRegionManager'
+      'queryRegionManager',
+      'queryProcessor'
     ])
   }
 };

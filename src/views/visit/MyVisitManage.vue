@@ -3,9 +3,9 @@
   <div class="m-container">
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitManageFrom">
       <div class="flex">
-        <el-form-item prop="date">
+        <el-form-item style="width: 230px;" prop="date">
           <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-col>
         </el-form-item>
@@ -34,7 +34,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="visitStatus" @tab-click="getState">
+    <el-tabs v-model="myVisitManageFrom.state" @tab-click="getState">
       <el-tab-pane label="全部" name=""></el-tab-pane>
       <el-tab-pane label="待执行" name="2"></el-tab-pane>
       <el-tab-pane label="已完成" name="4"></el-tab-pane>
@@ -55,20 +55,20 @@
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column label="是否首客" property="isFirstVisit" :formatter="isFirstVisitFn" />
       <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
-      <el-table-column label="操作" width="230">
+      <el-table-column label="操作" width="130">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.visitStatus === '1' || scope.row.visitStatus > '2'" type="text" @click="viewDetail(scope.row, false)">
+          <el-button type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '2' || scope.row.visitStatus === '0'" type="text" @click="viewDetail(scope.row, true)">
+          <el-button v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
             执行处理
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
+          <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
             修改
           </el-button>
           <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
             删除
-          </el-button>
+          </el-button> -->
         </template>
       </el-table-column>
     </wm-table>
@@ -98,7 +98,6 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeRange: '',
-      // visitStatus: '',
       firstGuestOption: [{
         value: '0',
         label: '否'
@@ -107,10 +106,6 @@ export default {
         label: '是'
       }]
     };
-  },
-  watch: {
-    status(newValue) {
-    }
   },
   beforeMount() {
     this.query();
@@ -126,7 +121,7 @@ export default {
     visitStatusFn(row, clo, value) {
       if (value === '1') {
         return '待审核';
-      } else if (value === '2' || value === '0') {
+      } else if (value === '2') {
         return '待执行';
       } else if (value === '3') {
         return '已驳回';
@@ -147,11 +142,7 @@ export default {
       this.myVisitManageFrom.pageNo = this.pageNo;
       this.myVisitManageFrom.pageSize = this.pageSize;
       if (value.name !== '') {
-        if (value.name === '2') {
-          this.myVisitManageFrom.visitStatus = ['0', value.name];
-        } else {
-          this.myVisitManageFrom.visitStatus = [value.name];
-        }
+        this.myVisitManageFrom.visitStatus = [value.name];
       } else {
         this.myVisitManageFrom.visitStatus = [];
       }
@@ -166,11 +157,12 @@ export default {
       this.query();
     },
     viewDetail(row, execution) {
-      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}&point=false`;
+      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}`;
       this.$router.push(path);
     },
     query() {
-      this.getMyVisitManageList(this.myVisitManageFrom);
+      let { state, ...params } = this.myVisitManageFrom;
+      this.getMyVisitManageList(params);
     },
     createVisit(row) {
       let path = '/visit/create-visit-application';
