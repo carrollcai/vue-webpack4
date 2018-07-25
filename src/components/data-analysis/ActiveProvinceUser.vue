@@ -10,11 +10,9 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item class="normalize-form-item provinceUser-search">查询：</el-form-item>
-
         <el-form-item v-if="!provinceUser.dateType" prop="date" class="normalize-form-item">
           <el-date-picker type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" @change="query" />
         </el-form-item>
-
         <el-form-item v-if="provinceUser.dateType" class="normalize-form-item" prop="checkDate">
           <el-form-item class="normalize-form-item float-left" prop="startDate">
             <el-date-picker class="user-form-item__input" type="month" placeholder="选择开始日期" v-model="provinceUser.startDate" @change="triggerValidate()" />

@@ -70,7 +70,7 @@ export default {
   taskSubmitAuditAPI: API('http://localhost:3618/task/todo/list'), // 审核接口
 
   /* 订单管理 */
-  getOrderListAPI: API('/esop/bizOrder/overView'), // 订单总览
+  getOrderOverviewListAPI: API('/esop/bizOrder/overView'), // 订单总览
   getCreateManageListAPI: API('/esop/bizOrder/createView'), // 订单创建管理
   getHandleTaskListAPI: API('/esop/bizOrder/queryTaskInfo'), // 订单处理任务
   // uploadOrderHandleTaskAPI: upload('http://localhost:3618/task/todo/list'), // 订单处理上传任务
