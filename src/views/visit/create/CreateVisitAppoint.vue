@@ -55,7 +55,6 @@
         </el-form-item>
         <el-form-item label="涉及商机编码：" required  prop="relOpporCode">
           <el-select
-            filterable
             v-model="createAppointFrom.relOpporCode"
             @change="relOpporValue"
             filterable placeholder="请选择">
@@ -77,7 +76,6 @@
         <div class="hr"></div>
         <el-form-item label="指派走访人：" prop="processor">
           <el-select
-            filterable
             v-if="getProcessorList"
             v-model="createAppointFrom.processor"
             filterable

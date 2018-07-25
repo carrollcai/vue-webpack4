@@ -55,7 +55,6 @@
         </el-form-item>
         <el-form-item label="涉及商机编码：" label-width="140px" required prop="relOpporCode">
           <el-select
-            filterable
             v-model="createVisitFrom.relOpporCode"
             @change="relOpporValue"
             filterable placeholder="请选择">
@@ -103,7 +102,6 @@
             </el-option>
           </el-select> -->
           <el-select
-            filterable
             v-if="processorList"
             v-model="createVisitFrom.visitAuditor"
             filterable
