@@ -46,11 +46,7 @@ import { mapActions, mapState, mapMutations } from 'vuex';
 export default {
   data() {
     return {
-      roleManageRules: {
-        roleName: [
-          // { required: true, message: '请输入角色名称', trigger: 'blur' }
-        ]
-      }
+      roleManageRules: {}
     };
   },
   components: {
