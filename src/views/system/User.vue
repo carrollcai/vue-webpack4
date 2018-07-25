@@ -8,12 +8,10 @@
             <el-option v-for="item in userRoleList" :key="item.role" :value="item.roleId" :label="item.roleName" />
           </el-select>
         </el-form-item>
-
         <el-form-item class="user-form-item__input" prop="otherField">
           <el-cascader expand-trigger="hover" :options="addAllInRegion()" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属" clearable>
           </el-cascader>
         </el-form-item>
-
         <el-form-item class="user-form-item__input" prop="code">
           <el-input v-model="userForm.otherField" placeholder="姓名/账号/手机" clearable />
         </el-form-item>
@@ -62,8 +60,7 @@ export default {
   },
   data() {
     return {
-      userManageRules: {
-      }
+      userManageRules: {}
     };
   },
   computed: {
@@ -89,7 +86,6 @@ export default {
     transformProvinces(provinces) {
       let labels = [];
       if (!provinces) return '';
-
       if (provinces.length === 31) return '全国';
 
       provinces.length && provinces.map(val => {
@@ -132,7 +128,6 @@ export default {
     },
     query() {
       const params = Object.cloneDeep(this.userForm);
-
       params.opRegion = params.opRegion && params.opRegion.pop();
       this.getUserList(params);
     },

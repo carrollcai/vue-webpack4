@@ -111,14 +111,14 @@ export default {
       this.$refs['orderOverview'].validate(valid => {
         if (!valid) return false;
 
-        this.getOrderList(_params);
+        this.getOrderOverviewList(_params);
       });
     },
     ...mapMutations({
       pageChange: 'ORDER_OVERVIEW_PAGE_CHANGE'
     }),
     ...mapActions([
-      'getOrderList'
+      'getOrderOverviewList'
     ])
   }
 };

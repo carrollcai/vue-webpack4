@@ -3,8 +3,11 @@ import API from '../utils/api';
 import { Message } from 'element-ui';
 
 const actions = {
-  getOrderList: ({ commit }, params) => {
-    return API.getOrderListAPI(params).then((res) => {
+  /**
+   * 总览
+   */
+  getOrderOverviewList: ({ commit }, params) => {
+    return API.getOrderOverviewListAPI(params).then((res) => {
       commit(types.ORDER_GET_LIST, res.data);
     });
   },
@@ -13,16 +16,45 @@ const actions = {
       commit(types.ORDER_OV_SIGN_HANDLE, res.data);
     });
   },
-  uploadOrderHandleTask: ({ commit }, params) => {
-    return API.uploadFileAPI(params).then(res => {
-      return '';
-    }, err => {
-      return err;
+  getOrderOverviewProcess: ({ commit }, params) => {
+    return API.queryCustomerProcessedAPI(params).then(res => {
+      commit(types.ORDER_GET_PROCESS_LIST, res.data);
     });
   },
-  getOrganizeAddress: ({ commit }, params) => {
-    return API.getOrganizeAddressAPI(params).then((res) => {
-      commit(types.ORDER_QUERY_ORGANIZE_ADDRESS, res.data);
+
+  /**
+   * 创建管理
+   */
+  getCreateManageList: ({ commit }, params) => {
+    return API.getCreateManageListAPI(params).then(res => {
+      commit(types.ORDER_CM_GET_LIST, res.data);
+    });
+  },
+  // 指派处理人
+  getAssignhandler: ({ commit }, params) => {
+    return API.getAssignhandlerAPI(params).then(res => {
+      commit(types.ORDER_QUERY_ASSIGN_HANDLER, res.data);
+    });
+  },
+  // 创建分派
+  createAssign: ({ commit }, params) => {
+    return API.createAssignAPI(params).then(res => {
+      // 请求成功后需要刷新视图
+      Message({
+        message: '分派成功',
+        type: 'success'
+      });
+    });
+  },
+  // 提交订单
+  submitOrderRow: ({ commit }, params) => {
+    return API.submitOrderRowAPI(params).then(res => {
+      commit(types.ORDER_SUBMIT_ORDER_ROW, res.data);
+    });
+  },
+  deleteOrderRow: ({ commit }, params) => {
+    return API.deleteOrderRowAPI(params).then(res => {
+      commit(types.ORDER_DELETE_ORDER_ROW, res.data);
     });
   },
   createOrder: ({ commit }, params) => {
@@ -49,14 +81,30 @@ const actions = {
       });
     });
   },
+  queryProductByCodeOrName: ({ commit }, params) => {
+    return API.queryProductByCodeOrNameAPI(params).then(res => {
+      commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
+    });
+  },
   getOrderEdit: ({ commit }, params) => {
     return API.getOrderDetailAPI(params).then(res => {
       commit(types.ORDER_GET_EDIT, res.data);
     });
   },
-  getCreateManageList: ({ commit }, params) => {
-    return API.getCreateManageListAPI(params).then(res => {
-      commit(types.ORDER_CM_GET_LIST, res.data);
+  getOrganizeAddress: ({ commit }, params) => {
+    return API.getOrganizeAddressAPI(params).then((res) => {
+      commit(types.ORDER_QUERY_ORGANIZE_ADDRESS, res.data);
+    });
+  },
+
+  /**
+   * 处理任务
+   */
+  uploadOrderHandleTask: ({ commit }, params) => {
+    return API.uploadFileAPI(params).then(res => {
+      return '';
+    }, err => {
+      return err;
     });
   },
   getHandleTaskList: ({ commit }, params) => {
@@ -64,36 +112,9 @@ const actions = {
       commit(types.ORDER_HT_GET_LIST, res.data);
     });
   },
-  // 指派处理人
-  getAssignhandler: ({ commit }, params) => {
-    return API.getAssignhandlerAPI(params).then(res => {
-      commit(types.ORDER_QUERY_ASSIGN_HANDLER, res.data);
-    });
-  },
-  // 创建分派
-  createAssign: ({ commit }, params) => {
-    return API.createAssignAPI(params).then(res => {
-      // 请求成功后需要刷新视图
-      Message({
-        message: '分派成功',
-        type: 'success'
-      });
-    });
-  },
   getHandleTaskDetail: ({ commit }, params) => {
     return API.getOrderDetailAPI(params).then(res => {
       commit(types.ORDER_GET_HANDLE_TASK_DETAIL, res.data);
-    });
-  },
-  // 提交订单
-  submitOrderRow: ({ commit }, params) => {
-    return API.submitOrderRowAPI(params).then(res => {
-      commit(types.ORDER_SUBMIT_ORDER_ROW, res.data);
-    });
-  },
-  deleteOrderRow: ({ commit }, params) => {
-    return API.deleteOrderRowAPI(params).then(res => {
-      commit(types.ORDER_DELETE_ORDER_ROW, res.data);
     });
   },
   // 设置集团关联
@@ -103,11 +124,6 @@ const actions = {
   getOrderOverviewDetail: ({ commit }, params) => {
     return API.getOrderDetailAPI(params).then(res => {
       commit(types.ORDER_OVERVIEW_GET_DETAIL, res.data);
-    });
-  },
-  getOrderOverviewProcess: ({ commit }, params) => {
-    return API.queryCustomerProcessedAPI(params).then(res => {
-      commit(types.ORDER_GET_PROCESS_LIST, res.data);
     });
   },
   cancelAssign: ({ commit }, params) => {
@@ -156,11 +172,6 @@ const actions = {
       commit(types.ROUTE_CHANGE, {
         path: '/order/handle-task'
       });
-    });
-  },
-  queryProductByCodeOrName: ({ commit }, params) => {
-    return API.queryProductByCodeOrNameAPI(params).then(res => {
-      commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
     });
   },
   gethasSignedFile: ({ commit }, params) => {

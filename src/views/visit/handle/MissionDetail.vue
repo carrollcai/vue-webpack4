@@ -12,7 +12,7 @@
     <div class="m-container info-block">
       <el-form label-width="130px">
         <template v-if="visit.isEvaluate === '1'">
-          <el-form-item label="走访评价">
+          <el-form-item label="走访评价" class="too-long-content">
             {{visit.visitEvaluate}}
           </el-form-item>
         </template>
@@ -21,7 +21,7 @@
           <el-form-item label="审核结果">
             {{visit.advice ? '驳回' : '通过'}}
           </el-form-item>
-          <el-form-item label="审核建议" v-if="visit.advice" class="visit-advice">
+          <el-form-item label="审核建议" v-if="visit.advice" class="too-long-content">
             {{visit.advice}}
           </el-form-item>
         </template>
@@ -74,7 +74,7 @@ export default {
     margin-top: 16px;
   }
 
-  .visit-advice{
+  .too-long-content{
     .el-form-item__content{
       word-break: break-all;
     }

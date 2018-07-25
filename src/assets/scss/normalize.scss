@@ -51,7 +51,7 @@ $menu-active-color: #FFFFFF;
   vertical-align: middle;
   margin-right: 5px;
   width: 24px;
-  text-align: center; // font-size: 18px;
+  text-align: center;
   font-size: 16px;
 }
 
@@ -100,6 +100,7 @@ $menu-active-color: #FFFFFF;
 }
 
 /* 20180705，去除整体布局el-scrollbar滚动条，并且不影响到其他el-scrollbar__wrap组件 */
+
 .app-aside-scroll>.el-scrollbar__wrap,
 .app-menu>.el-scrollbar__wrap {
   overflow-x: hidden;
@@ -128,11 +129,13 @@ $menu-active-color: #FFFFFF;
 .el-dialog__footer {
   text-align: left !important;
 }
+
 .el-dialog--center .el-dialog__body {
   padding: 20px 20px 0 20px;
 }
 
 /*Button*/
+
 .el-button--primary {
   background-color: $primary-background-color;
   &.is-disabled {
@@ -163,57 +166,71 @@ $menu-active-color: #FFFFFF;
 }
 
 /* 去除tabs border */
-.m-container > .el-tabs > .el-tabs__header > .el-tabs__nav-wrap::after {
+
+.m-container>.el-tabs>.el-tabs__header>.el-tabs__nav-wrap::after {
   height: 0;
 }
+
 /* 重置el-tabs的margin-bottom */
-.m-container > .el-tabs > .el-tabs__header {
+
+.m-container>.el-tabs>.el-tabs__header {
   margin: 0 0 -25px;
 }
 
 /* 去除input为number的加减按钮 */
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-
 /* 修改默认进度条样式 */
+
 .el-step__icon.is-text {
-    border: 0;
-    background-color: #BFBFBF;
-    width: 10px;
-    height: 10px;
-    margin-top: 7px;
-    font-size: 12px;
+  border: 0;
+  background-color: #BFBFBF;
+  width: 10px;
+  height: 10px;
+  margin-top: 7px;
+  font-size: 12px;
 }
+
 .el-step__icon-inner {
   color: #BFBFBF;
 }
-.el-step__head.is-finish .el-step__icon.is-text{
+
+.el-step__head.is-finish .el-step__icon.is-text {
   background-color: #3778FF;
 }
+
 .el-step__head.is-finish .el-step__icon-inner {
   color: #3778FF;
 }
-.el-step__title.is-finish, .el-step__description.is-finish {
+
+.el-step__title.is-finish,
+.el-step__description.is-finish {
   color: inherit;
 }
 
 /* 去掉textarea高度可拖拽 */
+
 .el-textarea .el-textarea__inner {
   resize: none;
 }
 
 /* 让input错误提示在一行显示 */
+
 .el-form-item__error {
   right: -20px;
 }
 
-.el-button_upload{
+/* 上传文件样式 */
+
+.el-button_upload {
   width: 108px;
   height: 32px;
   border-radius: 4px;
@@ -221,8 +238,18 @@ input::-webkit-inner-spin-button {
   border: 1px solid rgba(0, 0, 0, 0.16);
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
-
-  .icon-up{
+  .icon-up {
     margin-right: $fontWidth;
   }
+}
+
+.el-tooltip__popper {
+  max-width: 400px;
+  word-break: break-all;
+}
+
+/* 全局loading背景样式 */
+
+.el-loading-mask {
+  background-color: rgba(0, 0, 0, 0);
 }

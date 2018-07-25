@@ -163,13 +163,12 @@ export default {
       }
       this.$refs.visitRef.validateField('files');
     },
-    async submitAssignForm() {
-      let _this = this;
-      await this.getProductFileId().then((res) => {
-        _this.uploadData.fileInputId = res.data;
-        _this.formData.fileInputId = res.data;
+    submitAssignForm() {
+      this.getProductFileId().then((res) => {
+        this.uploadData.fileInputId = res.data;
+        this.formData.fileInputId = res.data;
+        this.uploadProductScheme(this.uploadData);
       });
-      this.uploadProductScheme(this.uploadData);
     },
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
@@ -180,13 +179,19 @@ export default {
       return false;
     },
     onSubmit() {
-      this.submitAssignForm();
+      // this.submitAssignForm();
       this.query();
     },
     async query() {
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
-          this.addApproveVisit(this.formData);
+          this.getProductFileId().then((res) => {
+            this.uploadData.fileInputId = res.data;
+            this.formData.fileInputId = res.data;
+            this.uploadProductScheme(this.uploadData);
+          }).then((res) => {
+            this.addApproveVisit(this.formData);
+          });
         }
       });
     },

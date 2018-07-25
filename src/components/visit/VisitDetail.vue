@@ -17,7 +17,7 @@
       </div>
       <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派走访人：</div>
-        <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
+        <div class="right" v-if="visitDetails.processorCN">{{visitDetails.processorCN}}</div>
       </div>
       <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派说明：</div>
