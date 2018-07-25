@@ -47,7 +47,7 @@
           <el-table-column label="客户经理" property="managerName" />
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" @click="handleDetail(scope.row)">
+              <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
                 查看主页
               </el-button>
             </template>
@@ -147,6 +147,7 @@ export default {
   .group-form {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   .group-form-item__input {
     width: $inputWidthQuery;

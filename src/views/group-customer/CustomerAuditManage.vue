@@ -168,6 +168,7 @@ export default {
   .group-form {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   .group-form-item__input {
     width: $inputWidthQuery;

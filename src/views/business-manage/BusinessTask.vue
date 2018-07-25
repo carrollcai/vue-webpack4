@@ -43,7 +43,7 @@
               转订单
             </el-button>
             <template v-if="businessTaskForm.taskHasComplete === '0'">
-              <el-dropdown @command="handleCommand(scope.row, $event)">
+              <el-dropdown class="table-more-btn" @command="handleCommand(scope.row, $event)">
                 <el-button type="text">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>

@@ -61,14 +61,14 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">
+            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-button type="text" v-if="isPassed(scope.row)" @click="handleEdit(scope.row)">
+            <el-button class="table-button" type="text" v-if="isPassed(scope.row)" @click="handleEdit(scope.row)">
               修改
             </el-button>
             <template v-if="isDraft(scope.row)">
-              <el-dropdown @command="handleCommand(scope.row, $event)">
+              <el-dropdown class="table-more-btn" @command="handleCommand(scope.row, $event)">
                 <span class="el-dropdown-link">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
@@ -243,6 +243,7 @@ export default {
   .group-form {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   .group-form-item__input {
     width: $inputWidthQuery;

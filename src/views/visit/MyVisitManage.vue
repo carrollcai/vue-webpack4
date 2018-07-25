@@ -57,10 +57,10 @@
       <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
       <el-table-column label="操作" width="130">
         <template slot-scope="scope">
-          <el-button type="text" @click="viewDetail(scope.row, false)">
+          <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
+          <el-button class="table-button" v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
             执行处理
           </el-button>
           <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
