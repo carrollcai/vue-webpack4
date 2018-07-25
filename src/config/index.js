@@ -297,7 +297,6 @@ export const FILE_ACCEPT = [
   '.doc',
   '.docx',
   '.pdf',
-  '.zip',
   '.rar'
 ];
 export const FILE_TIP = [
