@@ -241,7 +241,6 @@ export default {
       let fileName = file.name;
       let result = true;
       if (this.isAcceptable(fileName)) {
-
         // 文件大小转为 M
         let fileSize = file.size / (1024 * 1024);
 
