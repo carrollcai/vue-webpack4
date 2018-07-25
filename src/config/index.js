@@ -307,7 +307,7 @@ export const FILE_TIP = [
 // 文件上传的最大个数
 export const FILE_MAX_COUNT = 5;
 
-export const FILE_ERROR_TIP = '只支持“PPT、Excel、Word、PDF和rar压缩包”格式';
+export const FILE_ERROR_TIP = '只支持word、excel、ppt、pdf、rar格式';
 
 // 20M
 export const FILE_MAX_SIZE = 20;
