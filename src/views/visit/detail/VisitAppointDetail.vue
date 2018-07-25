@@ -179,13 +179,19 @@ export default {
       return false;
     },
     onSubmit() {
-      this.submitAssignForm();
+      // this.submitAssignForm();
       this.query();
     },
     async query() {
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
-          this.addApproveVisit(this.formData);
+          this.getProductFileId().then((res) => {
+            this.uploadData.fileInputId = res.data;
+            this.formData.fileInputId = res.data;
+            this.uploadProductScheme(this.uploadData);
+          }).then((res) => {
+            this.addApproveVisit(this.formData);
+          });
         }
       });
     },
