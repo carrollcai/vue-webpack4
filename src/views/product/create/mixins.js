@@ -103,7 +103,7 @@ export default {
       });
     },
     isNotAbleToSubmit() {
-      return !(!this.isAddingCase && this.cases.length);
+      return !(!this.isAddingCase);
     },
     salesTypeFormat(row, column, cellValue) {
       return cellValue === '0' ? '单品销售' : '组合销售';
