@@ -61,7 +61,7 @@
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
-          <p v-if="isFileInputId" class="download-style"><span v-for="item in fileArrList" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
+          <p v-if="isFileInputId" class="download-style"><span v-if="filesArr && filesArr.length" v-for="item in filesArr" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
         </div>
       </div>
     </div>
@@ -110,13 +110,15 @@ export default {
   props: {
     visitDetail: {
       type: Object
+    },
+    filesArr: {
+      type: Array
     }
   },
   data() {
     return {
       routeName: this.$route.name,
       isExecute: this.$route.query.isExecute,
-      fileArr: [],
       uploadData: {
         fileTypeId: 502,
         fileSaveName: '',
@@ -124,19 +126,10 @@ export default {
       }
     };
   },
-  async beforeMount() {
-    await this.queryFiles();
-  },
   computed: {
     isFileInputId() {
       if (this.visitDetail.fileInputId) {
-        console.log(this.visitDetail.fileInputId);
         return this.visitDetail.fileInputId;
-      }
-    },
-    fileArrList() {
-      if (this.fileArr) {
-        return this.fileArr;
       }
     },
     visitDetails() {
@@ -157,21 +150,6 @@ export default {
     }
   },
   methods: {
-    async queryFiles() {
-      if (this.visitDetail.fileInputId) {
-        await this.queryElec({
-          fileInputId: this.visitDetail.fileInputId
-        }).then((res) => {
-          (res.data).map(item => {
-            let data = {
-              path: item.fileSaveName,
-              name: item.fileName
-            };
-            this.fileArr.push(data);
-          });
-        });
-      }
-    },
     async dowloadFile(name, path) {
       this.uploadData = {
         fileTypeId: 502,
