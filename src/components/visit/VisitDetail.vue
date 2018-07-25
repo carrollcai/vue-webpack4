@@ -11,15 +11,15 @@
       </div>
     </div>
     <div class="visit-title" v-if="routeName === 'visit-application-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
-      <div class="task-detail-item">
+      <div v-if="isExecute === 'false'" class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派人：</div>
         <div class="right" v-if="visitDetails.opId">{{visitDetails.opId}}</div>
       </div>
-      <div class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派说明：</div>
         <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
@@ -115,6 +115,7 @@ export default {
   data() {
     return {
       routeName: this.$route.name,
+      isExecute: this.$route.query.isExecute,
       fileArr: [],
       uploadData: {
         fileTypeId: 502,
@@ -125,7 +126,6 @@ export default {
   },
   async beforeMount() {
     await this.queryFiles();
-    console.log(this.fileArr);
   },
   computed: {
     isFileInputId() {
