@@ -127,7 +127,22 @@ export default {
     };
   },
   async beforeMount() {
-    await this.queryVisitAppointDetail({visitId: this.visitId});
+    await this.queryVisitAppointDetail({visitId: this.visitId}).then((res) => {
+      if (this.visitAppointDetail.fileInputId) {
+        this.visitAppointDetail.filesArr = [];
+        this.queryElec({
+          fileInputId: this.visitAppointDetail.fileInputId
+        }).then((res) => {
+          (res.data).map(item => {
+            let data = {
+              path: item.fileSaveName,
+              name: item.fileName
+            };
+            this.visitAppointDetail.filesArr.push(data);
+          });
+        });
+      }
+    });
     await this.queryRegionManager({});
   },
   methods: {

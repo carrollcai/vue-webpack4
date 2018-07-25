@@ -116,7 +116,6 @@ export default {
     return {
       routeName: this.$route.name,
       isExecute: this.$route.query.isExecute,
-      fileArr: [],
       uploadData: {
         fileTypeId: 502,
         fileSaveName: '',
@@ -124,19 +123,17 @@ export default {
       }
     };
   },
-  async beforeMount() {
-    await this.queryFiles();
-  },
   computed: {
     isFileInputId() {
       if (this.visitDetail.fileInputId) {
+        console.log(this.visitAppointDetail.filesArr);
         console.log(this.visitDetail.fileInputId);
         return this.visitDetail.fileInputId;
       }
     },
     fileArrList() {
-      if (this.fileArr) {
-        return this.fileArr;
+      if (this.visitDetail.filesArr && this.visitDetail.filesArr.length) {
+        return this.visitDetail.filesArr;
       }
     },
     visitDetails() {
@@ -157,21 +154,6 @@ export default {
     }
   },
   methods: {
-    async queryFiles() {
-      if (this.visitDetail.fileInputId) {
-        await this.queryElec({
-          fileInputId: this.visitDetail.fileInputId
-        }).then((res) => {
-          (res.data).map(item => {
-            let data = {
-              path: item.fileSaveName,
-              name: item.fileName
-            };
-            this.fileArr.push(data);
-          });
-        });
-      }
-    },
     async dowloadFile(name, path) {
       this.uploadData = {
         fileTypeId: 502,
