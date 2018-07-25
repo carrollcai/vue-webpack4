@@ -112,10 +112,6 @@ export default {
     this.queryFiles();
   },
   computed: {
-    processorCn() {
-      let processor = this.visitDetails.processor;
-
-    },
     fileArrList() {
       if (this.fileArr) {
         return this.fileArr;
