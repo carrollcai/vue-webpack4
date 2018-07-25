@@ -61,7 +61,7 @@
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
-          <p v-if="isFileInputId" class="download-style"><span v-for="item in fileArrList" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
+          <p v-if="isFileInputId" class="download-style"><span v-for="item in filesArr" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
         </div>
       </div>
     </div>
@@ -126,14 +126,9 @@ export default {
   computed: {
     isFileInputId() {
       if (this.visitDetail.fileInputId) {
-        console.log(this.visitAppointDetail.filesArr);
+        console.log(this.visitDetail.filesArr);
         console.log(this.visitDetail.fileInputId);
         return this.visitDetail.fileInputId;
-      }
-    },
-    fileArrList() {
-      if (this.visitDetail.filesArr && this.visitDetail.filesArr.length) {
-        return this.visitDetail.filesArr;
       }
     },
     visitDetails() {

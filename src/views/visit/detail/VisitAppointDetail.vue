@@ -127,7 +127,7 @@ export default {
     };
   },
   async beforeMount() {
-    await this.queryVisitAppointDetail({visitId: this.visitId}).then((res) => {
+    this.queryVisitAppointDetail({visitId: this.visitId}).then((res) => {
       if (this.visitAppointDetail.fileInputId) {
         this.visitAppointDetail.filesArr = [];
         this.queryElec({
