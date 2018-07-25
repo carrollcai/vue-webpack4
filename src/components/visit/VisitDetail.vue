@@ -130,6 +130,7 @@ export default {
   computed: {
     isFileInputId() {
       if (this.visitDetail.fileInputId) {
+        console.log(this.visitDetail.fileInputId);
         return this.visitDetail.fileInputId;
       }
     },
