@@ -15,8 +15,6 @@
           v-model="productCase.composedProduct"
           multiple
           filterable
-          allow-create
-          default-first-option
           @change="productNameChange"
           placeholder="产品名称/编码">
           <el-option
