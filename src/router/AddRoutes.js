@@ -60,9 +60,9 @@ import CreateSaleStep from '@/views/product/create/CreateSaleStep.vue';
 import OrderCreateManage from '@/views/order/CreateManage.vue';
 import OrderHandleTask from '@/views/order/HandleTask.vue';
 import OrderOverview from '@/views/order/Overview.vue';
-import OrderCreate from '@/views/order/OrderCreate.vue';
-import OrderOverviewDetail from '@/views/order/OrderOverviewDetail.vue';
-import OrderHandleTaskDetail from '@/views/order/HandleTaskDetail.vue';
+import OrderCreate from '@/views/order/create/OrderCreate.vue';
+import OrderOverviewDetail from '@/views/order/detail/OrderOverviewDetail.vue';
+import OrderHandleTaskDetail from '@/views/order/detail/HandleTaskDetail.vue';
 
 /* 我的走访管理 */
 import MyVisitManage from '@/views/visit/MyVisitManage.vue';
