@@ -47,9 +47,15 @@
       </el-table-column>
       <el-table-column label="操作" width="160">
         <template slot-scope="operation">
-          <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
-          <span class="blue hand" @click="toPageModefiy(operation.row)">修改</span>
-          <span class="blue hand" @click="deleteProduct(operation.row)">删除</span>
+          <el-button class="table-button" type="text" @click="toPageDetail(operation.row)">
+            详情
+          </el-button>
+          <el-button class="table-button" type="text" @click="toPageModefiy(operation.row)">
+            修改
+          </el-button>
+          <el-button class="table-button" type="text" @click="deleteProduct(operation.row)">
+            删除
+          </el-button>
         </template>
       </el-table-column>
   </wm-table>
