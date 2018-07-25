@@ -65,7 +65,7 @@
 import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
-import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP, FILE_UPLOAD_LIMIT } from '@/config/index.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP } from '@/config/index.js';
 import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
 export default {
   components: {
