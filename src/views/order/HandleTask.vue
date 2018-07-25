@@ -62,7 +62,6 @@
             <el-button v-if="orderHandleTaskForm.businessStatus !== '0'" class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-
             <el-dropdown class="table-more-btn" v-if="orderHandleTaskForm.businessStatus === '0'" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
@@ -95,7 +94,7 @@ export default {
         id: null,
         dealPerson: null,
         dealResult: '',
-        resultStatus: '0', // 写死
+        resultStatus: '0', // 这里值固定
         taskInsId: null
       },
       assignHandleRules: {

@@ -66,7 +66,7 @@ import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP } from '@/config/index.js';
-import { textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
 export default {
   components: {
     WmTable,
@@ -84,6 +84,9 @@ export default {
     })
   },
   data() {
+    const fileCheck = (rule, value, callback) => {
+      fileValidLen(this.uploadData.files, callback);
+    };
     return {
       FILE_TIP,
       visitId: this.$route.params.id,
@@ -117,7 +120,9 @@ export default {
           { required: true, message: '请输入走访汇报', trigger: 'blur' },
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
-        files: []
+        files: [
+          { validator: fileCheck }
+        ]
       }
     };
   },

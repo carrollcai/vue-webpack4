@@ -47,9 +47,11 @@
       </el-table-column>
       <el-table-column label="创建人" show-overflow-tooltip property="operatorId" width="100">
       </el-table-column>
-      <el-table-column label="操作" property="" width="80">
+      <el-table-column label="操作" width="80">
         <template slot-scope="operation">
-          <span class="blue hand" @click="toPageDetail(operation.row)">详情</span>
+          <el-button class="table-button" type="text" @click="toPageDetail(operation.row)">
+            详情
+          </el-button>
         </template>
       </el-table-column>
   </wm-table>
@@ -75,7 +77,7 @@ export default {
         productType: null,
         operatorCn: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 20
       }
     };
   },
@@ -154,7 +156,7 @@ export default {
   margin-left: $blockWidth;
 }
 .p-manage {
-  padding: 24px; background: #fff;
+  // padding: 24px; background: #fff;
   .demo-form-inline {
     display: flex;
     align-items: center;
