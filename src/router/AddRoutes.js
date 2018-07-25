@@ -12,10 +12,10 @@ import DailyLive from '@/views/data-analysis/DailyLive.vue';
 // import TaskManagement from '@/views/task/Query.vue';
 // import TaskPush from '@/views/task/Push.vue';
 // import TaskTodo from '@/views/task/Todo.vue';
-// import TaskApprove from '@/views/task/Approve.vue';
-// import TaskQueryDetail from '@/views/task/QueryDetail.vue';
-// import TaskPushDetail from '@/views/task/PushDetail.vue';
-// import TaskTodoDetail from '@/views/task/TodoDetail.vue';
+// import TaskApprove from '@/views/task/app/approve/Approve.vue';
+// import TaskQueryDetail from '@/views/task/detail/QueryDetail.vue';
+// import TaskPushDetail from '@/views/task/detail/PushDetail.vue';
+// import TaskTodoDetail from '@/views/task/detail/TodoDetail.vue';
 
 import Business from '@/views/business-manage/Business.vue';
 import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';

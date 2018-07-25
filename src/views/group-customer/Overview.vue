@@ -156,9 +156,8 @@ export default {
   .customer-query-btns{
     margin-left: 40px;
   }
-
-  .customer-overview-management{
-    margin-top: $blockWidth;
-  }
+  // .customer-overview-management{
+  //   margin-top: $blockWidth;
+  // }
 }
 </style>
