@@ -303,7 +303,11 @@ export const FILE_TIP = [
   '1、附件格式支持word、excel、ppt、pdf、rar格式',
   '2、附件大小不超过20M。'
 ];
-export const FILE_ERROR_TIP = '只支持“PPT、Excel、Word和压缩包“格式';
+
+// 文件上传的最大个数
+export const FILE_MAX_COUNT = 5;
+
+export const FILE_ERROR_TIP = '只支持“PPT、Excel、Word、PDF和rar压缩包”格式';
 
 // 20M
 export const FILE_MAX_SIZE = 20;
