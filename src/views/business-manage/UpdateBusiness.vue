@@ -256,7 +256,6 @@ export default {
     save() {
       this.$refs['businessForm'].validate(valid => {
         if (!valid) return false;
-        var _this = this;
         const params = this.businessData;
         delete params.opporCode;
         delete params.contactGenderName;
@@ -271,12 +270,12 @@ export default {
         delete params.opporTypeName;
         delete params.predictAgreementTimeName;
         this.editBusinessDetail(params).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.$message({ showClose: true, message: '您已成功修改该条商机！', type: 'success' });
+          if (res.data) {
+            this.$message({ showClose: true, message: '您已成功修改该条商机！', type: 'success' });
             const path = `/business-manage/business-create-manage`;
-            _this.$router.push(path);
+            this.$router.push(path);
           } else {
-            _this.$message({ showClose: true, message: '修改失败！', type: 'error' });
+            this.$message({ showClose: true, message: '修改失败！', type: 'error' });
           }
         });
       });
