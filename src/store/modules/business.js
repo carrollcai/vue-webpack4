@@ -62,9 +62,6 @@ const mutations = {
   [types.COOPERATION_GROUP](state, data) {
     state.cooperationGroupList = data.list.map(val => Object.assign(val, {value: val.organizeName}));
   },
-  // [types.ORDER_QUERY_ORGANIZE_ADDRESS](state, data) {
-  //   state.orderOrganizeAddressList = data.list.map(val => Object.assign(val, {value: val.organizeName}));
-  // },
   [types.BUSINESS_OPPORTUNITY_LIST](state, data) {
     state.businessList = data;
   },
@@ -136,7 +133,6 @@ const mutations = {
   },
   [types.PRODUCT_NAME_CODE](state, data) {
     state.productNameCode = data.list.map(val => Object.assign(val, {value: val.productName}));
-    // state.cooperationGroupList = data.list;
   },
   [types.QUERY_TASK](state, data) {
     state.queryTask = data;

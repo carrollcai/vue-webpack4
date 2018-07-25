@@ -117,14 +117,13 @@ export default {
     handleSubmit() {
       const param = {};
       param.id = this.businessDetail.opporId;
-      var _this = this;
       this.submitBusinessDraft(param).then(res => {
-        if (res.data && res.errorInfo.code === '200') {
-          _this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+        if (res.data) {
+          this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
           const path = `/business-manage/business-create-manage`;
-          _this.$router.push(path);
+          this.$router.push(path);
         } else {
-          _this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+          this.$message({ showClose: true, message: '提交失败！', type: 'error' });
         }
       });
     },
@@ -159,17 +158,16 @@ export default {
         if (this.sendForm.reason.trim() !== '') {
           params.dealResult = this.sendForm.reason;
           params.dealPerson = this.sendForm.person.pop();
-          let _this = this;
           this.submitBusinessSend(params).then(res => {
-            if (res.data && res.errorInfo.code === '200') {
-              _this.sendDialogVisible = false;
-              _this.sendForm.person = '';
-              _this.sendForm.reason = '';
-              _this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
+            if (res.data) {
+              this.sendDialogVisible = false;
+              this.sendForm.person = '';
+              this.sendForm.reason = '';
+              this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
               const path = `/business-manage/business-task`;
-              _this.$router.push(path);
+              this.$router.push(path);
             } else {
-              _this.$message({ showClose: true, message: '分派失败！', type: 'error' });
+              this.$message({ showClose: true, message: '分派失败！', type: 'error' });
             }
           });
         } else {
@@ -189,17 +187,16 @@ export default {
       let params = this.cancelParam;
       params.dealResult = this.cancelForm.reason.trim();
       if (params.dealResult !== '') {
-        let _this = this;
         this.submitBusinessCancel(params).then(res => {
-          if (res.data && res.errorInfo.code === '200') {
-            _this.cancelDialogVisible = false;
-            _this.cancelForm.person = '';
-            _this.cancelForm.reason = '';
-            _this.$message({ showClose: true, message: '作废成功！', type: 'success' });
+          if (res.data) {
+            this.cancelDialogVisible = false;
+            this.cancelForm.person = '';
+            this.cancelForm.reason = '';
+            this.$message({ showClose: true, message: '作废成功！', type: 'success' });
             const path = `/business-manage/business-task`;
-            _this.$router.push(path);
+            this.$router.push(path);
           } else {
-            _this.$message({ showClose: true, message: '作废失败！', type: 'error' });
+            this.$message({ showClose: true, message: '作废失败！', type: 'error' });
           }
         });
       } else {
