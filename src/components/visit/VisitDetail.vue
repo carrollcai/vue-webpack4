@@ -83,7 +83,7 @@
     </div>
     <div class="task-detail-item">
       <div class="left">走访时间：</div>
-      <div class="right">{{visitDetails.visitStartTime.split(' ')[0]}}<span style="margin-left: 15px"></span>{{visitDetails.visitStartTime.split(' ')[1]}}-{{visitDetails.visitEndTime.split(' ')[1]}}</div>
+      <div class="right">{{(visitDetails.visitStartTime || '').split(' ')[0]}}<span style="margin-left: 15px"></span>{{(visitDetails.visitStartTime || '').split(' ')[1]}}-{{(visitDetails.visitEndTime || '').split(' ')[1]}}</div>
     </div>
     <div class="task-detail-item">
       <div class="left">走访内容：</div>
