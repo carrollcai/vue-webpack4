@@ -60,6 +60,7 @@ export default {
   },
   data() {
     return {
+      isNotPageChange: true,
       userManageRules: {}
     };
   },
@@ -97,9 +98,11 @@ export default {
       });
       return labels.join('，');
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.userForm.pageNo = value;
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.userForm.pageSize = value;
@@ -127,6 +130,7 @@ export default {
       });
     },
     query() {
+      this.userForm.pageNo = this.isNotPageChange ? 1 : this.userForm.pageNo;
       const params = Object.cloneDeep(this.userForm);
       params.opRegion = params.opRegion && params.opRegion.pop();
       this.getUserList(params);
