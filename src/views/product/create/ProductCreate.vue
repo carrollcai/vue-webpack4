@@ -104,7 +104,7 @@
             <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
                 编辑
             </el-button>
-            <el-button type="text" @click="handleDeleteCase(scope.$index)">
+            <el-button type="text" @click="handleDeleteCase(scope.$index, scope.row)">
               删除
             </el-button>
           </template>
@@ -201,7 +201,10 @@ export default {
           that.isSubmit = false;
         });
       } else {
-        this.saveProduct(this.product);
+        this.saveProduct(this.product).then(() => {
+        }, () => {
+          that.isSubmit = false;
+        });
       }
     },
     /**
