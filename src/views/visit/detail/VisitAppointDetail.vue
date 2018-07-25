@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="m-container container-mt16">
-    <Vdetail :visitDetail="visitDetailData"></Vdetail>
+    <Vdetail :visitDetail="visitDetailData" :filesArr="filesArrList"></Vdetail>
   </div>
   <div v-if="isExecute === 'true'" class="m-container transfer-out">
     <el-form
@@ -93,6 +93,7 @@ export default {
       isExecute: this.$route.query.isExecute,
       routeName: this.$route.name,
       fileList: [],
+      filesArrList: [],
       uploadData: {
         fileInputId: '',
         fileTypeId: 502,
@@ -129,7 +130,6 @@ export default {
   async beforeMount() {
     this.queryVisitAppointDetail({visitId: this.visitId}).then((res) => {
       if (this.visitAppointDetail.fileInputId) {
-        this.visitAppointDetail.filesArr = [];
         this.queryElec({
           fileInputId: this.visitAppointDetail.fileInputId
         }).then((res) => {
@@ -138,7 +138,7 @@ export default {
               path: item.fileSaveName,
               name: item.fileName
             };
-            this.visitAppointDetail.filesArr.push(data);
+            this.filesArrList.push(data);
           });
         });
       }
@@ -216,7 +216,8 @@ export default {
       'queryRegionManager',
       'addApproveVisit',
       'getProductFileId',
-      'uploadProductScheme'
+      'uploadProductScheme',
+      'queryElec'
     ])
   }
 };
