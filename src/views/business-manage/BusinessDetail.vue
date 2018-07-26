@@ -214,6 +214,9 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+.o-overview-detail {
+  margin-top: 16px;
+}
 .pl {
     padding: 30px 0px 40px 112px;
     background: #fff;
