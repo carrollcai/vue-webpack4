@@ -10,8 +10,8 @@
         <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
       </div>
     </div>
-    <div class="visit-title" v-if="routeName === 'visit-application-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
-      <div v-if="isExecute === 'false'" class="task-detail-item">
+    <div class="visit-title" v-if="isExecute === 'false' && routeName === 'visit-application-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
+      <div class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
@@ -25,13 +25,13 @@
       </div>
     </div>
     <div class="visit-title" v-if="isExecute === 'true'">
-      <div class="task-detail-item">
-        <div class="left">走访状态：</div>
-        <div class="right">{{visitDetails.visitStatus}}</div>
-      </div>
-      <div class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派人：</div>
         <div class="right" v-if="visitDetails.opId">{{visitDetails.opId}}</div>
+      </div>
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item w100">
+        <div class="left">指派说明：</div>
+        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
     </div>
     <div class="visit-title" v-if="routeName === 'visit-appoint-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
@@ -140,8 +140,8 @@ export default {
   },
   data() {
     return {
-      routeName: this.$route.name,
-      isExecute: this.$route.query.isExecute,
+      routeName: this.$route.name, // 指派或者创建
+      isExecute: this.$route.query.isExecute, // 详情还是执行处理
       uploadData: {
         fileTypeId: 502,
         fileSaveName: '',
