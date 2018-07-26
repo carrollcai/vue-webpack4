@@ -11,7 +11,7 @@
     </div>
     <div class="detail-bar-item" v-if="title.length === 3" v-for="(item, i) in title" :key="item">
       <div class="title">{{item}}</div>
-      <div>{{content[i]}}</div>
+      <div class="content">{{content[i]}}</div>
     </div>
   </div>
 </template>
@@ -58,12 +58,16 @@ export default {
   & .detail-bar-item {
     flex: 1;
     display: flex;
+    align-items: center;
   }
   & .title {
     width: 100px;
     text-align: right;
     color: rgba(0, 0, 0, 0.45);
     padding-right: 12px;
+  }
+  & .content {
+    flex: 1;
   }
   & .detail-bar-item2:nth-child(odd) {
     flex: 1;
