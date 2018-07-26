@@ -83,6 +83,7 @@
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState, mapMutations } from 'vuex';
 import moment from 'moment';
+import { textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -103,7 +104,8 @@ export default {
           { required: true, message: '请选择指派处理人', trigger: 'change' }
         ],
         dealResult: [
-          { required: true, message: '请输入分派的原因', trigger: 'blur' }
+          { required: true, message: '请输入分派的原因', trigger: 'blur' },
+          { validator: textareaMaxLimit, trigger: 'blur' }
         ]
       }
     };
@@ -125,13 +127,12 @@ export default {
   },
   methods: {
     submitAssign() {
-      let params = Object.cloneDeep(this.assignHandle);
-      params.dealPerson = params.dealPerson.pop();
-      params.taskInsId = this.currentRow.taskInsId;
-      params.id = this.currentRow.ordId;
-
       this.$refs.assignHandle.validate(valid => {
         if (!valid) return false;
+        let params = Object.cloneDeep(this.assignHandle);
+        params.dealPerson = params.dealPerson.pop();
+        params.taskInsId = this.currentRow.taskInsId;
+        params.id = this.currentRow.ordId;
 
         this.createAssign(params).then(() => {
           this.query();
