@@ -43,7 +43,7 @@
           :on-change="fileChange"
           :multiple="false"
           :on-remove="removeFile"
-          :file-list="fileList">
+          :file-list="fileLists">
           <el-button slot="trigger" size="small">
             <i class="icon-up margin-right-8"></i>上传文件
           </el-button>
@@ -73,6 +73,11 @@ export default {
     Vdetail
   },
   computed: {
+    fileLists() {
+      if (this.fileList && this.fileList.length) {
+        return this.fileList;
+      }
+    },
     visitDetailData() {
       if (this.visitAppointDetail) {
         return this.visitAppointDetail;
