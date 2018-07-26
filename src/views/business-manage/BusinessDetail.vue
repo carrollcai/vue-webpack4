@@ -16,18 +16,20 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="business-container o-overview-detail">
-      <detail-head v-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="queryTask[0]"></detail-head>
-      <detail-head v-else-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && !queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
-      <detail-head v-else :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
-      <detail-body :detailData="businessDetail"></detail-body>
-      <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">
-        <el-button type="primary" @click="handleSubmit()">提交处理</el-button>
-      </div>
-      <div class="pl" v-if="this.$route.params.taskHasComplete === '0' && this.$route.params.taskInsId !== '0'">
-        <el-button type="primary" @click="handleTrans()">转订单</el-button>
-        <el-button plain @click="handleSend()">分派</el-button>
-        <el-button plain @click="handleCancel()">作废</el-button>
+    <div class="m-container o-overview-detail">
+      <div class="task-detail-content">
+        <detail-head v-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="queryTask[0]"></detail-head>
+        <detail-head v-else-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && !queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
+        <detail-head v-else :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
+        <detail-body :detailData="businessDetail"></detail-body>
+        <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">
+          <el-button type="primary" @click="handleSubmit()">提交处理</el-button>
+        </div>
+        <div class="pl" v-if="this.$route.params.taskHasComplete === '0' && this.$route.params.taskInsId !== '0'">
+          <el-button type="primary" @click="handleTrans()">转订单</el-button>
+          <el-button plain @click="handleSend()">分派</el-button>
+          <el-button plain @click="handleCancel()">作废</el-button>
+        </div>
       </div>
     </div>
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">

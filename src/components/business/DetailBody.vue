@@ -71,49 +71,4 @@ export default {
   padding-bottom: 40px;
   margin-top: 0px;
 }
-.business-detail-body-item {
-  display: flex;
-  padding-top: 16px;
-  & .left {
-    width: 122px;
-    text-align: right;
-    color: rgba(0, 0, 0, 0.45);
-    padding-right: 12px;
-  }
-  & .right {
-    flex: 1;
-    text-align: left;
-    padding-right: 108px;
-  }
-  & .down {
-    height: 20px;
-    line-height: 20px;
-    color: rgba(55, 120, 255, 1);
-    font-size: 14px;
-    text-align: left;
-  }
-  & .title {
-    width: 122px;
-    text-align: right;
-    color: rgba(0, 0, 0, 0.45);
-    padding-right: 12px;
-    font-size: 14px;
-    height: 20px;
-    line-height: 20px;
-  }
-  & .content {
-    width: 215px;
-  }
-}
-.business-detail-body-title {
-  height: 68px;
-  display: flex;
-  background: #FAFAFA 100%;
-  margin: 32px 36px 8px 32px;
-  & .item {
-    flex: 1;
-    text-align: left;
-    color: rgba(0, 0, 0, 0.45);
-  }
-}
 </style>
