@@ -2,7 +2,7 @@
   <div class="home">
     <div class="top-container">
       <span>工作台</span>
-      <el-button style="float: right; padding: 3px 0px;" type="text" @click="homeSet()">首页设置</el-button>
+      <span class="set" @click="homeSet()">首页设置</span>
     </div>
     <div class="mt16" v-if="showOrangize">
       <el-card class="box-card">
@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="group-customer-item-more">
-            <el-button @click="goGroup()" type="text">查看更多</el-button>
+            <span class="more" @click="goGroup()">查看更多</span>
           </div>
         </div>
       </el-card>
@@ -117,7 +117,7 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>合作商机</span>
-            <el-button style="float: right; padding: 3px 0" type="text" @click="goBusiness()">更多></el-button>
+            <span class="set" @click="goBusiness()">更多></span>
           </div>
           <div class="box-content" :key="o" v-for="o in homeBusinessList">
             <div class="bar-title">
@@ -134,7 +134,7 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>订单总览</span>
-            <el-button style="float: right; padding: 3px 0" type="text" @click="goOrder()">更多></el-button>
+            <span class="set" @click="goOrder()">更多></span>
           </div>
           <div class="box-content" :key="o" v-for="o in homeOrderList">
             <div class="bar-title">
@@ -278,6 +278,7 @@ export default {
     },
     goVisitUncomplete() {
       this.$store.state.visit.myVisitManageFrom.state = '2';
+      this.$store.state.visit.myVisitManageFrom.visitStatus = ['2'];
       const path = `visit/my-visit-manage`;
       this.$router.push(path);
     },
@@ -382,9 +383,23 @@ export default {
 
 <style lang="scss">
 .home {
+  .set {
+    font-size:12px;
+    color: #3778FF;
+    float: right;
+    cursor: pointer;
+  }
+  .more {
+    width: 35px;
+    font-size: 12px;
+    color: #3778FF;
+    cursor: pointer;
+    display: inline-block;
+  }
   .top-container {
     background-color: #fff;
     padding: 12px 20px;
+    font-size: 14px;
   }
   .home-container {
     background-color: #fff;

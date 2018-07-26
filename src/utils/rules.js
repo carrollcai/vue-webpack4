@@ -197,6 +197,14 @@ export const multFileValid = (files, callback) => {
     callback();
   }
 };
+// 非必填
+export const fileValidLen = (files, callback) => {
+  if (files.length && files.length > FILE_UPLOAD_LIMIT) {
+    callback(new Error(`文件上传数量不能超过${FILE_UPLOAD_LIMIT}个`));
+  } else {
+    callback();
+  }
+};
 
 // 头尾空格校验，必须为字符串
 export const checkLeftRightSpace = (rule, value, callback) => {

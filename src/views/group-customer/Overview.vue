@@ -25,7 +25,7 @@
 
         <div class="flex customer-query-btns">
           <el-form-item>
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary" @click="handleQuery">查询</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -108,9 +108,12 @@ export default {
       const path = `/group-customer/overview/detail/${row.organizeId}`;
       this.$router.push(path);
     },
+    handleQuery() {
+      this.pageNo = 1;
+      this.query();
+    },
     query() {
-      const params = this.getParams();
-      this.queryCustomerOverviewList(params);
+      this.queryCustomerOverviewList(this.getParams());
     },
     getParams() {
       const {

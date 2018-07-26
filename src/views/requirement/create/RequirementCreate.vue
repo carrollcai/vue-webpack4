@@ -161,9 +161,9 @@
                     </el-select>
                 </el-form-item>
               </el-col>
-              <el-col class="line-container checkbox-sms" :span="7">
+              <!-- <el-col class="line-container checkbox-sms" :span="7">
                 <el-checkbox v-model="checked">短信提醒他</el-checkbox>
-              </el-col>
+              </el-col> -->
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitRequirement()" :loading="isSubmit">{{ isSubmit ? '加载中' : '提交处理'}}</el-button>
