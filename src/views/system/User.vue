@@ -32,7 +32,7 @@
       <el-table-column label="手机号" property="mobile" />
       <el-table-column label="用户角色" property="roleNames" show-overflow-tooltip />
       <el-table-column label="用户归属" property="opRegion" />
-      <el-table-column label="所属省份" show-overflow-tooltip>
+      <el-table-column label="省份权限" show-overflow-tooltip>
         <template slot-scope="scope">
           {{transformProvinces(scope.row.provinces)}}
         </template>

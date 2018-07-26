@@ -64,6 +64,9 @@ const mutations = {
     state.customerManagers = data;
   },
   [types.GROUP_CUSTOMER_DETAIL](state, data) {
+    // 需要将时间转为Date对象，否则无法修改
+    data.establishTime = new Date(data.establishTime);
+
     state.groupCustomer = data;
   },
   [types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS](state, data) {
