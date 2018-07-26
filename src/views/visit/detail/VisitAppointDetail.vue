@@ -188,8 +188,14 @@ export default {
       return false;
     },
     onSubmit() {
-      this.submitAssignForm();
-      this.query();
+      // this.submitAssignForm();
+      this.getProductFileId().then((res) => {
+        this.uploadData.fileInputId = res.data;
+        this.formData.fileInputId = res.data;
+        console.log(this.uploadData);
+        this.uploadProductScheme(this.uploadData);
+        this.query();
+      });
     },
     query() {
       this.$refs.visitRef.validate((valid) => {
