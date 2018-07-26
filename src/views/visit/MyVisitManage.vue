@@ -191,7 +191,6 @@ export default {
 }
 .visit-form {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 .visit-form-item {

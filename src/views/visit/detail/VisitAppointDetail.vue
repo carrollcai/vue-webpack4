@@ -39,13 +39,11 @@
       </el-form-item>
       <el-form-item label="物料上传：" label-width="130px" prop="files">
         <el-upload class="upload-demo" action=""
-          :limit="FILE_MAX_COUNT"
           :auto-upload="false"
           :on-change="fileChange"
           :multiple="false"
           :on-remove="removeFile"
-          :on-exceed="handleExceed"
-          :file-list="fileLists">
+          :file-list="uploadData.files">
           <el-button slot="trigger" size="small">
             <i class="icon-up margin-right-8"></i>上传文件
           </el-button>
@@ -68,7 +66,7 @@ import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_MAX_COUNT, FILE_TIP } from '@/config/index.js';
-import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
+import { textareaLimit, textareaMaxLimit, multFileValid } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -76,11 +74,11 @@ export default {
     Vdetail
   },
   computed: {
-    fileLists() {
-      if (this.fileList && this.fileList.length) {
-        return this.fileList;
-      }
-    },
+    // fileLists() {
+    //   if (this.fileList && this.fileList.length) {
+    //     return this.fileList;
+    //   }
+    // },
     visitDetailData() {
       if (this.visitAppointDetail) {
         return this.visitAppointDetail;
@@ -93,7 +91,7 @@ export default {
   },
   data() {
     const fileCheck = (rule, value, callback) => {
-      fileValidLen(this.uploadData.files, callback);
+      multFileValid(this.uploadData.files, callback);
     };
     return {
       FILE_TIP,
@@ -154,27 +152,24 @@ export default {
     await this.queryRegionManager({});
   },
   methods: {
-    handleExceed() {
-      this.$message({
-        message: `附件个数已满${FILE_MAX_COUNT}个`,
-        type: 'warning'
-      });
-    },
     beforeUpload(file, fileList) {
       const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
       const isFormat = !this.isAcceptable(file.name);
+      const isOverNum = fileList.length > FILE_MAX_COUNT;
       let index = fileList.findIndex(val => val.uid === file.raw.uid);
       if (isFormat) {
         this.$message.error(FILE_ERROR_TIP);
         fileList.splice(index, 1);
-        this.fileList.splice(index, 1);
       }
       if (isOverLimit) {
         this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
         fileList.splice(index, 1);
-        this.fileList.splice(index, 1);
       }
-      return isOverLimit || isFormat;
+      if (isOverNum) {
+        this.$message.error(`文件上传数量不能超过${FILE_MAX_COUNT}个`);
+        fileList.splice(index, 1);
+      }
+      return isOverLimit || isFormat || isOverNum;
     },
     removeFile(file, fileList) {
       let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
@@ -183,7 +178,6 @@ export default {
     },
     fileChange(file, fileList) {
       if (this.beforeUpload(file, fileList)) return false;
-      this.fileList.push(file.raw);
       this.uploadData.files.push(file.raw);
       this.$refs.visitRef.validateField('files');
     },

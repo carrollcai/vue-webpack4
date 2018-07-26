@@ -79,7 +79,7 @@ import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
 import { multFileValid, inte5Deci4, textareaLimit } from '@/utils/rules.js';
-import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP } from '@/config/index.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP, FILE_MAX_COUNT } from '@/config/index.js';
 
 export default {
   components: {
@@ -197,6 +197,7 @@ export default {
     beforeUpload(file, fileList) {
       const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
       const isFormat = !this.isAcceptable(file.name);
+      const isOverNum = fileList.length > FILE_MAX_COUNT;
       let index = fileList.findIndex(val => val.uid === file.raw.uid);
       if (isFormat) {
         this.$message.error(FILE_ERROR_TIP);
@@ -206,7 +207,11 @@ export default {
         this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
         fileList.splice(index, 1);
       }
-      return isOverLimit || isFormat;
+      if (isOverNum) {
+        this.$message.error(`文件上传数量不能超过${FILE_MAX_COUNT}个`);
+        fileList.splice(index, 1);
+      }
+      return isOverLimit || isFormat || isOverNum;
     },
     fileChange(file, fileList) {
       if (this.beforeUpload(file, fileList)) return false;
