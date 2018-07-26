@@ -10,8 +10,8 @@
         <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
       </div>
     </div>
-    <div class="visit-title" v-if="routeName === 'visit-application-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
-      <div v-if="isExecute === 'false'" class="task-detail-item">
+    <div class="visit-title" v-if="isExecute === 'false' && routeName === 'visit-application-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
+      <div class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
@@ -140,8 +140,8 @@ export default {
   },
   data() {
     return {
-      routeName: this.$route.name,
-      isExecute: this.$route.query.isExecute,
+      routeName: this.$route.name, // 指派或者创建
+      isExecute: this.$route.query.isExecute, // 详情还是执行处理
       uploadData: {
         fileTypeId: 502,
         fileSaveName: '',
