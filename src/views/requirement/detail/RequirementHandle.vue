@@ -79,9 +79,9 @@
                     v-model="processor" placeholder="请选择"></el-cascader>
                 </el-form-item>
               </el-col>
-              <el-col class="line-container" :span="8">
+              <!-- <el-col class="line-container" :span="8">
                 <el-checkbox v-model="checked">短信提醒他</el-checkbox>
-              </el-col>
+              </el-col> -->
             </el-form-item>
           </template>
           <el-form-item>
