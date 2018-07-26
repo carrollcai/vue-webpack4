@@ -39,10 +39,12 @@
       </el-form-item>
       <el-form-item label="物料上传：" label-width="130px" prop="files">
         <el-upload class="upload-demo" action=""
+          :limit="FILE_MAX_COUNT"
           :auto-upload="false"
           :on-change="fileChange"
           :multiple="false"
           :on-remove="removeFile"
+          :on-exceed="handleExceed"
           :file-list="fileLists">
           <el-button slot="trigger" size="small">
             <i class="icon-up margin-right-8"></i>上传文件
@@ -65,8 +67,9 @@
 import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
-import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP } from '@/config/index.js';
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_MAX_COUNT, FILE_TIP } from '@/config/index.js';
 import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
+
 export default {
   components: {
     WmTable,
@@ -151,6 +154,12 @@ export default {
     await this.queryRegionManager({});
   },
   methods: {
+    handleExceed() {
+      this.$message({
+        message: `附件个数已满${FILE_MAX_COUNT}个`,
+        type: 'warning'
+      });
+    },
     beforeUpload(file, fileList) {
       const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
       const isFormat = !this.isAcceptable(file.name);
