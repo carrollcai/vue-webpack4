@@ -19,7 +19,7 @@
         <div class="left">指派人：</div>
         <div class="right" v-if="visitDetails.opId">{{visitDetails.opId}}</div>
       </div>
-      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item w100">
         <div class="left">指派说明：</div>
         <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
@@ -33,7 +33,7 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item w100">
         <div class="left">指派说明：</div>
         <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
@@ -47,13 +47,13 @@
         <div class="left">审核人：</div>
         <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
       </div>
-      <div class="task-detail-item">
+      <div class="task-detail-item w100">
         <div class="left">驳回原因：</div>
         <div class="right" v-if="visitDetails.advice">{{visitDetails.advice}}</div>
       </div>
     </div>
     <div class="visit-title" v-if="routeName === 'visit-appoint-detail' && (visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成')">
-      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+      <div class="task-detail-item">
         <div class="left">指派走访人：</div>
         <div class="right" v-if="visitDetails.processorCN">{{visitDetails.processorCN}}</div>
       </div>
@@ -61,7 +61,7 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+      <div class="task-detail-item w100">
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div class="visit-title" v-if="routeName === 'visit-application-detail' && (visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成')">
-      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+      <div class="task-detail-item">
         <div class="left">指派人：</div>
         <div class="right" v-if="visitDetails.opId">{{visitDetails.opId}}</div>
       </div>
@@ -78,7 +78,7 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+      <div class="task-detail-item w100">
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
@@ -191,11 +191,13 @@ export default {
   .ml15 {margin-left: 15px;}
   .visit-title {
     display: flex;
+    flex-wrap: wrap;
     background: #FAFAFA;
     .task-detail-item {
       width: 50%;
       margin-bottom: 16px;
     }
+    .w100 {width: 100% !important;}
   }
   .task-detail-item {
     .left {
