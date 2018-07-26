@@ -166,10 +166,10 @@ export const checkPhone = (rule, value, callback) => {
 // 修改20180720，邮箱可以不是必填
 export const emailCheck = (rule, value, callback) => {
   const reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
-  if (value.length > EMAIL_MAX_LENGTH) {
-    callback(new Error(`邮箱长度不得超过${EMAIL_MAX_LENGTH}`));
-  } else if (String(value).trim() === '') {
+  if (String(value).trim() === '' || value === null) {
     callback();
+  } else if (value.length > EMAIL_MAX_LENGTH) {
+    callback(new Error(`邮箱长度不得超过${EMAIL_MAX_LENGTH}`));
   } else if (reg.test(value)) {
     callback();
   } else {
