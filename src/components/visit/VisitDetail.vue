@@ -10,14 +10,28 @@
         <div class="right" v-if="visitDetails.visitAuditorCN">{{visitDetails.visitAuditorCN}}</div>
       </div>
     </div>
-    <div class="visit-title" v-if="visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行'">
-      <div class="task-detail-item">
+    <div class="visit-title" v-if="routeName === 'visit-application-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
+      <div v-if="isExecute === 'false'" class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
       <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+        <div class="left">指派人：</div>
+        <div class="right" v-if="visitDetails.opId">{{visitDetails.opId}}</div>
+      </div>
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+        <div class="left">指派说明：</div>
+        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
+      </div>
+    </div>
+    <div class="visit-title" v-if="routeName === 'visit-appoint-detail' && (visitDetails.visitStatus === '2' || visitDetails.visitStatus === '待执行')">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派走访人：</div>
         <div class="right" v-if="visitDetails.processorCN">{{visitDetails.processorCN}}</div>
+      </div>
+      <div class="task-detail-item">
+        <div class="left">走访状态：</div>
+        <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
       <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">指派说明：</div>
@@ -38,7 +52,11 @@
         <div class="right" v-if="visitDetails.advice">{{visitDetails.advice}}</div>
       </div>
     </div>
-    <div class="visit-title" v-if="visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成'">
+    <div class="visit-title" v-if="routeName === 'visit-appoint-detail' && (visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成')">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+        <div class="left">指派走访人：</div>
+        <div class="right" v-if="visitDetails.processorCN">{{visitDetails.processorCN}}</div>
+      </div>
       <div class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
@@ -47,7 +65,20 @@
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
-          <p v-if="visitDetail.fileInputId" class="download-style"><span v-for="item in fileArrList" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
+          <p v-if="isFileInputId" class="download-style"><span v-if="filesArr && filesArr.length" v-for="item in filesArr" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="visit-title" v-if="routeName === 'visit-application-detail' && (visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成')">
+      <div class="task-detail-item">
+        <div class="left">走访状态：</div>
+        <div class="right">{{visitDetails.visitStatus}}</div>
+      </div>
+      <div class="task-detail-item">
+        <div class="left">执行汇报：</div>
+        <div class="right" v-if="visitDetails.feedback">
+          <span style="display: block;">{{visitDetails.feedback}}</span>
+          <p v-if="isFileInputId" class="download-style"><span v-if="filesArr && filesArr.length" v-for="item in filesArr" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
         </div>
       </div>
     </div>
@@ -69,7 +100,7 @@
     </div>
     <div class="task-detail-item">
       <div class="left">走访时间：</div>
-      <div class="right">{{visitDetails.visitStartTime}} ~ {{visitDetails.visitEndTime}}</div>
+      <div class="right">{{(visitDetails.visitStartTime || '').split(' ')[0]}}<span style="margin-left: 15px"></span>{{(visitDetails.visitStartTime || '').split(' ')[1]}}-{{(visitDetails.visitEndTime || '').split(' ')[1]}}</div>
     </div>
     <div class="task-detail-item">
       <div class="left">走访内容：</div>
@@ -96,11 +127,15 @@ export default {
   props: {
     visitDetail: {
       type: Object
+    },
+    filesArr: {
+      type: Array
     }
   },
   data() {
     return {
-      fileArr: [],
+      routeName: this.$route.name,
+      isExecute: this.$route.query.isExecute,
       uploadData: {
         fileTypeId: 502,
         fileSaveName: '',
@@ -108,13 +143,10 @@ export default {
       }
     };
   },
-  beforeMount() {
-    this.queryFiles();
-  },
   computed: {
-    fileArrList() {
-      if (this.fileArr) {
-        return this.fileArr;
+    isFileInputId() {
+      if (this.visitDetail.fileInputId) {
+        return this.visitDetail.fileInputId;
       }
     },
     visitDetails() {
@@ -135,21 +167,6 @@ export default {
     }
   },
   methods: {
-    async queryFiles() {
-      if (this.visitDetail.fileInputId) {
-        await this.queryElec({
-          fileInputId: this.visitDetail.fileInputId
-        }).then((res) => {
-          (res.data).map(item => {
-            let data = {
-              path: item.fileSaveName,
-              name: item.fileName
-            };
-            this.fileArr.push(data);
-          });
-        });
-      }
-    },
     async dowloadFile(name, path) {
       this.uploadData = {
         fileTypeId: 502,

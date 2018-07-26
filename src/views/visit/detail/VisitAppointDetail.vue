@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="m-container container-mt16">
-    <Vdetail :visitDetail="visitDetailData"></Vdetail>
+    <Vdetail :visitDetail="visitDetailData" :filesArr="filesArrList"></Vdetail>
   </div>
   <div v-if="isExecute === 'true'" class="m-container transfer-out">
     <el-form
@@ -66,7 +66,7 @@ import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_TIP } from '@/config/index.js';
-import { textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
+import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
 export default {
   components: {
     WmTable,
@@ -84,12 +84,16 @@ export default {
     })
   },
   data() {
+    const fileCheck = (rule, value, callback) => {
+      fileValidLen(this.uploadData.files, callback);
+    };
     return {
       FILE_TIP,
       visitId: this.$route.params.id,
       isExecute: this.$route.query.isExecute,
       routeName: this.$route.name,
       fileList: [],
+      filesArrList: [],
       uploadData: {
         fileInputId: '',
         fileTypeId: 502,
@@ -117,12 +121,28 @@ export default {
           { required: true, message: '请输入走访汇报', trigger: 'blur' },
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
-        files: []
+        files: [
+          { validator: fileCheck }
+        ]
       }
     };
   },
   async beforeMount() {
-    await this.queryVisitAppointDetail({visitId: this.visitId});
+    this.queryVisitAppointDetail({visitId: this.visitId}).then((res) => {
+      if (this.visitAppointDetail.fileInputId) {
+        this.queryElec({
+          fileInputId: this.visitAppointDetail.fileInputId
+        }).then((res) => {
+          (res.data).map(item => {
+            let data = {
+              path: item.fileSaveName,
+              name: item.fileName
+            };
+            this.filesArrList.push(data);
+          });
+        });
+      }
+    });
     await this.queryRegionManager({});
   },
   methods: {
@@ -140,31 +160,20 @@ export default {
       }
       return isOverLimit || isFormat;
     },
+    removeFile(file, fileList) {
+      let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
+      this.uploadData.files.splice(index, 1);
+      this.fileList.splice(index, 1);
+      this.$refs.visitRef.validateField('files');
+    },
     fileChange(file, fileList) {
       if (this.beforeUpload(file, fileList)) return false;
       this.fileList.push(file.raw);
       this.uploadData.files.push(file.raw);
       this.$refs.visitRef.validateField('files');
     },
-    removeFile(files, fileList) {
-      let _this = this;
-      if (files.elecInstId) {
-        this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
-          if (res.errorInfo.code === '200') {
-            this.$message.success(`已删除成功!`);
-            if (fileList.length === 0) {
-              _this.uploadData.fileInputId = '';
-              _this.formData.fileInputId = '';
-            }
-          }
-        });
-      } else {
-        this.uploadData.files = null;
-      }
-      this.$refs.visitRef.validateField('files');
-    },
-    submitAssignForm() {
-      this.getProductFileId().then((res) => {
+    async submitAssignForm() {
+      await this.getProductFileId().then((res) => {
         this.uploadData.fileInputId = res.data;
         this.formData.fileInputId = res.data;
         this.uploadProductScheme(this.uploadData);
@@ -179,19 +188,13 @@ export default {
       return false;
     },
     onSubmit() {
-      // this.submitAssignForm();
+      this.submitAssignForm();
       this.query();
     },
-    async query() {
+    query() {
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
-          this.getProductFileId().then((res) => {
-            this.uploadData.fileInputId = res.data;
-            this.formData.fileInputId = res.data;
-            this.uploadProductScheme(this.uploadData);
-          }).then((res) => {
-            this.addApproveVisit(this.formData);
-          });
+          this.addApproveVisit(this.formData);
         }
       });
     },
@@ -200,7 +203,8 @@ export default {
       'queryRegionManager',
       'addApproveVisit',
       'getProductFileId',
-      'uploadProductScheme'
+      'uploadProductScheme',
+      'queryElec'
     ])
   }
 };

@@ -168,7 +168,7 @@ export default {
     if (type !== 'create') {
       // 修改的话，需要给本地产品缓存重新赋值
       await this.getOrderEdit({ ordId: id });
-      this.selectedProduct = await {
+      this.selectedProduct = {
         productName: this.orderCreate.productName,
         productId: this.orderCreate.productId
       };
@@ -204,7 +204,7 @@ export default {
       await this.queryProductByCodeOrName(params);
 
       await clearTimeout(this.timeout);
-      this.timeout = await setTimeout(() => {
+      this.timeout = setTimeout(() => {
         cb(this.productList);
       }, 1000);
     },
@@ -218,7 +218,7 @@ export default {
       await this.getOrganizeAddress(params);
 
       await clearTimeout(this.timeout);
-      this.timeout = await setTimeout(() => {
+      this.timeout = setTimeout(() => {
         cb(this.orderOrganizeAddressList);
       }, 1000);
     },

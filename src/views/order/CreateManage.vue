@@ -136,15 +136,16 @@ export default {
       await this.getOrganizeAddress(params);
 
       await clearTimeout(this.timeout);
-      this.timeout = await setTimeout(() => {
+      this.timeout = setTimeout(() => {
         this.organizeNameList = this.orderOrganizeAddressList;
 
         cb(this.orderOrganizeAddressList);
       }, 1000);
     },
     async connectOrganize(row) {
-      const isSelected = val => val.organizeName === this.organizeNameInfo.organizeName || val.organizeCode === this.organizeNameInfo.organizeName;
-      let selectedObj = this.organizeNameList.filter(isSelected)[0];
+      const { organizeName } = this.organizeNameInfo;
+      const isSelected = val => val.organizeName === organizeName || val.organizeCode === organizeName;
+      const selectedObj = this.organizeNameList.filter(isSelected)[0];
       if (selectedObj) {
         await this.setConnectOriganize({
           ordId: row.ordId,
