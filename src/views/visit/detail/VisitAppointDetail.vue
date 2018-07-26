@@ -160,30 +160,17 @@ export default {
       }
       return isOverLimit || isFormat;
     },
+    removeFile(file, fileList) {
+      let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
+      this.uploadData.files.splice(index, 1);
+      this.fileList.splice(index, 1);
+      this.$refs.visitRef.validateField('files');
+    },
     fileChange(file, fileList) {
       if (this.beforeUpload(file, fileList)) return false;
       this.fileList.push(file.raw);
       this.uploadData.files.push(file.raw);
       this.$refs.visitRef.validateField('files');
-    },
-    async removeFile(files, fileList) {
-      let _this = this;
-      if (this.uploadData.fileInputId) {
-        await this.queryElec({ fileInputId: this.uploadData.fileInputId }).then((res) => {
-          (res.data).map(item => {
-            if (item.elecInstId === files.elecInstId) {
-              this.delUplodFile({elecInstId: files.elecInstId, fileTypeId: 502}).then((res) => {
-                this.$message.success(`已删除成功!`);
-                if (fileList.length === 0) {
-                  _this.uploadData.fileInputId = '';
-                  _this.formData.fileInputId = '';
-                }
-              });
-            }
-          });
-        });
-        this.$refs.visitRef.validateField('files');
-      }
     },
     async submitAssignForm() {
       await this.getProductFileId().then((res) => {
