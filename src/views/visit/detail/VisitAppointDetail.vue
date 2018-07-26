@@ -43,7 +43,7 @@
           :on-change="fileChange"
           :multiple="false"
           :on-remove="removeFile"
-          :file-list="fileList">
+          :file-list="fileLists">
           <el-button slot="trigger" size="small">
             <i class="icon-up margin-right-8"></i>上传文件
           </el-button>
@@ -73,6 +73,11 @@ export default {
     Vdetail
   },
   computed: {
+    fileLists() {
+      if (this.fileList && this.fileList.length) {
+        return this.fileList;
+      }
+    },
     visitDetailData() {
       if (this.visitAppointDetail) {
         return this.visitAppointDetail;
@@ -153,17 +158,18 @@ export default {
       if (isFormat) {
         this.$message.error(FILE_ERROR_TIP);
         fileList.splice(index, 1);
+        this.fileList.splice(index, 1);
       }
       if (isOverLimit) {
         this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
         fileList.splice(index, 1);
+        this.fileList.splice(index, 1);
       }
       return isOverLimit || isFormat;
     },
     removeFile(file, fileList) {
       let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
       this.uploadData.files.splice(index, 1);
-      this.fileList.splice(index, 1);
       this.$refs.visitRef.validateField('files');
     },
     fileChange(file, fileList) {
