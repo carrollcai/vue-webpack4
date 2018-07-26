@@ -14,11 +14,11 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="visit-form-item__input visit-form-item__lable" prop="staffName">
+          <el-form-item class="form-query-input-width form-left-width" prop="staffName">
             <el-input v-model="organizeName" placeholder="走访公司名称" clearable/>
           </el-form-item>
 
-          <el-form-item class="visit-form-item__input visit-form-item__lable" prop="code">
+          <el-form-item class="form-query-input-width form-left-width" prop="code">
             <el-select v-model="isFirstVisit" clearable placeholder="是否首客">
               <el-option v-for="(item, i) in VISIT_FIST_VISIT" :key="i" :value="item.value" :label="item.label" />
             </el-select>

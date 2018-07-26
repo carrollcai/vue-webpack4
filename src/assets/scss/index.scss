@@ -124,7 +124,7 @@
   word-break: break-all;
 }
 
-
+// 上传样式
 .el-upload__tip{
   min-height: 44px;
   line-height: 22px;
@@ -134,6 +134,22 @@
 .lh1-5 {
   line-height: 1.5;
 }
+// 更多按钮间距
 .table-more-btn {
   margin-left: 10px;
+}
+
+.form-left-width {
+  margin-left: $formLeftWidth;
+}
+
+.form-query-input-width {
+  width: $inputWidthQuery;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-hidden .el-form-item {
+  float: left;
 }

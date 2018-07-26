@@ -3,18 +3,16 @@
   <div class="m-container">
     <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitManageFrom">
       <div class="flex">
-        <el-form-item style="width: 230px;" prop="date">
+        <el-form-item prop="date">
           <el-col>
-            <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
             </el-date-picker>
           </el-col>
         </el-form-item>
-        <el-form-item class="visit-form-item__lable"></el-form-item>
-        <el-form-item>
+        <el-form-item class="form-query-input-width form-left-width">
           <el-input v-model="myVisitManageFrom.organizeName" clearable placeholder="走访公司名称"></el-input>
         </el-form-item>
-        <el-form-item class="visit-form-item__lable"></el-form-item>
-        <el-form-item class="visit-form-item__input">
+        <el-form-item class="form-query-input-width form-left-width">
           <el-select v-model="myVisitManageFrom.isFirstVisit" clearable placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
@@ -195,9 +193,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-.visit-form-item__input {
-  width: $inputWidthQuery;
 }
 .visit-form-item {
   margin-left: $formWidth;

@@ -8,11 +8,11 @@
           </el-date-picker>
         </el-form-item>
 
-        <el-form-item class="task-form-item__input group-form-item__lable">
+        <el-form-item class="form-query-input-width form-left-width">
           <el-input clearable v-model="businessForm.organizeNameOrCode" placeholder="合作集团/编码" />
           <!--<el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
         </el-form-item>
-        <el-form-item class="task-form-item__input group-form-item__lable">
+        <el-form-item class="form-query-input-width form-left-width">
           <el-input clearable v-model="businessForm.opporCode" placeholder="商机编码" />
         </el-form-item>
       </div>
