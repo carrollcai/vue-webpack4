@@ -192,6 +192,7 @@ export default {
       this.getProductFileId().then((res) => {
         this.uploadData.fileInputId = res.data;
         this.formData.fileInputId = res.data;
+        console.log(this.uploadData);
         this.uploadProductScheme(this.uploadData);
         this.query();
       });

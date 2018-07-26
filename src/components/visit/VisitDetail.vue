@@ -61,7 +61,7 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
@@ -78,7 +78,7 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
-      <div class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
