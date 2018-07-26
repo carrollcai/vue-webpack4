@@ -24,10 +24,10 @@
             <el-date-picker v-model="orderHandleTaskForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item class="o-form-item__input">
+          <el-form-item class="form-query-input-width form-left-width">
             <el-input clearable v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编码" />
           </el-form-item>
-          <el-form-item class="o-form-item__input">
+          <el-form-item class="form-query-input-width form-left-width">
             <el-input clearable v-model="orderHandleTaskForm.organizeNameOrCode" placeholder="合作集团/编码" />
           </el-form-item>
         </div>
@@ -229,10 +229,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-.o-form-item__input {
-  width: $inputWidthQuery;
-  margin-left: $blockWidth;
 }
 .order-form-item {
   margin-left: $formWidth;

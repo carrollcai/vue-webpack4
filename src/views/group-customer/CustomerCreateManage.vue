@@ -3,23 +3,23 @@
     <div class="m-container query-block">
       <el-form class="group-form">
         <div class="flex">
-          <el-form-item class="group-form-item__input">
+          <el-form-item class="form-query-input-width">
             <el-select v-model="organizeType" clearable placeholder="集团属性">
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="roleId">
+          <el-form-item class="form-query-input-width form-left-width" prop="roleId">
             <el-select v-model="provinceId" clearable placeholder="所属省份">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="staffName">
+          <el-form-item class="form-query-input-width form-left-width" prop="staffName">
             <el-input v-model="managerName" clearable placeholder="客户经理"/>
           </el-form-item>
 
-          <el-form-item class="group-form-item__input group-form-item__lable" prop="code">
+          <el-form-item class="form-query-input-width form-left-width" prop="code">
             <el-input v-model="otherField" clearable placeholder="集团名称/编码"/>
           </el-form-item>
         </div>
@@ -256,11 +256,6 @@ export default {
   .group-form-item {
     margin-left: $formWidth;
   }
-
-  .group-customer-list{
-    margin-top: $blockWidth;
-  }
-
   .customer-query-btns{
     margin-left: 40px;
   }

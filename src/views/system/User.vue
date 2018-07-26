@@ -8,11 +8,11 @@
             <el-option v-for="item in userRoleList" :key="item.role" :value="item.roleId" :label="item.roleName" />
           </el-select>
         </el-form-item>
-        <el-form-item class="user-form-item__input" prop="otherField">
+        <el-form-item class="user-form-item__input form-left-width" prop="otherField">
           <el-cascader expand-trigger="hover" :options="addAllInRegion()" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属" clearable>
           </el-cascader>
         </el-form-item>
-        <el-form-item class="user-form-item__input" prop="code">
+        <el-form-item class="user-form-item__input form-left-width" prop="code">
           <el-input v-model="userForm.otherField" placeholder="姓名/账号/手机" clearable />
         </el-form-item>
       </div>
@@ -157,9 +157,9 @@ export default {
 .user-form-item__input {
   width: $inputWidthQuery;
 }
-.user-form-item__input:not(:first-child) {
-  margin-left: $blockWidth;
-}
+// .user-form-item__input:not(:first-child) {
+//   margin-left: $blockWidth;
+// }
 .role-form-item {
   margin-left: $formWidth;
 }

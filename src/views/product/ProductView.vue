@@ -8,17 +8,17 @@
           </el-date-picker>
         </el-col>
       </el-form-item>
-      <el-form-item class="p-form-item__lable">
+      <el-form-item class="form-query-input-width form-left-width">
         <el-select class="item-width" v-model="formData.productType" clearable placeholder="产品类型">
           <el-option label="全部" value="" />
           <el-option label="个人市场" value="0" />
           <el-option label="政企市场" value="1" />
         </el-select>
       </el-form-item>
-      <el-form-item class="p-form-item__lable">
+      <el-form-item class="form-query-input-width form-left-width">
         <el-input class="item-width" clearable v-model="formData.operatorCn" @change="checkOperatorCn" placeholder="创建人"></el-input>
       </el-form-item>
-      <el-form-item class="p-form-item__lable">
+      <el-form-item class="form-query-input-width form-left-width">
         <el-input class="item-width" clearable v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
       </el-form-item>
     </div>
@@ -151,7 +151,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.p-form-item__lable {
+.form-query-input-width form-left-width {
   width: $inputWidthQuery;
   margin-left: $blockWidth;
 }

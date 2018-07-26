@@ -14,13 +14,13 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class=" requirement-form-item__lable requirement-form-item__input">
+          <el-form-item class="form-query-input-width form-left-width">
             <el-select v-model="reqType" clearable placeholder="需求类型">
               <el-option v-for="(item, index) in REQUIREMENT_TYPE" :key="index" :value="item.value" :label="item.label"/>
             </el-select>
           </el-form-item>
 
-          <el-form-item class=" requirement-form-item__lable requirement-form-item__input">
+          <el-form-item class="form-query-input-width form-left-width">
             <el-input v-model="organizeName" clearable placeholder="客户名称"/>
           </el-form-item>
         </div>

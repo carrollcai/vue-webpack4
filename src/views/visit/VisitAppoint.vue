@@ -3,16 +3,14 @@
   <div class="m-container">
     <el-form class="visit-form" ref="myVisitManageForm" v-model="appointVisitForm">
       <div class="flex">
-        <el-form-item prop="date" style="width: 230px;">
-          <el-date-picker style="width: 230px;" v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-form-item prop="date">
+          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item class="visit-form-item__lable"></el-form-item>
-        <el-form-item class="visit-form-item__input">
+        <el-form-item class="form-query-input-width form-left-width">
           <el-input v-model="appointVisitForm.organizeName" clearable placeholder="走访公司名称" />
         </el-form-item>
-        <el-form-item class="visit-form-item__lable"></el-form-item>
-        <el-form-item class="visit-form-item__input">
+        <el-form-item class="form-query-input-width form-left-width">
           <el-select v-model="appointVisitForm.isFirstVisit" clearable placeholder="是否首客">
             <el-option
               v-for="item in firstGuestOption"
@@ -22,12 +20,11 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item class="visit-form-item__lable"></el-form-item>
-        <el-form-item class="visit-form-item__input">
+        <el-form-item class="form-query-input-width form-left-width">
           <el-input v-model="appointVisitForm.processor" clearable placeholder="指派走访人" />
         </el-form-item>
       </div>
-      <div class="flex">
+      <div class="overflow-hidden">
         <el-form-item class="visit-form-item">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
@@ -171,11 +168,7 @@ export default {
 }
 .visit-form {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-}
-.visit-form-item__input {
-  width: 135px !important;
 }
 .visit-form-item {
   margin-left: $formWidth;
