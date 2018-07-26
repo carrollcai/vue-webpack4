@@ -383,7 +383,7 @@ const dynamicRoutes = [
 ];
 class AddRoutes {
   constructor() {
-    this._dynamicRoutes = dynamicRoutes[0].children;
+    this.dynamicRoutes = dynamicRoutes[0].children;
     this.staticRoutes = staticRoutes;
   }
 
@@ -393,15 +393,14 @@ class AddRoutes {
       component: Container,
       children: []
     }];
-    const routeArr = [
-    ];
 
-    // list为已经扁平化具有menuId的路由
-    this._dynamicRoutes.map(val => {
+    const routeArr = [];
+    this.dynamicRoutes.map(val => {
       if (!val.meta || (val.meta && !val.meta.menuId)) {
         routeArr.push(val);
         return false;
       }
+      // list为已经扁平化具有menuId的路由
       list.map(cval => {
         if (val.meta.menuId === cval) {
           routeArr.push(val);

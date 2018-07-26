@@ -1,5 +1,6 @@
 import * as types from '../store/types';
 import API from '../utils/api';
+import AddRoutes from '@/router/AddRoutes';
 
 const actions = {
   getProvince: ({ commit }, params) => {
@@ -22,7 +23,7 @@ const actions = {
       commit(types.CURRENT_USER_GET_INFO, res.data);
     });
   },
-  queryStaticData({commit}) {
+  queryStaticData({ commit }) {
     let params = {
       'codeTypeList': [
         'ORGANIZE_TYPE',
@@ -52,6 +53,13 @@ const actions = {
   getNewFileInputId: ({ commit }, params) => {
     return API.getNewFileInputIdAPI(params).then(res => {
       return res.data;
+    });
+  },
+  goFirstPage: ({ commit }, params) => {
+    const routes = new AddRoutes();
+    const path = routes.dynamicRoutes[0].path || '/';
+    commit(types.ROUTE_CHANGE, {
+      path
     });
   }
 };

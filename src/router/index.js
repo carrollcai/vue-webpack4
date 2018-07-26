@@ -25,6 +25,9 @@ router.beforeEach((to, from, next) => {
           // 获取用户信息后添加动态路由
           await store.commit('ADD_ROUTES');
 
+          // 默认跳转到用户拥有第一个权限地址
+          store.dispatch('goFirstPage');
+
           store.dispatch('queryStaticData');
 
           // replace重新获取route对象

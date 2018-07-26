@@ -8,6 +8,7 @@ export const ROUTE_CHANGE = 'ROUTE_CHANGE';
 export const CURRENT_USER_GET_INFO = 'CURRENT_USER_GET_INFO';
 export const ADD_ROUTES = 'ADD_ROUTES';
 export const STATIC_DATA = 'STATIC_DATA';
+export const FIRST_PAGE = 'FIRST_PAGE';
 
 /* login */
 export const SET_LOGIN_USER = 'SET_LOGIN_USER';
