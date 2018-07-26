@@ -70,7 +70,11 @@
       </div>
     </div>
     <div class="visit-title" v-if="routeName === 'visit-application-detail' && (visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成')">
-      <div class="task-detail-item">
+      <div v-if="visitDetails.visitResource === 2 || visitDetails.visitResource === '2'" class="task-detail-item">
+        <div class="left">指派人：</div>
+        <div class="right" v-if="visitDetails.opId">{{visitDetails.opId}}</div>
+      </div>
+      <div class="task-detail-item w215">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
