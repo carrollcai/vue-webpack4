@@ -54,10 +54,6 @@
     </div>
     <div class="visit-title" v-if="routeName === 'visit-appoint-detail' && (visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成')">
       <div class="task-detail-item">
-        <div class="left">指派走访人：</div>
-        <div class="right" v-if="visitDetails.processorCN">{{visitDetails.processorCN}}</div>
-      </div>
-      <div class="task-detail-item">
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatus}}</div>
       </div>
