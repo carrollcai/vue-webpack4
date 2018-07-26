@@ -7,7 +7,7 @@
       </el-breadcrumb>
     </div>
     <div class="m-container info-block">
-      <detail-info :requirement="requirement"></detail-info>
+      <detail-info :requirement="requirement" v-model="files"></detail-info>
       <!-- 已处理 -->
       <el-form class="handle-detail" v-if="requirement.reqStatus === '2'"
         label-width="86px"
@@ -47,13 +47,22 @@ export default {
   mixins: [mixins],
   data() {
     return {
+      files: []
     };
   },
   methods: {
+    handleDownload(file) {
+      this.downloadUplodFile({
+        fileTypeId: file.fileTypeId,
+        fileSaveName: file.fileSaveName,
+        fileName: file.fileName
+      });
+    }
   }
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
 .requirement-detail{
   .info-block{
     margin-top: 16px;
@@ -66,6 +75,13 @@ export default {
     .el-form-item{
       margin-bottom: 0;
     }
+  }
+  .file-name{
+    cursor: pointer;
+    color: $primary-color;
+    min-width: 50px;
+    border-bottom: 1px solid $primary-color;
+    margin-right: 16px;
   }
 }
 </style>
