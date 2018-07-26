@@ -153,17 +153,18 @@ export default {
       if (isFormat) {
         this.$message.error(FILE_ERROR_TIP);
         fileList.splice(index, 1);
+        this.fileList.splice(index, 1);
       }
       if (isOverLimit) {
         this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
         fileList.splice(index, 1);
+        this.fileList.splice(index, 1);
       }
       return isOverLimit || isFormat;
     },
     removeFile(file, fileList) {
       let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
       this.uploadData.files.splice(index, 1);
-      this.fileList.splice(index, 1);
       this.$refs.visitRef.validateField('files');
     },
     fileChange(file, fileList) {
