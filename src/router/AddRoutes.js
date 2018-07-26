@@ -7,7 +7,7 @@ import Page404 from '@/views/common/Page404.vue';
 import Dashboard from '@/views/dashboard/Dashboard.vue';
 import Active from '@/views/data-analysis/Active.vue';
 import RetentionLoss from '@/views/data-analysis/RetentionLoss.vue';
-import DailyLive from '@/views/data-analysis/DailyLive.vue';
+import DailyLive from '@/views/data-analysis/create/DailyLive.vue';
 
 // import TaskManagement from '@/views/task/Query.vue';
 // import TaskPush from '@/views/task/Push.vue';
@@ -45,9 +45,9 @@ import RequirementHandle from '@/views/requirement/detail/RequirementHandle.vue'
 import RequirementHandleDetail from '@/views/requirement/detail/RequirementHandleDetail.vue';
 
 import Role from '@/views/system/Role.vue';
-import RoleCreate from '@/views/system/RoleCreate.vue';
+import RoleCreate from '@/views/system/create/RoleCreate.vue';
 import User from '@/views/system/User.vue';
-import UserCreate from '@/views/system/UserCreate.vue';
+import UserCreate from '@/views/system//create/UserCreate.vue';
 
 import ProductView from '@/views/product/ProductView.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
