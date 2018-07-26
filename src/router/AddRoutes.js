@@ -20,10 +20,10 @@ import DailyLive from '@/views/data-analysis/DailyLive.vue';
 import Business from '@/views/business-manage/Business.vue';
 import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';
 import BusinessTask from '@/views/business-manage/BusinessTask.vue';
-import BusinessDetail from '@/views/business-manage/BusinessDetail.vue';
-import CreateBusiness from '@/views/business-manage/CreateBusiness.vue';
-import UpdateBusiness from '@/views/business-manage/UpdateBusiness.vue';
-import TransforOrder from '@/views/business-manage/TransforOrder.vue';
+import BusinessDetail from '@/views/business-manage/detail/BusinessDetail.vue';
+import CreateBusiness from '@/views/business-manage/create/CreateBusiness.vue';
+import UpdateBusiness from '@/views/business-manage/detail/UpdateBusiness.vue';
+import TransforOrder from '@/views/business-manage/detail/TransforOrder.vue';
 
 import GroupCustomerOverview from '@/views/group-customer/Overview.vue';
 import OverviewDetail from '@/views/group-customer/OverviewDetail.vue';
