@@ -139,6 +139,11 @@
   margin-left: 10px;
 }
 
+.form-manage {
+  display: flex;
+  justify-content: space-between;
+}
+
 .form-left-width {
   margin-left: $formLeftWidth;
 }

@@ -51,7 +51,7 @@ import UserCreate from '@/views/system//create/UserCreate.vue';
 
 import ProductView from '@/views/product/ProductView.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
-import ProductDetail from '@/views/product/ProductDetail.vue';
+import ProductDetail from '@/views/product/detail/ProductDetail.vue';
 import ProductCreate from '@/views/product/create/ProductCreate.vue';
 import ProductEdit from '@/views/product/create/ProductEdit.vue';
 
@@ -65,8 +65,8 @@ import OrderHandleTaskDetail from '@/views/order/detail/HandleTaskDetail.vue';
 /* 我的走访管理 */
 import MyVisitManage from '@/views/visit/MyVisitManage.vue';
 import CreateVisitApplication from '@/views/visit/create/CreateVisitApplication.vue';
-import ExecuteProcess from '@/views/visit/ExecuteProcess.vue';
-import MyVisitView from '@/views/visit/MyVisitView.vue';
+import ExecuteProcess from '@/views/visit/detail/ExecuteProcess.vue';
+import MyVisitView from '@/views/visit/detail/MyVisitView.vue';
 
 /* 走访指派 */
 import VisitAppoint from '@/views/visit/VisitAppoint.vue';

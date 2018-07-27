@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="m-container">
-      <el-form class="o-overview-form" ref="orderOverview" :rules="overviewRules" :model="orderOverviewForm">
+      <el-form class="form-manage" ref="orderOverview" :rules="overviewRules" :model="orderOverviewForm">
         <div class="flex">
           <el-form-item prop="date">
             <el-date-picker v-model="orderOverviewForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
@@ -15,7 +15,7 @@
           </el-form-item>
         </div>
         <div class="flex">
-          <el-form-item class="task-form-item">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
         </div>
@@ -131,12 +131,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.o-overview-table {
-  margin-top: $blockWidth;
-}
-.o-overview-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 </style>

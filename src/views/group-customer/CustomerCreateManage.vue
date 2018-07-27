@@ -1,7 +1,7 @@
 <template>
   <div class="group-customer group-customer-create-management">
     <div class="m-container query-block">
-      <el-form class="group-form">
+      <el-form class="form-manage">
         <div class="flex">
           <el-form-item class="form-query-input-width">
             <el-select v-model="organizeType" clearable placeholder="集团属性">
@@ -24,11 +24,11 @@
           </el-form-item>
         </div>
 
-        <div class="flex customer-query-btns">
-          <el-form-item>
+        <div class="flex">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="handleQuery">查询</el-button>
           </el-form-item>
-          <el-form-item class="group-form-item">
+          <el-form-item class="form-left-width">
             <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建集团客户</el-button>
           </el-form-item>
         </div>
@@ -41,7 +41,7 @@
         <el-tab-pane label="审核不通过" name="fifth"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container group-customer-list">
+    <div class="m-container table-container">
       <wm-table
         :source="groupCustomerList.list"
         :total="groupCustomerList.totalCount"
@@ -240,27 +240,6 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.group-customer-create-management {
-  .group-form-item__lable {
-    margin-left: $blockWidth;
-  }
-  .group-form {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .group-form-item__input {
-    width: $inputWidthQuery;
-  }
-
-  .group-form-item {
-    margin-left: $formWidth;
-  }
-  .customer-query-btns{
-    margin-left: 40px;
-  }
-}
-
 .group-customer {
   .el-dropdown-link{
     color: $buttonColor;

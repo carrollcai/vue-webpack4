@@ -1,7 +1,7 @@
 <template>
   <div class="customer-overview">
     <div class="m-container">
-      <el-form class="group-form">
+      <el-form class="form-manage">
         <div class="flex">
           <el-form-item class="form-query-input-width">
             <el-select v-model="organizeType" clearable placeholder="集团属性">
@@ -23,8 +23,8 @@
           </el-form-item>
         </div>
 
-        <div class="flex customer-query-btns">
-          <el-form-item>
+        <div class="flex">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="handleQuery">查询</el-button>
           </el-form-item>
         </div>
@@ -143,21 +143,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.customer-overview{
-  .group-form-item__lable {
-    margin-left: $blockWidth;
-  }
-  .group-form {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .customer-query-btns{
-    margin-left: 40px;
-  }
-  // .customer-overview-management{
-  //   margin-top: $blockWidth;
-  // }
-}
 </style>

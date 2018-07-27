@@ -1,16 +1,16 @@
 <template>
   <div class="m-container">
-    <el-form class="role-form" ref="roleManageForm" :model="roleForm" :rules="roleManageRules">
+    <el-form class="form-manage" ref="roleManageForm" :model="roleForm" :rules="roleManageRules">
       <div class="flex">
-        <el-form-item class="role-form-item__input" prop="roleName">
+        <el-form-item class="form-query-input-width" prop="roleName">
           <el-input v-model="roleForm.roleName" placeholder="角色名称" clearable />
         </el-form-item>
       </div>
       <div class="flex">
-        <el-form-item class="role-form-item">
+        <el-form-item class="form-left-width">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
-        <el-form-item class="role-form-item">
+        <el-form-item class="form-left-width">
           <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">创建角色</el-button>
         </el-form-item>
       </div>
@@ -126,15 +126,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.role-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.role-form-item__input {
-  width: $inputWidthQuery;
-}
-.role-form-item {
-  margin-left: $formWidth;
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form class="visit-form" ref="myVisitManageForm" v-model="appointVisitForm">
+    <el-form class="form-manage" ref="myVisitManageForm" v-model="appointVisitForm">
       <div class="flex">
         <el-form-item prop="date">
           <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -25,10 +25,10 @@
         </el-form-item>
       </div>
       <div class="overflow-hidden">
-        <el-form-item class="visit-form-item">
+        <el-form-item class="form-left-width">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
-        <el-form-item class="visit-form-item">
+        <el-form-item class="form-left-width">
           <el-button class="el-button--have-icon" @click.prevent="createVisitApplication" icon="el-icon-plus">新建走访指派</el-button>
         </el-form-item>
       </div>
@@ -163,14 +163,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.visit-form-item__lable {
-  margin-left: $blockWidth;
-}
-.visit-form {
-  display: flex;
-  justify-content: space-between;
-}
-.visit-form-item {
-  margin-left: $formWidth;
-}
 </style>

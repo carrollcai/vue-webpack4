@@ -1,27 +1,27 @@
 <template>
   <div class="m-container">
-    <el-form class="user-form" ref="userManageForm" :model="userForm" :rules="userManageRules">
+    <el-form class="form-manage" ref="userManageForm" :model="userForm" :rules="userManageRules">
       <div class="flex">
-        <el-form-item class="user-form-item__input" prop="role">
+        <el-form-item class="form-query-input-width" prop="role">
           <el-select v-model="userForm.role" placeholder="用户角色" clearable>
             <el-option :key="null" label="全部类型" :value="null"></el-option>
             <el-option v-for="item in userRoleList" :key="item.role" :value="item.roleId" :label="item.roleName" />
           </el-select>
         </el-form-item>
-        <el-form-item class="user-form-item__input form-left-width" prop="otherField">
+        <el-form-item class="form-query-input-width form-left-width" prop="otherField">
           <el-cascader expand-trigger="hover" :options="addAllInRegion()" v-model="userForm.opRegion" @change="handleChange" placeholder="用户归属" clearable>
           </el-cascader>
         </el-form-item>
-        <el-form-item class="user-form-item__input form-left-width" prop="code">
+        <el-form-item class="form-query-input-width form-left-width" prop="code">
           <el-input v-model="userForm.otherField" placeholder="姓名/账号/手机" clearable />
         </el-form-item>
       </div>
 
       <div class="flex">
-        <el-form-item class="role-form-item">
+        <el-form-item class="form-left-width">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
-        <el-form-item class="role-form-item">
+        <el-form-item class="form-left-width">
           <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建用户</el-button>
         </el-form-item>
       </div>
@@ -146,21 +146,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.user-form-item__lable {
-  margin-left: $blockWidth;
-}
-.user-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.user-form-item__input {
-  width: $inputWidthQuery;
-}
-// .user-form-item__input:not(:first-child) {
-//   margin-left: $blockWidth;
-// }
-.role-form-item {
-  margin-left: $formWidth;
-}
 </style>

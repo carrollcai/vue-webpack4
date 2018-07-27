@@ -1,6 +1,6 @@
 <template>
 <div class="p-manage">
-  <el-form :model="formData" class="demo-form-inline">
+  <el-form :model="formData" class="form-manage">
     <div class="flex">
       <el-form-item>
         <el-col>
@@ -9,21 +9,21 @@
         </el-col>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-select class="item-width" v-model="formData.productType" clearable placeholder="产品类型">
+        <el-select v-model="formData.productType" clearable placeholder="产品类型">
           <el-option label="全部" value=""></el-option>
           <el-option label="个人市场" value="0"></el-option>
           <el-option label="政企市场" value="1"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-input class="item-width" clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
+        <el-input clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
       </el-form-item>
     </div>
-    <div class="flex product-query-btns">
-      <el-form-item>
+    <div class="flex">
+      <el-form-item class="form-left-width">
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
-      <el-form-item class="product-form-item">
+      <el-form-item class="form-left-width">
         <el-button class="el-button--have-icon" @click="toCreatProduct" icon="el-icon-plus">新建产品</el-button>
       </el-form-item>
     </div>
@@ -183,27 +183,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.form-query-input-width form-left-width {
-  width: $inputWidthQuery;
-  margin-left: $blockWidth;
-}
 .p-manage {
   padding: 24px; background: #fff;
-  .demo-form-inline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .item-width {
-    width: $inputWidthQuery;
-  }
-
-  .product-query-btns{
-    margin-left: 40px;
-  }
-
-  .product-form-item{
-    margin-left: $formWidth;
-  }
 }
 </style>

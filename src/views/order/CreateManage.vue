@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="m-container">
-      <el-form class="o-overview-form" ref="orderCreateManage" :rules="orderCreateManageRules" :model="orderCreateManageForm">
+      <el-form class="form-manage" ref="orderCreateManage" :rules="orderCreateManageRules" :model="orderCreateManageForm">
         <div class="flex">
           <el-form-item prop="date">
             <el-date-picker v-model="orderCreateManageForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
@@ -15,10 +15,10 @@
           </el-form-item>
         </div>
         <div class="flex">
-          <el-form-item class="task-form-item">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
-          <el-form-item class="order-form-item">
+          <el-form-item class="form-left-width">
             <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">新建订单</el-button>
           </el-form-item>
         </div>
