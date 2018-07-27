@@ -43,13 +43,13 @@
          <el-row>
           <el-col :span="24">
             <span class="info_label">经营范围：</span>
-            <span class="info_content">{{customer.businessScope}}</span>
+            <div class="info_content">{{customer.businessScope}}</div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <span class="info_label">办公地址：</span>
-            <span class="info_content">{{customer.orgAddress}}</span>
+            <div class="info_content">{{customer.orgAddress}}</div>
           </el-col>
         </el-row>
         <el-row>
@@ -347,6 +347,7 @@ export default {
         line-height: 1.25;
         color: rgba(0, 0, 0, 0.85);
         font-size: 14px;
+        word-break: break-all;
       }
     }
 

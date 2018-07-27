@@ -335,6 +335,7 @@ export default {
     line-height: 17px;
     color: rgba(0, 0, 0, 0.65);
     font-size: 12px;
+    word-break: break-all;
   }
 
   .info_head{
