@@ -13,7 +13,7 @@
     <div class="m-container info-block">
       <!-- 评价 -->
       <el-form v-if="visit.visitStatus === '4'" ref="baseForm" :model="baseForm" :rules="rules" label-width="130px" key="judge-form">
-        <el-form-item label="走访评价" required prop="visitEvaluate">
+        <el-form-item label="走访评价" prop="visitEvaluate">
           <el-input type="textarea" placeholder="请输入走访评价"
             :maxlength="500"
             v-model="baseForm.visitEvaluate">
@@ -28,7 +28,7 @@
 
       <!-- 审核 -->
       <el-form v-if="visit.visitStatus === '1'" ref="auditForm" :model="baseForm" :rules="rules" label-width="130px" key="audit-form">
-        <el-form-item label="审核结果" required prop="resultStatus">
+        <el-form-item label="审核结果" prop="resultStatus">
           <el-radio-group v-model="baseForm.resultStatus" key="status-radio">
             <el-radio label="2">通过</el-radio>
             <el-radio label="3">驳回</el-radio>
@@ -71,15 +71,15 @@ export default {
       },
       rules: {
         visitEvaluate: [
-          {required: true, message: '请输入走访评价', trigger: ['blur', 'change']},
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          {required: true, message: '请输入走访评价', trigger: 'blur'},
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         resultStatus: [
           {required: true, message: '请选择审核结果', trigger: 'change'}
         ],
         dealResult: [
-          {required: true, message: '请输入审核建议', trigger: ['blur', 'change']},
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          {required: true, message: '请输入审核建议', trigger: 'blur'},
+          { validator: emptyValidator, trigger: 'blur' }
         ]
       }
     };

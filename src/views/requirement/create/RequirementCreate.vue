@@ -23,7 +23,7 @@
                 @select="handleSelect"
               ></el-autocomplete>
             </el-form-item>
-            <el-form-item label="需求类型" prop="reqType" required key="requirement-type">
+            <el-form-item label="需求类型" prop="reqType" key="requirement-type">
               <el-radio-group v-model="requirement.reqType" @change="changeReqType">
                 <el-radio label="0">日常需求</el-radio>
                 <el-radio label="1">投诉需求</el-radio>
@@ -31,7 +31,7 @@
               </el-radio-group>
             </el-form-item>
             <template v-if="requirement.reqType === '1' || requirement.reqType === '0'">
-              <el-form-item label="需求描述" prop="reqDesc" required key="requirementDesc">
+              <el-form-item label="需求描述" prop="reqDesc" key="requirementDesc">
                 <el-input v-model="requirement.reqDesc"
                   :maxlength="500"
                   type="textarea"
@@ -57,13 +57,13 @@
             </template>
             <!-- 物料需求 -->
             <template v-if="requirement.reqType === '2'">
-              <el-form-item label="物料名称" prop="materialName" required key="materialName">
+              <el-form-item label="物料名称" prop="materialName" key="materialName">
                 <el-input v-model="requirement.materialName"
                   :maxlength="20"
                   placeholder="请输入物料名称"
                   key="materialName-input"></el-input>
               </el-form-item>
-              <el-form-item label="物料格式要求" prop="materialSupplyType" required key="materialSupplyType">
+              <el-form-item label="物料格式要求" prop="materialSupplyType" key="materialSupplyType">
                 <el-input
                     class="col-input"
                     v-model="requirement.materialSupplyType"
@@ -101,7 +101,7 @@
                   </el-form-item>
                 </el-col>
               </el-form-item>
-              <el-form-item label="物料描述" prop="materialDesc" required key="materialDesc">
+              <el-form-item label="物料描述" prop="materialDesc" key="materialDesc">
                 <el-input v-model="requirement.materialDesc"
                   :maxlength="500"
                   type="textarea"

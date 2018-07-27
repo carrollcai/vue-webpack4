@@ -19,7 +19,7 @@
         >
         <!--日常需求处理-->
         <template v-if="requirement.reqType === '0'">
-          <el-form-item label="处理方案" required prop="reqScheme" key="plan">
+          <el-form-item label="处理方案" prop="reqScheme" key="plan">
             <el-input class="col-input"
               type="textarea"
               v-model="form.reqScheme"
@@ -50,7 +50,7 @@
           </el-form-item>
 
           <template v-if="handleType === '1'">
-            <el-form-item label="处理方案" required prop="reqScheme" key="plan">
+            <el-form-item label="处理方案" prop="reqScheme" key="plan">
               <el-input class="col-input"
                 type="textarea"
                 v-model="form.reqScheme"
@@ -191,15 +191,15 @@ export default {
           }
         ],
         materialDesc: [
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { validator: emptyValidator, trigger: 'blur' }
         ],
 
         reqScheme: [
-          { required: true, message: '请输入处理方案', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入处理方案', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         processorRemark: [
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         processor: [
           { validator: processorValidator, trigger: 'change' }
