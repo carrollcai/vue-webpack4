@@ -366,6 +366,7 @@ export default {
 
       .full-desc{
         width: 100%;
+        word-break: break-all;
       }
     }
 

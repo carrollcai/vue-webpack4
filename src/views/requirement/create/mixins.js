@@ -21,7 +21,7 @@ export default {
       baseInfoRules: {
         organizeName: [
           { required: true, message: '请输入集团名称', trigger: 'blur' },
-          { validator: orgValidator, trigger: 'blur' },
+          { validator: orgValidator, trigger: 'change' },
           { validator: emptyValidator, trigger: 'blur' }
         ],
         reqType: [
