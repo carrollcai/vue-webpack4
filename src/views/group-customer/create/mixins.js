@@ -163,15 +163,55 @@ export default {
         this.$refs.customerContacts.init(contact, index);
       });
     },
-    changeContactParent(index, id) {
-      let filters = _.filter(this.contacts, { 'parentContactId': id, 'contactId': this.contacts[index].parentContactId });
+    /**
+     *
+     * 选择上级领导时，进行判断
+     *
+     * @param {*} index 当前联系人在表格中的索引值
+     * @param {*} contactId 当前联系人ID
+     */
+    changeContactParent(index, contactId) {
+      const {contacts} = this;
+      // 当前选中的上级领导ID
+      let parentContactId = contacts[index].parentContactId;
+
+      let filters = _.filter(contacts, { 'parentContactId': contactId, 'contactId': parentContactId });
 
       if (filters.length) {
         this.$message({
           message: `不能与“${filters[0].name}”互选为上级`,
           type: 'warning'
         });
-        this.contacts[index].parentContactId = '';
+        contacts[index].parentContactId = '';
+
+        return false;
+      }
+
+      let parents = [];
+
+      /**
+       * 找出联系人的所有父节点ID
+       * @param {*} contacts
+       * @param {*} contactId
+       */
+      function findParents(contacts, contactId) {
+        let contact = _.find(contacts, {'contactId': contactId});
+        if (contact.parentContactId) {
+          parents.push(contact.parentContactId);
+          findParents(contacts, contact.parentContactId);
+        }
+      }
+
+      // 必须要清除，否则会导致死循环
+      contacts[index].parentContactId = '';
+      findParents(contacts, parentContactId);
+      if (_.indexOf(parents, contactId) >= 0) {
+        this.$message({
+          message: `不能将下属选为上级`,
+          type: 'warning'
+        });
+      } else {
+        contacts[index].parentContactId = parentContactId;
       }
     },
     querySearchAsync(queryString, cb) {
