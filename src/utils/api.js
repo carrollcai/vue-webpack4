@@ -6,7 +6,8 @@ import { jsonToFormData } from './common.js';
 const development = '';
 const API = (url, method) => params => fetch(development + url, params, method || 'post');
 const download = url => params => {
-  window.location.href = `${url}?${qs.stringify(params)}`;
+  // console.log(`${qs.stringify(params, {arrayFormat: 'brackets'})}`);
+  window.location.href = `${url}?${qs.stringify(params, { arrayFormat: 'brackets' })}`;
 };
 const upload = (url, method) => params => {
   let formData = jsonToFormData(params);
