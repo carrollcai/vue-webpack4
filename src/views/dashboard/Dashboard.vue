@@ -250,7 +250,7 @@ export default {
       this.$router.push(path);
     },
     goOrder() {
-      this.$store.state.order.orderOverviewForm.ordStatus = 2;
+      this.$store.state.order.orderOverviewForm.ordStatus = 0;
       const path = `/order/overview`;
       this.$router.push(path);
     },

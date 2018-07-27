@@ -27,7 +27,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="订购产品：" prop="productName">
-          <el-autocomplete maxlength="25" class="form-input-medium" v-model="orderData.productName" :fetch-suggestions="productQuerySearch" placeholder="请输入产品名称/编码" @select="selectProduct"></el-autocomplete>
+          <el-autocomplete maxlength="25" class="form-input-medium" v-model="orderData.productName" :fetch-suggestions="productQuerySearch" placeholder="请输入产品名称/编码" @select="selectProduct" :trigger-on-focus="false"></el-autocomplete>
         </el-form-item>
         <el-form-item label="预计合同金额：" prop="predictContractAmount">
           <el-input v-model="orderData.predictContractAmount" class="form-input-medium" placeholder="请输入合同金额">
@@ -110,7 +110,19 @@ export default {
   components: {
   },
   data() {
+    const isProductExist = (rule, value, callback) => {
+      if (this.selectedProduct.productId &&
+        this.selectedProduct.productName === this.orderData.productName) {
+        callback();
+      } else {
+        callback(new Error('产品名称不存在'));
+      }
+    };
     return {
+      selectedProduct: {
+        productName: '',
+        productId: null
+      },
       rules: {
         ordName: [
           { required: true, message: '请输入订单名称', trigger: 'blur' },
@@ -162,7 +174,8 @@ export default {
         ],
         productName: [
           { required: true, message: '请输入产品名称/编码', trigger: 'blur' },
-          { validator: checkLeftRightSpace, trigger: 'blur' }
+          { validator: checkLeftRightSpace, trigger: 'blur' },
+          { validator: isProductExist, trigger: 'blur' }
         ],
         predictContractAmount: [
           { required: true, message: '请输入预计合同金额', trigger: 'blur' },
@@ -177,6 +190,10 @@ export default {
     opprparam.opporId = this.$route.params.opporId;
     this.getBusinessDetail(opprparam);
     this.getTransforOrderDetail(opprparam);
+    this.selectedProduct = {
+      productName: this.orderData.productName,
+      productId: this.orderData.productId
+    };
   },
   computed: {
     businessData() {
@@ -227,7 +244,13 @@ export default {
       }, 1000);
     },
     selectProduct(item) {
-      this.businessData.productId = item.productId;
+      this.selectedProduct = {
+        productName: item.productName,
+        productId: item.productId
+      };
+      this.orderData.productName = item.productName;
+      this.orderData.productId = item.productId;
+      this.$refs.transForm.validateField('productName');
     },
     createStateFilter(queryString) {
       return (state) => {
@@ -245,18 +268,14 @@ export default {
       params.taskInsId = this.$route.params.taskInsId;
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
-        if (params.productId !== '') {
-          this.saveBusinessOrder(params).then(res => {
-            if (res.data) {
-              this.$message({ showClose: true, message: '您已成功提交！', type: 'success' });
-              this.cancel();
-            } else {
-              this.$message({ showClose: true, message: '提交失败！', type: 'error' });
-            }
-          });
-        } else {
-          this.$message({ showClose: true, message: '请选择已有商品！' });
-        }
+        this.saveBusinessOrder(params).then(res => {
+          if (res.data) {
+            this.$message({ showClose: true, message: '您已成功提交！', type: 'success' });
+            this.cancel();
+          } else {
+            this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+          }
+        });
       });
     },
     cancel() {
