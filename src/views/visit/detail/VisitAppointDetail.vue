@@ -98,7 +98,7 @@ export default {
       filesArrList: [],
       uploadData: {
         fileInputId: '',
-        fileTypeId: 502,
+        fileTypeId: 504,
         moduleId: 1,
         expireDate: '',
         effectiveDate: '',
