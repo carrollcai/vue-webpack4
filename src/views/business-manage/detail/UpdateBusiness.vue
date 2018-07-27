@@ -148,8 +148,8 @@ export default {
           { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         address: [
-          { required: true, message: '请输入办公地址', trigger: 'blur' },
-          { validator: checkLeftRightSpace, trigger: 'blur' }
+          { required: true, message: '请输入办公地址', trigger: ['change', 'blur'] },
+          { validator: checkLeftRightSpace, trigger: ['change', 'blur'] }
         ],
         contactName: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
