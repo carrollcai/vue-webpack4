@@ -86,14 +86,14 @@
               </el-form-item>
             </el-col>
           </el-form-item>
-          <el-form-item label="手机号码" prop="mobile" required key="contact-mobile">
+          <el-form-item label="手机号码" prop="mobile" key="contact-mobile">
             <el-input class="full-col"
               v-model="contact.mobile"
               placeholder="请输入手机号码"
               :maxlength="11"
               key="contact-mobile-input"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱" prop="email" required key="contact-email">
+          <el-form-item label="邮箱" prop="email" key="contact-email">
             <el-input class="full-col"
               v-model="contact.email"
               placeholder="请输入邮箱"
@@ -106,14 +106,14 @@
               <el-radio :label="item.value" v-for="(item, index) in MARITAL_STATUS" :key="index">{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="管理范畴" prop="manageScope" required key="manageScope-scope">
+          <el-form-item label="管理范畴" prop="manageScope" key="manageScope-scope">
             <el-input v-model="contact.manageScope"
               type="textarea"
               placeholder="请输入管理范畴"
               :maxlength="500"
               key="manageScope-input"></el-input>
           </el-form-item>
-          <el-form-item label="工作职责" prop="responsibility" required key="contact-responsibility">
+          <el-form-item label="工作职责" prop="responsibility" key="contact-responsibility">
             <el-input v-model="contact.responsibility"
               type="textarea"
               placeholder="请输入工作职责"
@@ -189,9 +189,9 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] },
-          { min: 1, max: 6, message: '姓名过长，长度 6 个字符内', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { min: 1, max: 6, message: '姓名过长，长度 6 个字符内', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         gender: [
           { required: true, message: '请选择性别', trigger: 'change' }
@@ -200,27 +200,27 @@ export default {
           { required: true, message: '请选择年龄', trigger: 'change' }
         ],
         department: [
-          { required: true, message: '请输入部门', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入部门', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         position: [
-          { required: true, message: '请输入职位', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入职位', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: '请输入手机号码', trigger: ['blur', 'change'] },
-          { type: 'string', pattern: /^1\d{10}$/, message: '请输入正确的手机号码', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { type: 'string', pattern: /^1\d{10}$/, message: '请输入正确的手机号码', trigger: 'blur' }
         ],
         email: [
-          { type: 'email', required: true, message: '请输入邮箱', trigger: ['blur', 'change'] }
+          { type: 'email', required: true, message: '请输入邮箱', trigger: 'blur' }
         ],
         manageScope: [
-          { required: true, message: '请输入管理范畴', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入管理范畴', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         responsibility: [
-          { required: true, message: '请输入工作职责', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入工作职责', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ]
       }
     };

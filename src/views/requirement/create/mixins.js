@@ -20,24 +20,24 @@ export default {
       uploadFiles: [],
       baseInfoRules: {
         organizeName: [
-          { required: true, message: '请输入集团名称', trigger: ['blur', 'change'] },
-          { validator: orgValidator, trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入集团名称', trigger: 'blur' },
+          { validator: orgValidator, trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         reqType: [
           { required: true, message: '请选择需求类型', trigger: 'change' }
         ],
         reqDesc: [
-          { required: true, message: '请输入需求描述', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入需求描述', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         materialName: [
-          { required: true, message: '请输入物料名称', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入物料名称', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         materialSupplyType: [
-          { required: true, message: '请选择物料格式要求', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请选择物料格式要求', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         materialUseCreateTime: [
           { required: true, message: '请选开始时间', trigger: 'change' }
@@ -47,20 +47,20 @@ export default {
         ],
 
         materialDesc: [
-          { required: true, message: '请输入物料描述', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入物料描述', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         contactName: [
-          { required: true, message: '请输入姓名', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { validator: emptyValidator, trigger: 'blur' }
         ],
         contactMobile: [
-          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
-          { type: 'string', pattern: /^1\d{10}$/, message: '请输入手机号', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { type: 'string', pattern: /^1\d{10}$/, message: '请输入手机号', trigger: 'blur' }
         ],
         contactEmail: [
-          { required: true, message: '请输入邮箱', trigger: ['blur', 'change'] },
-          { type: 'email', message: '请输入邮箱', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { type: 'email', message: '请输入邮箱', trigger: 'blur' }
         ],
         processor: [
           { required: true, message: '请选择指派处理人', trigger: 'change' }

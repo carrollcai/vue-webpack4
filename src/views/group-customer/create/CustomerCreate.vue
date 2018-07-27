@@ -19,13 +19,13 @@
         label-width="130px"
         key="baseForm">
           <div class="base-info">
-            <el-form-item label="集团名称" prop="organizeName" required key="name">
+            <el-form-item label="集团名称" prop="organizeName" key="name">
               <el-input v-model="customer.organizeName"
                 :maxlength="25"
                 placeholder="请输入集团名称"
                 key="name-input"></el-input>
             </el-form-item>
-            <el-form-item label="集团属性" prop="organizeType" required key="organizeType">
+            <el-form-item label="集团属性" prop="organizeType" key="organizeType">
               <el-select v-model="customer.organizeType"
                 clearable
                 key="organizeType-select"
@@ -38,7 +38,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="成立日期" prop="establishTime" required key="establishTime">
+            <el-form-item label="成立日期" prop="establishTime" key="establishTime">
               <el-date-picker
                 v-model="customer.establishTime"
                 type="date"
@@ -49,7 +49,7 @@
                 placeholder="请选择成立日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="所属省份" prop="provinceId" required key="provinceId">
+            <el-form-item label="所属省份" prop="provinceId" key="provinceId">
               <el-select
                 key="province-select"
                 v-model="customer.provinceId"
@@ -62,7 +62,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="机构类型" prop="orgIndustryType" required key="orgIndustryType">
+            <el-form-item label="机构类型" prop="orgIndustryType" key="orgIndustryType">
               <el-select
                 key="orgIndustryType-select"
                 v-model="customer.orgIndustryType"
@@ -75,7 +75,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="行业类别" prop="industryType" required key="industryType">
+            <el-form-item label="行业类别" prop="industryType" key="industryType">
               <el-select
                 key="industryType-select"
                 v-model="customer.industryType"
@@ -88,7 +88,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="集团客户规模" prop="memberNum" required key="memberNum">
+            <el-form-item label="集团客户规模" prop="memberNum" key="memberNum">
               <el-select v-model="customer.memberNum"
                 clearable
                 key="memberNum-select"
@@ -101,21 +101,21 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="优势能力" prop="orgAdvantage" required key="orgAdvantage">
+            <el-form-item label="优势能力" prop="orgAdvantage" key="orgAdvantage">
               <el-input v-model="customer.orgAdvantage"
                 :maxlength="500"
                 type="textarea"
                 placeholder="请输入优势能力"
                 key="orgAdvantage-input"></el-input>
             </el-form-item>
-            <el-form-item label="经营范围" prop="businessScope" required key="Business-Scope">
+            <el-form-item label="经营范围" prop="businessScope" key="Business-Scope">
               <el-input v-model="customer.businessScope"
                 :maxlength="500"
                 type="textarea"
                 placeholder="请输入经营范围"
                 key="businessScope-input"></el-input>
             </el-form-item>
-            <el-form-item label="详细地址" prop="orgAddress" required key="orgAddress">
+            <el-form-item label="详细地址" prop="orgAddress" key="orgAddress">
               <el-input v-model="customer.orgAddress"
                 :maxlength="50"
                 placeholder="请输入详细地址"
@@ -331,6 +331,7 @@ export default {
   data() {
     return {
       customer: {
+        orgAdvantage: '',
         contactDtoList: []
       }
     };
