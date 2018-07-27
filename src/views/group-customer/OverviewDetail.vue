@@ -358,10 +358,6 @@ export default {
     cursor: pointer;
   }
 
-  .info_head-sub{
-
-  }
-
   .demo-table-expand label {
       width: 90px;
       color: rgba(0, 0, 0, 0.45);

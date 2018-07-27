@@ -65,8 +65,9 @@
 import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
-import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_MAX_COUNT, FILE_TIP } from '@/config/index.js';
 import { textareaLimit, textareaMaxLimit, multFileValid } from '@/utils/rules.js';
+import { FILE_TIP } from '@/config/index.js';
+import { fileBeforeUpload } from '@/utils/common.js';
 
 export default {
   components: {
@@ -74,11 +75,6 @@ export default {
     Vdetail
   },
   computed: {
-    // fileLists() {
-    //   if (this.fileList && this.fileList.length) {
-    //     return this.fileList;
-    //   }
-    // },
     visitDetailData() {
       if (this.visitAppointDetail) {
         return this.visitAppointDetail;
@@ -152,32 +148,13 @@ export default {
     await this.queryRegionManager({});
   },
   methods: {
-    beforeUpload(file, fileList) {
-      const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
-      const isFormat = !this.isAcceptable(file.name);
-      const isOverNum = fileList.length > FILE_MAX_COUNT;
-      let index = fileList.findIndex(val => val.uid === file.raw.uid);
-      if (isFormat) {
-        this.$message.error(FILE_ERROR_TIP);
-        fileList.splice(index, 1);
-      }
-      if (isOverLimit) {
-        this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
-        fileList.splice(index, 1);
-      }
-      if (isOverNum) {
-        this.$message.error(`文件上传数量不能超过${FILE_MAX_COUNT}个`);
-        fileList.splice(index, 1);
-      }
-      return isOverLimit || isFormat || isOverNum;
-    },
     removeFile(file, fileList) {
       let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
       this.uploadData.files.splice(index, 1);
       this.$refs.visitRef.validateField('files');
     },
     fileChange(file, fileList) {
-      if (this.beforeUpload(file, fileList)) return false;
+      if (fileBeforeUpload(file, fileList)) return false;
       this.uploadData.files.push(file.raw);
       this.$refs.visitRef.validateField('files');
     },
@@ -187,14 +164,6 @@ export default {
         this.formData.fileInputId = res.data;
         this.uploadProductScheme(this.uploadData);
       });
-    },
-    isAcceptable(fileName) {
-      for (let accept of FILE_ACCEPT) {
-        if (fileName.toLowerCase().endsWith(accept)) {
-          return true;
-        }
-      }
-      return false;
     },
     onSubmit() {
       // this.submitAssignForm();
