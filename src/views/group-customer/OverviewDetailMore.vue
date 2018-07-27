@@ -216,6 +216,7 @@ export default {
     line-height: 20px;
     color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
+    word-break: break-all;
   }
 
   .info_head{
