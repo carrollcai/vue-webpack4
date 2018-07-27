@@ -266,8 +266,8 @@
         </div>
         <customer-contacts ref="customerContacts" v-if="isAddingContact" @cancel="cancelAddingContact" :list="contacts"></customer-contacts>
         <div>
-          <el-button type="primary" @click="toThirdStep" :disabled="isNotAbleToThirdStep()">下一步</el-button>
           <el-button type="primary" @click="toFirstStep">上一步</el-button>
+          <el-button type="primary" @click="toThirdStep" :disabled="isNotAbleToThirdStep()">下一步</el-button>
         </div>
       </div>
       <el-form class="customer-manager-info" :model="customer" ref="managerForm" :rules="managerRules" label-width="120px" v-if="isThirdStep()" key="managerForm">
