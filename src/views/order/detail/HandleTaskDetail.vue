@@ -220,7 +220,7 @@ export default {
         } else {
           let params = {
             fileInputId: '',
-            fileTypeId: 502,
+            fileTypeId: 501,
             moduleId: 1,
             files: this.assignForm.files
           };

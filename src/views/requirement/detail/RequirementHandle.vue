@@ -176,7 +176,7 @@ export default {
       },
       uploadData: {
         fileInputId: '',
-        fileTypeId: 502,
+        fileTypeId: 503,
         moduleId: 1,
         expireDate: '',
         effectiveDate: '',

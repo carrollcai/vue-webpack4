@@ -143,7 +143,7 @@ export default {
       routeName: this.$route.name, // 指派或者创建
       isExecute: this.$route.query.isExecute, // 详情还是执行处理
       uploadData: {
-        fileTypeId: 502,
+        fileTypeId: 504,
         fileSaveName: '',
         fileName: ''
       }
@@ -175,7 +175,7 @@ export default {
   methods: {
     async dowloadFile(name, path) {
       this.uploadData = {
-        fileTypeId: 502,
+        fileTypeId: 504,
         fileSaveName: path,
         fileName: name
       };
