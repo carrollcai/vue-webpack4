@@ -19,19 +19,7 @@ router.beforeEach((to, from, next) => {
     if (token) {
       if (!store.state.root.currentUser.menuList.length) {
         (async () => {
-          // await store.dispatch('getProvince');
-          // await store.dispatch('getCurrentUserInfo');
-
-          // // 获取用户信息后添加动态路由
-          // await store.commit('ADD_ROUTES');
-
-          // // 默认跳转到用户拥有第一个权限地址
-          // store.dispatch('goFirstPage');
-
-          // store.dispatch('queryStaticData');
-
           await store.dispatch('getSystemInfo');
-
           // replace重新获取route对象
           await next({ ...to, replace: true });
         })();

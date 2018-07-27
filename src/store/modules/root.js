@@ -4,6 +4,7 @@ import AddRoutes from '@/router/AddRoutes';
 import router from '@/router/';
 
 const state = {
+  getFirstPageRoute: '', // 登录之后第一个跳转的页面
   province: [],
   userRoleList: [],
   currentRoute: {
@@ -112,6 +113,7 @@ const mutations = {
   [types.ADD_ROUTES](state, data) {
     const routes = new AddRoutes();
     router.addRoutes(routes.addDynamicRoutes(state.currentUser.menuIds));
+    state.getFirstPageRoute = routes.getFirstPageRoute;
   }
 };
 

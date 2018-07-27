@@ -7,7 +7,7 @@ import Page404 from '@/views/common/Page404.vue';
 import Dashboard from '@/views/dashboard/Dashboard.vue';
 import Active from '@/views/data-analysis/Active.vue';
 import RetentionLoss from '@/views/data-analysis/RetentionLoss.vue';
-import DailyLive from '@/views/data-analysis/create/DailyLive.vue';
+// import DailyLive from '@/views/data-analysis/create/DailyLive.vue';
 
 // import TaskManagement from '@/views/task/Query.vue';
 // import TaskPush from '@/views/task/Push.vue';
@@ -99,7 +99,7 @@ const dynamicRoutes = [
       { path: '/dashboard', component: Dashboard, meta: { menuId: 1 } },
       { path: '/analysis/active', component: Active, meta: { menuId: 3 } },
       { path: '/analysis/retention-loss', component: RetentionLoss, meta: { menuId: 4 } },
-      { path: '/analysis/daily-live', component: DailyLive },
+      // { path: '/analysis/daily-live', component: DailyLive },
 
       {
         path: '/product/product-view',
@@ -110,7 +110,8 @@ const dynamicRoutes = [
       {
         path: '/product/product-detail/:id',
         name: 'product-details',
-        component: ProductDetail
+        component: ProductDetail,
+        meta: { menuId: 17 }
       },
       {
         path: '/product/product-creat-manage',
@@ -408,6 +409,7 @@ class AddRoutes {
       });
     });
     newRoutes[0].children = routeArr;
+    this.getFirstPageRoute = newRoutes[0].children[0].path;
     return newRoutes;
   }
 };

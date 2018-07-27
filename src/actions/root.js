@@ -1,6 +1,5 @@
 import * as types from '../store/types';
 import API from '../utils/api';
-import AddRoutes from '@/router/AddRoutes';
 
 const actions = {
   getProvince({ commit }, params) {
@@ -55,9 +54,8 @@ const actions = {
       return res.data;
     });
   },
-  goFirstPage({ commit }, params) {
-    const routes = new AddRoutes();
-    const path = routes.dynamicRoutes[0].path || '/';
+  goFirstPage({ commit, state }, params) {
+    const path = state.root.getFirstPageRoute;
     commit(types.ROUTE_CHANGE, {
       path
     });
