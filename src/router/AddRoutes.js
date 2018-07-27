@@ -51,7 +51,7 @@ import UserCreate from '@/views/system//create/UserCreate.vue';
 
 import ProductView from '@/views/product/ProductView.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
-import ProductDetail from '@/views/product/ProductDetail.vue';
+import ProductDetail from '@/views/product/detail/ProductDetail.vue';
 import ProductCreate from '@/views/product/create/ProductCreate.vue';
 import ProductEdit from '@/views/product/create/ProductEdit.vue';
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="m-container">
-      <el-form class="task-form" ref="taskManageForm">
+      <el-form class="form-manage" ref="taskManageForm">
         <div class="flex">
           <el-form-item prop="date">
             <el-date-picker v-model="myBusinessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -16,10 +16,10 @@
           </el-form-item>
         </div>
         <div class="flex">
-          <el-form-item class="task-form-item">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
-          <el-form-item class="business-form-item">
+          <el-form-item class="form-left-width">
             <el-button class="el-button--have-icon" @click.prevent="createBusiness" icon="el-icon-plus">新建商机</el-button>
           </el-form-item>
         </div>
@@ -295,23 +295,6 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.business-form-item {
-  margin-left: $formWidth;
-}
-.task-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.task-form-item__input {
-  width: $inputWidthQuery;
-}
-.task-form-item {
-  margin-left: $formWidth;
-}
 .el-popover {
   min-width: 35px !important;
 }

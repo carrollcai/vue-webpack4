@@ -1,6 +1,6 @@
 <template>
 <div class="p-manage m-container">
-  <el-form :model="formData" class="demo-form-inline">
+  <el-form :model="formData" class="form-manage">
     <div class="flex">
       <el-form-item>
         <el-col>
@@ -9,21 +9,21 @@
         </el-col>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-select class="item-width" v-model="formData.productType" clearable placeholder="产品类型">
+        <el-select v-model="formData.productType" clearable placeholder="产品类型">
           <el-option label="全部" value="" />
           <el-option label="个人市场" value="0" />
           <el-option label="政企市场" value="1" />
         </el-select>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-input class="item-width" clearable v-model="formData.operatorCn" @change="checkOperatorCn" placeholder="创建人"></el-input>
+        <el-input clearable v-model="formData.operatorCn" @change="checkOperatorCn" placeholder="创建人"></el-input>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-input class="item-width" clearable v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
+        <el-input clearable v-model="formData.productName" placeholder="产品名称/编码" @change="checkProductName"></el-input>
       </el-form-item>
     </div>
-    <div class="flex product-query-btns">
-      <el-form-item>
+    <div class="flex">
+      <el-form-item class="form-left-width">
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
     </div>
@@ -151,23 +151,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.form-query-input-width form-left-width {
-  width: $inputWidthQuery;
-  margin-left: $blockWidth;
-}
-.p-manage {
-  // padding: 24px; background: #fff;
-  .demo-form-inline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .item-width {
-    width: $inputWidthQuery;
-  }
-
-  .product-query-btns{
-    margin-left: 40px;
-  }
-}
 </style>

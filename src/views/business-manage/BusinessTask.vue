@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="m-container">
-      <el-form class="task-form" ref="taskManageForm" :rules="taskManageRules">
+      <el-form class="form-manage" ref="taskManageForm" :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
             <el-date-picker v-model="businessTaskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
@@ -17,7 +17,7 @@
           </el-form-item>
         </div>
         <div class="flex">
-          <el-form-item class="task-form-item group-form-item__lable">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
         </div>
@@ -326,20 +326,6 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.task-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.task-form-item__input {
-  width: $inputWidthQuery;
-}
-.task-form-item {
-  margin-left: $formWidth;
-}
 // 弹出框样式设置
 .business-task-dialog {
   .el-dialog__body {

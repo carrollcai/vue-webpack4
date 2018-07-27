@@ -1,7 +1,7 @@
 <template>
   <div class="requirement-handle-management">
     <div class="m-container">
-      <el-form class="requirement-query-form">
+      <el-form class="form-manage">
         <div class="flex">
           <el-form-item class="">
             <el-date-picker
@@ -25,8 +25,8 @@
           </el-form-item>
         </div>
 
-        <div class="flex requirement-query-btns">
-          <el-form-item>
+        <div class="flex">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
         </div>
@@ -37,7 +37,7 @@
         <el-tab-pane label="已处理" name="second"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container requirement-list">
+    <div class="m-container table-container">
       <wm-table
         :source="requirements.list"
         :total="requirements.totalCount"
@@ -149,31 +149,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.requirement-handle-management {
-  .requirement-query-form {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .requirement-form-item__lable {
-    margin-left: $blockWidth;
-  }
-
-   .requirement-form-item__input {
-    width: $inputWidthQuery;
-  }
-
-  .requirement-query-btns{
-    margin-left: 40px;
-  }
-
-  .requirement-form-item {
-    margin-left: $formWidth;
-  }
-
-  .requirement-list{
-    margin-top: $blockWidth;
-  }
-}
 </style>

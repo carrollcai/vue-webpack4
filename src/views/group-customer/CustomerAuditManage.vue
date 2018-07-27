@@ -1,7 +1,7 @@
 <template>
   <div class="customer-audit-management">
     <div class="m-container query-block">
-      <el-form class="group-form">
+      <el-form class="form-manage">
         <div class="flex">
           <el-form-item class="form-query-input-width">
             <el-select v-model="organizeType" clearable placeholder="集团属性">
@@ -22,8 +22,8 @@
             <el-input v-model="otherField" placeholder="集团名称/编码" clearable />
           </el-form-item>
         </div>
-        <div class="flex customer-query-btns">
-          <el-form-item>
+        <div class="flex">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
         </div>
@@ -34,7 +34,7 @@
         <el-tab-pane label="审核不通过" name="third"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container customer-list">
+    <div class="m-container table-container">
       <wm-table
         :source="groupCustomerList.list"
         :total="groupCustomerList.totalCount"
@@ -161,22 +161,4 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.customer-audit-management{
-  .group-form-item__lable {
-    margin-left: $blockWidth;
-  }
-  .group-form {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .customer-query-btns{
-    margin-left: 40px;
-  }
-
-  .customer-list{
-    margin-top: $blockWidth;
-  }
-}
 </style>

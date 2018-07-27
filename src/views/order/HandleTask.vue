@@ -18,7 +18,7 @@
         </span>
       </el-dialog>
 
-      <el-form class="o-overview-form" ref="orderHandleTask" :rules="orderHandleTaskRules" :model="orderHandleTaskForm">
+      <el-form class="form-manage" ref="orderHandleTask" :rules="orderHandleTaskRules" :model="orderHandleTaskForm">
         <div class="flex">
           <el-form-item prop="date">
             <el-date-picker v-model="orderHandleTaskForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
@@ -32,7 +32,7 @@
           </el-form-item>
         </div>
         <div class="flex">
-          <el-form-item class="task-form-item">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
         </div>
@@ -226,14 +226,6 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.o-overview-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.order-form-item {
-  margin-left: $formWidth;
-}
 .el-dropdown-link {
   color: $buttonColor;
   cursor: pointer;

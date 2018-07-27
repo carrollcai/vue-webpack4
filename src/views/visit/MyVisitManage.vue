@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form class="visit-form" ref="myVisitManageForm" v-model="myVisitManageFrom">
+    <el-form class="form-manage" ref="myVisitManageForm" v-model="myVisitManageFrom">
       <div class="flex">
         <el-form-item prop="date">
           <el-col>
@@ -24,10 +24,10 @@
         </el-form-item>
       </div>
       <div class="flex">
-        <el-form-item class="visit-form-item">
+        <el-form-item class="form-left-width">
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
-        <el-form-item class="visit-form-item">
+        <el-form-item class="form-left-width">
           <el-button class="el-button--have-icon" @click.prevent="createVisit" icon="el-icon-plus">新建走访申请</el-button>
         </el-form-item>
       </div>
@@ -185,15 +185,5 @@ export default {
 @import "scss/variables.scss";
 .table-container {
   .el-button + .el-button {margin-left: 0}
-}
-.visit-form-item__lable {
-  margin-left: $blockWidth;
-}
-.visit-form {
-  display: flex;
-  justify-content: space-between;
-}
-.visit-form-item {
-  margin-left: $formWidth;
 }
 </style>

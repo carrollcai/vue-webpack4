@@ -1,7 +1,7 @@
 <template>
   <div class="mission-handle-management">
     <div class="m-container query-block">
-      <el-form class="visit-form">
+      <el-form class="form-manage">
         <div class="flex">
           <el-form-item>
             <el-date-picker
@@ -24,8 +24,8 @@
             </el-select>
           </el-form-item>
         </div>
-        <div class="flex visit-query-btns">
-          <el-form-item>
+        <div class="flex">
+          <el-form-item class="form-left-width">
             <el-button type="primary" @click="query">查询</el-button>
           </el-form-item>
         </div>
@@ -37,7 +37,7 @@
         <el-tab-pane label="已评价" name="forth"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="m-container visit-list">
+    <div class="m-container table-container">
       <wm-table
         :source="handleVisits.list"
         :total="handleVisits.totalCount"
@@ -173,23 +173,4 @@ export default {
 </script>
 <style lang="scss">
 @import "scss/variables.scss";
-.mission-handle-management{
-  .visit-form-item__lable {
-    margin-left: $blockWidth;
-  }
-  .visit-form {
-    display: flex;
-    align-items: center;
-  }
-  .visit-form-item__input {
-    width: $inputWidthQuery;
-  }
-
-  .visit-query-btns{
-    margin-left: 40px;
-  }
-  .visit-list{
-    margin-top: $blockWidth;
-  }
-}
 </style>

@@ -281,22 +281,6 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.group-form-item__lable {
-  margin-left: $blockWidth;
-}
-.group-form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.group-form-item__input {
-  width: $inputWidthQuery;
-}
-
-.role-form-item {
-  margin-left: $formWidth;
-}
-
 .customer-overview_detail {
   .info-block{
      margin-top: $blockWidth;
