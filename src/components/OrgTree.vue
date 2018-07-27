@@ -26,8 +26,8 @@ export default {
   },
   data() {
     return {
-      MAX_VALUE: 100,
-      STEP: 20
+      MAX_VALUE: 150,
+      STEP: 15
     };
   },
   watch: {
