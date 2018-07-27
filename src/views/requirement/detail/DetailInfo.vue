@@ -9,7 +9,7 @@
     </el-form-item>
 
     <template v-if="requirement.reqType !== '2'">
-      <el-form-item label="需求描述">
+      <el-form-item label="需求描述" class="too-long-content">
         {{requirement.reqDesc}}
       </el-form-item>
 
@@ -25,7 +25,7 @@
         {{requirement.materialName}}
       </el-form-item>
 
-      <el-form-item label="物料格式要求">
+      <el-form-item label="物料格式要求" class="too-long-content">
         {{requirement.materialSupplyType}}
       </el-form-item>
 
@@ -33,7 +33,7 @@
         {{requirement.materialUseCreateTime}}-{{requirement.materialUseEndTime}}
       </el-form-item>
 
-      <el-form-item label="物料描述">
+      <el-form-item label="物料描述" class="too-long-content">
         {{requirement.materialDesc}}
       </el-form-item>
     </template>
@@ -116,6 +116,12 @@ export default {
     min-width: 50px;
     border-bottom: 1px solid $primary-color;
     margin-right: 16px;
+  }
+
+  .too-long-content{
+    .el-form-item__content{
+      word-break: break-all;
+    }
   }
 }
 </style>

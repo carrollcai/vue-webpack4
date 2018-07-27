@@ -20,7 +20,7 @@
           <el-form-item label="处理方式" v-if="requirement.reqType === '1'">
             {{requirement.handleTypeName}}
           </el-form-item>
-          <el-form-item label="处理方案" v-if="requirement.handleType !== '2'">
+          <el-form-item label="处理方案" class="too-long-content" v-if="requirement.handleType !== '2'">
             {{requirement.reqScheme}}
           </el-form-item>
         </template>
@@ -33,7 +33,7 @@
             </span>
           </el-form-item>
         </template>
-        <el-form-item label="备注" v-if="requirement.handleType !== '2'">
+        <el-form-item label="备注" class="too-long-content" v-if="requirement.handleType !== '2'">
           {{requirement.processorRemark}}
         </el-form-item>
       </el-form>
@@ -74,6 +74,12 @@ export default {
 
     .el-form-item{
       margin-bottom: 0;
+    }
+  }
+
+  .too-long-content{
+    .el-form-item__content{
+      word-break: break-all;
     }
   }
   .file-name{
