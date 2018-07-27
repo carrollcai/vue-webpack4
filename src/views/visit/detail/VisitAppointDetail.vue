@@ -154,7 +154,7 @@ export default {
       this.$refs.visitRef.validateField('files');
     },
     fileChange(file, fileList) {
-      if (fileBeforeUpload(file, fileList)) return false;
+      if (fileBeforeUpload.call(this, file, fileList)) return false;
       this.uploadData.files.push(file.raw);
       this.$refs.visitRef.validateField('files');
     },

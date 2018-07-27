@@ -189,7 +189,7 @@ export default {
       }
     },
     fileChange(file, fileList) {
-      if (fileBeforeUpload(file, fileList)) return false;
+      if (fileBeforeUpload.call(this, file, fileList)) return false;
 
       this.assignForm.files.push(file.raw);
       this.$refs.assign.validateField('files');

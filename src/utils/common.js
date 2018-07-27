@@ -110,7 +110,7 @@ export function toTrim(obj = {}) {
  */
 export function fileBeforeUpload(file, fileList) {
   const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
-  const isFormat = isFileAcceptable(file.name);
+  const isFormat = !isFileAcceptable(file.name);
   const isOverNum = fileList.length > FILE_MAX_COUNT;
   let index = fileList.findIndex(val => val.uid === file.raw.uid);
   if (isFormat) {
