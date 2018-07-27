@@ -65,8 +65,8 @@ import OrderHandleTaskDetail from '@/views/order/detail/HandleTaskDetail.vue';
 /* 我的走访管理 */
 import MyVisitManage from '@/views/visit/MyVisitManage.vue';
 import CreateVisitApplication from '@/views/visit/create/CreateVisitApplication.vue';
-import ExecuteProcess from '@/views/visit/ExecuteProcess.vue';
-import MyVisitView from '@/views/visit/MyVisitView.vue';
+import ExecuteProcess from '@/views/visit/detail/ExecuteProcess.vue';
+import MyVisitView from '@/views/visit/detail/MyVisitView.vue';
 
 /* 走访指派 */
 import VisitAppoint from '@/views/visit/VisitAppoint.vue';
