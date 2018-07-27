@@ -38,7 +38,6 @@
 <script>
 import { mapActions } from 'vuex';
 import LoginInput from 'components/LoginInput.vue';
-import * as types from '@/store/types';
 export default {
   name: 'Login',
   components: {
@@ -52,10 +51,6 @@ export default {
     };
   },
   methods: {
-    isSuccess(res) {
-      return res && res.errorInfo && res.errorInfo.code === '200';
-    },
-
     validateForm() {
       let {loginName, pwd} = this;
 
@@ -73,23 +68,13 @@ export default {
     },
 
     handleLogin() {
-      const { isSuccess, validateForm } = this;
+      const { validateForm } = this;
       if (validateForm()) {
-        let {loginName, pwd} = this;
+        let { loginName, pwd } = this;
 
         this.login({
           username: loginName,
           password: pwd
-        }).then((res) => {
-          if (isSuccess(res)) {
-            this.$store.commit(types.SET_LOGIN_USER, res.data);
-            // this.$router.replace('/');
-            this.$router.replace('/analysis/active');
-          } else {
-            this.errorMsg = res.errorInfo.message;
-          }
-        }, err => {
-          console.log(err);
         });
       }
     },

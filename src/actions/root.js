@@ -50,17 +50,24 @@ const actions = {
       commit(types.STATIC_DATA, res.data);
     });
   },
-  getNewFileInputId: ({ commit }, params) => {
+  getNewFileInputId({ commit }, params) {
     return API.getNewFileInputIdAPI(params).then(res => {
       return res.data;
     });
   },
-  goFirstPage: ({ commit }, params) => {
+  goFirstPage({ commit }, params) {
     const routes = new AddRoutes();
     const path = routes.dynamicRoutes[0].path || '/';
     commit(types.ROUTE_CHANGE, {
       path
     });
+  },
+  async getSystemInfo({ commit, dispatch }, params) {
+    await dispatch('getProvince');
+    await dispatch('getCurrentUserInfo');
+    // 获取用户信息后添加动态路由
+    commit('ADD_ROUTES');
+    dispatch('queryStaticData');
   }
 };
 
