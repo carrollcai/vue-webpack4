@@ -276,7 +276,7 @@
         label-width="120px"
         v-if="isThirdStep()"
         key="managerForm">
-        <el-form-item label="客户经理" prop="managerName" required key="managerName">
+        <el-form-item label="客户经理" prop="managerName" key="managerName">
           <el-autocomplete
             key="manager-input"
             v-model="customer.managerName"
@@ -288,25 +288,25 @@
             @select="handleSelect"
           ></el-autocomplete>
         </el-form-item>
-        <el-form-item label="手机号码" prop="managerMobile" required key="managerMobile">
+        <el-form-item label="手机号码" prop="managerMobile" key="managerMobile">
           <el-input v-model="customer.managerMobile"
             placeholder="请输入手机号码"
             :maxlength="11"
             key="managerMobile-input"></el-input>
         </el-form-item>
-        <el-form-item label="员工工号" prop="managerNo" required key="managerNo">
+        <el-form-item label="员工工号" prop="managerNo" key="managerNo">
           <el-input v-model="customer.managerNo"
             placeholder="请输入员工工号"
             :maxlength="15"
             key="managerId-input"></el-input>
         </el-form-item>
-        <el-form-item label="所在部门" prop="managerDepartment" required key="managerDepartment">
+        <el-form-item label="所在部门" prop="managerDepartment" key="managerDepartment">
           <el-input v-model="customer.managerDepartment"
             :maxlength="15"
             placeholder="请输入所在部门"
             key="managerDept-input"></el-input>
         </el-form-item>
-        <el-form-item label="所在职位" prop="managerPosition" required key="managerPosition">
+        <el-form-item label="所在职位" prop="managerPosition" key="managerPosition">
           <el-input v-model="customer.managerPosition"
             :maxlength="15"
             placeholder="请输入所在职位"
