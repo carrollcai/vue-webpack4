@@ -79,7 +79,7 @@ export default {
         managerName: [
           { required: true, message: '请输入客户经理', trigger: 'blur' },
           { min: 1, max: 6, message: '请输入6个以内字符', trigger: 'blur' },
-          { validator: emptyValidator, trigger: 'blur' }
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         managerMobile: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
