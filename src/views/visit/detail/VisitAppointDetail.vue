@@ -66,7 +66,7 @@ import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_MAX_COUNT, FILE_TIP } from '@/config/index.js';
-import { textareaLimit, textareaMaxLimit, multFileValid } from '@/utils/rules.js';
+import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -91,7 +91,7 @@ export default {
   },
   data() {
     const fileCheck = (rule, value, callback) => {
-      multFileValid(this.uploadData.files, callback);
+      fileValidLen(this.uploadData.files, callback);
     };
     return {
       FILE_TIP,
@@ -201,7 +201,6 @@ export default {
       this.getProductFileId().then((res) => {
         this.uploadData.fileInputId = res.data;
         this.formData.fileInputId = res.data;
-        console.log(this.uploadData);
         this.uploadProductScheme(this.uploadData);
         this.query();
       });
