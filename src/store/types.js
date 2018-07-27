@@ -129,6 +129,7 @@ export const GET_PROCESSOR_LIST = 'GET_PROCESSOR_LIST';
 export const HANDLE_VISIT_MANAGE_LIST = 'HANDLE_VISIT_MANAGE_LIST';
 export const REGISTER_LIST = 'REGISTER_LIST';
 export const VISIT_DETAIL = 'VISIT_DETAIL';
+export const APPOINT_CREATE = 'APPOINT_CREATE';
 
 /* dashboard */
 export const HOME_MODULE = 'HOME_MODULE';

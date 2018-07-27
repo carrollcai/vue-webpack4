@@ -10,6 +10,27 @@ const { getVisitField, updateVisitField } = createHelpers({
   mutationType: 'updateVisitField'
 });
 
+const createAppointFrom = {
+  visitTheme: '',
+  organizeId: '',
+  organizeName: '',
+  visitAddress: '',
+  intervieweeName: '',
+  intervieweeMobile: '',
+  visitPresentMembers: '',
+  visitContent: '',
+  relOpporId: '',
+  relOpporCode: '',
+  processor: '',
+  assignNote: '',
+  problemCoordinate: '',
+  isFirstVisit: 1,
+  visitTime: null,
+  timeRange: null,
+  visitStartTime: '',
+  visitEndTime: ''
+};
+
 const state = {
   myVisitManageFrom: {
     visitStartTime: '',
@@ -93,6 +114,10 @@ const state = {
   visitDetail: {}
 };
 const mutations = {
+  // 清空创建数据
+  [types.APPOINT_CREATE](state, data) {
+    state.createAppointFrom = Object.cloneDeep(createAppointFrom);
+  },
   [types.MY_VISIT_MANAGE_LIST](state, data) {
     state.myVisitManageList = data;
   },

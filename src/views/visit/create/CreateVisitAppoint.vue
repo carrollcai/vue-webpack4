@@ -233,6 +233,10 @@ export default {
     this.getAssignhandler();
     this.queryRegionManager({});
   },
+  beforeDestroy() {
+    // 组件注销的时候，需要清空表单数据
+    this.clearAppointCreate();
+  },
   methods: {
     connectOrganize() {
       const isSelected = val => val.organizeName === this.createAppointFrom.organizeName || val.organizeCode === this.createAppointFrom.organizeName;
@@ -325,7 +329,8 @@ export default {
       this.$router.push({path: '/visit/visit-appoint'});
     },
     ...mapMutations({
-      updateOrderCreate: 'ORDER_UPDATE_CREATE'
+      updateOrderCreate: 'ORDER_UPDATE_CREATE',
+      clearAppointCreate: 'APPOINT_CREATE'
     }),
     ...mapActions([
       'addCreateAppiont',
