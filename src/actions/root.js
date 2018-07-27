@@ -3,7 +3,7 @@ import API from '../utils/api';
 import AddRoutes from '@/router/AddRoutes';
 
 const actions = {
-  getProvince: ({ commit }, params) => {
+  getProvince({ commit }, params) {
     const req = { codeType: 'PROVINCE' };
     return API.getProvinceAPI(req).then(res => {
       commit(types.PROVINCE, res.data.PROVINCE);
@@ -13,12 +13,12 @@ const actions = {
       }
     });
   },
-  getUserRole: ({ commit }, params) => {
+  getUserRole({ commit }, params) {
     return API.getUserRoleAPI(params).then(res => {
       commit(types.USER_ROLE_LIST, res.data);
     });
   },
-  getCurrentUserInfo: ({ commit }, params) => {
+  getCurrentUserInfo({ commit }, params) {
     return API.getCurrentUserInfoAPI(params).then(res => {
       commit(types.CURRENT_USER_GET_INFO, res.data);
     });

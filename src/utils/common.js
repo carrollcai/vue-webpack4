@@ -1,7 +1,9 @@
 /**
- * 公共方法
  * @author carroll
+ * @description 公共方法
  */
+
+import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_MAX_COUNT } from '@/config/index.js';
 
 /**
  * @export 数组里的对象类型是否有重复
@@ -79,6 +81,7 @@ export function cancelNumberScroll(evt) {
   }
   return false;
 }
+
 /**
  * 去除所有string字段的首尾空格
  * @param {Object} obj
@@ -98,3 +101,36 @@ export function toTrim(obj = {}) {
     }
   }
 }
+
+/**
+ * @export
+ * @param {*} file
+ * @param {*} fileList
+ * @returns
+ */
+export function fileBeforeUpload(file, fileList) {
+  const isOverLimit = file.size > (FILE_MAX_SIZE * 1024 * 1024);
+  const isFormat = !isFileAcceptable(file.name);
+  const isOverNum = fileList.length > FILE_MAX_COUNT;
+  let index = fileList.findIndex(val => val.uid === file.raw.uid);
+  if (isFormat) {
+    this.$message.error(FILE_ERROR_TIP);
+    fileList.splice(index, 1);
+  }
+  if (isOverLimit) {
+    this.$message.error(`上传文件不能超过${FILE_MAX_SIZE}MB!`);
+    fileList.splice(index, 1);
+  }
+  if (isOverNum) {
+    this.$message.error(`文件上传数量不能超过${FILE_MAX_COUNT}个`);
+    fileList.splice(index, 1);
+  }
+  return isOverLimit || isFormat || isOverNum;
+};
+
+function isFileAcceptable(fileName) {
+  for (let accept of FILE_ACCEPT) {
+    if (fileName.toLowerCase().endsWith(accept)) return true;
+  }
+  return false;
+};
