@@ -81,7 +81,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
-import { checkPhone, emailCheck, textLimit, textareaMaxLimit, inte5Deci4, textAccountLimit } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte5Deci4, textAccountLimit } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -136,7 +136,7 @@ export default {
         ],
         address: [
           { required: true, message: '请输入地址', trigger: 'change' },
-          { validator: textAccountLimit, trigger: 'blur' }
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         productName: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
