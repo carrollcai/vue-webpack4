@@ -99,7 +99,7 @@ export const textLimit = (rule, value, callback) => {
   }
 };
 
-//  input 常规最大30字符校验
+//  input 常规最大25字符校验
 export const textAccountLimit = (rule, value, callback) => {
   if (String(value).trim() === '') {
     callback(new Error('输入内容不能为空'));
@@ -110,7 +110,7 @@ export const textAccountLimit = (rule, value, callback) => {
   }
 };
 
-// textarea 最大字符校验
+// textarea 50字符校验
 export const textareaLimit = (rule, value, callback) => {
   if (String(value).trim() === '') {
     callback(new Error('输入内容不能为空'));
