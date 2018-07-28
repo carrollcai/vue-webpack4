@@ -33,6 +33,16 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals: {
+    'vue': 'vue/dist/vue.esm.js',
+    'vue-router': 'vue-router',
+    'vuex': 'vuex',
+    'axios': 'axios',
+    '@antv/g2': '@antv/g2',
+    '@antv/data-set': '@antv/data-set',
+    'moment': 'moment',
+    'vue-clipboard2': 'vue-clipboard2'
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
