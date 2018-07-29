@@ -39,6 +39,7 @@
 </template>
 <script>
 import mixins from './mixins';
+import { mapActions } from 'vuex';
 export default {
   name: 'RequirementHandleDetail',
   mixins: [mixins],
@@ -54,7 +55,10 @@ export default {
         fileSaveName: file.fileSaveName,
         fileName: file.fileName
       });
-    }
+    },
+    ...mapActions([
+      'downloadUplodFile'
+    ])
   }
 };
 </script>
