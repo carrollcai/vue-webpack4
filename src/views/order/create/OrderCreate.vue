@@ -15,7 +15,7 @@
         </el-form-item>
         <el-form-item label="预定合同金额：" prop="predictContractAmount">
           <el-input class="form-input-medium" v-model="orderCreate.predictContractAmount" placeholder="合同金额">
-            <template slot="append">万元/月</template>
+            <template slot="append">万元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="预定签约时间：" prop="predictSignTime">
