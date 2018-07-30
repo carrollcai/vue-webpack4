@@ -79,7 +79,7 @@ import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
 import { multFileValid, inte5Deci4, textareaLimit } from '@/utils/rules.js';
-import { FILE_TIP } from '@/config/index.js';
+import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
 
 export default {
@@ -220,7 +220,7 @@ export default {
         } else {
           let params = {
             fileInputId: '',
-            fileTypeId: 501,
+            fileTypeId: FILE_TYPE_ID.order,
             moduleId: 1,
             files: this.assignForm.files
           };

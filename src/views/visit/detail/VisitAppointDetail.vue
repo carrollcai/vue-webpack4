@@ -66,7 +66,7 @@ import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
 import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
-import { FILE_TIP } from '@/config/index.js';
+import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
 
 export default {
@@ -98,7 +98,7 @@ export default {
       filesArrList: [],
       uploadData: {
         fileInputId: '',
-        fileTypeId: 504,
+        fileTypeId: FILE_TYPE_ID.visit,
         moduleId: 1,
         expireDate: '',
         effectiveDate: '',

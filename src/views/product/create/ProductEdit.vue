@@ -129,6 +129,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import mixins from './mixins';
+import { FILE_TYPE_ID } from '@/config/index.js';
 export default {
   name: 'ProductCreate',
   mixins: [mixins],
@@ -174,7 +175,7 @@ export default {
           if (deleteFiles && deleteFiles.length) {
             for (let deleteFile of deleteFiles) {
               let promise = new Promise((resolve, reject) => {
-                this.delUplodFile({elecInstId: deleteFile.elecInstId, fileTypeId: 502}).then((res) => {
+                this.delUplodFile({elecInstId: deleteFile.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
                   resolve();
                 }, (err) => {
                   reject(new Error(err));
@@ -201,7 +202,7 @@ export default {
               promise = new Promise((resolve, reject) => {
                 let uploadData = {
                   fileInputId,
-                  fileTypeId: 502,
+                  fileTypeId: FILE_TYPE_ID.product,
                   moduleId: 1,
                   expireDate: '',
                   effectiveDate: '',
@@ -224,7 +225,7 @@ export default {
 
                   let uploadData = {
                     fileInputId,
-                    fileTypeId: 502,
+                    fileTypeId: FILE_TYPE_ID.product,
                     moduleId: 1,
                     expireDate: '',
                     effectiveDate: '',

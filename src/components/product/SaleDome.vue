@@ -79,6 +79,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { FILE_TYPE_ID } from '@/config/index.js';
 export default {
   props: {
     data: {
@@ -90,7 +91,7 @@ export default {
       currIndex: -1,
       expands: [],
       uploadData: {
-        fileTypeId: 502,
+        fileTypeId: FILE_TYPE_ID.product,
         fileSaveName: '',
         fileName: ''
       }
@@ -161,7 +162,7 @@ export default {
     },
     dowloadFile(name, path) {
       this.uploadData = {
-        fileTypeId: 502,
+        fileTypeId: FILE_TYPE_ID.product,
         fileSaveName: path,
         fileName: name
       };

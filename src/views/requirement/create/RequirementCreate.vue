@@ -177,6 +177,7 @@
 import { mapActions, mapState } from 'vuex';
 import endsWith from 'lodash/endsWith';
 import mixins from './mixins';
+import { FILE_TYPE_ID } from '@/config/index.js';
 import {
   FILE_ACCEPT,
   FILE_TIP,
@@ -220,7 +221,7 @@ export default {
       },
       uploadData: {
         fileInputId: '',
-        fileTypeId: 503,
+        fileTypeId: FILE_TYPE_ID.requirement,
         moduleId: 1,
         expireDate: '',
         effectiveDate: '',

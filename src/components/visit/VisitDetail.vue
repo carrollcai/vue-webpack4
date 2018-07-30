@@ -128,6 +128,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex';
+import { FILE_TYPE_ID } from '@/config/index.js';
 
 export default {
   props: {
@@ -143,7 +144,7 @@ export default {
       routeName: this.$route.name, // 指派或者创建
       isExecute: this.$route.query.isExecute, // 详情还是执行处理
       uploadData: {
-        fileTypeId: 504,
+        fileTypeId: FILE_TYPE_ID.visit,
         fileSaveName: '',
         fileName: ''
       }
@@ -175,7 +176,7 @@ export default {
   methods: {
     async dowloadFile(name, path) {
       this.uploadData = {
-        fileTypeId: 504,
+        fileTypeId: FILE_TYPE_ID.visit,
         fileSaveName: path,
         fileName: name
       };

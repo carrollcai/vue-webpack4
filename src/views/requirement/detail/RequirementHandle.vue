@@ -134,7 +134,8 @@ import {
   FILE_TIP,
   FILE_MAX_COUNT,
   FILE_MAX_SIZE,
-  FILE_ERROR_TIP
+  FILE_ERROR_TIP,
+  FILE_TYPE_ID
 } from '@/config';
 import mixins from './mixins';
 export default {
@@ -176,7 +177,7 @@ export default {
       },
       uploadData: {
         fileInputId: '',
-        fileTypeId: 503,
+        fileTypeId: FILE_TYPE_ID.requirement,
         moduleId: 1,
         expireDate: '',
         effectiveDate: '',

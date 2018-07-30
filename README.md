@@ -66,4 +66,4 @@ npm run build --report
 ```
 
 ### 注意点
-- 测试环境，node打包的时候，不要用npm安装包，用yarn安装包。因为npm打包的时候，会将dll之前打包内容继续打包进去。原因可能是打包的时候，webpack.DllReferencePlugin执行没有成功。或者应该放在后面执行。
+- 测试环境，node打包的时候，不要用npm安装包，用yarn安装包。因为npm打包的时候，会将dll之前打包内容继续打包进去。原因可能是打包的时候，webpack.DllReferencePluginn没有执行成功。或者应该放在后面执行。

@@ -129,6 +129,7 @@
 <script>
 import { mapActions } from 'vuex';
 import mixins from './mixins';
+import { FILE_TYPE_ID } from '@/config/index.js';
 export default {
   name: 'ProductCreate',
   mixins: [mixins],
@@ -166,7 +167,7 @@ export default {
 
                 let uploadData = {
                   fileInputId,
-                  fileTypeId: 502,
+                  fileTypeId: FILE_TYPE_ID.product,
                   moduleId: 1,
                   expireDate: '',
                   effectiveDate: '',
