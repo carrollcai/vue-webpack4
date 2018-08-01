@@ -17,6 +17,37 @@ export const MENU_PERMISSIONS = [
     icon: 'icon-home',
     enable: false
   },
+  // 数据审核管理 的 menuId 先用的别的模块的 后面在修改
+  {
+    menuId: 23,
+    name: '数据提取管理',
+    url: '/data-extraction',
+    // icon: 'icon-client',
+    enable: false,
+    children: [
+      {
+        menuId: 24,
+        parentId: 23,
+        name: '明细数据下载',
+        url: '/data-extraction/data-download',
+        enable: false
+      },
+      {
+        menuId: 25,
+        parentId: 23,
+        name: '数据提取申请',
+        url: '/data-extraction/data-apply',
+        enable: false
+      },
+      {
+        menuId: 26,
+        parentId: 23,
+        name: '数据审核管理',
+        url: '/data-extraction/data-audit',
+        enable: false
+      }
+    ]
+  },
   {
     menuId: 2,
     name: '数据分析',

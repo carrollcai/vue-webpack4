@@ -319,4 +319,7 @@ export default {
   queryTaskInfoAPI: API('esop/index/queryTaskInfo'),
   // 首页集团查询
   queryOrganizeInfoAPI: API('esop/index/queryOrganizeInfo')
+  /**
+   * 数据抽取管理
+   */
 };

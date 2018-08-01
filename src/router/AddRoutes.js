@@ -78,6 +78,11 @@ import MissionHandling from '@/views/visit/MissionHandling.vue';
 import VisitMissionHandle from '@/views/visit/handle/MissionHandle.vue';
 import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
 
+/* 数据提取管理 */
+import DataDownload from '@/views/data-extraction/DataDownload.vue';
+import DataAudit from '@/views/data-extraction/DataAudit.vue';
+import DataApply from '@/views/data-extraction/DataApply.vue';
+
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
   {
@@ -100,7 +105,10 @@ const dynamicRoutes = [
       { path: '/analysis/active', component: Active, meta: { menuId: 3 } },
       { path: '/analysis/retention-loss', component: RetentionLoss, meta: { menuId: 4 } },
       // { path: '/analysis/daily-live', component: DailyLive },
-
+      // 数据审核管理 的 menuId 先用的别的模块的 后面在修改
+      { path: '/data-extraction/data-download', name: 'data-download', component: DataDownload, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-apply', name: 'data-apply', component: DataAudit, meta: { menuId: 25 } },
+      { path: '/data-extraction/data-audit', name: 'data-audit', component: DataApply, meta: { menuId: 26 } },
       {
         path: '/product/product-view',
         name: 'product-view',

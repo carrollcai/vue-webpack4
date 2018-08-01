@@ -10,6 +10,7 @@ import business from './business';
 import order from './order';
 import requirement from './requirement';
 import visit from './visit';
+import dataExtraction from './data-extraction';
 
 export default {
   ...root,
@@ -23,5 +24,6 @@ export default {
   ...business,
   ...order,
   ...requirement,
-  ...visit
+  ...visit,
+  ...dataExtraction
 };
