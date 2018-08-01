@@ -33,13 +33,6 @@ export const MENU_PERMISSIONS = [
         enable: false
       },
       {
-        menuId: 25,
-        parentId: 23,
-        name: '数据提取申请',
-        url: '/data-extraction/data-apply',
-        enable: false
-      },
-      {
         menuId: 26,
         parentId: 23,
         name: '数据审核管理',

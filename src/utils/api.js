@@ -318,8 +318,11 @@ export default {
   // 我的处理任务
   queryTaskInfoAPI: API('esop/index/queryTaskInfo'),
   // 首页集团查询
-  queryOrganizeInfoAPI: API('esop/index/queryOrganizeInfo')
+  queryOrganizeInfoAPI: API('esop/index/queryOrganizeInfo'),
   /**
    * 数据抽取管理
    */
+  queryDataDownloadAPI: API('http://localhost:3618/esop/extraction'),
+  deleteDownLoadDataAPI: API('http://localhost:3618/esop/all/extraction'),
+  dataDownLoadFileAPI: download('http://localhost:3618/esop/all/extraction')
 };
