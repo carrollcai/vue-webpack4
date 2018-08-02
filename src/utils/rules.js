@@ -12,7 +12,8 @@ import {
   INPUT_TEXTAREA_LIMIT,
   FILE_UPLOAD_LIMIT,
   INPUT_TEXTAREA_MAX_LIMIT,
-  EMAIL_MAX_LENGTH
+  EMAIL_MAX_LENGTH,
+  INPUT_LENGTH_TWENTY
 } from '@/config/index.js';
 import moment from 'moment';
 
@@ -94,6 +95,16 @@ export const textLimit = (rule, value, callback) => {
     callback(new Error('输入内容不能为空'));
   } else if (String(value).trim().length > INPUT_TEXT_LIMIT) {
     callback(new Error(`输入内容字符不能超过${INPUT_TEXT_LIMIT}`));
+  } else {
+    callback();
+  }
+};
+// input 常规最大20字符校验
+export const inputLengthTwenty = (rule, value, callback) => {
+  if (String(value).trim() === '') {
+    callback(new Error('输入内容不能为空'));
+  } else if (String(value).trim().length > INPUT_LENGTH_TWENTY) {
+    callback(new Error(`输入内容字符不能超过${INPUT_LENGTH_TWENTY}`));
   } else {
     callback();
   }

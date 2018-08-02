@@ -324,5 +324,6 @@ export default {
    */
   queryDataDownloadAPI: API('http://localhost:3618/esop/extraction'),
   deleteDownLoadDataAPI: API('http://localhost:3618/esop/all/extraction'),
-  dataDownLoadFileAPI: download('http://localhost:3618/esop/all/extraction')
+  dataDownLoadFileAPI: download('http://localhost:3618/esop/all/extraction'),
+  applyDataExtractionAPI: API('http://localhost:3618/esop/all/extraction')
 };

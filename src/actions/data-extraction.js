@@ -18,6 +18,17 @@ const actions = {
   },
   dataDownLoadFile: ({commit}, params) => {
     API.dataDownLoadFileAPI(params);
+  },
+  applyDataExtraction: ({commit}, params) => {
+    API.applyDataExtractionAPI(params).then(res => {
+      Message({
+        message: '数据提取申请成功',
+        type: 'success'
+      });
+      commit(types.ROUTE_CHANGE, {
+        path: '/data-extraction/data-download'
+      });
+    });
   }
 };
 

@@ -25,11 +25,10 @@
     </div>
   </el-form>
   <el-tabs v-model="downloadForm.status" @tab-click="getState">
+    <el-tab-pane label="全部" :name="null"></el-tab-pane>
     <el-tab-pane label="审核中" :name="0"></el-tab-pane>
-    <el-tab-pane label="数据提取中" :name="1"></el-tab-pane>
-    <el-tab-pane label="提取成功" :name="2"></el-tab-pane>
-    <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
-    <el-tab-pane label="已取消" :name="4"></el-tab-pane>
+    <el-tab-pane label="审核通过" :name="1"></el-tab-pane>
+    <el-tab-pane label="审核不通过" :name="2"></el-tab-pane>
   </el-tabs>
 </div>
 <div class="m-container table-container">
@@ -38,10 +37,11 @@
     :total="dataDownloadList.total"
     :pageNo="downloadForm.pageNo"
     :pageSize="downloadForm.pageSize"
+    :default-sort = "{prop: 'insertdate', order: 'descending'}"
     @onPagination="onPagination"
     @onSizePagination="onSizePagination">
     <el-table-column label="任务名称" property="productName" width="350" />
-    <el-table-column label="提交时间" property="insertdate" width="210" />
+    <el-table-column label="提交时间" sortable property="insertdate" width="210" />
     <el-table-column label="审核状态" property="state" width="210" :formatter="stateformatter" />
     <el-table-column label="操作" width="280">
       <template slot-scope="scope">
@@ -114,14 +114,10 @@ export default {
     stateformatter(row, column, columnValue) {
       if (columnValue === 0) {
         return '审核中';
-      } else if (columnValue === 1) {
-        return '数据提取中';
-      } else if (columnValue === 2) {
-        return '提取成功';
-      } else if (columnValue === 3) {
+      } else if (columnValue === 1 || columnValue === 2) {
+        return '审核通过';
+      } else if (columnValue === 3 || columnValue === 4) {
         return '审核不通过';
-      } else if (columnValue === 4) {
-        return '已取消';
       }
     },
     getTimeRange(time) {

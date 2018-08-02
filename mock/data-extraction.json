@@ -18,7 +18,7 @@
             "productName": "edit2028 产品2",
             "updatedate": "2018-06-25 20:47:46",
             "price": 122,
-            "insertdate": "2018-06-25 19:20:39",
+            "insertdate": "2018-06-25",
             "position": "修改1726 开发",
             "state": 0,
             "deptment": "修改1726 软研",
@@ -37,7 +37,7 @@
             "operation": 2
           },
           {
-            "insertdate": "2018-05-11",
+            "insertdate": "2018-04-11",
             "productName": "咪咕动漫",
             "productId": 1654687113,
             "state": 0,
@@ -47,7 +47,7 @@
             "operation": "2017-05-11"
           },
           {
-            "insertdate": "2018-05-11",
+            "insertdate": "2018-02-11",
             "productName": "咪咕动漫",
             "productId": 4,
             "state": 2,
@@ -57,7 +57,7 @@
             "operation": 111
           },
           {
-            "insertdate": "2016-05-11",
+            "insertdate": "2016-05-01",
             "productName": "咪咕动漫",
             "productId": 5,
             "state": 3,
@@ -77,7 +77,7 @@
             "operation": 111
           },
           {
-            "insertdate": "2016-05-11",
+            "insertdate": "2016-02-21",
             "productName": "咪咕动漫",
             "productId": 5,
             "state": 2,

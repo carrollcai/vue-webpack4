@@ -6,7 +6,7 @@ const state = {
     startTime: '',
     endTime: '',
     name: '',
-    status: 0,
+    status: null,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
