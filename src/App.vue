@@ -7,7 +7,7 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  name: 'App', 
+  name: 'App',
   computed: {
     ...mapState({
       currentRoute: ({ root }) => root.currentRoute
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'scss/element-variables.scss';
+@import "scss/element-variables.scss";
 @import "scss/reset.scss";
 @import "scss/index.scss";
 @import "scss/views/active.scss";
@@ -37,5 +37,5 @@ export default {
 
 .app {
   height: 100vh;
-} 
+}
 </style>
