@@ -12,7 +12,7 @@ function getErrorLevel(number) {
   return 'undefined'
 }
 let pass = 0
-exec('git diff --cached --name-only| grep .js,.vue$', (error, stdout) => {
+exec('git diff --name-only| grep .vue$', (error, stdout) => {
   if (stdout.length) {
     const array = stdout.split('\n')
     array.pop()
