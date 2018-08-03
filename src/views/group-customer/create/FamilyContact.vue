@@ -1,6 +1,6 @@
 <template>
   <div class="family-contact_container">
-    <el-form-item
+    <!--<el-form-item
       :prop="'contactFamilyDtoList.' + index + '.name'"
       :rules="{
         validator: familyNameValidator, trigger: 'blur'
@@ -20,9 +20,31 @@
         placeholder="与本人关系"
         key="relation"
         :maxlength="10"></el-input>
+    </el-form-item>-->
+    <el-form-item
+      :prop="'contactFamilyDtoList.' + index + '.name'">
+      <el-input v-model="familyContact.name"
+        placeholder="姓名"
+        key="name"
+        :maxlength="6"></el-input>
     </el-form-item>
     <span class="line"></span>
     <el-form-item
+      :prop="'contactFamilyDtoList.' + index + '.relationship'">
+      <el-input v-model="familyContact.relationship"
+        placeholder="与本人关系"
+        key="relation"
+        :maxlength="10"></el-input>
+    </el-form-item>
+    <span class="line"></span>
+    <el-form-item
+      :prop="'contactFamilyDtoList.' + index + '.note'">
+      <el-input v-model="familyContact.jobDuty"
+        placeholder="备注信息"
+        key="job"
+        :maxlength="50"></el-input>
+    </el-form-item>
+    <!--<el-form-item
       :prop="'contactFamilyDtoList.' + index + '.jobDuty'"
       :rules="{
         validator: familyJobValidator, trigger: 'blur'
@@ -43,7 +65,7 @@
         placeholder="联系电话"
         key="mobile"
         :maxlength="11"></el-input>
-    </el-form-item>
+    </el-form-item>-->
   </div>
 </template>
 

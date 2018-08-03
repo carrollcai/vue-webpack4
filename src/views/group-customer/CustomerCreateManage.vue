@@ -9,11 +9,11 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item class="form-query-input-width form-left-width" prop="roleId">
+          <!--<el-form-item class="form-query-input-width form-left-width" prop="roleId">
             <el-select v-model="provinceId" clearable placeholder="所属省份">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
-          </el-form-item>
+          </el-form-item>-->
 
           <el-form-item class="form-query-input-width form-left-width" prop="staffName">
             <el-input v-model="managerName" clearable placeholder="客户经理"/>
@@ -35,7 +35,7 @@
       </el-form>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="全部" name="first"></el-tab-pane>
-        <el-tab-pane label="草稿" name="second"></el-tab-pane>
+        <!--<el-tab-pane label="草稿" name="second"></el-tab-pane>-->
         <el-tab-pane label="审核中" name="third"></el-tab-pane>
         <el-tab-pane label="审核通过" name="fourth"></el-tab-pane>
         <el-tab-pane label="审核不通过" name="fifth"></el-tab-pane>
@@ -54,8 +54,8 @@
         </el-table-column>
         <el-table-column label="集团属性" property="organizeTypeName">
         </el-table-column>
-        <el-table-column label="所属省份" property="provinceName">
-        </el-table-column>
+        <!--<el-table-column label="所属省份" property="provinceName">
+        </el-table-column>-->
         <el-table-column label="客户经理" property="managerName" />
         <el-table-column label="集团状态" property="orgTaskStatusName">
         </el-table-column>
