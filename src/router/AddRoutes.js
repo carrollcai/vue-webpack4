@@ -82,6 +82,7 @@ import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
 import DataDownload from '@/views/data-extraction/DataDownload.vue';
 import DataAudit from '@/views/data-extraction/DataAudit.vue';
 import DataApply from '@/views/data-extraction/create/DataApply.vue';
+import DataExtractionDetail from '@/views/data-extraction/detail/DataDetail.vue';
 
 const staticRoutes = [
   { path: '/login', component: Login, meta: { skipAuth: true } },
@@ -107,8 +108,11 @@ const dynamicRoutes = [
       // { path: '/analysis/daily-live', component: DailyLive },
       // 数据审核管理 的 menuId 先用的别的模块的 后面在修改
       { path: '/data-extraction/data-download', name: 'data-download', component: DataDownload, meta: { menuId: 24 } },
-      { path: '/data-extraction/data-audit', name: 'data-apply', component: DataAudit, meta: { menuId: 24 } },
-      { path: '/data-extraction/data-apply', name: 'data-audit', component: DataApply, meta: { menuId: 26 } },
+      { path: '/data-extraction/data-detail', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-detail/:id', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-audit-detail/:id', name: 'data-audit-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-apply', name: 'data-audit', component: DataApply, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-audit', name: 'data-apply', component: DataAudit, meta: { menuId: 26 } },
       {
         path: '/product/product-view',
         name: 'product-view',

@@ -107,7 +107,10 @@ export default {
       };
       this.dataDownLoadFile(data);
     },
-    viewDetail(row) {},
+    viewDetail(row) {
+      let path = `/data-extraction/data-detail/${row.id}?isAudit=false`;
+      this.$router.push({path: path});
+    },
     toDataApply() {
       this.$router.push({path: '/data-extraction/data-apply'});
     },
@@ -169,7 +172,3 @@ export default {
   }
 };
 </script>
-
-<style>
-
-</style>

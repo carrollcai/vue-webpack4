@@ -12,7 +12,7 @@
         "total": 14,
         "list": [
           {
-            "productId": 2,
+            "id": 2,
             "description": "修改1726 这是对产品2进行的一番介绍",
             "version": "修改1726 2.0",
             "productName": "edit2028 产品2",
@@ -23,15 +23,15 @@
             "state": 0,
             "deptment": "修改1726 软研",
             "operatorId": 10070,
-            "productType": "政企市场",
+            "productType": "政企",
             "username": "修改1726 胡"
           },
           {
             "insertdate": "2014-03-27",
             "productName": "咪咕动漫",
-            "productId": 1,
+            "id": 1,
             "state": 1,
-            "productType": "个人市场",
+            "productType": "总部",
             "updateTime": "2018-5-5",
             "operatorId": 90383,
             "operation": 2
@@ -39,7 +39,7 @@
           {
             "insertdate": "2018-04-11",
             "productName": "咪咕动漫",
-            "productId": 1654687113,
+            "id": 1654687113,
             "state": 0,
             "productType": "个人市场",
             "updateTime": "2018-5-5",
@@ -49,7 +49,7 @@
           {
             "insertdate": "2018-02-11",
             "productName": "咪咕动漫",
-            "productId": 4,
+            "id": 4,
             "state": 2,
             "productType": 13,
             "operatorId": 100383,
@@ -59,7 +59,7 @@
           {
             "insertdate": "2016-05-01",
             "productName": "咪咕动漫",
-            "productId": 5,
+            "id": 5,
             "state": 3,
             "productType": 8,
             "operatorId": 10003,
@@ -69,7 +69,7 @@
           {
             "insertdate": "2016-05-11",
             "productName": "咪咕动漫",
-            "productId": 5,
+            "id": 5,
             "state": 4,
             "productType": 8,
             "operatorId": 10003,
@@ -79,7 +79,7 @@
           {
             "insertdate": "2016-02-21",
             "productName": "咪咕动漫",
-            "productId": 5,
+            "id": 5,
             "state": 2,
             "productType": 8,
             "operatorId": 10003,
@@ -99,7 +99,47 @@
         "message": "请求成功",
         "code": "200"
       },
-      "data": []
+      "data": {}
     }
- }
+ },
+ {
+    "url": "/esop/steps",
+    "desc": "测试接口",
+    "mock": true,
+    "res": {
+      "errorInfo": {
+        "code": "200",
+        "message": "请求成功"
+      },
+      "data": {
+        "total": 14,
+        "list": [
+          {
+            "state": "0",
+            "time": "2016-05-01",
+            "title": "创建",
+            "description": "张三创建",
+            "opName": "杨明胜",
+            "detail": "创建"
+          },
+          {
+            "state": "1",
+            "time": "2016-05-01",
+            "title": "一级审核",
+            "description": "",
+            "opName": "杨明胜",
+            "detail": "审核"
+          },
+          {
+            "state": "4",
+            "time": "2016-05-01",
+            "title": "二级审核",
+            "description": 5,
+            "opName": "我",
+            "detail": "不通过"
+          }
+        ]
+      }
+    }
+  }
 ]

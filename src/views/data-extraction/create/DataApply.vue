@@ -184,6 +184,9 @@ export default {
         }
       });
     },
+    cancel() {
+      this.$router.push({path: '/data-extraction/data-download'});
+    },
     ...mapActions([
       'applyDataExtraction'
     ])
