@@ -48,16 +48,22 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <span class="info_label">经营范围：</span>
-              <div class="info_content">{{customer.businessScope}}</div>
+              <span class="info_label">公司标签：</span>
+              <div class="info_content">#金融 #互联网 #计算机</div>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
+              <span class="info_label">经营范围：</span>
+              <div class="info_content">{{customer.businessScope}}</div>
+            </el-col>
+          </el-row>
+          <!--<el-row>
+            <el-col :span="24">
               <span class="info_label">办公地址：</span>
               <div class="info_content">{{customer.orgAddress}}</div>
             </el-col>
-          </el-row>
+          </el-row>-->
           <el-row>
             <el-col :span="24">
               <span class="info_label">优势能力：</span>

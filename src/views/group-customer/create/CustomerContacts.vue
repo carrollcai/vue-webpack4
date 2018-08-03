@@ -132,9 +132,9 @@
               <div @click="addFamilyContact" class="btn_add_family-contact">
                 <i class="el-icon-plus"></i> 添加成员
               </div>
-              <div class="family-member_comment">
+              <!--<div class="family-member_comment">
                 如集团内有家属员工，请填写此项，无则不填
-              </div>
+              </div>-->
             </template>
             <template v-else>
               <div class="family-contact" v-for="(familyContact, index) of contact.contactFamilyDtoList" :key="index">
@@ -148,6 +148,20 @@
               </div>
             </template>
           </el-form-item>
+          <el-form-item label="可见范围" prop="visible" key="visible-range">
+            <el-select
+            class="col-input"
+            v-model="contact.visible"
+            placeholder="可见范围"
+            key="contact-age-select">
+            <el-option v-for="item in visibleStatus"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label" ></el-option>
+            </el-select>
+          </el-form-item>
+          <!--<el-form-item label="可见范围" key="visible-range">
+          </el-form-item>-->
         </div>
         <el-form-item>
           <el-button size="mini" type="primary" @click="saveContact">确定</el-button>
@@ -187,6 +201,11 @@ export default {
         contactFamilyDtoList: [
         ]
       },
+      visibleStatus: [
+        {label: '全部可见', value: '全部可见'},
+        {label: '仅管理员可见', value: '仅管理员可见'},
+        {label: '外协支撑不可见', value: '外协支撑不可见'}
+      ],
       rules: {
         name: [
           { required: true, message: '请输入姓名', trigger: 'blur' },

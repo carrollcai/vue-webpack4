@@ -8,11 +8,11 @@
               <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
             </el-select>
           </el-form-item>
-          <el-form-item class="form-query-input-width form-left-width" prop="roleId">
+          <!--<el-form-item class="form-query-input-width form-left-width" prop="roleId">
             <el-select v-model="provinceId" clearable placeholder="所属省份">
               <el-option v-for="(item, i) in provinces" :key="i" :value="item.key" :label="item.value" />
             </el-select>
-          </el-form-item>
+          </el-form-item>-->
 
           <el-form-item class="form-query-input-width form-left-width" prop="staffName">
             <el-input v-model="managerName" clearable placeholder="客户经理" />
@@ -20,6 +20,9 @@
 
           <el-form-item class="form-query-input-width form-left-width" prop="code">
             <el-input v-model="otherField" clearable placeholder="集团名称/编码" />
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width" prop="tagName">
+            <el-input v-model="tagName" clearable placeholder="集团标签" />
           </el-form-item>
         </div>
 
@@ -42,8 +45,10 @@
           </el-table-column>
           <el-table-column label="集团属性" property="organizeTypeName" >
           </el-table-column>
-          <el-table-column label="所属省份" property="provinceName">
+          <el-table-column label="集团标签" >
           </el-table-column>
+          <!--<el-table-column label="所属省份" property="provinceName">
+          </el-table-column>-->
           <el-table-column label="客户经理" property="managerName" />
           <el-table-column label="操作">
             <template slot-scope="scope">

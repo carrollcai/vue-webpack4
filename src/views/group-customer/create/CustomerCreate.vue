@@ -49,7 +49,7 @@
                 placeholder="请选择成立日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="所属省份" prop="provinceId" key="provinceId">
+            <el-form-item label="所属省份" key="provinceId">
               <el-select
                 key="province-select"
                 v-model="customer.provinceId"
@@ -62,6 +62,18 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <!--<div>-->
+            <el-form-item label="公司标签" key="companyTag">
+              <div class="input tags-wrap form-input-320">
+                <div class="tags" transition="tags" v-for="item in dis_source" :key="item.text">
+                  <span class="content">{{item.text}}</span><span class="del" @click="del($index, false)">&times;</span>
+                </div>
+                <input class="tags-input" type="text" v-model="text" @keyup.enter="add(text)" @input="change(text)">
+              </div>
+            </el-form-item>
+            <!--</div>-->
+            <!--<el-form-item label="公司标签" key="provinceTag">
+            </el-form-item>-->
             <el-form-item label="机构类型" prop="orgIndustryType" key="orgIndustryType">
               <el-select
                 key="orgIndustryType-select"
@@ -213,10 +225,10 @@
             prop="name"
             label="姓名">
           </el-table-column>
-          <el-table-column
+          <!--<el-table-column
             prop="mobile"
             label="手机">
-          </el-table-column>
+          </el-table-column>-->
           <el-table-column
             label="性别">
             <template slot-scope="scope">
@@ -333,7 +345,9 @@ export default {
       customer: {
         orgAdvantage: '',
         contactDtoList: []
-      }
+      },
+      text: '',
+      dis_source: []
     };
   },
   methods: {
@@ -351,9 +365,76 @@ export default {
         }
       });
     },
+    add(text) {
+      if (text !== '') {
+        let json = {};
+        json.text = text;
+        this.dis_source.push(json);
+        this.text = '';
+      }
+    },
+    change(text) {
+      if (text !== '') {
+        if (text.indexOf(',') !== -1 || text.indexOf('，') !== -1) {
+          let json = {};
+          json.text = text.slice(0, text.length - 1);
+          this.dis_source.push(json);
+          this.text = '';
+        }
+      }
+    },
+    del(index, way) {
+      this.dis_source.splice(index, 1);
+    },
     ...mapActions(['createCustomer', 'createApproveCustomer'])
   }
 };
 </script>
-<style lang="scss" src="./style.scss">
+<style lang="scss" src="./style.scss"></style>
+<style>
+.tags-wrap {
+    width: 100%;
+    height: 100%;
+    outline: 0;
+}
+.input {
+  padding: 4px 7px;
+  height: 37px;
+  line-height: 1;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.tags, .tags-input{
+  outline: none;
+  position: relative;
+  float: left;
+  color: #000;
+  line-height: 28px;
+  margin: 0 4px 4px 0;
+  padding: 0px 8px;
+  border-radius: 6px;
+  .content{
+    line-height: 28px;
+  }
+  .del{
+    cursor: pointer;
+    width: 22px;
+    height: 28px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+    top: -1px;
+    right: 0;
+  }
+}
+.tags-input{
+  font-size: 14px;
+  padding: 0;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  width: 10em;
+}
 </style>

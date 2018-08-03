@@ -21,15 +21,15 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
+          <!--<el-col :span="8">
             <span class="info_label">成立时间：</span>
             <span class="info_content">{{formateDate(customer.establishTime)}}</span>
-          </el-col>
+          </el-col>-->
           <el-col :span="8">
             <span class="info_label">机构类型：</span>
             <span class="info_content">{{customer.orgIndustryTypeValue}}</span>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="16">
             <span class="info_label">行业类别：</span>
             <span class="info_content">{{customer.industryTypeValue}}</span>
           </el-col>
@@ -38,6 +38,12 @@
           <el-col :span="8">
             <span class="info_label">集团规模：</span>
             <span class="info_content">{{customer.memberNumValue}}</span>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <span class="info_label">公司标签：</span>
+            <div class="info_content">#金融 #互联网 #计算机软件</div>
           </el-col>
         </el-row>
          <el-row>

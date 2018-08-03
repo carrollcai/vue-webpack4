@@ -25,6 +25,11 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="18">
+              #互联网 #计算机软件 #金融
+            </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="8">
               <span class="info_label">集团编码：</span>
               <span class="info_content">{{customer.organizeCode}}</span>
@@ -39,11 +44,11 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="8">
+            <!--<el-col :span="8">
               <span class="info_label">成立时间：</span>
               <span class="info_content">{{formateDate(customer.establishTime)}}</span>
-            </el-col>
-            <el-col :span="16">
+            </el-col>-->
+            <el-col :span="24">
               <span class="info_label">公司地址：</span>
               <span class="info_content">{{customer.organizeTypeValue}}</span>
             </el-col>
