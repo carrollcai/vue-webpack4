@@ -4,7 +4,6 @@ export default {
   data() {
     return {
       isByDay: true,
-      isByArea: false,
       applyFromVaild: {
         name: [
           { required: true, message: '请输入任务名称', trigger: ['change', 'blur'] },
@@ -39,12 +38,10 @@ export default {
         this.isByDay = false;
       }
     },
-    changeArea(value) {
-      if (value === '2') {
-        this.isByArea = true;
-      } else {
-        this.isByArea = false;
-      }
+    resetData(el) {
+      this.applyFrom[el] = [];
+    },
+    isAllChecked(validator) {
     }
   }
 };

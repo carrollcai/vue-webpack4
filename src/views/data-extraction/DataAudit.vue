@@ -110,7 +110,7 @@ export default {
       this.query();
     },
     query() {
-      this.queryDataAudit();
+      this.queryDataAudit(this.auditForm);
     },
     ...mapActions([
       'queryDataAudit'
