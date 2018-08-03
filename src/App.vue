@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'scss/element-variables.scss';
+@import "scss/element-variables.scss";
 @import "scss/reset.scss";
 @import "scss/index.scss";
 @import "scss/views/active.scss";
