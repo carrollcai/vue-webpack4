@@ -7,11 +7,9 @@
         <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
       </el-form-item>
-
       <el-form-item class="form-query-input-width form-left-width">
         <el-select v-model="downloadForm.name" filterable placeholder="任务名称">
-          <el-option label="1" value="任务名称1"></el-option>
-          <el-option label="2" value="任务名称2"></el-option>
+          <el-option v-for="item in dataTaskList" :key="item.value" :value="item.value" :label="item.name"></el-option>
         </el-select>
       </el-form-item>
     </div>
@@ -42,7 +40,7 @@
     :default-sort = "{prop: 'insertdate', order: 'descending'}"
     @onPagination="onPagination"
     @onSizePagination="onSizePagination">
-    <el-table-column label="任务名称" property="productName" width="350" />
+    <el-table-column label="任务名称" show-overflow-tooltip  property="productName" width="350" />
     <el-table-column label="提交时间" sortable property="insertdate" width="210" />
     <el-table-column label="审核状态" property="state" width="210">
       <template slot-scope="scope">
@@ -112,11 +110,13 @@ export default {
   computed: {
     ...mapState({
       downloadForm: ({ dataExtraction }) => dataExtraction.downloadForm,
-      dataDownloadList: ({ dataExtraction }) => dataExtraction.dataDownloadList
+      dataDownloadList: ({ dataExtraction }) => dataExtraction.dataDownloadList,
+      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList
     })
   },
   beforeMount() {
     this.$nextTick(() => {
+      this.queryDataTask();
       this.query();
     });
   },
@@ -167,7 +167,7 @@ export default {
       this.query();
     },
     query() {
-      this.queryDataDownload();
+      this.queryDataDownload(this.downloadForm);
     },
     confirm(info, name, fn) {
       this.$confirm(info, '提示', {
@@ -188,7 +188,8 @@ export default {
     ...mapActions([
       'queryDataDownload',
       'deleteDownLoadData',
-      'dataDownLoadFile'
+      'dataDownLoadFile',
+      'queryDataTask'
     ])
   }
 };

@@ -11,12 +11,12 @@
     </el-breadcrumb>
     <el-breadcrumb v-if="isAudit === 'true' && isToAudit === 'true'">
       <el-breadcrumb-item :to="{ path: '/data-extraction/data-download' }">数据审核管理</el-breadcrumb-item>
-      <el-breadcrumb-item>数据审核</el-breadcrumb-item>
+      <el-breadcrumb-item>我的审核</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
   <div class="m-container table-container">
-    <steps :stepData="dataSteps"></steps>
-    <info v-if="dataDetailList" :infoData="dataDetailList"></info>
+    <steps v-if="dataSteps" :processList="dataSteps"></steps>
+    <info v-if="dataDetailList && dataDetailList[0]" :infoData="dataDetailList[0]"></info>
   </div>
   <div v-if="isAudit === 'true'" class="m-container table-container">
     <el-form :model="auditForm" ref="refName" :rules="auditFromVaild">
@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
 import steps from 'components/data-extraction/Steps.vue';
 import info from 'components/data-extraction/Info.vue';
 import mixins from './mixins';
@@ -57,21 +56,6 @@ export default {
         remark: ''
       }
     };
-  },
-  methods: {
-    onSubmit() {
-      this.$refs.refName.validate((valid) => {
-        if (valid) {
-          this.auditDataExtraction(this.auditForm);
-        }
-      });
-    },
-    cancel() {
-      this.$router.push({path: '/data-extraction/data-audit'});
-    },
-    ...mapActions([
-      'auditDataExtraction'
-    ])
   }
 };
 </script>

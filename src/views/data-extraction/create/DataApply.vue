@@ -58,54 +58,56 @@
         </el-form-item>
       </div>
       <h3 class="data-title">数据明细设置</h3>
-      <el-form-item class="odd" label="来源渠道：">
-        <span class="cancel" @click="resetData('source')">取消设置</span>
-        <el-checkbox class="all-label" v-model="sourceAll" label="全部" @change="isAllChecked2('sourceAll', 'source', sourceList)"></el-checkbox>
-        <el-checkbox-group v-model="applyFrom.source" @change="handleChecked('sourceAll', 'source', sourceList)">
-          <el-checkbox v-for="item in sourceList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="会员类型：">
-        <span class="cancel" @click="resetData('vipType')">取消设置</span>
-        <el-checkbox class="all-label" v-model="vipTypeAll" label="全部" @change="isAllChecked2('vipTypeAll', 'vipType', vipTypeList)"></el-checkbox>
-        <el-checkbox-group v-model="applyFrom.vipType" @change="handleChecked('vipTypeAll', 'vipType', vipTypeList)">
-          <el-checkbox v-for="item in vipTypeList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="用户性别：">
-        <span class="cancel" @click="resetData('sex')">取消设置</span>
-        <el-checkbox class="all-label" v-model="sexAll" label="全部" @change="isAllChecked('sexAll', 'sex', sexList)"></el-checkbox>
-        <el-checkbox-group v-model="applyFrom.sex" @change="handleChecked('sexAll', 'sex', sexList)">
-          <el-checkbox v-for="item in sexList" :key="item" :value="item" :label="item"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="用户年龄：">
-        <span class="cancel" @click="resetData('age')">取消设置</span>
-        <el-checkbox class="all-label" v-model="ageAll" label="全部" @change="isAllChecked('ageAll', 'age', ageList)"></el-checkbox>
-        <el-checkbox-group v-model="applyFrom.age" @change="handleChecked('ageAll', 'age', ageList)">
-          <el-checkbox v-for="item in ageList" :key="item" :value="item" :label="item"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="用户行为：">
-        <span class="cancel" @click="resetData('userActive')">取消设置</span>
-        <el-checkbox-group v-model="applyFrom.userActive">
-          <el-checkbox v-for="item in userActiveList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="上网方式：">
-        <span class="cancel" @click="resetData('flow')">取消设置</span>
-        <el-checkbox class="all-label" v-model="flowAll" label="全部" @change="isAllChecked2('flowAll', 'flow', flowList)"></el-checkbox>
-        <el-checkbox-group v-model="applyFrom.flow" @change="handleChecked('flowAll', 'flow', flowList)">
-          <el-checkbox v-for="item in flowList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="使用时长：" v-model="applyFrom.useTime">
-        <el-radio-group>
-        <el-radio v-for="item in useTimeList" :key="item" :value="item.name" :label="item.name"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item >
-        <el-button type="primary" @click="onSubmit()">提交</el-button>
+      <div class="detail-set">
+        <el-form-item label="来源渠道：">
+          <span class="cancel" @click="resetData('source')">取消设置</span>
+          <el-checkbox class="all-label" v-model="sourceAll" label="全部" @change="isAllChecked2('sourceAll', 'source', sourceList)"></el-checkbox>
+          <el-checkbox-group v-model="applyFrom.source" @change="handleChecked('sourceAll', 'source', sourceList)">
+            <el-checkbox v-for="item in sourceList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="会员类型：">
+          <span class="cancel" @click="resetData('vipType')">取消设置</span>
+          <el-checkbox class="all-label" v-model="vipTypeAll" label="全部" @change="isAllChecked2('vipTypeAll', 'vipType', vipTypeList)"></el-checkbox>
+          <el-checkbox-group v-model="applyFrom.vipType" @change="handleChecked('vipTypeAll', 'vipType', vipTypeList)">
+            <el-checkbox v-for="item in vipTypeList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="用户性别：">
+          <span class="cancel" @click="resetData('sex')">取消设置</span>
+          <el-checkbox class="all-label" v-model="sexAll" label="全部" @change="isAllChecked('sexAll', 'sex', sexList)"></el-checkbox>
+          <el-checkbox-group v-model="applyFrom.sex" @change="handleChecked('sexAll', 'sex', sexList)">
+            <el-checkbox v-for="item in sexList" :key="item" :value="item" :label="item"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="用户年龄：">
+          <span class="cancel" @click="resetData('age')">取消设置</span>
+          <el-checkbox class="all-label" v-model="ageAll" label="全部" @change="isAllChecked('ageAll', 'age', ageList)"></el-checkbox>
+          <el-checkbox-group v-model="applyFrom.age" @change="handleChecked('ageAll', 'age', ageList)">
+            <el-checkbox v-for="item in ageList" :key="item" :value="item" :label="item"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="用户行为：">
+          <span class="cancel" @click="resetData('userActive')">取消设置</span>
+          <el-checkbox-group v-model="applyFrom.userActive">
+            <el-checkbox v-for="item in userActiveList" :disabled="true" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="上网方式：">
+          <span class="cancel" @click="resetData('flow')">取消设置</span>
+          <el-checkbox class="all-label" v-model="flowAll" label="全部" @change="isAllChecked2('flowAll', 'flow', flowList)"></el-checkbox>
+          <el-checkbox-group v-model="applyFrom.flow" @change="handleChecked('flowAll', 'flow', flowList)">
+            <el-checkbox v-for="item in flowList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="使用时长：" v-model="applyFrom.useTime">
+          <el-radio-group>
+          <el-radio v-for="item in useTimeList" :key="item" :value="item.name" :label="item.name"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </div>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit()">申请</el-button>
         <el-button @click="cancel">取消</el-button>
       </el-form-item>
     </el-form>
@@ -115,7 +117,6 @@
 
 <script>
 import mixins from './mixins';
-import {mapActions} from 'vuex';
 const sourceList = [{name: '省渠道', type: 0}, {name: '非省渠道', type: 0}];
 const vipTypeList = [{name: '黄金会员', type: 0}, {name: '钻石会员', type: 0}, {name: '钻石会员_TV尊享', type: 0}];
 const sexList = ['男', '女'];
@@ -183,42 +184,8 @@ export default {
         useTime: ''
       }
     };
-  },
-  methods: {
-    onSubmit() {
-      this.$refs.refName.validate((valid) => {
-        if (valid) {
-          this.applyDataExtraction(this.applyFrom);
-        }
-      });
-    },
-    cancel() {
-      this.$router.push({path: '/data-extraction/data-download'});
-    },
-    ...mapActions([
-      'applyDataExtraction'
-    ])
   }
 };
 </script>
 
-<style lang="scss">
-.data-title {
-  font-size: 18px;
-  font-weight: 400;
-}
-.apply {
-  .cancel {float: right; color: #3778FF;}
-  .base-info {
-    > .el-form-item {
-      display: flex !important;
-    }
-    .flex-row {
-      display: flex !important;
-      justify-content: space-between;
-      flex: 1;
-    }
-  }
-  .all-label {float: left; margin-right: 36px;}
-}
-</style>
+<style lang="scss" src="./style.scss"></style>
