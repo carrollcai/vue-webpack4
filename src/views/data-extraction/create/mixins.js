@@ -41,7 +41,19 @@ export default {
     resetData(el) {
       this.applyFrom[el] = [];
     },
-    isAllChecked(validator) {
+    isAllChecked(el, active, original) {
+      this.applyFrom[active] = this[el] ? original : [];
+    },
+    handleChecked(el, active, original) {
+      let len = this.applyFrom[active].length;
+      this[el] = len === original.length;
+    },
+    isAllChecked2(el, active, original) {
+      let nameArr = [];
+      original.filter((item) => {
+        return nameArr.push(item.name);
+      });
+      this.applyFrom[active] = this[el] ? nameArr : [];
     }
   }
 };
