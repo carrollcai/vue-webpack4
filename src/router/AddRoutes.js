@@ -49,7 +49,9 @@ import RoleCreate from '@/views/system/create/RoleCreate.vue';
 import User from '@/views/system/User.vue';
 import UserCreate from '@/views/system//create/UserCreate.vue';
 
-import ProductView from '@/views/product/ProductView.vue';
+// import ProductView from '@/views/product/ProductView.vue';
+import salesProductStore from '@/views/product/salesProductStore.vue';
+import caseManagement from '@/views/product/detail/caseManagement.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
 import ProductDetail from '@/views/product/detail/ProductDetail.vue';
 import ProductCreate from '@/views/product/create/ProductCreate.vue';
@@ -114,10 +116,16 @@ const dynamicRoutes = [
       { path: '/data-extraction/data-apply', name: 'data-audit', component: DataApply, meta: { menuId: 24 } },
       { path: '/data-extraction/data-audit', name: 'data-apply', component: DataAudit, meta: { menuId: 26 } },
       {
-        path: '/product/product-view',
-        name: 'product-view',
-        component: ProductView,
+        path: '/product/sales-product-store',
+        name: 'sales-product-store',
+        component: salesProductStore,
         meta: { menuId: 17 }
+      },
+      {
+        path: '/product/case-management/:id',
+        name: 'case-management',
+        component: caseManagement,
+        meta: {menuId: 17}
       },
       {
         path: '/product/product-detail/:id',

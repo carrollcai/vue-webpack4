@@ -330,5 +330,6 @@ export default {
   queryDataExtractionStepsAPI: API('http://localhost:3618/esop/steps'),
   queryDataDetailAPI: API('http://localhost:3618/esop/extraction'),
   auditDataExtractionAPI: API('http://localhost:3618/esop/all/extraction'),
-  queryDataAuditAPI: API('http://localhost:3618/esop/extraction')
+  queryDataAuditAPI: API('http://localhost:3618/esop/extraction'),
+  queryDataTaskAPI: API('http://localhost:3618/esop/all/extraction')
 };

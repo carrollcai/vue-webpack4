@@ -7,12 +7,11 @@
     </el-breadcrumb>
   </div>
   <div class="m-container info-block">
-    <steps :active="step">
+    <!--<steps :active="step">
         <step title="产品基本信息"></step>
         <step title="产品销售案例"></step>
-      </steps>
+      </steps>-->
     <el-form class="base-info"
-      v-if="isFirstStep()"
       :model="product"
       :rules="baseFormRules"
       ref="baseForm"

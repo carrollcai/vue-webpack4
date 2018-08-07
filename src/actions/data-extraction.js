@@ -55,6 +55,11 @@ const actions = {
     API.queryDataAuditAPI(params).then(res => {
       commit(types.DATA_EXTRACTION_AUDIT, res.data);
     });
+  },
+  queryDataTask: ({commit}, params) => {
+    API.queryDataTaskAPI(params).then(res => {
+      commit(types.DATA_EXTRACTION_TASK, res.data);
+    });
   }
 };
 

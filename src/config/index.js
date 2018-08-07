@@ -157,8 +157,8 @@ export const MENU_PERMISSIONS = [
       {
         menuId: 17,
         parentId: 16,
-        name: '产品总览',
-        url: '/product/product-view',
+        name: '销售产品库',
+        url: '/product/sales-product-store',
         enable: false
       },
       {

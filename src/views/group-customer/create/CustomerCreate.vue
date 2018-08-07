@@ -399,7 +399,7 @@ export default {
 }
 .input {
   padding: 4px 7px;
-  height: 37px;
+  height: 34px;
   line-height: 1;
   border: 1px solid #dcdfe6;
   border-radius: 6px;
@@ -411,12 +411,12 @@ export default {
   position: relative;
   float: left;
   color: #000;
-  line-height: 28px;
+  line-height: 25px;
   margin: 0 4px 4px 0;
   padding: 0px 8px;
   border-radius: 6px;
   .content{
-    line-height: 28px;
+    line-height: 25px;
   }
   .del{
     cursor: pointer;

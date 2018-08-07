@@ -3,12 +3,6 @@
   <div class="m-container">
     <el-form :model="formData" class="form-manage">
       <div class="flex">
-        <!--<el-form-item>
-          <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
-            </el-date-picker>
-          </el-col>
-        </el-form-item>-->
         <el-form-item>
           <el-select v-model="formData.productType" clearable placeholder="产品类型">
             <el-option label="全部" value=""></el-option>
@@ -17,7 +11,14 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="formData.createName" @change="createName" placeholder="创建人"></el-input>
+          <el-select v-model="formData.ownerCompany" clearable placeholder="归属公司">
+            <el-option label="全部" value=""></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="form-query-input-width form-left-width">
+          <el-select v-model="formData.mainMarket" clearable placeholder="主营市场">
+            <el-option label="全部" value=""></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
           <el-input clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
@@ -28,19 +29,50 @@
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
         <el-form-item class="form-left-width">
-          <el-button class="el-button--have-icon" @click="toCreatProduct" icon="el-icon-plus">新建产品</el-button>
+          <el-button class="el-button--have-icon" @click="toCreatProduct" icon="el-icon-plus">新增销售产品</el-button>
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="formData.opporStatus" @tab-click="tabChange">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="待审核" :name="'1'"></el-tab-pane>
-      <el-tab-pane label="已发布" :name="'2'"></el-tab-pane>
-      <el-tab-pane label="已下线" :name="'3'"></el-tab-pane>
-      <el-tab-pane label="驳回" :name="'4'"></el-tab-pane>
-    </el-tabs>
-  </div>
-  <div class="m-container table-container">
+    <el-dialog title="新增销售产品" :visible.sync="newProductVisible">
+      <el-form :inline="true" :model="newForm">
+        <el-form-item class="form-input-100">
+          <el-select v-model="newForm.productType" clearable placeholder="产品类型">
+            <el-option label="全部" value=""></el-option>
+            <el-option label="个人市场" value="0"></el-option>
+            <el-option label="政企市场" value="1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="form-input-100 form-left-width">
+          <el-select v-model="newForm.ownerCompany" clearable placeholder="归属公司">
+            <el-option label="全部" value=""></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="form-input-100 form-left-width">
+          <el-select v-model="newForm.mainMarket" clearable placeholder="主营市场">
+            <el-option label="全部" value=""></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="form-left-width">
+          <el-button type="primary" @click="onSubmit">查询</el-button>
+        </el-form-item>
+      </el-form>
+      <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55">
+        </el-table-column>
+        <el-table-column label="产品名称" show-overflow-tooltip property="productName">
+        </el-table-column>
+        <el-table-column label="产品类型" show-overflow-tooltip property="productType" :formatter="productTypeFn">
+        </el-table-column>
+        <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
+        </el-table-column>
+        <el-table-column label="归属公司" show-overflow-tooltip property="ownershipCompany">
+        </el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="createProduct()">确 定</el-button>
+        <el-button @click="cancelCreate()">取 消</el-button>
+      </span>
+    </el-dialog>
     <wm-table
       :source="productList.list"
       :total="productList.totalCount"
@@ -48,30 +80,26 @@
       :pageSize="formData.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
-        <el-table-column label="产品编码" show-overflow-tooltip width="180" property="productCode">
+        <el-table-column label="产品编码" show-overflow-tooltip property="productCode">
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
         </el-table-column>
-        <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
+        <el-table-column label="主营市场" property="mainMarket">
         </el-table-column>
-        <el-table-column label="创建人" show-overflow-tooltip width="180" property="createName">
+        <el-table-column label="产品类型" property="productType" :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="产品状态" show-overflow-tooltip width="180" property="productStatus">
+        <el-table-column label="归属公司" property="ownershipCompany">
         </el-table-column>
-        <el-table-column label="操作" width="160">
+        <el-table-column label="对接人" show-overflow-tooltip property="connectName">
+        </el-table-column>
+        <el-table-column label="操作">
           <template slot-scope="operation">
-            <el-button class="table-button" type="text" @click="toPageDetail(operation.row)">
-              详情
+            <el-button class="table-button" type="text" @click="toPageCase(operation.row)">
+              案例管理
             </el-button>
             <el-button class="table-button" type="text" @click="toPageModefiy(operation.row)">
-              修改
+              下架
             </el-button>
-            <el-button class="table-button" type="text" @click="DownLine(operation.row)">
-              下线
-            </el-button>
-            <!--<el-button class="table-button" type="text" @click="deleteProduct(operation.row)">
-              删除
-            </el-button>-->
           </template>
         </el-table-column>
     </wm-table>
@@ -110,6 +138,12 @@ export default {
         pageNo: 1,
         pageSize: 20,
         opporStatus: '0'
+      },
+      newProductVisible: false,
+      newForm: {
+        productType: '',
+        ownerCompany: '',
+        mainMarket: ''
       }
     };
   },
@@ -150,10 +184,16 @@ export default {
       this.query();
     },
     toCreatProduct() {
-      this.$router.push({path: '/product/create'});
+      this.newProductVisible = true;
     },
-    toPageDetail(row) {
-      this.$router.push(`/product/product-detail/${row.productId}?isDetail=1`);
+    createProduct() {
+      this.newProductVisible = false;
+    },
+    cancelCreate() {
+      this.newProductVisible = false;
+    },
+    toPageCase(row) {
+      this.$router.push(`/product/case-management/${row.productId}`);
     },
     toPageModefiy(row) {
       this.$router.push(`/product/edit/${row.productId}`);
