@@ -208,6 +208,7 @@ export const multFileValid = (files, callback) => {
     callback();
   }
 };
+
 // 非必填
 export const fileValidLen = (files, callback) => {
   if (files.length && files.length > FILE_UPLOAD_LIMIT) {
@@ -225,5 +226,15 @@ export const checkLeftRightSpace = (rule, value, callback) => {
     callback(new Error('结尾不能有空格'));
   } else {
     callback();
+  }
+};
+
+// 密码验证
+export const passworReg = (rule, value, callback) => {
+  const reg = /^(((?=.*[0-9])(?=.*[a-zA-Z])|(?=.*[0-9])(?=.*[^\s0-9a-zA-Z])|(?=.*[a-zA-Z])(?=.*[^\s0-9a-zA-Z]))[^\s]+)$/;
+  if (reg.test(value)) {
+    callback();
+  } else {
+    callback(new Error('密码至少包含数字、字母（大小写）、特殊字符中的两个'));
   }
 };

@@ -10,31 +10,33 @@
           <span>我的集团客户</span>
         </div>
         <div class="group-customer">
-          <div v-for="o in homeQueryOrganizeInfo" :key="o" class="group-customer-wrap">
-            <div class="group-customer-item">
-              <div class="group-customer-item-content">
-                <div class="name">
-                  {{o.organizeName}}
-                </div>
-                <div class="code">
-                  {{o.organizeCode}}
-                </div>
-                <div class="detail">
-                  <ul>
-                    <li>客户经理</li>
-                    <li>订购产品</li>
-                  </ul>
-                  <ul>
-                    <li>{{o.managerName}}</li>
-                    <li>{{o.orderCount}}</li>
-                  </ul>
+          <no-data :data="homeQueryOrganizeInfo">
+            <div v-for="o in homeQueryOrganizeInfo" :key="o" class="group-customer-wrap">
+              <div class="group-customer-item">
+                <div class="group-customer-item-content">
+                  <div class="name">
+                    {{o.organizeName}}
+                  </div>
+                  <div class="code">
+                    {{o.organizeCode}}
+                  </div>
+                  <div class="detail">
+                    <ul>
+                      <li>客户经理</li>
+                      <li>订购产品</li>
+                    </ul>
+                    <ul>
+                      <li>{{o.managerName}}</li>
+                      <li>{{o.orderCount}}</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="group-customer-item-more">
-            <span class="more" @click="goGroup()">查看更多</span>
-          </div>
+            <div class="group-customer-item-more">
+              <span class="more" @click="goGroup()">查看更多</span>
+            </div>
+          </no-data>
         </div>
       </el-card>
     </div>
@@ -44,71 +46,73 @@
           <span>我的处理任务</span>
         </div>
         <div class="todo-list">
-          <ul class="todo-list-item">
-            <li v-for="o in taskList" :key="o">
-              <p>
-                <span class="icon"><i :class="o.icon"></i></span>
-                <span>{{o.name}}</span>
-              </p>
-            </li>
-          </ul>
-          <ul class="todo-list-item">
-            <li>
-              <p class="item-content">
-                <span>待审核</span>
-                <span class="link" v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[0] && homeQueryTaskInfoOrangize[0].count > 0" @click="goGroupUncomplete()">{{homeQueryTaskInfoOrangize[0].count}}</span>
-                <span v-else>0</span>
-              </p>
-              <p class="item-content">
-                <span>已审核</span>
-                <span v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[1]">{{homeQueryTaskInfoOrangize[1].count}}</span>
-              </p>
-            </li>
-            <li v-if="homeQueryTaskInfoOrder">
-              <p class="item-content">
-                <span>待处理</span>
-                <span class="link" v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[0] && homeQueryTaskInfoOrder[0].count > 0" @click="goOrderUncomplete()">{{homeQueryTaskInfoOrder[0].count}}</span>
-                <span v-else>0</span>
-              </p>
-              <p class="item-content">
-                <span>已处理</span>
-                <span v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[1]">{{homeQueryTaskInfoOrder[1].count}}</span>
-              </p>
-            </li>
-            <li>
-              <p class="item-content">
-                <span>待处理</span>
-                <span class="link" v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[0] && homeQueryTaskInfoBusiness[0].count > 0" @click="goBusinessUncomplete()">{{homeQueryTaskInfoBusiness[0].count}}</span>
-                <span v-else>0</span>
-              </p>
-              <p class="item-content">
-                <span>已处理</span>
-                <span v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[1]">{{homeQueryTaskInfoBusiness[1].count}}</span>
-              </p>
-            </li>
-            <li>
-              <p class="item-content">
-                <span>待处理</span>
-                <span class="link" v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[0] && homeQueryTaskInfoRequire[0].count > 0" @click="goRequireUncomplete()">{{homeQueryTaskInfoRequire[0].count}}</span>
-                <span v-else>0</span>
-              </p>
-              <p class="item-content">
-                <span>已处理</span>
-                <span v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[1]">{{homeQueryTaskInfoRequire[1].count}}</span>
-              </p>
-            </li>
-            <li>
-              <p class="item-content">
-                <span>待处理</span>
-                <span class="link" v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[0] && homeQueryTaskInfoVisit[0].count > 0" @click="goVisitUncomplete()">{{homeQueryTaskInfoVisit[0].count}}</span>
-                <span v-else>0</span>
-              </p>
-              <p class="item-content">
-                <span>已处理</span>
-                <span v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[1]">{{homeQueryTaskInfoVisit[1].count}}</span>
-              </p>
-            </li>
-          </ul>
+          <no-data :data="homeQueryTaskInfoOrangize">
+            <ul class="todo-list-item">
+              <li v-for="o in taskList" :key="o">
+                <p>
+                  <span class="icon"><i :class="o.icon"></i></span>
+                  <span>{{o.name}}</span>
+                </p>
+              </li>
+            </ul>
+            <ul class="todo-list-item">
+              <li>
+                <p class="item-content">
+                  <span>待审核</span>
+                  <span class="link" v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[0] && homeQueryTaskInfoOrangize[0].count > 0" @click="goGroupUncomplete()">{{homeQueryTaskInfoOrangize[0].count}}</span>
+                  <span v-else>0</span>
+                </p>
+                <p class="item-content">
+                  <span>已审核</span>
+                  <span v-if="homeQueryTaskInfoOrangize && homeQueryTaskInfoOrangize[1]">{{homeQueryTaskInfoOrangize[1].count}}</span>
+                </p>
+              </li>
+              <li v-if="homeQueryTaskInfoOrder">
+                <p class="item-content">
+                  <span>待处理</span>
+                  <span class="link" v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[0] && homeQueryTaskInfoOrder[0].count > 0" @click="goOrderUncomplete()">{{homeQueryTaskInfoOrder[0].count}}</span>
+                  <span v-else>0</span>
+                </p>
+                <p class="item-content">
+                  <span>已处理</span>
+                  <span v-if="homeQueryTaskInfoOrder && homeQueryTaskInfoOrder[1]">{{homeQueryTaskInfoOrder[1].count}}</span>
+                </p>
+              </li>
+              <li>
+                <p class="item-content">
+                  <span>待处理</span>
+                  <span class="link" v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[0] && homeQueryTaskInfoBusiness[0].count > 0" @click="goBusinessUncomplete()">{{homeQueryTaskInfoBusiness[0].count}}</span>
+                  <span v-else>0</span>
+                </p>
+                <p class="item-content">
+                  <span>已处理</span>
+                  <span v-if="homeQueryTaskInfoBusiness && homeQueryTaskInfoBusiness[1]">{{homeQueryTaskInfoBusiness[1].count}}</span>
+                </p>
+              </li>
+              <li>
+                <p class="item-content">
+                  <span>待处理</span>
+                  <span class="link" v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[0] && homeQueryTaskInfoRequire[0].count > 0" @click="goRequireUncomplete()">{{homeQueryTaskInfoRequire[0].count}}</span>
+                  <span v-else>0</span>
+                </p>
+                <p class="item-content">
+                  <span>已处理</span>
+                  <span v-if="homeQueryTaskInfoRequire && homeQueryTaskInfoRequire[1]">{{homeQueryTaskInfoRequire[1].count}}</span>
+                </p>
+              </li>
+              <li>
+                <p class="item-content">
+                  <span>待处理</span>
+                  <span class="link" v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[0] && homeQueryTaskInfoVisit[0].count > 0" @click="goVisitUncomplete()">{{homeQueryTaskInfoVisit[0].count}}</span>
+                  <span v-else>0</span>
+                </p>
+                <p class="item-content">
+                  <span>已处理</span>
+                  <span v-if="homeQueryTaskInfoVisit && homeQueryTaskInfoVisit[1]">{{homeQueryTaskInfoVisit[1].count}}</span>
+                </p>
+              </li>
+            </ul>
+          </no-data>
         </div>
       </el-card>
     </div>
@@ -119,15 +123,17 @@
             <span>合作商机</span>
             <span class="set" @click="goBusiness()">更多></span>
           </div>
-          <div class="box-content" :key="o" v-for="o in homeBusinessList">
-            <div class="bar-title">
-              {{o.organizeName}}
+          <no-data :data="homeBusinessList">
+            <div class="box-content" :key="o" v-for="o in homeBusinessList">
+              <div class="bar-title">
+                {{o.organizeName}}
+              </div>
+              <div class="bar-content">
+                <span>{{o.opporType}}</span>
+                <span style="float: right; padding: 3px 0">{{o.createDate}}</span>
+              </div>
             </div>
-            <div class="bar-content">
-              <span>{{o.opporType}}</span>
-              <span style="float: right; padding: 3px 0">{{o.createDate}}</span>
-            </div>
-          </div>
+          </no-data>
         </el-card>
       </div>
       <div class="order" v-if="showOrder">
@@ -136,15 +142,17 @@
             <span>订单总览</span>
             <span class="set" @click="goOrder()">更多></span>
           </div>
-          <div class="box-content" :key="o" v-for="o in homeOrderList">
-            <div class="bar-title">
-              {{o.ordName}}
+          <no-data :data="homeBusinessList">
+            <div class="box-content" :key="o" v-for="o in homeOrderList">
+              <div class="bar-title">
+                {{o.ordName}}
+              </div>
+              <div class="bar-content">
+                <span class="product">订购：{{o.productName}}</span>
+                <span style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</span>
+              </div>
             </div>
-            <div class="bar-content">
-              <span class="product">订购：{{o.productName}}</span>
-              <span style="float: right; padding: 3px 0" type="text">{{o.ordStatus}}</span>
-            </div>
-          </div>
+          </no-data>
         </el-card>
       </div>
     </div>
@@ -169,18 +177,22 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import NoData from 'components/NoData.vue';
 export default {
+  components: {
+    NoData
+  },
   data() {
     return {
       homeSetDialogVisible: false,
       checkList: [],
       moduleList: [],
       taskList: [
-        {'name': '集团客户审核', 'icon': 'icon-jituan'},
-        {'name': '订单处理', 'icon': 'icon-dindan'},
-        {'name': '商机处理', 'icon': 'icon-shangji'},
-        {'name': '需求处理', 'icon': 'icon-needs'},
-        {'name': '走访处理', 'icon': 'icon-zoufang'}
+        { 'name': '集团客户审核', 'icon': 'icon-jituan' },
+        { 'name': '订单处理', 'icon': 'icon-dindan' },
+        { 'name': '商机处理', 'icon': 'icon-shangji' },
+        { 'name': '需求处理', 'icon': 'icon-needs' },
+        { 'name': '走访处理', 'icon': 'icon-zoufang' }
       ],
       showOrangize: false,
       showTask: false,
@@ -235,7 +247,7 @@ export default {
           }
           list.push(str);
         };
-        this.updateHomeModule({'homeModule': list}).then(res => {
+        this.updateHomeModule({ 'homeModule': list }).then(res => {
           this.homeSetDialogVisible = false;
           this.$message({ showClose: true, message: '设置成功！', type: 'success' });
           this.query();
@@ -386,15 +398,15 @@ export default {
 <style lang="scss">
 .home {
   .set {
-    font-size:12px;
-    color: #3778FF;
+    font-size: 12px;
+    color: #3778ff;
     float: right;
     cursor: pointer;
   }
   .more {
     width: 35px;
     font-size: 12px;
-    color: #3778FF;
+    color: #3778ff;
     cursor: pointer;
     display: inline-block;
   }
@@ -486,7 +498,7 @@ export default {
       }
     }
     .group-customer-wrap {
-       display: inline-block;
+      display: inline-block;
     }
     .group-customer-wrap:nth-child(1) {
       width: 23.7%;
@@ -520,7 +532,7 @@ export default {
       font-size: 12px;
       float: right;
       button {
-        display:inline-block;
+        display: inline-block;
         white-space: pre-wrap;
         width: 30px;
       }
@@ -539,7 +551,7 @@ export default {
         width: 16%;
       }
       .icon {
-        display:inline-block;
+        display: inline-block;
         width: 15px;
       }
     }
@@ -564,7 +576,8 @@ export default {
         font-size: 14px;
       }
       .link {
-        color: #3778FF !important; cursor: pointer;
+        color: #3778ff !important;
+        cursor: pointer;
       }
     }
   }
@@ -575,7 +588,8 @@ export default {
   .order {
     float: left;
   }
-  .business, .order {
+  .business,
+  .order {
     width: 49.3%;
     background: #fff;
     margin-bottom: 16px;
@@ -642,25 +656,32 @@ export default {
     margin-top: 7px;
     text-align: center !important;
   }
-  [class^="icon-"], [class*=" icon-"] {
-    color: #8EAAE4;
+  [class^="icon-"],
+  [class*=" icon-"] {
+    color: #8eaae4;
     font-size: 12px;
   }
   .el-button--text {
     text-align: left;
     padding: 0px;
     span {
-      color: #3778FF !important;
+      color: #3778ff !important;
     }
   }
   .el-card__header {
     font-size: 16px;
   }
-  .el-button--primary, .el-button--default {
+  .el-button--primary,
+  .el-button--default {
     line-height: 23px;
     padding: 0;
     width: 72px;
     height: 24px;
   }
+}
+
+.business .el-card__body,
+.order .el-card__body {
+  height: 405px;
 }
 </style>
