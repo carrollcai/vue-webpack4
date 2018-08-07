@@ -16,47 +16,38 @@
     <div class="login-form">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="密码登录" name="first" key="tab-first">
-          <div class="input-wrapper">
-            <login-input type="text"
-              key="login-name"
-              v-model="loginName"
-              placeholder="账号/手机/邮箱"
-              @focus="clearError"></login-input>
-          </div>
-          <div class="input-wrapper">
-            <login-input type="password"
-              v-model="pwd"
-              key="login-pwd"
-              placeholder="登录密码"
-              @focus="clearError"
-              @keyup="handleLogin"></login-input>
-          </div>
-
+          <login-input type="text"
+            key="login-name"
+            v-model="loginName"
+            placeholder="账号/手机/邮箱"
+            @focus="clearError"></login-input>
+          <login-input type="password"
+            v-model="pwd"
+            key="login-pwd"
+            placeholder="登录密码"
+            @focus="clearError"
+            @keyup="handleLogin"></login-input>
         </el-tab-pane>
         <el-tab-pane label="短信登录" name="second" key="tab-second">
-          <div class="input-wrapper">
-            <login-input type="text"
-              key="login-mobile"
-              :maxlength="11"
-              v-model="loginName"
-              placeholder="手机号"
-              @focus="clearError"></login-input>
-          </div>
-          <div class="input-wrapper">
-            <login-input type="text"
-              key="login-code"
-              :maxlength="10"
-              v-model="pwd"
-              placeholder="短信验证码"
-              @focus="clearError"
-              @keyup="handleLogin">
-              <span class="send-sms"
-                :class="{'is-sent': isSent}"
-                @click="handleSendSms">
-                {{isSent ? `已发送（${time}s）` : '获取验证码'}}
-                </span>
-              </login-input>
-          </div>
+          <login-input type="text"
+            key="login-mobile"
+            :maxlength="11"
+            v-model="loginName"
+            placeholder="手机号"
+            @focus="clearError"></login-input>
+          <login-input type="text"
+            key="login-code"
+            :maxlength="6"
+            v-model="pwd"
+            placeholder="短信验证码"
+            @focus="clearError"
+            @keyup="handleLogin">
+            <span class="send-sms"
+              :class="{'is-sent': isSent}"
+              @click="handleSendSms">
+              {{isSent ? `已发送（${time}s）` : '获取验证码'}}
+              </span>
+            </login-input>
         </el-tab-pane>
       </el-tabs>
       <div class="body">
@@ -109,7 +100,7 @@ export default {
           return false;
         }
       } else {
-        //短信验证码登录
+        // 短信验证码登录
 
         if (!loginName) {
           this.errorMsg = '请输入手机号';
