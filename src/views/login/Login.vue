@@ -14,18 +14,54 @@
       </div>
     </div>
     <div class="login-form">
-      <div class="title">
-        欢迎登录销售管理平台
-      </div>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="密码登录" name="first" key="tab-first">
+          <div class="input-wrapper">
+            <login-input type="text"
+              key="login-name"
+              v-model="loginName"
+              placeholder="账号/手机/邮箱"
+              @focus="clearError"></login-input>
+          </div>
+          <div class="input-wrapper">
+            <login-input type="password"
+              v-model="pwd"
+              key="login-pwd"
+              placeholder="登录密码"
+              @focus="clearError"
+              @keyup="handleLogin"></login-input>
+          </div>
+
+        </el-tab-pane>
+        <el-tab-pane label="短信登录" name="second" key="tab-second">
+          <div class="input-wrapper">
+            <login-input type="text"
+              key="login-mobile"
+              :maxlength="11"
+              v-model="loginName"
+              placeholder="手机号"
+              @focus="clearError"></login-input>
+          </div>
+          <div class="input-wrapper">
+            <login-input type="text"
+              key="login-code"
+              :maxlength="10"
+              v-model="pwd"
+              placeholder="短信验证码"
+              @focus="clearError"
+              @keyup="handleLogin">
+              <span class="send-sms"
+                :class="{'is-sent': isSent}"
+                @click="handleSendSms">
+                {{isSent ? `已发送（${time}s）` : '获取验证码'}}
+                </span>
+              </login-input>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
       <div class="body">
-        <div class="input-wrapper">
-          <login-input type="text" v-model="loginName" placeholder="账号" @focus="clearError"></login-input>
-        </div>
-        <div class="input-wrapper">
-          <login-input type="password" v-model="pwd" placeholder="密码" @focus="clearError" @keyup="handleLogin"></login-input>
-        </div>
-        <div class="error-msg" v-if="!!errorMsg">
-          {{errorMsg}}
+        <div class="error-msg">
+          {{errorMsg ? errorMsg : '&nbsp;'}}
         </div>
         <div class="btn-group">
           <el-button type="primary" @click="handleLogin">登录</el-button>
@@ -47,20 +83,55 @@ export default {
     return {
       loginName: '',
       pwd: '',
-      errorMsg: ''
+      errorMsg: '',
+      activeName: 'first',
+      isSent: false,
+      LOGIN_TYPE: {
+        first: '1',
+        second: '2'
+      },
+      time: 60
     };
   },
   methods: {
     validateForm() {
-      let {loginName, pwd} = this;
+      let {loginName, pwd, activeName} = this;
 
-      if (!loginName) {
-        this.errorMsg = '请输入账号';
-        return false;
+      // 密码登录
+      if (activeName === 'first') {
+        if (!loginName) {
+          this.errorMsg = '请输入账号/手机/邮箱';
+          return false;
+        }
+
+        if (!pwd) {
+          this.errorMsg = '请输入登录密码';
+          return false;
+        }
+      } else {
+        //短信验证码登录
+
+        if (!loginName) {
+          this.errorMsg = '请输入手机号';
+          return false;
+        }
+
+        if (!this.validateMobile(loginName)) {
+          return false;
+        }
+
+        if (!pwd) {
+          this.errorMsg = '请输入短信验证码';
+          return false;
+        }
       }
 
-      if (!pwd) {
-        this.errorMsg = '请输入密码';
+      return true;
+    },
+
+    validateMobile(mobile) {
+      if (!/^1\d{10}$/.test(mobile)) {
+        this.errorMsg = '请输入正确的手机号';
         return false;
       }
 
@@ -68,13 +139,14 @@ export default {
     },
 
     handleLogin() {
-      const { validateForm } = this;
+      const { validateForm, LOGIN_TYPE, activeName } = this;
       if (validateForm()) {
         let { loginName, pwd } = this;
 
         this.login({
-          username: loginName,
-          password: pwd
+          account: loginName,
+          password: pwd,
+          loginType: LOGIN_TYPE[activeName]
         });
       }
     },
@@ -83,7 +155,55 @@ export default {
       this.errorMsg = '';
     },
 
-    ...mapActions(['login'])
+    clearForm() {
+      this.loginName = '';
+      this.pwd = '';
+    },
+
+    handleClick() {
+      this.clearForm();
+      this.clearTimeInterval();
+    },
+
+    handleSendSms() {
+      const {loginName, isSent} = this;
+      if (isSent) {
+        return false;
+      }
+      if (!this.validateMobile(loginName)) {
+        return false;
+      } else {
+        this.sendSms({
+          account: loginName
+        }).then((res) => {
+          this.$message({
+            message: '发送成功',
+            type: 'success',
+            duration: 3000
+          });
+          this.isSent = true;
+
+          this.interval = setInterval(() => {
+            this.time -= 1;
+
+            if (this.time === 0) {
+              this.clearTimeInterval();
+            }
+          }, 1000);
+        });
+      }
+    },
+
+    clearTimeInterval() {
+      clearInterval(this.interval);
+      this.isSent = false;
+      this.time = 60;
+    },
+
+    ...mapActions([
+      'login',
+      'sendSms'
+    ])
   }
 };
 </script>
@@ -106,7 +226,7 @@ $padding-left: 46px;
 
   .login-desc{
     width: 752px;
-    margin: 88px 0 0 68px;
+    margin: 34px 0 0 68px;
   }
 
   .login-desc__title{
@@ -151,22 +271,18 @@ $padding-left: 46px;
   }
 
   .login-form{
-    width: 470px;
+    width: 480px;
     background: #FFFFFF;
     box-sizing: border-box;
     height: auto;
     align-self: center;
     margin-right: 170px;
-    padding: 0 53px;
 
     .title{
       box-sizing: border-box;
       color: rgba(0, 0, 0, 0.85);
       font-size: 24px;
-      height: 33px;
-      line-height: 33px;
       text-align: center;
-      margin-top: 33px;
     }
 
     .body{
@@ -180,9 +296,9 @@ $padding-left: 46px;
       .btn-group{
         display: flex;
         justify-content: center;
-        margin: 40px 0 24px 0;
+        margin: 0 0 40px 0;
         .el-button{
-          width: 130px;
+          width: 360px;
           align-self: flex-end;
         }
       }
@@ -193,7 +309,43 @@ $padding-left: 46px;
     color: #F5222D;
     font-size: 14px;
     height: 20px;
-    margin-top: 16px;
+    margin: 16px 0;
+  }
+
+  .el-tabs__item{
+    font-size: 18px;
+    width: 150px;
+    height: 75px;
+    line-height: 75px;
+    text-align: center;
+  }
+
+  .el-tabs__header{
+    margin-bottom: 0;
+  }
+
+  .el-tabs__content, .body{
+    padding: 0 53px;
+  }
+
+  .el-tabs__nav-wrap::after{
+    height: 1px;
+  }
+
+  .el-tabs__nav{
+    margin: 0 85px;
+  }
+
+  .send-sms{
+    position: absolute;
+    right: 16px;
+    bottom: 2px;
+    color:#3778FF ;
+    cursor: pointer;
+    &.is-sent{
+      color: rgba(0, 0, 0, 0.25);
+      cursor: not-allowed;
+    }
   }
 }
 </style>

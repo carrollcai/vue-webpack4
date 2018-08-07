@@ -1,11 +1,13 @@
 <template>
   <div
     class="login-input"
+    :class="{'show-placeholder': showClear}"
   >
     <transition name="el-fade-in">
-      <div v-if="showClear" class="placeholder">{{placeholder}}</div>
+      <div class="placeholder">{{showClear ? placeholder : '&nbsp;'}}</div>
     </transition>
     <el-input
+      :maxlength="maxlength"
       :type="type"
       v-model="internalValue"
       auto-complete="off"
@@ -16,6 +18,7 @@
       @keyup.enter.native="handleKeyup"
     >
     </el-input>
+    <slot></slot>
   </div>
 </template>
 <script>
@@ -36,6 +39,10 @@ export default {
     type: {
       type: String,
       default: 'text'
+    },
+    maxlength: {
+      type: Number,
+      default: 40
     }
   },
   data() {
@@ -53,6 +60,9 @@ export default {
       let value = this.getValue();
       this.$emit('input', value);
       this.$emit('change', value);
+    },
+    value(val) {
+      this.initializeValue();
     }
   },
   methods: {
@@ -96,10 +106,22 @@ export default {
 @import "scss/variables.scss";
 .login-input{
   width: 100%;
+  position: relative;
+
+  .el-input{
+    /* padding-top: 24px; */
+  }
+
+  &.show-placeholder{
+    .el-input{
+     /*  padding-top: 0; */
+    }
+  }
 
   .placeholder{
     color: rgba(0, 0, 0, 0.25);
-    margin-bottom: $fontWidth;
+    margin: 16px 0 $fontWidth 0;
+    height: 24px;
   }
 
   .el-input__inner{
@@ -108,7 +130,7 @@ export default {
     height: 24px;
     line-height: 24px;
     width: 100%;
-    font-size: 18px;
+    font-size: 14px;
     border-radius: 0;
     padding: 0;
     &:focus{

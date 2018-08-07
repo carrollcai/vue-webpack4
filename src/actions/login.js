@@ -35,6 +35,15 @@ const actions = {
   },
   toLoginPage() {
     router.replace('/login');
+  },
+  sendSms({commit}, params) {
+    return new Promise((resolve, reject) => {
+      API.sendSmsApi(params).then(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      });
+    });
   }
 };
 

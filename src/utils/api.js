@@ -90,6 +90,7 @@ export default {
   loginApi: API('/esop/login/server'),
   logoutApi: API('/esop/login/logout'),
   resetPwdApi: API('/esop/secBranch/editPassword'),
+  sendSmsApi: API('/esop/login/sendVerifyLoginSMS'),
   getCurrentUserInfoAPI: API('/esop/login/queryCurrentOperator'),
 
   /* 集团客户管理 */
