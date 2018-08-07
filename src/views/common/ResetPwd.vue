@@ -19,6 +19,8 @@
 </template>
 <script>
 import { mapActions } from 'vuex';
+import { passworReg } from '@/utils/rules.js';
+
 export default {
   data() {
     const validatePass = (rule, value, callback) => {
@@ -51,11 +53,13 @@ export default {
         newPassword: [
           { required: true, message: '请输入新密码', trigger: 'blur' },
           { min: 6, max: 20, message: '新密码原密码需要在6-20字符内', trigger: 'blur' },
+          { validator: passworReg, trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ],
         cNewPassword: [
           { required: true, message: '请输入确认密码', trigger: 'blur' },
           { min: 6, max: 20, message: '确认密码原密码需要在6-20字符内', trigger: 'blur' },
+          { validator: passworReg, trigger: 'blur' },
           { validator: validatePass2, trigger: 'blur' }
         ]
       }
