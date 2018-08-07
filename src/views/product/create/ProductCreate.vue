@@ -20,22 +20,141 @@
         <el-input
           class="full-col"
           v-model="product.productName"
-          :maxlength="25"
+          :maxlength="6"
           placeholder="请输入名称"></el-input>
+      </el-form-item>
+      <el-form-item label="产品介绍" prop="description">
+        <el-upload class="upload-files"
+          :limit="FILE_MAX_COUNT"
+          :auto-upload="false"
+          :on-change="handleChangeFile"
+          :on-remove="handleRemoveFile"
+          :on-exceed="handleExceed"
+          :file-list="uploadFiles">
+          <el-button slot="trigger" size="small">
+            <i class="icon-up margin-right-8"></i>上传文件
+          </el-button>
+          <div slot="tip" class="el-upload__tip">
+            <p class="lh1-5">{{FILE_TIP[0]}}</p>
+            <p class="lh1-5">{{FILE_TIP[1]}}</p>
+          </div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="主营市场" prop="mainMarket">
+        <el-checkbox-group v-model="selMarket">
+          <el-checkbox v-for="item in marketList" :label="item.label" :key="item.value">{{item.label}}</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
 
       <el-form-item label="产品类别" prop="productType">
         <el-select v-model="product.productType" placeholder="请选择产品类别">
-          <el-option label="个人市场" value="0"></el-option>
-          <el-option label="政企市场" value="1"></el-option>
+          <el-option label="卡类" value="0"></el-option>
+          <el-option label="衍生品类" value="1"></el-option>
+          <el-option label="活动类" value="2"></el-option>
+          <el-option label="智能硬件类" value="3"></el-option>
+          <el-option label="会员" value="4"></el-option>
+          <el-option label="其他" value="5"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="产品价格" prop="price">
+      <!--<el-form-item label="产品价格" prop="price">
         <el-input class="full-col" v-model="product.price" placeholder="数字允许小数点后两位小数">
           <template slot="append">元</template>
         </el-input>
+      </el-form-item>-->
+      <el-form-item label="价格策略:">
+        <el-input maxlength="500" resize="none" type="textarea" v-model="product.prices" placeholder="请输入介绍"></el-input>
       </el-form-item>
-      <el-form-item label="负责人" required class="col-item">
+      <el-form-item label="商务策略:">
+        <el-input maxlength="500" resize="none" type="textarea" v-model="product.strategy" placeholder="请输入介绍"></el-input>
+      </el-form-item>
+      <el-form-item label="产品归属:" class="col-item">
+        <el-col :span="7">
+          <el-form-item>
+            <el-select v-model="product.productType" placeholder="择产品类别">
+              <el-option label="无" value="0"></el-option>
+              <el-option label="核心能力清单" value="1"></el-option>
+              <el-option label="一级集采目录" value="2"></el-option>
+              <el-option label="二级集采目录" value="3"></el-option>
+              <el-option label="终端库" value="4"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col class="line-container" :span="1">
+          <div class="line"></div>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item>
+            <el-select v-model="product.coreCompe" placeholder="核心能力">
+              <el-option label="无" value="0"></el-option>
+              <el-option label="核心能力清单" value="1"></el-option>
+              <el-option label="一级集采目录" value="2"></el-option>
+              <el-option label="二级集采目录" value="3"></el-option>
+              <el-option label="终端库" value="4"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col class="line-container" :span="1">
+          <div class="line"></div>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item>
+            <el-select v-model="product.specialCapa" placeholder="具体能力及产品">
+              <el-option label="无" value="0"></el-option>
+              <el-option label="核心能力清单" value="1"></el-option>
+              <el-option label="一级集采目录" value="2"></el-option>
+              <el-option label="二级集采目录" value="3"></el-option>
+              <el-option label="终端库" value="4"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="产品对接人:" class="col-item">
+        <el-col :span="4">
+          <el-form-item>
+            <el-select v-model="product.connectName" placeholder="对接人">
+              <el-option label="无" value="0"></el-option>
+              <el-option label="核心能力清单" value="1"></el-option>
+              <el-option label="一级集采目录" value="2"></el-option>
+              <el-option label="二级集采目录" value="3"></el-option>
+              <el-option label="终端库" value="4"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col class="line-container" :span="1">
+          <div class="line"></div>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item>
+            <el-input
+            v-model="product.contactMobile"
+            :maxlength="6"
+            placeholder="手机号"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col class="line-container" :span="1">
+          <div class="line"></div>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item>
+            <el-input
+            v-model="product.department"
+            :maxlength="15"
+            placeholder="部门"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col class="line-container" :span="1">
+          <div class="line"></div>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item>
+            <el-input
+            v-model="product.post"
+            :maxlength="15"
+            placeholder="岗位"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-form-item>
+      <!--<el-form-item label="负责人" required class="col-item">
         <el-col :span="7">
           <el-form-item prop="username">
             <el-input v-model="product.username"
@@ -66,26 +185,21 @@
               placeholder="岗位"></el-input>
           </el-form-item>
         </el-col>
-      </el-form-item>
-      <el-form-item label="版本号" prop="version">
+      </el-form-item>-->
+      <!--<el-form-item label="版本号" prop="version">
         <el-input
           class="full-col"
           v-model="product.version"
           :maxlength="20"
           placeholder="请输入版本号"></el-input>
-      </el-form-item>
-      <el-form-item label="产品介绍" prop="description">
-        <el-input
-          class="full-col"
-          v-model="product.description"
-          :maxlength="500"
-          placeholder="请输入介绍" type="textarea" :rows="3"></el-input>
-      </el-form-item>
+      </el-form-item>-->
       <el-form-item>
-        <el-button type="primary" @click="toSecondStep()">下一步</el-button>
+        <el-button type="primary" @click="toSecondStep()">立即提审</el-button>
+        <el-button>取消</el-button>
+        <!--<el-button type="primary" @click="toSecondStep()">下一步</el-button>-->
       </el-form-item>
     </el-form>
-    <div class="second-step" v-if="isSecondStep()">
+    <!--<div class="second-step" v-if="isSecondStep()">
       <el-table
         border
         v-if="!isAddingCase"
@@ -120,7 +234,7 @@
           :disabled="isNotAbleToSubmit()"
           :loading="isSubmit">{{ isSubmit ? '加载中' : '确定'}}</el-button>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>
 </template>
@@ -129,6 +243,14 @@
 import { mapActions } from 'vuex';
 import mixins from './mixins';
 import { FILE_TYPE_ID } from '@/config/index.js';
+import endsWith from 'lodash/endsWith';
+import {
+  FILE_ACCEPT,
+  FILE_TIP,
+  FILE_MAX_COUNT,
+  FILE_MAX_SIZE,
+  FILE_ERROR_TIP
+} from '@/config';
 export default {
   name: 'ProductCreate',
   mixins: [mixins],
@@ -138,7 +260,24 @@ export default {
       product: {
         salesList: []
       },
-      isSubmit: false
+      isSubmit: false,
+      FILE_TIP,
+      FILE_MAX_COUNT,
+      index: -1,
+      productCase: {
+        salesType: '0',
+        composedProduct: []
+      },
+      uploadFiles: [],
+      // 用于保存，修改产品时， 修改销售案例删除的方案文件
+      deleteFiles: [],
+      newFiles: [],
+      marketList: [
+        { label: '政企市场', value: '政企市场' },
+        { label: '家庭市场', value: '家庭市场' },
+        { label: '个人市场', value: '个人市场' }
+      ],
+      selMarket: []
     };
   },
   computed: {
@@ -149,6 +288,65 @@ export default {
   beforeMount() {
   },
   methods: {
+    isAcceptable(fileName) {
+      for (let accept of FILE_ACCEPT) {
+        if (endsWith(fileName.toLowerCase(), accept)) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    handleExceed() {
+      this.$message({
+        message: `附件个数已满${FILE_MAX_COUNT}个`,
+        type: 'warning'
+      });
+    },
+    handleChangeFile(file, fileList) {
+      let fileName = file.name;
+      let result = true;
+      if (this.isAcceptable(fileName)) {
+        let fileSize = file.size / (1024 * 1024);
+
+        if (fileSize > FILE_MAX_SIZE) {
+          this.$message({
+            message: `附件超过${FILE_MAX_SIZE}M`,
+            type: 'error'
+          });
+
+          result = false;
+        } else {
+          this.uploadFiles.push(file.raw);
+        }
+      } else {
+        this.$message({
+          message: FILE_ERROR_TIP,
+          type: 'error'
+        });
+        result = false;
+      }
+
+      if (!result) {
+        fileList.pop();
+      }
+
+      return result;
+    },
+    handleRemoveFile(file, fileList) {
+      const that = this;
+      const {uploadFiles} = that;
+
+      uploadFiles.splice(0, uploadFiles.length);
+
+      for (let item of fileList) {
+        uploadFiles.push(item);
+      }
+
+      if (file.elecInstId) {
+        this.deleteFiles.push(file);
+      }
+    },
     submitProduct() {
       const that = this;
       const {cases} = that;

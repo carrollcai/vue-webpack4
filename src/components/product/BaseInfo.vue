@@ -3,10 +3,27 @@
   <h3>产品基本信息</h3>
   <ul class="b-i-list">
     <li><span>产品名称：</span>{{productList.productName}}</li>
-    <li><span>产品价格：</span>{{productList.price}}元</li>
+    <li><span>产品介绍：</span><label class="download">{{productList.description}}</label></li>
+    <!--<li><span>产品价格：</span>{{productList.price}}元</li>
     <li><span>产品类别：</span>{{productList.productType}}</li>
-    <li><span>负责人员：</span><label>{{productList.username}}-{{productList.deptment}}-{{productList.position}}</label></li>
-    <li class="pro-w-67"><span>产品介绍：</span><label class="product-desc">{{productList.description}}</label></li>
+    <li><span>负责人员：</span><label>{{productList.username}}-{{productList.deptment}}-{{productList.position}}</label></li>-->
+    <!--<li class="pro-w-67"><span>产品介绍：</span><label class="product-desc">{{productList.description}}</label></li>-->
+  </ul>
+  <ul class="b-i-list">
+    <li><span>主营市场：</span></li>
+    <li><span>产品类别：</span>{{productList.productType}}</li>
+  </ul>
+  <ul class="b-i-list">
+    <li><span>价格策略：</span></li>
+  </ul>
+  <ul class="b-i-list">
+    <li><span>商务策略：</span>{{productList.productType}}</li>
+  </ul>
+  <ul class="b-i-list">
+    <li><span>产品归属：</span>{{productList.productType}}</li>
+  </ul>
+  <ul class="b-i-list">
+    <li><span>产品对接人：</span>{{productList.username}}--{{productList.deptment}}-{{productList.position}}</li>
   </ul>
 </div>
 </template>
@@ -73,6 +90,11 @@ export default {
 
   .product-desc{
     word-break: break-all;
+  }
+  .download {
+    color: #3778FF;
+    font-size: 14px;
+    cursor: pointer;
   }
 }
 </style>
