@@ -97,6 +97,7 @@ export default {
     validateForm() {
       let {loginName, pwd, activeName} = this;
 
+      // 密码登录
       if (activeName === 'first') {
         if (!loginName) {
           this.errorMsg = '请输入账号/手机/邮箱';
@@ -108,6 +109,8 @@ export default {
           return false;
         }
       } else {
+        //短信验证码登录
+
         if (!loginName) {
           this.errorMsg = '请输入手机号';
           return false;
@@ -187,12 +190,6 @@ export default {
               this.clearTimeInterval();
             }
           }, 1000);
-        }, (err) => {
-          this.$message({
-            message: '发送成功',
-            type: 'error',
-            duration: 3000
-          });
         });
       }
     },
