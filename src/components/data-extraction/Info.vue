@@ -2,7 +2,7 @@
   <div class="base-info">
     <h3>数据基本信息</h3>
     <ul class="b-i-list">
-      <li><span>任务名称：</span>{{infoData.productName}}</li>
+      <li><span>任务名称：</span>{{ infoData.productName }}</li>
       <li><span>数据日期：</span>{{infoData.price}}</li>
       <li><span>数据类型：</span>{{infoData.productType}}</li>
       <li><span>客户端：</span><label>{{infoData.username}}</label></li>
@@ -37,7 +37,7 @@ export default {
     color: #262626;
     margin: 0;
     border-bottom: 1px #E6E6E6 solid;
-    padding: 0px 32px;
+    padding: 12px 32px 0;
   }
   .b-i-list {
     display: flex;

@@ -1,0 +1,30 @@
+@import '@/assets/scss/variables.scss';
+.apply {
+  .data-title {
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .cancel {float: right; color: #3778FF;}
+  .base-info {
+    > .el-form-item {
+      display: flex !important;
+    }
+    .flex-row {
+      display: flex !important;
+      justify-content: space-between;
+      flex: 1;
+    }
+  }
+  > .el-form-item {
+    display: flex !important;
+  }
+  .all-label {float: left; margin-right: 36px;}
+  .detail-set {
+    > .el-form-item {
+      padding: 0 59px 0 10px;
+    }
+    .blue {
+      background: #E6F7FF;
+    }
+  }
+}

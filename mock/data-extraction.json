@@ -99,7 +99,16 @@
         "message": "请求成功",
         "code": "200"
       },
-      "data": {}
+      "data": [
+        {
+          "value": "1",
+          "name": "任务名称1"
+        },
+        {
+          "value": "2",
+          "name": "任务名称2"
+        }
+      ]
     }
  },
  {
@@ -115,7 +124,7 @@
         "total": 14,
         "list": [
           {
-            "state": "0",
+            "state": 0,
             "time": "2016-05-01",
             "title": "创建",
             "description": "张三创建",
@@ -123,7 +132,7 @@
             "detail": "创建"
           },
           {
-            "state": "1",
+            "state": 1,
             "time": "2016-05-01",
             "title": "一级审核",
             "description": "",
@@ -131,9 +140,17 @@
             "detail": "审核"
           },
           {
-            "state": "4",
+            "state": 2,
             "time": "2016-05-01",
             "title": "二级审核",
+            "description": 5,
+            "opName": "我",
+            "detail": "审核2"
+          },
+          {
+            "state": 4,
+            "time": "2018-05-01",
+            "title": "数据生成",
             "description": 5,
             "opName": "我",
             "detail": "不通过"

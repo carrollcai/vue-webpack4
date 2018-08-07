@@ -1,10 +1,10 @@
+import {mapActions} from 'vuex';
 import { inputLengthTwenty } from '@/utils/rules.js';
 
 export default {
   data() {
     return {
       isByDay: true,
-      isByArea: false,
       applyFromVaild: {
         name: [
           { required: true, message: '请输入任务名称', trigger: ['change', 'blur'] },
@@ -39,12 +39,36 @@ export default {
         this.isByDay = false;
       }
     },
-    changeArea(value) {
-      if (value === '2') {
-        this.isByArea = true;
-      } else {
-        this.isByArea = false;
-      }
-    }
+    resetData(el) {
+      this.applyFrom[el] = [];
+      this[el + 'All'] = false;
+    },
+    isAllChecked(el, active, original) {
+      this.applyFrom[active] = this[el] ? original : [];
+    },
+    handleChecked(el, active, original) {
+      let len = this.applyFrom[active].length;
+      this[el] = len === original.length;
+    },
+    isAllChecked2(el, active, original) {
+      let nameArr = [];
+      original.filter((item) => {
+        return nameArr.push(item.name);
+      });
+      this.applyFrom[active] = this[el] ? nameArr : [];
+    },
+    onSubmit() {
+      this.$refs.refName.validate((valid) => {
+        if (valid) {
+          this.applyDataExtraction(this.applyFrom);
+        }
+      });
+    },
+    cancel() {
+      this.$router.push({path: '/data-extraction/data-download'});
+    },
+    ...mapActions([
+      'applyDataExtraction'
+    ])
   }
 };

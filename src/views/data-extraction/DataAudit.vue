@@ -12,8 +12,7 @@
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
         <el-select v-model="auditForm.name" filterable placeholder="任务名称">
-          <el-option label="1" value="任务名称1"></el-option>
-          <el-option label="2" value="任务名称2"></el-option>
+          <el-option v-for="item in dataTaskList" :key="item" :value="item.value" :label="item.name"></el-option>
         </el-select>
       </el-form-item>
     </div>
@@ -31,7 +30,7 @@
 <div class="m-container table-container">
   <wm-table v-if="dataAuditList && dataAuditList.list"
     :source="dataAuditList.list"
-    :total="dataAuditList.total"
+    :total="dataAuditList.list.length"
     :pageNo="auditForm.pageNo"
     :pageSize="auditForm.pageSize"
     :default-sort = "{prop: 'insertdate', order: 'descending'}"
@@ -70,11 +69,13 @@ export default {
   computed: {
     ...mapState({
       auditForm: ({ dataExtraction }) => dataExtraction.auditForm,
-      dataAuditList: ({ dataExtraction }) => dataExtraction.dataAuditList
+      dataAuditList: ({ dataExtraction }) => dataExtraction.dataAuditList,
+      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList
     })
   },
   beforeMount() {
     this.$nextTick(() => {
+      this.queryDataTask();
       this.query();
     });
   },
@@ -110,10 +111,11 @@ export default {
       this.query();
     },
     query() {
-      this.queryDataAudit();
+      this.queryDataAudit(this.auditForm);
     },
     ...mapActions([
-      'queryDataAudit'
+      'queryDataAudit',
+      'queryDataTask'
     ])
   }
 };

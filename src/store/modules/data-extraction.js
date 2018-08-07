@@ -22,7 +22,8 @@ const state = {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
-  dataAuditList: {}
+  dataAuditList: {},
+  dataTaskList: []
 };
 
 const mutations = {
@@ -37,6 +38,9 @@ const mutations = {
   },
   [types.DATA_EXTRACTION_AUDIT](state, data) {
     state.dataAuditList = data;
+  },
+  [types.DATA_EXTRACTION_TASK](state, data) {
+    state.dataTaskList = data;
   }
 };
 
