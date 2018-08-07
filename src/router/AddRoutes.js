@@ -50,12 +50,14 @@ import User from '@/views/system/User.vue';
 import UserCreate from '@/views/system//create/UserCreate.vue';
 
 // import ProductView from '@/views/product/ProductView.vue';
-import salesProductStore from '@/views/product/salesProductStore.vue';
-import caseManagement from '@/views/product/detail/caseManagement.vue';
+import SalesProductStore from '@/views/product/SalesProductStore.vue';
+import CaseManagement from '@/views/product/detail/CaseManagement.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';
+import ProductAuditManage from '@/views/product/ProductAuditManage.vue';
 import ProductDetail from '@/views/product/detail/ProductDetail.vue';
 import ProductCreate from '@/views/product/create/ProductCreate.vue';
 import ProductEdit from '@/views/product/create/ProductEdit.vue';
+import ProductAudit from '@/views/product/detail/ProductAudit.vue';
 
 import OrderCreateManage from '@/views/order/CreateManage.vue';
 import OrderHandleTask from '@/views/order/HandleTask.vue';
@@ -118,13 +120,13 @@ const dynamicRoutes = [
       {
         path: '/product/sales-product-store',
         name: 'sales-product-store',
-        component: salesProductStore,
+        component: SalesProductStore,
         meta: { menuId: 17 }
       },
       {
         path: '/product/case-management/:id',
         name: 'case-management',
-        component: caseManagement,
+        component: CaseManagement,
         meta: {menuId: 17}
       },
       {
@@ -150,6 +152,18 @@ const dynamicRoutes = [
         name: 'product-edit',
         component: ProductEdit,
         meta: { menuId: 18 }
+      },
+      {
+        path: '/product/product-audit-manage',
+        name: 'product-audit-manage',
+        component: ProductAuditManage,
+        meta: { menuId: 19 }
+      },
+      {
+        path: '/product/product-audit/:id',
+        name: 'product-audit',
+        component: ProductAudit,
+        meta: { menuId: 19 }
       },
 
       // { path: '/task/management', component: TaskManagement, meta: { menuId: 6 } },

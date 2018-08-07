@@ -167,6 +167,13 @@ export const MENU_PERMISSIONS = [
         name: '产品创建管理',
         url: '/product/product-creat-manage',
         enable: false
+      },
+      {
+        menuId: 19,
+        parentId: 16,
+        name: '产品审核管理',
+        url: '/product/product-audit-manage',
+        enable: false
       }
     ]
   },
