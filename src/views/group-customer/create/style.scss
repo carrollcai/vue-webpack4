@@ -12,8 +12,15 @@
   .info-block{
     margin-top: 16px;
   }
+  .customer-create-info,
+  .base-optional-info {
+    width: 800px;
+    margin: 0 auto;
+    .el-input, .el-textarea {
+      width: $formMediumWidth;
+    }
+  }
   .base-info,
-  .base-optional-info,
   .customer-manager-info {
     width: 500px;
     margin: 0 auto;
@@ -22,7 +29,7 @@
     }
   }
   .not-required {
-    border-top: 1px solid #E6E6E6;
+    // border-top: 1px solid #E6E6E6;
     height: 1px;
     margin: 32px 0;
     display: flex;
@@ -30,11 +37,17 @@
     justify-content: center;
     width: 100%;
     .not-required_text {
-      padding: 0 20px;
-      line-height: 24px;
+      line-height: 40px;
+      height: 40px;
+      width: 811px;
+      text-align: center;
+      /* padding: 0 20px; */
+      line-height: 40px;
       background: #ffffff;
       font-size: 12px;
       color: #C2C2C2;
+      background: #fafafa;
+      font-size: 14px;
     }
   }
   .second-step {
@@ -52,5 +65,56 @@
     text-align: center;
     margin: 24px 0;
     cursor: pointer;
+  }
+  .el-tag {
+    float: left;
+    padding: 0 8px;
+    height: 21px;
+    line-height: 21px;
+    border-radius: 2px;
+    margin-right: 5px;
+  }
+  .tags-wrap {
+    width: 100%;
+    height: 100%;
+    outline: 0;
+  }
+  .input {
+    padding: 6px 14px;
+    height: 34px;
+    line-height: 1;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  }
+  .tags, .tags-input{
+    outline: none;
+    position: relative;
+    float: left;
+    color: #000;
+    line-height: 25px;
+    border-radius: 6px;
+    .content{
+      line-height: 25px;
+    }
+    .del{
+      cursor: pointer;
+      width: 22px;
+      height: 28px;
+      text-align: center;
+      cursor: pointer;
+      position: absolute;
+      top: -1px;
+      right: 0;
+    }
+  }
+  .tags-input{
+    font-size: 14px;
+    padding: 0;
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    width: 7em;
   }
 }
