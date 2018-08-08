@@ -35,11 +35,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     host: HOST || config.dev.host,
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
+    // 不让页面错误信息输出到浏览器页面上
     overlay: config.dev.errorOverlay
       ? { warnings: false, errors: true }
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
+    // 不将所以的构建过程都打印出来
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll
