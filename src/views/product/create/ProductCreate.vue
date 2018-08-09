@@ -18,27 +18,10 @@
       label-width="120px">
       <el-form-item label="产品名称" prop="productName">
         <el-input
-          class="full-col"
+          class="form-input-240"
           v-model="product.productName"
           :maxlength="6"
           placeholder="请输入名称"></el-input>
-      </el-form-item>
-      <el-form-item label="产品介绍" prop="description">
-        <el-upload class="upload-files"
-          :limit="FILE_MAX_COUNT"
-          :auto-upload="false"
-          :on-change="handleChangeFile"
-          :on-remove="handleRemoveFile"
-          :on-exceed="handleExceed"
-          :file-list="uploadFiles">
-          <el-button slot="trigger" size="small">
-            <i class="icon-up margin-right-8"></i>上传文件
-          </el-button>
-          <div slot="tip" class="el-upload__tip">
-            <p class="lh1-5">{{FILE_TIP[0]}}</p>
-            <p class="lh1-5">{{FILE_TIP[1]}}</p>
-          </div>
-        </el-upload>
       </el-form-item>
       <el-form-item label="主营市场" prop="mainMarket">
         <el-checkbox-group v-model="selMarket">
@@ -47,7 +30,7 @@
       </el-form-item>
 
       <el-form-item label="产品类别" prop="productType">
-        <el-select v-model="product.productType" placeholder="请选择产品类别">
+        <el-select class="form-input-240" v-model="product.productType" placeholder="请选择产品类别">
           <el-option label="卡类" value="0"></el-option>
           <el-option label="衍生品类" value="1"></el-option>
           <el-option label="活动类" value="2"></el-option>
@@ -68,9 +51,9 @@
         <el-input maxlength="500" resize="none" type="textarea" v-model="product.strategy" placeholder="请输入介绍"></el-input>
       </el-form-item>
       <el-form-item label="产品归属:" class="col-item">
-        <el-col :span="7">
+        <el-col :span="11">
           <el-form-item>
-            <el-select v-model="product.productType" placeholder="择产品类别" @change="selectProductType">
+            <el-select v-model="product.productType" placeholder="选择产品类别" @change="selectProductType">
               <el-option label="无" value="0"></el-option>
               <el-option label="核心能力清单" value="1"></el-option>
               <el-option label="一级集采目录" value="2"></el-option>
@@ -80,10 +63,10 @@
           </el-form-item>
         </el-col>
         <div v-if="isFirstLevel">
-          <el-col class="line-container" :span="1">
+          <el-col class="line-container" :span="2">
             <div class="line"></div>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="11">
             <el-form-item>
               <el-select v-model="product.coreCompe" placeholder="核心能力">
                 <el-option label="无" value="0"></el-option>
@@ -94,24 +77,26 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col class="line-container" :span="1">
-            <div class="line"></div>
-          </el-col>
-          <el-col :span="8">
+        </div>
+      </el-form-item>
+      <el-form-item v-if="isFirstLevel">
+        <el-col :span="24">
             <el-form-item>
-              <el-select v-model="product.specialCapa" placeholder="具体能力及产品">
-                <el-option label="无" value="0"></el-option>
-                <el-option label="核心能力清单" value="1"></el-option>
-                <el-option label="一级集采目录" value="2"></el-option>
-                <el-option label="二级集采目录" value="3"></el-option>
-                <el-option label="终端库" value="4"></el-option>
+              <el-select class="form-input-320" v-model="product.specialCapa" placeholder="具体能力及产品">
+                <el-option>
+                  <el-tabs :tab-position="tabPosition" style="height: 200px;">
+                    <el-tab-pane label="用户管理">用户管理</el-tab-pane>
+                    <el-tab-pane label="配置管理">配置管理</el-tab-pane>
+                    <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+                    <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+                  </el-tabs>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
-        </div>
       </el-form-item>
       <el-form-item label="产品对接人:" class="col-item">
-        <el-col :span="4">
+        <el-col :span="11">
           <el-form-item>
             <el-select v-model="product.connectName" placeholder="对接人">
               <el-option label="无" value="0"></el-option>
@@ -122,10 +107,10 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col class="line-container" :span="1">
+        <el-col class="line-container" :span="2">
           <div class="line"></div>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="11">
           <el-form-item>
             <el-input
             v-model="product.contactMobile"
@@ -133,10 +118,9 @@
             placeholder="手机号"></el-input>
           </el-form-item>
         </el-col>
-        <el-col class="line-container" :span="1">
-          <div class="line"></div>
-        </el-col>
-        <el-col :span="4">
+      </el-form-item>
+      <el-form-item>
+        <el-col :span="11">
           <el-form-item>
             <el-input
             v-model="product.department"
@@ -144,10 +128,10 @@
             placeholder="部门"></el-input>
           </el-form-item>
         </el-col>
-        <el-col class="line-container" :span="1">
+        <el-col class="line-container" :span="2">
           <div class="line"></div>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="11">
           <el-form-item>
             <el-input
             v-model="product.post"
@@ -155,6 +139,23 @@
             placeholder="岗位"></el-input>
           </el-form-item>
         </el-col>
+      </el-form-item>
+      <el-form-item label="产品介绍" prop="files" required>
+        <el-upload class="upload-files"
+          :limit="FILE_MAX_COUNT"
+          :auto-upload="false"
+          :on-change="handleChangeFile"
+          :on-remove="handleRemoveFile"
+          :on-exceed="handleExceed"
+          :file-list="uploadFiles">
+          <el-button slot="trigger" size="small" class="form-input-128">
+            <i class="icon-up margin-right-8"></i>上传产品介绍
+          </el-button>
+          <div slot="tip" class="el-upload__tip">
+            <p class="lh1-5">{{FILE_TIP[0]}}</p>
+            <p class="lh1-5">{{FILE_TIP[1]}}</p>
+          </div>
+        </el-upload>
       </el-form-item>
       <!--<el-form-item label="负责人" required class="col-item">
         <el-col :span="7">
@@ -421,7 +422,7 @@ export default {
       return false;
     },
     selectProductType() {
-      if (this.product.productType === '2') {
+      if (this.product.productType === '1') {
         this.isFirstLevel = true;
       } else {
         this.isFirstLevel = false;

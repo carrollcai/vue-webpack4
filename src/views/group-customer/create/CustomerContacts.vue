@@ -18,6 +18,38 @@
               :maxlength="6"
               key="contact-name-input"></el-input>
           </el-form-item>
+          <el-form-item prop="birthDate" key="birthDate" label="出生年月">
+            <el-date-picker
+              v-model="contact.birthDate"
+              type="month"
+              placeholder="选择出生年月">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="性别" prop="gender" key="contact-gender">
+            <el-radio-group v-model="contact.gender"
+              key="contact-gender-input">
+              <el-radio :label="item.value" v-for="(item, index) in GENDER" :key="index">{{item.label}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="婚姻状况" prop="maritalStatus" key="contact-maritalStatus">
+            <el-radio-group v-model="contact.maritalStatus"
+              key="contact-maritalStatus-radio">
+              <el-radio :label="item.value" v-for="(item, index) in MARITAL_STATUS" :key="index">{{item.label}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item prop="nativePlace" key="nativePlace" label="籍贯">
+            <el-input class="col-input"
+              v-model="contact.nativePlace"
+              placeholder="如“江苏南京”"
+              key="nativePlace"></el-input>
+          </el-form-item>
+          <el-form-item prop="graduateColleges" key="graduateColleges" label="毕业院校">
+            <el-input class="col-input"
+              v-model="contact.graduateColleges"
+              placeholder="如“江苏大学-机电学院”"
+              :maxlength="15"
+              key="graduateColleges"></el-input>
+          </el-form-item>
           <el-form-item prop="department" key="contact-dept" label="部门">
             <el-input class="col-input"
               v-model="contact.department"
@@ -25,7 +57,28 @@
               :maxlength="15"
               key="contact-dept-input"></el-input>
           </el-form-item>
-          <el-form-item prop="age" key="contact-age" label="年龄">
+          <el-form-item prop="position" key="contact-position" label="职位">
+            <el-input class="col-input"
+              v-model="contact.position"
+              placeholder="请输入职位"
+              :maxlength="15"
+              key="contact-duty-input"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码" prop="mobile" key="contact-mobile">
+            <el-input class="col-input"
+              v-model="contact.mobile"
+              placeholder="请输入手机号码"
+              :maxlength="11"
+              key="contact-mobile-input"></el-input>
+          </el-form-item>
+          <!--<el-form-item prop="department" key="contact-dept" label="部门">
+            <el-input class="col-input"
+              v-model="contact.department"
+              placeholder="请输入部门"
+              :maxlength="15"
+              key="contact-dept-input"></el-input>
+          </el-form-item>-->
+          <!--<el-form-item prop="age" key="contact-age" label="年龄">
               <el-select
               class="col-input"
               v-model="contact.age"
@@ -36,39 +89,20 @@
                 :value="item.value"
                 :label="item.label" ></el-option>
               </el-select>
-            </el-form-item>
-          <el-form-item prop="position" key="contact-position" label="职位">
-            <el-input class="col-input"
-              v-model="contact.position"
-              placeholder="请输入职位"
-              :maxlength="15"
-              key="contact-duty-input"></el-input>
-          </el-form-item>
-          <el-form-item label="性别" prop="gender" key="contact-gender">
-            <el-radio-group v-model="contact.gender"
-              key="contact-gender-input">
-              <el-radio :label="item.value" v-for="(item, index) in GENDER" :key="index">{{item.label}}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="手机号码" prop="mobile" key="contact-mobile">
-            <el-input class="col-input"
-              v-model="contact.mobile"
-              placeholder="请输入手机号码"
-              :maxlength="11"
-              key="contact-mobile-input"></el-input>
-          </el-form-item>
-          <el-form-item label="婚姻状况" prop="maritalStatus" key="contact-maritalStatus">
-            <el-radio-group v-model="contact.maritalStatus"
-              key="contact-maritalStatus-radio">
-              <el-radio :label="item.value" v-for="(item, index) in MARITAL_STATUS" :key="index">{{item.label}}</el-radio>
-            </el-radio-group>
-          </el-form-item>
+            </el-form-item>-->
           <el-form-item label="邮箱" prop="email" key="contact-email">
             <el-input class="col-input"
               v-model="contact.email"
               placeholder="请输入邮箱"
               :maxlength="35"
               key="contact-email-input"></el-input>
+          </el-form-item>
+          <el-form-item label="备注" prop="note" key="note">
+            <el-input class="form-input-550" v-model="contact.note"
+              type="textarea"
+              placeholder="请输入备注"
+              :maxlength="500"
+              key="note"></el-input>
           </el-form-item>
           <el-form-item label="管理范畴" prop="manageScope" key="manageScope-scope">
             <el-input class="form-input-550" v-model="contact.manageScope"
@@ -112,10 +146,10 @@
               </div>
             </template>
           </el-form-item>
-          <el-form-item label="可见范围" prop="visible" key="visible-range">
+          <el-form-item label="可见范围" prop="visibleRange" key="visible-range">
             <el-select
             class="col-input"
-            v-model="contact.visible"
+            v-model="contact.visibleRange"
             placeholder="可见范围"
             key="contact-age-select">
             <el-option v-for="item in visibleStatus"
@@ -350,7 +384,7 @@ export default {
           { required: true, message: '请输入工作职责', trigger: 'blur' },
           { validator: emptyValidator, trigger: 'blur' }
         ],
-        visible: [
+        visibleRange: [
           { required: true, message: '请选择可见范围', trigger: 'change' }
         ]
       }

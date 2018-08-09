@@ -27,7 +27,8 @@ const state = {
     organizeType: '',
     provinceId: '',
     managerName: '',
-    otherField: ''
+    otherField: '',
+    label: ''
   },
   createQuery: {
     pageNo: PAGE_NO,
@@ -36,7 +37,7 @@ const state = {
     provinceId: '',
     managerName: '',
     otherField: '',
-    activeName: 'second'
+    activeName: 'first'
   },
   auditQuery: {
     pageNo: PAGE_NO,

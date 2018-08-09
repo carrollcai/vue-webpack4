@@ -2,6 +2,7 @@ import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import ProductCase from './ProductCase.vue';
+import { multFileValid } from '@/utils/rules.js';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
@@ -13,6 +14,9 @@ export default {
     ProductCase
   },
   data() {
+    const fileCheck = (rule, value, callback) => {
+      multFileValid(this.baseFormRules.files, callback);
+    };
     const priceFn = (rule, value, callback) => {
       const reg = /^\d{1,9}(?:\.\d{1,2})?$/;
       if (String(value).trim() === '') {
@@ -44,6 +48,9 @@ export default {
           { required: true, message: '请输入产品名称', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
+        mainMarket: [
+          { required: true, message: '请选择主营市场', trigger: 'change' }
+        ],
         productType: [
           { required: true, message: '请选择产品类型', trigger: 'change' }
         ],
@@ -65,6 +72,9 @@ export default {
         description: [
           { required: true, message: '请输入产品介绍', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
+        ],
+        files: [
+          { validator: fileCheck }
         ]
       }
     };

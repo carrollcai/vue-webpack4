@@ -1,6 +1,5 @@
 <template>
   <div class="customer-create">
-    {{tagLibraryList}}
     <div class="m-container">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/group-customer/create-manage' }">集团客户创建</el-breadcrumb-item>
@@ -361,6 +360,12 @@
             :maxlength="15"
             placeholder="请输入所在职位"
             key="managerJob-input"></el-input>
+        </el-form-item>
+        <el-form-item label="是否短信提醒" prop="needSms" key="needSms">
+          <el-radio-group v-model="customer.needSms" size="small">
+            <el-radio :label="0">是</el-radio>
+            <el-radio :label="1">否</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="approveCustomer">立即提审</el-button>
