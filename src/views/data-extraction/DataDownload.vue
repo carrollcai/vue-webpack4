@@ -40,7 +40,7 @@
       :total="dataDownloadList.total"
       :pageNo="downloadForm.pageNo"
       :pageSize="downloadForm.pageSize"
-      :default-sort = "{prop: 'insertdate', order: 'descending'}"
+      :defaultSort = "{prop: 'insertdate', order: 'descending'}"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" show-overflow-tooltip property="productName" width="350" />
