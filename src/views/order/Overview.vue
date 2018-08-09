@@ -36,7 +36,7 @@
         <el-table-column label="创建时间" property="createDate" />
         <el-table-column label="合作集团" property="organizeName" />
         <el-table-column label="处理人" property="processorName" />
-        <el-table-column label="订单状态">
+        <el-table-column label="订购产品及状态">
           <template slot-scope="scope">
             {{orderStatus[scope.row.ordStatus]}}
           </template>

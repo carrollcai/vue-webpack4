@@ -16,7 +16,7 @@
     </div>
     <div class="task-three-detail">
       <div class="task-three-detail-item">
-        <div class="left">预计合同金额：</div>
+        <div class="left">预计收入：</div>
         <div class="right">{{orderOverviewDetail.predictContractAmount}}万元/月</div>
       </div>
       <div class="task-three-detail-item">
@@ -40,11 +40,11 @@
       <div class="right">{{orderOverviewDetail.contactName}}；{{keyToValue(orderOverviewDetail.contactGender, genderStatic)}} ；{{orderOverviewDetail.contactMobile}} {{orderOverviewDetail.contactEmail}}</div>
     </div>
     <div class="task-detail-item">
-      <div class="left">订单需求：</div>
+      <div class="left">业务描述：</div>
       <div class="right">{{orderOverviewDetail.busiRequire}}</div>
     </div>
     <div class="task-detail-item">
-      <div class="left">订单描述：</div>
+      <div class="left">合同方案：</div>
       <div class="right">{{orderOverviewDetail.busiDesc}}</div>
     </div>
   </div>
@@ -55,7 +55,7 @@ export default {
   props: {
     orderOverviewDetail: {
       type: Object,
-      default: () => {}
+      default: () => { }
     }
   },
   computed: {

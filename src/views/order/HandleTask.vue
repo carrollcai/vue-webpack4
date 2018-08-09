@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="m-container">
-      <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
+      <!-- <el-dialog title="分派" :visible.sync="dialogVisible" width="360px" :before-close="handleClose" center>
         <el-form ref="assignHandle" :rules="assignHandleRules" :model="assignHandle">
           <div class="handler">指派处理人：</div>
           <el-form-item prop="dealPerson">
@@ -16,7 +16,7 @@
           <el-button type="primary" @click="submitAssign">确 定</el-button>
           <el-button @click="dialogVisible = false">取 消</el-button>
         </span>
-      </el-dialog>
+      </el-dialog> -->
 
       <el-form class="form-manage" ref="orderHandleTask" :rules="orderHandleTaskRules" :model="orderHandleTaskForm">
         <div class="flex">
@@ -59,10 +59,14 @@
             <el-button v-if="orderHandleTaskForm.businessStatus === '4'" class="table-button" type="text" @click="handlePay(scope.row)">
               付款处理
             </el-button>
-            <el-button v-if="orderHandleTaskForm.businessStatus !== '0'" class="table-button" type="text" @click="handleDetail(scope.row)">
+            <!-- 830版本去掉分派功能 -->
+            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-dropdown class="table-more-btn" v-if="orderHandleTaskForm.businessStatus === '0'" @command="handleCommand(scope.row, $event)">
+            <!-- <el-button v-if="orderHandleTaskForm.businessStatus !== '0'" class="table-button" type="text" @click="handleDetail(scope.row)">
+              详情
+            </el-button> -->
+            <!-- <el-dropdown class="table-more-btn" v-if="orderHandleTaskForm.businessStatus === '0'" @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
                 更多
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -71,7 +75,7 @@
                 <el-dropdown-item class="el-dropdown-link" command="handleDispatch">分派</el-dropdown-item>
                 <el-dropdown-item class="el-dropdown-link" command="handleDetail">详情</el-dropdown-item>
               </el-dropdown-menu>
-            </el-dropdown>
+            </el-dropdown> -->
           </template>
         </el-table-column>
       </wm-table>
@@ -83,31 +87,31 @@
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState, mapMutations } from 'vuex';
 import moment from 'moment';
-import { textareaMaxLimit } from '@/utils/rules.js';
+// import { textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
     return {
       isNotPageChange: true,
       orderHandleTaskRules: {},
-      dialogVisible: false,
+      // dialogVisible: false,
       currentRow: {},
-      assignHandle: {
-        id: null,
-        dealPerson: null,
-        dealResult: '',
-        resultStatus: '0', // 这里值固定
-        taskInsId: null
-      },
-      assignHandleRules: {
-        dealPerson: [
-          { required: true, message: '请选择指派处理人', trigger: 'change' }
-        ],
-        dealResult: [
-          { required: true, message: '请输入分派的原因', trigger: 'blur' },
-          { validator: textareaMaxLimit, trigger: 'blur' }
-        ]
-      }
+      // assignHandle: {
+      //   id: null,
+      //   dealPerson: null,
+      //   dealResult: '',
+      //   resultStatus: '0', // 这里值固定
+      //   taskInsId: null
+      // },
+      // assignHandleRules: {
+      //   dealPerson: [
+      //     { required: true, message: '请选择指派处理人', trigger: 'change' }
+      //   ],
+      //   dealResult: [
+      //     { required: true, message: '请输入分派的原因', trigger: 'blur' },
+      //     { validator: textareaMaxLimit, trigger: 'blur' }
+      //   ]
+      // }
     };
   },
   components: {
@@ -117,7 +121,7 @@ export default {
     ...mapState({
       orderHandleTaskObj: ({ order }) => order.orderHandleTaskObj,
       orderHandleTaskForm: ({ order }) => order.orderHandleTaskForm,
-      assignHandlers: ({ order }) => order.assignHandlers
+      // assignHandlers: ({ order }) => order.assignHandlers
     })
   },
   beforeMount() {
@@ -126,31 +130,31 @@ export default {
     });
   },
   methods: {
-    submitAssign() {
-      this.$refs.assignHandle.validate(valid => {
-        if (!valid) return false;
-        let params = Object.cloneDeep(this.assignHandle);
-        params.dealPerson = params.dealPerson.pop();
-        params.taskInsId = this.currentRow.taskInsId;
-        params.id = this.currentRow.ordId;
+    // submitAssign() {
+    //   this.$refs.assignHandle.validate(valid => {
+    //     if (!valid) return false;
+    //     let params = Object.cloneDeep(this.assignHandle);
+    //     params.dealPerson = params.dealPerson.pop();
+    //     params.taskInsId = this.currentRow.taskInsId;
+    //     params.id = this.currentRow.ordId;
 
-        this.createAssign(params).then(() => {
-          this.query();
-          this.dialogVisible = false;
-        });
-      });
-    },
+    //     this.createAssign(params).then(() => {
+    //       this.query();
+    //       this.dialogVisible = false;
+    //     });
+    //   });
+    // },
     tabChange() {
       this.pageChange();
       this.query();
     },
-    handleCommand(row, command) {
-      let COMMANDS = {
-        'handleDispatch': 'handleDispatch',
-        'handleDetail': 'handleDetail'
-      };
-      this[COMMANDS[command]](row);
-    },
+    // handleCommand(row, command) {
+    //   let COMMANDS = {
+    //     'handleDispatch': 'handleDispatch',
+    //     'handleDetail': 'handleDetail'
+    //   };
+    //   this[COMMANDS[command]](row);
+    // },
     async onPagination(value) {
       this.isNotPageChange = false;
       this.pageChange({ pageNo: value });
@@ -169,12 +173,12 @@ export default {
       const path = `/order/handle-task/sign/${row.ordId}?taskInsId=${row.taskInsId}`;
       this.$router.push(path);
     },
-    handleDispatch(row) {
-      this.dialogVisible = true;
-      this.currentRow = row;
-      // 初始化输入框内容部数据
-      this.getAssignhandler();
-    },
+    // handleDispatch(row) {
+    //   this.dialogVisible = true;
+    //   this.currentRow = row;
+    //   // 初始化输入框内容部数据
+    //   this.getAssignhandler();
+    // },
     handleDetail(row) {
       const { businessStatus } = this.orderHandleTaskForm;
       let path = '';
@@ -216,9 +220,8 @@ export default {
     }),
     ...mapActions([
       'getHandleTaskList',
-      'getAssignhandler',
-      'createAssign',
-      'createAssign'
+      'getAssignhandler'
+      // 'createAssign'
     ])
   }
 };

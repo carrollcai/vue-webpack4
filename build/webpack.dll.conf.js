@@ -30,8 +30,7 @@ module.exports = {
       'axios',
       '@antv/g2',
       '@antv/data-set',
-      'moment',
-      'vue-clipboard2'
+      'moment'
     ]
   },
   output: {
