@@ -7,6 +7,7 @@ const state = {
     endTime: '',
     name: '',
     status: null,
+    isOpen: null,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
