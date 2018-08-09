@@ -95,7 +95,7 @@ export default {
       isNotPageChange: true,
       orderHandleTaskRules: {},
       // dialogVisible: false,
-      currentRow: {},
+      currentRow: {}
       // assignHandle: {
       //   id: null,
       //   dealPerson: null,
@@ -120,7 +120,7 @@ export default {
   computed: {
     ...mapState({
       orderHandleTaskObj: ({ order }) => order.orderHandleTaskObj,
-      orderHandleTaskForm: ({ order }) => order.orderHandleTaskForm,
+      orderHandleTaskForm: ({ order }) => order.orderHandleTaskForm
       // assignHandlers: ({ order }) => order.assignHandlers
     })
   },
