@@ -19,6 +19,7 @@
           <login-input type="text"
             key="login-name"
             v-model="loginName"
+            @blur="handleBlur"
             placeholder="账号/手机/邮箱"
             @focus="clearError"></login-input>
           <login-input type="password"
@@ -33,6 +34,7 @@
             key="login-mobile"
             :maxlength="11"
             v-model="loginName"
+            @blur="handleBlur"
             placeholder="手机号"
             @focus="clearError"></login-input>
           <login-input type="text"
@@ -144,6 +146,10 @@ export default {
 
     clearError() {
       this.errorMsg = '';
+    },
+
+    handleBlur() {
+      this.loginName = this.loginName.trim();
     },
 
     clearForm() {
