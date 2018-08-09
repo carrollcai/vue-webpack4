@@ -105,27 +105,17 @@ export default {
 </script>
 <style lang="scss">
 @import "scss/variables.scss";
-.login-input{
+.login-input {
   width: 100%;
   position: relative;
 
-  .el-input{
-    /* padding-top: 24px; */
-  }
-
-  &.show-placeholder{
-    .el-input{
-     /*  padding-top: 0; */
-    }
-  }
-
-  .placeholder{
+  .placeholder {
     color: rgba(0, 0, 0, 0.25);
     margin: 16px 0 $fontWidth 0;
     height: 24px;
   }
 
-  .el-input__inner{
+  .el-input__inner {
     border: none;
     border-bottom: 1px solid rgba(163, 195, 254, 1);
     height: 24px;
@@ -134,7 +124,7 @@ export default {
     font-size: 14px;
     border-radius: 0;
     padding: 0;
-    &:focus{
+    &:focus {
       border: none;
       border-bottom: 1px solid rgba(163, 195, 254, 1);
       outline: none;

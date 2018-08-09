@@ -9,14 +9,6 @@ import Active from '@/views/data-analysis/Active.vue';
 import RetentionLoss from '@/views/data-analysis/RetentionLoss.vue';
 // import DailyLive from '@/views/data-analysis/create/DailyLive.vue';
 
-// import TaskManagement from '@/views/task/Query.vue';
-// import TaskPush from '@/views/task/Push.vue';
-// import TaskTodo from '@/views/task/Todo.vue';
-// import TaskApprove from '@/views/task/app/approve/Approve.vue';
-// import TaskQueryDetail from '@/views/task/detail/QueryDetail.vue';
-// import TaskPushDetail from '@/views/task/detail/PushDetail.vue';
-// import TaskTodoDetail from '@/views/task/detail/TodoDetail.vue';
-
 import Business from '@/views/business-manage/Business.vue';
 import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';
 import BusinessTask from '@/views/business-manage/BusinessTask.vue';
@@ -48,6 +40,7 @@ import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/create/RoleCreate.vue';
 import User from '@/views/system/User.vue';
 import UserCreate from '@/views/system//create/UserCreate.vue';
+import Config from '@/views/system/Config.vue';
 
 // import ProductView from '@/views/product/ProductView.vue';
 import SalesProductStore from '@/views/product/SalesProductStore.vue';
@@ -109,14 +102,15 @@ const dynamicRoutes = [
       { path: '/dashboard', component: Dashboard, meta: { menuId: 1 } },
       { path: '/analysis/active', component: Active, meta: { menuId: 3 } },
       { path: '/analysis/retention-loss', component: RetentionLoss, meta: { menuId: 4 } },
-      // { path: '/analysis/daily-live', component: DailyLive },
+
       // 数据审核管理 的 menuId 先用的别的模块的 后面在修改
-      { path: '/data-extraction/data-download', name: 'data-download', component: DataDownload, meta: { menuId: 24 } },
-      { path: '/data-extraction/data-detail', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
-      { path: '/data-extraction/data-detail/:id', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
-      { path: '/data-extraction/data-audit-detail/:id', name: 'data-audit-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
-      { path: '/data-extraction/data-apply', name: 'data-audit', component: DataApply, meta: { menuId: 24 } },
-      { path: '/data-extraction/data-audit', name: 'data-apply', component: DataAudit, meta: { menuId: 26 } },
+      { path: '/data-extraction/data-download', name: 'data-download', component: DataDownload, meta: { menuId: 35 } },
+      { path: '/data-extraction/data-detail', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 35 } },
+      { path: '/data-extraction/data-detail/:id', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 35 } },
+      { path: '/data-extraction/data-audit-detail/:id', name: 'data-audit-detail', component: DataExtractionDetail, meta: { menuId: 35 } },
+      { path: '/data-extraction/data-apply', name: 'data-audit', component: DataApply, meta: { menuId: 35 } },
+      { path: '/data-extraction/data-audit', name: 'data-apply', component: DataAudit, meta: { menuId: 36 } },
+
       {
         path: '/product/sales-product-store',
         name: 'sales-product-store',
@@ -127,7 +121,7 @@ const dynamicRoutes = [
         path: '/product/case-management/:id',
         name: 'case-management',
         component: CaseManagement,
-        meta: {menuId: 17}
+        meta: { menuId: 17 }
       },
       {
         path: '/product/product-detail/:id',
@@ -165,14 +159,6 @@ const dynamicRoutes = [
         component: ProductAudit,
         meta: { menuId: 19 }
       },
-
-      // { path: '/task/management', component: TaskManagement, meta: { menuId: 6 } },
-      // { path: '/task/query/detail/:id', component: TaskQueryDetail, meta: { menuId: 6 } },
-      // { path: '/task/push', component: TaskPush, meta: { menuId: 7 } },
-      // { path: '/task/todo/push/:id', component: TaskPushDetail, meta: { menuId: 7 } },
-      // { path: '/task/todo', component: TaskTodo, meta: { menuId: 8 } },
-      // { path: '/task/todo/detail/:id', component: TaskTodoDetail, meta: { menuId: 8 } },
-      // { path: '/task/approve', component: TaskApprove, meta: { menuId: 8 } },
 
       {
         path: '/business-manage/business',
@@ -402,6 +388,7 @@ const dynamicRoutes = [
       { path: '/system/role/:type/:id?', component: RoleCreate, meta: { menuId: 10 } },
       { path: '/system/user/management', component: User, meta: { menuId: 11 } },
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
+      { path: '/system/config', component: Config, meta: { menuId: 11 } },
 
       { path: '/order/overview', component: OrderOverview, meta: { menuId: 13 } },
       { path: '/order/overview/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 13 } },
