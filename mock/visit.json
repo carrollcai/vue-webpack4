@@ -42,75 +42,69 @@
       },
       "data": {
         "total": 14,
-        "List": [
+        "list": [
           {
-            "productId": 2,
-            "description": "修改1726 这是对产品2进行的一番介绍",
-            "version": "修改1726 2.0",
-            "productName": "edit2028 产品2",
-            "updatedate": "2018-06-25 20:47:46",
-            "price": 122,
-            "insertdate": "2018-06-25 19:20:39",
-            "position": "修改1726 开发",
-            "state": 0,
-            "deptment": "修改1726 软研",
-            "operatorId": 10070,
-            "productType": "政企市场",
-            "username": "修改1726 胡"
+            "visitId": 1,
+            "visitCode": "JSDKASD90888",
+            "visitStartTime": "修改1726 这是对产品2进行的一番介绍",
+            "visitStartTime": "2018-06-25 20:47:46",
+            "visitStatus": 0,
+            "organizeName": 10070,
+            "productType": "政企市场"
           },
           {
-            "insertdate": "2014-03-27",
-            "productName": "咪咕动漫",
-            "productId": 1,
-            "productType": "个人市场",
-            "updateTime": "2018-5-5",
-            "operatorId": 90383,
-            "operation": 2
+            "visitId": 2,
+            "visitCode": "12JSDKASD90888",
+            "visitStartTime": "修改1726 这是对产品2进行的一番介绍",
+            "visitStartTime": "2018-06-25 20:47:46",
+            "visitStatus": 0,
+            "organizeName": 10070,
+            "productType": "政企市场"
           },
           {
-            "insertdate": "2018-05-11",
-            "productName": "咪咕动漫",
-            "productId": 1654687113,
-            "productType": "个人市场",
-            "updateTime": "2018-5-5",
-            "operatorId": 90383,
-            "operation": "2017-05-11"
+            "visitId": 3,
+            "visitCode": "34JSDKASD90888",
+            "visitStartTime": "修改1726 这是对产品2进行的一番介绍",
+            "visitStartTime": "2018-06-25 20:47:46",
+            "visitStatus": 0,
+            "organizeName": 10070,
+            "productType": "政企市场"
           },
           {
-            "insertdate": "2018-05-11",
-            "productName": "咪咕动漫",
-            "productId": 4,
-            "productType": 13,
-            "operatorId": 100383,
-            "updateTime": "2018-05-31",
-            "operation": 111
+            "visitId": 4,
+            "visitCode": "23JSDKASD90888",
+            "visitStartTime": "修改1726 这是对产品2进行的一番介绍",
+            "visitStartTime": "2018-06-25 20:47:46",
+            "visitStatus": 0,
+            "organizeName": 10070,
+            "productType": "政企市场"
           },
           {
-            "insertdate": "2016-05-11",
-            "productName": "咪咕动漫",
-            "productId": 5,
-            "productType": 8,
-            "operatorId": 10003,
-            "updateTime": "2017-03-21",
-            "operation": 111
+            "visitId": 5,
+            "visitCode": "4JSDKASD90888",
+            "visitStartTime": "修改1726 这是对产品2进行的一番介绍",
+            "visitStartTime": "2018-06-25 20:47:46",
+            "visitStatus": 0,
+            "organizeName": 10070,
+            "productType": "政企市场"
           },
           {
-            "insertdate": "2016-05-11",
-            "productName": "咪咕动漫",
-            "productId": 5,
-            "productType": 8,
-            "operatorId": 10003,
-            "updateTime": "2017-03-21",
-            "operation": 111
+            "visitId": 6,
+            "visitCode": "2JSDKASD90888",
+            "visitStartTime": "修改1726 这是对产品2进行的一番介绍",
+            "visitStartTime": "2018-06-25 20:47:46",
+            "visitStatus": 0,
+            "organizeName": 10070,
+            "productType": "政企市场"
           },
           {
-            "insertdate": "2016-05-11",
-            "productName": "咪咕动漫",
-            "productId": 5,
-            "productType": 8,
-            "operatorId": 10003,
-            "updateTime": "2017-03-21",
-            "operation": 111
+            "visitId": 7,
+            "visitCode": "3JSDKASD90888",
+            "visitStartTime": "修改1726 这是对产品2进行的一番介绍",
+            "visitStartTime": "2018-06-25 20:47:46",
+            "visitStatus": 0,
+            "organizeName": 10070,
+            "productType": "政企市场"
           }
         ]
       }
