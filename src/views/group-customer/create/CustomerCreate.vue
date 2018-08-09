@@ -1,5 +1,6 @@
 <template>
   <div class="customer-create">
+    {{tagLibraryList}}
     <div class="m-container">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/group-customer/create-manage' }">集团客户创建</el-breadcrumb-item>
@@ -102,13 +103,14 @@
               </el-select>
             </el-form-item>
             <el-form-item label="公司标签" key="companyTag">
-              <el-popover :width="598" :visible-arrow="false" placement="bottom-start" trigger="click">
+              <el-popover :width="598" :visible-arrow="false" placement="bottom-start" trigger="focus">
                 <div class="custComTip">
-                  推荐 :<el-tag :key="rec" v-for="rec in recommend" @click.native="add(rec)">{{rec}}</el-tag>
+                  推荐 :<el-tag :key="rec" v-for="rec in tagLibraryList" @click.native="add(rec)">{{rec}}</el-tag>
                 </div>
-                <div class="input tags-wrap form-input-624" slot="reference">
+                <div class="input tags-wrap form-input-624" slot="reference" @focus="changeFocus">
                   <el-tag :key="tag" v-for="tag in dis_source" closable :disable-transitions="false" @close="delTag(tag)">{{tag.text}}</el-tag>
-                    <input class="tags-input" type="text" v-model="text" @keyup.enter="add(text)" @input="change(text)" @keyup.delete="del()">
+                  <span v-if="isShowPlaceHolder" class="customerTipText" @click="changeFocus">添加相关标签，用逗号或回车分隔</span>
+                  <input @focus="changeFocus" ref="custComInput" class="tags-input" type="text" v-model="text" @keyup.enter="add(text)" @input="change(text)" @keyup.delete="del()">
                 </div>
               </el-popover>
             </el-form-item>
@@ -147,9 +149,11 @@
             </el-form-item>
           </div>
           <div class="not-required">
-            <span class="not-required_text">添加公司证件信息(非必填)</span>
+            <span class="not-required_text" @click.stop="isShow">添加公司证件信息(非必填)
+              <i class="el-icon el-icon-arrow-down" :class="open === 'true' ? 'el-icon-arrow-up' : ''"></i>
+            </span>
           </div>
-          <div class="base-optional-info">
+          <div class="base-optional-info" v-if="open === 'true'">
             <el-form-item label="证件类型" key="certificateType">
               <el-select v-model="customer.certificateType"
                 clearable
@@ -183,7 +187,13 @@
                 key="registerNum-input"></el-input>
             </el-form-item>
             <el-form-item label="成立时间" key="setupTime">
-              <el-date-picker v-model="customer.date" type="date">
+              <el-date-picker
+                v-model="customer.openTime"
+                type="date"
+                :editable="false"
+                :picker-options="dateOptions"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择成立时间">
               </el-date-picker>
               <!--<el-input v-model="customer.registerNum"
                 placeholder="请输入工商注册号"
@@ -236,6 +246,8 @@
                 placeholder="请输入证件地址"
                 key="licenceAddress-input"></el-input>
             </el-form-item>
+          </div>
+          <div class="base-optional-info">
             <el-form-item style="width:645px;"></el-form-item>
             <el-form-item>
               <el-button type="primary" @click="toSecondStep">下一步</el-button>
@@ -360,7 +372,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import mixins from './mixins';
 import filters from '../filters';
 export default {
@@ -374,8 +386,19 @@ export default {
       },
       text: '',
       dis_source: [],
-      recommend: ['金融', '生产', '互联网噶噶']
+      recommend: ['金融', '生产', '互联网噶噶'],
+      open: 'false',
+      isShowPlaceHolder: true,
+      isLastflag: false
     };
+  },
+  beforeMount() {
+    this.getTagLibrary({pageSize: '5', pageNo: '1'});
+  },
+  computed: {
+    ...mapState({
+      tagLibraryList: ({ groupCustomer }) => groupCustomer.tagLibraryList
+    })
   },
   methods: {
     saveCustomer() {
@@ -406,6 +429,7 @@ export default {
     },
     change(text) {
       if (text !== '') {
+        this.isLastflag = false;
         if (text.length > 5) {
           if (text.slice(5, 6) !== ',' && text.slice(5, 6) !== '，') {
             this.text = text.slice(0, 5);
@@ -417,6 +441,8 @@ export default {
           this.dis_source.push(json);
           this.text = '';
         }
+      } else {
+        this.isLastflag = true;
       }
     },
     delTag(tag) {
@@ -424,12 +450,27 @@ export default {
     },
     del() {
       if (this.text === '') {
-        if (this.dis_source.length !== 0) {
-          this.dis_source.splice(-1, 1);
-        } else {}
-      } else {}
+        if (this.isLastflag) {
+          if (this.dis_source.length !== 0) {
+            this.dis_source.splice(-1, 1);
+          } else {
+            this.isLastflag = false;
+          }
+        } else {
+          this.isLastflag = true;
+        }
+      } else {
+        this.isLastflag = false;
+      }
     },
-    ...mapActions(['createCustomer', 'createApproveCustomer'])
+    isShow() {
+      this.open = this.open === 'true' ? 'false' : 'true';
+    },
+    changeFocus() {
+      this.isShowPlaceHolder = false;
+      this.$refs.custComInput.focus();
+    },
+    ...mapActions(['createCustomer', 'createApproveCustomer', 'getTagLibrary'])
   }
 };
 </script>
@@ -446,5 +487,8 @@ export default {
   .el-popper[x-placement^="bottom"] {
     margin-top: 0px;
   }
+}
+.customerTipText {
+  float: left;height: 20px;line-height:20px;color:#dadada;
 }
 </style>

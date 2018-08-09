@@ -47,7 +47,8 @@ const state = {
     otherField: '',
     businessStatus: '',
     activeName: 'first'
-  }
+  },
+  tagLibraryList: ''
 };
 
 const mutations = {
@@ -75,7 +76,10 @@ const mutations = {
   [types.GROUP_CUSTOMER_PROCESSES](state, data) {
     state.processes = data;
   },
-  updateCustomerField
+  updateCustomerField,
+  [types.TAG_LIBRARY_LIST](state, data) {
+    state.tagLibraryList = data;
+  }
 };
 
 const getters = {

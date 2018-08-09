@@ -192,6 +192,11 @@ export default {
   auditCustomerAPI: API('/esop/organize/moveNode'),
 
   /**
+   * 标签库查询
+   */
+  tagLibraryAPI: API('/esop/organize/queryLabel'),
+
+  /**
    * 查询客户需求列表
    */
   queryRequirementListAPI: API('/esop/bizRequire/queryRequirement'),

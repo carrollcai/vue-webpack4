@@ -70,7 +70,7 @@
       <el-form-item label="产品归属:" class="col-item">
         <el-col :span="7">
           <el-form-item>
-            <el-select v-model="product.productType" placeholder="择产品类别">
+            <el-select v-model="product.productType" placeholder="择产品类别" @change="selectProductType">
               <el-option label="无" value="0"></el-option>
               <el-option label="核心能力清单" value="1"></el-option>
               <el-option label="一级集采目录" value="2"></el-option>
@@ -79,34 +79,36 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col class="line-container" :span="1">
-          <div class="line"></div>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item>
-            <el-select v-model="product.coreCompe" placeholder="核心能力">
-              <el-option label="无" value="0"></el-option>
-              <el-option label="核心能力清单" value="1"></el-option>
-              <el-option label="一级集采目录" value="2"></el-option>
-              <el-option label="二级集采目录" value="3"></el-option>
-              <el-option label="终端库" value="4"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col class="line-container" :span="1">
-          <div class="line"></div>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item>
-            <el-select v-model="product.specialCapa" placeholder="具体能力及产品">
-              <el-option label="无" value="0"></el-option>
-              <el-option label="核心能力清单" value="1"></el-option>
-              <el-option label="一级集采目录" value="2"></el-option>
-              <el-option label="二级集采目录" value="3"></el-option>
-              <el-option label="终端库" value="4"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+        <div v-if="isFirstLevel">
+          <el-col class="line-container" :span="1">
+            <div class="line"></div>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item>
+              <el-select v-model="product.coreCompe" placeholder="核心能力">
+                <el-option label="无" value="0"></el-option>
+                <el-option label="核心能力清单" value="1"></el-option>
+                <el-option label="一级集采目录" value="2"></el-option>
+                <el-option label="二级集采目录" value="3"></el-option>
+                <el-option label="终端库" value="4"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col class="line-container" :span="1">
+            <div class="line"></div>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item>
+              <el-select v-model="product.specialCapa" placeholder="具体能力及产品">
+                <el-option label="无" value="0"></el-option>
+                <el-option label="核心能力清单" value="1"></el-option>
+                <el-option label="一级集采目录" value="2"></el-option>
+                <el-option label="二级集采目录" value="3"></el-option>
+                <el-option label="终端库" value="4"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </div>
       </el-form-item>
       <el-form-item label="产品对接人:" class="col-item">
         <el-col :span="4">
@@ -277,7 +279,8 @@ export default {
         { label: '家庭市场', value: '家庭市场' },
         { label: '个人市场', value: '个人市场' }
       ],
-      selMarket: []
+      selMarket: [],
+      isFirstLevel: false
     };
   },
   computed: {
@@ -294,7 +297,6 @@ export default {
           return true;
         }
       }
-
       return false;
     },
     handleExceed() {
@@ -417,6 +419,13 @@ export default {
       }
 
       return false;
+    },
+    selectProductType() {
+      if (this.product.productType === '2') {
+        this.isFirstLevel = true;
+      } else {
+        this.isFirstLevel = false;
+      }
     },
     ...mapActions([
       'saveProduct'
