@@ -31,7 +31,7 @@
         <!-- <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
         <el-tab-pane label="已取消" :name="4"></el-tab-pane> -->
       </el-tabs>
-      <more-tabs :statusData.sync="downloadForm.status" @getStateFn="getStateFn"></more-tabs>
+      <more-tabs :statusData.sync="downloadForm.status" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
     </div>
   </div>
   <div class="m-container table-container">
@@ -40,7 +40,7 @@
       :total="dataDownloadList.total"
       :pageNo="downloadForm.pageNo"
       :pageSize="downloadForm.pageSize"
-      :default-sort = "{prop: 'insertdate', order: 'descending'}"
+      :defaultSort = "{prop: 'insertdate', order: 'descending'}"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" show-overflow-tooltip property="productName" width="350" />
@@ -113,6 +113,13 @@ export default {
     };
   },
   computed: {
+    isOpenData() {
+      let _this = this;
+      if (this.downloadForm.status === 4 || this.downloadForm.status === 5) {
+        _this.downloadForm.isOpen = true;
+      }
+      return this.downloadForm.isOpen;
+    },
     ...mapState({
       downloadForm: ({ dataExtraction }) => dataExtraction.downloadForm,
       dataDownloadList: ({ dataExtraction }) => dataExtraction.dataDownloadList,
@@ -162,11 +169,13 @@ export default {
       this.downloadForm.status = value;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
+      this.downloadForm.isOpen = true;
       this.query();
     },
     getState() {
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
+      this.downloadForm.isOpen = false;
       this.query();
     },
     onPagination(value) {

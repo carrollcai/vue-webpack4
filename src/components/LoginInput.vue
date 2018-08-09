@@ -89,6 +89,7 @@ export default {
     handleBlur() {
       this.$emit('blur');
     },
+
     handleKeyup() {
       this.$emit('keyup');
     }
