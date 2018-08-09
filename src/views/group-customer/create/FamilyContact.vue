@@ -37,7 +37,7 @@
         :maxlength="10"></el-input>
     </el-form-item>
     <span class="line"></span>
-    <el-form-item style="width: 265px"
+    <el-form-item style="width: 305px"
       :prop="'contactFamilyDtoList.' + index + '.note'">
       <el-input v-model="familyContact.jobDuty" style="width: 280px"
         placeholder="备注信息"

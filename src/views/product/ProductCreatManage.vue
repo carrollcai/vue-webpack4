@@ -114,7 +114,7 @@ export default {
     };
   },
   beforeMount() {
-    this.getProductCreatList({ pageNo: 1, pageSize: 20 });
+    this.getProductList({ pageNo: 1, pageSize: 20 });
   },
   computed: {
     ...mapState({
@@ -192,6 +192,7 @@ export default {
       return columnValue === '0' ? '个人市场' : '政企市场';
     },
     ...mapActions([
+      'getProductList',
       'getProductCreatList',
       'getComposedProduct',
       'setdeleteProduct'

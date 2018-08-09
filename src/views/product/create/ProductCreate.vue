@@ -24,8 +24,8 @@
           placeholder="请输入名称"></el-input>
       </el-form-item>
       <el-form-item label="主营市场" prop="mainMarket">
-        <el-checkbox-group v-model="selMarket">
-          <el-checkbox v-for="item in marketList" :label="item.label" :key="item.value">{{item.label}}</el-checkbox>
+        <el-checkbox-group v-model="product.mainMarket">
+          <el-checkbox v-for="item in marketList" :label="item" :key="item">{{item}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 
@@ -275,11 +275,7 @@ export default {
       // 用于保存，修改产品时， 修改销售案例删除的方案文件
       deleteFiles: [],
       newFiles: [],
-      marketList: [
-        { label: '政企市场', value: '政企市场' },
-        { label: '家庭市场', value: '家庭市场' },
-        { label: '个人市场', value: '个人市场' }
-      ],
+      marketList: ['政企市场', '家庭市场', '个人市场'],
       selMarket: [],
       isFirstLevel: false
     };
