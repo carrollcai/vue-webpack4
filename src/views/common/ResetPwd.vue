@@ -32,7 +32,7 @@ export default {
 
     const validatePass2 = (rule, value, callback) => {
       if (value !== this.form.newPassword) {
-        callback(new Error('两次输入密码不一致!'));
+        callback(new Error('两次输入密码不一致'));
       } else {
         callback();
       }
@@ -48,17 +48,17 @@ export default {
       rules: {
         oldPassword: [
           { required: true, message: '请输入原密码', trigger: 'blur' },
-          { min: 6, max: 20, message: '原密码需要在6-20字符内', trigger: 'blur' }
+          { min: 8, max: 16, message: '原密码需要在8-16字符内', trigger: 'blur' }
         ],
         newPassword: [
           { required: true, message: '请输入新密码', trigger: 'blur' },
-          { min: 6, max: 20, message: '新密码原密码需要在6-20字符内', trigger: 'blur' },
+          { min: 8, max: 16, message: '新密码需要在8-16字符内', trigger: 'blur' },
           { validator: passworReg, trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ],
         cNewPassword: [
           { required: true, message: '请输入确认密码', trigger: 'blur' },
-          { min: 6, max: 20, message: '确认密码原密码需要在6-20字符内', trigger: 'blur' },
+          { min: 8, max: 16, message: '确认密码需要在8-16字符内', trigger: 'blur' },
           { validator: passworReg, trigger: 'blur' },
           { validator: validatePass2, trigger: 'blur' }
         ]
