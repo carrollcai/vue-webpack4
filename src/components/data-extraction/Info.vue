@@ -36,12 +36,9 @@ export default {
     font-size: 16px;
     color: #262626;
     margin: 0;
-    border-bottom: 1px #E6E6E6 solid;
     padding: 12px 32px 0;
   }
   .b-i-list {
-    display: flex;
-    flex-flow: wrap;
     padding: 10px 32px 0;
     li {
       height: auto !important;

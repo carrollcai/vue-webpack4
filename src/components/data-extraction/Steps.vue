@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="step-bg">
   <el-steps :active="activeIndex()" align-center>
     <el-step v-for="item in processList"
       :key="item"
@@ -46,5 +46,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.child {text-align: center;}
+.step-bg{
+   background: #F0F2F5;
+   padding-top: 30px;
+   .child {text-align: center;}
+}
 </style>
