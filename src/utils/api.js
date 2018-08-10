@@ -139,6 +139,8 @@ export default {
   // 产品创建管理
   getProductListAPI: API('/esop/product/queryProduct'),
   setAddProductAPI: API('/esop/product/addProduct'),
+  // 产品审核管理
+  getProductTaskInfo: API('esop/product/queryTaskInfo'),
 
   /**
    * 新增集团客户

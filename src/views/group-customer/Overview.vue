@@ -43,13 +43,13 @@
           <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
           <el-table-column label="集团名称" property="organizeName" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column label="集团属性" property="organizeTypeName" >
+          <el-table-column label="集团属性" property="organizeTypeName" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="集团标签" >
+          <el-table-column label="集团标签" property="label" show-overflow-tooltip>
           </el-table-column>
           <!--<el-table-column label="所属省份" property="provinceName">
           </el-table-column>-->
-          <el-table-column label="客户经理" property="managerName" />
+          <el-table-column label="客户经理" property="managerName" show-overflow-tooltip/>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
