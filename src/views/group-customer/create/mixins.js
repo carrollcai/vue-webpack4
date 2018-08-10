@@ -34,7 +34,7 @@ export default {
           { required: true, message: '请选择成立日期', trigger: 'change' }
         ],
         provinceId: [
-          { required: true, message: '请选择所属省份', trigger: 'change' }
+          // { required: true, message: '请选择所属省份', trigger: 'change' }
         ],
         orgIndustryType: [
           { required: true, message: '请选择机构类型', trigger: 'change' }

@@ -26,7 +26,7 @@
           </el-row>
           <el-row>
             <el-col :span="18">
-              #互联网 #计算机软件 #金融
+              {{customer.label}}
             </el-col>
           </el-row>
           <el-row>

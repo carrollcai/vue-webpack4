@@ -120,12 +120,10 @@ export default {
   generateContactIdAPI: API('/esop/organize/contactId'),
   /* 产品管理 */
   // 产品总览
-  getProductListAPI: API('/esop/product/queryProduct'),
   // 产品创建管理
   getProductCreatListAPI: API('/esop/product/queryProductSelf'),
   // 产品详情
   getProductDetailAPI: API('/esop/product/queryDetailProduct'),
-  setAddProductAPI: API('/esop/product/addProduct'),
   setEditProductAPI: API('/esop/product/editProduct'),
   deleteProductAPI: API('/esop/product/deleteProduct'),
   uploadProductSchemeAPI: upload('/esop/elec/upload'), // 订单处理上传任务
@@ -135,6 +133,14 @@ export default {
   downloadUplodFileAPI: download('/esop/elec/download'),
   // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
+  // 新产品接口
+  getProductLibraryAPI: API('/esop/product/queryProductLibrary'),
+  getProductOutOfLibraryAPI: API('/esop/product/queryProductOutOfLibrary'),
+  // 产品创建管理
+  getProductListAPI: API('/esop/product/queryProduct'),
+  setAddProductAPI: API('/esop/product/addProduct'),
+  // 产品审核管理
+  getProductTaskInfo: API('esop/product/queryTaskInfo'),
 
   /**
    * 新增集团客户
@@ -190,6 +196,11 @@ export default {
    * 审核集团客户
    */
   auditCustomerAPI: API('/esop/organize/moveNode'),
+
+  /**
+   * 标签库查询
+   */
+  tagLibraryAPI: API('/esop/organize/queryLabel'),
 
   /**
    * 查询客户需求列表

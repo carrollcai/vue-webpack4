@@ -95,6 +95,36 @@ const actions = {
         path: '/product/product-creat-manage'
       });
     });
+  },
+  /**
+   * 查询产品库（已入库）
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getProductLibrary: ({ commit }, params) => {
+    return API.getProductLibraryAPI(params).then((res) => {
+      commit(types.PRODUCT_LIBRARY_LIST, res.data);
+    });
+  },
+  /**
+   * 查询产品库（已入库）
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getProductOutOfLibrary: ({ commit }, params) => {
+    return API.getProductOutOfLibraryAPI(params).then((res) => {
+      commit(types.PRODUCT_OUTOF_LIBRARY_LIST, res.data);
+    });
+  },
+  /**
+   * 产品审核管理列表查询
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getProductTaskInfo: ({ commit }, params) => {
+    return API.getProductTaskInfoAPI(params).then((res) => {
+      commit(types.PRODUCT_TASK_INFO_LIST, res.data);
+    });
   }
 };
 

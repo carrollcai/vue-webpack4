@@ -22,7 +22,7 @@
             <el-input v-model="otherField" clearable placeholder="集团名称/编码" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width" prop="tagName">
-            <el-input v-model="tagName" clearable placeholder="集团标签" />
+            <el-input v-model="label" clearable placeholder="集团标签" />
           </el-form-item>
         </div>
 
@@ -43,13 +43,13 @@
           <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
           <el-table-column label="集团名称" property="organizeName" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column label="集团属性" property="organizeTypeName" >
+          <el-table-column label="集团属性" property="organizeTypeName" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="集团标签" >
+          <el-table-column label="集团标签" property="label" show-overflow-tooltip>
           </el-table-column>
           <!--<el-table-column label="所属省份" property="provinceName">
           </el-table-column>-->
-          <el-table-column label="客户经理" property="managerName" />
+          <el-table-column label="客户经理" property="managerName" show-overflow-tooltip/>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
@@ -93,6 +93,7 @@ export default {
       'overviewQuery.provinceId',
       'overviewQuery.managerName',
       'overviewQuery.otherField',
+      'overviewQuery.label',
       'overviewQuery.pageNo',
       'overviewQuery.pageSize'
     ])
@@ -127,7 +128,8 @@ export default {
         organizeType,
         provinceId,
         managerName,
-        otherField
+        otherField,
+        label
       } = this;
 
       return {
@@ -136,7 +138,8 @@ export default {
         organizeType,
         provinceId,
         managerName,
-        otherField
+        otherField,
+        label
       };
     },
     ...mapActions([

@@ -31,8 +31,8 @@
 
 <script>
 /*
-* 公共的进度流程封装
-*/
+ * 公共的进度流程封装
+ */
 export default {
   props: {
     businessToOrderId: {

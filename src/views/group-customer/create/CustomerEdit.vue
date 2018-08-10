@@ -12,13 +12,13 @@
         <step title="集团联系人"></step>
         <step title="指定客户经理"></step>
       </steps>
-      <el-form :model="customer"
+      <el-form :model="customer" :inline="true"
         v-if="isFirstStep()"
         ref="baseForm"
         :rules="baseInfoRules"
         label-width="130px"
         key="baseForm">
-          <div class="base-info">
+          <div class="customer-create-info">
             <el-form-item label="集团名称" prop="organizeName" key="name">
               <el-input v-model="customer.organizeName"
                 :maxlength="25"
@@ -35,31 +35,6 @@
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="成立日期" prop="establishTime" key="establishTime">
-              <el-date-picker
-                v-model="customer.establishTime"
-                type="date"
-                :editable="false"
-                :clearable="false"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="dateOptions"
-                placeholder="请选择成立日期">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="所属省份" prop="provinceId" key="provinceId">
-              <el-select
-                key="province-select"
-                v-model="customer.provinceId"
-                disabled
-                placeholder="请选择所属省份">
-                <el-option
-                  v-for="(item, i) in provinces"
-                  :key="i"
-                  :label="item.value"
-                  :value="item.key">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -102,31 +77,174 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="所属省份" prop="provinceId" key="provinceId">
+              <el-select
+                key="province-select"
+                v-model="customer.provinceId"
+                disabled
+                placeholder="请选择所属省份">
+                <el-option
+                  v-for="(item, i) in provinces"
+                  :key="i"
+                  :label="item.value"
+                  :value="item.key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="公司标签" key="companyTag">
+              <!--{{customer.label}}-->
+              <el-popover :width="598" :visible-arrow="false" placement="bottom-start" trigger="focus">
+                <div class="custComTip">
+                  推荐 :<el-tag :key="rec" v-for="rec in tagLibraryList" @click.native="add(rec)">{{rec}}</el-tag>
+                </div>
+                <div class="input tags-wrap form-input-624" slot="reference" @focus="changeFocus">
+                  <el-tag :key="tag" v-for="tag in dis_source" closable :disable-transitions="false" @close="delTag(tag)">{{tag}}</el-tag>
+                  <span v-if="isShowPlaceHolder" class="customerTipText" @click="changeFocus">添加相关标签，用逗号或回车分隔</span>
+                  <input @focus="changeFocus" ref="custComInput" class="tags-input" type="text" v-model="text" @keyup.enter="add(text)" @input="change(text)" @keyup.delete="del()">
+                </div>
+              </el-popover>
+            </el-form-item>
+            <el-form-item label="详细地址" prop="orgAddress" key="orgAddress">
+              <el-input class="form-input-624" v-model="customer.orgAddress"
+                :maxlength="50"
+                placeholder="请输入详细地址"
+                key="orgAddress-input"></el-input>
+            </el-form-item>
             <el-form-item label="优势能力" prop="orgAdvantage" key="orgAdvantage">
-              <el-input v-model="customer.orgAdvantage"
+              <el-input class="form-input-624" v-model="customer.orgAdvantage"
                 :maxlength="500"
                 type="textarea"
                 placeholder="请输入优势能力"
                 key="orgAdvantage-input"></el-input>
             </el-form-item>
+            <!--<el-form-item label="成立日期" prop="establishTime" key="establishTime">
+              <el-date-picker
+                v-model="customer.establishTime"
+                type="date"
+                :editable="false"
+                :clearable="false"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                :picker-options="dateOptions"
+                placeholder="请选择成立日期">
+              </el-date-picker>
+            </el-form-item>-->
             <el-form-item label="经营范围" prop="businessScope" key="Business-Scope">
-              <el-input v-model="customer.businessScope"
+              <el-input class="form-input-624" v-model="customer.businessScope"
                 :maxlength="500"
                 type="textarea"
                 placeholder="请输入经营范围"
                 key="businessScope-input"></el-input>
             </el-form-item>
-            <el-form-item label="详细地址" prop="orgAddress" key="orgAddress">
-              <el-input v-model="customer.orgAddress"
-                :maxlength="50"
-                placeholder="请输入详细地址"
-                key="orgAddress-input"></el-input>
-            </el-form-item>
           </div>
           <div class="not-required">
-            <span class="not-required_text">以下为非必填项</span>
+            <span class="not-required_text" @click.stop="isShow">添加公司证件信息(非必填)
+              <i class="el-icon el-icon-arrow-down" :class="open === 'true' ? 'el-icon-arrow-up' : ''"></i>
+            </span>
+          </div>
+          <div class="base-optional-info" v-if="open === 'true'">
+            <el-form-item label="证件类型" key="certificateType">
+              <el-select v-model="customer.certificateType"
+                clearable
+                key="certificateType-select"
+                placeholder="请选择证件类型">
+                <el-option
+                  v-for="item in CERTIFICATE_TYPE"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="注册资金类型" key="registerFundType">
+              <el-select v-model="customer.registerFundType"
+                clearable
+                key="registerFundType-select"
+                placeholder="请选择注册资金类型">
+                <el-option
+                  v-for="item in REGISTER_FUND_TYPE"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="工商注册号" prop="registerNum" key="registeNum">
+              <el-input v-model="customer.registerNum"
+                placeholder="请输入工商注册号"
+                :maxlength="13"
+                key="registerNum-input"></el-input>
+            </el-form-item>
+            <el-form-item label="成立时间" key="setupTime">
+              <el-date-picker
+                v-model="customer.establishTime"
+                type="date"
+                :editable="false"
+                :picker-options="dateOptions"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择成立时间">
+              </el-date-picker>
+              <!--<el-input v-model="customer.registerNum"
+                placeholder="请输入工商注册号"
+                :maxlength="13"
+                key="registerNum-input"></el-input>-->
+            </el-form-item>
+            <el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
+              <el-input v-model="customer.organizeRepresent"
+                placeholder="8位数字+1位校验码"
+                key="registerNum-input"></el-input>
+            </el-form-item>
+            <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
+              <el-input
+              v-model="customer.socialCreditCode"
+              placeholder="请输入统一社会信用代码"
+              :maxlength="18"
+              key="socialCreditCode-input"></el-input>
+            </el-form-item>
+            <el-form-item label="发证日期" key="Licence-date">
+              <el-date-picker
+                v-model="customer.openTime"
+                type="date"
+                :editable="false"
+                :picker-options="dateOptions"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择发证日期">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="登记机关" key="registrateOrg">
+              <el-input v-model="customer.registrateOrg"
+                :maxlength="20"
+                placeholder="请输入登记机关"
+                key="registrateOrg-input"></el-input>
+            </el-form-item>
+            <!--<el-form-item label="注册资金" prop="registerFund" key="registerFund">
+              <el-input v-model="customer.registerFund" placeholder="请输入注册资金" key="registerFund-input">
+                <template slot="append">万元</template>
+              </el-input>
+            </el-form-item>-->
+            <el-form-item label="经营期限" prop="businessTerm" key="operation-term">
+              <el-input v-model="customer.businessTerm"
+                :maxlength="3"
+                placeholder="请输入经营期限" key="operation-input">
+                <template slot="append">年</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="证件地址" key="Licence-address">
+              <el-input v-model="customer.certificateAddress"
+                :maxlength="50"
+                placeholder="请输入证件地址"
+                key="licenceAddress-input"></el-input>
+            </el-form-item>
+            <!--<el-form-item>
+              <el-button type="primary" @click="toSecondStep">下一步</el-button>
+            </el-form-item>-->
           </div>
           <div class="base-optional-info">
+            <el-form-item style="width:645px;"></el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="toSecondStep">下一步</el-button>
+            </el-form-item>
+          </div>
+          <!--<div class="base-info" v-if="open === 'true'">
             <el-form-item label="工商注册号" prop="registerNum" key="registeNum">
               <el-input v-model="customer.registerNum"
                 placeholder="请输入工商注册号"
@@ -203,7 +321,7 @@
             <el-form-item>
               <el-button type="primary" @click="toSecondStep">下一步</el-button>
             </el-form-item>
-          </div>
+          </div>-->
       </el-form>
       <div class="second-step" v-if="isSecondStep()">
         <el-table
@@ -320,19 +438,35 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import mixins from './mixins';
 import filters from '../filters';
 export default {
   name: 'CustomerEdit',
   mixins: [mixins, filters],
+  data() {
+    return {
+      text: '',
+      dis_source: [],
+      recommend: ['金融', '生产', '互联网噶噶'],
+      open: 'false',
+      isShowPlaceHolder: true,
+      isLastflag: false
+    };
+  },
+  beforeMount() {
+    this.getTagLibrary({pageSize: '5', pageNo: '1'});
+  },
   created() {
     this.init();
   },
   computed: {
     customer() {
       return this.$store.getters.groupCustomer;
-    }
+    },
+    ...mapState({
+      tagLibraryList: ({ groupCustomer }) => groupCustomer.tagLibraryList
+    })
   },
   methods: {
     isApproveble() {
@@ -354,15 +488,102 @@ export default {
       });
     },
     init() {
-      this.queryCustomerSnapshot(this.$route.params.id);
+      this.queryCustomerSnapshot(this.$route.params.id).then(res => {
+        if (res.label) {
+          this.isShowPlaceHolder = false;
+          let tags = res.label.toString();
+          let tag = tags.split('#');
+          this.dis_source = tag.slice(1);
+        } else {
+          this.isShowPlaceHolder = true;
+        }
+      });
+    },
+    add(text) {
+      if (this.dis_source.length >= 5) {
+        this.$message.error('最多添加5个标签');
+      } else {
+        if (text !== '') {
+          this.dis_source.push(text);
+          this.text = '';
+        }
+      }
+      this.customer.label = this.transLabel(this.dis_source);
+    },
+    change(text) {
+      this.isLastflag = false;
+      if (text !== '') {
+        this.isLastflag = false;
+        if (text.length > 5) {
+          if (text.slice(5, 6) !== ',' && text.slice(5, 6) !== '，') {
+            this.text = text.slice(0, 5);
+          }
+        }
+        if (text.indexOf(',') !== -1 || text.indexOf('，') !== -1) {
+          this.dis_source.push(text);
+          this.text = '';
+        }
+      } else {
+      }
+    },
+    delTag(tag) {
+      this.dis_source.splice(this.dis_source.indexOf(tag), 1);
+      this.customer.label = this.transLabel(this.dis_source);
+    },
+    del() {
+      if (this.text === '') {
+        if (this.isLastflag) {
+          if (this.dis_source.length !== 0) {
+            this.dis_source.splice(-1, 1);
+          } else {
+            this.isLastflag = false;
+          }
+        } else {
+          this.isLastflag = true;
+        }
+      } else {
+        this.isLastflag = false;
+      }
+    },
+    isShow() {
+      this.open = this.open === 'true' ? 'false' : 'true';
+    },
+    changeFocus() {
+      this.isShowPlaceHolder = false;
+      this.$refs.custComInput.focus();
+    },
+    transLabel(arr) {
+      let str = '';
+      for (let i = 0; i < arr.length; i++) {
+        str += '#' + arr[i];
+      }
+      return str;
     },
     ...mapActions([
       'updateCustomer',
       'editApproveCustomer',
-      'queryCustomerSnapshot'
+      'queryCustomerSnapshot',
+      'getTagLibrary'
     ])
   }
 };
 </script>
 <style lang="scss" src="./style.scss">
+</style>
+<style lang="scss">
+.custComTip {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+  .el-tag {
+    margin-left: 8px;
+    height: 21px;
+    line-height: 18px;
+  }
+  .el-popper[x-placement^="bottom"] {
+    margin-top: 0px;
+  }
+}
+.customerTipText {
+  float: left;height: 20px;line-height:20px;color:#C0C4CC;
+}
 </style>
