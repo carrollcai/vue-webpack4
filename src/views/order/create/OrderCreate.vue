@@ -13,7 +13,7 @@
         <el-form-item label="订单名称：" prop="ordName">
           <el-input class="form-input-medium" v-model="orderCreate.ordName" placeholder="订单名称" />
         </el-form-item>
-        <el-form-item label="预定合同金额：" prop="predictContractAmount">
+        <el-form-item label="预计收入：" prop="predictContractAmount">
           <el-input class="form-input-medium" v-model="orderCreate.predictContractAmount" placeholder="合同金额">
             <template slot="append">万元</template>
           </el-input>
@@ -62,11 +62,11 @@
         <el-form-item label="订购产品：" prop="productName">
           <el-autocomplete class="form-input-large" v-model="orderCreate.productName" :fetch-suggestions="queryProductAsync" placeholder="订购产品" @select="handleProductSelect" :trigger-on-focus="false" />
         </el-form-item>
-        <el-form-item label="订单描述：" prop="busiDesc">
-          <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiDesc" placeholder="订单描述" />
+        <el-form-item label="业务描述：" prop="busiDesc">
+          <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiDesc" placeholder="请输入描述" />
         </el-form-item>
-        <el-form-item label="订单需求：" prop="busiRequire">
-          <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiRequire" placeholder="订单需求" />
+        <el-form-item label="合作方案：" prop="busiRequire">
+          <el-input type="textarea" class="form-input-large" v-model="orderCreate.busiRequire" placeholder="请输入描述" />
         </el-form-item>
 
         <el-form-item>

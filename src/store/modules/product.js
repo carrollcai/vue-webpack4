@@ -20,7 +20,9 @@ const state = {
     position: '',
     salesList: []
   },
-  saleStep: {}
+  saleStep: {},
+  productLibraryList: '',
+  productOutofLibraryList: ''
 };
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
@@ -43,6 +45,12 @@ const mutations = {
   },
   [types.SAVE_SALE_STEP](state, data) {
     state.saleStep = data;
+  },
+  [types.PRODUCT_LIBRARY_LIST](state, data) {
+    state.productLibraryList = data;
+  },
+  [types.PRODUCT_OUTOF_LIBRARY_LIST](state, data) {
+    state.productOutofLibraryList = data;
   }
 };
 

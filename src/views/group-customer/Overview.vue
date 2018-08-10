@@ -22,7 +22,7 @@
             <el-input v-model="otherField" clearable placeholder="集团名称/编码" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width" prop="tagName">
-            <el-input v-model="tagName" clearable placeholder="集团标签" />
+            <el-input v-model="label" clearable placeholder="集团标签" />
           </el-form-item>
         </div>
 
@@ -93,6 +93,7 @@ export default {
       'overviewQuery.provinceId',
       'overviewQuery.managerName',
       'overviewQuery.otherField',
+      'overviewQuery.label',
       'overviewQuery.pageNo',
       'overviewQuery.pageSize'
     ])
@@ -127,7 +128,8 @@ export default {
         organizeType,
         provinceId,
         managerName,
-        otherField
+        otherField,
+        label
       } = this;
 
       return {
@@ -136,7 +138,8 @@ export default {
         organizeType,
         provinceId,
         managerName,
-        otherField
+        otherField,
+        label
       };
     },
     ...mapActions([

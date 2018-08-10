@@ -5,12 +5,160 @@
       <span class="comment-title_sub">（可添加多个联系人，且多个联系人之间需要设置上下级关系）</span>
     </div>
     <div class="form-wrapper">
-      <el-form
+      <el-form :inline="true"
         :model="contact"
         :rules="rules"
         ref="baseForm"
-        label-width="80px">
+        label-width="130px">
         <div class="contact-base-info">
+          <el-form-item class="col-item" prop="name" key="contact-name1" label="姓名">
+            <el-input class="col-input"
+              v-model="contact.name"
+              placeholder="姓名"
+              :maxlength="6"
+              key="contact-name-input"></el-input>
+          </el-form-item>
+          <el-form-item class="col-item" prop="birthDate" key="birthDate" label="出生年月">
+            <el-date-picker class="col-input"
+              v-model="contact.birthDate"
+              type="month"
+              placeholder="选择出生年月">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item class="col-item" label="性别" prop="gender" key="contact-gender">
+            <el-radio-group v-model="contact.gender"
+              key="contact-gender-input">
+              <el-radio :label="item.value" v-for="(item, index) in GENDER" :key="index">{{item.label}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item class="col-item" label="婚姻状况" prop="maritalStatus" key="contact-maritalStatus">
+            <el-radio-group v-model="contact.maritalStatus"
+              key="contact-maritalStatus-radio">
+              <el-radio :label="item.value" v-for="(item, index) in MARITAL_STATUS" :key="index">{{item.label}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item class="col-item" prop="nativePlace" key="nativePlace" label="籍贯">
+            <el-input class="col-input"
+              v-model="contact.nativePlace"
+              placeholder="如“江苏南京”"
+              key="nativePlace"></el-input>
+          </el-form-item>
+          <el-form-item class="col-item" prop="graduateColleges" key="graduateColleges" label="毕业院校">
+            <el-input class="col-input"
+              v-model="contact.graduateColleges"
+              placeholder="如“江苏大学-机电学院”"
+              :maxlength="15"
+              key="graduateColleges"></el-input>
+          </el-form-item>
+          <el-form-item class="col-item" prop="department" key="contact-dept" label="部门">
+            <el-input class="col-input"
+              v-model="contact.department"
+              placeholder="请输入部门"
+              :maxlength="15"
+              key="contact-dept-input"></el-input>
+          </el-form-item>
+          <el-form-item class="col-item" prop="position" key="contact-position" label="职位">
+            <el-input class="col-input"
+              v-model="contact.position"
+              placeholder="请输入职位"
+              :maxlength="15"
+              key="contact-duty-input"></el-input>
+          </el-form-item>
+          <el-form-item class="col-item" label="手机号码" prop="mobile" key="contact-mobile">
+            <el-input class="col-input"
+              v-model="contact.mobile"
+              placeholder="请输入手机号码"
+              :maxlength="11"
+              key="contact-mobile-input"></el-input>
+          </el-form-item>
+          <!--<el-form-item prop="department" key="contact-dept" label="部门">
+            <el-input class="col-input"
+              v-model="contact.department"
+              placeholder="请输入部门"
+              :maxlength="15"
+              key="contact-dept-input"></el-input>
+          </el-form-item>-->
+          <!--<el-form-item prop="age" key="contact-age" label="年龄">
+              <el-select
+              class="col-input"
+              v-model="contact.age"
+              placeholder="年龄"
+              key="contact-age-select">
+              <el-option v-for="item in AGE"
+                :key="item.value"
+                :value="item.value"
+                :label="item.label" ></el-option>
+              </el-select>
+            </el-form-item>-->
+          <el-form-item class="col-item" label="邮箱" prop="email" key="contact-email">
+            <el-input class="col-input"
+              v-model="contact.email"
+              placeholder="请输入邮箱"
+              :maxlength="35"
+              key="contact-email-input"></el-input>
+          </el-form-item>
+          <el-form-item label="备注" prop="note" key="note">
+            <el-input class="form-input-610" v-model="contact.note"
+              type="textarea"
+              placeholder="请输入备注"
+              :maxlength="500"
+              key="note"></el-input>
+          </el-form-item>
+          <el-form-item label="管理范畴" prop="manageScope" key="manageScope-scope">
+            <el-input class="form-input-610" v-model="contact.manageScope"
+              type="textarea"
+              placeholder="请输入管理范畴"
+              :maxlength="500"
+              key="manageScope-input"></el-input>
+          </el-form-item>
+          <el-form-item label="工作职责" prop="responsibility" key="contact-responsibility">
+            <el-input class="form-input-610" v-model="contact.responsibility"
+              type="textarea"
+              placeholder="请输入工作职责"
+              :maxlength="500"
+              key="contact-responsibility-input"></el-input>
+          </el-form-item>
+          <el-form-item label="兴趣爱好" key="contact-interests">
+            <el-input class="form-input-610" v-model="contact.interests"
+              type="textarea"
+              placeholder="请输入兴趣爱好"
+              :maxlength="100"
+              key="contact-interests-input"></el-input>
+          </el-form-item>
+          <el-form-item label="家庭成员" key="family-member" style="width: 740px;">
+            <template v-if="contact.contactFamilyDtoList.length === 0">
+              <div @click="addFamilyContact" class="btn_add_family-contact">
+                <i class="el-icon-plus"></i> 添加成员
+              </div>
+              <!--<div class="family-member_comment">
+                如集团内有家属员工，请填写此项，无则不填
+              </div>-->
+            </template>
+            <template v-else>
+              <div class="family-contact" v-for="(familyContact, index) of contact.contactFamilyDtoList" :key="index">
+                <family-contact :family-contact="familyContact" :index="index"></family-contact>
+                <div>
+                  <i class="el-icon-delete" @click="removeFamilyContact(index)"></i>
+                </div>
+              </div>
+              <div @click="addFamilyContact" class="btn_add_family-contact">
+                <i class="el-icon-plus"></i> 继续添加成员
+              </div>
+            </template>
+          </el-form-item>
+          <el-form-item label="可见范围" prop="visibleRange" key="visible-range">
+            <el-select
+            class="col-input"
+            v-model="contact.visibleRange"
+            placeholder="可见范围"
+            key="contact-age-select">
+            <el-option v-for="item in visibleStatus"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label" ></el-option>
+            </el-select>
+          </el-form-item>
+          <!--<hr/>
           <el-form-item
             label="基本信息"
             required
@@ -132,9 +280,6 @@
               <div @click="addFamilyContact" class="btn_add_family-contact">
                 <i class="el-icon-plus"></i> 添加成员
               </div>
-              <!--<div class="family-member_comment">
-                如集团内有家属员工，请填写此项，无则不填
-              </div>-->
             </template>
             <template v-else>
               <div class="family-contact" v-for="(familyContact, index) of contact.contactFamilyDtoList" :key="index">
@@ -159,11 +304,9 @@
               :value="item.value"
               :label="item.label" ></el-option>
             </el-select>
-          </el-form-item>
-          <!--<el-form-item label="可见范围" key="visible-range">
           </el-form-item>-->
         </div>
-        <el-form-item>
+        <el-form-item style="margin-left: 130px">
           <el-button size="mini" type="primary" @click="saveContact">确定</el-button>
           <el-button size="mini" type="primary" @click="cancel">取消</el-button>
         </el-form-item>
@@ -240,6 +383,9 @@ export default {
         responsibility: [
           { required: true, message: '请输入工作职责', trigger: 'blur' },
           { validator: emptyValidator, trigger: 'blur' }
+        ],
+        visibleRange: [
+          { required: true, message: '请选择可见范围', trigger: 'change' }
         ]
       }
     };
@@ -301,10 +447,13 @@ $form-item-width: $formLargeWidth;
     .full-col, .el-textarea{
       width: $form-item-width;
     }
+    .el-select, .el-radio-group {
+      width: 202px;
+    }
 
     .col-item {
       & > .el-form-item__content{
-        width: $form-item-width;
+        width: 230px;
       }
     }
   }
@@ -319,6 +468,7 @@ $form-item-width: $formLargeWidth;
 
   .line{
     width: 9px;
+    margin-right: 9px;
     height: 1px;
     border-top: 1px solid  $line-color;
   }
@@ -355,7 +505,7 @@ $form-item-width: $formLargeWidth;
     margin: 24px auto;
   }
   .btn_add_family-contact{
-      width: $form-item-width;
+      width: 610px;
       height: 32px;
       line-height: 32px;
       padding-left: 16px;

@@ -1,5 +1,7 @@
 <template>
-  <div>这是需要我处理的审批详情查看</div>
+  <div>
+    这是系统全局配置
+  </div>
 </template>
 
 <script>
@@ -9,5 +11,4 @@ export default {
 </script>
 
 <style>
-
 </style>

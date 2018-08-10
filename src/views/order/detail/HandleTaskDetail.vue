@@ -27,10 +27,22 @@
       </div>
       <div v-if="routeType === 'pay' || routeType === 'sign'" class="detail-line"></div>
 
-      <el-form class="handle-task-detail-form" label-width="112px" ref="assign" v-if="routeType === 'sign'" :model="assignForm" :rules="assignRules">
+      <el-form class="handle-task-detail-form"
+      label-width="112px"
+      ref="assign"
+      v-if="routeType === 'sign'"
+      :model="assignForm"
+      :rules="assignRules">
         <el-form-item label="处理结果：">
           <el-radio v-model="assignForm.status" :label="1">完成签约</el-radio>
           <el-radio v-model="assignForm.status" :label="0">客户取消</el-radio>
+        </el-form-item>
+        <el-form-item label="签约时间：" v-if="assignForm.status === 1">
+          <el-date-picker class="form-input-large"
+          v-model="assignForm.time"
+          type="date"
+          format="yyyy-MM-dd"
+          :editable="false" />
         </el-form-item>
         <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files" required>
           <!-- accept属性不能完全支持 -->
@@ -44,7 +56,14 @@
             </div>
           </el-upload>
         </el-form-item>
-        <el-form-item v-else label="取消原因：" prop="dealResult">
+        <el-form-item label="是否落收反馈：" v-if="assignForm.status === 1">
+          <el-radio v-model="assignForm.status" :label="1">是</el-radio>
+          <el-radio v-model="assignForm.status" :label="0">否</el-radio>
+        </el-form-item>
+        <el-form-item v-if="assignForm.status === 1" label="备注：" prop="dealResult">
+          <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
+        </el-form-item>
+        <el-form-item v-if="assignForm.status !== 1" label="取消原因：" prop="dealResult">
           <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
         </el-form-item>
         <el-form-item>

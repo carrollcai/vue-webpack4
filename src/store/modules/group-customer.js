@@ -27,7 +27,8 @@ const state = {
     organizeType: '',
     provinceId: '',
     managerName: '',
-    otherField: ''
+    otherField: '',
+    label: ''
   },
   createQuery: {
     pageNo: PAGE_NO,
@@ -36,7 +37,7 @@ const state = {
     provinceId: '',
     managerName: '',
     otherField: '',
-    activeName: 'second'
+    activeName: 'first'
   },
   auditQuery: {
     pageNo: PAGE_NO,
@@ -47,7 +48,8 @@ const state = {
     otherField: '',
     businessStatus: '',
     activeName: 'first'
-  }
+  },
+  tagLibraryList: ''
 };
 
 const mutations = {
@@ -75,7 +77,10 @@ const mutations = {
   [types.GROUP_CUSTOMER_PROCESSES](state, data) {
     state.processes = data;
   },
-  updateCustomerField
+  updateCustomerField,
+  [types.TAG_LIBRARY_LIST](state, data) {
+    state.tagLibraryList = data;
+  }
 };
 
 const getters = {

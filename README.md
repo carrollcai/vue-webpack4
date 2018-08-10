@@ -63,6 +63,9 @@ npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
+
+# pull out common package preview
+npm run dll
 ```
 
 ### 注意点

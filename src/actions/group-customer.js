@@ -254,6 +254,14 @@ const actions = {
     }, () => {
       commit(types.GROUP_CUSTOMER_PROCESSES, []);
     });
+  },
+  /**
+   * 查询标签库信息
+   */
+  getTagLibrary({commit}, params) {
+    API.tagLibraryAPI(params).then(res => {
+      commit(types.TAG_LIBRARY_LIST, res.data);
+    });
   }
 };
 

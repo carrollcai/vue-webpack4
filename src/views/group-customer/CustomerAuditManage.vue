@@ -49,7 +49,7 @@
         </el-table-column>
         <!--<el-table-column label="所属省份" property="provinceId">
         </el-table-column>-->
-        <el-table-column label="创建人" />
+        <el-table-column label="创建人" property="operatorName"/>
         <el-table-column label="审核状态" property="businessStatus" />
         <el-table-column label="操作">
           <template slot-scope="scope">

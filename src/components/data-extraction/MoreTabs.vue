@@ -1,46 +1,47 @@
 <template>
   <div class="tabs">
-    <div :class="opened==='true' ? 'tab-more blue' : 'tab-more'" @click.stop="isShow">
-      更多 <i class="el-icon el-icon-arrow-down" :class="opened === 'true' ? 'el-table__expand-icon--expanded' : ''"></i>
+    <div class="tab-more" :class="isOpen ? 'blue' : ''" @click.stop="isShow">
+      更多 <i class="el-icon el-icon-arrow-down" :class="isOpen ? 'el-table__expand-icon--expanded' : ''"></i>
     </div>
-    <div v-if="opened === 'true'" class="open-tabs">
+    <div v-if="String(isOpen) === 'true'" class="open-tabs">
       <p :class="statusData === item.value ? 'blue' : ''" v-for="item in stateList" :key="item.value" @click="getState(item)">{{statusDatas}}{{item.name}}</p>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   props: {
     statusData: {
       type: Number
+    },
+    isOpen: {
+      type: Boolean
     }
   },
   data() {
     return {
-      open: (this.statusData === 4 || this.statusData === 5) ? 'true' : 'false',
-      index: null,
       stateList: [
         {value: 3, name: '审核不通过'},
         {value: 4, name: '已取消'}
       ]
     };
   },
-  computed: {
-    opened() {
-      return this.open;
-    }
-  },
   methods: {
     isShow() {
-      this.open = this.open === 'true' ? 'false' : 'true';
+      if (this.isOpen) {
+        this.isOpen = false;
+      } else {
+        this.isOpen = true;
+      }
     },
     getState(item) {
-      this.index = item.value;
       this.$emit('getStateFn', item.value);
     }
   }
 };
 </script>
+
 <style lang="scss">
 .tab-bar {
   margin: 0;

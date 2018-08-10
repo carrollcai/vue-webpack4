@@ -48,15 +48,15 @@
       :pageSize="formData.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
-        <el-table-column label="产品编码" show-overflow-tooltip width="180" property="productCode">
+        <el-table-column label="产品编码" show-overflow-tooltip property="productCode">
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
         </el-table-column>
-        <el-table-column label="产品类别" property="productType" width="90" :formatter="productTypeFn">
+        <el-table-column label="产品类别" property="productType" :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="创建人" show-overflow-tooltip width="180" property="createName">
+        <el-table-column label="创建人" show-overflow-tooltip property="createName">
         </el-table-column>
-        <el-table-column label="产品状态" show-overflow-tooltip width="180" property="productStatus">
+        <el-table-column label="产品状态" show-overflow-tooltip property="productStatus">
         </el-table-column>
         <el-table-column label="操作" width="160">
           <template slot-scope="operation">
@@ -114,7 +114,7 @@ export default {
     };
   },
   beforeMount() {
-    this.getProductCreatList({ pageNo: 1, pageSize: 20 });
+    this.getProductList({ pageNo: 1, pageSize: 20 });
   },
   computed: {
     ...mapState({
@@ -192,6 +192,7 @@ export default {
       return columnValue === '0' ? '个人市场' : '政企市场';
     },
     ...mapActions([
+      'getProductList',
       'getProductCreatList',
       'getComposedProduct',
       'setdeleteProduct'
