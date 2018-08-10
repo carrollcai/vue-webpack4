@@ -431,8 +431,10 @@ export default {
           this.text = '';
         }
       }
+      this.customer.label = this.transLabel(this.dis_source);
     },
     change(text) {
+      this.isLastflag = false;
       if (text !== '') {
         this.isLastflag = false;
         if (text.length > 5) {
@@ -447,11 +449,11 @@ export default {
           this.text = '';
         }
       } else {
-        this.isLastflag = true;
       }
     },
     delTag(tag) {
       this.dis_source.splice(this.dis_source.indexOf(tag), 1);
+      this.customer.label = this.transLabel(this.dis_source);
     },
     del() {
       if (this.text === '') {
@@ -475,6 +477,13 @@ export default {
       this.isShowPlaceHolder = false;
       this.$refs.custComInput.focus();
     },
+    transLabel(arr) {
+      let str = '';
+      for (let i = 0; i < arr.length; i++) {
+        str += '#' + arr[i].text;
+      }
+      return str;
+    },
     ...mapActions(['createCustomer', 'createApproveCustomer', 'getTagLibrary'])
   }
 };
@@ -494,6 +503,6 @@ export default {
   }
 }
 .customerTipText {
-  float: left;height: 20px;line-height:20px;color:#dadada;
+  float: left;height: 20px;line-height:20px;color:#C0C4CC;
 }
 </style>

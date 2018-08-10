@@ -115,6 +115,16 @@ const actions = {
     return API.getProductOutOfLibraryAPI(params).then((res) => {
       commit(types.PRODUCT_OUTOF_LIBRARY_LIST, res.data);
     });
+  },
+  /**
+   * 产品审核管理列表查询
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getProductTaskInfo: ({ commit }, params) => {
+    return API.getProductTaskInfoAPI(params).then((res) => {
+      commit(types.PRODUCT_TASK_INFO_LIST, res.data);
+    });
   }
 };
 

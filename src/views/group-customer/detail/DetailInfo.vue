@@ -43,7 +43,7 @@
         <el-row>
           <el-col :span="24">
             <span class="info_label">公司标签：</span>
-            <div class="info_content">#金融 #互联网 #计算机软件</div>
+            <div class="info_content">{{customer.label}}</div>
           </el-col>
         </el-row>
          <el-row>
@@ -152,8 +152,8 @@
                 <el-form-item label="部门">
                   <span>{{ props.row.department }}</span>
                 </el-form-item>
-                <el-form-item label="年龄">
-                  <span>{{ props.row.ageValue }}</span>
+                <el-form-item label="出生年月">
+                  <span>{{ props.row.birthDate }}</span>
                 </el-form-item>
                 <el-form-item label="职位">
                   <span>{{ props.row.position }}</span>
@@ -270,7 +270,7 @@ export default {
       let result = '';
       if (contacts && contacts.length) {
         for (let contact of contacts) {
-          result += `${contact.name}，${contact.relationship}，${contact.jobDuty}，${contact.mobile}；`;
+          result += `${contact.name}，${contact.relationship}，${contact.remark}；`;
         }
       }
 

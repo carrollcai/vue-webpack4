@@ -22,6 +22,8 @@
             <el-date-picker class="col-input"
               v-model="contact.birthDate"
               type="month"
+              format="yyyy.MM"
+              value-format="yyyy.MM"
               placeholder="选择出生年月">
             </el-date-picker>
           </el-form-item>
@@ -450,7 +452,9 @@ $form-item-width: $formLargeWidth;
     .el-select, .el-radio-group {
       width: 202px;
     }
-
+    .el-date-editor {
+      width: 230px;
+    }
     .col-item {
       & > .el-form-item__content{
         width: 230px;

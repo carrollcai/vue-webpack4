@@ -22,7 +22,8 @@ const state = {
   },
   saleStep: {},
   productLibraryList: '',
-  productOutofLibraryList: ''
+  productOutofLibraryList: '',
+  productTaskInfoList: ''
 };
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
@@ -51,6 +52,9 @@ const mutations = {
   },
   [types.PRODUCT_OUTOF_LIBRARY_LIST](state, data) {
     state.productOutofLibraryList = data;
+  },
+  [types.PRODUCT_TASK_INFO_LIST](state, data) {
+    state.productTaskInfoList = data;
   }
 };
 

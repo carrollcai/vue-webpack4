@@ -12,13 +12,13 @@
         <step title="集团联系人"></step>
         <step title="指定客户经理"></step>
       </steps>
-      <el-form :model="customer"
+      <el-form :model="customer" :inline="true"
         v-if="isFirstStep()"
         ref="baseForm"
         :rules="baseInfoRules"
         label-width="130px"
         key="baseForm">
-          <div class="base-info">
+          <div class="customer-create-info">
             <el-form-item label="集团名称" prop="organizeName" key="name">
               <el-input v-model="customer.organizeName"
                 :maxlength="25"
@@ -124,9 +124,108 @@
             </el-form-item>
           </div>
           <div class="not-required">
-            <span class="not-required_text">以下为非必填项</span>
+            <span class="not-required_text" @click.stop="isShow">添加公司证件信息(非必填)
+              <i class="el-icon el-icon-arrow-down" :class="open === 'true' ? 'el-icon-arrow-up' : ''"></i>
+            </span>
           </div>
-          <div class="base-optional-info">
+          <div class="base-info" v-if="open === 'true'">
+            <el-form-item label="证件类型" key="certificateType">
+              <el-select v-model="customer.certificateType"
+                clearable
+                key="certificateType-select"
+                placeholder="请选择证件类型">
+                <el-option
+                  v-for="item in CERTIFICATE_TYPE"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="注册资金类型" key="registerFundType">
+              <el-select v-model="customer.registerFundType"
+                clearable
+                key="registerFundType-select"
+                placeholder="请选择注册资金类型">
+                <el-option
+                  v-for="item in REGISTER_FUND_TYPE"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="工商注册号" prop="registerNum" key="registeNum">
+              <el-input v-model="customer.registerNum"
+                placeholder="请输入工商注册号"
+                :maxlength="13"
+                key="registerNum-input"></el-input>
+            </el-form-item>
+            <el-form-item label="成立时间" key="setupTime">
+              <el-date-picker
+                v-model="customer.openTime"
+                type="date"
+                :editable="false"
+                :picker-options="dateOptions"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择成立时间">
+              </el-date-picker>
+              <!--<el-input v-model="customer.registerNum"
+                placeholder="请输入工商注册号"
+                :maxlength="13"
+                key="registerNum-input"></el-input>-->
+            </el-form-item>
+            <el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
+              <el-input v-model="customer.organizeRepresent"
+                placeholder="8位数字+1位校验码"
+                key="registerNum-input"></el-input>
+            </el-form-item>
+            <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
+              <el-input
+              v-model="customer.socialCreditCode"
+              placeholder="请输入统一社会信用代码"
+              :maxlength="18"
+              key="socialCreditCode-input"></el-input>
+            </el-form-item>
+            <el-form-item label="发证日期" key="Licence-date">
+              <el-date-picker
+                v-model="customer.openTime"
+                type="date"
+                :editable="false"
+                :picker-options="dateOptions"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择发证日期">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="登记机关" key="registrateOrg">
+              <el-input v-model="customer.registrateOrg"
+                :maxlength="20"
+                placeholder="请输入登记机关"
+                key="registrateOrg-input"></el-input>
+            </el-form-item>
+            <!--<el-form-item label="注册资金" prop="registerFund" key="registerFund">
+              <el-input v-model="customer.registerFund" placeholder="请输入注册资金" key="registerFund-input">
+                <template slot="append">万元</template>
+              </el-input>
+            </el-form-item>-->
+            <el-form-item label="经营期限" prop="businessTerm" key="operation-term">
+              <el-input v-model="customer.businessTerm"
+                :maxlength="3"
+                placeholder="请输入经营期限" key="operation-input">
+                <template slot="append">年</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="证件地址" key="Licence-address">
+              <el-input v-model="customer.certificateAddress"
+                :maxlength="50"
+                placeholder="请输入证件地址"
+                key="licenceAddress-input"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="toSecondStep">下一步</el-button>
+            </el-form-item>
+          </div>
+          <!--<div class="base-info" v-if="open === 'true'">
             <el-form-item label="工商注册号" prop="registerNum" key="registeNum">
               <el-input v-model="customer.registerNum"
                 placeholder="请输入工商注册号"
@@ -203,7 +302,7 @@
             <el-form-item>
               <el-button type="primary" @click="toSecondStep">下一步</el-button>
             </el-form-item>
-          </div>
+          </div>-->
       </el-form>
       <div class="second-step" v-if="isSecondStep()">
         <el-table
@@ -326,6 +425,11 @@ import filters from '../filters';
 export default {
   name: 'CustomerEdit',
   mixins: [mixins, filters],
+  data() {
+    return {
+      open: 'false'
+    };
+  },
   created() {
     this.init();
   },
@@ -355,6 +459,9 @@ export default {
     },
     init() {
       this.queryCustomerSnapshot(this.$route.params.id);
+    },
+    isShow() {
+      this.open = this.open === 'true' ? 'false' : 'true';
     },
     ...mapActions([
       'updateCustomer',

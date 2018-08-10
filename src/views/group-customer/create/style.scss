@@ -80,6 +80,7 @@
     outline: 0;
   }
   .input {
+    margin-top: 5px;
     padding: 6px 14px;
     height: 34px;
     line-height: 1;
@@ -87,6 +88,9 @@
     border-radius: 6px;
     box-sizing: border-box;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  }
+  .hover {
+    border: 1px solid #3778FF;
   }
   .tags, .tags-input{
     outline: none;
