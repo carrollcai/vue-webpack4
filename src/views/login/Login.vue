@@ -140,6 +140,13 @@ export default {
           account: loginName,
           password: pwd,
           loginType: LOGIN_TYPE[activeName]
+        }).then((res) => {
+          if (res && res.data && res.data.firstLogin) {
+            this.$message({
+              type: 'warning',
+              message: '首次登录用户，为保证账号安全，请先修改密码'
+            });
+          }
         });
       }
     },
