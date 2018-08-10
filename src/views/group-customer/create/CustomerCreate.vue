@@ -185,9 +185,9 @@
                 :maxlength="13"
                 key="registerNum-input"></el-input>
             </el-form-item>
-            <el-form-item label="成立时间" key="setupTime">
+            <el-form-item label="成立时间" key="establishTime">
               <el-date-picker
-                v-model="customer.openTime"
+                v-model="customer.establishTime"
                 type="date"
                 :editable="false"
                 :picker-options="dateOptions"

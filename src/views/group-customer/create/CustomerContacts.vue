@@ -412,6 +412,16 @@ export default {
     saveContact() {
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
+          let list = this.contact.contactFamilyDtoList;
+          if (list.length > 0) {
+            for (let i = 0; i < list.length; i++) {
+              if (list[i].name && list[i].relationship && list[i].remark) {
+              } else {
+                this.$message({ showClose: true, message: '若填写家庭成员，请填写完整的信息！', type: 'error' });
+                return;
+              }
+            }
+          }
           if (this.index > -1) {
             this.list[this.index] = Object.assign({}, this.contact);
           } else {

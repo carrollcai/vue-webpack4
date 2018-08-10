@@ -176,6 +176,7 @@ const actions = {
       organizeId: customerId
     }).then((res) => {
       commit(types.GROUP_CUSTOMER_DETAIL, res.data);
+      return res.data;
     }, () => {
       commit(types.GROUP_CUSTOMER_DETAIL, {});
     });
