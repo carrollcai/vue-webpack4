@@ -263,6 +263,14 @@ const actions = {
     API.tagLibraryAPI(params).then(res => {
       commit(types.TAG_LIBRARY_LIST, res.data);
     });
+  },
+  /**
+   * 查询集团名称
+   */
+  getGroupName({commit}, params) {
+    API.getGroupNameAPI(params).then(res => {
+      commit(types.GROUP_NAME_LIST, res.data.list);
+    });
   }
 };
 

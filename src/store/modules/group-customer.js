@@ -49,7 +49,8 @@ const state = {
     businessStatus: '',
     activeName: 'first'
   },
-  tagLibraryList: ''
+  tagLibraryList: '',
+  groupNameList: []
 };
 
 const mutations = {
@@ -80,6 +81,9 @@ const mutations = {
   updateCustomerField,
   [types.TAG_LIBRARY_LIST](state, data) {
     state.tagLibraryList = data;
+  },
+  [types.GROUP_NAME_LIST](state, data) {
+    state.groupNameList = data.map(val => Object.assign(val, {value: val.vendorName}));
   }
 };
 

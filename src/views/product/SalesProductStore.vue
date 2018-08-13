@@ -4,14 +4,14 @@
     <el-form :model="formData" class="form-manage">
       <div class="flex">
         <el-form-item>
-          <el-select v-model="formData.productType" clearable placeholder="产品类型">
+          <el-select v-model="salesProductStoreForm.productType" clearable placeholder="产品类型">
             <el-option label="全部" value=""></el-option>
             <el-option label="个人市场" value="0"></el-option>
             <el-option label="政企市场" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="formData.codeValue" clearable placeholder="归属公司">
+          <el-select v-model="salesProductStoreForm.codeValue" clearable placeholder="归属公司">
             <el-option
               v-for="item in ownerShipCompanyList"
               :key="item.value"
@@ -21,7 +21,7 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="formData.mainMarket" clearable placeholder="主营市场">
+          <el-select v-model="salesProductStoreForm.mainMarket" clearable placeholder="主营市场">
             <el-option label="全部" value=""></el-option>
             <el-option label="政企市场" value="0"></el-option>
             <el-option label="家庭市场" value="1"></el-option>
@@ -29,7 +29,7 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
+          <el-input clearable v-model="salesProductStoreForm.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
         </el-form-item>
       </div>
       <div class="flex">
@@ -76,8 +76,8 @@
       <wm-table
       :source="productOutofLibraryList.list"
       :total="productOutofLibraryList.totalCount"
-      :pageNo="formData.pageNo"
-      :pageSize="formData.pageSize"
+      :pageNo="salesProductStoreForm.pageNo"
+      :pageSize="salesProductStoreForm.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
         <el-table-column type="selection" width="55">
@@ -111,8 +111,8 @@
     <wm-table
       :source="productLibraryList.list"
       :total="productLibraryList.totalCount"
-      :pageNo="formData.pageNo"
-      :pageSize="formData.pageSize"
+      :pageNo="salesProductStoreForm.pageNo"
+      :pageSize="salesProductStoreForm.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination"
       @selection-change="handleSelectionChange">
@@ -183,11 +183,12 @@ export default {
   },
   beforeMount() {
     this.getOwnershipCompany({codeType: 'REGION', parentCode: '100002'});
-    this.getProductLibrary(this.formData);
+    this.getProductLibrary(this.salesProductStoreForm);
     this.getProductOutOfLibrary({ pageNo: 1, pageSize: 20 });
   },
   computed: {
     ...mapState({
+      salesProductStoreForm: ({ product }) => product.salesProductStoreForm,
       productLibraryList: ({ product }) => product.productLibraryList,
       productOutofLibraryList: ({ product }) => product.productOutofLibraryList,
       ownerShipCompanyList: ({ product }) => product.ownerShipCompanyList
@@ -215,7 +216,11 @@ export default {
       this.formData.productName = String(value).trim();
     },
     query() {
-      this.getProductLibrary(this.formData);
+      debugger;
+      if (this.salesProductStoreForm.codeValue) {
+        this.salesProductStoreForm.codeType = 'PROVINCE';
+      }
+      this.getProductLibrary(this.salesProductStoreForm);
     },
     onSubmit() {
       this.query();

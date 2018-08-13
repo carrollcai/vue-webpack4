@@ -233,6 +233,36 @@ const actions = {
         duration: 3000
       });
     });
+  },
+  /**
+   * 一级集采目录
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getFirstCatalog({ commit }, params) {
+    const req = { codeType: 'FIRST_COLLECTION' };
+    return API.getProvinceAPI(req).then(res => {
+      commit(types.FIRST_COLLECTION_LIST, res.data.FIRST_COLLECTION);
+    }, err => {
+      if (err) {
+        commit(types.CORE_ABILITY_LIST, []);
+      }
+    });
+  },
+  /**
+   * 核心能力清单
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getCoreAbility({ commit }, params) {
+    const req = { codeType: 'CORE_ABILITY' };
+    return API.getProvinceAPI(req).then(res => {
+      commit(types.CORE_ABILITY_LIST, res.data.CORE_ABILITY);
+    }, err => {
+      if (err) {
+        commit(types.CORE_ABILITY_LIST, []);
+      }
+    });
   }
 };
 

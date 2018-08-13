@@ -101,7 +101,7 @@
               <el-select class="form-input-320" v-model="product.specificProduct" placeholder="具体能力及产品">
                 <!--specificProductList-->
                 <el-option
-                  v-for="item in specificProductList"
+                  v-for="item in coreAbilityList"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"></el-option>
@@ -262,7 +262,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import mixins from './mixins';
 import { FILE_TYPE_ID } from '@/config/index.js';
 import endsWith from 'lodash/endsWith';
@@ -305,9 +305,15 @@ export default {
   computed: {
     cases() {
       return this.product.salesList;
-    }
+    },
+    ...mapState({
+      firstCollectList: ({ product }) => product.firstCollectList,
+      coreAbilityList: ({ product }) => product.coreAbilityList
+    })
   },
   beforeMount() {
+    this.getFirstCatalog();
+    this.getCoreAbility();
   },
   methods: {
     isAcceptable(fileName) {
@@ -468,7 +474,7 @@ export default {
       }
     },
     ...mapActions([
-      'saveProduct'
+      'saveProduct', 'getFirstCatalog', 'getCoreAbility'
     ])
   }
 };

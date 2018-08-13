@@ -514,9 +514,9 @@ export default {
       this.isLastflag = false;
       if (text !== '') {
         this.isLastflag = false;
-        if (text.length > 5) {
-          if (text.slice(5, 6) !== ',' && text.slice(5, 6) !== '，') {
-            this.text = text.slice(0, 5);
+        if (text.length > 6) {
+          if (text.slice(6, 7) !== ',' && text.slice(6, 7) !== '，') {
+            this.text = text.slice(0, 6);
           }
         }
         if (text.indexOf(',') !== -1 || text.indexOf('，') !== -1) {

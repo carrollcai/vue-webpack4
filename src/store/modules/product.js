@@ -29,6 +29,14 @@ const state = {
   productOutofLibraryList: '',
   productTaskInfoList: '',
   ownerShipCompanyList: [],
+  salesProductStoreForm: {
+    productType: null,
+    productName: '',
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    codeType: '',
+    codeValue: null
+  },
   productCreateForm: {
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
@@ -49,7 +57,9 @@ const state = {
   addSalesProduct: '',
   underCarriageProduct: '',
   addSalesCase: '',
-  addProduct: ''
+  addProduct: '',
+  firstCollectList: [],
+  coreAbilityList: []
 };
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
@@ -108,6 +118,24 @@ const mutations = {
   },
   [types.DEL_SALES_CASE](state, data) {
     state.delSalesCase = data;
+  },
+  [types.FIRST_COLLECTION_LIST](state, data) {
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      return newVal;
+    });
+    state.firstCollectList = handlers;
+  },
+  [types.CORE_ABILITY_LIST](state, data) {
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      return newVal;
+    });
+    state.coreAbilityList = handlers;
   }
 };
 
