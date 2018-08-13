@@ -120,10 +120,10 @@
             prop="name"
             label="姓名">
           </el-table-column>
-          <el-table-column
+          <!--<el-table-column
             prop="mobile"
             label="手机">
-          </el-table-column>
+          </el-table-column>-->
           <el-table-column
             prop="genderValue"
             label="性别">

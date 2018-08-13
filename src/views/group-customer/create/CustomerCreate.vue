@@ -200,11 +200,11 @@
                 :maxlength="13"
                 key="registerNum-input"></el-input>-->
             </el-form-item>
-            <el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
+            <!--<el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
               <el-input v-model="customer.organizeRepresent"
                 placeholder="8位数字+1位校验码"
                 key="registerNum-input"></el-input>
-            </el-form-item>
+            </el-form-item>-->
             <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
               <el-input
               v-model="customer.socialCreditCode"

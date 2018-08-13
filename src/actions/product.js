@@ -173,7 +173,11 @@ const actions = {
    */
   addSalesCase: ({ commit }, params) => {
     return API.addSalesCaseAPI(params).then((res) => {
-      commit(types.ADD_SALES_CASE, res.data);
+      Message({
+        message: '添加成功',
+        type: 'success',
+        duration: 3000
+      });
     });
   },
   /**
@@ -187,13 +191,18 @@ const actions = {
     });
   },
   /**
-   * 添加销售案例
+   * 删除销售案例
    * @param {*} param0
    * @param {Object} product
    */
   delSalesCase: ({ commit }, params) => {
     return API.delSalesCaseAPI(params).then((res) => {
-      commit(types.DEL_SALES_CASE, res.data);
+      Message({
+        message: '删除成功',
+        type: 'success',
+        duration: 3000
+      });
+      // commit(types.DEL_SALES_CASE, res.data);
     });
   },
   /**

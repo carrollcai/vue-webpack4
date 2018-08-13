@@ -10,28 +10,28 @@
     </div>
     <div>
       <div class="base-info">
-        <h3>产品基本信息</h3>
+        <!--<h3>产品基本信息</h3>-->
         <ul class="b-i-list">
-            <li><span>产品名称：</span>{{productSaleDemo.productName}}</li>
-            <li><span>产品介绍：</span>{{productSaleDemo.description}}</li>
+            <li><span>产品名称：</span>{{salesCaseDetail.productName}}</li>
+            <li><span>产品介绍：</span>{{salesCaseDetail.description}}</li>
             <li>更多产品信息<i @click="showMore = true;" class="el-icon el-icon-arrow-right blue el-table__expand-icon--expanded"></i></li>
         </ul>
         <div v-if="showMore">
           <ul class="b-i-list">
-            <li><span>主营市场：</span></li>
-            <li><span>产品类别：</span>{{productSaleDemo.productType === '0' ? '个人市场' : '政企市场'}}</li>
+            <li><span>主营市场：</span>{{salesCaseDetail.mainMarket}}</li>
+            <li><span>产品类别：</span>{{salesCaseDetail.productType === '0' ? '个人市场' : '政企市场'}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>价格策略：</span></li>
+            <li><span>价格策略：</span>{{salesCaseDetail.priceStrategy}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>商务策略：</span></li>
+            <li><span>商务策略：{{salesCaseDetail.commercialStrategy}}</span></li>
           </ul>
           <ul class="b-i-list">
-            <li><span>产品归属：</span></li>
+            <li><span>产品归属：</span>{{salesCaseDetail.belongToCompany}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>产品对接人：</span><label>{{productSaleDemo.username}}-{{productSaleDemo.deptment}}-{{productSaleDemo.position}}</label></li>
+            <li><span>产品对接人：</span><label>{{salesCaseDetail.broker}}-{{salesCaseDetail.deptment}}-{{salesCaseDetail.position}}</label></li>
           </ul>
         </div>
       </div>
@@ -39,7 +39,7 @@
         <h3>销售案例</h3>
         <el-table
             border
-            :data="productSaleDemo.salesList">
+            :data="salesCaseDetail.salesList">
             <el-table-column label="销售类型" property="salesType" :formatter="salesTypeFormat">
             </el-table-column>
             <el-table-column label="组合产品" property="composedProduct" :formatter="composedProductFormat" show-overflow-tooltip >
@@ -59,7 +59,7 @@
             </template>
             </el-table-column>
         </el-table>
-        <product-case ref="prodctCases" v-if="isAddingCase" @cancel="cancelAddingCase" :list="cases"></product-case>
+        <product-case ref="prodctCases" v-if="isAddingCase" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-case>
         <div class="btn_add-case" @click="addCase">
             <i class="el-icon-plus"></i> 添加销售案例
         </div>

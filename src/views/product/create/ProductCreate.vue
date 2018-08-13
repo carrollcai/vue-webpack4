@@ -51,7 +51,7 @@
         <el-input maxlength="500" resize="none" type="textarea" v-model="product.prices" placeholder="请输入介绍"></el-input>
       </el-form-item>
       <el-form-item label="商务策略:">
-        <el-input maxlength="500" resize="none" type="textarea" v-model="product.strategy" placeholder="请输入介绍"></el-input>
+        <el-input maxlength="500" resize="none" type="textarea" v-model="product.commercialStrategy" placeholder="请输入介绍"></el-input>
       </el-form-item>
       <el-form-item label="产品归属:" class="col-item">
         <el-col :span="11">

@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form :model="formData" class="form-manage">
+    <el-form :model="salesProductStoreForm" class="form-manage">
       <div class="flex">
         <el-form-item>
           <el-select v-model="salesProductStoreForm.productType" clearable placeholder="产品类型">
@@ -52,7 +52,7 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-input-128 form-left-width">
-          <el-select v-model="newForm.ownerCompany" clearable placeholder="归属公司1">
+          <el-select v-model="newForm.codeValue" clearable placeholder="归属公司">
             <el-option
               v-for="item in ownerShipCompanyList"
               :key="item.value"
@@ -69,17 +69,17 @@
         </div>
         <div class="flex">
         <el-form-item class="form-left-width">
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" @click="onSubmitOut">查询</el-button>
         </el-form-item>
         </div>
       </el-form>
       <wm-table
       :source="productOutofLibraryList.list"
       :total="productOutofLibraryList.totalCount"
-      :pageNo="salesProductStoreForm.pageNo"
-      :pageSize="salesProductStoreForm.pageSize"
-      @onPagination="onPagination"
-      @onSizePagination="onSizePagination">
+      :pageNo="newForm.pageNo"
+      :pageSize="newForm.pageSize"
+      @onPagination="onPaginationOut"
+      @onSizePagination="onSizePaginationOut">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
-        <el-table-column label="归属公司" show-overflow-tooltip property="belongToCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="sonCompany">
         </el-table-column>
     </wm-table>
       <!--<el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -124,7 +124,7 @@
         </el-table-column>
         <el-table-column label="产品类型" show-overflow-tooltip property="productType" :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="归属公司" show-overflow-tooltip property="belongToCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="sonCompany">
         </el-table-column>
         <el-table-column label="对接人" show-overflow-tooltip property="broker">
         </el-table-column>
@@ -175,9 +175,12 @@ export default {
       },
       newProductVisible: false,
       newForm: {
-        productType: '',
-        ownerCompany: '',
-        mainMarket: ''
+        productType: null,
+        codeValue: null,
+        codeType: '',
+        mainMarket: null,
+        pageNo: 1,
+        pageSize: 20
       }
     };
   },
@@ -196,34 +199,45 @@ export default {
   },
   methods: {
     onPagination(value) {
-      this.formData.pageNo = value;
+      this.salesProductStoreForm.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.formData.pageSize = value;
+      this.salesProductStoreForm.pageSize = value;
       this.query();
     },
-    getTimeRange(time) {
-      if (time) {
-        this.formData.startDate = time[0];
-        this.formData.endDate = time[1];
-      } else {
-        this.formData.startDate = '';
-        this.formData.endDate = '';
-      }
+    onPaginationOut(value) {
+      this.newForm.pageNo = value;
+      this.queryOut();
+    },
+    onSizePaginationOut(value) {
+      this.newForm.pageSize = value;
+      this.queryOut();
     },
     checkProductName(value) {
-      this.formData.productName = String(value).trim();
+      this.salesProductStoreForm.productName = String(value).trim();
     },
     query() {
-      debugger;
       if (this.salesProductStoreForm.codeValue) {
-        this.salesProductStoreForm.codeType = 'PROVINCE';
+        this.salesProductStoreForm.codeType = 'REGION';
+      } else {
+        this.salesProductStoreForm.codeType = '';
       }
       this.getProductLibrary(this.salesProductStoreForm);
     },
+    queryOut() {
+      if (this.newForm.codeValue) {
+        this.newForm.codeType = 'REGION';
+      } else {
+        this.newForm.codeType = '';
+      }
+      this.getProductOutOfLibrary(this.newForm);
+    },
     onSubmit() {
       this.query();
+    },
+    onSubmitOut() {
+      this.queryOut();
     },
     toCreatProduct() {
       this.newProductVisible = true;

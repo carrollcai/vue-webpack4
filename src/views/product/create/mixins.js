@@ -107,11 +107,16 @@ export default {
       });
     },
     handleDeleteCase(index, productCase) {
-      if (productCase.salesId) {
-        productCase.state = '0';
-      } else {
-        this.cases.splice(index, 1);
-      }
+      let params = {};
+      params.salesId = productCase.salesId;
+      this.delSalesCase(params);
+      var data = {productId: productCase.productId};
+      this.getSalesCaseDetail(data);
+      // if (productCase.salesId) {
+      //   productCase.state = '0';
+      // } else {
+      //   this.cases.splice(index, 1);
+      // }
     },
     handleEditCase(productCase, index) {
       this.isAddingCase = true;
@@ -140,7 +145,9 @@ export default {
     },
     ...mapActions([
       'getProductFileId',
-      'uploadProductScheme'
+      'uploadProductScheme',
+      'delSalesCase',
+      'getSalesCaseDetail'
     ])
   }
 };

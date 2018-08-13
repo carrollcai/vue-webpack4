@@ -31,7 +31,7 @@
           placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
 
-      <el-form-item  label="销售数量" prop="salesNumber">
+      <!--<el-form-item  label="销售数量" prop="salesNumber">
         <el-input class="full-col" v-model="productCase.salesNumber" placeholder="请输入数量"></el-input>
       </el-form-item>
 
@@ -45,7 +45,7 @@
         <el-input v-model="productCase.experience"
           :maxlength="500"
           placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
-      </el-form-item>
+      </el-form-item>-->
 
       <el-form-item label="方案附件" prop="files">
         <el-upload class="upload-files"
@@ -92,7 +92,8 @@ export default {
       default() {
         return [];
       }
-    }
+    },
+    proId: ''
   },
   data() {
     const salesNumberFn = (rule, value, callback) => {
@@ -276,6 +277,14 @@ export default {
             productCase.deleteFiles = this.deleteFiles;
 
             this.list[this.index] = Object.assign({}, productCase);
+            let params = Object.cloneDeep(productCase);
+            delete params.productId;
+            delete params.state;
+            delete params.files;
+            delete params.deleteFiles;
+            this.editSalesCase(params);
+            let data = {productId: this.proId};
+            this.getSalesCaseDetail(data);
           } else {
             // 新增
             if (this.uploadFiles && this.uploadFiles.length) {
@@ -285,6 +294,12 @@ export default {
             productCase.state = '2';
 
             this.list.push(productCase);
+            let params = Object.cloneDeep(productCase);
+            params.productId = this.proId;
+            delete params.state;
+            this.addSalesCase(params);
+            let data = {productId: this.proId};
+            this.getSalesCaseDetail(data);
           }
           this.cancel();
         }
@@ -295,7 +310,10 @@ export default {
     },
     ...mapActions([
       'getComposedProduct',
-      'queryElec'
+      'queryElec',
+      'addSalesCase',
+      'getSalesCaseDetail',
+      'editSalesCase'
     ])
   }
 };
