@@ -19,7 +19,7 @@
               <el-input v-model="applyFrom.region" :placeholder="`请输入区域`" />
             </el-form-item>
             <el-form-item>
-              <el-checkbox v-model="restrictedCity" label="限制地市"></el-checkbox>
+              <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
             </el-form-item>
           </div>
         </el-form-item>
@@ -47,7 +47,7 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="客户端：" required prop="client">
-          <el-checkbox-group v-model="applyFrom.client">
+          <el-checkbox-group v-model="applyFrom.client" @change="clientFn">
             <el-checkbox v-for="item in clientList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -100,9 +100,9 @@
             <el-checkbox v-for="item in flowList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="使用时长：" v-model="applyFrom.useTime">
-          <el-radio-group>
-          <el-radio v-for="item in useTimeList" :key="item" :value="item.name" :label="item.name"></el-radio>
+        <el-form-item label="使用时长：">
+          <el-radio-group v-model="applyFrom.useTime">
+          <el-radio :disabled="applyFrom.isUseTime" v-for="item in useTimeList" :key="item" :value="item.name" :label="item.name"></el-radio>
           </el-radio-group>
         </el-form-item>
       </div>
@@ -181,7 +181,8 @@ export default {
         age: [],
         userActive: [],
         flow: [],
-        useTime: ''
+        useTime: '',
+        isUseTime: false
       }
     };
   }

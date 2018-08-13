@@ -10,7 +10,7 @@ export default {
         ],
         remark: [
           { required: true, message: '请输入备注', trigger: ['change', 'blur'] },
-          { validator: inputLengthTwenty, trigger: 'blur' }
+          { required: true, validator: inputLengthTwenty, trigger: 'blur' }
         ]
       }
     };
@@ -28,6 +28,11 @@ export default {
     })
   },
   methods: {
+    remarkVaild(value) {
+      if (value === '') {
+        console.log(value);
+      }
+    },
     onSubmit() {
       this.$refs.refName.validate((valid) => {
         if (valid) {

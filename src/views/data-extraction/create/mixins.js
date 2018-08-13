@@ -32,6 +32,19 @@ export default {
     };
   },
   methods: {
+    clientFn(value) {
+      this.isUseTimeFn();
+    },
+    isUseTimeFn() {
+      let clientStr = String(this.applyFrom.client);
+      if (clientStr.indexOf('咪咕直播') !== -1 || clientStr.indexOf('咪咕影院') !== -1) {
+        this.applyFrom.isUseTime = true;
+        return true;
+      } else {
+        this.applyFrom.isUseTime = false;
+        return false;
+      }
+    },
     changeDate(value) {
       if (value === '1') {
         this.isByDay = true;

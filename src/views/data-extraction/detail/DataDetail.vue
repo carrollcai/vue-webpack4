@@ -24,8 +24,11 @@
         <el-radio v-model="auditForm.audit" :value="0" :label="0">通过</el-radio>
         <el-radio v-model="auditForm.audit" :value="1" :label="1">不通过</el-radio>
       </el-form-item>
-      <el-form-item label="备注：" label-width="140px" prop="remark">
+      <el-form-item v-if="auditForm.audit === 1" label="备注：" label-width="140px" prop="remark">
         <el-input v-model="auditForm.remark" class="form-input-medium" placeholder="请输入备注" />
+      </el-form-item>
+      <el-form-item v-if="auditForm.audit === '' || auditForm.audit === 0" label="备注：" label-width="140px" >
+        <el-input v-model="auditForm.remark" @change="remarkVaild" class="form-input-medium" placeholder="请输入备注" />
       </el-form-item>
       <el-form-item label-width="140px" >
         <el-button type="primary" @click="onSubmit()">提交</el-button>
