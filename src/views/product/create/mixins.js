@@ -15,7 +15,7 @@ export default {
   },
   data() {
     const fileCheck = (rule, value, callback) => {
-      multFileValid(this.baseFormRules.files, callback);
+      multFileValid(this.uploadFiles, callback);
     };
     const priceFn = (rule, value, callback) => {
       const reg = /^\d{1,9}(?:\.\d{1,2})?$/;
@@ -71,6 +71,13 @@ export default {
         ],
         description: [
           { required: true, message: '请输入产品介绍', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
+        ],
+        broker: [
+          { required: true, message: '请选择对接人', trigger: 'change' }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         files: [

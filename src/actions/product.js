@@ -125,6 +125,114 @@ const actions = {
     return API.getProductTaskInfoAPI(params).then((res) => {
       commit(types.PRODUCT_TASK_INFO_LIST, res.data);
     });
+  },
+  /**
+   * 归属公司列表查询
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getOwnershipCompany: ({ commit }, params) => {
+    return API.getOwnershipCompanyAPI(params).then((res) => {
+      commit(types.OWNERSHIP_COMPANY_LIST, res.data);
+    });
+  },
+  /**
+   * 销售案例详情查询
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getSalesCaseDetail: ({ commit }, params) => {
+    return API.getSalesCaseDetailAPI(params).then((res) => {
+      commit(types.SALES_CASE_DETAIL, res.data);
+    });
+  },
+  /**
+   * 新增销售产品
+   * @param {*} param0
+   * @param {Object} product
+   */
+  addSalesProducts: ({ commit }, params) => {
+    return API.addSalesProductsAPI(params).then((res) => {
+      commit(types.ADD_SALES_PRODUCTS, res.data);
+    });
+  },
+  /**
+   * 下架
+   * @param {*} param0
+   * @param {Object} product
+   */
+  underCarriageProduct: ({ commit }, params) => {
+    return API.underCarriageProductAPI(params).then((res) => {
+      commit(types.UNDER_CARRIAGE_PRODUCT, res.data);
+    });
+  },
+  /**
+   * 添加销售案例
+   * @param {*} param0
+   * @param {Object} product
+   */
+  addSalesCase: ({ commit }, params) => {
+    return API.addSalesCaseAPI(params).then((res) => {
+      commit(types.ADD_SALES_CASE, res.data);
+    });
+  },
+  /**
+   * 添加销售案例
+   * @param {*} param0
+   * @param {Object} product
+   */
+  editSalesCase: ({ commit }, params) => {
+    return API.editSalesCaseAPI(params).then((res) => {
+      commit(types.EDIT_SALES_CASE, res.data);
+    });
+  },
+  /**
+   * 添加销售案例
+   * @param {*} param0
+   * @param {Object} product
+   */
+  delSalesCase: ({ commit }, params) => {
+    return API.delSalesCaseAPI(params).then((res) => {
+      commit(types.DEL_SALES_CASE, res.data);
+    });
+  },
+  /**
+   * 查询对接人
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getBroker: ({ commit }, params) => {
+    return API.getBrokerAPI(params).then((res) => {
+      commit(types.BROKER_LIST, res.data);
+    });
+  },
+  /**
+   * 修改产品
+   * @param {*} param0
+   * @param {Object} product
+   */
+  setProductOff({ commit }, product) {
+    return API.setProductOffAPI(product).then((res) => {
+      Message({
+        message: '产品下线成功',
+        type: 'success',
+        duration: 3000
+      });
+    });
+  },
+  /**
+   * 审核产品
+   * @param {*} param0
+   * @param {Object} product
+   */
+  setProductAudit({ commit }, product) {
+    return API.setProductAuditAPI(product).then((res) => {
+      Message({
+        message: '产品审核成功',
+        type: 'success',
+        duration: 3000
+      });
+    });
   }
 };
 

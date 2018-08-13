@@ -121,9 +121,9 @@ export default {
   /* 产品管理 */
   // 产品总览
   // 产品创建管理
-  getProductCreatListAPI: API('/esop/product/queryProductSelf'),
+  getProductCreatListAPI: API('/esop/product/queryProduct'),
   // 产品详情
-  getProductDetailAPI: API('/esop/product/queryDetailProduct'),
+  getProductDetailAPI: API('/esop/product/queryDetailProductWithOutSales'),
   setEditProductAPI: API('/esop/product/editProduct'),
   deleteProductAPI: API('/esop/product/deleteProduct'),
   uploadProductSchemeAPI: upload('/esop/elec/upload'), // 订单处理上传任务
@@ -134,13 +134,33 @@ export default {
   // getDetailSaleListAPI: API('http://localhost:3618/esop/product/queryComposedProduct')
   getComposedProductAPI: API('/esop/product/queryComposedProduct'),
   // 新产品接口
+  // 查询归属公司
+  getOwnershipCompanyAPI: API('/esop/secBranch/queryStaticByParentCode'),
   getProductLibraryAPI: API('/esop/product/queryProductLibrary'),
   getProductOutOfLibraryAPI: API('/esop/product/queryProductOutOfLibrary'),
-  // 产品创建管理
-  getProductListAPI: API('/esop/product/queryProduct'),
+  // 新增销售产品
+  addSalesProductsAPI: API('/esop/product/productLibraryOn'),
+  // 下架
+  underCarriageProductAPI: API('/esop/product/productLibraryOff'),
+  // 添加销售案例
+  addSalesCaseAPI: API('/esop/product/addSales'),
+  // 修改销售案例
+  editSalesCaseAPI: API('/esop/product/editSales'),
+  // 删除销售案例
+  delSalesCaseAPI: API('/esop/product/deleteSales'),
+  // 查询销售案例详情
+  getSalesCaseDetailAPI: API('/esop/product/queryDetailProductWithSales'),
+  // getProductListAPI: API('/esop/product/queryProduct'),
+  // 新建产品
   setAddProductAPI: API('/esop/product/addProduct'),
+  // 查询对接人
+  getBrokerAPI: API('/esop/product/queryBroker'),
+  // 产品下线
+  setProductOffAPI: API('/esop/product/productOff'),
   // 产品审核管理
-  getProductTaskInfo: API('esop/product/queryTaskInfo'),
+  getProductTaskInfoAPI: API('esop/product/queryTaskInfo'),
+  // 产品审核
+  setProductAuditAPI: API('esop/product/moveNode'),
 
   /**
    * 新增集团客户

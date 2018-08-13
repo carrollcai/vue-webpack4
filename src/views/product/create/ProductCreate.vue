@@ -39,6 +39,9 @@
           <el-option label="其他" value="5"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="产品介绍:" prop="description">
+        <el-input v-model="product.description" maxlength="500" resize="none" type="textarea" placeholder="请输入产品介绍"></el-input>
+      </el-form-item>
       <!--<el-form-item label="产品价格" prop="price">
         <el-input class="full-col" v-model="product.price" placeholder="数字允许小数点后两位小数">
           <template slot="append">元</template>
@@ -53,7 +56,7 @@
       <el-form-item label="产品归属:" class="col-item">
         <el-col :span="11">
           <el-form-item>
-            <el-select v-model="product.productType" placeholder="选择产品类别" @change="selectProductType">
+            <el-select v-model="product.belongToCompany" placeholder="选择产品归属" @change="selectBelongToCompany">
               <el-option label="无" value="0"></el-option>
               <el-option label="核心能力清单" value="1"></el-option>
               <el-option label="一级集采目录" value="2"></el-option>
@@ -68,37 +71,53 @@
           </el-col>
           <el-col :span="11">
             <el-form-item>
-              <el-select v-model="product.coreCompe" placeholder="核心能力">
-                <el-option label="无" value="0"></el-option>
-                <el-option label="核心能力清单" value="1"></el-option>
-                <el-option label="一级集采目录" value="2"></el-option>
-                <el-option label="二级集采目录" value="3"></el-option>
-                <el-option label="终端库" value="4"></el-option>
+              <el-cascader placeholder="类别"
+                :options="assignHandlers"
+                v-model="product.coreCompe"
+                @change="handleChange">
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+        </div>
+        <div v-if="isCoreCompetency">
+          <el-col class="line-container" :span="2">
+            <div class="line"></div>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item>
+              <el-select v-model="product.coreAbility" placeholder="核心能力" @change="selectCoreAbility">
+                <el-option label="个人-内容及服务" value="0"></el-option>
+                <el-option label="家庭-硬件" value="1"></el-option>
+                <el-option label="能力-音视频" value="2"></el-option>
+                <el-option label="业务运营服务" value="3"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </div>
       </el-form-item>
-      <el-form-item v-if="isFirstLevel">
+      <el-form-item v-if="isCoreCompetency">
         <el-col :span="24">
             <el-form-item>
-              <el-select class="form-input-320" v-model="product.specialCapa" placeholder="具体能力及产品">
-                <el-option>
-                  <el-tabs :tab-position="tabPosition" style="height: 200px;">
-                    <el-tab-pane label="用户管理">用户管理</el-tab-pane>
-                    <el-tab-pane label="配置管理">配置管理</el-tab-pane>
-                    <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-                    <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
-                  </el-tabs>
-                </el-option>
+              <el-select class="form-input-320" v-model="product.specificProduct" placeholder="具体能力及产品">
+                <!--specificProductList-->
+                <el-option
+                  v-for="item in specificProductList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"></el-option>
+                <!--<el-option label="无" value="0"></el-option>
+                <el-option label="核心能力清单" value="1"></el-option>
+                <el-option label="一级集采目录" value="2"></el-option>
+                <el-option label="二级集采目录" value="3"></el-option>
+                <el-option label="终端库" value="4"></el-option>-->
               </el-select>
             </el-form-item>
           </el-col>
       </el-form-item>
-      <el-form-item label="产品对接人:" class="col-item">
+      <el-form-item label="产品对接人:" class="col-item" prop="broker">
         <el-col :span="11">
           <el-form-item>
-            <el-select v-model="product.connectName" placeholder="对接人">
+            <el-select v-model="product.broker" placeholder="对接人">
               <el-option label="无" value="0"></el-option>
               <el-option label="核心能力清单" value="1"></el-option>
               <el-option label="一级集采目录" value="2"></el-option>
@@ -111,9 +130,9 @@
           <div class="line"></div>
         </el-col>
         <el-col :span="11">
-          <el-form-item>
+          <el-form-item prop="mobile">
             <el-input
-            v-model="product.contactMobile"
+            v-model="product.mobile"
             :maxlength="6"
             placeholder="手机号"></el-input>
           </el-form-item>
@@ -121,9 +140,9 @@
       </el-form-item>
       <el-form-item>
         <el-col :span="11">
-          <el-form-item>
+          <el-form-item prop="deptment">
             <el-input
-            v-model="product.department"
+            v-model="product.deptment"
             :maxlength="15"
             placeholder="部门"></el-input>
           </el-form-item>
@@ -132,15 +151,15 @@
           <div class="line"></div>
         </el-col>
         <el-col :span="11">
-          <el-form-item>
+          <el-form-item prop="position">
             <el-input
-            v-model="product.post"
+            v-model="product.position"
             :maxlength="15"
             placeholder="岗位"></el-input>
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item label="产品介绍" prop="files" required>
+      <el-form-item label="产品资料" prop="files" required>
         <el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
           :auto-upload="false"
@@ -149,7 +168,7 @@
           :on-exceed="handleExceed"
           :file-list="uploadFiles">
           <el-button slot="trigger" size="small" class="form-input-128">
-            <i class="icon-up margin-right-8"></i>上传产品介绍
+            <i class="icon-up margin-right-8"></i>上传文件
           </el-button>
           <div slot="tip" class="el-upload__tip">
             <p class="lh1-5">{{FILE_TIP[0]}}</p>
@@ -261,7 +280,8 @@ export default {
     return {
       step: 0,
       product: {
-        salesList: []
+        salesList: [],
+        mainMarket: []
       },
       isSubmit: false,
       FILE_TIP,
@@ -277,7 +297,9 @@ export default {
       newFiles: [],
       marketList: ['政企市场', '家庭市场', '个人市场'],
       selMarket: [],
-      isFirstLevel: false
+      isFirstLevel: false,
+      isCoreCompetency: false,
+      specificProductList: []
     };
   },
   computed: {
@@ -417,11 +439,32 @@ export default {
 
       return false;
     },
-    selectProductType() {
-      if (this.product.productType === '1') {
+    selectBelongToCompany() {
+      if (this.product.belongToCompany === '2') {
         this.isFirstLevel = true;
       } else {
         this.isFirstLevel = false;
+      }
+      if (this.product.belongToCompany === '1') {
+        this.isCoreCompetency = true;
+      } else {
+        this.isCoreCompetency = false;
+      }
+    },
+    selectCoreAbility() {
+      switch (this.product.coreAbility) {
+        case '0':
+          this.specificProductList = [{ value: '线上线下数字内容服务', label: '线上线下数字内容服务' }, { value: '咪咕O2O服务', label: '咪咕O2O服务' }];
+          break;
+        case '1':
+          this.specificProductList = [{ value: '咪咕电视', label: '咪咕电视' }, { value: '魔百和', label: '魔百和' }];
+          break;
+        case '2':
+          this.specificProductList = [{ value: '和商务直播系列产品', label: '和商务直播系列产品' }, { value: '灵犀云语音能力平台', label: '灵犀云语音能力平台' }];
+          break;
+        case '3':
+          this.specificProductList = [{ value: '手机报业务运营', label: '手机报业务运营' }];
+          break;
       }
     },
     ...mapActions([
@@ -432,3 +475,10 @@ export default {
 </script>
 
 <style lang="scss" src="./style.scss"></style>
+<style lang="scss">
+.product-type {
+  .el-select-dropdown {
+    height: 100px;
+  }
+}
+</style>

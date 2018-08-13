@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form :model="formData" class="form-manage">
+    <el-form :model="productCreateForm" class="form-manage">
       <div class="flex">
         <!--<el-form-item>
           <el-col>
@@ -10,17 +10,17 @@
           </el-col>
         </el-form-item>-->
         <el-form-item>
-          <el-select v-model="formData.productType" clearable placeholder="产品类型">
+          <el-select v-model="productCreateForm.productType" clearable placeholder="产品类型">
             <el-option label="全部" value=""></el-option>
             <el-option label="个人市场" value="0"></el-option>
             <el-option label="政企市场" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="formData.createName" @change="createName" placeholder="创建人"></el-input>
+          <el-input clearable v-model="productCreateForm.createName" @change="createName" placeholder="创建人"></el-input>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
+          <el-input clearable v-model="productCreateForm.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
         </el-form-item>
       </div>
       <div class="flex">
@@ -32,7 +32,7 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="formData.opporStatus" @tab-click="tabChange">
+    <el-tabs v-model="productCreateForm.productStatus" @tab-click="tabChange">
       <el-tab-pane label="全部"></el-tab-pane>
       <el-tab-pane label="待审核" :name="'1'"></el-tab-pane>
       <el-tab-pane label="已发布" :name="'2'"></el-tab-pane>
@@ -114,14 +114,20 @@ export default {
     };
   },
   beforeMount() {
-    this.getProductList({ pageNo: 1, pageSize: 20 });
+    this.getProductCreatList(this.productCreateForm);
   },
   computed: {
     ...mapState({
+      productCreateForm: ({ product }) => product.productCreateForm,
       productList: ({ product }) => product.productCreatList
     })
   },
   methods: {
+    tabChange() {
+      this.productCreateForm.pageNo = 1;
+      this.productCreateForm.pageSize = 20;
+      this.query();
+    },
     onPagination(value) {
       this.formData.pageNo = value;
       this.query();
@@ -143,8 +149,7 @@ export default {
       this.formData.productName = String(value).trim();
     },
     query() {
-      // 产品数据查询方法
-      this.getProductCreatList(this.formData);
+      this.getProductCreatList(this.productCreateForm);
     },
     onSubmit() {
       this.query();
@@ -192,7 +197,6 @@ export default {
       return columnValue === '0' ? '个人市场' : '政企市场';
     },
     ...mapActions([
-      'getProductList',
       'getProductCreatList',
       'getComposedProduct',
       'setdeleteProduct'

@@ -86,16 +86,16 @@ export default {
   },
   computed: {
     ...mapState({
-      productSaleDemo: ({ product }) => product.productSaleDemo
+      salesCaseDetail: ({ product }) => product.salesCaseDetail
     })
   },
   beforeMount() {
     var data = {productId: Number(this.$route.params.id)};
-    this.getProductDetail(data);
+    this.getSalesCaseDetail(data);
   },
   methods: {
     ...mapActions([
-      'getProductDetail'
+      'getSalesCaseDetail'
     ])
   }
 };

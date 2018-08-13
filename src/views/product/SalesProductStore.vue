@@ -11,13 +11,21 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="formData.ownerCompany" clearable placeholder="归属公司">
-            <el-option label="全部" value=""></el-option>
+          <el-select v-model="formData.codeValue" clearable placeholder="归属公司">
+            <el-option
+              v-for="item in ownerShipCompanyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
           <el-select v-model="formData.mainMarket" clearable placeholder="主营市场">
             <el-option label="全部" value=""></el-option>
+            <el-option label="政企市场" value="0"></el-option>
+            <el-option label="家庭市场" value="1"></el-option>
+            <el-option label="个人市场" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
@@ -44,8 +52,13 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-input-128 form-left-width">
-          <el-select v-model="newForm.ownerCompany" clearable placeholder="归属公司">
-            <el-option label="全部" value=""></el-option>
+          <el-select v-model="newForm.ownerCompany" clearable placeholder="归属公司1">
+            <el-option
+              v-for="item in ownerShipCompanyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-input-128 form-left-width">
@@ -75,7 +88,7 @@
         </el-table-column>
         <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
-        <el-table-column label="归属公司" show-overflow-tooltip property="ownershipCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="belongToCompany">
         </el-table-column>
     </wm-table>
       <!--<el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -107,20 +120,20 @@
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
         </el-table-column>
-        <el-table-column label="主营市场" property="mainMarket">
+        <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
-        <el-table-column label="产品类型" property="productType" :formatter="productTypeFn">
+        <el-table-column label="产品类型" show-overflow-tooltip property="productType" :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="归属公司" property="ownershipCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="belongToCompany">
         </el-table-column>
-        <el-table-column label="对接人" show-overflow-tooltip property="connectName">
+        <el-table-column label="对接人" show-overflow-tooltip property="broker">
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="operation">
             <el-button class="table-button" type="text" @click="toPageCase(operation.row)">
               案例管理
             </el-button>
-            <el-button class="table-button" type="text" @click="toPageModefiy(operation.row)">
+            <el-button class="table-button" type="text" @click="underCarriageProduct(operation.row)">
               下架
             </el-button>
           </template>
@@ -153,14 +166,12 @@ export default {
         salesList: []
       },
       formData: {
-        startDate: '',
-        endDate: '',
         productType: null,
         productName: '',
-        createName: '',
         pageNo: 1,
         pageSize: 20,
-        opporStatus: '0'
+        codeType: '',
+        codeValue: null
       },
       newProductVisible: false,
       newForm: {
@@ -171,13 +182,15 @@ export default {
     };
   },
   beforeMount() {
-    this.getProductLibrary({ pageNo: 1, pageSize: 20 });
+    this.getOwnershipCompany({codeType: 'REGION', parentCode: '100002'});
+    this.getProductLibrary(this.formData);
     this.getProductOutOfLibrary({ pageNo: 1, pageSize: 20 });
   },
   computed: {
     ...mapState({
       productLibraryList: ({ product }) => product.productLibraryList,
-      productOutofLibraryList: ({ product }) => product.productOutofLibraryList
+      productOutofLibraryList: ({ product }) => product.productOutofLibraryList,
+      ownerShipCompanyList: ({ product }) => product.ownerShipCompanyList
     })
   },
   methods: {
@@ -222,6 +235,9 @@ export default {
     toPageModefiy(row) {
       this.$router.push(`/product/edit/${row.productId}`);
     },
+    underCarriageProduct(row) {
+      this.underCarriageProduct({'productIdList': row.productId});
+    },
     deleteProduct(row) {
       let productId = row.productId;
       this.$confirm('删除该产品数据, 是否继续?', ' ', {
@@ -259,7 +275,9 @@ export default {
       'getProductLibrary',
       'getProductOutOfLibrary',
       'getComposedProduct',
-      'setdeleteProduct'
+      'setdeleteProduct',
+      'getOwnershipCompany',
+      'underCarriageProduct'
     ])
   }
 };

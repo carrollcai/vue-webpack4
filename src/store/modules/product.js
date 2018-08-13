@@ -1,4 +1,8 @@
 import * as types from '../types';
+import {
+  PAGE_NO,
+  PAGE_SIZE
+} from '@/config/index.js';
 
 const state = {
   productSaleDemo: {
@@ -23,7 +27,29 @@ const state = {
   saleStep: {},
   productLibraryList: '',
   productOutofLibraryList: '',
-  productTaskInfoList: ''
+  productTaskInfoList: '',
+  ownerShipCompanyList: [],
+  productCreateForm: {
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE,
+    productType: null,
+    operatorId: '',
+    productName: '',
+    productStatus: ''
+  },
+  productAuditManageForm: {
+    date: '',
+    operatorId: '',
+    productNameOrCode: '',
+    taskHasComplete: 0,
+    pageNo: PAGE_NO,
+    pageSize: PAGE_SIZE
+  },
+  salesCaseDetail: '',
+  addSalesProduct: '',
+  underCarriageProduct: '',
+  addSalesCase: '',
+  addProduct: ''
 };
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
@@ -55,6 +81,33 @@ const mutations = {
   },
   [types.PRODUCT_TASK_INFO_LIST](state, data) {
     state.productTaskInfoList = data;
+  },
+  [types.OWNERSHIP_COMPANY_LIST](state, data) {
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      return newVal;
+    });
+    state.ownerShipCompanyList = handlers;
+  },
+  [types.SALES_CASE_DETAIL](state, data) {
+    state.salesCaseDetail = data;
+  },
+  [types.ADD_SALES_PRODUCTS](state, data) {
+    state.addSalesProduct = data;
+  },
+  [types.UNDER_CARRIAGE_PRODUCT](state, data) {
+    state.underCarriageProduct = data;
+  },
+  [types.ADD_SALES_CASE](state, data) {
+    state.addSalesCase = data;
+  },
+  [types.EDIT_SALES_CASE](state, data) {
+    state.editSalesCase = data;
+  },
+  [types.DEL_SALES_CASE](state, data) {
+    state.delSalesCase = data;
   }
 };
 
