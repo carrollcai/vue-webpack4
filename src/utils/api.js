@@ -166,6 +166,8 @@ export default {
   getProductTaskInfoAPI: API('esop/product/queryTaskInfo'),
   // 产品审核
   setProductAuditAPI: API('esop/product/moveNode'),
+  // 获取产品归属联动下拉框静态数据
+  getProductBelongOptionAPI: API('esop/product/selectProductBelongOption'),
 
   /**
    * 新增集团客户

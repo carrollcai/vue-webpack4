@@ -73,6 +73,7 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex';
+import { FILE_TYPE_ID } from '@/config/index.js';
 import endsWith from 'lodash/endsWith';
 import {
   FILE_ACCEPT,
@@ -250,7 +251,11 @@ export default {
       }
 
       if (file.elecInstId) {
-        this.deleteFiles.push(file);
+        // 删除文件
+        this.delUplodFile({elecInstId: file.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
+          this.deleteFiles.push(file);
+        });
+        // this.deleteFiles.push(file);
       }
     },
     handleChangeSalesType(value) {
@@ -294,12 +299,30 @@ export default {
             productCase.state = '2';
 
             this.list.push(productCase);
-            let params = Object.cloneDeep(productCase);
-            params.productId = this.proId;
-            delete params.state;
-            this.addSalesCase(params);
+            let submitParams = Object.cloneDeep(productCase);
+            submitParams.productId = this.proId;
+            delete submitParams.state;
+            delete submitParams.files;
+            // let submitParams = {
+            //   fileId: '',
+            //   productRequest: param
+            // };
+            let params = {
+              fileInputId: '',
+              fileTypeId: FILE_TYPE_ID.product,
+              moduleId: 1,
+              files: this.uploadFiles
+            };
+            this.addSalesCase({ params, submitParams });
             let data = {productId: this.proId};
             this.getSalesCaseDetail(data);
+            // let params = {
+            //   fileInputId: '',
+            //   fileTypeId: FILE_TYPE_ID.order,
+            //   moduleId: 1,
+            //   files: this.assignForm.files
+            // };
+            // this.submitAssignContract({ params, submitParams });
           }
           this.cancel();
         }
@@ -313,7 +336,8 @@ export default {
       'queryElec',
       'addSalesCase',
       'getSalesCaseDetail',
-      'editSalesCase'
+      'editSalesCase',
+      'delUplodFile'
     ])
   }
 };

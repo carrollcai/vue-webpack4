@@ -43,6 +43,7 @@
             <el-input class="col-input"
               v-model="contact.nativePlace"
               placeholder="如“江苏南京”"
+              :maxlength="15"
               key="nativePlace"></el-input>
           </el-form-item>
           <el-form-item class="col-item" prop="graduateColleges" key="graduateColleges" label="毕业院校">
@@ -66,13 +67,13 @@
               :maxlength="15"
               key="contact-duty-input"></el-input>
           </el-form-item>
-          <el-form-item class="col-item" label="手机号码" prop="mobile" key="contact-mobile">
+          <!--<el-form-item class="col-item" label="手机号码" prop="mobile" key="contact-mobile">
             <el-input class="col-input"
               v-model="contact.mobile"
               placeholder="请输入手机号码"
               :maxlength="11"
               key="contact-mobile-input"></el-input>
-          </el-form-item>
+          </el-form-item>-->
           <!--<el-form-item prop="department" key="contact-dept" label="部门">
             <el-input class="col-input"
               v-model="contact.department"
@@ -415,7 +416,7 @@ export default {
           let list = this.contact.contactFamilyDtoList;
           if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
-              if (list[i].name && list[i].relationship && list[i].remark) {
+              if (list[i].name.trim() && list[i].relationship.trim() && list[i].remark.trim()) {
               } else {
                 this.$message({ showClose: true, message: '若填写家庭成员，请填写完整的信息！', type: 'error' });
                 return;

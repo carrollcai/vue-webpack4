@@ -171,15 +171,39 @@ const actions = {
    * @param {*} param0
    * @param {Object} product
    */
-  addSalesCase: ({ commit }, params) => {
-    return API.addSalesCaseAPI(params).then((res) => {
+  // addSalesCase: ({ commit }, params) => {
+  //   return API.addSalesCaseAPI(params).then((res) => {
+  //     Message({
+  //       message: '添加成功',
+  //       type: 'success',
+  //       duration: 3000
+  //     });
+  //   });
+  // },
+
+  // 先获取附件id再上传,再提交表单。
+  async addSalesCase({ dispatch, commit }, { params, submitParams }) {
+    // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
+    let fileInputId = await dispatch('getNewFileInputId');
+    let _params = Object.assign(params, { fileInputId });
+    let _submitParams = Object.assign(submitParams, { fileInputId: fileInputId });
+
+    // 如果上传失败，还原按钮状态，退出程序
+    let error = await dispatch('uploadOrderHandleTask', _params);
+    if (error) {
+      // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
+      return false;
+    }
+    await API.addSalesCaseAPI(_submitParams).then(() => {
+      // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
       Message({
-        message: '添加成功',
-        type: 'success',
-        duration: 3000
+        message: '提交成功',
+        type: 'success'
       });
+    }, () => {
     });
   },
+
   /**
    * 添加销售案例
    * @param {*} param0
