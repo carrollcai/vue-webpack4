@@ -6,11 +6,11 @@
       <el-breadcrumb-item>查看详情</el-breadcrumb-item>
     </el-breadcrumb>
     <el-breadcrumb v-if="isAudit !== 'true' && isToAudit === 'true'">
-      <el-breadcrumb-item :to="{ path: '/data-extraction/data-download' }">数据审核管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/data-extraction/data-audit' }">数据审核管理</el-breadcrumb-item>
       <el-breadcrumb-item>查看详情</el-breadcrumb-item>
     </el-breadcrumb>
     <el-breadcrumb v-if="isAudit === 'true' && isToAudit === 'true'">
-      <el-breadcrumb-item :to="{ path: '/data-extraction/data-download' }">数据审核管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/data-extraction/data-audit' }">数据审核管理</el-breadcrumb-item>
       <el-breadcrumb-item>我的审核</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
