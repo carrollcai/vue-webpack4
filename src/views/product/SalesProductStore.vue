@@ -76,10 +76,12 @@
       <wm-table
       :source="productOutofLibraryList.list"
       :total="productOutofLibraryList.totalCount"
-      :pageNo="newForm.pageNo"
-      :pageSize="newForm.pageSize"
+      :pageNo="productOutofLibraryList.pageNo"
+      :pageSize="productOutofLibraryList.pageSize"
       @onPagination="onPaginationOut"
-      @onSizePagination="onSizePaginationOut">
+      @onSizePagination="onSizePaginationOut"
+      :mode="multiple"
+      @onSelected="handleSelectionChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
@@ -88,7 +90,7 @@
         </el-table-column>
         <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
-        <el-table-column label="归属公司" show-overflow-tooltip property="sonCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="region">
         </el-table-column>
     </wm-table>
       <!--<el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -114,8 +116,7 @@
       :pageNo="salesProductStoreForm.pageNo"
       :pageSize="salesProductStoreForm.pageSize"
       @onPagination="onPagination"
-      @onSizePagination="onSizePagination"
-      @selection-change="handleSelectionChange">
+      @onSizePagination="onSizePagination">
         <el-table-column label="产品编码" show-overflow-tooltip property="productCode">
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
@@ -124,7 +125,7 @@
         </el-table-column>
         <el-table-column label="产品类型" show-overflow-tooltip property="productType" :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="归属公司" show-overflow-tooltip property="sonCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="region">
         </el-table-column>
         <el-table-column label="对接人" show-overflow-tooltip property="broker">
         </el-table-column>
@@ -133,7 +134,7 @@
             <el-button class="table-button" type="text" @click="toPageCase(operation.row)">
               案例管理
             </el-button>
-            <el-button class="table-button" type="text" @click="underCarriageProduct(operation.row)">
+            <el-button class="table-button" type="text" @click="under(operation.row)">
               下架
             </el-button>
           </template>
@@ -181,7 +182,8 @@ export default {
         mainMarket: null,
         pageNo: 1,
         pageSize: 20
-      }
+      },
+      multipleSelection: []
     };
   },
   beforeMount() {
@@ -198,6 +200,12 @@ export default {
     })
   },
   methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = [];
+      for (let i = 0; i < val.length; i++) {
+        this.multipleSelection.push(val[i].productId);
+      }
+    },
     onPagination(value) {
       this.salesProductStoreForm.pageNo = value;
       this.query();
@@ -240,9 +248,12 @@ export default {
       this.queryOut();
     },
     toCreatProduct() {
+      this.getProductOutOfLibrary({ pageNo: 1, pageSize: 20 });
       this.newProductVisible = true;
     },
     createProduct() {
+      this.addSalesProducts({ 'productIdList': this.multipleSelection });
+      this.getProductLibrary(this.salesProductStoreForm);
       this.newProductVisible = false;
     },
     cancelCreate() {
@@ -254,8 +265,11 @@ export default {
     toPageModefiy(row) {
       this.$router.push(`/product/edit/${row.productId}`);
     },
-    underCarriageProduct(row) {
-      this.underCarriageProduct({'productIdList': row.productId});
+    under(row) {
+      let id = [];
+      id.push(row.productId);
+      this.underCarriageProduct({'productIdList': id});
+      this.query();
     },
     deleteProduct(row) {
       let productId = row.productId;
@@ -296,7 +310,8 @@ export default {
       'getComposedProduct',
       'setdeleteProduct',
       'getOwnershipCompany',
-      'underCarriageProduct'
+      'underCarriageProduct',
+      'addSalesProducts'
     ])
   }
 };

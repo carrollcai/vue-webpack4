@@ -28,7 +28,7 @@
               placeholder="请输入介绍" type="textarea" :rows="3"></el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-button type="primary">确认审核</el-button>
+            <el-button type="primary" @click="confirmAudit">确认审核</el-button>
             <el-button>取消</el-button>
           </el-form-item>
         </el-form>
@@ -68,8 +68,11 @@ export default {
     this.getProductDetail(data);
   },
   methods: {
+    confirmAudit() {
+      this.setProductAudit();
+    },
     ...mapActions([
-      'getProductDetail'
+      'getProductDetail', 'setProductAudit'
     ])
   }
 };

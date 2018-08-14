@@ -123,6 +123,9 @@ export default {
     })
   },
   methods: {
+    downLine(row) {
+      this.setProductOff({'productId': row.productId});
+    },
     tabChange() {
       this.productCreateForm.pageNo = 1;
       this.productCreateForm.pageSize = 20;
@@ -135,15 +138,6 @@ export default {
     onSizePagination(value) {
       this.formData.pageSize = value;
       this.query();
-    },
-    getTimeRange(time) {
-      if (time) {
-        this.formData.startDate = time[0];
-        this.formData.endDate = time[1];
-      } else {
-        this.formData.startDate = '';
-        this.formData.endDate = '';
-      }
     },
     checkProductName(value) {
       this.formData.productName = String(value).trim();
@@ -199,7 +193,8 @@ export default {
     ...mapActions([
       'getProductCreatList',
       'getComposedProduct',
-      'setdeleteProduct'
+      'setdeleteProduct',
+      'setProductOff'
     ])
   }
 };

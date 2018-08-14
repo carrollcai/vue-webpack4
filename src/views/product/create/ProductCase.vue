@@ -316,13 +316,6 @@ export default {
             this.addSalesCase({ params, submitParams });
             let data = {productId: this.proId};
             this.getSalesCaseDetail(data);
-            // let params = {
-            //   fileInputId: '',
-            //   fileTypeId: FILE_TYPE_ID.order,
-            //   moduleId: 1,
-            //   files: this.assignForm.files
-            // };
-            // this.submitAssignContract({ params, submitParams });
           }
           this.cancel();
         }

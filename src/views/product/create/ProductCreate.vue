@@ -71,8 +71,8 @@
           </el-col>
           <el-col :span="11">
             <el-form-item>
-              <el-cascader placeholder="类别"
-                :options="assignHandlers"
+              <el-cascader placeholder="类别" v-if="firstCollectionType"
+                :options="firstCollectionType"
                 v-model="product.coreCompe"
                 @change="handleChange">
               </el-cascader>
@@ -86,16 +86,21 @@
           <el-col :span="11">
             <el-form-item>
               <el-select v-model="product.coreAbility" placeholder="核心能力" @change="selectCoreAbility">
-                <el-option label="个人-内容及服务" value="0"></el-option>
+                <!--<el-option label="个人-内容及服务" value="0"></el-option>
                 <el-option label="家庭-硬件" value="1"></el-option>
                 <el-option label="能力-音视频" value="2"></el-option>
-                <el-option label="业务运营服务" value="3"></el-option>
+                <el-option label="业务运营服务" value="3"></el-option>-->
+                <el-option
+                  v-for="item in coreAbilityType"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </div>
       </el-form-item>
-      <el-form-item v-if="isCoreCompetency">
+      <el-form-item v-if="isCoreCompetency || isFirstLevel">
         <el-col :span="24">
             <el-form-item>
               <el-select class="form-input-320" v-model="product.specificProduct" placeholder="具体能力及产品">
@@ -114,15 +119,20 @@
             </el-form-item>
           </el-col>
       </el-form-item>
-      <el-form-item label="产品对接人:" class="col-item" prop="broker">
+      <el-form-item label="产品对接人:" class="col-item">
         <el-col :span="11">
-          <el-form-item>
+          <el-form-item prop="broker">
             <el-select v-model="product.broker" placeholder="对接人">
-              <el-option label="无" value="0"></el-option>
+              <el-option
+                v-for="item in brokerList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"></el-option>
+              <!--<el-option label="无" value="0"></el-option>
               <el-option label="核心能力清单" value="1"></el-option>
               <el-option label="一级集采目录" value="2"></el-option>
               <el-option label="二级集采目录" value="3"></el-option>
-              <el-option label="终端库" value="4"></el-option>
+              <el-option label="终端库" value="4"></el-option>-->
             </el-select>
           </el-form-item>
         </el-col>
@@ -133,7 +143,7 @@
           <el-form-item prop="mobile">
             <el-input
             v-model="product.mobile"
-            :maxlength="6"
+            :maxlength="11"
             placeholder="手机号"></el-input>
           </el-form-item>
         </el-col>
@@ -159,7 +169,7 @@
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item label="产品资料" prop="files" required>
+      <el-form-item label="产品资料" prop="files">
         <el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
           :auto-upload="false"
@@ -216,7 +226,7 @@
           placeholder="请输入版本号"></el-input>
       </el-form-item>-->
       <el-form-item>
-        <el-button type="primary" @click="toSecondStep()">立即提审</el-button>
+        <el-button type="primary" @click="toSubmit()">立即提审</el-button>
         <el-button>取消</el-button>
         <!--<el-button type="primary" @click="toSecondStep()">下一步</el-button>-->
       </el-form-item>
@@ -299,7 +309,8 @@ export default {
       selMarket: [],
       isFirstLevel: false,
       isCoreCompetency: false,
-      specificProductList: []
+      specificProductList: [],
+      list: []
     };
   },
   computed: {
@@ -308,12 +319,16 @@ export default {
     },
     ...mapState({
       firstCollectList: ({ product }) => product.firstCollectList,
-      coreAbilityList: ({ product }) => product.coreAbilityList
+      coreAbilityList: ({ product }) => product.coreAbilityList,
+      firstCollectionType: ({ product }) => product.firstCollectionType,
+      brokerList: ({ product }) => product.brokerList,
+      coreAbilityType: ({ product }) => product.coreAbilityType
     })
   },
   beforeMount() {
     this.getFirstCatalog();
     this.getCoreAbility();
+    this.getBroker();
   },
   methods: {
     isAcceptable(fileName) {
@@ -345,6 +360,7 @@ export default {
           result = false;
         } else {
           this.uploadFiles.push(file.raw);
+          this.$refs.baseForm.validateField('files');
         }
       } else {
         this.$message({
@@ -448,10 +464,12 @@ export default {
     selectBelongToCompany() {
       if (this.product.belongToCompany === '2') {
         this.isFirstLevel = true;
+        this.getFirstCatalogType();
       } else {
         this.isFirstLevel = false;
       }
       if (this.product.belongToCompany === '1') {
+        this.getCoreAbilityType();
         this.isCoreCompetency = true;
       } else {
         this.isCoreCompetency = false;
@@ -474,7 +492,7 @@ export default {
       }
     },
     ...mapActions([
-      'saveProduct', 'getFirstCatalog', 'getCoreAbility'
+      'saveProduct', 'getFirstCatalog', 'getCoreAbility', 'getFirstCatalogType', 'getBroker', 'getCoreAbilityType'
     ])
   }
 };

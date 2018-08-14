@@ -59,7 +59,12 @@ const state = {
   addSalesCase: '',
   addProduct: '',
   firstCollectList: [],
-  coreAbilityList: []
+  coreAbilityList: [],
+  firstCollectionType: [],
+  brokerList: [],
+  coreAbilityType: [],
+  productCaseDetail: '',
+  productNameList: []
 };
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
@@ -136,6 +141,58 @@ const mutations = {
       return newVal;
     });
     state.coreAbilityList = handlers;
+  },
+  [types.FIRST_COLLECTION_TYPE](state, data) {
+    state.firstCollectionType = data.map(val => {
+      let _val = {};
+      _val.value = val.codeValue;
+      _val.label = val.codeName;
+      if (val.middleClass) {
+        let children = [];
+        val.middleClass.map(val => {
+          let _chi = {};
+          _chi.value = val.codeValue;
+          _chi.label = val.codeName;
+          children.push(_chi);
+          if (val.smallClass) {
+            let children = [];
+            val.smallClass.map(val => {
+              let _chi = {};
+              _chi.value = val.codeValue;
+              _chi.label = val.codeName;
+              children.push(_chi);
+            });
+            _chi.children = children;
+          };
+        });
+        _val.children = children;
+      };
+      return _val;
+    });
+  },
+  [types.BROKER_LIST](state, data) {
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.code;
+      newVal.label = val.staffName;
+      return newVal;
+    });
+    state.brokerList = handlers;
+  },
+  [types.CORE_ABILITY_TYPE](state, data) {
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      return newVal;
+    });
+    state.coreAbilityType = handlers;
+  },
+  [types.PRODUCT_CASE_DETAIL](state, data) {
+    state.productCaseDetail = data;
+  },
+  [types.PRODUCT_NAME_LIST](state, data) {
+    state.productNameList = data.map(val => Object.assign(val, {value: val.vendorName}));
   }
 };
 

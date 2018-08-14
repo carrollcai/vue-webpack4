@@ -3,6 +3,7 @@ import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import ProductCase from './ProductCase.vue';
 import { multFileValid } from '@/utils/rules.js';
+import { FILE_TYPE_ID } from '@/config/index.js';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
@@ -106,6 +107,34 @@ export default {
         }
       });
     },
+    toSubmit() {
+      this.$refs.baseForm.validate((valid) => {
+        if (valid) {
+          const {productCase} = this;
+          // 新增
+          if (this.uploadFiles && this.uploadFiles.length) {
+            productCase.files = this.uploadFiles;
+          }
+
+          productCase.state = '2';
+
+          this.list.push(productCase);
+          let submitParams = Object.cloneDeep(this.product);
+          console.log(submitParams);
+          submitParams.productId = this.proId;
+          delete submitParams.state;
+          delete submitParams.files;
+          delete submitParams.salesList;
+          let params = {
+            fileInputId: '',
+            fileTypeId: FILE_TYPE_ID.product,
+            moduleId: 1,
+            files: this.uploadFiles
+          };
+          this.saveProduct({ params, submitParams });
+        }
+      });
+    },
     handleDeleteCase(index, productCase) {
       let params = {};
       params.salesId = productCase.salesId;
@@ -147,7 +176,8 @@ export default {
       'getProductFileId',
       'uploadProductScheme',
       'delSalesCase',
-      'getSalesCaseDetail'
+      'getSalesCaseDetail',
+      'saveProduct'
     ])
   }
 };

@@ -1,20 +1,22 @@
 <template>
   <div>
     <div class="m-container">
-      <div class="breadcrumb">
-        <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: toPath }">销售产品库</el-breadcrumb-item>
-          <el-breadcrumb-item>案例管理</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+      <!--<div class="breadcrumb">-->
+      <el-breadcrumb>
+        <el-breadcrumb-item :to="{ path: toPath }">销售产品库</el-breadcrumb-item>
+        <el-breadcrumb-item>案例管理</el-breadcrumb-item>
+      </el-breadcrumb>
+      <!--</div>-->
     </div>
     <div>
       <div class="base-info">
         <!--<h3>产品基本信息</h3>-->
-        <ul class="b-i-list">
+        <ul class="b-i-list" style="padding-top:20px;">
             <li><span>产品名称：</span>{{salesCaseDetail.productName}}</li>
             <li><span>产品介绍：</span>{{salesCaseDetail.description}}</li>
-            <li>更多产品信息<i @click="showMore = true;" class="el-icon el-icon-arrow-right blue el-table__expand-icon--expanded"></i></li>
+            <li @click="isShow" class="info_head-sub show-more">更多产品信息
+              <!--<i class="el-icon el-icon-arrow-down" :class="showMore ? 'el-icon-arrow-up' : ''"></i>-->
+            </li>
         </ul>
         <div v-if="showMore">
           <ul class="b-i-list">
@@ -50,6 +52,9 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
             <template slot-scope="scope">
+              <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
+                    详细
+                </el-button>
                 <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
                     编辑
                 </el-button>
@@ -94,6 +99,13 @@ export default {
     this.getSalesCaseDetail(data);
   },
   methods: {
+    isShow() {
+      if (this.showMore) {
+        this.showMore = false;
+      } else {
+        this.showMore = true;
+      }
+    },
     ...mapActions([
       'getSalesCaseDetail'
     ])
@@ -126,7 +138,7 @@ export default {
   }
   .base-info {
   margin-top: 16px;
-  padding-bottom: 30px;
+  // padding-bottom: 30px;
   background: #fff;
   h3 {
     height: 48px;
@@ -140,7 +152,7 @@ export default {
 .b-i-list {
     display: flex;
     flex-flow: wrap;
-    padding: 10px 32px 0;
+    padding: 10px 24px 0;
     li {
       height: auto !important;
       display: flex;
@@ -154,6 +166,11 @@ export default {
         color: #c0c0c0;
       }
     }
+  }
+  .show-more{
+    color: rgba(55, 120, 255, 1) !important;
+    font-size: 12px;
+    cursor: pointer;
   }
 }
 </style>

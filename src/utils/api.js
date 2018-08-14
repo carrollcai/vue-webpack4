@@ -153,8 +153,12 @@ export default {
   editSalesCaseAPI: API('/esop/product/editSales'),
   // 删除销售案例
   delSalesCaseAPI: API('/esop/product/deleteSales'),
-  // 查询销售案例详情
+  // 查询销售案例详情页面
   getSalesCaseDetailAPI: API('/esop/product/queryDetailProductWithSales'),
+  // 查询销售案例详情（单个案例）
+  getProductCaseDetailAPI: API('/esop/product/queryDetailSale'),
+  // 模糊搜索产品
+  getProductNameAPI: API('/esop/product/queryByCodeOrName'),
   // getProductListAPI: API('/esop/product/queryProduct'),
   // 新建产品
   setAddProductAPI: API('/esop/product/addProduct'),

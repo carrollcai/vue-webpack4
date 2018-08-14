@@ -65,19 +65,42 @@ const actions = {
    * @param {*} param0
    * @param {Object} product
    */
-  saveProduct({commit}, product) {
-    return API.setAddProductAPI(product).then(() => {
+  // 先获取附件id再上传,再提交表单。
+  async saveProduct({ dispatch, commit }, { params, submitParams }) {
+    // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
+    let fileInputId = await dispatch('getNewFileInputId');
+    let _params = Object.assign(params, { fileInputId });
+    let _submitParams = Object.assign(submitParams, { fileInputId: fileInputId });
+
+    // 如果上传失败，还原按钮状态，退出程序
+    let error = await dispatch('uploadOrderHandleTask', _params);
+    if (error) {
+      // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
+      return false;
+    }
+    await API.setAddProductAPI(_submitParams).then(() => {
+      // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
       Message({
         message: '新增产品成功',
         type: 'success',
         duration: 3000
       });
-      // 创建成功
-      commit(types.ROUTE_CHANGE, {
-        path: '/product/product-creat-manage'
-      });
+    }, () => {
     });
   },
+  // saveProduct({commit}, product) {
+  //   return API.setAddProductAPI(product).then(() => {
+  //     Message({
+  //       message: '新增产品成功',
+  //       type: 'success',
+  //       duration: 3000
+  //     });
+  //     // 创建成功
+  //     commit(types.ROUTE_CHANGE, {
+  //       path: '/product/product-creat-manage'
+  //     });
+  //   });
+  // },
   /**
    * 修改产品
    * @param {*} param0
@@ -295,6 +318,54 @@ const actions = {
       if (err) {
         commit(types.CORE_ABILITY_LIST, []);
       }
+    });
+  },
+  /**
+   * 一级集采目录类别
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getFirstCatalogType({ commit }, params) {
+    const req = { codeType: 'FIRST_COLLECTION' };
+    return API.getProductBelongOptionAPI(req).then(res => {
+      commit(types.FIRST_COLLECTION_TYPE, res.data.bigClass);
+    }, err => {
+      if (err) {
+        commit(types.FIRST_COLLECTION_TYPE, []);
+      }
+    });
+  },
+  /**
+   * 核心能力清单类别
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getCoreAbilityType({ commit }, params) {
+    const req = { codeType: 'CORE_ABILITY' };
+    return API.getProductBelongOptionAPI(req).then(res => {
+      commit(types.CORE_ABILITY_TYPE, res.data.coreAbilityList);
+    }, err => {
+      if (err) {
+        commit(types.CORE_ABILITY_TYPE, []);
+      }
+    });
+  },
+  /**
+   * 查询销售案例详情（单个案例）
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getProductCaseDetail({ commit }, params) {
+    return API.getProductCaseDetailAPI(params).then(res => {
+      commit(types.PRODUCT_CASE_DETAIL, res.data);
+    });
+  },
+  /**
+   * 查询产品名称
+   */
+  getProductName({commit}, params) {
+    API.getProductNameAPI(params).then(res => {
+      commit(types.GROUP_NAME_LIST, res.data.list);
     });
   }
 };
