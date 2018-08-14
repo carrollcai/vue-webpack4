@@ -49,7 +49,7 @@ export default {
           { required: true, message: '请输入产品名称', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
-        mainMarket: [
+        mainMarketArr: [
           { required: true, message: '请选择主营市场', trigger: 'change' }
         ],
         productType: [
@@ -120,11 +120,23 @@ export default {
 
           this.list.push(productCase);
           let submitParams = Object.cloneDeep(this.product);
-          console.log(submitParams);
           submitParams.productId = this.proId;
+          for (let i = 0; i < submitParams.mainMarketArr.length; i++) {
+            let item = submitParams.mainMarketArr[i];
+            if (item === '个人市场') {
+              submitParams.mainMarketArr[i] = 1;
+            } else if (item === '家庭市场') {
+              submitParams.mainMarketArr[i] = 2;
+            } else if (item === '政企市场') {
+              submitParams.mainMarketArr[i] = 2;
+            }
+          }
           delete submitParams.state;
           delete submitParams.files;
           delete submitParams.salesList;
+          delete submitParams.secondOption;
+          submitParams.secondOption = submitParams.secondOptionStr;
+          delete submitParams.secondOptionStr;
           let params = {
             fileInputId: '',
             fileTypeId: FILE_TYPE_ID.product,

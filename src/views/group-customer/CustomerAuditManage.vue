@@ -14,9 +14,9 @@
             </el-select>
           </el-form-item>-->
 
-          <el-form-item class="form-query-input-width form-left-width" prop="staffName">
+          <!--<el-form-item class="form-query-input-width form-left-width" prop="staffName">
             <el-input v-model="managerName" placeholder="客户经理" clearable/>
-          </el-form-item>
+          </el-form-item>-->
 
           <el-form-item class="form-query-input-width form-left-width" prop="code">
             <el-input v-model="otherField" placeholder="集团名称/编码" clearable />

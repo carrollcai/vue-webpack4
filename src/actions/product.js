@@ -70,7 +70,7 @@ const actions = {
     // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
     let fileInputId = await dispatch('getNewFileInputId');
     let _params = Object.assign(params, { fileInputId });
-    let _submitParams = Object.assign(submitParams, { fileInputId: fileInputId });
+    let _submitParams = Object.assign(submitParams, { productFileid: fileInputId });
 
     // 如果上传失败，还原按钮状态，退出程序
     let error = await dispatch('uploadOrderHandleTask', _params);
@@ -367,7 +367,17 @@ const actions = {
     API.getProductNameAPI(params).then(res => {
       commit(types.GROUP_NAME_LIST, res.data.list);
     });
-  }
+  },
+  /**
+   * 具体产品列表查询
+   * @param {*} param0
+   * @param {Object} product
+   */
+  getSpecProductList: ({ commit }, params) => {
+    return API.getOwnershipCompanyAPI(params).then((res) => {
+      commit(types.SPEC_PRODUCT_LIST, res.data);
+    });
+  },
 };
 
 export default actions;

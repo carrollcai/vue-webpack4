@@ -129,6 +129,9 @@ export default {
     tabChange() {
       this.productCreateForm.pageNo = 1;
       this.productCreateForm.pageSize = 20;
+      // if (productCreateForm.productStatus === '1') {
+      //   productCreateForm.productStatus
+      // }
       this.query();
     },
     onPagination(value) {

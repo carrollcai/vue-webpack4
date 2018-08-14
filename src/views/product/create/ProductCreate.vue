@@ -23,8 +23,8 @@
           :maxlength="6"
           placeholder="请输入名称"></el-input>
       </el-form-item>
-      <el-form-item label="主营市场" prop="mainMarket">
-        <el-checkbox-group v-model="product.mainMarket">
+      <el-form-item label="主营市场" prop="mainMarketArr">
+        <el-checkbox-group v-model="product.mainMarketArr">
           <el-checkbox v-for="item in marketList" :label="item" :key="item">{{item}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
@@ -40,7 +40,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="产品介绍:" prop="description">
-        <el-input v-model="product.description" maxlength="500" resize="none" type="textarea" placeholder="请输入产品介绍"></el-input>
+        <el-input v-model="product.description" maxlength="500" :rows="3" resize="none" type="textarea" placeholder="请输入产品介绍"></el-input>
       </el-form-item>
       <!--<el-form-item label="产品价格" prop="price">
         <el-input class="full-col" v-model="product.price" placeholder="数字允许小数点后两位小数">
@@ -48,7 +48,7 @@
         </el-input>
       </el-form-item>-->
       <el-form-item label="价格策略:">
-        <el-input maxlength="500" resize="none" type="textarea" v-model="product.prices" placeholder="请输入介绍"></el-input>
+        <el-input maxlength="500" resize="none" type="textarea" v-model="product.priceStrategy" placeholder="请输入介绍"></el-input>
       </el-form-item>
       <el-form-item label="商务策略:">
         <el-input maxlength="500" resize="none" type="textarea" v-model="product.commercialStrategy" placeholder="请输入介绍"></el-input>
@@ -57,11 +57,11 @@
         <el-col :span="11">
           <el-form-item>
             <el-select v-model="product.belongToCompany" placeholder="选择产品归属" @change="selectBelongToCompany">
-              <el-option label="无" value="0"></el-option>
-              <el-option label="核心能力清单" value="1"></el-option>
-              <el-option label="一级集采目录" value="2"></el-option>
-              <el-option label="二级集采目录" value="3"></el-option>
-              <el-option label="终端库" value="4"></el-option>
+              <el-option label="无" value="无"></el-option>
+              <el-option label="核心能力清单" value="核心能力清单"></el-option>
+              <el-option label="一级集采目录" value="一级集采目录"></el-option>
+              <el-option label="二级集采目录" value="二级集采目录"></el-option>
+              <el-option label="终端库" value="终端库"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -85,7 +85,7 @@
           </el-col>
           <el-col :span="11">
             <el-form-item>
-              <el-select v-model="product.coreAbility" placeholder="核心能力" @change="selectCoreAbility">
+              <el-select v-model="product.secondOption" placeholder="核心能力" @change="selectCoreAbility">
                 <!--<el-option label="个人-内容及服务" value="0"></el-option>
                 <el-option label="家庭-硬件" value="1"></el-option>
                 <el-option label="能力-音视频" value="2"></el-option>
@@ -106,10 +106,10 @@
               <el-select class="form-input-320" v-model="product.specificProduct" placeholder="具体能力及产品">
                 <!--specificProductList-->
                 <el-option
-                  v-for="item in coreAbilityList"
+                  v-for="item in specProductList"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"></el-option>
+                  :value="item.label"></el-option>
                 <!--<el-option label="无" value="0"></el-option>
                 <el-option label="核心能力清单" value="1"></el-option>
                 <el-option label="一级集采目录" value="2"></el-option>
@@ -122,7 +122,7 @@
       <el-form-item label="产品对接人:" class="col-item">
         <el-col :span="11">
           <el-form-item prop="broker">
-            <el-select v-model="product.broker" placeholder="对接人">
+            <el-select v-model="product.broker" placeholder="对接人"  @change="selectBroker">
               <el-option
                 v-for="item in brokerList"
                 :key="item.value"
@@ -291,7 +291,8 @@ export default {
       step: 0,
       product: {
         salesList: [],
-        mainMarket: []
+        mainMarketArr: [],
+        broker: ''
       },
       isSubmit: false,
       FILE_TIP,
@@ -310,7 +311,8 @@ export default {
       isFirstLevel: false,
       isCoreCompetency: false,
       specificProductList: [],
-      list: []
+      list: [],
+      secondOption: ''
     };
   },
   computed: {
@@ -322,7 +324,8 @@ export default {
       coreAbilityList: ({ product }) => product.coreAbilityList,
       firstCollectionType: ({ product }) => product.firstCollectionType,
       brokerList: ({ product }) => product.brokerList,
-      coreAbilityType: ({ product }) => product.coreAbilityType
+      coreAbilityType: ({ product }) => product.coreAbilityType,
+      specProductList: ({ product }) => product.specProductList
     })
   },
   beforeMount() {
@@ -462,13 +465,13 @@ export default {
       return false;
     },
     selectBelongToCompany() {
-      if (this.product.belongToCompany === '2') {
+      if (this.product.belongToCompany === '一级集采目录') {
         this.isFirstLevel = true;
         this.getFirstCatalogType();
       } else {
         this.isFirstLevel = false;
       }
-      if (this.product.belongToCompany === '1') {
+      if (this.product.belongToCompany === '核心能力清单') {
         this.getCoreAbilityType();
         this.isCoreCompetency = true;
       } else {
@@ -476,27 +479,40 @@ export default {
       }
     },
     selectCoreAbility() {
-      switch (this.product.coreAbility) {
-        case '0':
-          this.specificProductList = [{ value: '线上线下数字内容服务', label: '线上线下数字内容服务' }, { value: '咪咕O2O服务', label: '咪咕O2O服务' }];
-          break;
-        case '1':
-          this.specificProductList = [{ value: '咪咕电视', label: '咪咕电视' }, { value: '魔百和', label: '魔百和' }];
-          break;
-        case '2':
-          this.specificProductList = [{ value: '和商务直播系列产品', label: '和商务直播系列产品' }, { value: '灵犀云语音能力平台', label: '灵犀云语音能力平台' }];
-          break;
-        case '3':
-          this.specificProductList = [{ value: '手机报业务运营', label: '手机报业务运营' }];
-          break;
-      }
+      let obj = {};
+      obj.codeType = 'CORE_ABILITY';
+      obj.parentCode = this.product.secondOption;
+      this.getSpecProductList(obj);
     },
-    changeFirstCollectType() {
+    changeFirstCollectType(item) {
       let type = this.product.secondOption[2];
-      console.log(type);
+      let obj = {};
+      obj.codeType = 'FIRST_COLLECTION';
+      obj.parentCode = type;
+      this.getSpecProductList(obj);
+      this.firstCollectionType.map(val => {
+        if (val.children) {
+          val.children.map(val => {
+            if (val.children) {
+              val.children.map(val => {
+                if (val.value === type) {
+                  this.product.secondOptionStr = val.label;
+                }
+              });
+            };
+          });
+        };
+      });
+    },
+    selectBroker(item) {
+      this.brokerList.map(val => {
+        if (val.value === item) {
+          this.product.mobile = val.mobile;
+        }
+      });
     },
     ...mapActions([
-      'saveProduct', 'getFirstCatalog', 'getCoreAbility', 'getFirstCatalogType', 'getBroker', 'getCoreAbilityType'
+      'saveProduct', 'getFirstCatalog', 'getCoreAbility', 'getFirstCatalogType', 'getBroker', 'getCoreAbilityType', 'getSpecProductList'
     ])
   }
 };

@@ -64,7 +64,8 @@ const state = {
   brokerList: [],
   coreAbilityType: [],
   productCaseDetail: '',
-  productNameList: []
+  productNameList: [],
+  specProductList: []
 };
 const mutations = {
   [types.PRODUCT_DETAIL](state, data) {
@@ -173,8 +174,9 @@ const mutations = {
   [types.BROKER_LIST](state, data) {
     let handlers = data.map(val => {
       let newVal = {};
-      newVal.value = val.code;
+      newVal.value = val.operatorId;
       newVal.label = val.staffName;
+      newVal.mobile = val.mobile;
       return newVal;
     });
     state.brokerList = handlers;
@@ -193,6 +195,15 @@ const mutations = {
   },
   [types.PRODUCT_NAME_LIST](state, data) {
     state.productNameList = data.map(val => Object.assign(val, {value: val.vendorName}));
+  },
+  [types.SPEC_PRODUCT_LIST](state, data) {
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      return newVal;
+    });
+    state.specProductList = handlers;
   }
 };
 
