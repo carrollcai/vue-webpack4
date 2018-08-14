@@ -104,12 +104,12 @@ const dynamicRoutes = [
       { path: '/analysis/retention-loss', component: RetentionLoss, meta: { menuId: 4 } },
 
       // 数据审核管理 的 menuId 先用的别的模块的 后面在修改
-      { path: '/data-extraction/data-download', name: 'data-download', component: DataDownload, meta: { menuId: 35 } },
-      { path: '/data-extraction/data-detail', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 35 } },
-      { path: '/data-extraction/data-detail/:id', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 35 } },
-      { path: '/data-extraction/data-audit-detail/:id', name: 'data-audit-detail', component: DataExtractionDetail, meta: { menuId: 35 } },
-      { path: '/data-extraction/data-apply', name: 'data-audit', component: DataApply, meta: { menuId: 35 } },
-      { path: '/data-extraction/data-audit', name: 'data-apply', component: DataAudit, meta: { menuId: 36 } },
+      { path: '/data-extraction/data-download', name: 'data-download', component: DataDownload, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-detail', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-detail/:id', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-audit-detail/:id', name: 'data-audit-detail', component: DataExtractionDetail, meta: { menuId: 26 } },
+      { path: '/data-extraction/data-apply', name: 'data-apply', component: DataApply, meta: { menuId: 24 } },
+      { path: '/data-extraction/data-audit', name: 'data-audit', component: DataAudit, meta: { menuId: 26 } },
 
       {
         path: '/product/sales-product-store',
