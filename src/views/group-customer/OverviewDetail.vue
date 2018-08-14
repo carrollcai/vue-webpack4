@@ -92,8 +92,8 @@
         <wm-table
           :source="contacts">
           <el-table-column label="姓名" property="name" />
-          <el-table-column label="手机号" property="mobile">
-          </el-table-column>
+          <!--<el-table-column label="手机号" property="mobile">
+          </el-table-column>-->
           <el-table-column label="性别" property="genderValue">
           </el-table-column>
           <el-table-column label="部门" property="department" />

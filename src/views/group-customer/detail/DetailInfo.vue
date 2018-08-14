@@ -3,7 +3,8 @@
       <audit-steps v-if="customer.processInsId && processes.length" :processList="processes" />
       <div class="block-title base-info_title">
         基本信息
-        <span class="base-info_title-sub" @click="showMore = !showMore">更多信息</span>
+        <span class="base-info_title-sub" v-if="customer.visibleRange" @click="showMore = !showMore">更多信息</span>
+        <!--<span class="base-info_title-sub" v-else>更多信息</span>-->
       </div>
       <div class="block-info">
         <el-row>
@@ -120,10 +121,10 @@
             prop="name"
             label="姓名">
           </el-table-column>
-          <el-table-column
+          <!--<el-table-column
             prop="mobile"
             label="手机">
-          </el-table-column>
+          </el-table-column>-->
           <el-table-column
             prop="genderValue"
             label="性别">

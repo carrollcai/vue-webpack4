@@ -20,10 +20,11 @@
         key="baseForm">
           <div class="customer-create-info">
             <el-form-item label="集团名称" prop="organizeName" key="name">
-              <el-input v-model="customer.organizeName"
+              <el-autocomplete maxlength="25" v-model="customer.organizeName" :fetch-suggestions="querySearchAsync" placeholder="请输入集团名称"></el-autocomplete>
+              <!--<el-input v-model="customer.organizeName"
                 :maxlength="25"
                 placeholder="请输入集团名称"
-                key="name-input"></el-input>
+                key="name-input"></el-input>-->
             </el-form-item>
             <el-form-item label="集团属性" prop="organizeType" key="organizeType">
               <el-select v-model="customer.organizeType"
@@ -199,11 +200,11 @@
                 :maxlength="13"
                 key="registerNum-input"></el-input>-->
             </el-form-item>
-            <el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
+            <!--<el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
               <el-input v-model="customer.organizeRepresent"
                 placeholder="8位数字+1位校验码"
                 key="registerNum-input"></el-input>
-            </el-form-item>
+            </el-form-item>-->
             <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
               <el-input
               v-model="customer.socialCreditCode"
@@ -402,10 +403,25 @@ export default {
   },
   computed: {
     ...mapState({
-      tagLibraryList: ({ groupCustomer }) => groupCustomer.tagLibraryList
+      tagLibraryList: ({ groupCustomer }) => groupCustomer.tagLibraryList,
+      groupNameList: ({ groupCustomer }) => groupCustomer.groupNameList
     })
   },
   methods: {
+    async querySearchAsync(queryString, cb) {
+      this.noData = false;
+      if (!queryString) return false;
+      let params = {
+        pageSize: 20,
+        organizeName: queryString
+      };
+      await this.getGroupName(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var results = this.groupNameList;
+        cb(results);
+      }, 1000);
+    },
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
@@ -484,7 +500,7 @@ export default {
       }
       return str;
     },
-    ...mapActions(['createCustomer', 'createApproveCustomer', 'getTagLibrary'])
+    ...mapActions(['createCustomer', 'createApproveCustomer', 'getTagLibrary', 'getGroupName'])
   }
 };
 </script>

@@ -3,6 +3,7 @@ import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import ProductCase from './ProductCase.vue';
 import { multFileValid } from '@/utils/rules.js';
+import { FILE_TYPE_ID } from '@/config/index.js';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
@@ -15,7 +16,7 @@ export default {
   },
   data() {
     const fileCheck = (rule, value, callback) => {
-      multFileValid(this.baseFormRules.files, callback);
+      multFileValid(this.uploadFiles, callback);
     };
     const priceFn = (rule, value, callback) => {
       const reg = /^\d{1,9}(?:\.\d{1,2})?$/;
@@ -73,6 +74,13 @@ export default {
           { required: true, message: '请输入产品介绍', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
+        broker: [
+          { required: true, message: '请选择对接人', trigger: 'change' }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
+          { validator: emptyValidator, trigger: ['blur', 'change'] }
+        ],
         files: [
           { validator: fileCheck }
         ]
@@ -99,12 +107,45 @@ export default {
         }
       });
     },
+    toSubmit() {
+      this.$refs.baseForm.validate((valid) => {
+        if (valid) {
+          const {productCase} = this;
+          // 新增
+          if (this.uploadFiles && this.uploadFiles.length) {
+            productCase.files = this.uploadFiles;
+          }
+
+          productCase.state = '2';
+
+          this.list.push(productCase);
+          let submitParams = Object.cloneDeep(this.product);
+          console.log(submitParams);
+          submitParams.productId = this.proId;
+          delete submitParams.state;
+          delete submitParams.files;
+          delete submitParams.salesList;
+          let params = {
+            fileInputId: '',
+            fileTypeId: FILE_TYPE_ID.product,
+            moduleId: 1,
+            files: this.uploadFiles
+          };
+          this.saveProduct({ params, submitParams });
+        }
+      });
+    },
     handleDeleteCase(index, productCase) {
-      if (productCase.salesId) {
-        productCase.state = '0';
-      } else {
-        this.cases.splice(index, 1);
-      }
+      let params = {};
+      params.salesId = productCase.salesId;
+      this.delSalesCase(params);
+      var data = {productId: productCase.productId};
+      this.getSalesCaseDetail(data);
+      // if (productCase.salesId) {
+      //   productCase.state = '0';
+      // } else {
+      //   this.cases.splice(index, 1);
+      // }
     },
     handleEditCase(productCase, index) {
       this.isAddingCase = true;
@@ -133,7 +174,10 @@ export default {
     },
     ...mapActions([
       'getProductFileId',
-      'uploadProductScheme'
+      'uploadProductScheme',
+      'delSalesCase',
+      'getSalesCaseDetail',
+      'saveProduct'
     ])
   }
 };

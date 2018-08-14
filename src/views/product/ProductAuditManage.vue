@@ -1,19 +1,19 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form :model="formData" class="form-manage">
+    <el-form :model="productAuditManageForm" class="form-manage">
       <div class="flex">
         <el-form-item>
           <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
+            <el-date-picker v-model="productAuditManageForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-col>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="formData.submitName" @change="submitName" placeholder="提交人"></el-input>
+          <el-input clearable v-model="productAuditManageForm.submitName" placeholder="提交人"></el-input>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
+          <el-input clearable v-model="productAuditManageForm.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
         </el-form-item>
       </div>
       <div class="flex">
@@ -22,35 +22,35 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="formData.opporStatus" @tab-click="tabChange">
-      <el-tab-pane label="待审核" :name="'1'"></el-tab-pane>
-      <el-tab-pane label="已审核" :name="'2'"></el-tab-pane>
+    <el-tabs v-model="productAuditManageForm.taskHasComplete" @tab-click="tabChange">
+      <el-tab-pane label="待审核" :name="'0'"></el-tab-pane>
+      <el-tab-pane label="已审核" :name="'1'"></el-tab-pane>
     </el-tabs>
   </div>
   <div class="m-container table-container">
     <wm-table
-      :source="productList.list"
-      :total="productList.totalCount"
-      :pageNo="formData.pageNo"
-      :pageSize="formData.pageSize"
+      :source="productTaskInfoList.list"
+      :total="productTaskInfoList.totalCount"
+      :pageNo="productTaskInfoList.pageNo"
+      :pageSize="productTaskInfoList.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
         </el-table-column>
-        <el-table-column label="操作类型" show-overflow-tooltip property="operType">
+        <el-table-column label="操作类型" show-overflow-tooltip property="opTypeName">
         </el-table-column>
-        <el-table-column label="提交时间" property="submitTime">
+        <el-table-column label="提交时间" property="insertDate">
         </el-table-column>
-        <el-table-column label="提交人" show-overflow-tooltip property="submitName">
+        <el-table-column label="提交人" show-overflow-tooltip property="staffName">
         </el-table-column>
         <el-table-column label="用户归属" show-overflow-tooltip property="userOwnerShip">
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="operation">
-            <el-button class="table-button" type="text" @click="toPageDetail(operation.row)">
+            <el-button v-if="businessStatus === '已审核'" class="table-button" type="text" @click="toPageDetail(operation.row)">
               详情
             </el-button>
-            <el-button class="table-button" type="text" @click="toPageAudit(operation.row)">
+            <el-button v-if="businessStatus === '待审核'" class="table-button" type="text" @click="toPageAudit(operation.row)">
               去审核
             </el-button>
           </template>
@@ -63,69 +63,54 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
+import moment from 'moment';
 export default {
   components: {
     WmTable
   },
   data() {
     return {
-      timeRange: '',
-      baseInfo: {
-        productId: '',
-        productName: '',
-        productType: '',
-        price: '',
-        description: '',
-        username: '',
-        deptment: '',
-        version: '',
-        position: '',
-        salesList: []
-      },
-      formData: {
-        startDate: '',
-        endDate: '',
-        productType: null,
-        productName: '',
-        createName: '',
-        pageNo: 1,
-        pageSize: 20,
-        opporStatus: '0'
-      }
     };
   },
   beforeMount() {
-    this.getProductCreatList({ pageNo: 1, pageSize: 20 });
+    let { date, ..._params } = this.productAuditManageForm;
+    this.getProductTaskInfo(_params);
   },
   computed: {
     ...mapState({
-      productList: ({ product }) => product.productCreatList
+      productAuditManageForm: ({ product }) => product.productAuditManageForm,
+      productTaskInfoList: ({ product }) => product.productTaskInfoList
     })
   },
   methods: {
+    tabChange() {
+      this.productAuditManageForm.pageNo = 1;
+      this.productAuditManageForm.pageSize = 20;
+      this.query();
+    },
     onPagination(value) {
-      this.formData.pageNo = value;
+      this.productAuditManageForm.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.formData.pageSize = value;
+      this.productAuditManageForm.pageSize = value;
       this.query();
     },
-    getTimeRange(time) {
-      if (time) {
-        this.formData.startDate = time[0];
-        this.formData.endDate = time[1];
-      } else {
-        this.formData.startDate = '';
-        this.formData.endDate = '';
-      }
-    },
     checkProductName(value) {
-      this.formData.productName = String(value).trim();
+      this.productAuditManageForm.productName = String(value).trim();
     },
     query() {
-      // 产品数据查询方法
-      this.getProductCreatList(this.formData);
+      const params = this.productAuditManageForm;
+
+      if (params.date !== null && params.date.length === 2) {
+        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
+      } else {
+        params.startDate = '';
+        params.endDate = '';
+      }
+      let { date, ..._params } = this.productAuditManageForm;
+      this.getProductTaskInfo(_params);
     },
     onSubmit() {
       this.query();
@@ -173,8 +158,8 @@ export default {
       return columnValue === '0' ? '个人市场' : '政企市场';
     },
     ...mapActions([
+      'getProductTaskInfo',
       'getProductCreatList',
-      'getComposedProduct',
       'setdeleteProduct'
     ])
   }

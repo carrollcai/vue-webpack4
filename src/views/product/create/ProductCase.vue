@@ -31,7 +31,7 @@
           placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
 
-      <el-form-item  label="销售数量" prop="salesNumber">
+      <!--<el-form-item  label="销售数量" prop="salesNumber">
         <el-input class="full-col" v-model="productCase.salesNumber" placeholder="请输入数量"></el-input>
       </el-form-item>
 
@@ -45,7 +45,7 @@
         <el-input v-model="productCase.experience"
           :maxlength="500"
           placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
-      </el-form-item>
+      </el-form-item>-->
 
       <el-form-item label="方案附件" prop="files">
         <el-upload class="upload-files"
@@ -73,6 +73,7 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex';
+import { FILE_TYPE_ID } from '@/config/index.js';
 import endsWith from 'lodash/endsWith';
 import {
   FILE_ACCEPT,
@@ -92,7 +93,8 @@ export default {
       default() {
         return [];
       }
-    }
+    },
+    proId: ''
   },
   data() {
     const salesNumberFn = (rule, value, callback) => {
@@ -249,7 +251,11 @@ export default {
       }
 
       if (file.elecInstId) {
-        this.deleteFiles.push(file);
+        // 删除文件
+        this.delUplodFile({elecInstId: file.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
+          this.deleteFiles.push(file);
+        });
+        // this.deleteFiles.push(file);
       }
     },
     handleChangeSalesType(value) {
@@ -276,6 +282,14 @@ export default {
             productCase.deleteFiles = this.deleteFiles;
 
             this.list[this.index] = Object.assign({}, productCase);
+            let params = Object.cloneDeep(productCase);
+            delete params.productId;
+            delete params.state;
+            delete params.files;
+            delete params.deleteFiles;
+            this.editSalesCase(params);
+            let data = {productId: this.proId};
+            this.getSalesCaseDetail(data);
           } else {
             // 新增
             if (this.uploadFiles && this.uploadFiles.length) {
@@ -285,6 +299,23 @@ export default {
             productCase.state = '2';
 
             this.list.push(productCase);
+            let submitParams = Object.cloneDeep(productCase);
+            submitParams.productId = this.proId;
+            delete submitParams.state;
+            delete submitParams.files;
+            // let submitParams = {
+            //   fileId: '',
+            //   productRequest: param
+            // };
+            let params = {
+              fileInputId: '',
+              fileTypeId: FILE_TYPE_ID.product,
+              moduleId: 1,
+              files: this.uploadFiles
+            };
+            this.addSalesCase({ params, submitParams });
+            let data = {productId: this.proId};
+            this.getSalesCaseDetail(data);
           }
           this.cancel();
         }
@@ -295,7 +326,11 @@ export default {
     },
     ...mapActions([
       'getComposedProduct',
-      'queryElec'
+      'queryElec',
+      'addSalesCase',
+      'getSalesCaseDetail',
+      'editSalesCase',
+      'delUplodFile'
     ])
   }
 };

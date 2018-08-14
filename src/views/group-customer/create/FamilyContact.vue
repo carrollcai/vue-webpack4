@@ -22,7 +22,10 @@
         :maxlength="10"></el-input>
     </el-form-item>-->
     <el-form-item
-      :prop="'contactFamilyDtoList.' + index + '.name'">
+      :prop="'contactFamilyDtoList.' + index + '.name'"
+      :rules="{
+        validator: familyNameValidator, trigger: 'blur'
+      }">
       <el-input v-model="familyContact.name"
         placeholder="姓名"
         key="name"
@@ -30,7 +33,10 @@
     </el-form-item>
     <span class="line"></span>
     <el-form-item
-      :prop="'contactFamilyDtoList.' + index + '.relationship'">
+      :prop="'contactFamilyDtoList.' + index + '.relationship'"
+      :rules="{
+        validator: familyRelationshipValidator, trigger: 'blur'
+      }">
       <el-input v-model="familyContact.relationship"
         placeholder="与本人关系"
         key="relation"
@@ -38,7 +44,10 @@
     </el-form-item>
     <span class="line"></span>
     <el-form-item style="width: 305px"
-      :prop="'contactFamilyDtoList.' + index + '.note'">
+      :prop="'contactFamilyDtoList.' + index + '.note'"
+      :rules="{
+        validator: familyNoteValidator, trigger: 'blur'
+      }">
       <el-input v-model="familyContact.remark" style="width: 280px"
         placeholder="备注信息"
         key="remark"
@@ -164,7 +173,22 @@ export default {
       } else {
         callback();
       }
-    }
+    },
+
+    /**
+     * 家庭成员-备注 校验规则
+     *
+     * @param {Object} rule 规则
+     * @param {Object} value 值
+     * @param {Function} callback 回调函数
+     */
+    familyNoteValidator(rule, value, callback) {
+      if (!this.isEmpty() && !value) {
+        callback(new Error('请输入备注信息'));
+      } else {
+        callback();
+      }
+    },
   }
 };
 </script>
@@ -172,7 +196,7 @@ export default {
 .family-contact_container{
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 22px;
 
   .el-form-item{
     width: 101px;

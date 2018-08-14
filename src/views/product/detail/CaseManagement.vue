@@ -1,37 +1,39 @@
 <template>
   <div>
     <div class="m-container">
-      <div class="breadcrumb">
-        <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: toPath }">销售产品库</el-breadcrumb-item>
-          <el-breadcrumb-item>案例管理</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+      <!--<div class="breadcrumb">-->
+      <el-breadcrumb>
+        <el-breadcrumb-item :to="{ path: toPath }">销售产品库</el-breadcrumb-item>
+        <el-breadcrumb-item>案例管理</el-breadcrumb-item>
+      </el-breadcrumb>
+      <!--</div>-->
     </div>
     <div>
       <div class="base-info">
-        <h3>产品基本信息</h3>
-        <ul class="b-i-list">
-            <li><span>产品名称：</span>{{productSaleDemo.productName}}</li>
-            <li><span>产品介绍：</span>{{productSaleDemo.description}}</li>
-            <li>更多产品信息<i @click="showMore = true;" class="el-icon el-icon-arrow-right blue el-table__expand-icon--expanded"></i></li>
+        <!--<h3>产品基本信息</h3>-->
+        <ul class="b-i-list" style="padding-top:20px;">
+            <li><span>产品名称：</span>{{salesCaseDetail.productName}}</li>
+            <li><span>产品介绍：</span>{{salesCaseDetail.description}}</li>
+            <li @click="isShow" class="info_head-sub show-more">更多产品信息
+              <!--<i class="el-icon el-icon-arrow-down" :class="showMore ? 'el-icon-arrow-up' : ''"></i>-->
+            </li>
         </ul>
         <div v-if="showMore">
           <ul class="b-i-list">
-            <li><span>主营市场：</span></li>
-            <li><span>产品类别：</span>{{productSaleDemo.productType === '0' ? '个人市场' : '政企市场'}}</li>
+            <li><span>主营市场：</span>{{salesCaseDetail.mainMarket}}</li>
+            <li><span>产品类别：</span>{{salesCaseDetail.productType === '0' ? '个人市场' : '政企市场'}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>价格策略：</span></li>
+            <li><span>价格策略：</span>{{salesCaseDetail.priceStrategy}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>商务策略：</span></li>
+            <li><span>商务策略：{{salesCaseDetail.commercialStrategy}}</span></li>
           </ul>
           <ul class="b-i-list">
-            <li><span>产品归属：</span></li>
+            <li><span>产品归属：</span>{{salesCaseDetail.belongToCompany}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>产品对接人：</span><label>{{productSaleDemo.username}}-{{productSaleDemo.deptment}}-{{productSaleDemo.position}}</label></li>
+            <li><span>产品对接人：</span><label>{{salesCaseDetail.broker}}-{{salesCaseDetail.deptment}}-{{salesCaseDetail.position}}</label></li>
           </ul>
         </div>
       </div>
@@ -39,7 +41,7 @@
         <h3>销售案例</h3>
         <el-table
             border
-            :data="productSaleDemo.salesList">
+            :data="salesCaseDetail.salesList">
             <el-table-column label="销售类型" property="salesType" :formatter="salesTypeFormat">
             </el-table-column>
             <el-table-column label="组合产品" property="composedProduct" :formatter="composedProductFormat" show-overflow-tooltip >
@@ -50,6 +52,9 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
             <template slot-scope="scope">
+              <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
+                    详细
+                </el-button>
                 <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
                     编辑
                 </el-button>
@@ -59,7 +64,7 @@
             </template>
             </el-table-column>
         </el-table>
-        <product-case ref="prodctCases" v-if="isAddingCase" @cancel="cancelAddingCase" :list="cases"></product-case>
+        <product-case ref="prodctCases" v-if="isAddingCase" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-case>
         <div class="btn_add-case" @click="addCase">
             <i class="el-icon-plus"></i> 添加销售案例
         </div>
@@ -86,16 +91,23 @@ export default {
   },
   computed: {
     ...mapState({
-      productSaleDemo: ({ product }) => product.productSaleDemo
+      salesCaseDetail: ({ product }) => product.salesCaseDetail
     })
   },
   beforeMount() {
     var data = {productId: Number(this.$route.params.id)};
-    this.getProductDetail(data);
+    this.getSalesCaseDetail(data);
   },
   methods: {
+    isShow() {
+      if (this.showMore) {
+        this.showMore = false;
+      } else {
+        this.showMore = true;
+      }
+    },
     ...mapActions([
-      'getProductDetail'
+      'getSalesCaseDetail'
     ])
   }
 };
@@ -126,7 +138,7 @@ export default {
   }
   .base-info {
   margin-top: 16px;
-  padding-bottom: 30px;
+  // padding-bottom: 30px;
   background: #fff;
   h3 {
     height: 48px;
@@ -140,7 +152,7 @@ export default {
 .b-i-list {
     display: flex;
     flex-flow: wrap;
-    padding: 10px 32px 0;
+    padding: 10px 24px 0;
     li {
       height: auto !important;
       display: flex;
@@ -154,6 +166,11 @@ export default {
         color: #c0c0c0;
       }
     }
+  }
+  .show-more{
+    color: rgba(55, 120, 255, 1) !important;
+    font-size: 12px;
+    cursor: pointer;
   }
 }
 </style>

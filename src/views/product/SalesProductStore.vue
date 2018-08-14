@@ -1,27 +1,35 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form :model="formData" class="form-manage">
+    <el-form :model="salesProductStoreForm" class="form-manage">
       <div class="flex">
         <el-form-item>
-          <el-select v-model="formData.productType" clearable placeholder="产品类型">
+          <el-select v-model="salesProductStoreForm.productType" clearable placeholder="产品类型">
             <el-option label="全部" value=""></el-option>
             <el-option label="个人市场" value="0"></el-option>
             <el-option label="政企市场" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="formData.ownerCompany" clearable placeholder="归属公司">
-            <el-option label="全部" value=""></el-option>
+          <el-select v-model="salesProductStoreForm.codeValue" clearable placeholder="归属公司">
+            <el-option
+              v-for="item in ownerShipCompanyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="formData.mainMarket" clearable placeholder="主营市场">
+          <el-select v-model="salesProductStoreForm.mainMarket" clearable placeholder="主营市场">
             <el-option label="全部" value=""></el-option>
+            <el-option label="政企市场" value="0"></el-option>
+            <el-option label="家庭市场" value="1"></el-option>
+            <el-option label="个人市场" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="formData.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
+          <el-input clearable v-model="salesProductStoreForm.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
         </el-form-item>
       </div>
       <div class="flex">
@@ -44,8 +52,13 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-input-128 form-left-width">
-          <el-select v-model="newForm.ownerCompany" clearable placeholder="归属公司">
-            <el-option label="全部" value=""></el-option>
+          <el-select v-model="newForm.codeValue" clearable placeholder="归属公司">
+            <el-option
+              v-for="item in ownerShipCompanyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-input-128 form-left-width">
@@ -56,17 +69,19 @@
         </div>
         <div class="flex">
         <el-form-item class="form-left-width">
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" @click="onSubmitOut">查询</el-button>
         </el-form-item>
         </div>
       </el-form>
       <wm-table
       :source="productOutofLibraryList.list"
       :total="productOutofLibraryList.totalCount"
-      :pageNo="formData.pageNo"
-      :pageSize="formData.pageSize"
-      @onPagination="onPagination"
-      @onSizePagination="onSizePagination">
+      :pageNo="productOutofLibraryList.pageNo"
+      :pageSize="productOutofLibraryList.pageSize"
+      @onPagination="onPaginationOut"
+      @onSizePagination="onSizePaginationOut"
+      :mode="multiple"
+      @onSelected="handleSelectionChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
@@ -75,7 +90,7 @@
         </el-table-column>
         <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
-        <el-table-column label="归属公司" show-overflow-tooltip property="ownershipCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="region">
         </el-table-column>
     </wm-table>
       <!--<el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -98,29 +113,28 @@
     <wm-table
       :source="productLibraryList.list"
       :total="productLibraryList.totalCount"
-      :pageNo="formData.pageNo"
-      :pageSize="formData.pageSize"
+      :pageNo="salesProductStoreForm.pageNo"
+      :pageSize="salesProductStoreForm.pageSize"
       @onPagination="onPagination"
-      @onSizePagination="onSizePagination"
-      @selection-change="handleSelectionChange">
+      @onSizePagination="onSizePagination">
         <el-table-column label="产品编码" show-overflow-tooltip property="productCode">
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
         </el-table-column>
-        <el-table-column label="主营市场" property="mainMarket">
+        <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
-        <el-table-column label="产品类型" property="productType" :formatter="productTypeFn">
+        <el-table-column label="产品类型" show-overflow-tooltip property="productType" :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="归属公司" property="ownershipCompany">
+        <el-table-column label="归属公司" show-overflow-tooltip property="region">
         </el-table-column>
-        <el-table-column label="对接人" show-overflow-tooltip property="connectName">
+        <el-table-column label="对接人" show-overflow-tooltip property="broker">
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="operation">
             <el-button class="table-button" type="text" @click="toPageCase(operation.row)">
               案例管理
             </el-button>
-            <el-button class="table-button" type="text" @click="toPageModefiy(operation.row)">
+            <el-button class="table-button" type="text" @click="under(operation.row)">
               下架
             </el-button>
           </template>
@@ -153,64 +167,93 @@ export default {
         salesList: []
       },
       formData: {
-        startDate: '',
-        endDate: '',
         productType: null,
         productName: '',
-        createName: '',
         pageNo: 1,
         pageSize: 20,
-        opporStatus: '0'
+        codeType: '',
+        codeValue: null
       },
       newProductVisible: false,
       newForm: {
-        productType: '',
-        ownerCompany: '',
-        mainMarket: ''
-      }
+        productType: null,
+        codeValue: null,
+        codeType: '',
+        mainMarket: null,
+        pageNo: 1,
+        pageSize: 20
+      },
+      multipleSelection: []
     };
   },
   beforeMount() {
-    this.getProductLibrary({ pageNo: 1, pageSize: 20 });
+    this.getOwnershipCompany({codeType: 'REGION', parentCode: '100002'});
+    this.getProductLibrary(this.salesProductStoreForm);
     this.getProductOutOfLibrary({ pageNo: 1, pageSize: 20 });
   },
   computed: {
     ...mapState({
+      salesProductStoreForm: ({ product }) => product.salesProductStoreForm,
       productLibraryList: ({ product }) => product.productLibraryList,
-      productOutofLibraryList: ({ product }) => product.productOutofLibraryList
+      productOutofLibraryList: ({ product }) => product.productOutofLibraryList,
+      ownerShipCompanyList: ({ product }) => product.ownerShipCompanyList
     })
   },
   methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = [];
+      for (let i = 0; i < val.length; i++) {
+        this.multipleSelection.push(val[i].productId);
+      }
+    },
     onPagination(value) {
-      this.formData.pageNo = value;
+      this.salesProductStoreForm.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.formData.pageSize = value;
+      this.salesProductStoreForm.pageSize = value;
       this.query();
     },
-    getTimeRange(time) {
-      if (time) {
-        this.formData.startDate = time[0];
-        this.formData.endDate = time[1];
-      } else {
-        this.formData.startDate = '';
-        this.formData.endDate = '';
-      }
+    onPaginationOut(value) {
+      this.newForm.pageNo = value;
+      this.queryOut();
+    },
+    onSizePaginationOut(value) {
+      this.newForm.pageSize = value;
+      this.queryOut();
     },
     checkProductName(value) {
-      this.formData.productName = String(value).trim();
+      this.salesProductStoreForm.productName = String(value).trim();
     },
     query() {
-      this.getProductLibrary(this.formData);
+      if (this.salesProductStoreForm.codeValue) {
+        this.salesProductStoreForm.codeType = 'REGION';
+      } else {
+        this.salesProductStoreForm.codeType = '';
+      }
+      this.getProductLibrary(this.salesProductStoreForm);
+    },
+    queryOut() {
+      if (this.newForm.codeValue) {
+        this.newForm.codeType = 'REGION';
+      } else {
+        this.newForm.codeType = '';
+      }
+      this.getProductOutOfLibrary(this.newForm);
     },
     onSubmit() {
       this.query();
     },
+    onSubmitOut() {
+      this.queryOut();
+    },
     toCreatProduct() {
+      this.getProductOutOfLibrary({ pageNo: 1, pageSize: 20 });
       this.newProductVisible = true;
     },
     createProduct() {
+      this.addSalesProducts({ 'productIdList': this.multipleSelection });
+      this.getProductLibrary(this.salesProductStoreForm);
       this.newProductVisible = false;
     },
     cancelCreate() {
@@ -221,6 +264,12 @@ export default {
     },
     toPageModefiy(row) {
       this.$router.push(`/product/edit/${row.productId}`);
+    },
+    under(row) {
+      let id = [];
+      id.push(row.productId);
+      this.underCarriageProduct({'productIdList': id});
+      this.query();
     },
     deleteProduct(row) {
       let productId = row.productId;
@@ -259,7 +308,10 @@ export default {
       'getProductLibrary',
       'getProductOutOfLibrary',
       'getComposedProduct',
-      'setdeleteProduct'
+      'setdeleteProduct',
+      'getOwnershipCompany',
+      'underCarriageProduct',
+      'addSalesProducts'
     ])
   }
 };
