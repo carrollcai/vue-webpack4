@@ -73,8 +73,8 @@
             <el-form-item>
               <el-cascader placeholder="类别" v-if="firstCollectionType"
                 :options="firstCollectionType"
-                v-model="product.coreCompe"
-                @change="handleChange">
+                v-model="product.secondOption"
+                @change="changeFirstCollectType">
               </el-cascader>
             </el-form-item>
           </el-col>
@@ -490,6 +490,10 @@ export default {
           this.specificProductList = [{ value: '手机报业务运营', label: '手机报业务运营' }];
           break;
       }
+    },
+    changeFirstCollectType() {
+      let type = this.product.secondOption[2];
+      console.log(type);
     },
     ...mapActions([
       'saveProduct', 'getFirstCatalog', 'getCoreAbility', 'getFirstCatalogType', 'getBroker', 'getCoreAbilityType'

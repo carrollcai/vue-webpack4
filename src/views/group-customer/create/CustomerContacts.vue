@@ -67,13 +67,13 @@
               :maxlength="15"
               key="contact-duty-input"></el-input>
           </el-form-item>
-          <!--<el-form-item class="col-item" label="手机号码" prop="mobile" key="contact-mobile">
+          <el-form-item class="col-item" label="手机号码" prop="mobile" key="contact-mobile">
             <el-input class="col-input"
               v-model="contact.mobile"
               placeholder="请输入手机号码"
               :maxlength="11"
               key="contact-mobile-input"></el-input>
-          </el-form-item>-->
+          </el-form-item>
           <!--<el-form-item prop="department" key="contact-dept" label="部门">
             <el-input class="col-input"
               v-model="contact.department"
