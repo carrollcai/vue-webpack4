@@ -44,7 +44,7 @@
     </el-form-item>
     <span class="line"></span>
     <el-form-item style="width: 305px"
-      :prop="'contactFamilyDtoList.' + index + '.note'"
+      :prop="'contactFamilyDtoList.' + index + '.remark'"
       :rules="{
         validator: familyNoteValidator, trigger: 'blur'
       }">
@@ -123,11 +123,18 @@ export default {
      * @param {Function} callback 回调函数
      */
     familyNameValidator(rule, value, callback) {
-      if (!this.isEmpty() && !value) {
+      if (!value) {
+        callback(new Error('请输入姓名'));
+      } else if (!String(value).trim()) {
         callback(new Error('请输入姓名'));
       } else {
         callback();
       }
+      // if (!this.isEmpty() && !value) {
+      //   callback(new Error('请输入姓名'));
+      // } else {
+      //   callback();
+      // }
     },
 
     /**
@@ -138,11 +145,18 @@ export default {
      * @param {Function} callback 回调函数
      */
     familyRelationshipValidator(rule, value, callback) {
-      if (!this.isEmpty() && !value) {
+      if (!value) {
+        callback(new Error('请输入与本人关系'));
+      } else if (!String(value).trim()) {
         callback(new Error('请输入与本人关系'));
       } else {
         callback();
       }
+      // if (!this.isEmpty() && !value && value.trim()) {
+      //   callback(new Error('请输入与本人关系'));
+      // } else {
+      //   callback();
+      // }
     },
     /**
      * 家庭成员-工作职务 校验规则
@@ -183,7 +197,9 @@ export default {
      * @param {Function} callback 回调函数
      */
     familyNoteValidator(rule, value, callback) {
-      if (!this.isEmpty() && !value) {
+      if (!value) {
+        callback(new Error('请输入备注信息'));
+      } else if (!String(value).trim()) {
         callback(new Error('请输入备注信息'));
       } else {
         callback();

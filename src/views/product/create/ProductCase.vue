@@ -313,9 +313,10 @@ export default {
               moduleId: 1,
               files: this.uploadFiles
             };
-            this.addSalesCase({ params, submitParams });
-            let data = {productId: this.proId};
-            this.getSalesCaseDetail(data);
+            this.addSalesCase({ params, submitParams }).then(res => {
+              let data = {productId: this.proId};
+              this.getSalesCaseDetail(data);
+            });
           }
           this.cancel();
         }
