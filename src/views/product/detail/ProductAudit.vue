@@ -15,7 +15,7 @@
         <el-form class="handle-detail" label-width="86px">
           <el-form-item label="审核结果：">
             <el-radio-group v-model="auditForm.result" @change="handleChangeSalesType">
-              <el-radio label="0">通过并入库</el-radio>
+              <el-radio v-if="this.$route.params.businessStatus === '1'" label="0">通过并入库</el-radio>
               <el-radio label="1">通过</el-radio>
               <el-radio label="2">驳回</el-radio>
             </el-radio-group>
@@ -69,7 +69,28 @@ export default {
   },
   methods: {
     confirmAudit() {
-      this.setProductAudit();
+      let params = {};
+      params.id = Number(this.$route.params.id);
+      params.taskInsId = Number(this.$route.params.taskInsId);
+      let status = Number(this.$route.params.businessStatus);
+      if (status === 1) {
+        if (this.auditForm.result === '1') {
+          params.resultStatus = 2;
+        } else if (this.auditForm.result === '0') {
+          params.resultStatus = 3;
+        } else if (this.auditForm.result === '2') {
+          params.resultStatus = 4;
+        }
+      } else if (status === '5') {
+        if (this.auditForm.result === '1') {
+          params.resultStatus = 6;
+        } else if (this.auditForm.result === '2') {
+          params.resultStatus = 7;
+        }
+      }
+      params.dealResult = this.auditForm.suggest;
+      this.setProductAudit(params);
+      this.$router.push(`/product/product-audit-manage`);
     },
     ...mapActions([
       'getProductDetail', 'setProductAudit'

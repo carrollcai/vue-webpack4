@@ -31,12 +31,12 @@
 
       <el-form-item label="产品类别" prop="productType">
         <el-select class="form-input-240" v-model="product.productType" placeholder="请选择产品类别">
-          <el-option label="卡类" value="0"></el-option>
-          <el-option label="衍生品类" value="1"></el-option>
-          <el-option label="活动类" value="2"></el-option>
-          <el-option label="智能硬件类" value="3"></el-option>
-          <el-option label="会员" value="4"></el-option>
-          <el-option label="其他" value="5"></el-option>
+          <el-option label="卡类" value="1"></el-option>
+          <el-option label="衍生品类" value="2"></el-option>
+          <el-option label="活动类" value="3"></el-option>
+          <el-option label="智能硬件类" value="4"></el-option>
+          <el-option label="会员" value="5"></el-option>
+          <el-option label="其他" value="6"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="产品介绍:" prop="description">
@@ -119,7 +119,7 @@
             </el-form-item>
           </el-col>
       </el-form-item>
-      <el-form-item label="产品对接人:" class="col-item">
+      <el-form-item label="产品对接人:" class="col-item" required>
         <el-col :span="11">
           <el-form-item prop="broker">
             <el-select v-model="product.broker" placeholder="对接人"  @change="selectBroker">
@@ -227,7 +227,7 @@
       </el-form-item>-->
       <el-form-item>
         <el-button type="primary" @click="toSubmit()">立即提审</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="cancel()">取消</el-button>
         <!--<el-button type="primary" @click="toSecondStep()">下一步</el-button>-->
       </el-form-item>
     </el-form>
@@ -466,8 +466,8 @@ export default {
     },
     selectBelongToCompany() {
       if (this.product.belongToCompany === '一级集采目录') {
-        this.isFirstLevel = true;
         this.getFirstCatalogType();
+        this.isFirstLevel = true;
       } else {
         this.isFirstLevel = false;
       }
@@ -478,11 +478,14 @@ export default {
         this.isCoreCompetency = false;
       }
     },
-    selectCoreAbility() {
+    selectCoreAbility(item) {
       let obj = {};
       obj.codeType = 'CORE_ABILITY';
       obj.parentCode = this.product.secondOption;
       this.getSpecProductList(obj);
+      let arr = [];
+      arr.push(item);
+      this.product.secondOptionAbility = arr;
     },
     changeFirstCollectType(item) {
       let type = this.product.secondOption[2];

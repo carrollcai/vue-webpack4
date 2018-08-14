@@ -10,10 +10,10 @@
           </el-col>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="productAuditManageForm.submitName" placeholder="提交人"></el-input>
+          <el-input clearable v-model="productAuditManageForm.operatorId" placeholder="提交人"></el-input>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="productAuditManageForm.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
+          <el-input clearable v-model="productAuditManageForm.productNameOrCode" @change="checkProductName" placeholder="产品名称/编码"></el-input>
         </el-form-item>
       </div>
       <div class="flex">
@@ -43,14 +43,14 @@
         </el-table-column>
         <el-table-column label="提交人" show-overflow-tooltip property="staffName">
         </el-table-column>
-        <el-table-column label="用户归属" show-overflow-tooltip property="userOwnerShip">
+        <el-table-column label="用户归属" show-overflow-tooltip property="opRegionName">
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="operation">
-            <el-button v-if="businessStatus === '已审核'" class="table-button" type="text" @click="toPageDetail(operation.row)">
+            <el-button v-if="productAuditManageForm.taskHasComplete === '1'" class="table-button" type="text" @click="toPageDetail(operation.row)">
               详情
             </el-button>
-            <el-button v-if="businessStatus === '待审核'" class="table-button" type="text" @click="toPageAudit(operation.row)">
+            <el-button v-if="productAuditManageForm.taskHasComplete === '0'" class="table-button" type="text" @click="toPageAudit(operation.row)">
               去审核
             </el-button>
           </template>
@@ -97,7 +97,7 @@ export default {
       this.query();
     },
     checkProductName(value) {
-      this.productAuditManageForm.productName = String(value).trim();
+      this.productAuditManageForm.productNameOrCode = String(value).trim();
     },
     query() {
       const params = this.productAuditManageForm;
@@ -122,7 +122,7 @@ export default {
       this.$router.push(`/product/product-detail/${row.productId}?isDetail=1`);
     },
     toPageAudit(row) {
-      this.$router.push(`/product/product-audit/${row.productId}`);
+      this.$router.push(`/product/product-audit/${row.productId}/${row.taskInsId}/${row.businessStatus}`);
     },
     deleteProduct(row) {
       let productId = row.productId;
@@ -168,7 +168,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
-.p-manage {
-  padding: 24px; background: #fff;
-}
+// .p-manage {
+//   padding: 24px; background: #fff;
+// }
 </style>

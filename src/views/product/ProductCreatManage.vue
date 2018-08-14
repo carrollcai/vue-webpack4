@@ -44,8 +44,8 @@
     <wm-table
       :source="productList.list"
       :total="productList.totalCount"
-      :pageNo="formData.pageNo"
-      :pageSize="formData.pageSize"
+      :pageNo="productCreateForm.pageNo"
+      :pageSize="productCreateForm.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
         <el-table-column label="产品编码" show-overflow-tooltip property="productCode">
@@ -54,19 +54,19 @@
         </el-table-column>
         <el-table-column label="产品类别" property="productType" :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="创建人" show-overflow-tooltip property="createName">
+        <el-table-column label="创建人" show-overflow-tooltip property="operatorId">
         </el-table-column>
-        <el-table-column label="产品状态" show-overflow-tooltip property="productStatus">
+        <el-table-column label="产品状态" show-overflow-tooltip property="productStatusCN">
         </el-table-column>
         <el-table-column label="操作" width="160">
           <template slot-scope="operation">
             <el-button class="table-button" type="text" @click="toPageDetail(operation.row)">
               详情
             </el-button>
-            <el-button class="table-button" type="text" @click="toPageModefiy(operation.row)">
+            <el-button v-if="operation.row.productType === '1' || operation.row.productType === '4' || operation.row.productType === '2'" class="table-button" type="text" @click="toPageModefiy(operation.row)">
               修改
             </el-button>
-            <el-button class="table-button" type="text" @click="DownLine(operation.row)">
+            <el-button v-if="operation.row.productType === '2'" class="table-button" type="text" @click="downLine(operation.row)">
               下线
             </el-button>
             <!--<el-button class="table-button" type="text" @click="deleteProduct(operation.row)">
@@ -114,7 +114,7 @@ export default {
     };
   },
   beforeMount() {
-    this.getProductCreatList(this.productCreateForm);
+    this.query();
   },
   computed: {
     ...mapState({
@@ -125,28 +125,47 @@ export default {
   methods: {
     downLine(row) {
       this.setProductOff({'productId': row.productId});
+      this.query();
     },
     tabChange() {
       this.productCreateForm.pageNo = 1;
       this.productCreateForm.pageSize = 20;
-      // if (productCreateForm.productStatus === '1') {
-      //   productCreateForm.productStatus
-      // }
       this.query();
     },
     onPagination(value) {
-      this.formData.pageNo = value;
+      this.productList.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.formData.pageSize = value;
+      this.productList.pageSize = value;
       this.query();
     },
     checkProductName(value) {
-      this.formData.productName = String(value).trim();
+      this.productCreateForm.productName = String(value).trim();
     },
     query() {
-      this.getProductCreatList(this.productCreateForm);
+      let params = Object.cloneDeep(this.productCreateForm);
+      switch (this.productCreateForm.productStatus) {
+        case '':
+          params.productStatus = [];
+          break;
+        case '0':
+          params.productStatus = [];
+          break;
+        case '1':
+          params.productStatus = [1, 2];
+          break;
+        case '2':
+          params.productStatus = [4];
+          break;
+        case '3':
+          params.productStatus = [6];
+          break;
+        case '4':
+          params.productStatus = [3];
+          break;
+      }
+      this.getProductCreatList(params);
     },
     onSubmit() {
       this.query();

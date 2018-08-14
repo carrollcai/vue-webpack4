@@ -5,7 +5,24 @@ import API from '../utils/api';
 const actions = {
   getProductDetail: ({ commit }, params) => {
     return API.getProductDetailAPI(params).then((res) => {
-      commit(types.PRODUCT_DETAIL, res.data);
+      let data = res.data;
+      data.mainMarket = res.data.mainMarket.split(',');
+      if (data.productFileid) {
+        let fileList = [];
+        API.queryElecAPI({'fileInputId': res.data.productFileid}).then((res) => {
+          if (res.data) {
+            for (let i = 0; i < res.data.length; i++) {
+              let fileData = {};
+              fileData.fileTypeId = 502;
+              fileData.fileSaveName = res.data[i].fileSaveName;
+              fileData.fileName = res.data[i].fileName;
+              fileList.push(fileData);
+            }
+            data.fileData = fileList;
+            commit(types.PRODUCT_DETAIL, data);
+          }
+        });
+      }
     });
   },
   getProductList: ({ commit }, params) => {
@@ -88,19 +105,6 @@ const actions = {
     }, () => {
     });
   },
-  // saveProduct({commit}, product) {
-  //   return API.setAddProductAPI(product).then(() => {
-  //     Message({
-  //       message: '新增产品成功',
-  //       type: 'success',
-  //       duration: 3000
-  //     });
-  //     // 创建成功
-  //     commit(types.ROUTE_CHANGE, {
-  //       path: '/product/product-creat-manage'
-  //     });
-  //   });
-  // },
   /**
    * 修改产品
    * @param {*} param0
@@ -378,6 +382,9 @@ const actions = {
       commit(types.SPEC_PRODUCT_LIST, res.data);
     });
   },
+  productDownloadFile: ({ commit }, params) => {
+    return API.downloadAttachFileAPI(params);
+  }
 };
 
 export default actions;

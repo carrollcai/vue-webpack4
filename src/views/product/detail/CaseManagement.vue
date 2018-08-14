@@ -48,7 +48,7 @@
             </el-table-column>
             <el-table-column label="方案介绍" show-overflow-tooltip property="scheme">
             </el-table-column>
-            <el-table-column label="销售数量" property="salesNumber">
+            <el-table-column label="创建人" property="createName">
             </el-table-column>
             <el-table-column label="操作" align="center">
             <template slot-scope="scope">

@@ -50,7 +50,7 @@ export default {
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         mainMarketArr: [
-          { required: true, message: '请选择主营市场', trigger: 'change' }
+          { required: true, message: '请选择主营市场', trigger: ['blur', 'change'] }
         ],
         productType: [
           { required: true, message: '请选择产品类型', trigger: 'change' }
@@ -128,14 +128,19 @@ export default {
             } else if (item === '家庭市场') {
               submitParams.mainMarketArr[i] = 2;
             } else if (item === '政企市场') {
-              submitParams.mainMarketArr[i] = 2;
+              submitParams.mainMarketArr[i] = 3;
             }
           }
           delete submitParams.state;
           delete submitParams.files;
           delete submitParams.salesList;
-          delete submitParams.secondOption;
-          submitParams.secondOption = submitParams.secondOptionStr;
+          if (submitParams.belongToCompany === '核心能力清单') {
+            submitParams.secondOption = submitParams.secondOptionAbility;
+          }
+          delete submitParams.secondOptionAbility;
+          console.log(submitParams);
+          // delete submitParams.secondOption;
+          // submitParams.secondOption = submitParams.secondOptionStr;
           delete submitParams.secondOptionStr;
           let params = {
             fileInputId: '',
@@ -183,6 +188,9 @@ export default {
     },
     cancelAddingCase() {
       this.isAddingCase = false;
+    },
+    cancel() {
+      this.$router.push(`/product/product-creat-manage`);
     },
     ...mapActions([
       'getProductFileId',
