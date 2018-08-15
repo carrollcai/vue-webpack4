@@ -14,7 +14,7 @@
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="productCreateForm.createName" @change="createName" placeholder="创建人"></el-input>
+          <el-input clearable v-model="productCreateForm.operatorId" @change="checkOperatorId" placeholder="创建人"></el-input>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
           <el-input clearable v-model="productCreateForm.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
@@ -98,29 +98,6 @@ export default {
   },
   data() {
     return {
-      timeRange: '',
-      baseInfo: {
-        productId: '',
-        productName: '',
-        productType: '',
-        price: '',
-        description: '',
-        username: '',
-        deptment: '',
-        version: '',
-        position: '',
-        salesList: []
-      },
-      formData: {
-        startDate: '',
-        endDate: '',
-        productType: null,
-        productName: '',
-        createName: '',
-        pageNo: 1,
-        pageSize: 20,
-        opporStatus: '0'
-      }
     };
   },
   beforeMount() {
@@ -152,6 +129,9 @@ export default {
     },
     checkProductName(value) {
       this.productCreateForm.productName = String(value).trim();
+    },
+    checkOperatorId(value) {
+      this.productCreateForm.operatorId = String(value).trim();
     },
     query() {
       let params = Object.cloneDeep(this.productCreateForm);

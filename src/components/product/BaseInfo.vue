@@ -42,7 +42,6 @@ export default {
   computed: {
     productList() {
       if (this.product) {
-        var product = this.product;
         return this.product;
       }
     },

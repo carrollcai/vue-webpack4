@@ -105,47 +105,47 @@
             </template>
           </el-table-column>
           <el-table-column type="expand" label="操作" width="100px">
-              <template slot-scope="props">
-                <el-form label-position="left" inline class="demo-table-expand">
-                  <el-form-item label="姓名">
-                    <span>{{ props.row.name }}</span>
-                  </el-form-item>
-                  <el-form-item label="部门">
-                    <span>{{ props.row.department }}</span>
-                  </el-form-item>
-                  <el-form-item label="年龄">
-                    <span>{{ props.row.ageValue }}</span>
-                  </el-form-item>
-                  <el-form-item label="职位">
-                    <span>{{ props.row.position }}</span>
-                  </el-form-item>
-                  <el-form-item label="性别">
-                    <span>{{ props.row.genderValue}}</span>
-                  </el-form-item>
-                  <el-form-item label="手机号">
-                    <span>{{ props.row.mobile }}</span>
-                  </el-form-item>
-                  <el-form-item label="婚姻状况">
-                    <span>{{ maritalFilter(props.row.maritalStatusValue)}}</span>
-                  </el-form-item>
-                  <el-form-item label="邮箱">
-                    <span>{{ props.row.email }}</span>
-                  </el-form-item>
-                  <el-form-item label="管理范畴" class="full-desc">
-                    <span>{{ props.row.manageScope }}</span>
-                  </el-form-item>
-                  <el-form-item label="工作职责" class="full-desc">
-                    <span>{{ props.row.responsibility }}</span>
-                  </el-form-item>
-                  <el-form-item label="兴趣爱好" class="full-desc">
-                    <span>{{ props.row.interests }}</span>
-                  </el-form-item>
-                  <el-form-item label="家庭成员" class="full-desc">
-                    <span>{{ familyContact(props.row.contactFamilyDtoList)  }}</span>
-                  </el-form-item>
-                </el-form>
-              </template>
-            </el-table-column>
+            <template slot-scope="props" v-if="props.row.visibleRange">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="姓名">
+                  <span>{{ props.row.name }}</span>
+                </el-form-item>
+                <el-form-item label="部门">
+                  <span>{{ props.row.department }}</span>
+                </el-form-item>
+                <el-form-item label="年龄">
+                  <span>{{ props.row.ageValue }}</span>
+                </el-form-item>
+                <el-form-item label="职位">
+                  <span>{{ props.row.position }}</span>
+                </el-form-item>
+                <el-form-item label="性别">
+                  <span>{{ props.row.genderValue}}</span>
+                </el-form-item>
+                <el-form-item label="手机号">
+                  <span>{{ props.row.mobile }}</span>
+                </el-form-item>
+                <el-form-item label="婚姻状况">
+                  <span>{{ maritalFilter(props.row.maritalStatusValue)}}</span>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                  <span>{{ props.row.email }}</span>
+                </el-form-item>
+                <el-form-item label="管理范畴" class="full-desc">
+                  <span>{{ props.row.manageScope }}</span>
+                </el-form-item>
+                <el-form-item label="工作职责" class="full-desc">
+                  <span>{{ props.row.responsibility }}</span>
+                </el-form-item>
+                <el-form-item label="兴趣爱好" class="full-desc">
+                  <span>{{ props.row.interests }}</span>
+                </el-form-item>
+                <el-form-item label="家庭成员" class="full-desc">
+                  <span>{{ familyContact(props.row.contactFamilyDtoList)  }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
         </wm-table>
       </template>
       <template v-else>
