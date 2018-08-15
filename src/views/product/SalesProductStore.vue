@@ -275,10 +275,18 @@ export default {
       this.$router.push(`/product/edit/${row.productId}`);
     },
     under(row) {
-      let id = [];
-      id.push(row.productId);
-      this.underCarriageProduct({'productIdList': id});
-      this.query();
+      this.$confirm('您确定要下架该商品?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let id = [];
+        id.push(row.productId);
+        this.underCarriageProduct({'productIdList': id});
+        this.query();
+      }).catch(() => {
+        this.$message('已取消下架');
+      });
     },
     deleteProduct(row) {
       let productId = row.productId;

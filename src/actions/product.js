@@ -184,7 +184,11 @@ const actions = {
    * @param {Object} product
    */
   addSalesProducts: ({ commit }, params) => {
-    return API.addSalesProductsAPI(params).then((res) => {
+    API.addSalesProductsAPI(params).then((res) => {
+      Message({
+        message: '上架成功！',
+        type: 'success'
+      });
       commit(types.ADD_SALES_PRODUCTS, res.data);
     });
   },
@@ -194,8 +198,13 @@ const actions = {
    * @param {Object} product
    */
   underCarriageProduct: ({ commit }, params) => {
-    return API.underCarriageProductAPI(params).then((res) => {
+    API.underCarriageProductAPI(params).then((res) => {
+      Message({
+        message: '下架成功！',
+        type: 'success'
+      });
       commit(types.UNDER_CARRIAGE_PRODUCT, res.data);
+    }, () => {
     });
   },
   /**

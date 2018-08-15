@@ -57,7 +57,7 @@
           <template slot-scope="scope">
             <div>
               {{scope.row.productStatusCN}}
-              <el-popover v-if="scope.row.productStatus === 3" placement="top" width="256" trigger="hover">
+              <el-popover v-if="scope.row.productStatus === 3" placement="top" width="200" trigger="hover">
                 <div class="o-popover-title">
                   <p class="op-content">{{scope.row.dealResult.doneDate}}</p>
                   <p class="op-content">{{scope.row.dealResult.opName}}驳回</p>
