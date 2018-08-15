@@ -20,14 +20,14 @@
         </ul>
         <div v-if="showMore">
           <ul class="b-i-list">
-            <li><span>主营市场：</span>{{salesCaseDetail.mainMarket}}</li>
-            <li><span>产品类别：</span>{{salesCaseDetail.productType === '0' ? '个人市场' : '政企市场'}}</li>
+            <li><span>主营市场：</span>{{salesCaseDetail.mainMarketArrCN}}</li>
+            <li><span>产品类别：</span>{{salesCaseDetail.productTypeCN}}</li>
           </ul>
           <ul class="b-i-list">
             <li><span>价格策略：</span>{{salesCaseDetail.priceStrategy}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>商务策略：{{salesCaseDetail.commercialStrategy}}</span></li>
+            <li><span>商务策略：</span>{{salesCaseDetail.commercialStrategy}}</li>
           </ul>
           <ul class="b-i-list">
             <li><span>产品归属：</span>{{salesCaseDetail.belongToCompany}}</li>
@@ -163,7 +163,8 @@ export default {
       margin: 5px 0;
       span {
         min-width: 71px;
-        color: #c0c0c0;
+        text-align: right;
+        // color: #c0c0c0;
       }
     }
   }

@@ -162,9 +162,10 @@ export default {
     handleDeleteCase(index, productCase) {
       let params = {};
       params.salesId = productCase.salesId;
-      this.delSalesCase(params);
-      var data = {productId: productCase.productId};
-      this.getSalesCaseDetail(data);
+      this.delSalesCase(params).then(res => {
+        var data = {productId: productCase.productId};
+        this.getSalesCaseDetail(data);
+      });
       // if (productCase.salesId) {
       //   productCase.state = '0';
       // } else {

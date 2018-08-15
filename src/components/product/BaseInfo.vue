@@ -3,8 +3,8 @@
   <h3>产品基本信息</h3>
   <!--{{productList}}-->
   <ul class="b-i-list">
-    <li><span>产品名称：</span>{{productList.productName}}</li>
-    <li><span>产品介绍：</span>
+    <li class="flex-1"><span>产品名称：</span>{{productList.productName}}</li>
+    <li class="flex-2"><span>产品介绍：</span>
     <label v-for="item in productList.fileData" :key="item" class="download" @click="downloadFile(item)" v-if="productList.fileData">{{item.fileName}}&nbsp;&nbsp;&nbsp;</label>
     </li>
     <!--<li><span>产品价格：</span>{{productList.price}}元</li>
@@ -13,20 +13,20 @@
     <!--<li class="pro-w-67"><span>产品介绍：</span><label class="product-desc">{{productList.description}}</label></li>-->
   </ul>
   <ul class="b-i-list">
-    <li><span>主营市场：</span>{{mainMarket}}</li>
-    <li><span>产品类别：</span>{{productList.productTypeCN}}</li>
+    <li class="flex-1"><span>主营市场：</span>{{mainMarket}}</li>
+    <li class="flex-2"><span>产品类别：</span>{{productList.productTypeCN}}</li>
   </ul>
   <ul class="b-i-list">
-    <li><span>价格策略：{{productList.priceStrategy}}</span></li>
+    <li class="flex-3"><span>价格策略：</span>{{productList.priceStrategy}}</li>
   </ul>
   <ul class="b-i-list">
-    <li><span>商务策略：</span>{{productList.commercialStrategy}}</li>
+    <li class="flex-3"><span>商务策略：</span>{{productList.commercialStrategy}}</li>
   </ul>
   <ul class="b-i-list">
-    <li><span>产品归属：</span>{{productList.belongToCompany}}</li>
+    <li class="flex-3"><span>产品归属：</span>{{productList.belongToCompany}}</li>
   </ul>
   <ul class="b-i-list">
-    <li><span>产品对接人：</span>{{productList.brokerCN}}-{{productList.mobile}}-{{productList.deptment}}-{{productList.position}}</li>
+    <li class="flex-3"><span>产品对接人：</span>{{productList.brokerCN}}-{{productList.mobile}}-{{productList.deptment}}-{{productList.position}}</li>
   </ul>
 </div>
 </template>
@@ -86,16 +86,25 @@ export default {
     display: flex;
     flex-flow: wrap;
     padding: 10px 32px 0;
+    .flex-3 {
+      width: 100%;
+    }
+    .flex-1 {
+      width: 33.3%;
+    }
+    .flex-2 {
+      width: 66.6%;
+    }
     li {
       height: auto !important;
       display: flex;
       line-height: 1.5 !important;
       font-size: 14px;
-      width: 33%;
       color: #262626;
       margin: 5px 0;
       span {
-        min-width: 71px;
+        min-width: 85px;
+        text-align: right;
         // color: #c0c0c0;
       }
     }

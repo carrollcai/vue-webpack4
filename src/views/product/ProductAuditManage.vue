@@ -31,8 +31,8 @@
     <wm-table
       :source="productTaskInfoList.list"
       :total="productTaskInfoList.totalCount"
-      :pageNo="productTaskInfoList.pageNo"
-      :pageSize="productTaskInfoList.pageSize"
+      :pageNo="productAuditManageForm.pageNo"
+      :pageSize="productAuditManageForm.pageSize"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">

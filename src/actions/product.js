@@ -179,7 +179,9 @@ const actions = {
    */
   getSalesCaseDetail: ({ commit }, params) => {
     return API.getSalesCaseDetailAPI(params).then((res) => {
-      commit(types.SALES_CASE_DETAIL, res.data);
+      let data = res.data;
+      data.mainMarketArrCN = res.data.mainMarketArrCN.join();
+      commit(types.SALES_CASE_DETAIL, data);
     });
   },
   /**

@@ -85,8 +85,8 @@
       <wm-table
       :source="productOutofLibraryList.list"
       :total="productOutofLibraryList.totalCount"
-      :pageNo="productOutofLibraryList.pageNo"
-      :pageSize="productOutofLibraryList.pageSize"
+      :pageNo="newForm.pageNo"
+      :pageSize="newForm.pageSize"
       @onPagination="onPaginationOut"
       @onSizePagination="onSizePaginationOut"
       :mode="multiple"
@@ -261,9 +261,10 @@ export default {
       this.newProductVisible = true;
     },
     createProduct() {
-      this.addSalesProducts({ 'productIdList': this.multipleSelection });
-      this.getProductLibrary(this.salesProductStoreForm);
-      this.newProductVisible = false;
+      this.addSalesProducts({ 'productIdList': this.multipleSelection }).then(res => {
+        this.getProductLibrary(this.salesProductStoreForm);
+        this.newProductVisible = false;
+      });
     },
     cancelCreate() {
       this.newProductVisible = false;

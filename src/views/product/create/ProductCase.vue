@@ -287,9 +287,11 @@ export default {
             delete params.state;
             delete params.files;
             delete params.deleteFiles;
-            this.editSalesCase(params);
-            let data = {productId: this.proId};
-            this.getSalesCaseDetail(data);
+            delete params.operatorId;
+            this.editSalesCase(params).then(res => {
+              let data = {productId: this.proId};
+              this.getSalesCaseDetail(data);
+            });
           } else {
             // 新增
             if (this.uploadFiles && this.uploadFiles.length) {

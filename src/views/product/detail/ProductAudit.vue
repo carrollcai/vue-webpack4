@@ -3,8 +3,8 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: toPath }">{{isDetail === '0' ? '产品总览' : '产品创建管理'}}</el-breadcrumb-item>
-          <el-breadcrumb-item>产品详情</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/product/product-audit-manage' }">产品审核管理</el-breadcrumb-item>
+          <el-breadcrumb-item>产品审核</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
@@ -29,7 +29,7 @@
           </el-form-item>
           <el-form-item label="">
             <el-button type="primary" @click="confirmAudit">确认审核</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="cancel">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -89,7 +89,15 @@ export default {
         }
       }
       params.dealResult = this.auditForm.suggest;
+      if (params.resultStatus) {
+      } else {
+        this.$message('请选择审核结果！');
+        return;
+      }
       this.setProductAudit(params);
+      this.$router.push(`/product/product-audit-manage`);
+    },
+    cancel() {
       this.$router.push(`/product/product-audit-manage`);
     },
     ...mapActions([
