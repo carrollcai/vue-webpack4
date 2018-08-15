@@ -348,9 +348,9 @@ export default {
         ]
       },
       visibleStatus: [
-        {label: '全部可见', value: '全部可见'},
-        {label: '仅管理员可见', value: '仅管理员可见'},
-        {label: '外协支撑不可见', value: '外协支撑不可见'}
+        {label: '全部可见', value: '0'},
+        {label: '仅管理员可见', value: '1'},
+        {label: '外协支撑不可见', value: '2'}
       ],
       rules: {
         name: [
