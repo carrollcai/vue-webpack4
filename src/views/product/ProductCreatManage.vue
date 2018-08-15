@@ -220,7 +220,26 @@ export default {
       return value;
     },
     productTypeFn(row, column, columnValue) {
-      return columnValue;
+      switch(columnValue) {
+        case '1': 
+          return '卡类';
+          break;
+        case '2': 
+          return '衍生品类';
+          break;
+        case '3': 
+          return '活动类';
+          break;
+        case '4': 
+          return '智能硬件类';
+          break;
+        case '5': 
+          return '会员';
+          break;
+        case '6': 
+          return '其他';
+          break;
+      }
       // return columnValue === '0' ? '个人市场' : '政企市场';
     },
     ...mapActions([
