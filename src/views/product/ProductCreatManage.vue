@@ -3,18 +3,14 @@
   <div class="m-container">
     <el-form :model="productCreateForm" class="form-manage">
       <div class="flex">
-        <!--<el-form-item>
-          <el-col>
-            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']">
-            </el-date-picker>
-          </el-col>
-        </el-form-item>-->
         <el-form-item>
           <el-select v-model="productCreateForm.productType" clearable placeholder="产品类型">
-            <el-option label="全部" value=""></el-option>
-            <el-option label="个人市场" value="0"></el-option>
-            <el-option label="政企市场" value="1"></el-option>
-            <el-option label="家庭市场" value="2"></el-option>
+            <el-option label="卡类" value="1"></el-option>
+            <el-option label="衍生品类" value="2"></el-option>
+            <el-option label="活动类" value="3"></el-option>
+            <el-option label="智能硬件类" value="4"></el-option>
+            <el-option label="会员" value="5"></el-option>
+            <el-option label="其他" value="6"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
@@ -224,7 +220,8 @@ export default {
       return value;
     },
     productTypeFn(row, column, columnValue) {
-      return columnValue === '0' ? '个人市场' : '政企市场';
+      return columnValue;
+      // return columnValue === '0' ? '个人市场' : '政企市场';
     },
     ...mapActions([
       'getProductCreatList',

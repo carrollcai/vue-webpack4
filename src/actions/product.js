@@ -7,6 +7,7 @@ const actions = {
     return API.getProductDetailAPI(params).then((res) => {
       let data = res.data;
       data.mainMarket = res.data.mainMarket.split(',');
+      data.broker = parseInt(res.data.broker);
       if (data.productFileid) {
         let fileList = [];
         API.queryElecAPI({'fileInputId': res.data.productFileid}).then((res) => {

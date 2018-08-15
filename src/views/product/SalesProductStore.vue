@@ -49,10 +49,12 @@
         <div class="flex">
         <el-form-item class="form-input-128">
           <el-select v-model="newForm.productType" clearable placeholder="产品类型">
-            <el-option label="全部" value=""></el-option>
-            <el-option label="个人市场" value="0"></el-option>
-            <el-option label="政企市场" value="1"></el-option>
-            <el-option label="家庭市场" value="1"></el-option>
+            <el-option label="卡类" value="1"></el-option>
+            <el-option label="衍生品类" value="2"></el-option>
+            <el-option label="活动类" value="3"></el-option>
+            <el-option label="智能硬件类" value="4"></el-option>
+            <el-option label="会员" value="5"></el-option>
+            <el-option label="其他" value="6"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-input-128 form-left-width">
@@ -68,6 +70,9 @@
         <el-form-item class="form-input-128 form-left-width">
           <el-select v-model="newForm.mainMarket" clearable placeholder="主营市场">
             <el-option label="全部" value=""></el-option>
+            <el-option label="政企市场" value="0"></el-option>
+            <el-option label="家庭市场" value="1"></el-option>
+            <el-option label="个人市场" value="2"></el-option>
           </el-select>
         </el-form-item>
         </div>
