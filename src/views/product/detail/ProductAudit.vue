@@ -64,7 +64,7 @@ export default {
     })
   },
   beforeMount() {
-    var data = {productId: Number(this.$route.params.id)};
+    var data = { productId: Number(this.$route.params.id) };
     this.getProductDetail(data);
   },
   methods: {

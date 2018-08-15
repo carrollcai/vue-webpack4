@@ -24,7 +24,8 @@
           placeholder="请输入名称"></el-input>
       </el-form-item>
       <el-form-item label="主营市场" prop="mainMarket">
-        <el-checkbox-group v-model="productSaleDemo.mainMarket">
+        <!--{{productSaleDemo.mainMarketArr}}-->
+        <el-checkbox-group v-model="productSaleDemo.mainMarketArrCN">
           <el-checkbox v-for="item in marketList" :label="item" :key="item">{{item}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
@@ -46,7 +47,7 @@
           placeholder="请输入介绍" type="textarea" :rows="3" resize="none"></el-input>
       </el-form-item>
       <el-form-item label="价格策略:">
-        <el-input maxlength="500" resize="none" type="textarea" v-model="productSaleDemo.prices" placeholder="请输入介绍"></el-input>
+        <el-input maxlength="500" resize="none" type="textarea" v-model="productSaleDemo.priceStrategy" placeholder="请输入介绍"></el-input>
       </el-form-item>
       <el-form-item label="商务策略:">
         <el-input maxlength="500" resize="none" type="textarea" v-model="productSaleDemo.commercialStrategy" placeholder="请输入介绍"></el-input>
@@ -289,27 +290,36 @@ export default {
       isSubmit: false,
       marketList: ['政企市场', '家庭市场', '个人市场'],
       FILE_TIP,
-      uploadFiles: []
+      uploadFiles: [],
+      deleteFiles: []
     };
   },
   computed: {
     ...mapState({
       productSaleDemo: ({ product }) => product.productSaleDemo,
-      firstCollectionType: ({ product }) => product.firstCollectionType
+      firstCollectionType: ({ product }) => product.firstCollectionType,
+      firstCollectList: ({ product }) => product.firstCollectList,
+      coreAbilityList: ({ product }) => product.coreAbilityList,
+      brokerList: ({ product }) => product.brokerList,
+      coreAbilityType: ({ product }) => product.coreAbilityType,
+      specProductList: ({ product }) => product.specProductList
     }),
     cases() {
-      return this.product.salesList;
+      return this.productSaleDemo.fileData;
     }
   },
   beforeMount() {
     this.init();
     this.getFirstCatalogType();
+    this.getFirstCatalog();
+    this.getCoreAbility();
+    this.getBroker();
   },
   methods: {
     init() {
       let id = this.$route.params.id;
 
-      this.getProductDetail({ productId: id }).then(res => {
+      this.getProductDetail({ productId: id, type: 1 }).then(res => {
         if (this.productSaleDemo.productFileid) {
           const that = this;
           this.queryElec({'fileInputId': this.productSaleDemo.productFileid}).then((res) => {
@@ -328,6 +338,7 @@ export default {
     },
     submitProduct() {
       let params = {};
+      params.productId = this.productSaleDemo.productId;
       params.productName = this.productSaleDemo.productName;
       params.productType = this.productSaleDemo.productType;
       params.description = this.productSaleDemo.description;
@@ -337,7 +348,7 @@ export default {
       params.position = this.productSaleDemo.position;
       params.priceStrategy = this.productSaleDemo.priceStrategy;
       params.commercialStrategy = this.productSaleDemo.commercialStrategy;
-      params.mainMarketArr = this.productSaleDemo.mainMarket;
+      params.mainMarketArr = this.productSaleDemo.mainMarketArrCN;
       for (let i = 0; i < params.mainMarketArr.length; i++) {
         let item = params.mainMarketArr[i];
         if (item === '个人市场') {
@@ -360,6 +371,7 @@ export default {
       // 修改产品时，对销售案例进行修改
       // 有方案附件, 先上传文件
       if (this.hasFiles(cases)) {
+        debugger;
         let promises = [];
         for (let productCase of cases) {
           let files = productCase.files;
@@ -498,12 +510,36 @@ export default {
 
       return false;
     },
+    handleRemoveFile(file, fileList) {
+      debugger;
+      const that = this;
+      const {uploadFiles} = that;
+
+      uploadFiles.splice(0, uploadFiles.length);
+
+      for (let item of fileList) {
+        uploadFiles.push(item);
+      }
+
+      if (file.elecInstId) {
+        // 删除文件
+        this.delUplodFile({elecInstId: file.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
+          this.deleteFiles.push(file);
+        });
+        // this.deleteFiles.push(file);
+      }
+    },
     ...mapActions([
       'updateProduct',
       'getProductDetail',
       'delUplodFile',
       'getFirstCatalogType',
-      'queryElec'
+      'queryElec',
+      'getFirstCatalog',
+      'getCoreAbility',
+      'getBroker',
+      'getCoreAbilityType',
+      'getSpecProductList'
     ])
   }
 };

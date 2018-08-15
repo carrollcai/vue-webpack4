@@ -5,9 +5,12 @@
       <div class="flex">
         <el-form-item>
           <el-select v-model="salesProductStoreForm.productType" clearable placeholder="产品类型">
-            <el-option label="全部" value=""></el-option>
-            <el-option label="个人市场" value="0"></el-option>
-            <el-option label="政企市场" value="1"></el-option>
+            <el-option label="卡类" value="1"></el-option>
+            <el-option label="衍生品类" value="2"></el-option>
+            <el-option label="活动类" value="3"></el-option>
+            <el-option label="智能硬件类" value="4"></el-option>
+            <el-option label="会员" value="5"></el-option>
+            <el-option label="其他" value="6"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
@@ -49,6 +52,7 @@
             <el-option label="全部" value=""></el-option>
             <el-option label="个人市场" value="0"></el-option>
             <el-option label="政企市场" value="1"></el-option>
+            <el-option label="家庭市场" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-input-128 form-left-width">
@@ -86,7 +90,7 @@
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
         </el-table-column>
-        <el-table-column label="产品类型" show-overflow-tooltip property="productType" :formatter="productTypeFn">
+        <el-table-column label="产品类型" show-overflow-tooltip property="productTypeCN">
         </el-table-column>
         <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
@@ -123,7 +127,7 @@
         </el-table-column>
         <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
         </el-table-column>
-        <el-table-column label="产品类型" show-overflow-tooltip property="productType" :formatter="productTypeFn">
+        <el-table-column label="产品类型" show-overflow-tooltip property="productTypeCN">
         </el-table-column>
         <el-table-column label="归属公司" show-overflow-tooltip property="region">
         </el-table-column>

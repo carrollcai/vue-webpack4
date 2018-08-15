@@ -14,6 +14,7 @@
             <el-option label="全部" value=""></el-option>
             <el-option label="个人市场" value="0"></el-option>
             <el-option label="政企市场" value="1"></el-option>
+            <el-option label="家庭市场" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
@@ -56,7 +57,20 @@
         </el-table-column>
         <el-table-column label="创建人" show-overflow-tooltip property="operatorId">
         </el-table-column>
-        <el-table-column label="产品状态" show-overflow-tooltip property="productStatusCN">
+        <el-table-column label="产品状态" property="productStatusCN">
+          <template slot-scope="scope">
+            <div>
+              {{scope.row.productStatusCN}}
+              <el-popover v-if="scope.row.productStatus === 3" placement="bottom" width="256" trigger="hover">
+                <div class="o-popover-title">
+                  {{scope.row.dealResult.doneDate}}<br/>
+                  {{scope.row.dealResult.opName}}驳回<br/>
+                  原因：{{scope.row.dealResult.cancelReason}}
+                </div>
+                <i slot="reference" class="el-icon-info"></i>
+              </el-popover>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column label="操作" width="160">
           <template slot-scope="operation">

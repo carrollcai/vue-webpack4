@@ -52,8 +52,8 @@ export default {
       }
     },
     mainMarket() {
-      if (this.product && this.product.mainMarket) {
-        let product = this.product.mainMarket.join();
+      if (this.product && this.product.mainMarketArrCN) {
+        let product = this.product.mainMarketArrCN.join();
         return product;
       }
     }
