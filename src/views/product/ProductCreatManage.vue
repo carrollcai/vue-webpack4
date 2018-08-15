@@ -30,9 +30,10 @@
       </div>
     </el-form>
     <el-tabs v-model="productCreateForm.productStatus" @tab-click="tabChange">
-      <el-tab-pane label="全部"></el-tab-pane>
+      <!--<el-tab-pane label="全部"></el-tab-pane>-->
       <el-tab-pane label="待审核" :name="'1'"></el-tab-pane>
       <el-tab-pane label="已发布" :name="'2'"></el-tab-pane>
+      <el-tab-pane label="待下线" :name="'5'"></el-tab-pane>
       <el-tab-pane label="已下线" :name="'3'"></el-tab-pane>
       <el-tab-pane label="驳回" :name="'4'"></el-tab-pane>
     </el-tabs>
@@ -73,15 +74,12 @@
             <el-button class="table-button" type="text" @click="toPageDetail(operation.row)">
               详情
             </el-button>
-            <el-button v-if="operation.row.productType === '1' || operation.row.productType === '4' || operation.row.productType === '2'" class="table-button" type="text" @click="toPageModefiy(operation.row)">
+            <el-button v-if="isEdit(operation.row)" class="table-button" type="text" @click="toPageModefiy(operation.row)">
               修改
             </el-button>
-            <el-button v-if="operation.row.productType === '2'" class="table-button" type="text" @click="downLine(operation.row)">
+            <el-button v-if="isDown(operation.row)" class="table-button" type="text" @click="downLine(operation.row)">
               下线
             </el-button>
-            <!--<el-button class="table-button" type="text" @click="deleteProduct(operation.row)">
-              删除
-            </el-button>-->
           </template>
         </el-table-column>
     </wm-table>
@@ -98,9 +96,13 @@ export default {
   },
   data() {
     return {
+      currentId: ''
     };
   },
   beforeMount() {
+    this.queryCurrentOperator().then(res => {
+      this.currentId = res.operatorId;
+    });
     this.query();
   },
   computed: {
@@ -110,6 +112,28 @@ export default {
     })
   },
   methods: {
+    isEdit(row) {
+      if (row.productStatusCN === '待审核' || row.productStatusCN === '驳回' || row.productStatusCN === '已发布') {
+        if (this.currentId === row.opId) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    },
+    isDown(row) {
+      if (row.productStatusCN === '已发布') {
+        if (this.currentId === row.opId) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    },
     downLine(row) {
       this.setProductOff({'productId': row.productId});
       this.query();
@@ -136,12 +160,6 @@ export default {
     query() {
       let params = Object.cloneDeep(this.productCreateForm);
       switch (this.productCreateForm.productStatus) {
-        case '':
-          params.productStatus = [];
-          break;
-        case '0':
-          params.productStatus = [];
-          break;
         case '1':
           params.productStatus = [1, 2];
           break;
@@ -153,6 +171,9 @@ export default {
           break;
         case '4':
           params.productStatus = [3];
+          break;
+        case '5':
+          params.productStatus = [5];
           break;
       }
       this.getProductCreatList(params);
@@ -219,7 +240,8 @@ export default {
       'getProductCreatList',
       'getComposedProduct',
       'setdeleteProduct',
-      'setProductOff'
+      'setProductOff',
+      'queryCurrentOperator'
     ])
   }
 };

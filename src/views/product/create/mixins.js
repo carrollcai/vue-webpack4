@@ -142,6 +142,13 @@ export default {
           // delete submitParams.secondOption;
           // submitParams.secondOption = submitParams.secondOptionStr;
           delete submitParams.secondOptionStr;
+          if (submitParams.belongToCompany) {
+            if (submitParams.secondOption && submitParams.specificProduct) {
+            } else {
+              this.$message({ showClose: true, message: '若选择产品属性，请选择完整！', type: 'error' });
+              return;
+            }
+          }
           let params = {
             fileInputId: '',
             fileTypeId: FILE_TYPE_ID.product,

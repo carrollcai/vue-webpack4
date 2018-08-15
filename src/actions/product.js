@@ -6,7 +6,11 @@ const actions = {
   getProductDetail: ({ commit }, params) => {
     return API.getProductDetailAPI(params).then((res) => {
       let data = res.data;
-      data.mainMarket = res.data.mainMarket.split(',');
+      if (res.data.mainMarketArr.indexOf(',') === -1) {
+        data.mainMarket = res.data.mainMarketArr[0];
+      } else {
+        data.mainMarket = res.data.mainMarketArr.split(',');
+      }
       data.broker = parseInt(res.data.broker);
       if (data.productFileid) {
         let fileList = [];

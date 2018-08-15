@@ -226,7 +226,7 @@
       </el-form-item>-->
       <el-form-item>
         <el-button type="primary" @click="submitProduct()">立即提审</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="cancel()">取消</el-button>
         <!--<el-button type="primary" @click="toSecondStep()">下一步</el-button>-->
       </el-form-item>
     </el-form>
@@ -474,6 +474,9 @@ export default {
           that.isSubmit = false;
         });
       }
+    },
+    cancel() {
+      this.$router.push(`/product/product-creat-manage`);
     },
     removeCaseAttributs(cases) {
       // 删除不必要的属性

@@ -43,7 +43,7 @@ const state = {
     productType: null,
     operatorId: '',
     productName: '',
-    productStatus: ''
+    productStatus: '2'
   },
   productAuditManageForm: {
     date: '',
