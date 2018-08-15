@@ -10,7 +10,7 @@
           </el-col>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="productAuditManageForm.operatorId" placeholder="提交人"></el-input>
+          <el-input clearable v-model="productAuditManageForm.staffName" placeholder="提交人"></el-input>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
           <el-input clearable v-model="productAuditManageForm.productNameOrCode" @change="checkProductName" placeholder="产品名称/编码"></el-input>

@@ -47,7 +47,7 @@ const state = {
   },
   productAuditManageForm: {
     date: '',
-    operatorId: '',
+    staffName: '',
     productNameOrCode: '',
     taskHasComplete: 0,
     pageNo: PAGE_NO,

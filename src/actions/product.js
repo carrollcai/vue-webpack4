@@ -99,7 +99,7 @@ const actions = {
     await API.setAddProductAPI(_submitParams).then(() => {
       // commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
       Message({
-        message: '新增产品成功',
+        message: '审核提交成功！',
         type: 'success',
         duration: 3000
       });
