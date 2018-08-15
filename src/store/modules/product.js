@@ -90,6 +90,9 @@ const mutations = {
     state.saleStep = data;
   },
   [types.PRODUCT_LIBRARY_LIST](state, data) {
+    for (let i = 0; i < data.list.length; i++) {
+      data.list[i].mainMarketArrCN = data.list[i].mainMarketArrCN.join();
+    }
     state.productLibraryList = data;
   },
   [types.PRODUCT_OUTOF_LIBRARY_LIST](state, data) {

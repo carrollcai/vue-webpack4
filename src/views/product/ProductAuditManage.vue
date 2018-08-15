@@ -154,9 +154,6 @@ export default {
       }
       return value;
     },
-    productTypeFn(row, column, columnValue) {
-      return columnValue === '0' ? '个人市场' : '政企市场';
-    },
     ...mapActions([
       'getProductTaskInfo',
       'getProductCreatList',

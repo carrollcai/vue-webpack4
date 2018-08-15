@@ -14,7 +14,7 @@
   </ul>
   <ul class="b-i-list">
     <li><span>主营市场：</span>{{mainMarket}}</li>
-    <li><span>产品类别：</span>{{productList.productType}}</li>
+    <li><span>产品类别：</span>{{productList.productTypeCN}}</li>
   </ul>
   <ul class="b-i-list">
     <li><span>价格策略：{{productList.priceStrategy}}</span></li>
@@ -26,7 +26,7 @@
     <li><span>产品归属：</span>{{productList.belongToCompany}}</li>
   </ul>
   <ul class="b-i-list">
-    <li><span>产品对接人：</span>{{productList.broker}}-{{productList.mobile}}-{{productList.deptment}}-{{productList.position}}</li>
+    <li><span>产品对接人：</span>{{productList.brokerCN}}-{{productList.mobile}}-{{productList.deptment}}-{{productList.position}}</li>
   </ul>
 </div>
 </template>
@@ -43,11 +43,6 @@ export default {
     productList() {
       if (this.product) {
         var product = this.product;
-        if (this.product.productType === '0') {
-          product.productType = '个人市场';
-        } else {
-          product.productType = '政企市场';
-        }
         return this.product;
       }
     },

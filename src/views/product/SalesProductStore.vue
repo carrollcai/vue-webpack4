@@ -26,9 +26,9 @@
         <el-form-item class="form-query-input-width form-left-width">
           <el-select v-model="salesProductStoreForm.mainMarket" clearable placeholder="主营市场">
             <el-option label="全部" value=""></el-option>
-            <el-option label="政企市场" value="0"></el-option>
-            <el-option label="家庭市场" value="1"></el-option>
-            <el-option label="个人市场" value="2"></el-option>
+            <el-option label="政企市场" value="3"></el-option>
+            <el-option label="家庭市场" value="2"></el-option>
+            <el-option label="个人市场" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
@@ -70,9 +70,9 @@
         <el-form-item class="form-input-128 form-left-width">
           <el-select v-model="newForm.mainMarket" clearable placeholder="主营市场">
             <el-option label="全部" value=""></el-option>
-            <el-option label="政企市场" value="0"></el-option>
-            <el-option label="家庭市场" value="1"></el-option>
-            <el-option label="个人市场" value="2"></el-option>
+            <el-option label="政企市场" value="3"></el-option>
+            <el-option label="家庭市场" value="2"></el-option>
+            <el-option label="个人市场" value="1"></el-option>
           </el-select>
         </el-form-item>
         </div>
@@ -97,7 +97,7 @@
         </el-table-column>
         <el-table-column label="产品类型" show-overflow-tooltip property="productTypeCN">
         </el-table-column>
-        <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
+        <el-table-column label="主营市场" show-overflow-tooltip property="mainMarketArrCN">
         </el-table-column>
         <el-table-column label="归属公司" show-overflow-tooltip property="region">
         </el-table-column>
@@ -130,7 +130,7 @@
         </el-table-column>
         <el-table-column label="产品名称" show-overflow-tooltip property="productName">
         </el-table-column>
-        <el-table-column label="主营市场" show-overflow-tooltip property="mainMarket">
+        <el-table-column label="主营市场" show-overflow-tooltip property="mainMarketArrCN">
         </el-table-column>
         <el-table-column label="产品类型" show-overflow-tooltip property="productTypeCN">
         </el-table-column>
