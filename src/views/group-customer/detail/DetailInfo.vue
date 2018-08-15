@@ -144,7 +144,7 @@
               {{parentContact(props.row.parentContactId)}}
             </template>
           </el-table-column>
-          <el-table-column type="expand" label="操作" width="100px">
+          <el-table-column type="expand" label="操作" width="100px" v-if="customer.visibleRange">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="姓名">
@@ -184,6 +184,11 @@
                   <span>{{ familyContact(props.row.contactFamilyDtoList) }}</span>
                 </el-form-item>
               </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="100px" v-else>
+            <template slot-scope="props">
+             <div style="text-align:center;color: #666;font-size: 12px;margin-left:5px;"><span>详细</span><i class="el-icon-arrow-down"></i></div>
             </template>
           </el-table-column>
         </el-table>
