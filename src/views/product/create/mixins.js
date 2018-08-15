@@ -138,7 +138,7 @@ export default {
             submitParams.secondOption = submitParams.secondOptionAbility;
           }
           delete submitParams.secondOptionAbility;
-          console.log(submitParams);
+          // console.log(submitParams);
           // delete submitParams.secondOption;
           // submitParams.secondOption = submitParams.secondOptionStr;
           delete submitParams.secondOptionStr;

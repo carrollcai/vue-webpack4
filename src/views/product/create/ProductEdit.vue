@@ -64,7 +64,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <div v-if="productSaleDemo.belongToCompany === '一级集采目录'">
+        <div v-if="productSaleDemo.belongToCompany === '一级集采目录' || productSaleDemo.belongToCompany === '2'">
           <el-col class="line-container" :span="2">
             <div class="line"></div>
           </el-col>
@@ -78,7 +78,7 @@
             </el-form-item>
           </el-col>
         </div>
-        <div v-if="isCoreCompetency">
+        <div v-if="productSaleDemo.belongToCompany === '核心能力清单' || productSaleDemo.belongToCompany === '1'">
           <el-col class="line-container" :span="2">
             <div class="line"></div>
           </el-col>
@@ -99,7 +99,7 @@
           </el-col>
         </div>
       </el-form-item>
-      <el-form-item v-if="isCoreCompetency || isFirstLevel">
+      <el-form-item v-if="productSaleDemo.belongToCompany === '一级集采目录' || productSaleDemo.belongToCompany === '核心能力清单' || productSaleDemo.belongToCompany === '1' || productSaleDemo.belongToCompany === '2'">
         <el-col :span="24">
             <el-form-item>
               <el-select class="form-input-320" v-model="productSaleDemo.specificProduct" placeholder="具体能力及产品">
@@ -314,6 +314,7 @@ export default {
     this.getFirstCatalog();
     this.getCoreAbility();
     this.getBroker();
+    this.getCoreAbilityType();
   },
   methods: {
     init() {
@@ -362,8 +363,8 @@ export default {
       params.belongToCompany = this.productSaleDemo.belongToCompany;
       params.specificProduct = this.productSaleDemo.specificProduct;
       params.productFileid = this.productSaleDemo.productFileid;
-      params.secondOption = params.secondOptionArr;
-      delete params.secondOptionArr;
+      params.secondOption = this.productSaleDemo.secondOptionArr;
+      // delete params.secondOptionArr;
       this.updateProduct(params);
       const that = this;
       const {cases} = that;
@@ -371,7 +372,6 @@ export default {
       // 修改产品时，对销售案例进行修改
       // 有方案附件, 先上传文件
       if (this.hasFiles(cases)) {
-        debugger;
         let promises = [];
         for (let productCase of cases) {
           let files = productCase.files;
@@ -511,7 +511,6 @@ export default {
       return false;
     },
     handleRemoveFile(file, fileList) {
-      debugger;
       const that = this;
       const {uploadFiles} = that;
 
@@ -528,6 +527,56 @@ export default {
         });
         // this.deleteFiles.push(file);
       }
+    },
+    selectBelongToCompany() {
+      if (this.productSaleDemo.belongToCompany === 2) {
+        this.getFirstCatalogType();
+        this.isFirstLevel = true;
+      } else {
+        this.isFirstLevel = false;
+      }
+      if (this.productSaleDemo.belongToCompany === 1) {
+        this.getCoreAbilityType();
+        this.isCoreCompetency = true;
+      } else {
+        this.isCoreCompetency = false;
+      }
+    },
+    selectCoreAbility(item) {
+      let obj = {};
+      obj.codeType = 'CORE_ABILITY';
+      obj.parentCode = this.productSaleDemo.coreAbility;
+      this.getSpecProductList(obj);
+      let arr = [];
+      arr.push(item);
+      this.productSaleDemo.secondOptionAbility = arr;
+    },
+    changeFirstCollectType(item) {
+      let type = this.productSaleDemo.secondOptionArr[2];
+      let obj = {};
+      obj.codeType = 'FIRST_COLLECTION';
+      obj.parentCode = type;
+      this.getSpecProductList(obj);
+      this.firstCollectionType.map(val => {
+        if (val.children) {
+          val.children.map(val => {
+            if (val.children) {
+              val.children.map(val => {
+                if (val.value === type) {
+                  this.productSaleDemo.secondOptionStr = val.label;
+                }
+              });
+            };
+          });
+        };
+      });
+    },
+    selectBroker(item) {
+      this.brokerList.map(val => {
+        if (val.value === item) {
+          this.product.mobile = val.mobile;
+        }
+      });
     },
     ...mapActions([
       'updateProduct',

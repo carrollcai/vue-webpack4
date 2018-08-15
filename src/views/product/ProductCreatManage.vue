@@ -57,11 +57,11 @@
           <template slot-scope="scope">
             <div>
               {{scope.row.productStatusCN}}
-              <el-popover v-if="scope.row.productStatus === 3" placement="bottom" width="256" trigger="hover">
+              <el-popover v-if="scope.row.productStatus === 3" placement="top" width="256" trigger="hover">
                 <div class="o-popover-title">
-                  {{scope.row.dealResult.doneDate}}<br/>
-                  {{scope.row.dealResult.opName}}驳回<br/>
-                  原因：{{scope.row.dealResult.cancelReason}}
+                  <p class="op-content">{{scope.row.dealResult.doneDate}}</p>
+                  <p class="op-content">{{scope.row.dealResult.opName}}驳回</p>
+                  <p class="op-content">原因：{{scope.row.dealResult.cancelReason}}</p>
                 </div>
                 <i slot="reference" class="el-icon-info"></i>
               </el-popover>
@@ -237,5 +237,13 @@ export default {
 @import "scss/variables.scss";
 .p-manage {
   padding: 24px; background: #fff;
+}
+.o-popover-title {
+  .op-content {
+    height: 27px;
+    line-height: 17px;
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 12px;
+  }
 }
 </style>
