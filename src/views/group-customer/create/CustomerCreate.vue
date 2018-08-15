@@ -364,8 +364,8 @@
         </el-form-item>
         <el-form-item label="是否短信提醒" prop="needSms" key="needSms">
           <el-radio-group v-model="customer.needSms" size="small">
-            <el-radio :label="0">是</el-radio>
-            <el-radio :label="1">否</el-radio>
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item>

@@ -184,6 +184,7 @@ export default {
         // 修改产品时，对销售案例进行修改
         if (this.productCase.fileInputId) {
           const that = this;
+          this.uploadFiles = [];
           this.queryElec({'fileInputId': this.productCase.fileInputId}).then((res) => {
             if (res.data) {
               (res.data).forEach(function(item) {
