@@ -30,10 +30,10 @@
       </div>
     </el-form>
     <el-tabs v-model="productCreateForm.productStatus" @tab-click="tabChange">
-      <!--<el-tab-pane label="全部"></el-tab-pane>-->
+      <el-tab-pane label="全部"></el-tab-pane>
       <el-tab-pane label="待审核" :name="'1'"></el-tab-pane>
       <el-tab-pane label="已发布" :name="'2'"></el-tab-pane>
-      <el-tab-pane label="待下线" :name="'5'"></el-tab-pane>
+      <!--<el-tab-pane label="待下线" :name="'5'"></el-tab-pane>-->
       <el-tab-pane label="已下线" :name="'3'"></el-tab-pane>
       <el-tab-pane label="驳回" :name="'4'"></el-tab-pane>
     </el-tabs>
@@ -160,6 +160,12 @@ export default {
     query() {
       let params = Object.cloneDeep(this.productCreateForm);
       switch (this.productCreateForm.productStatus) {
+        case '0':
+          params.productStatus = [];
+          break;
+        case '':
+          params.productStatus = [];
+          break;
         case '1':
           params.productStatus = [1, 2];
           break;

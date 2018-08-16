@@ -156,6 +156,8 @@ export default {
             moduleId: 1,
             files: this.uploadFiles
           };
+          // let _params = Object.assign(params, { fileInputId });
+          // console.log(_params);
           this.saveProduct({ params, submitParams });
         }
       });

@@ -163,6 +163,7 @@
           </el-form-item>
         </el-col>
       </el-form-item>
+      <!--{{cases}}{{uploadFiles}}-->
       <el-form-item label="产品资料">
         <el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
@@ -274,12 +275,13 @@
 import { mapActions, mapState } from 'vuex';
 import mixins from './mixins';
 import { FILE_TYPE_ID } from '@/config/index.js';
+import endsWith from 'lodash/endsWith';
 import {
-  // FILE_ACCEPT,
-  FILE_TIP
-  // FILE_MAX_COUNT,
-  // FILE_MAX_SIZE,
-  // FILE_ERROR_TIP
+  FILE_ACCEPT,
+  FILE_TIP,
+  FILE_MAX_COUNT,
+  FILE_MAX_SIZE,
+  FILE_ERROR_TIP
 } from '@/config';
 export default {
   name: 'ProductCreate',
@@ -290,7 +292,7 @@ export default {
       isSubmit: false,
       marketList: ['政企市场', '家庭市场', '个人市场'],
       FILE_TIP,
-      uploadFiles: [],
+      // uploadFiles: [],
       deleteFiles: []
     };
   },
@@ -304,7 +306,10 @@ export default {
       coreAbilityType: ({ product }) => product.coreAbilityType,
       specProductList: ({ product }) => product.specProductList
     }),
-    cases() {
+    uploadFiles() {
+      // if (this.productSaleDemo.fileData) {
+      //   this.uploadFiles = this.productSaleDemo.fileData;
+      // }
       return this.productSaleDemo.fileData;
     }
   },
@@ -317,6 +322,52 @@ export default {
     this.getCoreAbilityType();
   },
   methods: {
+    isAcceptable(fileName) {
+      for (let accept of FILE_ACCEPT) {
+        if (endsWith(fileName.toLowerCase(), accept)) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    handleExceed() {
+      this.$message({
+        message: `附件个数已满${FILE_MAX_COUNT}个`,
+        type: 'warning'
+      });
+    },
+    handleChangeFile(file, fileList) {
+      debugger;
+      let fileName = file.name;
+      let result = true;
+      if (this.isAcceptable(fileName)) {
+        let fileSize = file.size / (1024 * 1024);
+
+        if (fileSize > FILE_MAX_SIZE) {
+          this.$message({
+            message: `附件超过${FILE_MAX_SIZE}M`,
+            type: 'error'
+          });
+
+          result = false;
+        } else {
+          this.uploadFiles.push(file.raw);
+        }
+      } else {
+        this.$message({
+          message: FILE_ERROR_TIP,
+          type: 'error'
+        });
+        result = false;
+      }
+
+      if (!result) {
+        fileList.pop();
+      }
+
+      return result;
+    },
     init() {
       let id = this.$route.params.id;
 
@@ -594,7 +645,7 @@ export default {
     selectBroker(item) {
       this.brokerList.map(val => {
         if (val.value === item) {
-          this.product.mobile = val.mobile;
+          this.productSaleDemo.mobile = val.mobile;
         }
       });
     },

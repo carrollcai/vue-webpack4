@@ -228,7 +228,7 @@ export default {
       let result = '';
       if (contacts && contacts.length) {
         for (let contact of contacts) {
-          result += `${contact.name}，${contact.relationship}，${contact.jobDuty}，${contact.mobile}；`;
+          result += `${contact.name}，${contact.relationship}，${contact.remark}；`;
         }
       }
 

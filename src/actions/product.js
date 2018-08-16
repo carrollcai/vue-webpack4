@@ -13,17 +13,14 @@ const actions = {
       }
       data.broker = parseInt(res.data.broker);
       if (data.productFileid) {
-        let fileList = [];
         API.queryElecAPI({'fileInputId': res.data.productFileid}).then((res) => {
           if (res.data) {
-            for (let i = 0; i < res.data.length; i++) {
-              let fileData = {};
-              fileData.fileTypeId = 502;
-              fileData.fileSaveName = res.data[i].fileSaveName;
-              fileData.fileName = res.data[i].fileName;
-              fileList.push(fileData);
-            }
-            data.fileData = fileList;
+            let fileData = [];
+            (res.data).forEach(function(item) {
+              item.name = item.fileName;
+              fileData.push(item);
+            });
+            data.fileData = fileData;
             commit(types.PRODUCT_DETAIL, data);
           }
         });
@@ -234,6 +231,7 @@ const actions = {
     let fileInputId = await dispatch('getNewFileInputId');
     let _params = Object.assign(params, { fileInputId });
     let _submitParams = Object.assign(submitParams, { fileInputId: fileInputId });
+    console.log(_params);
 
     // 如果上传失败，还原按钮状态，退出程序
     let error = await dispatch('uploadOrderHandleTask', _params);
