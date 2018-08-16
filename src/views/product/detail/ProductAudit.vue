@@ -24,7 +24,7 @@
             <el-input
               class="form-input-320"
               v-model="auditForm.suggest"
-              :maxlength="500"
+              :maxlength="50"
               placeholder="请输入介绍" type="textarea" :rows="3"></el-input>
           </el-form-item>
           <el-form-item label="">
@@ -80,12 +80,22 @@ export default {
           params.resultStatus = 3;
         } else if (this.auditForm.result === '2') {
           params.resultStatus = 4;
+          if (this.auditForm.suggest.trim() !== '') {
+          } else {
+            this.$message('请输入审核建议！');
+            return;
+          }
         }
       } else if (status === '5') {
         if (this.auditForm.result === '1') {
           params.resultStatus = 6;
         } else if (this.auditForm.result === '2') {
           params.resultStatus = 7;
+          if (this.auditForm.suggest.trim() !== '') {
+          } else {
+            this.$message('请输入审核建议！');
+            return;
+          }
         }
       }
       params.dealResult = this.auditForm.suggest;
