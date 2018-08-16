@@ -135,8 +135,18 @@ export default {
       }
     },
     downLine(row) {
-      this.setProductOff({'productId': row.productId});
-      this.query();
+      this.$confirm('确定要下线?', ' ', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var _this = this;
+        this.setProductOff({'productId': row.productId}).then((res) => {
+          this.query();
+        });
+      }).catch((res) => {
+        this.$message('已取消下线');
+      });
     },
     tabChange() {
       this.productCreateForm.pageNo = 1;
