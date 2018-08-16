@@ -20,7 +20,7 @@
         <el-input
           class="form-input-240"
           v-model="product.productName"
-          :maxlength="6"
+          :maxlength="25"
           placeholder="请输入名称"></el-input>
       </el-form-item>
       <el-form-item label="主营市场" prop="mainMarketArr">
@@ -169,7 +169,7 @@
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item label="产品资料" prop="files">
+      <el-form-item label="产品资料">
         <el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
           :auto-upload="false"

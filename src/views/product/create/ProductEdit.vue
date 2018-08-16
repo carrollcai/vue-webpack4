@@ -20,7 +20,7 @@
         <el-input
           class="form-input-240"
           v-model="productSaleDemo.productName"
-          :maxlength="6"
+          :maxlength="25"
           placeholder="请输入名称"></el-input>
       </el-form-item>
       <el-form-item label="主营市场" prop="mainMarket">
@@ -163,7 +163,7 @@
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item label="产品资料" prop="files">
+      <el-form-item label="产品资料">
         <el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
           :auto-upload="false"
@@ -224,6 +224,7 @@
           :maxlength="20"
           placeholder="请输入版本号"></el-input>
       </el-form-item>-->
+      {{uploadFiles}}-{{productSaleDemo}}
       <el-form-item>
         <el-button type="primary" @click="submitProduct()">立即提审</el-button>
         <el-button @click="cancel()">取消</el-button>
@@ -320,52 +321,69 @@ export default {
     init() {
       let id = this.$route.params.id;
 
-      this.getProductDetail({ productId: id, type: 1 }).then(res => {
-        if (this.productSaleDemo.productFileid) {
-          const that = this;
-          this.queryElec({'fileInputId': this.productSaleDemo.productFileid}).then((res) => {
-            if (res.data) {
-              (res.data).forEach(function(item) {
-                item.name = item.fileName;
-                that.uploadFiles.push(item);
-              });
-            }
-          });
+      this.getProductDetail({ productId: id }).then(res => {
+        if (this.cases) {
+          this.uploadFiles = this.productSaleDemo.fileData;
         }
+        // 修改产品时，对销售案例进行修改
+        // if (this.productCase.fileInputId) {
+        //   const that = this;
+        //   this.uploadFiles = [];
+        //   this.queryElec({'fileInputId': this.productCase.fileInputId}).then((res) => {
+        //     if (res.data) {
+        //       (res.data).forEach(function(item) {
+        //         item.name = item.fileName;
+        //         that.uploadFiles.push(item);
+        //       });
+        //     }
+        //   });
+        // }
       });
     },
     getTableData() {
       return this.cases.filter((item) => item.state !== '0');
     },
     submitProduct() {
-      let params = {};
-      params.productId = this.productSaleDemo.productId;
-      params.productName = this.productSaleDemo.productName;
-      params.productType = this.productSaleDemo.productType;
-      params.description = this.productSaleDemo.description;
-      params.broker = this.productSaleDemo.broker;
-      params.mobile = this.productSaleDemo.mobile;
-      params.deptment = this.productSaleDemo.deptment;
-      params.position = this.productSaleDemo.position;
-      params.priceStrategy = this.productSaleDemo.priceStrategy;
-      params.commercialStrategy = this.productSaleDemo.commercialStrategy;
-      params.mainMarketArr = this.productSaleDemo.mainMarketArrCN;
-      for (let i = 0; i < params.mainMarketArr.length; i++) {
-        let item = params.mainMarketArr[i];
-        if (item === '个人市场') {
-          params.mainMarketArr[i] = 1;
-        } else if (item === '家庭市场') {
-          params.mainMarketArr[i] = 2;
-        } else if (item === '政企市场') {
-          params.mainMarketArr[i] = 3;
-        }
+      if (this.productSaleDemo.productFileid) {
+        let fileInputId = this.productSaleDemo.productFileid;
+        let params = {
+          fileInputId: '',
+          fileTypeId: FILE_TYPE_ID.product,
+          moduleId: 1,
+          files: this.uploadFiles
+        };
+        let _params = Object.assign(params, { fileInputId });
+        this.uploadOrderHandleTask(_params).then(res => {
+          let params = {};
+          params.productId = this.productSaleDemo.productId;
+          params.productName = this.productSaleDemo.productName;
+          params.productType = this.productSaleDemo.productType;
+          params.description = this.productSaleDemo.description;
+          params.broker = this.productSaleDemo.broker;
+          params.mobile = this.productSaleDemo.mobile;
+          params.deptment = this.productSaleDemo.deptment;
+          params.position = this.productSaleDemo.position;
+          params.priceStrategy = this.productSaleDemo.priceStrategy;
+          params.commercialStrategy = this.productSaleDemo.commercialStrategy;
+          params.mainMarketArr = this.productSaleDemo.mainMarketArrCN;
+          for (let i = 0; i < params.mainMarketArr.length; i++) {
+            let item = params.mainMarketArr[i];
+            if (item === '个人市场') {
+              params.mainMarketArr[i] = 1;
+            } else if (item === '家庭市场') {
+              params.mainMarketArr[i] = 2;
+            } else if (item === '政企市场') {
+              params.mainMarketArr[i] = 3;
+            }
+          }
+          params.belongToCompany = this.productSaleDemo.belongToCompany;
+          params.specificProduct = this.productSaleDemo.specificProduct;
+          params.productFileid = this.productSaleDemo.productFileid;
+          params.secondOption = this.productSaleDemo.secondOptionArr;
+          // delete params.secondOptionArr;
+          this.updateProduct(params);
+        });
       }
-      params.belongToCompany = this.productSaleDemo.belongToCompany;
-      params.specificProduct = this.productSaleDemo.specificProduct;
-      params.productFileid = this.productSaleDemo.productFileid;
-      params.secondOption = this.productSaleDemo.secondOptionArr;
-      // delete params.secondOptionArr;
-      this.updateProduct(params);
       const that = this;
       const {cases} = that;
       that.isSubmit = true;
@@ -591,7 +609,8 @@ export default {
       'getCoreAbility',
       'getBroker',
       'getCoreAbilityType',
-      'getSpecProductList'
+      'getSpecProductList',
+      'uploadOrderHandleTask'
     ])
   }
 };

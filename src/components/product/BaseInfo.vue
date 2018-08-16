@@ -98,6 +98,7 @@ export default {
     li {
       height: auto !important;
       display: flex;
+      word-break: break-word;
       line-height: 1.5 !important;
       font-size: 14px;
       color: #262626;

@@ -15,7 +15,7 @@
         <el-form class="handle-detail" label-width="86px">
           <el-form-item label="审核结果：">
             <el-radio-group v-model="auditForm.result" @change="handleChangeSalesType">
-              <el-radio v-if="this.$route.params.businessStatus === '1'" label="0">通过并入库</el-radio>
+              <el-radio v-if="productSaleDemo.opType === '1'" label="0">通过并入库</el-radio>
               <el-radio label="1">通过</el-radio>
               <el-radio label="2">驳回</el-radio>
             </el-radio-group>
@@ -104,8 +104,9 @@ export default {
         this.$message('请选择审核结果！');
         return;
       }
-      this.setProductAudit(params);
-      this.$router.push(`/product/product-audit-manage`);
+      this.setProductAudit(params).then(res => {
+        this.$router.push(`/product/product-audit-manage`);
+      });
     },
     cancel() {
       this.$router.push(`/product/product-audit-manage`);

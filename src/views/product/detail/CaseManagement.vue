@@ -53,14 +53,14 @@
             <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
-                    详细
-                </el-button>
-                <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
-                    编辑
-                </el-button>
-                <el-button type="text" @click="handleDeleteCase(scope.$index, scope.row)">
+                详细
+              </el-button>
+              <el-button v-if="currentId === scope.row.opId" type="text" @click="handleEditCase(scope.row, scope.$index)">
+                编辑
+              </el-button>
+              <el-button v-if="currentId === scope.row.opId" type="text" @click="handleDeleteCase(scope.$index, scope.row)">
                 删除
-                </el-button>
+              </el-button>
             </template>
             </el-table-column>
         </el-table>
@@ -86,7 +86,8 @@ export default {
       productId: this.$route.params.id,
       isDetail: this.$route.query.isDetail,
       toPath: '/product/sales-product-store',
-      showMore: false
+      showMore: false,
+      currentId: ''
     };
   },
   computed: {
@@ -95,8 +96,11 @@ export default {
     })
   },
   beforeMount() {
-    var data = {productId: Number(this.$route.params.id), type: 0};
-    this.getSalesCaseDetail(data);
+    this.queryCurrentOperator().then(res => {
+      this.currentId = res.operatorId;
+      var data = {productId: Number(this.$route.params.id), type: 0};
+      this.getSalesCaseDetail(data);
+    });
   },
   methods: {
     isShow() {
@@ -107,7 +111,7 @@ export default {
       }
     },
     ...mapActions([
-      'getSalesCaseDetail'
+      'getSalesCaseDetail', 'queryCurrentOperator'
     ])
   }
 };
