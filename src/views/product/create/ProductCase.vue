@@ -273,25 +273,37 @@ export default {
           const {productCase} = this;
           // 修改
           if (this.index > -1) {
-            productCase.files = this.uploadFiles;
-            productCase.deleteFiles = this.deleteFiles;
-
-            if (productCase.salesId) {
-              productCase.state = '3';
+            if (this.productCase.fileInputId) {
+              let fileInputId = this.productCase.fileInputId;
+              let params = {
+                fileInputId: '',
+                fileTypeId: FILE_TYPE_ID.product,
+                moduleId: 1,
+                files: this.uploadFiles
+              };
+              let _params = Object.assign(params, { fileInputId });
+              this.uploadOrderHandleTask(_params).then(res => {
+                let params = Object.cloneDeep(productCase);
+                delete params.productId;
+                delete params.state;
+                delete params.files;
+                delete params.deleteFiles;
+                delete params.operatorId;
+                this.editSalesCase(params).then(res => {
+                  let data = {productId: this.proId};
+                  this.getSalesCaseDetail(data);
+                });
+              });
             }
-            productCase.deleteFiles = this.deleteFiles;
+            // productCase.files = this.uploadFiles;
+            // productCase.deleteFiles = this.deleteFiles;
 
-            this.list[this.index] = Object.assign({}, productCase);
-            let params = Object.cloneDeep(productCase);
-            delete params.productId;
-            delete params.state;
-            delete params.files;
-            delete params.deleteFiles;
-            delete params.operatorId;
-            this.editSalesCase(params).then(res => {
-              let data = {productId: this.proId};
-              this.getSalesCaseDetail(data);
-            });
+            // if (productCase.salesId) {
+            //   productCase.state = '3';
+            // }
+            // productCase.deleteFiles = this.deleteFiles;
+
+            // this.list[this.index] = Object.assign({}, productCase);
           } else {
             // 新增
             if (this.uploadFiles && this.uploadFiles.length) {
@@ -333,7 +345,8 @@ export default {
       'addSalesCase',
       'getSalesCaseDetail',
       'editSalesCase',
-      'delUplodFile'
+      'delUplodFile',
+      'uploadOrderHandleTask'
     ])
   }
 };
