@@ -140,7 +140,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        var _this = this;
         this.setProductOff({'productId': row.productId}).then((res) => {
           this.query();
         });
