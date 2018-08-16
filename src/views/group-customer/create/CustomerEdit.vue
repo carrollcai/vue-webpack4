@@ -572,7 +572,7 @@ export default {
             this.text = text.slice(0, 5);
           }
         }
-        if (text.indexOf(',') !== -1 || text.indexOf('，') !== -1) {
+        if (this.text.indexOf(',') !== -1 || this.text.indexOf('，') !== -1) {
           this.dis_source.push(text);
           this.text = '';
         }
