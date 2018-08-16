@@ -41,12 +41,16 @@
           @onPagination="onPagination"
           @onSizePagination="onSizePagination">
           <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
-          <el-table-column label="集团名称" property="organizeName" show-overflow-tooltip>
+          <el-table-column label="集团名称" :width="370">
+            <template slot-scope="scope">
+              <p class="label">{{scope.row.organizeName}}</p>
+              <el-tag v-for="item in scope.row.label" :key="item">{{item}}</el-tag>
+            </template>
           </el-table-column>
           <el-table-column label="集团属性" property="organizeTypeName" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="集团标签" property="label" show-overflow-tooltip>
-          </el-table-column>
+          <!--<el-table-column label="集团标签" property="label" show-overflow-tooltip>
+          </el-table-column>-->
           <!--<el-table-column label="所属省份" property="provinceName">
           </el-table-column>-->
           <el-table-column label="客户经理" property="managerName" show-overflow-tooltip/>
@@ -151,4 +155,12 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+.customer-overview {
+  .label {
+    line-height: 2;
+  }
+  .el-tag {
+    height: 20px;line-height: 18px;margin-right: 5px;
+  }
+}
 </style>

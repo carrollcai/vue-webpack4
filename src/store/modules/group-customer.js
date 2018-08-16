@@ -58,7 +58,18 @@ const mutations = {
     state.groupCustomerCreate = Object.cloneDeep(groupCustomerCreate);
   },
   [types.GROUP_CUSTOMER_GET_LIST](state, data) {
-    state.groupCustomerList = data;
+    let groupList = data;
+    if (groupList) {
+      groupList.list.map(val => {
+        let labelArr = [];
+        if (val.label && val.label.indexOf('#') !== -1) {
+          labelArr = val.label.split('#');
+          labelArr.shift();
+          val.label = labelArr;
+        }
+      });
+    }
+    state.groupCustomerList = groupList;
   },
   [types.GROUP_CUSTOMER_GET_INFO](state, data) {
     state.groupCustomerCreate = data;
