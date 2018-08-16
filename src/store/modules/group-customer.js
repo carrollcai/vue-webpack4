@@ -50,7 +50,8 @@ const state = {
     activeName: 'first'
   },
   tagLibraryList: '',
-  groupNameList: []
+  groupNameList: [],
+  groupCustomerManagerList: []
 };
 
 const mutations = {
@@ -95,6 +96,9 @@ const mutations = {
   },
   [types.GROUP_NAME_LIST](state, data) {
     state.groupNameList = data.map(val => Object.assign(val, {value: val.vendorName}));
+  },
+  [types.GROUP_CUSTOMER_MANAGERS](state, data) {
+    state.groupCustomerManagerList = data.map(val => Object.assign(val, {value: val.staffName}));
   }
 };
 

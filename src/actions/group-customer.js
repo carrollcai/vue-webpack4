@@ -76,8 +76,10 @@ const actions = {
    * @param {Store} Store
    * @param {String} staffName
    */
-  queryCustomerManagers({commit}, staffName) {
-    return API.queryCustomerManagerAPI({staffName});
+  queryCustomerManagers({commit}, params) {
+    API.queryCustomerManagerAPI(params).then(res => {
+      commit(types.GROUP_CUSTOMER_MANAGERS, res.data);
+    });
   },
   /**
    * 新增集团客户-保存草稿
@@ -268,8 +270,9 @@ const actions = {
    * 查询集团名称
    */
   getGroupName({commit}, params) {
-    API.getGroupNameAPI(params).then(res => {
+    return API.getGroupNameAPI(params).then(res => {
       commit(types.GROUP_NAME_LIST, res.data.list);
+      return res.data.list;
     });
   }
 };

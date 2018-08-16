@@ -19,11 +19,12 @@
         label-width="130px"
         key="baseForm">
           <div class="customer-create-info">
-            <el-form-item label="集团名称" prop="organizeName" key="name">
-              <el-input v-model="customer.organizeName"
+            <el-form-item label="集团名称" prop="organizeName" key="organizeName">
+              <el-autocomplete maxlength="25" v-model="customer.organizeName" :fetch-suggestions="querySearchAsync" placeholder="请输入集团名称"></el-autocomplete>
+              <!--<el-input v-model="customer.organizeName"
                 :maxlength="25"
                 placeholder="请输入集团名称"
-                key="name-input"></el-input>
+                key="name-input"></el-input>-->
             </el-form-item>
             <el-form-item label="集团属性" prop="organizeType" key="organizeType">
               <el-select v-model="customer.organizeType"
@@ -393,12 +394,8 @@
           <el-autocomplete
             key="manager-input"
             v-model="customer.managerName"
-            :fetch-suggestions="querySearchAsync"
+            :fetch-suggestions="querySearchManagersAsync"
             placeholder="请输入客户经理"
-            :trigger-on-focus="false"
-            value-key="staffName"
-            label="operatorId"
-            @select="handleSelect"
           ></el-autocomplete>
         </el-form-item>
         <el-form-item label="手机号码" prop="managerMobile" key="managerMobile">
@@ -465,10 +462,38 @@ export default {
       return this.$store.getters.groupCustomer;
     },
     ...mapState({
-      tagLibraryList: ({ groupCustomer }) => groupCustomer.tagLibraryList
+      tagLibraryList: ({ groupCustomer }) => groupCustomer.tagLibraryList,
+      groupNameList: ({ groupCustomer }) => groupCustomer.groupNameList,
+      groupCustomerManagerList: ({ groupCustomer }) => groupCustomer.groupCustomerManagerList
     })
   },
   methods: {
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 20,
+        organizeName: queryString
+      };
+      await this.getGroupName(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var results = this.groupNameList;
+        cb(results);
+      }, 1000);
+    },
+    async querySearchManagersAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 20,
+        organizeName: queryString
+      };
+      await this.queryCustomerManagers(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var results = this.groupCustomerManagerList;
+        cb(results);
+      }, 1000);
+    },
     isApproveble() {
       const {customer} = this;
       return customer.orgTaskStatus === '4' || customer.orgTaskStatus === '3' || customer.orgTaskStatus === '6';
@@ -476,14 +501,36 @@ export default {
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
-          this.updateCustomer(this.customer);
+          let params = {
+            pageSize: 20,
+            organizeName: this.customer.organizeName
+          };
+          this.getGroupName(params).then(res => {
+            if (res.length !== 0) {
+              this.customer.vendorNumber = res[0].vendorNumber;
+            } else {
+              this.customer.vendorNumber = '';
+            }
+            this.updateCustomer(this.customer);
+          });
         }
       });
     },
     approveCustomer() {
       this.$refs.managerForm.validate((valid) => {
         if (valid) {
-          this.editApproveCustomer(this.customer);
+          let params = {
+            pageSize: 20,
+            organizeName: this.customer.organizeName
+          };
+          this.getGroupName(params).then(res => {
+            if (res.length !== 0) {
+              this.customer.vendorNumber = res[0].vendorNumber;
+            } else {
+              this.customer.vendorNumber = '';
+            }
+            this.editApproveCustomer(this.customer);
+          });
         }
       });
     },
@@ -504,6 +551,12 @@ export default {
         this.$message.error('最多添加5个标签');
       } else {
         if (text !== '') {
+          for (let i = 0; i < this.dis_source.length; i++) {
+            if (this.dis_source[i] === text) {
+              this.$message.error('请不要输入重复的标签');
+              return;
+            }
+          }
           this.dis_source.push(text);
           this.text = '';
         }
@@ -563,7 +616,9 @@ export default {
       'updateCustomer',
       'editApproveCustomer',
       'queryCustomerSnapshot',
-      'getTagLibrary'
+      'getTagLibrary',
+      'getGroupName',
+      'queryCustomerManagers'
     ])
   }
 };
