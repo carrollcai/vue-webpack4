@@ -124,9 +124,9 @@ const actions = {
         duration: 3000
       });
       // 创建成功
-      commit(types.ROUTE_CHANGE, {
-        path: '/product/product-creat-manage'
-      });
+      // commit(types.ROUTE_CHANGE, {
+      //   path: '/product/product-creat-manage'
+      // });
     });
   },
   /**

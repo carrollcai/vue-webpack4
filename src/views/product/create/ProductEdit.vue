@@ -93,7 +93,8 @@
                   v-for="item in coreAbilityType"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"></el-option>
+                  :value="item.value"
+                  v-model="productSaleDemo.secondOptionArr"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -375,19 +376,6 @@ export default {
         if (this.cases) {
           this.uploadFiles = this.productSaleDemo.fileData;
         }
-        // 修改产品时，对销售案例进行修改
-        // if (this.productCase.fileInputId) {
-        //   const that = this;
-        //   this.uploadFiles = [];
-        //   this.queryElec({'fileInputId': this.productCase.fileInputId}).then((res) => {
-        //     if (res.data) {
-        //       (res.data).forEach(function(item) {
-        //         item.name = item.fileName;
-        //         that.uploadFiles.push(item);
-        //       });
-        //     }
-        //   });
-        // }
       });
     },
     getTableData() {
@@ -426,12 +414,15 @@ export default {
               params.mainMarketArr[i] = 3;
             }
           }
+          params.secondOption = this.productSaleDemo.coreAbility;
           params.belongToCompany = this.productSaleDemo.belongToCompany;
           params.specificProduct = this.productSaleDemo.specificProduct;
           params.productFileid = this.productSaleDemo.productFileid;
           params.secondOption = this.productSaleDemo.secondOptionArr;
           // delete params.secondOptionArr;
-          this.updateProduct(params);
+          this.updateProduct(params).then(res => {
+            this.$router.push(`/product/product-creat-manage`);
+          });
         });
       }
       const that = this;

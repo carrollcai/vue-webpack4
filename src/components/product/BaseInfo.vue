@@ -17,7 +17,7 @@
   </ul>
   <ul class="b-i-list">
     <li class="flex-1"><span>主营市场：</span>{{mainMarket}}</li>
-    <li class="flex-2"><span>产品类别：</span>{{productList.productTypeCN}}</li>
+    <li class="flex-2"><span>产品类别：</span>{{productType}}</li>
   </ul>
   <ul class="b-i-list">
     <li class="flex-3"><span>价格策略：</span>{{productList.priceStrategy}}</li>
@@ -26,7 +26,7 @@
     <li class="flex-3"><span>商务策略：</span>{{productList.commercialStrategy}}</li>
   </ul>
   <ul class="b-i-list">
-    <li class="flex-3"><span>产品归属：</span>{{productList.belongToCompany}}-{{productList.secondOption}}-{{productList.specificProduct}}</li>
+    <li class="flex-3"><span>产品归属：</span>{{productList.belongToCompany}}-{{productList.secondOptionCN}}-{{productList.specificProduct}}</li>
   </ul>
   <ul class="b-i-list">
     <li class="flex-3"><span>产品对接人：</span>{{productList.brokerCN}}-{{productList.mobile}}-{{productList.deptment}}-{{productList.position}}</li>
@@ -52,6 +52,22 @@ export default {
       if (this.product && this.product.mainMarketArrCN) {
         let product = this.product.mainMarketArrCN.join();
         return product;
+      }
+    },
+    productType() {
+      switch (this.productList.productType) {
+        case '1':
+          return '卡类';
+        case '2':
+          return '衍生品类';
+        case '3':
+          return '活动类';
+        case '4':
+          return '智能硬件类';
+        case '5':
+          return '会员';
+        case '6':
+          return '其他';
       }
     }
   },
