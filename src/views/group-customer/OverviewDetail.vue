@@ -113,8 +113,8 @@
                 <el-form-item label="部门">
                   <span>{{ props.row.department }}</span>
                 </el-form-item>
-                <el-form-item label="年龄">
-                  <span>{{ props.row.ageValue }}</span>
+                <!--<el-form-item label="年龄">
+                  <span>{{ props.row.ageValue }}</span>-->
                 </el-form-item>
                 <el-form-item label="职位">
                   <span>{{ props.row.position }}</span>
