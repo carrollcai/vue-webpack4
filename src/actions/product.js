@@ -11,6 +11,12 @@ const actions = {
       } else {
         data.mainMarket = res.data.mainMarketArr.split(',');
       }
+      if (data.secondOptionArr) {
+        if (data.secondOptionArr.length === 1) {
+          data.secondOptionArr = data.secondOptionArr[0];
+        }
+      }
+      // data.secondOptionArr = data.secondOptionArr[0];
       data.broker = parseInt(res.data.broker);
       if (data.productFileid) {
         API.queryElecAPI({'fileInputId': res.data.productFileid}).then((res) => {

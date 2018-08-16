@@ -32,12 +32,12 @@
 
       <el-form-item label="产品类别" prop="productType">
         <el-select class="form-input-240" v-model="productSaleDemo.productType" placeholder="请选择产品类别">
-          <el-option label="卡类" value="0"></el-option>
-          <el-option label="衍生品类" value="1"></el-option>
-          <el-option label="活动类" value="2"></el-option>
-          <el-option label="智能硬件类" value="3"></el-option>
-          <el-option label="会员" value="4"></el-option>
-          <el-option label="其他" value="5"></el-option>
+          <el-option label="卡类" value="1"></el-option>
+          <el-option label="衍生品类" value="2"></el-option>
+          <el-option label="活动类" value="3"></el-option>
+          <el-option label="智能硬件类" value="4"></el-option>
+          <el-option label="会员" value="5"></el-option>
+          <el-option label="其他" value="6"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="产品介绍" prop="description">
@@ -64,13 +64,13 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <div v-if="productSaleDemo.belongToCompany === '一级集采目录' || productSaleDemo.belongToCompany === '2'">
+        <div v-if="productSaleDemo.belongToCompany === '一级集采目录' || productSaleDemo.belongToCompany === 2 || productSaleDemo.belongToCompany === '2'">
           <el-col class="line-container" :span="2">
             <div class="line"></div>
           </el-col>
           <el-col :span="11">
             <el-form-item>
-              <el-cascader placeholder="类别" v-if="firstCollectionType"
+              <el-cascader v-if="firstCollectionType" placeholder="类别"
                 :options="firstCollectionType"
                 v-model="productSaleDemo.secondOptionArr"
                 @change="changeFirstCollectType">
@@ -78,13 +78,13 @@
             </el-form-item>
           </el-col>
         </div>
-        <div v-if="productSaleDemo.belongToCompany === '核心能力清单' || productSaleDemo.belongToCompany === '1'">
+        <div v-if="productSaleDemo.belongToCompany === '核心能力清单' || productSaleDemo.belongToCompany === 1 || productSaleDemo.belongToCompany === '1'">
           <el-col class="line-container" :span="2">
             <div class="line"></div>
           </el-col>
           <el-col :span="11">
             <el-form-item>
-              <el-select v-model="productSaleDemo.coreAbility" placeholder="核心能力" @change="selectCoreAbility">
+              <el-select v-model="productSaleDemo.secondOptionArr" placeholder="核心能力" @change="selectCoreAbility">
                 <!--<el-option label="个人-内容及服务" value="0"></el-option>
                 <el-option label="家庭-硬件" value="1"></el-option>
                 <el-option label="能力-音视频" value="2"></el-option>
@@ -93,8 +93,7 @@
                   v-for="item in coreAbilityType"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"
-                  v-model="productSaleDemo.secondOptionArr"></el-option>
+                  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -418,8 +417,13 @@ export default {
           params.belongToCompany = this.productSaleDemo.belongToCompany;
           params.specificProduct = this.productSaleDemo.specificProduct;
           params.productFileid = this.productSaleDemo.productFileid;
-          params.secondOption = this.productSaleDemo.secondOptionArr;
-          // delete params.secondOptionArr;
+          if (typeof (this.productSaleDemo.secondOptionArr) === 'string') {
+            let secArr = [];
+            secArr.push(this.productSaleDemo.secondOptionArr);
+            params.secondOption = secArr;
+          } else {
+            params.secondOption = this.productSaleDemo.secondOptionArr;
+          }
           this.updateProduct(params).then(res => {
             this.$router.push(`/product/product-creat-manage`);
           });
@@ -591,13 +595,14 @@ export default {
       }
     },
     selectBelongToCompany() {
-      if (this.productSaleDemo.belongToCompany === 2) {
+      this.productSaleDemo.secondOptionArr = '';
+      if (this.productSaleDemo.belongToCompany === '2' || this.productSaleDemo.belongToCompany === '一级集采目录') {
         this.getFirstCatalogType();
         this.isFirstLevel = true;
       } else {
         this.isFirstLevel = false;
       }
-      if (this.productSaleDemo.belongToCompany === 1) {
+      if (this.productSaleDemo.belongToCompany === '1' || this.productSaleDemo.belongToCompany === '核心能力清单') {
         this.getCoreAbilityType();
         this.isCoreCompetency = true;
       } else {
@@ -605,13 +610,14 @@ export default {
       }
     },
     selectCoreAbility(item) {
+      this.productSaleDemo.specificProduct = '';
       let obj = {};
       obj.codeType = 'CORE_ABILITY';
-      obj.parentCode = this.productSaleDemo.coreAbility;
+      obj.parentCode = this.productSaleDemo.secondOptionArr;
       this.getSpecProductList(obj);
       let arr = [];
       arr.push(item);
-      this.productSaleDemo.secondOptionAbility = arr;
+      // this.productSaleDemo.secondOptionArr = arr;
     },
     changeFirstCollectType(item) {
       let type = this.productSaleDemo.secondOptionArr[2];
