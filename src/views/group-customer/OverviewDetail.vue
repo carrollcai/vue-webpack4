@@ -50,7 +50,7 @@
             </el-col>-->
             <el-col :span="24">
               <span class="info_label">公司地址：</span>
-              <span class="info_content">{{customer.organizeTypeValue}}</span>
+              <span class="info_content">{{customer.orgAddress}}</span>
             </el-col>
           </el-row>
         </div>

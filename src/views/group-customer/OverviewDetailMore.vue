@@ -27,7 +27,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="8">
+            <el-col :span="8" v-if="customer.establishTime &&  customer.establishTime.length">
               <span class="info_label">成立时间：</span>
               <span class="info_content">{{formateDate(customer.establishTime)}}</span>
             </el-col>
@@ -45,11 +45,19 @@
               <span class="info_label">集团规模：</span>
               <span class="info_content">{{customer.memberNumValue}}</span>
             </el-col>
+            <el-col :span="8">
+              <span class="info_label">公司标签：</span>
+              <div class="info_content">{{customer.label}}</div>
+            </el-col>
           </el-row>
           <el-row>
-            <el-col :span="24">
+            <!--<el-col :span="8">
               <span class="info_label">公司标签：</span>
-              <div class="info_content">#金融 #互联网 #计算机</div>
+              <div class="info_content">{{customer.label}}</div>
+            </el-col>-->
+            <el-col :span="24">
+              <span class="info_label">办公地址：</span>
+              <div class="info_content">{{customer.orgAddress}}</div>
             </el-col>
           </el-row>
           <el-row>
