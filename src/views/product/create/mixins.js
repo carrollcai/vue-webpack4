@@ -1,5 +1,6 @@
 import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
+import ProductCaseshow from './ProductCaseshow.vue';
 import Step from '@/components/Step.vue';
 import ProductCase from './ProductCase.vue';
 import { multFileValid } from '@/utils/rules.js';
@@ -13,7 +14,8 @@ export default {
   components: {
     Steps,
     Step,
-    ProductCase
+    ProductCase,
+    ProductCaseshow
   },
   data() {
     const fileCheck = (rule, value, callback) => {
@@ -175,7 +177,15 @@ export default {
       //   this.cases.splice(index, 1);
       // }
     },
+    handleShowCase(productCase, index) {
+      this.isShow = false;
+      this.isAddingCase = true;
+      this.$nextTick(() => {
+        this.$refs.prodctCases.init(productCase, index);
+      });
+    },
     handleEditCase(productCase, index) {
+      this.isShow = true;
       this.isAddingCase = true;
       this.$nextTick(() => {
         this.$refs.prodctCases.init(productCase, index);
@@ -195,6 +205,7 @@ export default {
       return composedStr;
     },
     addCase() {
+      this.isShow = true;
       this.isAddingCase = true;
     },
     cancelAddingCase() {

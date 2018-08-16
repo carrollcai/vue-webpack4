@@ -48,11 +48,11 @@
             </el-table-column>
             <el-table-column label="方案介绍" show-overflow-tooltip property="scheme">
             </el-table-column>
-            <el-table-column label="创建人" property="createName">
+            <el-table-column label="创建人" property="operatorId">
             </el-table-column>
             <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-              <el-button type="text" @click="handleEditCase(scope.row, scope.$index)">
+              <el-button type="text" @click="handleShowCase(scope.row, scope.$index)">
                 详细
               </el-button>
               <el-button v-if="currentId === scope.row.opId" type="text" @click="handleEditCase(scope.row, scope.$index)">
@@ -64,7 +64,8 @@
             </template>
             </el-table-column>
         </el-table>
-        <product-case ref="prodctCases" v-if="isAddingCase" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-case>
+        <product-case ref="prodctCases" v-if="isAddingCase && isShow" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-case>
+        <product-caseshow ref="prodctCases" v-if="isAddingCase && !isShow" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-caseshow>
         <div class="btn_add-case" @click="addCase">
             <i class="el-icon-plus"></i> 添加销售案例
         </div>
@@ -87,7 +88,8 @@ export default {
       isDetail: this.$route.query.isDetail,
       toPath: '/product/sales-product-store',
       showMore: false,
-      currentId: ''
+      currentId: '',
+      isShow: ''
     };
   },
   computed: {
