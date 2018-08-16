@@ -16,6 +16,10 @@ const actions = {
           data.secondOptionArr = data.secondOptionArr[0];
         }
       }
+      if (data.specificProduct) {
+      } else {
+        data.specificProduct = ''
+      }
       // data.secondOptionArr = data.secondOptionArr[0];
       // let broker = [];
       // broker.push(parseInt(res.data.broker));
