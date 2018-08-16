@@ -144,11 +144,11 @@ export default {
       this.query();
     },
     onPagination(value) {
-      this.productList.pageNo = value;
+      this.productCreateForm.pageNo = value;
       this.query();
     },
     onSizePagination(value) {
-      this.productList.pageSize = value;
+      this.productCreateForm.pageSize = value;
       this.query();
     },
     checkProductName(value) {

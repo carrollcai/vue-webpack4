@@ -289,6 +289,7 @@ export default {
                 delete params.files;
                 delete params.deleteFiles;
                 delete params.operatorId;
+                delete params.opId;
                 this.editSalesCase(params).then(res => {
                   let data = {productId: this.proId};
                   this.getSalesCaseDetail(data);

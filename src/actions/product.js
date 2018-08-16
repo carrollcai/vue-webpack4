@@ -258,6 +258,11 @@ const actions = {
    */
   editSalesCase: ({ commit }, params) => {
     return API.editSalesCaseAPI(params).then((res) => {
+      Message({
+        message: '修改成功！',
+        type: 'success',
+        duration: 3000
+      });
       commit(types.EDIT_SALES_CASE, res.data);
     });
   },
