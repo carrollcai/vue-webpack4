@@ -5,7 +5,8 @@ import ProductCase from './ProductCase.vue';
 import { multFileValid } from '@/utils/rules.js';
 import { FILE_TYPE_ID } from '@/config/index.js';
 import {
-  isEmpty as emptyValidator
+  isEmpty as emptyValidator,
+  checkPhone
 } from '@/utils/rules';
 
 export default {
@@ -79,7 +80,7 @@ export default {
         ],
         mobile: [
           { required: true, message: '请输入手机号', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
+          { validator: checkPhone, trigger: ['blur', 'change'] }
         ],
         files: [
           { validator: fileCheck }

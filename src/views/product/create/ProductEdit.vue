@@ -224,7 +224,6 @@
           :maxlength="20"
           placeholder="请输入版本号"></el-input>
       </el-form-item>-->
-      {{uploadFiles}}-{{productSaleDemo}}
       <el-form-item>
         <el-button type="primary" @click="submitProduct()">立即提审</el-button>
         <el-button @click="cancel()">取消</el-button>
