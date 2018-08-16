@@ -15,7 +15,7 @@
             <li><span>产品名称：</span>{{salesCaseDetail.productName}}</li>
             <li><span>产品介绍：</span>{{salesCaseDetail.description}}</li>
             <li @click="isShow" class="info_head-sub show-more">更多产品信息
-              <!--<i class="el-icon el-icon-arrow-down" :class="showMore ? 'el-icon-arrow-up' : ''"></i>-->
+              <i style="padding-top: 5px;margin-left:5px;" class="el-icon el-icon-arrow-down" :class="showMore ? 'el-icon-arrow-up' : ''"></i>
             </li>
         </ul>
         <div v-if="showMore">

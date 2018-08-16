@@ -191,7 +191,7 @@ export default {
       this.$router.push({path: '/product/create'});
     },
     toPageDetail(row) {
-      this.$router.push(`/product/product-detail/${row.productId}?isDetail=1`);
+      this.$router.push(`/product/product-detail/${row.productId}?isDetail=0`);
     },
     toPageModefiy(row) {
       this.$router.push(`/product/edit/${row.productId}`);

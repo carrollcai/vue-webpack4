@@ -25,7 +25,7 @@
               class="form-input-320"
               v-model="auditForm.suggest"
               :maxlength="50"
-              placeholder="请输入介绍" type="textarea" :rows="3"></el-input>
+              placeholder="如审核不通过，请填写原因供创建者查看" type="textarea" :rows="3"></el-input>
           </el-form-item>
           <el-form-item label="">
             <el-button type="primary" @click="confirmAudit">确认审核</el-button>
@@ -74,7 +74,7 @@ export default {
       params.taskInsId = Number(this.$route.params.taskInsId);
       let status = Number(this.$route.params.businessStatus);
       if (status === 1) {
-        if (this.auditForm.result === '1') {
+        if (this.auditForm.result === 1) {
           params.resultStatus = 2;
         } else if (this.auditForm.result === '0') {
           params.resultStatus = 3;
@@ -86,7 +86,7 @@ export default {
             return;
           }
         }
-      } else if (status === '5') {
+      } else if (status === 5) {
         if (this.auditForm.result === '1') {
           params.resultStatus = 6;
         } else if (this.auditForm.result === '2') {

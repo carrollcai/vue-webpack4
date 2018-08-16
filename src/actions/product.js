@@ -17,7 +17,9 @@ const actions = {
         }
       }
       // data.secondOptionArr = data.secondOptionArr[0];
-      data.broker = parseInt(res.data.broker);
+      // let broker = [];
+      // broker.push(parseInt(res.data.broker));
+      // data.broker = broker;
       if (data.productFileid) {
         API.queryElecAPI({'fileInputId': res.data.productFileid}).then((res) => {
           if (res.data) {

@@ -307,19 +307,22 @@ export default {
       specProductList: ({ product }) => product.specProductList
     }),
     uploadFiles() {
-      // if (this.productSaleDemo.fileData) {
-      //   this.uploadFiles = this.productSaleDemo.fileData;
-      // }
+      if (this.productSaleDemo && this.productSaleDemo.secondOptionArr) {
+        let obj = {};
+        obj.codeType = 'CORE_ABILITY';
+        obj.parentCode = this.productSaleDemo.secondOptionArr;
+        this.getSpecProductList(obj);
+      }
       return this.productSaleDemo.fileData;
     }
   },
   beforeMount() {
-    this.init();
     this.getFirstCatalogType();
     this.getFirstCatalog();
     this.getCoreAbility();
     this.getBroker();
     this.getCoreAbilityType();
+    this.init();
   },
   methods: {
     isAcceptable(fileName) {
@@ -338,7 +341,6 @@ export default {
       });
     },
     handleChangeFile(file, fileList) {
-      debugger;
       let fileName = file.name;
       let result = true;
       if (this.isAcceptable(fileName)) {

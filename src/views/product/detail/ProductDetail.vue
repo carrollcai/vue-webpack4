@@ -3,7 +3,7 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: toPath }">{{isDetail === '0' ? '产品总览' : '产品创建管理'}}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: toPath }">{{isDetail === '0' ? '产品创建管理' : '产品审核管理'}}</el-breadcrumb-item>
           <el-breadcrumb-item>产品详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
