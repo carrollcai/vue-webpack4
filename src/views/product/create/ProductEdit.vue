@@ -116,7 +116,7 @@
       <el-form-item label="产品对接人:" class="col-item">
         <el-col :span="11">
           <el-form-item prop="broker">
-            <el-select v-model="productSaleDemo.broker" placeholder="对接人">
+            <el-select v-model="productSaleDemo.broker" placeholder="对接人" @change="selectBroker">
               <el-option
                 v-for="item in brokerList"
                 :key="item.value"

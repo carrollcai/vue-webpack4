@@ -443,6 +443,12 @@ export default {
         if (text !== '') {
           let json = {};
           json.text = text;
+          for (let i = 0; i < this.dis_source.length; i++) {
+            if (this.dis_source[i].text === json.text) {
+              this.$message.error('请不要输入重复的标签');
+              return;
+            }
+          }
           this.dis_source.push(json);
           this.text = '';
         }
@@ -458,9 +464,9 @@ export default {
             this.text = text.slice(0, 5);
           }
         }
-        if (text.indexOf(',') !== -1 || text.indexOf('，') !== -1) {
+        if (this.text.indexOf(',') !== -1 || this.text.indexOf('，') !== -1) {
           let json = {};
-          json.text = text.slice(0, text.length - 1);
+          json.text = this.text.slice(0, text.length - 1);
           this.dis_source.push(json);
           this.text = '';
         }
