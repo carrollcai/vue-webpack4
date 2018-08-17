@@ -423,7 +423,7 @@ export default {
               params.mainMarketArr[i] = 3;
             }
           }
-          params.secondOption = this.productSaleDemo.coreAbility;
+          params.secondOption = this.productSaleDemo.secondOptionArr;
           params.belongToCompany = this.productSaleDemo.belongToCompany;
           params.specificProduct = this.productSaleDemo.specificProduct;
           params.productFileid = this.productSaleDemo.productFileid;
