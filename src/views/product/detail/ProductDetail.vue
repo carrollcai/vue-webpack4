@@ -29,7 +29,7 @@ export default {
     return {
       productId: this.$route.params.id,
       isDetail: this.$route.query.isDetail,
-      toPath: this.$route.query.isDetail === '0' ? '/product/product-view' : '/product/product-creat-manage'
+      toPath: this.$route.query.isDetail === '0' ? '/product/product-creat-manage' : '/product/product-audit-manage'
     };
   },
   computed: {
