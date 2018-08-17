@@ -104,9 +104,9 @@ export default {
         this.$message('请选择审核结果！');
         return;
       }
-      // this.setProductAudit(params).then(res => {
-      //   this.$router.push(`/product/product-audit-manage`);
-      // });
+      this.setProductAudit(params).then(res => {
+        this.$router.push(`/product/product-audit-manage`);
+      });
     },
     cancel() {
       this.$router.push(`/product/product-audit-manage`);
