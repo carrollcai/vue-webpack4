@@ -441,6 +441,8 @@ export default {
               });
               return;
             }
+          } else {
+            params.secondOption = [];
           }
           this.updateProduct(params).then(res => {
             this.$router.push(`/product/product-creat-manage`);
