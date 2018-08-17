@@ -9,7 +9,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="productCase.salesType === '1'"
-        label="组合产品" prop="composedProduct">
+        label="组合产品">
         <el-select :disabled="true"
           class="full-col"
           v-model="productCase.composedProduct"
@@ -25,7 +25,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="方案介绍" prop="scheme">
+      <el-form-item label="方案介绍">
         <el-input :disabled="true" v-model="productCase.scheme"
           :maxlength="500"
           placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
