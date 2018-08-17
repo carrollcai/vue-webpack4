@@ -46,7 +46,7 @@
           :maxlength="500"
           placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
       </el-form-item>-->
-      <el-form-item label="方案附件" prop="files">
+      <!--<el-form-item label="方案附件" prop="files">
         <el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
           :auto-upload="false"
@@ -62,7 +62,7 @@
             <p class="lh1-5">{{FILE_TIP[1]}}</p>
           </div>
         </el-upload>
-      </el-form-item>
+      </el-form-item>-->
     </el-form>
   </div>
 </template>

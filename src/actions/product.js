@@ -18,7 +18,7 @@ const actions = {
       }
       if (data.specificProduct) {
       } else {
-        data.specificProduct = ''
+        data.specificProduct = '';
       }
       // data.secondOptionArr = data.secondOptionArr[0];
       // let broker = [];

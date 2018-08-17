@@ -64,8 +64,8 @@
             </template>
             </el-table-column>
         </el-table>
-        <product-case ref="prodctCases" v-if="isAddingCase && isShow" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-case>
-        <product-caseshow ref="prodctCases" v-if="isAddingCase && !isShow" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-caseshow>
+        <product-case ref="prodctCases" v-if="isAddingCase && isEdit" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-case>
+        <product-caseshow ref="prodctCases" v-if="isAddingCase && !isEdit" @cancel="cancelAddingCase" :list="cases" :proId="salesCaseDetail.productId"></product-caseshow>
         <div class="btn_add-case" @click="addCase">
             <i class="el-icon-plus"></i> 添加销售案例
         </div>
@@ -89,7 +89,7 @@ export default {
       toPath: '/product/sales-product-store',
       showMore: false,
       currentId: '',
-      isShow: ''
+      isEdit: ''
     };
   },
   computed: {

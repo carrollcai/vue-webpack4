@@ -204,7 +204,7 @@ export default {
       } else {
         callback();
       }
-    },
+    }
   }
 };
 </script>
