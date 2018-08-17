@@ -26,7 +26,7 @@
     <li class="flex-3"><span>商务策略：</span>{{productList.commercialStrategy}}</li>
   </ul>
   <ul class="b-i-list">
-    <li class="flex-3"><span>产品归属：</span>{{productList.belongToCompany}}-{{productList.secondOptionCN}}-{{productList.specificProduct}}</li>
+    <li class="flex-3"><span>产品归属：</span>{{productList.belongToCompany}}<label v-if="productList.secondOptionCN">-{{productList.secondOptionCN}}</label><label v-if="productList.specificProduct">-{{productList.specificProduct}}</label></li>
   </ul>
   <ul class="b-i-list">
     <li class="flex-3"><span>产品对接人：</span>{{productList.brokerCN}}-{{productList.mobile}}-{{productList.deptment}}-{{productList.position}}</li>

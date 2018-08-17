@@ -56,11 +56,11 @@
         <el-col :span="11">
           <el-form-item>
             <el-select v-model="productSaleDemo.belongToCompany" placeholder="选择产品归属" @change="selectBelongToCompany">
-              <el-option label="无" value="0"></el-option>
-              <el-option label="核心能力清单" value="1"></el-option>
-              <el-option label="一级集采目录" value="2"></el-option>
-              <el-option label="二级集采目录" value="3"></el-option>
-              <el-option label="终端库" value="4"></el-option>
+              <el-option label="无" value="无"></el-option>
+              <el-option label="核心能力清单" value="核心能力清单"></el-option>
+              <el-option label="一级集采目录" value="一级集采目录"></el-option>
+              <el-option label="二级集采目录" value="二级集采目录"></el-option>
+              <el-option label="终端库" value="终端库"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -434,7 +434,7 @@ export default {
           } else {
             params.secondOption = this.productSaleDemo.secondOptionArr;
           }
-          if (params.belongToCompany === '1' || params.belongToCompany === '2') {
+          if (params.belongToCompany === '核心能力清单' || params.belongToCompany === '一级集采目录') {
             if (params.secondOption[0] === '' || params.specificProduct === '') {
               this.$message({
                 message: `如果选择产品归属，请选择完整`
@@ -642,6 +642,7 @@ export default {
     },
     changeFirstCollectType(item) {
       if (this.productSaleDemo.secondOptionArr.toString().length > 20) {
+        this.productSaleDemo.specificProduct = '';
         let type = this.productSaleDemo.secondOptionArr[2];
         let obj = {};
         obj.codeType = 'FIRST_COLLECTION';
