@@ -308,10 +308,18 @@ export default {
     }),
     uploadFiles() {
       if (this.productSaleDemo && this.productSaleDemo.secondOptionArr) {
-        let obj = {};
-        obj.codeType = 'CORE_ABILITY';
-        obj.parentCode = this.productSaleDemo.secondOptionArr;
-        this.getSpecProductList(obj);
+        if (this.productSaleDemo.secondOptionArr.toString().length < 20) {
+          let obj = {};
+          obj.codeType = 'CORE_ABILITY';
+          obj.parentCode = this.productSaleDemo.secondOptionArr;
+          this.getSpecProductList(obj);
+        } else {
+          let type = this.productSaleDemo.secondOptionArr[2];
+          let obj = {};
+          obj.codeType = 'FIRST_COLLECTION';
+          obj.parentCode = type;
+          this.getSpecProductList(obj);
+        }
       }
       return this.productSaleDemo.fileData;
     }
@@ -613,34 +621,38 @@ export default {
       }
     },
     selectCoreAbility(item) {
-      this.productSaleDemo.specificProduct = '';
-      let obj = {};
-      obj.codeType = 'CORE_ABILITY';
-      obj.parentCode = this.productSaleDemo.secondOptionArr;
-      this.getSpecProductList(obj);
-      let arr = [];
-      arr.push(item);
+      if (this.productSaleDemo.secondOptionArr.toString().length < 20) {
+        this.productSaleDemo.specificProduct = '';
+        let obj = {};
+        obj.codeType = 'CORE_ABILITY';
+        obj.parentCode = this.productSaleDemo.secondOptionArr;
+        this.getSpecProductList(obj);
+        let arr = [];
+        arr.push(item);
+      }
       // this.productSaleDemo.secondOptionArr = arr;
     },
     changeFirstCollectType(item) {
-      let type = this.productSaleDemo.secondOptionArr[2];
-      let obj = {};
-      obj.codeType = 'FIRST_COLLECTION';
-      obj.parentCode = type;
-      this.getSpecProductList(obj);
-      this.firstCollectionType.map(val => {
-        if (val.children) {
-          val.children.map(val => {
-            if (val.children) {
-              val.children.map(val => {
-                if (val.value === type) {
-                  this.productSaleDemo.secondOptionStr = val.label;
-                }
-              });
-            };
-          });
-        };
-      });
+      if (this.productSaleDemo.secondOptionArr.toString().length > 20) {
+        let type = this.productSaleDemo.secondOptionArr[2];
+        let obj = {};
+        obj.codeType = 'FIRST_COLLECTION';
+        obj.parentCode = type;
+        this.getSpecProductList(obj);
+        this.firstCollectionType.map(val => {
+          if (val.children) {
+            val.children.map(val => {
+              if (val.children) {
+                val.children.map(val => {
+                  if (val.value === type) {
+                    this.productSaleDemo.secondOptionStr = val.label;
+                  }
+                });
+              };
+            });
+          };
+        });
+      }
     },
     selectBroker(item) {
       this.brokerList.map(val => {
