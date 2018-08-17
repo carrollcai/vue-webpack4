@@ -46,8 +46,13 @@
           :maxlength="500"
           placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
       </el-form-item>-->
-      <!--<el-form-item label="方案附件" prop="files">
-        <el-upload class="upload-files"
+      <el-form-item label="方案附件" prop="files">
+        <ul>
+          <li v-for="item in uploadFiles" :key="item">
+           <label @click="downloadFile(item)" class="download">{{item.fileName}}</label>
+          </li>
+        </ul>
+        <!--<el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
           :auto-upload="false"
           :on-change="handleChangeFile"
@@ -61,8 +66,8 @@
             <p class="lh1-5">{{FILE_TIP[0]}}</p>
             <p class="lh1-5">{{FILE_TIP[1]}}</p>
           </div>
-        </el-upload>
-      </el-form-item>-->
+        </el-upload>-->
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -336,6 +341,14 @@ export default {
     cancel() {
       this.$emit('cancel');
     },
+    downloadFile(obj) {
+      let params = {
+        fileTypeId: 502,
+        fileSaveName: obj.fileSaveName,
+        fileName: obj.fileName
+      };
+      this.productDownloadFile(params);
+    },
     ...mapActions([
       'getComposedProduct',
       'queryElec',
@@ -343,7 +356,8 @@ export default {
       'getSalesCaseDetail',
       'editSalesCase',
       'delUplodFile',
-      'uploadOrderHandleTask'
+      'uploadOrderHandleTask',
+      'productDownloadFile'
     ])
   }
 };
@@ -397,6 +411,11 @@ $form-item-width: $formLargeWidth;
     line-height: 22px;
     color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
+  }
+  .download {
+    color: #3778FF;
+    font-size: 14px;
+    cursor: pointer;
   }
 }
 </style>
