@@ -473,6 +473,7 @@ export default {
           this.product.specificProduct = '';
         }
         this.getFirstCatalogType().then(res => {
+          this.isCoreCompetency = false;
           this.isFirstLevel = true;
         });
       } else if (this.product.belongToCompany === '核心能力清单') {
@@ -484,6 +485,7 @@ export default {
         }
         this.getCoreAbilityType();
         this.isCoreCompetency = true;
+        this.isFirstLevel = false;
       } else {
         this.product.secondOption = [];
         this.product.specificProduct = '';
