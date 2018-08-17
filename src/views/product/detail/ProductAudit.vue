@@ -74,7 +74,7 @@ export default {
       params.taskInsId = Number(this.$route.params.taskInsId);
       let status = Number(this.$route.params.businessStatus);
       if (status === 1) {
-        if (this.auditForm.result === 1) {
+        if (this.auditForm.result === '1') {
           params.resultStatus = 2;
         } else if (this.auditForm.result === '0') {
           params.resultStatus = 3;
@@ -104,9 +104,9 @@ export default {
         this.$message('请选择审核结果！');
         return;
       }
-      this.setProductAudit(params).then(res => {
-        this.$router.push(`/product/product-audit-manage`);
-      });
+      // this.setProductAudit(params).then(res => {
+      //   this.$router.push(`/product/product-audit-manage`);
+      // });
     },
     cancel() {
       this.$router.push(`/product/product-audit-manage`);
