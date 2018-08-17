@@ -23,7 +23,7 @@ const actions = {
       // data.secondOptionArr = data.secondOptionArr[0];
       // let broker = [];
       // broker.push(parseInt(res.data.broker));
-      // data.broker = broker;
+      data.broker = parseInt(res.data.broker);
       if (data.productFileid) {
         API.queryElecAPI({'fileInputId': res.data.productFileid}).then((res) => {
           if (res.data) {
