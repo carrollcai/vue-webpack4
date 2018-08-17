@@ -224,11 +224,11 @@
                 placeholder="请输入登记机关"
                 key="registrateOrg-input"></el-input>
             </el-form-item>
-            <!--<el-form-item label="注册资金" prop="registerFund" key="registerFund">
+            <el-form-item label="注册资金" prop="registerFund" key="registerFund">
               <el-input v-model="customer.registerFund" placeholder="请输入注册资金" key="registerFund-input">
                 <template slot="append">万元</template>
               </el-input>
-            </el-form-item>-->
+            </el-form-item>
             <el-form-item label="经营期限" prop="businessTerm" key="operation-term">
               <el-input v-model="customer.businessTerm"
                 :maxlength="3"
