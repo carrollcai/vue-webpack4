@@ -121,7 +121,7 @@ export default {
       newFiles: [],
       rules: {
         composedProduct: [
-          { required: true, message: '请输入产品名称或编码', trigger: ['blur', 'change'] },
+          { required: true, message: '请选择产品名称或编码', trigger: ['blur', 'change'] },
           { validator: emptyValidator, trigger: ['blur', 'change'] }
         ],
         scheme: [
@@ -261,6 +261,10 @@ export default {
     handleChangeSalesType(value) {
       if (value === '0') {
         this.productCase.composedProduct = [];
+      } else {
+        if (this.productCase.composedProduct[0] === '-') {
+          this.productCase.composedProduct = [];
+        }
       }
     },
     productNameChange(value) {
