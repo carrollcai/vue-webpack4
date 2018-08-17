@@ -1,9 +1,9 @@
 <template>
   <div class="product-case">
     <div class="title">添加销售案例 <span class="sub-title">（可添加多个销售案例）</span></div>
-    <el-form class="product-case_form" :model="productCase" :rules="rules" ref="baseForm" label-width="130px">
+    <el-form class="product-case_form" :model="productCase" ref="baseForm" label-width="130px">
       <el-form-item label="销售类型：">
-        <el-radio-group disabled v-model="productCase.salesType" @change="handleChangeSalesType">
+        <el-radio-group disabled v-model="productCase.salesType">
           <el-radio label="0">单品销售</el-radio>
           <el-radio label="1">组合销售</el-radio>
         </el-radio-group>
@@ -15,7 +15,6 @@
           v-model="productCase.composedProduct"
           multiple
           filterable
-          @change="productNameChange"
           placeholder="产品名称/编码">
           <el-option
             v-for="item in composedProductList"
@@ -30,61 +29,18 @@
           :maxlength="500"
           placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
-
-      <!--<el-form-item  label="销售数量" prop="salesNumber">
-        <el-input class="full-col" v-model="productCase.salesNumber" placeholder="请输入数量"></el-input>
-      </el-form-item>
-
-      <el-form-item label="创新点/借鉴点" prop="keypoint">
-        <el-input v-model="productCase.keypoint"
-          :maxlength="500"
-          placeholder="请简要概述创新点或借鉴点" type="textarea" :rows="4"></el-input>
-      </el-form-item>
-
-      <el-form-item label="经验教训" prop="experience">
-        <el-input v-model="productCase.experience"
-          :maxlength="500"
-          placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
-      </el-form-item>-->
       <el-form-item label="方案附件" prop="files">
         <ul>
           <li v-for="item in uploadFiles" :key="item">
            <label @click="downloadFile(item)" class="download">{{item.fileName}}</label>
           </li>
         </ul>
-        <!--<el-upload class="upload-files"
-          :limit="FILE_MAX_COUNT"
-          :auto-upload="false"
-          :on-change="handleChangeFile"
-          :on-remove="handleRemoveFile"
-          :on-exceed="handleExceed"
-          :file-list="uploadFiles">
-          <el-button slot="trigger" size="small">
-            <i class="icon-up margin-right-8"></i>上传文件
-          </el-button>
-          <div slot="tip" class="el-upload__tip">
-            <p class="lh1-5">{{FILE_TIP[0]}}</p>
-            <p class="lh1-5">{{FILE_TIP[1]}}</p>
-          </div>
-        </el-upload>-->
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
 import {mapState, mapActions} from 'vuex';
-import { FILE_TYPE_ID } from '@/config/index.js';
-import endsWith from 'lodash/endsWith';
-import {
-  FILE_ACCEPT,
-  FILE_TIP,
-  FILE_MAX_COUNT,
-  FILE_MAX_SIZE,
-  FILE_ERROR_TIP
-} from '@/config';
-import {
-  isEmpty as emptyValidator
-} from '@/utils/rules';
 export default {
   name: 'ProductCase',
   props: {
@@ -97,57 +53,13 @@ export default {
     proId: ''
   },
   data() {
-    const salesNumberFn = (rule, value, callback) => {
-      const reg = /^\d{1,9}$/;
-      if (String(value).trim() === '') {
-        callback(new Error('请输入销售数量!'));
-      } else if (!reg.test(value)) {
-        callback(new Error('请输入正整数，最多9位数'));
-      } else {
-        callback();
-      }
-    };
-
     return {
-      FILE_TIP,
-      FILE_MAX_COUNT,
       index: -1,
       productCase: {
         salesType: '0',
         composedProduct: []
       },
-      uploadFiles: [],
-      // 用于保存，修改产品时， 修改销售案例删除的方案文件
-      deleteFiles: [],
-      newFiles: [],
-      rules: {
-        composedProduct: [
-          { required: true, message: '请输入产品名称或编码', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
-        ],
-        scheme: [
-          { required: true, message: '请输入方案介绍', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
-        ],
-        productName: [
-          { required: true, message: '请输入产品名称或编码', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
-        ],
-        salesType: [
-          { required: true, message: '请选择产品类型', trigger: 'change' }
-        ],
-        salesNumber: [
-          { required: true, validator: salesNumberFn, type: 'number', trigger: 'blur' }
-        ],
-        keypoint: [
-          { required: true, message: '请输入创新点/借鉴点', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
-        ],
-        experience: [
-          { required: true, message: '请输入经验教训', trigger: ['blur', 'change'] },
-          { validator: emptyValidator, trigger: ['blur', 'change'] }
-        ]
-      }
+      uploadFiles: []
     };
   },
   computed: {
@@ -196,151 +108,6 @@ export default {
         }
       });
     },
-    isAcceptable(fileName) {
-      for (let accept of FILE_ACCEPT) {
-        if (endsWith(fileName.toLowerCase(), accept)) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    handleExceed() {
-      this.$message({
-        message: `附件个数已满${FILE_MAX_COUNT}个`,
-        type: 'warning'
-      });
-    },
-    handleChangeFile(file, fileList) {
-      let fileName = file.name;
-      let result = true;
-      if (this.isAcceptable(fileName)) {
-        let fileSize = file.size / (1024 * 1024);
-
-        if (fileSize > FILE_MAX_SIZE) {
-          this.$message({
-            message: `附件超过${FILE_MAX_SIZE}M`,
-            type: 'error'
-          });
-
-          result = false;
-        } else {
-          this.uploadFiles.push(file.raw);
-        }
-      } else {
-        this.$message({
-          message: FILE_ERROR_TIP,
-          type: 'error'
-        });
-        result = false;
-      }
-
-      if (!result) {
-        fileList.pop();
-      }
-
-      return result;
-    },
-    handleRemoveFile(file, fileList) {
-      const that = this;
-      const {uploadFiles} = that;
-
-      uploadFiles.splice(0, uploadFiles.length);
-
-      for (let item of fileList) {
-        uploadFiles.push(item);
-      }
-
-      if (file.elecInstId) {
-        // 删除文件
-        this.delUplodFile({elecInstId: file.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
-          this.deleteFiles.push(file);
-        });
-        // this.deleteFiles.push(file);
-      }
-    },
-    handleChangeSalesType(value) {
-      if (value === '0') {
-        this.productCase.composedProduct = [];
-      }
-    },
-    productNameChange(value) {
-      let curValue = value[0];
-      this.getComposedProduct({productName: curValue});
-    },
-    saveCase() {
-      this.$refs.baseForm.validate((valid) => {
-        if (valid) {
-          const {productCase} = this;
-          // 修改
-          if (this.index > -1) {
-            if (this.productCase.fileInputId) {
-              let fileInputId = this.productCase.fileInputId;
-              let params = {
-                fileInputId: '',
-                fileTypeId: FILE_TYPE_ID.product,
-                moduleId: 1,
-                files: this.uploadFiles
-              };
-              let _params = Object.assign(params, { fileInputId });
-              this.uploadOrderHandleTask(_params).then(res => {
-                let params = Object.cloneDeep(productCase);
-                delete params.productId;
-                delete params.state;
-                delete params.files;
-                delete params.deleteFiles;
-                delete params.operatorId;
-                delete params.opId;
-                this.editSalesCase(params).then(res => {
-                  let data = {productId: this.proId};
-                  this.getSalesCaseDetail(data);
-                });
-              });
-            }
-            // productCase.files = this.uploadFiles;
-            // productCase.deleteFiles = this.deleteFiles;
-
-            // if (productCase.salesId) {
-            //   productCase.state = '3';
-            // }
-            // productCase.deleteFiles = this.deleteFiles;
-
-            // this.list[this.index] = Object.assign({}, productCase);
-          } else {
-            // 新增
-            if (this.uploadFiles && this.uploadFiles.length) {
-              productCase.files = this.uploadFiles;
-            }
-
-            productCase.state = '2';
-
-            this.list.push(productCase);
-            let submitParams = Object.cloneDeep(productCase);
-            submitParams.productId = this.proId;
-            delete submitParams.state;
-            delete submitParams.files;
-            // let submitParams = {
-            //   fileId: '',
-            //   productRequest: param
-            // };
-            let params = {
-              fileInputId: '',
-              fileTypeId: FILE_TYPE_ID.product,
-              moduleId: 1,
-              files: this.uploadFiles
-            };
-            this.addSalesCase({ params, submitParams }).then(res => {
-              let data = {productId: this.proId};
-              this.getSalesCaseDetail(data);
-            });
-          }
-          this.cancel();
-        }
-      });
-    },
-    cancel() {
-      this.$emit('cancel');
-    },
     downloadFile(obj) {
       let params = {
         fileTypeId: 502,
@@ -352,11 +119,6 @@ export default {
     ...mapActions([
       'getComposedProduct',
       'queryElec',
-      'addSalesCase',
-      'getSalesCaseDetail',
-      'editSalesCase',
-      'delUplodFile',
-      'uploadOrderHandleTask',
       'productDownloadFile'
     ])
   }
