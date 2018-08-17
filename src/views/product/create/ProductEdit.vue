@@ -434,119 +434,127 @@ export default {
           } else {
             params.secondOption = this.productSaleDemo.secondOptionArr;
           }
+          if (params.belongToCompany === '1' || params.belongToCompany === '2') {
+            if (params.secondOption[0] === '' || params.specificProduct === '') {
+              this.$message({
+                message: `如果选择产品归属，请选择完整`
+              });
+              return;
+            }
+          }
           this.updateProduct(params).then(res => {
             this.$router.push(`/product/product-creat-manage`);
           });
         });
       }
-      const that = this;
-      const {cases} = that;
-      that.isSubmit = true;
+      // const that = this;
+      // const {cases} = that;
+      // that.isSubmit = true;
       // 修改产品时，对销售案例进行修改
       // 有方案附件, 先上传文件
-      if (this.hasFiles(cases)) {
-        let promises = [];
-        for (let productCase of cases) {
-          let files = productCase.files;
-          let deleteFiles = productCase.deleteFiles;
+      // if (this.hasFiles(cases)) {
+      //   let promises = [];
+      //   for (let productCase of cases) {
+      //     let files = productCase.files;
+      //     let deleteFiles = productCase.deleteFiles;
 
-          // 删除文件
-          if (deleteFiles && deleteFiles.length) {
-            for (let deleteFile of deleteFiles) {
-              let promise = new Promise((resolve, reject) => {
-                this.delUplodFile({elecInstId: deleteFile.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
-                  resolve();
-                }, (err) => {
-                  reject(new Error(err));
-                });
-              });
+      //     // 删除文件
+      //     if (deleteFiles && deleteFiles.length) {
+      //       for (let deleteFile of deleteFiles) {
+      //         let promise = new Promise((resolve, reject) => {
+      //           this.delUplodFile({elecInstId: deleteFile.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
+      //             resolve();
+      //           }, (err) => {
+      //             reject(new Error(err));
+      //           });
+      //         });
 
-              promises.push(promise);
-            }
-          }
+      //         promises.push(promise);
+      //       }
+      //     }
 
-          // 上传新增的文件
-          if (files && files.length) {
-            let fileInputId = productCase.fileInputId;
-            let uploadingFiles = [];
-            let promise;
+      //     // 上传新增的文件
+      //     if (files && files.length) {
+      //       let fileInputId = productCase.fileInputId;
+      //       let uploadingFiles = [];
+      //       let promise;
 
-            // 新增时已经上传过文件
-            if (fileInputId) {
-              for (let file of files) {
-                if (!file.fileInputId) {
-                  uploadingFiles.push(file);
-                }
-              }
-              promise = new Promise((resolve, reject) => {
-                let uploadData = {
-                  fileInputId,
-                  fileTypeId: FILE_TYPE_ID.product,
-                  moduleId: 1,
-                  expireDate: '',
-                  effectiveDate: '',
-                  files: []
-                };
-                uploadData.files = uploadingFiles;
-                that.uploadProductScheme(uploadData).then(() => {
-                  resolve();
-                }, (err) => {
-                  reject(new Error(err));
-                });
-              });
-            } else {
-              for (let file of files) {
-                uploadingFiles.push(file);
-              }
-              promise = new Promise((resolve, reject) => {
-                that.getProductFileId().then((res) => {
-                  let fileInputId = res.data;
+      //       // 新增时已经上传过文件
+      //       if (fileInputId) {
+      //         for (let file of files) {
+      //           if (!file.fileInputId) {
+      //             uploadingFiles.push(file);
+      //           }
+      //         }
+      //         promise = new Promise((resolve, reject) => {
+      //           let uploadData = {
+      //             fileInputId,
+      //             fileTypeId: FILE_TYPE_ID.product,
+      //             moduleId: 1,
+      //             expireDate: '',
+      //             effectiveDate: '',
+      //             files: []
+      //           };
+      //           uploadData.files = uploadingFiles;
+      //           that.uploadProductScheme(uploadData).then(() => {
+      //             resolve();
+      //           }, (err) => {
+      //             reject(new Error(err));
+      //           });
+      //         });
+      //       } else {
+      //         for (let file of files) {
+      //           uploadingFiles.push(file);
+      //         }
+      //         promise = new Promise((resolve, reject) => {
+      //           that.getProductFileId().then((res) => {
+      //             let fileInputId = res.data;
 
-                  let uploadData = {
-                    fileInputId,
-                    fileTypeId: FILE_TYPE_ID.product,
-                    moduleId: 1,
-                    expireDate: '',
-                    effectiveDate: '',
-                    files: []
-                  };
-                  uploadData.files = uploadingFiles;
-                  that.uploadProductScheme(uploadData).then(() => {
-                    productCase.fileInputId = fileInputId;
-                    resolve();
-                  }, (err) => {
-                    reject(new Error(err));
-                  });
-                }, (err) => {
-                  reject(new Error(err));
-                });
-              });
-            }
+      //             let uploadData = {
+      //               fileInputId,
+      //               fileTypeId: FILE_TYPE_ID.product,
+      //               moduleId: 1,
+      //               expireDate: '',
+      //               effectiveDate: '',
+      //               files: []
+      //             };
+      //             uploadData.files = uploadingFiles;
+      //             that.uploadProductScheme(uploadData).then(() => {
+      //               productCase.fileInputId = fileInputId;
+      //               resolve();
+      //             }, (err) => {
+      //               reject(new Error(err));
+      //             });
+      //           }, (err) => {
+      //             reject(new Error(err));
+      //           });
+      //         });
+      //       }
 
-            promises.push(promise);
-          }
-        }
+      //       promises.push(promise);
+      //     }
+      //   }
 
-        Promise.all(promises).then(() => {
-          this.removeCaseAttributs(cases);
-          this.removeAttributes(this.product);
-          this.dealWidthCases(this.product, this.cases);
-          this.updateProduct(this.product).then(() => {
-          }, () => {
-            that.isSubmit = false;
-          });
-        }, () => {
-          that.isSubmit = false;
-        });
-      } else {
-        this.removeCaseAttributs(this.cases);
-        this.removeAttributes(this.product);
-        this.dealWidthCases(this.product, this.cases);
-        this.updateProduct(this.product).then(() => {
-        }, () => {
-          that.isSubmit = false;
-        });
-      }
+      //   Promise.all(promises).then(() => {
+      //     this.removeCaseAttributs(cases);
+      //     this.removeAttributes(this.product);
+      //     this.dealWidthCases(this.product, this.cases);
+      //     this.updateProduct(this.product).then(() => {
+      //     }, () => {
+      //       that.isSubmit = false;
+      //     });
+      //   }, () => {
+      //     that.isSubmit = false;
+      //   });
+      // } else {
+      //   this.removeCaseAttributs(this.cases);
+      //   this.removeAttributes(this.product);
+      //   this.dealWidthCases(this.product, this.cases);
+      //   this.updateProduct(this.product).then(() => {
+      //   }, () => {
+      //     that.isSubmit = false;
+      //   });
+      // }
     },
     cancel() {
       this.$router.push(`/product/product-creat-manage`);
