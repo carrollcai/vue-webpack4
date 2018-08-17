@@ -12,28 +12,30 @@
       <div class="base-info">
         <!--<h3>产品基本信息</h3>-->
         <ul class="b-i-list" style="padding-top:20px;">
-            <li><span>产品名称：</span>{{salesCaseDetail.productName}}</li>
-            <li><span>产品介绍：</span>{{salesCaseDetail.description}}</li>
-            <li @click="isShow" class="info_head-sub show-more">更多产品信息
+            <li class="flex-2"><span>产品名称：</span>{{salesCaseDetail.productName}}</li>
+            <li @click="isShow" class="info_head-sub show-more flex-1">更多产品信息
               <i style="padding-top: 5px;margin-left:5px;" class="el-icon el-icon-arrow-down" :class="showMore ? 'el-icon-arrow-up' : ''"></i>
             </li>
         </ul>
         <div v-if="showMore">
           <ul class="b-i-list">
-            <li><span>主营市场：</span>{{salesCaseDetail.mainMarketArrCN}}</li>
-            <li><span>产品类别：</span>{{salesCaseDetail.productTypeCN}}</li>
+            <li class="flex-3"><span>产品介绍：</span>{{salesCaseDetail.description}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>价格策略：</span>{{salesCaseDetail.priceStrategy}}</li>
+            <li class="flex-1"><span>主营市场：</span>{{salesCaseDetail.mainMarketArrCN}}</li>
+            <li class="flex-2"><span>产品类别：</span>{{salesCaseDetail.productTypeCN}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>商务策略：</span>{{salesCaseDetail.commercialStrategy}}</li>
+            <li class="flex-3"><span>价格策略：</span>{{salesCaseDetail.priceStrategy}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>产品归属：</span>{{salesCaseDetail.belongToCompany}}</li>
+            <li class="flex-3"><span>商务策略：</span>{{salesCaseDetail.commercialStrategy}}</li>
           </ul>
           <ul class="b-i-list">
-            <li><span>产品对接人：</span><label>{{salesCaseDetail.broker}}-{{salesCaseDetail.deptment}}-{{salesCaseDetail.position}}</label></li>
+            <li class="flex-3"><span>产品归属：</span>{{salesCaseDetail.belongToCompany}}</li>
+          </ul>
+          <ul class="b-i-list">
+            <li class="flex-3"><span>产品对接人：</span><label>{{salesCaseDetail.broker}}-{{salesCaseDetail.deptment}}-{{salesCaseDetail.position}}</label></li>
           </ul>
         </div>
       </div>
@@ -159,12 +161,22 @@ export default {
     display: flex;
     flex-flow: wrap;
     padding: 10px 24px 0;
+    .flex-3 {
+      width: 100%;
+    }
+    .flex-1 {
+      width: 33.3%;
+    }
+    .flex-2 {
+      width: 66.6%;
+    }
     li {
       height: auto !important;
       display: flex;
+      word-break: break-word;
       line-height: 1.5 !important;
       font-size: 14px;
-      width: 33%;
+      // width: 33%;
       color: #262626;
       margin: 5px 0;
       span {
