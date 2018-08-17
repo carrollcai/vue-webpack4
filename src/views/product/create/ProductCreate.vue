@@ -475,10 +475,7 @@ export default {
         this.getFirstCatalogType().then(res => {
           this.isFirstLevel = true;
         });
-      } else {
-        this.isFirstLevel = false;
-      }
-      if (this.product.belongToCompany === '核心能力清单') {
+      } else if (this.product.belongToCompany === '核心能力清单') {
         if (this.product.secondOption) {
           this.product.secondOption = '';
         }
@@ -488,6 +485,9 @@ export default {
         this.getCoreAbilityType();
         this.isCoreCompetency = true;
       } else {
+        this.product.secondOption = [];
+        this.product.specificProduct = '';
+        this.isFirstLevel = false;
         this.isCoreCompetency = false;
       }
     },
@@ -501,9 +501,9 @@ export default {
       this.product.secondOptionAbility = arr;
     },
     changeFirstCollectType(item) {
-      if (this.product.specificProduct) {
-        this.product.specificProduct = '';
-      }
+      // if (this.product.specificProduct) {
+      //   this.product.specificProduct = [];
+      // }
       let type = this.product.secondOption[2];
       let obj = {};
       obj.codeType = 'FIRST_COLLECTION';
