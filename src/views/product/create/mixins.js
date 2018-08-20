@@ -188,7 +188,7 @@ export default {
       });
     },
     handleEditCase(productCase, index) {
-      this.isShow = true;
+      this.isEdit = true;
       this.isAddingCase = true;
       this.$nextTick(() => {
         this.$refs.prodctCases.init(productCase, index);
