@@ -9,6 +9,7 @@ export const BASE_URL = 'http://localhost:3618';
  */
 export const SESSION_DURATION = 1 / 72;
 
+// 目前menuId递增到39，每次新增或者删除都需要修改这里的递增值！！！
 export const MENU_PERMISSIONS = [
   {
     menuId: 1,
@@ -17,24 +18,23 @@ export const MENU_PERMISSIONS = [
     icon: 'icon-home',
     enable: false
   },
-  // 数据审核管理 的 menuId 先用的别的模块的 后面在修改
   {
-    menuId: 23,
+    menuId: 35,
     name: '数据提取管理',
     url: '/data-extraction',
-    // icon: 'icon-client',
+    icon: 'icon-client',
     enable: false,
     children: [
       {
-        menuId: 24,
-        parentId: 23,
+        menuId: 36,
+        parentId: 35,
         name: '明细数据下载',
         url: '/data-extraction/data-download',
         enable: false
       },
       {
-        menuId: 26,
-        parentId: 23,
+        menuId: 37,
+        parentId: 35,
         name: '数据审核管理',
         url: '/data-extraction/data-audit',
         enable: false
@@ -52,6 +52,13 @@ export const MENU_PERMISSIONS = [
         menuId: 3,
         parentId: 2,
         name: '活跃度分析',
+        url: '/analysis/active',
+        enable: false
+      },
+      {
+        menuId: 38,
+        parentId: 2,
+        name: '新增用户分析',
         url: '/analysis/active',
         enable: false
       },
@@ -139,7 +146,7 @@ export const MENU_PERMISSIONS = [
         enable: false
       },
       {
-        menuId: 19,
+        menuId: 39,
         parentId: 16,
         name: '产品审核管理',
         url: '/product/product-audit-manage',
@@ -259,7 +266,7 @@ export const MENU_PERMISSIONS = [
         enable: false
       },
       {
-        menuId: 11,
+        menuId: 34,
         parentId: 9,
         name: '全局配置',
         url: '/system/config',
