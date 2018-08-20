@@ -199,11 +199,11 @@ const actions = {
    * @param {Object} product
    */
   addSalesProducts: ({ commit }, params) => {
-    API.addSalesProductsAPI(params).then((res) => {
-      Message({
-        message: '上架成功！',
-        type: 'success'
-      });
+    return API.addSalesProductsAPI(params).then((res) => {
+      // Message({
+      //   message: '上架成功！',
+      //   type: 'success'
+      // });
       commit(types.ADD_SALES_PRODUCTS, res.data);
     });
   },

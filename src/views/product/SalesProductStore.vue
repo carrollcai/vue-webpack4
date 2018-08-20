@@ -262,6 +262,7 @@ export default {
     },
     createProduct() {
       this.addSalesProducts({ 'productIdList': this.multipleSelection }).then(res => {
+        this.$message({ showClose: true, message: '上架成功！', type: 'success' });
         this.query();
         this.newProductVisible = false;
       });
