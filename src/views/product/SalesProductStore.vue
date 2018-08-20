@@ -283,8 +283,9 @@ export default {
       }).then(() => {
         let id = [];
         id.push(row.productId);
-        this.underCarriageProduct({'productIdList': id});
-        this.query();
+        this.underCarriageProduct({'productIdList': id}).then(res => {
+          this.query();
+        });
       }).catch(() => {
         this.$message('已取消下架');
       });
