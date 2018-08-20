@@ -370,9 +370,9 @@ export default {
   dataDownLoadFileAPI: download('http://localhost:3618/esop/all/extraction'),
   applyDataExtractionAPI: API('esop/dataExtract/create'),
   queryDataExtractionStepsAPI: API('http://localhost:3618/esop/steps'),
-  queryDataDetailAPI: API('http://localhost:3618/esop/extraction'),
+  queryDataDetailAPI: API('esop/dataExtract/detail'),
   auditDataExtractionAPI: API('esop/dataExtract/moveNode'),
   queryDataAuditAPI: API('esop/dataExtract/queryTaskInfo'),
-  queryDataTaskAPI: API('http://localhost:3618/esop/all/extraction'),
+  queryDataTaskAPI: API('esop/dataExtract/queryByName'),
   queryProvinceAPI: API('esop/dataExtract/queryProvince')
 };

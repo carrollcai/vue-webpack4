@@ -34,9 +34,11 @@
         min-width: 83px;
         text-align: right;
       }
-    }
-    > .el-form-item__content {
-      flex: 1;
+      > .el-form-item__content {
+        > div {
+          width: 970px;
+        }
+      }
     }
     .el-checkbox {
       min-width: 90px;

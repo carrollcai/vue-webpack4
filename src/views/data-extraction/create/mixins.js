@@ -68,7 +68,14 @@ export default {
     },
     resetData(el) {
       this.applyFrom[el] = [];
-      this[el + 'All'] = false;
+      if (this[el + 'All']) {
+        this[el + 'All'] = false;
+      }
+      if (this[el + 'Set']) {
+        this[el + 'Set'] = false;
+      } else {
+        this[el + 'Set'] = true;
+      }
     },
     isAllChecked(el, active, original) {
       this.applyFrom[active] = this[el] ? original : [];
