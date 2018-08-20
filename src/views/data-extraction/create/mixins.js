@@ -36,9 +36,14 @@ export default {
   },
   methods: {
     getRegion(value) {
-      this.submitData.region = [Number(value[0])];
-      this.submitData.province = [Number(value[1])];
+      if (value.length > 1) {
+        this.submitData.region = [Number(value[0])];
+        this.submitData.province = [Number(value[1])];
+      } else {
+        this.submitData.province = [Number(value[0])];
+      }
     },
+
     getServiceTime(value) {
       if (value === '不显示') {
         this.submitData.serviceTime = '0';

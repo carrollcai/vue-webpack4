@@ -369,7 +369,7 @@ export default {
   deleteDownLoadDataAPI: API('esop/dataExtract/cancel'),
   dataDownLoadFileAPI: download('http://localhost:3618/esop/all/extraction'),
   applyDataExtractionAPI: API('esop/dataExtract/create'),
-  queryDataExtractionStepsAPI: API('http://localhost:3618/esop/steps'),
+  queryDataExtractionStepsAPI: API('esop/processInfo/query'),
   queryDataDetailAPI: API('esop/dataExtract/detail'),
   auditDataExtractionAPI: API('esop/dataExtract/moveNode'),
   queryDataAuditAPI: API('esop/dataExtract/queryTaskInfo'),

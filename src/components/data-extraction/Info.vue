@@ -2,19 +2,19 @@
   <div class="base-info">
     <h3>数据基本信息</h3>
     <ul class="b-i-list">
-      <li><span>任务名称：</span>{{ infoData.productName }}</li>
-      <li><span>数据日期：</span>{{infoData.price}}</li>
-      <li><span>数据类型：</span>{{infoData.productType}}</li>
-      <li><span>客户端：</span><label>{{infoData.username}}</label></li>
-      <li><span>用户信息：</span><label>{{infoData.operation}}</label></li>
+      <li><span>任务名称：</span>{{ infoData.name }}</li>
+      <li><span>数据日期：</span>{{infoData.extractDate}}</li>
+      <li><span>数据类型：</span>{{infoData.clientType}}</li>
+      <li><span>客户端：</span><label>{{infoData.clientType}}</label></li>
+      <li><span>用户信息：</span><label>{{infoData.mobliePhone}}</label></li>
       <li><span>地址：</span>{{infoData.productType}}</li>
     </ul>
     <h3>数据明细设置</h3>
     <ul class="b-i-list">
-      <li><span>会员类型：</span>{{infoData.productName}}</li>
-      <li><span>性别：</span>{{infoData.price}}</li>
-      <li><span>年龄：</span>{{infoData.productType}}</li>
-      <li><span>用户行为：</span><label>{{infoData.username}}</label></li>
+      <li><span>会员类型：</span>{{infoData.memberType}}</li>
+      <li><span>性别：</span>{{infoData.sex}}</li>
+      <li><span>年龄：</span>{{infoData.age}}</li>
+      <li><span>用户行为：</span><label>{{infoData.content}}</label></li>
     </ul>
   </div>
 </template>
