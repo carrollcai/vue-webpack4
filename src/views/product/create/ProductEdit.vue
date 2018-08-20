@@ -308,12 +308,19 @@ export default {
     }),
     uploadFiles() {
       if (this.productSaleDemo && this.productSaleDemo.secondOptionArr) {
-        let obj = {};
-        obj.codeType = 'CORE_ABILITY';
-        obj.parentCode = this.productSaleDemo.secondOptionArr;
-        this.getSpecProductList(obj);
+        if (this.productSaleDemo && this.productSaleDemo.secondOptionArr.length < 2) {
+          let obj = {};
+          obj.codeType = 'CORE_ABILITY';
+          obj.parentCode = this.productSaleDemo.secondOptionArr;
+          this.getSpecProductList(obj);
+        } else {
+          let obj = {};
+          obj.codeType = 'FIRST_COLLECTION';
+          obj.parentCode = this.productSaleDemo.secondOptionArr[2];
+          this.getSpecProductList(obj);
+        }
+        return this.productSaleDemo.fileData;
       }
-      return this.productSaleDemo.fileData;
     }
   },
   beforeMount() {
@@ -602,6 +609,7 @@ export default {
       obj.parentCode = '';
       this.getSpecProductList(obj);
       this.productSaleDemo.secondOptionArr = '';
+      this.productSaleDemo.specificProduct = '';
       if (this.productSaleDemo.belongToCompany === '2' || this.productSaleDemo.belongToCompany === '一级集采目录') {
         this.getFirstCatalogType();
         this.isFirstLevel = true;
