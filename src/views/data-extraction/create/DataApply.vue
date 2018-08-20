@@ -13,12 +13,17 @@
         <el-form-item label="任务名称：" required prop="name">
           <el-input v-model="applyFrom.name" style="width: 320px !important;" placeholder="请输入任务名称" />
         </el-form-item>
-        <el-form-item label="选择地区：" required>
+        <el-form-item label="选择地区：">
           <div class="flex-row">
-            <el-form-item prop="region" style="width: 320px; margin-right: 34px;">
-              <el-input v-model="applyFrom.region" :placeholder="`请输入区域`" />
+
+            <el-form-item prop="visitAuditor">
+              <el-cascader style="width: 392px;" v-if="processorList"
+                @change="getRegion"
+                :options="processorList"
+                v-model="applyFrom.province">
+              </el-cascader>
             </el-form-item>
-            <el-form-item>
+            <el-form-item style="margin-left: 26px;">
               <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
             </el-form-item>
           </div>
@@ -27,33 +32,38 @@
           <div class="flex-row">
             <el-form-item style="margin-right: 34px;">
               <el-select
-                v-model="applyFrom.checkDate"
+                v-model="applyFrom.extractDateType"
                 @change="changeDate">
-                <el-option v-for="item in checkDate" :key="item" :value="item.value" :label="item.label"></el-option>
+                <el-option v-for="item in extractDateType" :key="item" :value="item.value" :label="item.label"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item class="ml16" prop="date">
+            <el-form-item class="ml16" prop="extractDate">
               <el-date-picker
-                v-model="applyFrom.date"
-                :type="applyFrom.checkDate === '1' ? 'date' : 'month'"
-                :placeholder="applyFrom.checkDate === '1' ? '请选择日期' : '请选择月份'">
+                value-format="yyyy-MM-dd"
+                v-model="applyFrom.extractDate"
+                :type="applyFrom.extractDateType === '1' ? 'date' : 'month'"
+                :placeholder="applyFrom.extractDateType === '1' ? '请选择日期' : '请选择月份'">
               </el-date-picker>
             </el-form-item>
           </div>
         </el-form-item>
         <el-form-item label="用户信息：" required prop="userInfo">
           <el-checkbox-group v-model="applyFrom.userInfo">
-            <el-checkbox :disabled="item.type === 1 && restrictedCity.length > 0 ? true : false" v-for="item in userInfoList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+            <el-checkbox
+              :disabled="item.type === 1 && restrictedCity.length > 0 ? true : false"
+              v-for="item in userInfoList"
+              :key="item"
+              :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="客户端：" required prop="client">
-          <el-checkbox-group v-model="applyFrom.client" @change="clientFn">
-            <el-checkbox v-for="item in clientList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+        <el-form-item label="客户端：" required prop="clientType">
+          <el-checkbox-group v-model="applyFrom.clientType" @change="clientFn">
+            <el-checkbox v-for="item in clientTypeList" :key="item" :label="item.label"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="数据类型：" required prop="dataType">
+        <el-form-item label="用户类型：" required prop="dataType">
           <el-checkbox-group v-model="applyFrom.dataType">
-            <el-checkbox :disabled="item.type === 1 ? isByDay : false" v-for="item in dataTypeList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+            <el-checkbox :disabled="item.type === 1 ? isByDay : false" v-for="item in dataTypeList" :key="item" :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </div>
@@ -63,46 +73,54 @@
           <span class="cancel" @click="resetData('source')">取消设置</span>
           <el-checkbox class="all-label" v-model="sourceAll" label="全部" @change="isAllChecked2('sourceAll', 'source', sourceList)"></el-checkbox>
           <el-checkbox-group v-model="applyFrom.source" @change="handleChecked('sourceAll', 'source', sourceList)">
-            <el-checkbox v-for="item in sourceList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+            <el-checkbox v-for="item in sourceList" :key="item" :label="item.label"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="会员类型：">
           <span class="cancel" @click="resetData('vipType')">取消设置</span>
           <el-checkbox class="all-label" v-model="vipTypeAll" label="全部" @change="isAllChecked2('vipTypeAll', 'vipType', vipTypeList)"></el-checkbox>
           <el-checkbox-group v-model="applyFrom.vipType" @change="handleChecked('vipTypeAll', 'vipType', vipTypeList)">
-            <el-checkbox v-for="item in vipTypeList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+            <el-checkbox v-for="item in vipTypeList" :key="item" :label="item.label"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="用户性别：">
           <span class="cancel" @click="resetData('sex')">取消设置</span>
-          <el-checkbox class="all-label" v-model="sexAll" label="全部" @change="isAllChecked('sexAll', 'sex', sexList)"></el-checkbox>
-          <el-checkbox-group v-model="applyFrom.sex" @change="handleChecked('sexAll', 'sex', sexList)">
-            <el-checkbox v-for="item in sexList" :key="item" :value="item" :label="item"></el-checkbox>
+          <!-- <el-radio-group v-model="applyFrom.sex" @change="getSex">
+            <el-radio v-for="item in sexList" :key="item" :label="item.label"></el-radio>
+          </el-radio-group> -->
+          <el-checkbox class="all-label" v-model="sexAll" label="全部" @change="isAllChecked2('sexAll', 'sex', sexList)"></el-checkbox>
+          <el-checkbox-group v-model="applyFrom.sex">
+            <el-checkbox v-for="item in sexList" :key="item" :label="item.label"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="用户年龄：">
           <span class="cancel" @click="resetData('age')">取消设置</span>
-          <el-checkbox class="all-label" v-model="ageAll" label="全部" @change="isAllChecked('ageAll', 'age', ageList)"></el-checkbox>
+          <el-checkbox class="all-label" v-model="ageAll" label="全部" @change="isAllChecked2('ageAll', 'age', ageList)"></el-checkbox>
           <el-checkbox-group v-model="applyFrom.age" @change="handleChecked('ageAll', 'age', ageList)">
-            <el-checkbox v-for="item in ageList" :key="item" :value="item" :label="item"></el-checkbox>
+            <el-checkbox v-for="item in ageList" :key="item" :label="item.label"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="用户行为：">
           <span class="cancel" @click="resetData('userActive')">取消设置</span>
-          <el-checkbox-group v-model="applyFrom.userActive">
-            <el-checkbox v-for="item in userActiveList" :disabled="true" :key="item" :value="item.name" :label="item.name"></el-checkbox>
-          </el-checkbox-group>
+          <el-select v-model="applyFrom.userActive" multiple placeholder="请选择">
+            <el-option
+              v-for="item in userActiveList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="上网方式：">
-          <span class="cancel" @click="resetData('flow')">取消设置</span>
-          <el-checkbox class="all-label" v-model="flowAll" label="全部" @change="isAllChecked2('flowAll', 'flow', flowList)"></el-checkbox>
-          <el-checkbox-group v-model="applyFrom.flow" @change="handleChecked('flowAll', 'flow', flowList)">
-            <el-checkbox v-for="item in flowList" :key="item" :value="item.name" :label="item.name"></el-checkbox>
+          <span class="cancel" @click="resetData('netType')">取消设置</span>
+          <el-checkbox class="all-label" v-model="netTypeAll" label="全部" @change="isAllChecked2('netTypeAll', 'netType', netTypeList)"></el-checkbox>
+          <el-checkbox-group v-model="applyFrom.netType" @change="handleChecked('netTypeAll', 'netType', netTypeList)">
+            <el-checkbox v-for="item in netTypeList" :key="item" :label="item.label"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="使用时长：">
-          <el-radio-group v-model="applyFrom.useTime">
-          <el-radio :disabled="applyFrom.isUseTime" v-for="item in useTimeList" :key="item" :value="item.name" :label="item.name"></el-radio>
+          <el-radio-group v-model="applyFrom.serviceTime" @change="getServiceTime">
+          <el-radio :disabled="applyFrom.isserviceTime" v-for="item in serviceTimeList" :key="item" :label="item.label"></el-radio>
           </el-radio-group>
         </el-form-item>
       </div>
@@ -117,61 +135,49 @@
 
 <script>
 import mixins from './mixins';
-const sourceList = [{name: '省渠道', type: 0}, {name: '非省渠道', type: 0}];
-const vipTypeList = [{name: '黄金会员', type: 0}, {name: '钻石会员', type: 0}, {name: '钻石会员_TV尊享', type: 0}];
-const sexList = ['男', '女'];
-const ageList = ['15-20周岁', '21-30周岁', '31-35周岁'];
-const flowList = [{name: '4G', type: 0}, {name: 'Wi-Fi', type: 0}];
+import {mapState} from 'vuex';
+const sexList = [{label: '男', value: '0'}, {label: '女', value: '1'}];
 export default {
   mixins: [mixins],
   data() {
     return {
+      activeMap: new Map(),
+      userMap: new Map(),
+      sourceAll: false,
+      vipTypeAll: false,
+      sexAll: false,
+      ageAll: false,
+      netTypeAll: false,
       restrictedCity: [],
-      checkDate: [{value: '1', label: '按日'}, {value: '2', label: '按月'}],
+      extractDateType: [{value: '1', label: '按日'}, {value: '2', label: '按月'}],
       dataTypeList: [
-        {name: '活跃用户', type: 0},
-        {name: '新增用户', type: 0},
-        {name: '存留会员用户', type: 1},
-        {name: '流失会员用户', type: 1}
-      ],
-      clientList: [
-        {name: '咪咕视频', type: 0},
-        {name: '咪咕直播', type: 0},
-        {name: '咪咕影院', type: 0}
+        {name: '活跃用户', type: 0, field: 'active'},
+        {name: '新增活跃用户', type: 0, field: 'newActive'},
+        {name: '新增会员用户', type: 0, field: 'newMember'},
+        {name: '存留会员用户', type: 1, field: 'retainMember'},
+        {name: '流失会员用户', type: 1, field: 'dropoutMember'}
       ],
       userInfoList: [
-        {name: '手机号', type: 0},
-        {name: 'IP地址', type: 1},
-        {name: 'IMEI号码', type: 1},
-        {name: 'IDFA号码', type: 1}
+        {name: '手机号', type: 0, field: 'mobliePhone'},
+        {name: 'IP地址', type: 1, field: 'ip'},
+        {name: 'IMEI号码', type: 1, field: 'imei'},
+        {name: 'IDFA号码', type: 1, field: 'idfa'}
       ],
       areaList: [
         {value: '1', label: '大区'},
         {value: '2', label: '地市'}
       ],
-      sourceAll: false,
-      sourceList: sourceList,
-      vipTypeAll: false,
-      vipTypeList: vipTypeList,
-      sexAll: false,
       sexList: sexList,
-      ageAll: false,
-      ageList: ageList,
-      userActiveList: [
-        {name: '观看世界杯', type: 0}
-      ],
-      flowAll: false,
-      flowList: flowList,
-      useTimeList: [
-        {name: '不显示', type: 0},
-        {name: '显示', type: 0}
+      serviceTimeList: [
+        {label: '不显示', value: '0', type: 0},
+        {label: '显示', value: '1', type: 0}
       ],
       applyFrom: {
         name: '',
-        date: '',
-        checkDate: '1',
+        extractDate: '',
+        extractDateType: '1',
         dataType: [],
-        client: [],
+        clientType: [],
         userInfo: [],
         area: '大区',
         region: '',
@@ -180,11 +186,64 @@ export default {
         sex: [],
         age: [],
         userActive: [],
-        flow: [],
-        useTime: '',
-        isUseTime: false
-      }
+        netType: [],
+        serviceTime: '',
+        isserviceTime: false
+      },
+      submitData: {}
     };
+  },
+  computed: {
+    ...mapState({
+      staticData: ({ root }) => root.staticData,
+      processorList: ({ dataExtraction }) => dataExtraction.processorList
+    }),
+    clientTypeList() {
+      let data = this.staticData.CLIENT_TYPE;
+      if (data) {
+        return data || [];
+      }
+    },
+    sourceList() {
+      let data = this.staticData.CHANNEL_TYPE;
+      if (data) {
+        data = data.slice(1, data.length);
+        return data || [];
+      }
+    },
+    vipTypeList() {
+      let data = this.staticData.MEMBER_TYPE;
+      if (data) {
+        data = data.slice(1, data.length);
+        return data || [];
+      }
+    },
+    ageList() {
+      let data = this.staticData.EXTRACT_AGE;
+      if (data) {
+        data = data.slice(1, data.length);
+      }
+      let ageArr = [];
+      if (data && data.length) {
+        let extrctAge = data;
+        extrctAge.filter((item) => {
+          let arr = item.label.substring(1, item.label.length - 1).split(',');
+          let ageStr = `${arr[0]}岁~${arr[1]}岁`;
+          ageArr.push({label: ageStr, value: item.value});
+        });
+        return ageArr;
+      }
+    },
+    netTypeList() {
+      let data = this.staticData.NET_TYPE;
+      if (data) {
+        data = data.slice(1, data.length);
+        return data || [];
+      }
+    },
+    userActiveList() {
+      return this.staticData.CONTENT || [];
+    }
   }
 };
 </script>

@@ -60,7 +60,12 @@ const actions = {
     API.queryDataTaskAPI(params).then(res => {
       commit(types.DATA_EXTRACTION_TASK, res.data);
     });
-  }
+  },
+  queryProcessor: ({ commit }, params) => {
+    return API.queryProvinceAPI(params).then((res) => {
+      commit(types.PROCESSOR_LIST, res.data);
+    });
+  },
 };
 
 export default actions;

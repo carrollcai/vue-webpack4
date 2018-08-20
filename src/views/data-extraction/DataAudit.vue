@@ -8,7 +8,7 @@
           </el-date-picker>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-input v-model="auditForm.opName" placeholder="请输入提交人" />
+        <el-input v-model="auditForm.staffName" placeholder="请输入提交人" />
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
         <el-select v-model="auditForm.name" filterable placeholder="任务名称">
@@ -22,9 +22,9 @@
       </el-form-item>
     </div>
   </el-form>
-  <el-tabs v-model="auditForm.status" @tab-click="getState">
-    <el-tab-pane label="待审核" :name="0"></el-tab-pane>
-    <el-tab-pane label="已审核" :name="1"></el-tab-pane>
+  <el-tabs v-model="auditForm.taskHasComplete" @tab-click="getState">
+    <el-tab-pane label="待审核" :name="0" :value="0"></el-tab-pane>
+    <el-tab-pane label="已审核" :name="1" :value="1"></el-tab-pane>
   </el-tabs>
 </div>
 <div class="m-container table-container">
@@ -36,14 +36,14 @@
     :defaultSort = "{prop: 'insertdate', order: 'descending'}"
     @onPagination="onPagination"
     @onSizePagination="onSizePagination">
-    <el-table-column label="任务名称" show-overflow-tooltip property="productName" width="350" />
-    <el-table-column label="提交时间" sortable property="insertdate" width="180" />
-    <el-table-column label="提交人" property="operatorId" width="170" />
-    <el-table-column label="用户归属" property="productType" width="180"/>
+    <el-table-column label="任务名称" show-overflow-tooltip property="name" width="350" />
+    <el-table-column label="提交时间" sortable property="createTime" width="180" />
+    <el-table-column label="提交人" property="staffName" width="170" />
+    <el-table-column label="用户归属" property="opRegion" width="180"/>
     <el-table-column label="操作" width="200">
       <template slot-scope="scope">
-        <el-button v-if="scope.row.state === 0" class="table-button" type="text" @click="toAudit(scope.row)">去审核</el-button>
-        <el-button v-if="scope.row.state === 1" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
+        <el-button v-if="scope.row.businessStatus === '1'" class="table-button" type="text" @click="toAudit(scope.row)">去审核</el-button>
+        <el-button v-if="scope.row.businessStatus === '2'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
       </template>
     </el-table-column>
   </wm-table>
@@ -85,19 +85,24 @@ export default {
       this.$router.push({path: path});
     },
     toAudit(row) {
-      let path = `/data-extraction/data-audit-detail/${row.id}?isAudit=true`;
+      let data = {
+        id: row.id,
+        taskInsId: row.taskInsId
+      };
+      let path = `/data-extraction/data-audit-detail/${row.id}?data=${JSON.stringify(data)}&isAudit=true`;
       this.$router.push({path: path});
     },
     getTimeRange(time) {
       if (time) {
-        this.auditForm.startTime = time[0];
-        this.auditForm.endTime = time[1];
+        this.auditForm.startDate = time[0];
+        this.auditForm.endDate = time[1];
       } else {
-        this.auditForm.startTime = '';
-        this.auditForm.endTime = '';
+        this.auditForm.startDate = '';
+        this.auditForm.endDate = '';
       }
     },
-    getState() {
+    getState(e) {
+      this.auditForm.taskHasComplete = Number(e.$attrs.value);
       this.auditForm.pageNo = this.pageNo;
       this.auditForm.pageSize = this.pageSize;
       this.query();

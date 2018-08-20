@@ -22,8 +22,8 @@ export default {
   data() {
     return {
       stateList: [
-        {value: 3, name: '审核不通过'},
-        {value: 4, name: '已取消'}
+        {value: 4, name: '审核不通过'},
+        {value: 5, name: '已取消'}
       ]
     };
   },
