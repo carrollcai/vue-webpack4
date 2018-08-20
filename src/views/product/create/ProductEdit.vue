@@ -597,6 +597,10 @@ export default {
       }
     },
     selectBelongToCompany() {
+      let obj = {};
+      obj.codeType = '';
+      obj.parentCode = '';
+      this.getSpecProductList(obj);
       this.productSaleDemo.secondOptionArr = '';
       if (this.productSaleDemo.belongToCompany === '2' || this.productSaleDemo.belongToCompany === '一级集采目录') {
         this.getFirstCatalogType();

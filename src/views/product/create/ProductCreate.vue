@@ -492,6 +492,10 @@ export default {
         this.isFirstLevel = false;
         this.isCoreCompetency = false;
       }
+      let obj = {};
+      obj.codeType = '';
+      obj.parentCode = '';
+      this.getSpecProductList(obj);
     },
     selectCoreAbility(item) {
       let obj = {};
