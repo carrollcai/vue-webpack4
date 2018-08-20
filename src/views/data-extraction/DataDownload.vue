@@ -1,16 +1,18 @@
 <template>
 <div>
   <div class="m-container">
-    <el-form class="form-manage" v-model="downloadForm">
+    <el-form class="form-manage" ref="downloadForm" v-model="downloadForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="downloadForm.timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="downloadForm.name" filterable placeholder="任务名称">
-            <el-option v-for="item in dataTaskList" :key="item.value" :value="item.value" :label="item.name"></el-option>
-          </el-select>
+          <el-autocomplete class="form-input-half"
+            v-model="downloadForm.name"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="任务名称"
+            :trigger-on-focus="false" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -24,7 +26,7 @@
     </el-form>
     <div class="tab-bar">
       <el-tabs v-model="downloadForm.extractBusinessStatus" @tab-click="getState">
-        <el-tab-pane label="全部" :name="null"></el-tab-pane>
+        <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
         <el-tab-pane label="数据提取中" :name="2"></el-tab-pane>
         <el-tab-pane label="提取成功" :name="3"></el-tab-pane>
@@ -56,13 +58,12 @@
             trigger="hover"
             content="数据生成中，请耐心等待">
           </el-popover>
-          <span v-if="scope.row.extractBusinessStatusName === '不通过'">
+          <span v-if="scope.row.extractBusinessStatusName === '审核不通过'">
             <el-popover
               placement="top"
-              title="审核不通过的原因"
               width="200"
               trigger="click"
-              :content="scope.row.productName">
+              :content="`${scope.row.upApproveDate}${scope.row.upApproveOpName}${scope.row.upApprovedealResult}`">
               <i slot="reference" class="el-icon-info"></i>
             </el-popover>
           </span>
@@ -79,7 +80,6 @@
           <el-button v-if="scope.row.extractBusinessStatus === '3'" class="table-button" type="text" @click="downloadFile(scope.row)">数据下载</el-button>
 
           <el-button v-if="scope.row.extractBusinessStatus === '4'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
-          <!-- <el-button v-if="scope.row.extractBusinessStatus === 3" class="table-button" type="text" @click="viewDetail(scope.row)">审核不通过的原因</el-button> -->
 
           <el-button v-if="scope.row.extractBusinessStatus === '5'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
         </template>
@@ -102,8 +102,7 @@ export default {
   data() {
     return {
       pageNo: PAGE_NO,
-      pageSize: PAGE_SIZE,
-      timeRange: ''
+      pageSize: PAGE_SIZE
     };
   },
   computed: {
@@ -117,16 +116,33 @@ export default {
     ...mapState({
       downloadForm: ({ dataExtraction }) => dataExtraction.downloadForm,
       dataDownloadList: ({ dataExtraction }) => dataExtraction.dataDownloadList,
-      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList
+      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList.list
     })
   },
   beforeMount() {
     this.$nextTick(() => {
-      this.queryDataTask();
       this.query();
     });
   },
   methods: {
+    async querySearchAsync(queryString, cb) {
+      if (!queryString.trim()) return false;
+      let params = {
+        name: queryString,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+      await this.queryDataTask(params);
+
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        let arr = [];
+        this.dataTaskList.filter(item => {
+          arr.push({value: item.name});
+        });
+        cb(arr);
+      }, 1000);
+    },
     revoke(row) {
       let info = '数据提取任务将被取消，是否确认撤销?';
       let name = '撤销';
@@ -183,6 +199,7 @@ export default {
     query() {
       let data = Object.assign({}, this.downloadForm);
       // delete data.extractBusinessStatus;
+      delete data.timeRange;
       delete data.isOpen;
       this.queryDataDownload(data);
     },

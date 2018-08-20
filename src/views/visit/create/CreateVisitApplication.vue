@@ -252,7 +252,7 @@ export default {
   async beforeMount() {
     this.queryRegionManager({});
     this.getRelOpporId('');
-    this.queryProcessor({});
+    this.queryProcessors({});
     this.getAssignhandler();
     if (this.visitId && this.visitId > 0) {
       await this.queryVisitAppointDetail({visitId: this.visitId}).then(() => {
@@ -432,7 +432,7 @@ export default {
       'queryVisitAppointDetail',
       'editVisitApp',
       'queryRegionManager',
-      'queryProcessor'
+      'queryProcessors'
     ])
   }
 };
