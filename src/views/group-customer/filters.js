@@ -129,7 +129,12 @@ export default {
       return result ? result.label : '';
     },
     formateDate(date) {
-      return moment(date).format('YYYY-MM-DD');
+      if (date) {
+        return moment(date).format('YYYY-MM-DD');
+      } else {
+        return '';
+      }
+      // return moment(date).format('YYYY-MM-DD');
     }
   }
 };
