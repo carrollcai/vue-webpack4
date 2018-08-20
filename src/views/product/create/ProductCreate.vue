@@ -363,7 +363,6 @@ export default {
           result = false;
         } else {
           this.uploadFiles.push(file.raw);
-          this.$refs.baseForm.validateField('files');
         }
       } else {
         this.$message({
