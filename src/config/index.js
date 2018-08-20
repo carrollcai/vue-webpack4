@@ -55,13 +55,13 @@ export const MENU_PERMISSIONS = [
         url: '/analysis/active',
         enable: false
       },
-      {
-        menuId: 38,
-        parentId: 2,
-        name: '新增用户分析',
-        url: '/analysis/active',
-        enable: false
-      },
+      // {
+      //   menuId: 38,
+      //   parentId: 2,
+      //   name: '新增用户分析',
+      //   url: '/analysis/active',
+      //   enable: false
+      // },
       {
         menuId: 4,
         parentId: 2,
@@ -265,13 +265,13 @@ export const MENU_PERMISSIONS = [
         url: '/system/user/management',
         enable: false
       },
-      {
-        menuId: 34,
-        parentId: 9,
-        name: '全局配置',
-        url: '/system/config',
-        enable: false
-      }
+      // {
+      //   menuId: 34,
+      //   parentId: 9,
+      //   name: '全局配置',
+      //   url: '/system/config',
+      //   enable: false
+      // }
     ]
   }
 ];
