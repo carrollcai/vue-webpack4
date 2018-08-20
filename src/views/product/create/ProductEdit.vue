@@ -319,8 +319,8 @@ export default {
           obj.parentCode = this.productSaleDemo.secondOptionArr[2];
           this.getSpecProductList(obj);
         }
-        return this.productSaleDemo.fileData;
       }
+      return this.productSaleDemo.fileData;
     }
   },
   beforeMount() {
