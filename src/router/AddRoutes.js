@@ -151,7 +151,7 @@ const dynamicRoutes = [
         path: '/product/product-audit-manage',
         name: 'product-audit-manage',
         component: ProductAuditManage,
-        meta: { menuId: 19 }
+        meta: { menuId: 39 }
       },
       {
         path: '/product/product-audit/:id/:taskInsId/:businessStatus',
@@ -388,7 +388,7 @@ const dynamicRoutes = [
       { path: '/system/role/:type/:id?', component: RoleCreate, meta: { menuId: 10 } },
       { path: '/system/user/management', component: User, meta: { menuId: 11 } },
       { path: '/system/user/:type/:id?', component: UserCreate, meta: { menuId: 11 } },
-      { path: '/system/config', component: Config, meta: { menuId: 11 } },
+      { path: '/system/config', component: Config, meta: { menuId: 34 } },
 
       { path: '/order/overview', component: OrderOverview, meta: { menuId: 13 } },
       { path: '/order/overview/detail/:id/:processId?', component: OrderOverviewDetail, meta: { menuId: 13 } },
