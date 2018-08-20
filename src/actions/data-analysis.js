@@ -178,7 +178,7 @@ function retTrendReq(state) {
   req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
   req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
   req.clientType = retentionObj.clientSelected;
-  req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
+  req.provinces = retentionObj.provinceSelected.length ? retentionObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
   return req;
 }
 

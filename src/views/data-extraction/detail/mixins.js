@@ -17,14 +17,15 @@ export default {
   },
   beforeMount() {
     this.$nextTick(() => {
-      this.queryDataExtractionSteps();
-      // this.queryDataDetail({id: this.id});
+      // let prams = {};
+      // this.queryDataExtractionSteps();
+      this.queryDataDetail({id: this.id});
     });
   },
   computed: {
     ...mapState({
-      dataSteps: ({ dataExtraction }) => dataExtraction.dataSteps.list,
-      dataDetailList: ({ dataExtraction }) => dataExtraction.dataDetailList.list
+      // dataSteps: ({ dataExtraction }) => dataExtraction.dataSteps.list,
+      dataDetailList: ({ dataExtraction }) => dataExtraction.dataDetailList
     })
   },
   methods: {
@@ -42,7 +43,7 @@ export default {
       this.$router.push({path: '/data-extraction/data-audit'});
     },
     ...mapActions([
-      'queryDataExtractionSteps',
+      // 'queryDataExtractionSteps',
       'queryDataDetail',
       'auditDataExtraction'
     ])

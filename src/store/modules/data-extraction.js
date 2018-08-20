@@ -46,17 +46,21 @@ const mutations = {
     state.dataTaskList = data;
   },
   [types.PROCESSOR_LIST](state, data) {
-    // 审核人结构
     let handlers = data.map(val => {
       let newVal = {};
-      newVal.value = val.region;
-      newVal.label = val.regionName;
-      newVal.children = val.province && val.province.filter(cval => cval.province).map(cval => {
-        let newCval = {};
-        newCval.value = cval.province;
-        newCval.label = cval.provinceName;
-        return newCval;
-      });
+      if (val.region) {
+        newVal.value = val.region;
+        newVal.label = val.regionName;
+        newVal.children = val.province && val.province.filter(cval => cval.province).map(cval => {
+          let newCval = {};
+          newCval.value = cval.province;
+          newCval.label = cval.provinceName;
+          return newCval;
+        });
+      } else {
+        newVal.value = val.province;
+        newVal.label = val.provinceName;
+      }
       return newVal;
     });
     state.processorList = handlers;

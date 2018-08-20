@@ -1,5 +1,6 @@
 <template>
 <div class="step-bg">
+  {{processList}}
   <el-steps :active="activeIndex()" align-center>
     <el-step v-for="item in processList"
       :key="item"
@@ -23,12 +24,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
   props: {
-    processList: {
-      type: Array,
-      default: () => []
+    processInsId: {
+      type: Number
     }
+  },
+  beforeMount() {
+    this.$nextTick(() => {
+      let prams = {
+        processInsId: this.processInsId
+      };
+      this.queryDataExtractionSteps(prams);
+    });
+  },
+  computed: {
+    ...mapState({
+      processList: ({ dataExtraction }) => dataExtraction.dataSteps
+    })
   },
   methods: {
     desc(item) {
@@ -40,7 +54,10 @@ export default {
     activeIndex() {
       let index = this.processList.map(val => val.state).lastIndexOf(2);
       return index > -1 ? index + 1 : 0;
-    }
+    },
+    ...mapActions([
+      'queryDataExtractionSteps'
+    ])
   }
 };
 </script>
