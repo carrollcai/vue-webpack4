@@ -262,7 +262,7 @@ export default {
     },
     createProduct() {
       this.addSalesProducts({ 'productIdList': this.multipleSelection }).then(res => {
-        this.getProductLibrary(this.salesProductStoreForm);
+        this.query();
         this.newProductVisible = false;
       });
     },

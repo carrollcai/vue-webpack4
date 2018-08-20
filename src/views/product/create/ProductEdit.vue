@@ -636,6 +636,7 @@ export default {
       // this.productSaleDemo.secondOptionArr = arr;
     },
     changeFirstCollectType(item) {
+      this.productSaleDemo.specificProduct = '';
       let type = this.productSaleDemo.secondOptionArr[2];
       let obj = {};
       obj.codeType = 'FIRST_COLLECTION';
