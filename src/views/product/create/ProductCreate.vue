@@ -488,7 +488,9 @@ export default {
         this.isFirstLevel = false;
       } else {
         this.product.secondOption = [];
-        this.product.specificProduct = '';
+        if (this.product.specificProduct) {
+          this.product.specificProduct = '';
+        }
         this.isFirstLevel = false;
         this.isCoreCompetency = false;
       }
@@ -498,6 +500,9 @@ export default {
       this.getSpecProductList(obj);
     },
     selectCoreAbility(item) {
+      if (this.product.specificProduct) {
+        this.product.specificProduct = '';
+      }
       let obj = {};
       obj.codeType = 'CORE_ABILITY';
       obj.parentCode = this.product.secondOption;
@@ -507,9 +512,9 @@ export default {
       this.product.secondOptionAbility = arr;
     },
     changeFirstCollectType(item) {
-      // if (this.product.specificProduct) {
-      //   this.product.specificProduct = [];
-      // }
+      if (this.product.specificProduct) {
+        this.product.specificProduct = [];
+      }
       let type = this.product.secondOption[2];
       let obj = {};
       obj.codeType = 'FIRST_COLLECTION';
