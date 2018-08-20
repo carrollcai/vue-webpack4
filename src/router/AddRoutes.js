@@ -151,7 +151,7 @@ const dynamicRoutes = [
         path: '/product/product-audit-manage',
         name: 'product-audit-manage',
         component: ProductAuditManage,
-        meta: { menuId: 19 }
+        meta: { menuId: 39 }
       },
       {
         path: '/product/product-audit/:id/:taskInsId/:businessStatus',
