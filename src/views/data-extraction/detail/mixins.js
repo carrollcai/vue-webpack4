@@ -5,10 +5,10 @@ export default {
   data() {
     return {
       auditFromVaild: {
-        audit: [
+        resultStatus: [
           { required: true, message: '请选择审核结果', trigger: ['change', 'blur'] }
         ],
-        remark: [
+        dealResult: [
           { required: true, message: '请输入备注', trigger: ['change', 'blur'] },
           { required: true, validator: inputLengthTwenty, trigger: 'blur' }
         ]
@@ -29,14 +29,12 @@ export default {
   },
   methods: {
     remarkVaild(value) {
-      if (value === '') {
-        console.log(value);
-      }
     },
     onSubmit() {
       this.$refs.refName.validate((valid) => {
+        this.dataFrom = Object.assign(this.dataFrom, this.auditForm);
         if (valid) {
-          this.auditDataExtraction(this.auditForm);
+          this.auditDataExtraction(this.dataFrom);
         }
       });
     },

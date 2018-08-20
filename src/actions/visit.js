@@ -97,7 +97,7 @@ const actions = {
       return res;
     });
   },
-  queryProcessor: ({ commit }, params) => {
+  queryProcessors: ({ commit }, params) => {
     return API.queryProcessorAPI(params).then((res) => {
       commit(types.GET_PROCESSOR_LIST, res.data);
     });

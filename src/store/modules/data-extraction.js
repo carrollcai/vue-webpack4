@@ -3,10 +3,10 @@ import {PAGE_NO, PAGE_SIZE} from '@/config';
 
 const state = {
   downloadForm: {
-    startTime: '',
-    endTime: '',
+    startDate: '',
+    endDate: '',
     name: '',
-    status: null,
+    extractBusinessStatus: 0,
     isOpen: null,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
@@ -15,16 +15,17 @@ const state = {
   dataSteps: [],
   dataDetailList: {},
   auditForm: {
-    startTime: '',
-    endTime: '',
-    opName: '',
+    startDate: '',
+    endDate: '',
+    staffName: '',
     name: '',
-    status: null,
+    taskHasComplete: 0,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
   dataAuditList: {},
-  dataTaskList: []
+  dataTaskList: [],
+  processorList: []
 };
 
 const mutations = {
@@ -42,7 +43,23 @@ const mutations = {
   },
   [types.DATA_EXTRACTION_TASK](state, data) {
     state.dataTaskList = data;
-  }
+  },
+  [types.PROCESSOR_LIST](state, data) {
+    // 审核人结构
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.region;
+      newVal.label = val.regionName;
+      newVal.children = val.province && val.province.filter(cval => cval.province).map(cval => {
+        let newCval = {};
+        newCval.value = cval.province;
+        newCval.label = cval.provinceName;
+        return newCval;
+      });
+      return newVal;
+    });
+    state.processorList = handlers;
+  },
 };
 
 export default {
