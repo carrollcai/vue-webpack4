@@ -168,6 +168,7 @@ export default {
       });
     },
     handleDeleteCase(index, productCase) {
+      this.isAddingCase = false;
       let params = {};
       params.salesId = productCase.salesId;
       this.delSalesCase(params).then(res => {
@@ -181,14 +182,14 @@ export default {
       // }
     },
     handleShowCase(productCase, index) {
-      this.isShow = false;
+      this.isEdit = false;
       this.isAddingCase = true;
       this.$nextTick(() => {
         this.$refs.prodctCases.init(productCase, index);
       });
     },
     handleEditCase(productCase, index) {
-      this.isShow = true;
+      this.isEdit = true;
       this.isAddingCase = true;
       this.$nextTick(() => {
         this.$refs.prodctCases.init(productCase, index);
@@ -208,7 +209,7 @@ export default {
       return composedStr;
     },
     addCase() {
-      this.isShow = true;
+      this.isEdit = true;
       this.isAddingCase = true;
     },
     cancelAddingCase() {
