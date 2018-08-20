@@ -229,7 +229,7 @@ export default {
   },
   beforeMount() {
     this.getRelOpporId('');
-    this.queryProcessor({});
+    this.queryProcessors({});
     this.getAssignhandler();
     this.queryRegionManager({});
   },
@@ -339,7 +339,7 @@ export default {
       'getAssignhandler',
       'queryRegisterList',
       'queryRegionManager',
-      'queryProcessor'
+      'queryProcessors'
     ])
   }
 };

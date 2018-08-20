@@ -18,7 +18,7 @@ export default {
   beforeMount() {
     this.$nextTick(() => {
       this.queryDataExtractionSteps();
-      this.queryDataDetail({id: this.id});
+      // this.queryDataDetail({id: this.id});
     });
   },
   computed: {

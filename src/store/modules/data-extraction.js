@@ -9,7 +9,8 @@ const state = {
     extractBusinessStatus: 0,
     isOpen: null,
     pageNo: PAGE_NO,
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    timeRange: ''
   },
   dataDownloadList: [],
   dataSteps: [],

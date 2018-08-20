@@ -53,7 +53,7 @@ export default {
     return {
       id: this.$route.params.id,
       isAudit: this.$route.query.isAudit,
-      dataFrom: JSON.parse(this.$route.query.data),
+      dataFrom: this.$route.query.data ? JSON.parse(this.$route.query.data) : '',
       isToAudit: this.$route.name === 'data-audit-detail' ? 'true' : 'false',
       auditForm: {
         resultStatus: '',

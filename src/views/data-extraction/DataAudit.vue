@@ -11,9 +11,11 @@
         <el-input v-model="auditForm.staffName" placeholder="请输入提交人" />
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-select v-model="auditForm.name" filterable placeholder="任务名称">
-          <el-option v-for="item in dataTaskList" :key="item" :value="item.value" :label="item.name"></el-option>
-        </el-select>
+        <el-autocomplete class="form-input-half"
+          v-model="auditForm.name"
+          :fetch-suggestions="querySearchAsync"
+          placeholder="任务名称"
+          :trigger-on-focus="false" />
       </el-form-item>
     </div>
     <div class="flex">
@@ -75,11 +77,28 @@ export default {
   },
   beforeMount() {
     this.$nextTick(() => {
-      this.queryDataTask();
       this.query();
     });
   },
   methods: {
+    async querySearchAsync(queryString, cb) {
+      if (!queryString.trim()) return false;
+      let params = {
+        name: queryString,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+      await this.queryDataTask(params);
+
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        let arr = [];
+        this.dataTaskList.filter(item => {
+          arr.push({value: item.name});
+        });
+        cb(arr);
+      }, 1000);
+    },
     viewDetail(row) {
       let path = `/data-extraction/data-audit-detail/${row.id}?isAudit=false`;
       this.$router.push({path: path});

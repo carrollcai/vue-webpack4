@@ -19,7 +19,8 @@
           </el-form-item>
 
           <el-form-item class="form-query-input-width form-left-width" prop="code">
-            <el-input v-model="otherField" clearable placeholder="集团名称/编码" />
+            <el-autocomplete maxlength="25" v-model="otherField" :fetch-suggestions="querySearchAsync" placeholder="集团名称/编码" clearable></el-autocomplete>
+            <!--<el-input v-model="otherField" clearable placeholder="集团名称/编码" />-->
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width" prop="tagName">
             <el-input v-model="label" clearable placeholder="集团标签" />
@@ -90,7 +91,8 @@ export default {
   },
   computed: {
     ...mapState({
-      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList
+      groupCustomerList: ({ groupCustomer }) => groupCustomer.groupCustomerList,
+      groupNameList: ({ groupCustomer }) => groupCustomer.groupNameList
     }),
     ...mapFields([
       'overviewQuery.organizeType',
@@ -106,6 +108,19 @@ export default {
     this.query();
   },
   methods: {
+    async querySearchAsync(queryString, cb) {
+      if (!queryString) return false;
+      let params = {
+        pageSize: 20,
+        organizeName: queryString
+      };
+      await this.getGroupName(params);
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        var results = this.groupNameList;
+        cb(results);
+      }, 1000);
+    },
     onPagination(value) {
       this.pageNo = value;
       this.query();
@@ -147,7 +162,7 @@ export default {
       };
     },
     ...mapActions([
-      'queryCustomerOverviewList'
+      'queryCustomerOverviewList', 'getGroupName'
     ])
   }
 };
