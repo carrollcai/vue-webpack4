@@ -55,6 +55,9 @@ export default {
         mainMarketArr: [
           { required: true, message: '请选择主营市场', trigger: ['blur', 'change'] }
         ],
+        mainMarketArrCN: [
+          { required: true, message: '请选择主营市场', trigger: ['blur', 'change'] }
+        ],
         productType: [
           { required: true, message: '请选择产品类型', trigger: 'change' }
         ],
@@ -178,14 +181,14 @@ export default {
       // }
     },
     handleShowCase(productCase, index) {
-      this.isEdit = false;
+      this.isShow = false;
       this.isAddingCase = true;
       this.$nextTick(() => {
         this.$refs.prodctCases.init(productCase, index);
       });
     },
     handleEditCase(productCase, index) {
-      this.isEdit = true;
+      this.isShow = true;
       this.isAddingCase = true;
       this.$nextTick(() => {
         this.$refs.prodctCases.init(productCase, index);
@@ -205,7 +208,7 @@ export default {
       return composedStr;
     },
     addCase() {
-      this.isEdit = true;
+      this.isShow = true;
       this.isAddingCase = true;
     },
     cancelAddingCase() {

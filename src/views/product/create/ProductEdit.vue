@@ -23,7 +23,7 @@
           :maxlength="25"
           placeholder="请输入名称"></el-input>
       </el-form-item>
-      <el-form-item label="主营市场" prop="mainMarket">
+      <el-form-item label="主营市场" prop="mainMarketArrCN">
         <!--{{productSaleDemo.mainMarketArr}}-->
         <el-checkbox-group v-model="productSaleDemo.mainMarketArrCN">
           <el-checkbox v-for="item in marketList" :label="item" :key="item">{{item}}</el-checkbox>
@@ -56,11 +56,11 @@
         <el-col :span="11">
           <el-form-item>
             <el-select v-model="productSaleDemo.belongToCompany" placeholder="选择产品归属" @change="selectBelongToCompany">
-              <el-option label="无" value="无"></el-option>
-              <el-option label="核心能力清单" value="核心能力清单"></el-option>
-              <el-option label="一级集采目录" value="一级集采目录"></el-option>
-              <el-option label="二级集采目录" value="二级集采目录"></el-option>
-              <el-option label="终端库" value="终端库"></el-option>
+              <el-option label="无" value="0"></el-option>
+              <el-option label="核心能力清单" value="1"></el-option>
+              <el-option label="一级集采目录" value="2"></el-option>
+              <el-option label="二级集采目录" value="3"></el-option>
+              <el-option label="终端库" value="4"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -308,18 +308,10 @@ export default {
     }),
     uploadFiles() {
       if (this.productSaleDemo && this.productSaleDemo.secondOptionArr) {
-        if (this.productSaleDemo.secondOptionArr.toString().length < 20) {
-          let obj = {};
-          obj.codeType = 'CORE_ABILITY';
-          obj.parentCode = this.productSaleDemo.secondOptionArr;
-          this.getSpecProductList(obj);
-        } else {
-          let type = this.productSaleDemo.secondOptionArr[2];
-          let obj = {};
-          obj.codeType = 'FIRST_COLLECTION';
-          obj.parentCode = type;
-          this.getSpecProductList(obj);
-        }
+        let obj = {};
+        obj.codeType = 'CORE_ABILITY';
+        obj.parentCode = this.productSaleDemo.secondOptionArr;
+        this.getSpecProductList(obj);
       }
       return this.productSaleDemo.fileData;
     }
@@ -423,7 +415,7 @@ export default {
               params.mainMarketArr[i] = 3;
             }
           }
-          params.secondOption = this.productSaleDemo.secondOptionArr;
+          params.secondOption = this.productSaleDemo.coreAbility;
           params.belongToCompany = this.productSaleDemo.belongToCompany;
           params.specificProduct = this.productSaleDemo.specificProduct;
           params.productFileid = this.productSaleDemo.productFileid;
@@ -434,129 +426,119 @@ export default {
           } else {
             params.secondOption = this.productSaleDemo.secondOptionArr;
           }
-          if (params.belongToCompany === '核心能力清单' || params.belongToCompany === '一级集采目录') {
-            if (params.secondOption[0] === '' || params.specificProduct === '') {
-              this.$message({
-                message: `如果选择产品归属，请选择完整`
-              });
-              return;
-            }
-          } else {
-            params.secondOption = [];
-          }
           this.updateProduct(params).then(res => {
             this.$router.push(`/product/product-creat-manage`);
           });
         });
       }
-      // const that = this;
-      // const {cases} = that;
-      // that.isSubmit = true;
+      const that = this;
+      const {cases} = that;
+      that.isSubmit = true;
       // 修改产品时，对销售案例进行修改
       // 有方案附件, 先上传文件
-      // if (this.hasFiles(cases)) {
-      //   let promises = [];
-      //   for (let productCase of cases) {
-      //     let files = productCase.files;
-      //     let deleteFiles = productCase.deleteFiles;
+      if (this.hasFiles(cases)) {
+        let promises = [];
+        for (let productCase of cases) {
+          let files = productCase.files;
+          let deleteFiles = productCase.deleteFiles;
 
-      //     // 删除文件
-      //     if (deleteFiles && deleteFiles.length) {
-      //       for (let deleteFile of deleteFiles) {
-      //         let promise = new Promise((resolve, reject) => {
-      //           this.delUplodFile({elecInstId: deleteFile.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
-      //             resolve();
-      //           }, (err) => {
-      //             reject(new Error(err));
-      //           });
-      //         });
+          // 删除文件
+          if (deleteFiles && deleteFiles.length) {
+            for (let deleteFile of deleteFiles) {
+              let promise = new Promise((resolve, reject) => {
+                this.delUplodFile({elecInstId: deleteFile.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
+                  resolve();
+                }, (err) => {
+                  reject(new Error(err));
+                });
+              });
 
-      //         promises.push(promise);
-      //       }
-      //     }
+              promises.push(promise);
+            }
+          }
 
-      //     // 上传新增的文件
-      //     if (files && files.length) {
-      //       let fileInputId = productCase.fileInputId;
-      //       let uploadingFiles = [];
-      //       let promise;
+          // 上传新增的文件
+          if (files && files.length) {
+            let fileInputId = productCase.fileInputId;
+            let uploadingFiles = [];
+            let promise;
 
-      //       // 新增时已经上传过文件
-      //       if (fileInputId) {
-      //         for (let file of files) {
-      //           if (!file.fileInputId) {
-      //             uploadingFiles.push(file);
-      //           }
-      //         }
-      //         promise = new Promise((resolve, reject) => {
-      //           let uploadData = {
-      //             fileInputId,
-      //             fileTypeId: FILE_TYPE_ID.product,
-      //             moduleId: 1,
-      //             expireDate: '',
-      //             effectiveDate: '',
-      //             files: []
-      //           };
-      //           uploadData.files = uploadingFiles;
-      //           that.uploadProductScheme(uploadData).then(() => {
-      //             resolve();
-      //           }, (err) => {
-      //             reject(new Error(err));
-      //           });
-      //         });
-      //       } else {
-      //         for (let file of files) {
-      //           uploadingFiles.push(file);
-      //         }
-      //         promise = new Promise((resolve, reject) => {
-      //           that.getProductFileId().then((res) => {
-      //             let fileInputId = res.data;
+            // 新增时已经上传过文件
+            if (fileInputId) {
+              for (let file of files) {
+                if (!file.fileInputId) {
+                  uploadingFiles.push(file);
+                }
+              }
+              promise = new Promise((resolve, reject) => {
+                let uploadData = {
+                  fileInputId,
+                  fileTypeId: FILE_TYPE_ID.product,
+                  moduleId: 1,
+                  expireDate: '',
+                  effectiveDate: '',
+                  files: []
+                };
+                uploadData.files = uploadingFiles;
+                that.uploadProductScheme(uploadData).then(() => {
+                  resolve();
+                }, (err) => {
+                  reject(new Error(err));
+                });
+              });
+            } else {
+              for (let file of files) {
+                uploadingFiles.push(file);
+              }
+              promise = new Promise((resolve, reject) => {
+                that.getProductFileId().then((res) => {
+                  let fileInputId = res.data;
 
-      //             let uploadData = {
-      //               fileInputId,
-      //               fileTypeId: FILE_TYPE_ID.product,
-      //               moduleId: 1,
-      //               expireDate: '',
-      //               effectiveDate: '',
-      //               files: []
-      //             };
-      //             uploadData.files = uploadingFiles;
-      //             that.uploadProductScheme(uploadData).then(() => {
-      //               productCase.fileInputId = fileInputId;
-      //               resolve();
-      //             }, (err) => {
-      //               reject(new Error(err));
-      //             });
-      //           }, (err) => {
-      //             reject(new Error(err));
-      //           });
-      //         });
-      //       }
+                  let uploadData = {
+                    fileInputId,
+                    fileTypeId: FILE_TYPE_ID.product,
+                    moduleId: 1,
+                    expireDate: '',
+                    effectiveDate: '',
+                    files: []
+                  };
+                  uploadData.files = uploadingFiles;
+                  that.uploadProductScheme(uploadData).then(() => {
+                    productCase.fileInputId = fileInputId;
+                    resolve();
+                  }, (err) => {
+                    reject(new Error(err));
+                  });
+                }, (err) => {
+                  reject(new Error(err));
+                });
+              });
+            }
 
-      //       promises.push(promise);
-      //     }
-      //   }
+            promises.push(promise);
+          }
+        }
 
-      //   Promise.all(promises).then(() => {
-      //     this.removeCaseAttributs(cases);
-      //     this.removeAttributes(this.product);
-      //     this.dealWidthCases(this.product, this.cases);
-      //     this.updateProduct(this.product).then(() => {
-      //     }, () => {
-      //       that.isSubmit = false;
-      //     });
-      //   }, () => {
-      //     that.isSubmit = false;
-      //   });
-      // } else {
-      //   this.removeCaseAttributs(this.cases);
-      //   this.removeAttributes(this.product);
-      //   this.dealWidthCases(this.product, this.cases);
-      //   this.updateProduct(this.product).then(() => {
-      //   }, () => {
-      //     that.isSubmit = false;
-      //   });
-      // }
+        Promise.all(promises).then(() => {
+          this.removeCaseAttributs(cases);
+          this.removeAttributes(this.product);
+          this.dealWidthCases(this.product, this.cases);
+          this.updateProduct(this.product).then(() => {
+          }, () => {
+            that.isSubmit = false;
+          });
+        }, () => {
+          that.isSubmit = false;
+        });
+      } else {
+        this.removeCaseAttributs(this.cases);
+        this.removeAttributes(this.product);
+        this.dealWidthCases(this.product, this.cases);
+        this.updateProduct(this.product).then(() => {
+        }, () => {
+          that.isSubmit = false;
+        });
+      }
     },
     cancel() {
       this.$router.push(`/product/product-creat-manage`);
@@ -616,7 +598,6 @@ export default {
     },
     selectBelongToCompany() {
       this.productSaleDemo.secondOptionArr = '';
-      this.productSaleDemo.specificProduct = '';
       if (this.productSaleDemo.belongToCompany === '2' || this.productSaleDemo.belongToCompany === '一级集采目录') {
         this.getFirstCatalogType();
         this.isFirstLevel = true;
@@ -631,39 +612,34 @@ export default {
       }
     },
     selectCoreAbility(item) {
-      if (this.productSaleDemo.secondOptionArr.toString().length < 20) {
-        this.productSaleDemo.specificProduct = '';
-        let obj = {};
-        obj.codeType = 'CORE_ABILITY';
-        obj.parentCode = this.productSaleDemo.secondOptionArr;
-        this.getSpecProductList(obj);
-        let arr = [];
-        arr.push(item);
-      }
+      this.productSaleDemo.specificProduct = '';
+      let obj = {};
+      obj.codeType = 'CORE_ABILITY';
+      obj.parentCode = this.productSaleDemo.secondOptionArr;
+      this.getSpecProductList(obj);
+      let arr = [];
+      arr.push(item);
       // this.productSaleDemo.secondOptionArr = arr;
     },
     changeFirstCollectType(item) {
-      if (this.productSaleDemo.secondOptionArr.toString().length > 20) {
-        this.productSaleDemo.specificProduct = '';
-        let type = this.productSaleDemo.secondOptionArr[2];
-        let obj = {};
-        obj.codeType = 'FIRST_COLLECTION';
-        obj.parentCode = type;
-        this.getSpecProductList(obj);
-        this.firstCollectionType.map(val => {
-          if (val.children) {
-            val.children.map(val => {
-              if (val.children) {
-                val.children.map(val => {
-                  if (val.value === type) {
-                    this.productSaleDemo.secondOptionStr = val.label;
-                  }
-                });
-              };
-            });
-          };
-        });
-      }
+      let type = this.productSaleDemo.secondOptionArr[2];
+      let obj = {};
+      obj.codeType = 'FIRST_COLLECTION';
+      obj.parentCode = type;
+      this.getSpecProductList(obj);
+      this.firstCollectionType.map(val => {
+        if (val.children) {
+          val.children.map(val => {
+            if (val.children) {
+              val.children.map(val => {
+                if (val.value === type) {
+                  this.productSaleDemo.secondOptionStr = val.label;
+                }
+              });
+            };
+          });
+        };
+      });
     },
     selectBroker(item) {
       this.brokerList.map(val => {
