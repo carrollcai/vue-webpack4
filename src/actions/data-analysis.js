@@ -89,10 +89,11 @@ const actions = {
   getRetentionLossUser: ({ commit, state }, params) => {
     const req = {};
     const { retentionObj } = state.dataAnalysis;
+    let { provinces } = state.root.currentUser.operator;
     req.beginDate = oneMonthAgo;
     req.endDate = oneMonthAgo;
     req.clientType = retentionObj.clientSelected;
-    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : null;
+    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
 
     return API.getRetentionLossUserAPI(req).then(res => {
       commit(types.RETENTION_GET_USER, res.data.reportList);
@@ -115,17 +116,19 @@ const actions = {
 function activeReq(state) {
   const req = {};
   const { activeObj } = state.dataAnalysis;
+  let { provinces } = state.root.currentUser.operator;
   req.dateType = activeObj.dateType;
   req.beginDate = !activeObj.dateType ? twoDaysAgo : oneMonthAgo;
   req.endDate = !activeObj.dateType ? twoDaysAgo : oneMonthAgo;
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
+  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
   return req;
 }
 
 function activeTrendReq(state) {
   const req = {};
   const { trend, activeObj } = state.dataAnalysis;
+  let { provinces } = state.root.currentUser.operator;
   if (trend.date.length) {
     let beginDate, endDate;
     if (trend.dateType) {
@@ -140,13 +143,14 @@ function activeTrendReq(state) {
     req.endDate = endDate;
   }
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
+  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
   return req;
 }
 
 function activeProvinceUserReq(state) {
   const req = {};
   const { provinceUser, activeObj } = state.dataAnalysis;
+  let { provinces } = state.root.currentUser.operator;
   if (provinceUser.date.length) {
     let beginDate, endDate;
     if (provinceUser.dateType) {
@@ -163,17 +167,18 @@ function activeProvinceUserReq(state) {
 
   req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : null;
+  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
   return req;
 }
 
 function retTrendReq(state) {
   const req = {};
   const { retentionObj, retTrend } = state.dataAnalysis;
+  let { provinces } = state.root.currentUser.operator;
   req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
   req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
   req.clientType = retentionObj.clientSelected;
-  req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : null;
+  req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
   return req;
 }
 
