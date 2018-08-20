@@ -27,18 +27,25 @@
   }
   .all-label {float: left; margin-right: 36px;}
   .detail-set {
-    .el-form-item__label {
-      width: 83px;
-      text-align: right;
-      .el-checkbox {
-        min-width: 90px;
+    > .el-form-item {
+      display: flex;
+      padding: 0 59px 0 10px;
+      > .el-form-item__label {
+        min-width: 83px;
+        text-align: right;
+      }
+      > .el-form-item__content {
+        > div {
+          width: 970px;
+        }
       }
     }
-    > .el-form-item {
-      padding: 0 59px 0 10px;
+    .el-checkbox {
+      min-width: 90px;
     }
     .blue {
       background: #E6F7FF;
     }
+    .el-checkbox {margin-left: 0; margin-right: 30px;}
   }
 }

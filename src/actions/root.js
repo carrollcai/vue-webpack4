@@ -42,7 +42,14 @@ const actions = {
         'WEATHER', // 是否
         'BIZ_OPPOR_TYPE', // 商机类别
         'BIZ_OPPOR_STATUS', // 商机状态
-        'PREDICT_AGREEMENT_TIME'// 预计协议期
+        'PREDICT_AGREEMENT_TIME', // 预计协议期
+        // 数据提取管理
+        'CLIENT_TYPE',
+        'CHANNEL_TYPE',
+        'MEMBER_TYPE',
+        'EXTRACT_AGE',
+        'NET_TYPE',
+        'CONTENT'
       ]
     };
     return API.queryStaticDataAPI(params).then(res => {

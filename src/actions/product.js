@@ -213,11 +213,11 @@ const actions = {
    * @param {Object} product
    */
   underCarriageProduct: ({ commit }, params) => {
-    API.underCarriageProductAPI(params).then((res) => {
-      Message({
-        message: '下架成功！',
-        type: 'success'
-      });
+    return API.underCarriageProductAPI(params).then((res) => {
+      // Message({
+      //   message: '下架成功！',
+      //   type: 'success'
+      // });
       commit(types.UNDER_CARRIAGE_PRODUCT, res.data);
     }, () => {
     });
@@ -243,7 +243,6 @@ const actions = {
     let fileInputId = await dispatch('getNewFileInputId');
     let _params = Object.assign(params, { fileInputId });
     let _submitParams = Object.assign(submitParams, { fileInputId: fileInputId });
-    console.log(_params);
 
     // 如果上传失败，还原按钮状态，退出程序
     let error = await dispatch('uploadOrderHandleTask', _params);

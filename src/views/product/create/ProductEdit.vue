@@ -23,7 +23,7 @@
           :maxlength="25"
           placeholder="请输入名称"></el-input>
       </el-form-item>
-      <el-form-item label="主营市场" prop="mainMarket">
+      <el-form-item label="主营市场" prop="mainMarketArrCN">
         <!--{{productSaleDemo.mainMarketArr}}-->
         <el-checkbox-group v-model="productSaleDemo.mainMarketArrCN">
           <el-checkbox v-for="item in marketList" :label="item" :key="item">{{item}}</el-checkbox>
@@ -308,16 +308,15 @@ export default {
     }),
     uploadFiles() {
       if (this.productSaleDemo && this.productSaleDemo.secondOptionArr) {
-        if (this.productSaleDemo.secondOptionArr.toString().length < 20) {
+        if (this.productSaleDemo && this.productSaleDemo.secondOptionArr.length < 2) {
           let obj = {};
           obj.codeType = 'CORE_ABILITY';
           obj.parentCode = this.productSaleDemo.secondOptionArr;
           this.getSpecProductList(obj);
         } else {
-          let type = this.productSaleDemo.secondOptionArr[2];
           let obj = {};
           obj.codeType = 'FIRST_COLLECTION';
-          obj.parentCode = type;
+          obj.parentCode = this.productSaleDemo.secondOptionArr[2];
           this.getSpecProductList(obj);
         }
       }
@@ -423,22 +422,23 @@ export default {
               params.mainMarketArr[i] = 3;
             }
           }
-          params.secondOption = this.productSaleDemo.secondOptionArr;
+          params.secondOption = this.productSaleDemo.coreAbility;
           params.belongToCompany = this.productSaleDemo.belongToCompany;
           params.specificProduct = this.productSaleDemo.specificProduct;
           params.productFileid = this.productSaleDemo.productFileid;
-          if (typeof (this.productSaleDemo.secondOptionArr) === 'string') {
-            let secArr = [];
-            secArr.push(this.productSaleDemo.secondOptionArr);
-            params.secondOption = secArr;
-          } else {
-            params.secondOption = this.productSaleDemo.secondOptionArr;
+          if (this.productSaleDemo.secondOptionArr) {
+            if (typeof (this.productSaleDemo.secondOptionArr) === 'string') {
+              let secArr = [];
+              secArr.push(this.productSaleDemo.secondOptionArr);
+              params.secondOption = secArr;
+            } else {
+              params.secondOption = this.productSaleDemo.secondOptionArr;
+            }
           }
           if (params.belongToCompany === '核心能力清单' || params.belongToCompany === '一级集采目录') {
-            if (params.secondOption[0] === '' || params.specificProduct === '') {
-              this.$message({
-                message: `如果选择产品归属，请选择完整`
-              });
+            if (params.secondOption && params.specificProduct) {
+            } else {
+              this.$message({ showClose: true, message: '若选择产品属性，请选择完整！', type: 'error' });
               return;
             }
           }
@@ -613,6 +613,10 @@ export default {
       }
     },
     selectBelongToCompany() {
+      let obj = {};
+      obj.codeType = '';
+      obj.parentCode = '';
+      this.getSpecProductList(obj);
       this.productSaleDemo.secondOptionArr = '';
       this.productSaleDemo.specificProduct = '';
       if (this.productSaleDemo.belongToCompany === '2' || this.productSaleDemo.belongToCompany === '一级集采目录') {
@@ -629,39 +633,35 @@ export default {
       }
     },
     selectCoreAbility(item) {
-      if (this.productSaleDemo.secondOptionArr.toString().length < 20) {
-        this.productSaleDemo.specificProduct = '';
-        let obj = {};
-        obj.codeType = 'CORE_ABILITY';
-        obj.parentCode = this.productSaleDemo.secondOptionArr;
-        this.getSpecProductList(obj);
-        let arr = [];
-        arr.push(item);
-      }
+      this.productSaleDemo.specificProduct = '';
+      let obj = {};
+      obj.codeType = 'CORE_ABILITY';
+      obj.parentCode = this.productSaleDemo.secondOptionArr;
+      this.getSpecProductList(obj);
+      let arr = [];
+      arr.push(item);
       // this.productSaleDemo.secondOptionArr = arr;
     },
     changeFirstCollectType(item) {
-      if (this.productSaleDemo.secondOptionArr.toString().length > 20) {
-        this.productSaleDemo.specificProduct = '';
-        let type = this.productSaleDemo.secondOptionArr[2];
-        let obj = {};
-        obj.codeType = 'FIRST_COLLECTION';
-        obj.parentCode = type;
-        this.getSpecProductList(obj);
-        this.firstCollectionType.map(val => {
-          if (val.children) {
-            val.children.map(val => {
-              if (val.children) {
-                val.children.map(val => {
-                  if (val.value === type) {
-                    this.productSaleDemo.secondOptionStr = val.label;
-                  }
-                });
-              };
-            });
-          };
-        });
-      }
+      this.productSaleDemo.specificProduct = '';
+      let type = this.productSaleDemo.secondOptionArr[2];
+      let obj = {};
+      obj.codeType = 'FIRST_COLLECTION';
+      obj.parentCode = type;
+      this.getSpecProductList(obj);
+      this.firstCollectionType.map(val => {
+        if (val.children) {
+          val.children.map(val => {
+            if (val.children) {
+              val.children.map(val => {
+                if (val.value === type) {
+                  this.productSaleDemo.secondOptionStr = val.label;
+                }
+              });
+            };
+          });
+        };
+      });
     },
     selectBroker(item) {
       this.brokerList.map(val => {

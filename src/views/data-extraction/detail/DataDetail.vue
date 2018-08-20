@@ -20,15 +20,15 @@
   </div>
   <div v-if="isAudit === 'true'" class="m-container table-container">
     <el-form :model="auditForm" ref="refName" :rules="auditFromVaild">
-      <el-form-item label="审核结果：" label-width="140px" required prop="audit">
-        <el-radio v-model="auditForm.audit" :value="0" :label="0">通过</el-radio>
-        <el-radio v-model="auditForm.audit" :value="1" :label="1">不通过</el-radio>
+      <el-form-item label="审核结果：" label-width="140px" required prop="resultStatus">
+        <el-radio v-model="auditForm.resultStatus" :label="2">通过</el-radio>
+        <el-radio v-model="auditForm.resultStatus" :label="3">不通过</el-radio>
       </el-form-item>
-      <el-form-item v-if="auditForm.audit === 1" label="备注：" label-width="140px" prop="remark">
-        <el-input v-model="auditForm.remark" class="form-input-medium" placeholder="请输入备注" />
+      <el-form-item v-if="auditForm.resultStatus === 3" label="备注：" label-width="140px" prop="dealResult">
+        <el-input v-model="auditForm.dealResult" class="form-input-medium" placeholder="请输入备注" />
       </el-form-item>
-      <el-form-item v-if="auditForm.audit === '' || auditForm.audit === 0" label="备注：" label-width="140px" >
-        <el-input v-model="auditForm.remark" @change="remarkVaild" class="form-input-medium" placeholder="请输入备注" />
+      <el-form-item v-if="auditForm.resultStatus === '' || auditForm.resultStatus === 2" label="备注：" label-width="140px" >
+        <el-input v-model="auditForm.dealResult" @change="remarkVaild" class="form-input-medium" placeholder="请输入备注" />
       </el-form-item>
       <el-form-item label-width="140px" >
         <el-button type="primary" @click="onSubmit()">提交</el-button>
@@ -53,10 +53,11 @@ export default {
     return {
       id: this.$route.params.id,
       isAudit: this.$route.query.isAudit,
+      dataFrom: JSON.parse(this.$route.query.data),
       isToAudit: this.$route.name === 'data-audit-detail' ? 'true' : 'false',
       auditForm: {
-        audit: '',
-        remark: ''
+        resultStatus: '',
+        dealResult: ''
       }
     };
   }

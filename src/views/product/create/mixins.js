@@ -55,6 +55,9 @@ export default {
         mainMarketArr: [
           { required: true, message: '请选择主营市场', trigger: ['blur', 'change'] }
         ],
+        mainMarketArrCN: [
+          { required: true, message: '请选择主营市场', trigger: ['blur', 'change'] }
+        ],
         productType: [
           { required: true, message: '请选择产品类型', trigger: 'change' }
         ],
@@ -165,6 +168,7 @@ export default {
       });
     },
     handleDeleteCase(index, productCase) {
+      this.isAddingCase = false;
       let params = {};
       params.salesId = productCase.salesId;
       this.delSalesCase(params).then(res => {

@@ -365,13 +365,14 @@ export default {
   /**
    * 数据抽取管理
    */
-  queryDataDownloadAPI: API('http://localhost:3618/esop/extraction'),
-  deleteDownLoadDataAPI: API('http://localhost:3618/esop/all/extraction'),
+  queryDataDownloadAPI: API('esop/dataExtract/getList'),
+  deleteDownLoadDataAPI: API('esop/dataExtract/cancel'),
   dataDownLoadFileAPI: download('http://localhost:3618/esop/all/extraction'),
-  applyDataExtractionAPI: API('http://localhost:3618/esop/all/extraction'),
+  applyDataExtractionAPI: API('esop/dataExtract/create'),
   queryDataExtractionStepsAPI: API('http://localhost:3618/esop/steps'),
-  queryDataDetailAPI: API('http://localhost:3618/esop/extraction'),
-  auditDataExtractionAPI: API('http://localhost:3618/esop/all/extraction'),
-  queryDataAuditAPI: API('http://localhost:3618/esop/extraction'),
-  queryDataTaskAPI: API('http://localhost:3618/esop/all/extraction')
+  queryDataDetailAPI: API('esop/dataExtract/detail'),
+  auditDataExtractionAPI: API('esop/dataExtract/moveNode'),
+  queryDataAuditAPI: API('esop/dataExtract/queryTaskInfo'),
+  queryDataTaskAPI: API('esop/dataExtract/queryByName'),
+  queryProvinceAPI: API('esop/dataExtract/queryProvince')
 };
