@@ -213,11 +213,11 @@ const actions = {
    * @param {Object} product
    */
   underCarriageProduct: ({ commit }, params) => {
-    API.underCarriageProductAPI(params).then((res) => {
-      Message({
-        message: '下架成功！',
-        type: 'success'
-      });
+    return API.underCarriageProductAPI(params).then((res) => {
+      // Message({
+      //   message: '下架成功！',
+      //   type: 'success'
+      // });
       commit(types.UNDER_CARRIAGE_PRODUCT, res.data);
     }, () => {
     });

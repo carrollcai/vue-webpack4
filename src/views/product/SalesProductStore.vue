@@ -284,6 +284,7 @@ export default {
         let id = [];
         id.push(row.productId);
         this.underCarriageProduct({'productIdList': id}).then(res => {
+          this.$message({ showClose: true, message: '下架成功！', type: 'success' });
           this.query();
         });
       }).catch(() => {
