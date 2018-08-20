@@ -168,6 +168,7 @@ export default {
       });
     },
     handleDeleteCase(index, productCase) {
+      this.isAddingCase = false;
       let params = {};
       params.salesId = productCase.salesId;
       this.delSalesCase(params).then(res => {
