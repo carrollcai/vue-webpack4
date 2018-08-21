@@ -18,7 +18,7 @@ export const MENU_PERMISSIONS = [
     icon: 'icon-home',
     enable: false
   },
-  /* {
+  {
     menuId: 35,
     name: '数据提取管理',
     url: '/data-extraction',
@@ -40,7 +40,7 @@ export const MENU_PERMISSIONS = [
         enable: false
       }
     ]
-  }, */
+  },
   {
     menuId: 2,
     name: '数据分析',
@@ -55,13 +55,13 @@ export const MENU_PERMISSIONS = [
         url: '/analysis/active',
         enable: false
       },
-      // {
-      //   menuId: 38,
-      //   parentId: 2,
-      //   name: '新增用户分析',
-      //   url: '/analysis/active',
-      //   enable: false
-      // },
+      {
+        menuId: 38,
+        parentId: 2,
+        name: '新增用户分析',
+        url: '/analysis/adduser',
+        enable: false
+      },
       {
         menuId: 4,
         parentId: 2,
@@ -184,36 +184,36 @@ export const MENU_PERMISSIONS = [
       }
     ]
   },
-  // {
-  //   menuId: 12,
-  //   name: '订单管理',
-  //   url: '/order',
-  //   icon: 'icon-order',
-  //   enable: false,
-  //   children: [
-  //     {
-  //       menuId: 13,
-  //       parentId: 12,
-  //       name: '订单总览',
-  //       url: '/order/overview',
-  //       enable: false
-  //     },
-  //     {
-  //       menuId: 14,
-  //       parentId: 12,
-  //       name: '订单创建管理',
-  //       url: '/order/create-manage',
-  //       enable: false
-  //     },
-  //     {
-  //       menuId: 15,
-  //       parentId: 12,
-  //       name: '订单处理任务',
-  //       url: '/order/handle-task',
-  //       enable: false
-  //     }
-  //   ]
-  // },
+  {
+    menuId: 12,
+    name: '订单管理',
+    url: '/order',
+    icon: 'icon-order',
+    enable: false,
+    children: [
+      {
+        menuId: 13,
+        parentId: 12,
+        name: '订单总览',
+        url: '/order/overview',
+        enable: false
+      },
+      {
+        menuId: 14,
+        parentId: 12,
+        name: '订单创建管理',
+        url: '/order/create-manage',
+        enable: false
+      },
+      {
+        menuId: 15,
+        parentId: 12,
+        name: '订单处理任务',
+        url: '/order/handle-task',
+        enable: false
+      }
+    ]
+  },
   {
     menuId: 30,
     name: '走访管理',
@@ -265,13 +265,13 @@ export const MENU_PERMISSIONS = [
         url: '/system/user/management',
         enable: false
       },
-      // {
-      //   menuId: 34,
-      //   parentId: 9,
-      //   name: '全局配置',
-      //   url: '/system/config',
-      //   enable: false
-      // }
+      {
+        menuId: 34,
+        parentId: 9,
+        name: '全局配置',
+        url: '/system/config',
+        enable: false
+      }
     ]
   }
 ];

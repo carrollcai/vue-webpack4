@@ -102,7 +102,8 @@ $menu-active-color: #FFFFFF;
 /* 20180705，去除整体布局el-scrollbar滚动条，并且不影响到其他el-scrollbar__wrap组件 */
 
 .app-aside-scroll>.el-scrollbar__wrap,
-.app-menu>.el-scrollbar__wrap {
+.app-menu>.el-scrollbar__wrap,
+.dailyLive-rank-scrollbar>.el-scrollbar__wrap {
   overflow-x: hidden;
 }
 

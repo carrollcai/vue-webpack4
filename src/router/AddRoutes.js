@@ -5,9 +5,10 @@ import Page500 from '@/views/common/Page500.vue';
 import Page404 from '@/views/common/Page404.vue';
 
 import Dashboard from '@/views/dashboard/Dashboard.vue';
+
 import Active from '@/views/data-analysis/Active.vue';
 import RetentionLoss from '@/views/data-analysis/RetentionLoss.vue';
-// import DailyLive from '@/views/data-analysis/create/DailyLive.vue';
+import Adduser from '@/views/data-analysis/Adduser.vue';
 
 import Business from '@/views/business-manage/Business.vue';
 import BusinessCreateManage from '@/views/business-manage/BusinessCreateManage.vue';
@@ -102,6 +103,7 @@ const dynamicRoutes = [
       { path: '/dashboard', component: Dashboard, meta: { menuId: 1 } },
       { path: '/analysis/active', component: Active, meta: { menuId: 3 } },
       { path: '/analysis/retention-loss', component: RetentionLoss, meta: { menuId: 4 } },
+      { path: '/analysis/adduser', component: Adduser, meta: { menuId: 38 } },
 
       // 数据审核管理 的 menuId 先用的别的模块的 后面在修改
       { path: '/data-extraction/data-download', name: 'data-download', component: DataDownload, meta: { menuId: 24 } },

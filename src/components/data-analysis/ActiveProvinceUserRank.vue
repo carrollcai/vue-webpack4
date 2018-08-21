@@ -3,7 +3,7 @@
     <div>{{ !provinceUser.dateType ? '日' : '月'}}活全国排名情况：</div>
 
     <div class="dailyLive-rank">
-      <el-scrollbar style="height: 100%;">
+      <el-scrollbar class="dailyLive-rank-scrollbar">
         <li class="dailyLive-rank-item" v-for="(item, i) in provinceUserList" :key="i">
           <div class="dailyLive-rank__circle" :style="{backgroundColor: filterTop3(i)}">
             {{item.orderNum}}
@@ -60,6 +60,9 @@ export default {
   margin: $blockWidth 0 0;
   padding: 0;
   list-style: none;
+}
+.dailyLive-rank-scrollbar {
+  height: 100%;
 }
 .dailyLive-rank-item {
   display: flex;
