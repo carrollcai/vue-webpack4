@@ -1,31 +1,29 @@
 <template>
   <div class="active-userdata block-containter">
     <div class="userdata-header">
-      <el-radio-group v-model="activeObj.dateType" size="small" @change="dateChange">
-        <el-radio-button :label="0">按日</el-radio-button>
-        <el-radio-button :label="1">按月</el-radio-button>
-      </el-radio-group>
-      <span class="userdata-header-quote">
-        {{!activeObj.dateType ? `${twoDaysAgo}日关键指标` : `${oneMonthAgoNoDay}月关键指标`}}
-      </span>
+      <div class="trend-header-title">{{`6月新增用户数据`}}</div>
     </div>
     <div class="userdata-main">
       <div class="userdata-main-left">
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">{{!activeObj.dateType ? '日' : '月'}}活跃用户数</div>
           <div class="userdata-main-left__num">{{dailyUser.activeUserNum}}</div>
+          <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">手机账号登录用户</div>
           <div class="userdata-main-left__num">{{dailyUser.mobileAccount}}</div>
+          <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">移动IP用户 / 非移动IP用户</div>
           <div class="userdata-main-left__num">{{dailyUser.mobileIp + ' / ' + dailyUser.unmobileIp}}</div>
+          <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增会员用户</div>
           <div class="userdata-main-left__num">{{dailyUser.newMembers}}</div>
+          <div class="userdata-main-left__rank">全国No.1</div>
         </div>
       </div>
       <div class="userdata-main-right">

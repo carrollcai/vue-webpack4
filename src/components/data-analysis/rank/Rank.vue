@@ -1,10 +1,9 @@
 <template>
   <div class="p-user-rank">
-    <div>{{ !provinceUser.dateType ? '日' : '月'}}活全国排名情况：</div>
-
+    <div>{{title}}</div>
     <div class="dailyLive-rank">
       <el-scrollbar class="dailyLive-rank-scrollbar">
-        <li class="dailyLive-rank-item" v-for="(item, i) in provinceUserList" :key="i">
+        <li class="dailyLive-rank-item" v-for="(item, i) in list" :key="i">
           <div class="dailyLive-rank__circle" :style="{backgroundColor: filterTop3(i)}">
             {{item.orderNum}}
           </div>
@@ -22,21 +21,34 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 const defaultWidth = 160;
 export default {
   props: {
-    provinceUserList: Array,
-    maxNum: {
-      type: Number,
-      default: 10000,
-      required: true
+    title: String,
+    list: {
+      type: Array,
+      default: () => []
     }
   },
-  computed: {
-    ...mapState({
-      provinceUser: ({ dataAnalysis }) => dataAnalysis.provinceUser
-    })
+  data() {
+    return {
+      maxNum: {
+        type: Number,
+        default: 1000
+      }
+    };
+  },
+  beforeMount() {
+    if (this.list) {
+      this.maxNum = this.list[0].value;
+    }
+  },
+  watch: {
+    list(val) {
+      if (val.length) {
+        this.maxNum = val[0].value;
+      }
+    }
   },
   methods: {
     calcPercentWidth(val) {

@@ -5,11 +5,6 @@
         <div class="trend-header-title">新增用户趋势分析</div>
         <div class="trend-header-right">
           <div class="trend-header-right__query">
-            <el-form-item class="normalize-form-item adduser-trend-dimen" prop="provinceSelected">
-              <el-select class="user-form-item__input" placeholder="请选择" v-model="adduserTrend.selected" @change="provinceChange">
-                <el-option v-for="(val, key) in addUserTrendDimension" :key="val" :label="val" :value="Number(key)" />
-              </el-select>
-            </el-form-item>
             <el-form-item class="normalize-form-item" prop="checkDate">
               <el-form-item class="normalize-form-item float-left" prop="startDate">
                 <el-date-picker class="user-form-item__input" type="month" placeholder="选择开始日期" v-model="trend.startDate" @change="triggerValidate()" />
@@ -71,7 +66,7 @@
 <script>
 import Column from 'components/chart/Column.vue';
 import NoData from 'components/NoData.vue';
-import { ADDUSER_TREND_RADIO, ADD_USER_TREND_DIMENSION } from '@/config';
+import { ADDUSER_TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
@@ -96,7 +91,6 @@ export default {
       }
     };
     return {
-      addUserTrendDimension: ADD_USER_TREND_DIMENSION,
       trendRadio: ADDUSER_TREND_RADIO,
       mobileIpArr: ['移动IP用户', '非移动IP用户'],
       activeTrendRules: {
@@ -184,7 +178,6 @@ export default {
   },
   computed: {
     ...mapState({
-      adduserTrend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
       trend: ({ dataAnalysis }) => dataAnalysis.trend,
       trendList: ({ dataAnalysis }) => dataAnalysis.trendList,
       trendNewMembers: ({ dataAnalysis }) => dataAnalysis.trendNewMembers,
@@ -253,11 +246,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.adduser-trend-dimen {
-  width: 160px;
-  margin-right: 16px;
-}
-</style>
-

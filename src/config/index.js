@@ -286,6 +286,13 @@ export const TREND_RADIO = {
   3: '新增会员用户'
 };
 
+export const ADDUSER_TREND_RADIO = {
+  0: '新增用户',
+  1: '新增手机用户',
+  2: '新增游客用户',
+  3: '新增会员用户',
+};
+
 export const RETENTION_TREND_RADIO = {
   0: '新增用户留存率',
   1: '留存用户流失率'
@@ -408,4 +415,9 @@ export const FILE_TYPE_ID = {
   product: 502,
   requirement: 503,
   visit: 504
+};
+
+export const ADD_USER_TREND_DIMENSION = {
+  0: '全国',
+  1: '大区'
 };
