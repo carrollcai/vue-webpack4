@@ -122,7 +122,7 @@ export default {
   /**
    * 根据名称模糊查询集团信息
    */
-  getGroupNameAPI: API('/esop/organize/queryLikeVendorName'),
+  getGroupNameAPI: API('/esop/organize/queryLikeName'),
   /* 产品管理 */
   // 产品总览
   // 产品创建管理

@@ -95,7 +95,7 @@ const mutations = {
     state.tagLibraryList = data;
   },
   [types.GROUP_NAME_LIST](state, data) {
-    state.groupNameList = data.map(val => Object.assign(val, {value: val.vendorName}));
+    state.groupNameList = data.map(val => Object.assign(val, {value: val.organizeName}));
   },
   [types.GROUP_CUSTOMER_MANAGERS](state, data) {
     state.groupCustomerManagerList = data.map(val => Object.assign(val, {value: val.staffName}));
