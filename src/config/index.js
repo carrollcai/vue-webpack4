@@ -24,7 +24,7 @@ export const MENU_PERMISSIONS = [
     url: '/data-extraction',
     icon: 'icon-client',
     enable: false,
-    children: [
+    // children: [
       {
         menuId: 36,
         parentId: 35,

@@ -148,7 +148,7 @@
 <script>
 import mixins from './mixins';
 import {mapState} from 'vuex';
-const sexList = [{label: '男', value: '0'}, {label: '女', value: '1'}];
+const sexList = [{label: '男', value: '1'}, {label: '女', value: '2'}];
 export default {
   mixins: [mixins],
   data() {
