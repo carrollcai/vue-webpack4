@@ -184,36 +184,36 @@ export const MENU_PERMISSIONS = [
       }
     ]
   },
-  {
-    menuId: 12,
-    name: '订单管理',
-    url: '/order',
-    icon: 'icon-order',
-    enable: false,
-    children: [
-      {
-        menuId: 13,
-        parentId: 12,
-        name: '订单总览',
-        url: '/order/overview',
-        enable: false
-      },
-      {
-        menuId: 14,
-        parentId: 12,
-        name: '订单创建管理',
-        url: '/order/create-manage',
-        enable: false
-      },
-      {
-        menuId: 15,
-        parentId: 12,
-        name: '订单处理任务',
-        url: '/order/handle-task',
-        enable: false
-      }
-    ]
-  },
+  // {
+  //   menuId: 12,
+  //   name: '订单管理',
+  //   url: '/order',
+  //   icon: 'icon-order',
+  //   enable: false,
+  //   children: [
+  //     {
+  //       menuId: 13,
+  //       parentId: 12,
+  //       name: '订单总览',
+  //       url: '/order/overview',
+  //       enable: false
+  //     },
+  //     {
+  //       menuId: 14,
+  //       parentId: 12,
+  //       name: '订单创建管理',
+  //       url: '/order/create-manage',
+  //       enable: false
+  //     },
+  //     {
+  //       menuId: 15,
+  //       parentId: 12,
+  //       name: '订单处理任务',
+  //       url: '/order/handle-task',
+  //       enable: false
+  //     }
+  //   ]
+  // },
   {
     menuId: 30,
     name: '走访管理',

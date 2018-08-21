@@ -119,7 +119,7 @@ export default {
       this.$router.push({path: '/product/create'});
     },
     toPageDetail(row) {
-      this.$router.push(`/product/product-detail/${row.productId}?isDetail=1`);
+      this.$router.push(`/product/product-audit-detail/${row.productId}?isDetail=1`);
     },
     toPageAudit(row) {
       this.$router.push(`/product/product-audit/${row.productId}/${row.taskInsId}/${row.businessStatus}`);

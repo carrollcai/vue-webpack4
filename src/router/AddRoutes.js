@@ -159,7 +159,12 @@ const dynamicRoutes = [
         component: ProductAudit,
         meta: { menuId: 39 }
       },
-
+      {
+        path: '/product/product-audit-detail/:id',
+        name: 'product-details',
+        component: ProductDetail,
+        meta: { menuId: 39 }
+      },
       {
         path: '/business-manage/business',
         name: 'business',
