@@ -260,4 +260,3 @@ export default {
   margin-right: 16px;
 }
 </style>
-
