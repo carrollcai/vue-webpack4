@@ -116,7 +116,8 @@ export default {
     ...mapState({
       downloadForm: ({ dataExtraction }) => dataExtraction.downloadForm,
       dataDownloadList: ({ dataExtraction }) => dataExtraction.dataDownloadList,
-      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList.list
+      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList.list,
+      hasSignedFile: ({ order }) => order.hasSignedFile
     })
   },
   beforeMount() {
@@ -150,14 +151,16 @@ export default {
       this.confirm(info, name, id);
     },
     downloadFile(row) {
-      let name = 'esop产品安装清单.xlsx';
-      let path = '20180730103257_c2c7aa0c-bf1a-47c5-b056-f21c590a18c6';
-      let data = {
-        fileTypeId: 502,
-        fileSaveName: path,
-        fileName: name
-      };
-      this.dataDownLoadFile(data);
+      this.gethasSignedFile({fileInputId: Number(row.fileId)}).then(res => {
+        if (this.hasSignedFile && this.hasSignedFile.length > 0) {
+          let res = this.hasSignedFile[0];
+          this.orderDownloadFile({
+            fileTypeId: res.fileTypeId,
+            fileSaveName: res.fileSaveName,
+            fileName: res.fileName
+          });
+        }
+      });
     },
     viewDetail(row) {
       let path = `/data-extraction/data-detail/${row.id}?processInsId=${row.processInsId}&businessStatus=${row.extractBusinessStatus}&isAudit=false`;
@@ -221,7 +224,8 @@ export default {
     ...mapActions([
       'queryDataDownload',
       'deleteDownLoadData',
-      'dataDownLoadFile',
+      'gethasSignedFile',
+      'orderDownloadFile',
       'queryDataTask'
     ])
   }

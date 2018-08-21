@@ -34,7 +34,9 @@ export default {
       }
     },
     ageData() {
-      if (this.infoData.age) {
+      if (this.infoData.age === '不限') {
+        return '不限';
+      } else if (this.infoData.age) {
         let arr = (this.infoData.age).split(';');
         let ageArr = '';
         if (arr && arr.length) {

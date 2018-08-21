@@ -22,6 +22,16 @@
                 :options="processorList"
                 v-model="applyFrom.province">
               </el-cascader>
+              <!-- <div>
+                <el-tag
+                  :key="tag"
+                  v-for="tag in applyFrom.name"
+                  closable
+                  :disable-transitions="false"
+                  @close="handleClose(tag)">
+                  {{tag}}
+                </el-tag>
+              <div> -->
             </el-form-item>
             <el-form-item style="margin-left: 26px;">
               <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>

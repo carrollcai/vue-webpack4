@@ -36,6 +36,8 @@ export default {
   },
   methods: {
     getRegion(value) {
+      // this.applyFrom.province = [];
+      // this.applyFrom.name.push(value[1]);
       if (value.length > 1) {
         this.submitData.region = [Number(value[0])];
         this.submitData.province = [Number(value[1])];

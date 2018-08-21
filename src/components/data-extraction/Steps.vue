@@ -1,14 +1,14 @@
 <template>
 <div class="step-bg">
   <el-steps :active="activeIndex()" align-center>
-    <el-step v-for="item in processList"
+    <el-step v-for="item in processLists"
       :key="item"
       :title="item.taskName"
       :description="desc(item)"></el-step>
   </el-steps>
 
   <div style="display: flex;">
-    <div class="child" v-for="item in processList" :key="item.taskId" :style="{'flex-basis': percent()}">
+    <div class="child" v-for="item in processLists" :key="item.taskId" :style="{'flex-basis': percent()}">
       <el-popover
         v-if="item.businessStatus === '3' || item.businessStatus === 3"
         popper-class="audit-deal-result"
@@ -46,6 +46,41 @@ export default {
     });
   },
   computed: {
+    processLists() {
+      let _Data = this.processList;
+      if (_Data) {
+        let obj = null;
+        _Data.map((val) => {
+          if (val.taskName === '二级审核') {
+            if (val.businessStatus === '3') {
+              obj = {
+                hasComplete: 1,
+                hasCompleteName: '已完成',
+                taskName: '审核不通过',
+                businessStatus: '已处理',
+                sortId: val.sortId,
+                taskId: val.taskId,
+                taskKey: val.taskKey
+              };
+            } else {
+              obj = {
+                hasComplete: 0,
+                hasCompleteName: '未完成',
+                taskName: '数据生成中',
+                businessStatus: '待处理',
+                sortId: val.sortId,
+                taskId: val.taskId,
+                taskKey: val.taskKey
+              };
+            }
+            if (this.$route.name === 'data-audit-detail') {
+              _Data.push(obj);
+            }
+          }
+        });
+        return _Data;
+      }
+    },
     ...mapState({
       processList: ({ dataExtraction }) => dataExtraction.dataSteps
     })
