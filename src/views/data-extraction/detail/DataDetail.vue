@@ -15,7 +15,7 @@
     </el-breadcrumb>
   </div>
   <div class="m-container table-container">
-    <steps v-if="dataSteps" :processInsId="processInsId"></steps>
+    <steps :processInsId="processInsId" :businessStatus="businessStatus"></steps>
     <info v-if="dataDetailList" :infoData="dataDetailList"></info>
   </div>
   <div v-if="isAudit === 'true'" class="m-container table-container">
@@ -55,6 +55,7 @@ export default {
       isAudit: this.$route.query.isAudit,
       dataFrom: this.$route.query.data ? JSON.parse(this.$route.query.data) : '',
       processInsId: this.$route.query.processInsId,
+      businessStatus: this.$route.query.businessStatus,
       isToAudit: this.$route.name === 'data-audit-detail' ? 'true' : 'false',
       auditForm: {
         resultStatus: '',
