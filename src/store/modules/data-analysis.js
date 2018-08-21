@@ -2,6 +2,7 @@ import * as types from '../types';
 import { oneMonthAgo, nineDaysAgo, twoDaysAgo, sixMonthsAgo } from '@/utils/helper';
 
 const state = {
+  /* 活跃度分析 */
   // 省份和客户端对象
   activeObj: {
     provinceSelected: [],
@@ -40,7 +41,7 @@ const state = {
   // 中国地图数据
   mapData: [],
 
-  // 留存流失
+  /* 留存流失 */
   retentionObj: {
     provinceSelected: [],
     clientSelected: '咪咕视频'
@@ -57,7 +58,28 @@ const state = {
     mode: 0,
     chartRadio: 0
   },
-  retTrendList: []
+  retTrendList: [],
+
+  /* 新增用户分析 */
+  adduserObj: {
+    clientSelected: '咪咕视频',
+  },
+  adduserTrend: {
+    dateType: 0,
+    date: [new Date(nineDaysAgo), new Date(twoDaysAgo)],
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
+    mode: 0,
+    selected: 0
+  },
+  adduserMemberTrend: {
+    dateType: 0,
+    date: [new Date(nineDaysAgo), new Date(twoDaysAgo)],
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
+    mode: 0,
+    chartRadio: 0
+  }
 };
 
 const mutations = {
@@ -203,11 +225,9 @@ const mutations = {
     }
   },
   [types.ACTIVE_INIT_DATE](state, data) {
-    // state.trend.date = [new Date(nineDaysAgo), new Date(twoDaysAgo)];
   },
   [types.PROVINCER_USER_INIT_DATE](state, data) {
-
-  }
+  },
 };
 
 export default {

@@ -23,6 +23,8 @@ module.exports = {
   // add your custom rules here
   rules: {
     "comma-dangle": ["off"],
+    // 最后一行结束不强制换行
+    "eol-last": 0,
     "no-throw-literal": 0,
 
     // allow async-await

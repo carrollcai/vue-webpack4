@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span style="width: 100%">
     <slot v-if="data.length" />
     <div v-if="!data.length" class="no-data">暂无数据</div>
   </span>
@@ -10,9 +10,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: () => {
-        return [];
-      }
+      default: () => []
     }
   }
 };
