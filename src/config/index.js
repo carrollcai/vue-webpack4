@@ -18,7 +18,7 @@ export const MENU_PERMISSIONS = [
     icon: 'icon-home',
     enable: false
   },
-  /* {
+  {
     menuId: 35,
     name: '数据提取管理',
     url: '/data-extraction',
@@ -40,7 +40,7 @@ export const MENU_PERMISSIONS = [
         enable: false
       }
     ]
-  }, */
+  },
   {
     menuId: 2,
     name: '数据分析',

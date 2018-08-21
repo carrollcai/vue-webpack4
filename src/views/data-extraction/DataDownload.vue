@@ -160,7 +160,7 @@ export default {
       this.dataDownLoadFile(data);
     },
     viewDetail(row) {
-      let path = `/data-extraction/data-detail/${row.id}?processInsId=${row.processInsId}&isAudit=false`;
+      let path = `/data-extraction/data-detail/${row.id}?processInsId=${row.processInsId}&businessStatus=${row.extractBusinessStatus}&isAudit=false`;
       this.$router.push({path: path});
     },
     toDataApply(row) {

@@ -72,7 +72,7 @@ export default {
     ...mapState({
       auditForm: ({ dataExtraction }) => dataExtraction.auditForm,
       dataAuditList: ({ dataExtraction }) => dataExtraction.dataAuditList,
-      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList
+      dataTaskList: ({ dataExtraction }) => dataExtraction.dataTaskList.list
     })
   },
   beforeMount() {
