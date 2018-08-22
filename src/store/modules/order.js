@@ -5,7 +5,7 @@ import {
 } from '@/config/index.js';
 const orderCreate = {
   ordName: '',
-  predictContractAmount: null,
+  // predictContractAmount: null,
   predictSignTime: '',
   predictAgreementTime: '',
   isProjectInvitation: '1',
@@ -16,9 +16,20 @@ const orderCreate = {
   contactMobile: null,
   contactEmail: '',
   busiDesc: '',
-  busiRequire: '',
+  teamProject: '',
+  productId: null,
+  orderProductDtoList: [{
+    productId: null,
+    productName: '',
+    amount: '',
+    processor: '',
+    processorData: ''
+  }],
   productName: '',
-  productId: null
+  amount: '',
+  processor: '',
+  predictRevenue: '',
+  startProcess: ''
 };
 
 const state = {

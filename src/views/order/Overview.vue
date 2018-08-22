@@ -8,7 +8,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderOverviewForm.ordNameOrCode" placeholder="订单名称/编码" />
+            <el-input clearable v-model="orderOverviewForm.ordNameOrCode" placeholder="订单编号/名称" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
             <el-input clearable v-model="orderOverviewForm.organizeNameOrCode" placeholder="集团名称/编码" />
@@ -25,7 +25,7 @@
         <el-tab-pane label="待签约" :name="2"></el-tab-pane>
         <el-tab-pane label="待付款" :name="3"></el-tab-pane>
         <el-tab-pane label="已完成" :name="4"></el-tab-pane>
-        <el-tab-pane label="已取消" :name="5"></el-tab-pane>
+        <!-- <el-tab-pane label="已取消" :name="5"></el-tab-pane> -->
       </el-tabs>
     </div>
 
@@ -35,10 +35,10 @@
         <el-table-column label="订单名称" property="ordName" />
         <el-table-column label="创建时间" property="createDate" />
         <el-table-column label="合作集团" property="organizeName" />
-        <el-table-column label="处理人" property="processorName" />
+        <!-- <el-table-column label="处理人" property="processorName" /> -->
         <el-table-column label="订购产品及状态">
           <template slot-scope="scope">
-            {{orderStatus[scope.row.ordStatus]}}
+            <p v-for="item in scope.row.viewProductDtoList" :key="item">{{orderStatus[item.ordStatus]}}：{{item.productName}}</p>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -87,7 +87,7 @@ export default {
       this.query();
     },
     handleDetail(row) {
-      const path = `/order/overview/detail/${row.ordId}/${row.processInsId}`;
+      const path = `/order/overview/detail/${row.ordCode}/${row.processInsId}`;
       this.$router.push(path);
     },
     async onPagination(value) {

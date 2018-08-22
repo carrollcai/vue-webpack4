@@ -1,26 +1,5 @@
 <template>
   <div class="family-contact_container">
-    <!--<el-form-item
-      :prop="'contactFamilyDtoList.' + index + '.name'"
-      :rules="{
-        validator: familyNameValidator, trigger: 'blur'
-      }">
-      <el-input v-model="familyContact.name"
-        placeholder="姓名"
-        key="name"
-        :maxlength="6"></el-input>
-    </el-form-item>
-    <span class="line"></span>
-    <el-form-item
-      :prop="'contactFamilyDtoList.' + index + '.relationship'"
-      :rules="{
-        validator: familyRelationshipValidator, trigger: 'blur'
-      }">
-      <el-input v-model="familyContact.relationship"
-        placeholder="与本人关系"
-        key="relation"
-        :maxlength="10"></el-input>
-    </el-form-item>-->
     <el-form-item
       :prop="'contactFamilyDtoList.' + index + '.name'"
       :rules="{
@@ -53,28 +32,6 @@
         key="remark"
         :maxlength="50"></el-input>
     </el-form-item>
-    <!--<el-form-item
-      :prop="'contactFamilyDtoList.' + index + '.jobDuty'"
-      :rules="{
-        validator: familyJobValidator, trigger: 'blur'
-      }">
-      <el-input v-model="familyContact.jobDuty"
-        placeholder="工作职务"
-        key="job"
-        :maxlength="15"></el-input>
-    </el-form-item>
-    <span class="line"></span>
-    <el-form-item
-      :prop="'contactFamilyDtoList.' + index + '.mobile'"
-      class="family-contact-mobile"
-      :rules="{
-        validator: familyMobileValidator, trigger: 'blur'
-      }">
-      <el-input v-model="familyContact.mobile"
-        placeholder="联系电话"
-        key="mobile"
-        :maxlength="11"></el-input>
-    </el-form-item>-->
   </div>
 </template>
 

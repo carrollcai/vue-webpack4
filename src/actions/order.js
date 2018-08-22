@@ -122,7 +122,7 @@ const actions = {
     return API.setConnectOriganizeAPI(params);
   },
   getOrderOverviewDetail: ({ commit }, params) => {
-    return API.getOrderDetailAPI(params).then(res => {
+    return API.getOverViewDetailAPI(params).then(res => {
       commit(types.ORDER_OVERVIEW_GET_DETAIL, res.data);
     });
   },
