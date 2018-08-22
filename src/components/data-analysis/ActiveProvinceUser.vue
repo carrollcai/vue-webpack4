@@ -1,7 +1,10 @@
 <template>
   <div class="province-user block-containter">
     <div class="province-user-header">
+      <!--
       <div class="provinceUser-header-title">各省{{!provinceUser.dateType ? '日' : '月'}}活跃用户情况</div>
+      -->
+      <div class="provinceUser-header-title">{{title}}</div>
       <el-form ref="provinceUserForm" :model="provinceUser" :rules="provinceUserRules" class="flex">
         <el-form-item class="normalize-form-item">
           <el-radio-group v-model="provinceUser.dateType" size="small" @change="dateTypeChange">
@@ -9,7 +12,8 @@
             <el-radio-button :label="1">按月</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item class="normalize-form-item provinceUser-search">查询：</el-form-item>
+        <!-- <el-form-item class="normalize-form-item provinceUser-search">查询：</el-form-item> -->
+        <el-form-item class="normalize-form-item provinceUser-search"></el-form-item>
         <el-form-item v-if="!provinceUser.dateType" prop="date" class="normalize-form-item">
           <el-date-picker type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" @change="query" />
         </el-form-item>
@@ -22,7 +26,6 @@
             <el-date-picker class="user-form-item__input" type="month" placeholder="选择结束日期" v-model="provinceUser.endDate" @change="triggerValidate()" />
           </el-form-item>
         </el-form-item>
-
       </el-form>
     </div>
     <div class="province-user-chart">
@@ -31,7 +34,8 @@
           <div class="province-user-chart__map">
             <Map :id="'adduserMap'" :charData="provinceUserList" :width="700" :height="500" />
           </div>
-          <rank :list="provinceUserList" :title="`${!provinceUser.dateType ? '日' : '月'}活全国排名情况：`" />
+          <!-- <rank :list="provinceUserList" :title="`${!provinceUser.dateType ? '日' : '月'}活全国排名情况：`" /> -->
+          <rank :list="provinceUserList" />
         </div>
       </no-data>
     </div>
@@ -46,6 +50,12 @@ import NoData from 'components/NoData.vue';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
 
 export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  },
   components: {
     Map,
     Rank,

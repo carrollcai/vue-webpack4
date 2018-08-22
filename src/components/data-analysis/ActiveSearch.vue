@@ -1,6 +1,7 @@
 <template>
   <el-form ref="activeSearchForm" :model="activeObj" :rules="activeSearchRules" class="active-search block-containter">
     <div class="active-search__select">
+      <!--
       <div class="active-search__province">
         <el-form-item class="normalize-form-item">省份：</el-form-item>
         <el-form-item class="normalize-form-item" prop="provinceSelected">
@@ -10,6 +11,7 @@
           </el-select>
         </el-form-item>
       </div>
+      -->
       <div class="active-search__client">
         <el-form-item class="normalize-form-item">客户端：</el-form-item>
         <el-form-item class="normalize-form-item" prop="clientSelected">

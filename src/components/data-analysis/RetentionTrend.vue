@@ -1,20 +1,42 @@
 <template>
   <div class="active-trend block-containter">
     <div class="trend-header">
-      <div class="trend-header-title">留存流失分析</div>
+      <div class="trend-header-title">留存流失趋势分析</div>
       <div class="trend-header-right">
         <div class="trend-header-right__query">
           <el-form ref="retTrendForm" :model="retTrend" :rules="retTrendTrendRules" class="flex">
-            <el-form-item class="normalize-form-item">
+            <!-- <el-form-item class="normalize-form-item">
               查询：
+            </el-form-item> -->
+            <el-form-item class="normalize-form-item" v-if="isWholeCountry">
+              <el-select class="user-form-item__input"
+                v-model="retTrend.district"
+                placeholder="请选择"
+                @change="provinceChange">
+                <el-option :key="null" label="全国" :value="null" />
+                <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.value" :value="item.value" />
+              </el-select>
             </el-form-item>
-            <el-form-item class="normalize-form-item" prop="checkDate">
+
+            <el-form-item class="normalize-form-item trend-header-right__query" prop="checkDate">
               <el-form-item class="normalize-form-item float-left" prop="startDate">
-                <el-date-picker type="month" placeholder="选择开始日期" v-model="retTrend.startDate" @change="triggerValidate()" />
+                <el-date-picker type="month"
+                  placeholder="选择开始日期"
+                  v-model="retTrend.startDate"
+                  :editable="false"
+                  :clearable="false"
+                  :picker-options="startOptions"
+                  @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
               <el-form-item class="normalize-form-item float-left" prop="endDate">
-                <el-date-picker type="month" placeholder="选择结束日期" v-model="retTrend.endDate" @change="triggerValidate()" />
+                <el-date-picker type="month"
+                  placeholder="选择结束日期"
+                  :editable="false"
+                  :clearable="false"
+                  v-model="retTrend.endDate"
+                  :picker-options="endOptions"
+                  @change="triggerValidate()" />
               </el-form-item>
             </el-form-item>
           </el-form>
@@ -47,7 +69,7 @@
     <div class="trend-mode">
       <div v-if="!retTrend.mode" class="trend-chart">
         <div class="no-data" v-if="Object.isNullArray(retTrendList)">暂无数据</div>
-        <line-chart v-else :charData="retTrendList" :id="'line'" :temperature="true" />
+        <multi-line v-else :charData="retTrendData" :id="'line'" :fields="retTrendFields" />
       </div>
       <div v-else>
         <wm-table :source="retTrendList" :max-height="500">
@@ -65,15 +87,34 @@
 </template>
 
 <script>
+import moment from 'moment';
 import LineChart from 'components/chart/Line.vue';
+import MultiLine from 'components/chart/MultiLine.vue';
 import { RETENTION_TREND_RADIO } from '@/config';
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
 import { startDateBeforeEndDate, monthRange } from '@/utils/rules.js';
+import mixins from './mixins';
 
 export default {
+  mixins: [mixins],
+  props: {
+    isWholeCountry: {
+      type: Boolean,
+      default: false
+    },
+    isProvince: {
+      type: Boolean,
+      default: false
+    },
+    isDistrict: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     LineChart,
+    MultiLine,
     WmTable
   },
   data() {
@@ -89,6 +130,7 @@ export default {
         monthRange(startDate, endDate, callback);
       }
     };
+    const that = this;
     return {
       trendRadio: RETENTION_TREND_RADIO,
       retTrendTrendRules: {
@@ -102,13 +144,33 @@ export default {
           { validator: checkDate, trigger: 'change' },
           { validator: checkRangeDate, trigger: 'change' }
         ]
+      },
+      startOptions: {
+        disabledDate(time) {
+          if (that.retTrend.endDate) {
+            return (time.getTime() < moment(that.retTrend.endDate).add(-12, 'months').toDate().getTime()) || (time.getTime() > new Date(that.retTrend.endDate).getTime());
+          } else {
+            return time.getTime() > Date.now();
+          }
+        }
+      },
+      endOptions: {
+        disabledDate(time) {
+          if (that.retTrend.startDate) {
+            return (time.getTime() > moment(that.retTrend.startDate).add(12, 'months').toDate().getTime()) || (time.getTime() < new Date(that.retTrend.startDate).getTime());
+          } else {
+            return time.getTime() > Date.now();
+          }
+        }
       }
     };
   },
   computed: {
     ...mapState({
       retTrend: ({ dataAnalysis }) => dataAnalysis.retTrend,
-      retTrendList: ({ dataAnalysis }) => dataAnalysis.retTrendList
+      retTrendList: ({ dataAnalysis }) => dataAnalysis.retTrendList,
+      retTrendData: ({ dataAnalysis }) => dataAnalysis.retTrendData,
+      retTrendFields: ({ dataAnalysis }) => dataAnalysis.retTrendFields
     })
   },
   beforeMount() {
@@ -126,21 +188,16 @@ export default {
         this.query();
       }
     },
-    changeRadio(val) {
-      // 留存用户流失率
-      this.updateRetTrendList({ chartRadio: val });
+    changeRadio() {
+      this.$emit('trend');
     },
     query() {
-      const { retTrend } = this;
       this.$refs['retTrendForm'].validate(valid => {
         if (valid) {
-          this.getRetTrendList(retTrend);
+          this.$emit('query');
         }
       });
     },
-    ...mapMutations({
-      updateRetTrendList: 'RETENTION_UPDATE_TREND_LIST'
-    }),
     ...mapActions([
       'getRetTrendList',
       'downloadRetTrendDataAnalysis'
