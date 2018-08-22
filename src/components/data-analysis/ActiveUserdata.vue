@@ -20,11 +20,15 @@
           <div class="userdata-main-left__num">{{dailyUser.mobileAccount}}</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">移动IP用户 / 非移动IP用户</div>
-          <div class="userdata-main-left__num">{{dailyUser.mobileIp + ' / ' + dailyUser.unmobileIp}}</div>
+          <div class="userdata-main-left__title ellipsis">移动IP用户</div>
+          <div class="userdata-main-left__num">{{dailyUser.mobileIp}}</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">新增会员用户</div>
+          <div class="userdata-main-left__title ellipsis">非移动IP用户</div>
+          <div class="userdata-main-left__num">{{dailyUser.unmobileIp}}</div>
+        </div>
+        <div class="userdata-main-left__outer">
+          <div class="userdata-main-left__title ellipsis">{{!activeObj.dateType ? '日' : '月'}}活排名情况</div>
           <div class="userdata-main-left__num">{{dailyUser.newMembers}}</div>
         </div>
       </div>

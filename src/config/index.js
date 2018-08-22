@@ -280,10 +280,17 @@ export const PAGE_NO = 1;
 export const PAGE_SIZE = 20;
 
 export const TREND_RADIO = {
-  0: '日活跃用户数',
+  0: '活跃用户',
   1: '手机账号登录用户',
-  2: '移动IP用户 / 非移动IP用户',
-  3: '新增会员用户'
+  2: '移动IP用户',
+  3: '非移动IP用户'
+};
+
+export const TREND_RADIO_PROPERTY = {
+  0: 'activeNum',
+  1: 'msisdnNum',
+  2: 'chinaMobileIpNum',
+  3: 'otherIpNum'
 };
 
 export const ADDUSER_TREND_RADIO = {
@@ -296,6 +303,11 @@ export const ADDUSER_TREND_RADIO = {
 export const RETENTION_TREND_RADIO = {
   0: '新增用户留存率',
   1: '留存用户流失率'
+};
+
+export const RETENTION_TREND_RADIO_PORPERTY = {
+  0: 'newUserRetPer',
+  1: 'retLossPer'
 };
 
 /* rules 限制 */

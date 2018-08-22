@@ -1,6 +1,13 @@
 import * as types from '../types';
 import { oneMonthAgo, nineDaysAgo, twoDaysAgo, sixMonthsAgo } from '@/utils/helper';
 
+import {
+  TREND_RADIO,
+  TREND_RADIO_PROPERTY,
+  RETENTION_TREND_RADIO,
+  RETENTION_TREND_RADIO_PORPERTY
+} from '@/config';
+
 const state = {
   /* 活跃度分析 */
   // 省份和客户端对象
@@ -26,9 +33,12 @@ const state = {
     startDate: new Date(sixMonthsAgo),
     endDate: new Date(oneMonthAgo),
     mode: 0,
-    chartRadio: 0
+    chartRadio: 0,
+    district: null
   },
   trendList: [],
+  trendData: [],
+  trendFields: [],
   trendNewMembers: [],
   // 第三模块
   provinceUser: {
@@ -56,9 +66,13 @@ const state = {
     startDate: new Date(sixMonthsAgo),
     endDate: new Date(oneMonthAgo),
     mode: 0,
-    chartRadio: 0
+    chartRadio: 0,
+    district: null
   },
   retTrendList: [],
+
+  retTrendData: [],
+  retTrendFields: [],
 
   /* 新增用户分析 */
   adduserObj: {
@@ -95,10 +109,7 @@ const mutations = {
     });
   },
   [types.TREND_GET_LIST](state, data) {
-    state.trendList = data.map(val => {
-      val.value = parseInt(val.activeNum);
-      return val;
-    });
+    state.trendList = data;
   },
   [types.TREND_GET_NEW_MEMBERS](state, data) {
     let uniqueMembers = [];
@@ -138,24 +149,103 @@ const mutations = {
   },
   [types.ACTIVE_UPDATE_TREND](state, data) {
     switch (data.chartRadio) {
+      // 活跃用户
       case 0:
-        state.trendList = state.trendList.map(val => {
+        /* state.trendList = state.trendList.map(val => {
           val.value = parseInt(val.activeNum);
           return val;
-        });
-        break;
-      case 1:
-        state.trendList = state.trendList.map(val => {
-          val.value = parseInt(val.msisdnNum);
+        }); */
+
+        state.trendData = state.trendList.map(val => {
+          val['活跃用户'] = parseInt(val.activeNum);
           return val;
         });
+
+        state.trendFields = ['活跃用户'];
+
         break;
+      // 手机账号登录用户
+      case 1:
+        state.trendData = state.trendList.map(val => {
+          val['手机账号登录用户'] = parseInt(val.msisdnNum);
+          return val;
+        });
+
+        state.trendFields = ['手机账号登录用户'];
+        break;
+      // 移动IP用户
       case 2:
+        state.trendData = state.trendList.map(val => {
+          val['移动IP用户'] = parseInt(val.chinaMobileIpNum);
+          return val;
+        });
+
+        state.trendFields = ['移动IP用户'];
         break;
+      // 非移动IP用户
       case 3:
+        state.trendData = state.trendList.map(val => {
+          val['非移动IP用户'] = parseInt(val.otherIpNum);
+          return val;
+        });
+
+        state.trendFields = ['非移动IP用户'];
         break;
       default:
         console.error('类型不支持');
+    }
+  },
+  // 省份 - 活跃度趋势分析
+  [types.ACTIVE_UPDATE_PROVINCE_TREND](state, data) {
+    let type = data.chartRadio;
+    let label = TREND_RADIO[type];
+
+    if (label) {
+      let list = Object.assign([], state.trendList);
+      state.trendData = list.map(val => {
+        val[label] = parseInt(val[TREND_RADIO_PROPERTY[type]]);
+        return val;
+      });
+      state.trendFields = [label];
+    } else {
+      state.trendData = [];
+      state.trendFields = [];
+    }
+  },
+  // 大区 - 活跃度趋势分析
+  // TODO
+  [types.ACTIVE_UPDATE_DISTRICT_TREND](state, data) {
+    let type = data.chartRadio;
+    let label = TREND_RADIO[type];
+
+    if (label) {
+      let list = Object.assign([], state.trendList);
+      state.trendData = list.map(val => {
+        val[label] = parseInt(val[TREND_RADIO_PROPERTY[type]]);
+        return val;
+      });
+      state.trendFields = [label];
+    } else {
+      state.trendData = [];
+      state.trendFields = [];
+    }
+  },
+  // 全国 - 活跃度趋势分析
+  // TODO
+  [types.ACTIVE_UPDATE_COUNTRY_TREND](state, data) {
+    let type = data.chartRadio;
+    let label = TREND_RADIO[type];
+
+    if (label) {
+      let list = Object.assign([], state.trendList);
+      state.trendData = list.map(val => {
+        val[label] = parseInt(val[TREND_RADIO_PROPERTY[type]]);
+        return val;
+      });
+      state.trendFields = [label];
+    } else {
+      state.trendData = [];
+      state.trendFields = [];
     }
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {
@@ -207,21 +297,24 @@ const mutations = {
       val.newUserRetPer = (val.newRetainNum / val.newMembersNum * 100).toFixed(1) + '%';
       val.retLossPer = (val.dropoutNum / val.retainNum * 100).toFixed(1) + '%';
       // 方便图表字段展示, toFix()返回的是string。
-      val.value = parseFloat(val.newUserRetPer.replace('%', '')) | 0;
+      // val.value = parseFloat(val.newUserRetPer.replace('%', '')) | 0;
       return val;
     });
   },
-  [types.RETENTION_UPDATE_TREND_LIST](state, data) {
-    if (data.chartRadio) {
-      state.retTrendList = state.retTrendList.map(val => {
-        val.value = parseFloat(val.retLossPer.replace('%', '')) | 0;
+  // 省份-留存流失趋势分析
+  [types.RETENTION_UPDATE_PROVINCE_TREND_LIST](state, data) {
+    let type = data.chartRadio;
+    let label = RETENTION_TREND_RADIO[type];
+    if (label) {
+      let list = Object.assign([], state.retTrendList);
+      state.retTrendData = list.map(val => {
+        val[label] = parseFloat(val[RETENTION_TREND_RADIO_PORPERTY[type]].replace('%', '')) | 0;
         return val;
       });
+      state.retTrendFields = [label];
     } else {
-      state.retTrendList = state.retTrendList.map(val => {
-        val.value = parseFloat(val.newUserRetPer.replace('%', '')) | 0;
-        return val;
-      });
+      state.retTrendData = [];
+      state.retTrendFields = [];
     }
   },
   [types.ACTIVE_INIT_DATE](state, data) {
