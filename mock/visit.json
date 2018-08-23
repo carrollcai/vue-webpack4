@@ -17,7 +17,8 @@
             "visitTime": "2018/07/13",
             "organizeName": "产品一",
             "isFirstGuest": "是",
-            "visitStatus": "1"
+            "visitStatus": "1",
+            "taskType": "0"
           },
           {
             "visitId": 12,
@@ -25,7 +26,8 @@
             "visitTime": "2018/07/13",
             "organizeName": "产品二",
             "isFirstGuest": "否",
-            "visitStatus": "0"
+            "visitStatus": "0",
+            "taskType": "0"
           }
         ]
       }
@@ -50,7 +52,8 @@
             "visitStartTime": "2018-06-25 20:47:46",
             "visitStatus": 0,
             "organizeName": 10070,
-            "productType": "政企市场"
+            "productType": "政企市场",
+            "taskType": "0"
           },
           {
             "visitId": 2,
@@ -59,7 +62,8 @@
             "visitStartTime": "2018-06-25 20:47:46",
             "visitStatus": 0,
             "organizeName": 10070,
-            "productType": "政企市场"
+            "productType": "政企市场",
+            "taskType": "0"
           },
           {
             "visitId": 3,
@@ -68,7 +72,8 @@
             "visitStartTime": "2018-06-25 20:47:46",
             "visitStatus": 0,
             "organizeName": 10070,
-            "productType": "政企市场"
+            "productType": "政企市场",
+            "taskType": "1"
           },
           {
             "visitId": 4,
@@ -77,7 +82,8 @@
             "visitStartTime": "2018-06-25 20:47:46",
             "visitStatus": 0,
             "organizeName": 10070,
-            "productType": "政企市场"
+            "productType": "政企市场",
+            "taskType": "1"
           },
           {
             "visitId": 5,
@@ -86,7 +92,8 @@
             "visitStartTime": "2018-06-25 20:47:46",
             "visitStatus": 0,
             "organizeName": 10070,
-            "productType": "政企市场"
+            "productType": "政企市场",
+            "taskType": "0"
           },
           {
             "visitId": 6,
@@ -95,7 +102,8 @@
             "visitStartTime": "2018-06-25 20:47:46",
             "visitStatus": 0,
             "organizeName": 10070,
-            "productType": "政企市场"
+            "productType": "政企市场",
+            "taskType": "1"
           },
           {
             "visitId": 7,
@@ -104,7 +112,8 @@
             "visitStartTime": "2018-06-25 20:47:46",
             "visitStatus": 0,
             "organizeName": 10070,
-            "productType": "政企市场"
+            "productType": "政企市场",
+            "taskType": "0"
           }
         ]
       }

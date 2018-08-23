@@ -18,26 +18,17 @@
       :model="formData"
       :rules="formDataValid"
       ref="visitRef">
-      <el-form-item label="转发人：" label-width="130px" required prop="visitEvaluator">
-        <el-select
-          v-if="processorList"
-          v-model="formData.visitEvaluator"
-          filterable placeholder="请选择">
-          <el-option
-            v-for="item in processorList"
-            :key="item.operatorId"
-            :label="item.staffName"
-            :value="item.operatorId">
-          </el-option>
-        </el-select>
+      <el-form-item label="审核结果：" label-width="140px" required prop="isCancle">
+        <el-radio v-model="formData.isCancle" :label="2">走访汇报</el-radio>
+        <el-radio v-model="formData.isCancle" :label="3">取消走访</el-radio>
       </el-form-item>
-      <el-form-item label="转发说明：" label-width="130px" required prop="feedbackNote">
-        <el-input v-model="formData.feedbackNote" placeholder="请输入"></el-input>
-      </el-form-item>
-      <el-form-item label="走访汇报：" label-width="130px" prop="feedback">
+      <el-form-item v-if="formData.isCancle === 2" label="走访汇报：" label-width="130px" prop="feedback">
         <el-input v-model="formData.feedback" placeholder="简要描述一下处理方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
-      <el-form-item label="物料上传：" label-width="130px" prop="files">
+      <el-form-item v-if="formData.isCancle === 3" label="取消原因：" label-width="130px" prop="feedback">
+        <el-input v-model="formData.feedback" placeholder="取消原因" type="textarea" :rows="4"></el-input>
+      </el-form-item>
+      <el-form-item v-if="formData.isCancle === 2" label="物料上传：" label-width="130px" prop="files">
         <el-upload class="upload-demo" action=""
           :auto-upload="false"
           :on-change="fileChange"
@@ -65,7 +56,7 @@
 import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
 import { mapState, mapActions } from 'vuex';
-import { textareaLimit, textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
+import { textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
 import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
 
@@ -81,7 +72,6 @@ export default {
       }
     },
     ...mapState({
-      processorList: ({ visit }) => visit.regionManageList,
       visitAppointDetail: ({ visit }) => visit.visitAppointDetail
     })
   },
@@ -105,20 +95,12 @@ export default {
         files: []
       },
       formData: {
-        visitEvaluator: '',
-        feedbackNote: '',
         feedback: '',
         visitId: this.$route.params.id,
-        fileInputId: ''
+        fileInputId: '',
+        isCancle: 2
       },
       formDataValid: {
-        visitEvaluator: [
-          { required: true, message: '请选择转发人', trigger: 'blur' }
-        ],
-        feedbackNote: [
-          { required: true, message: '请输入转发说明', trigger: ['change', 'blur'] },
-          { validator: textareaLimit, trigger: 'blur' }
-        ],
         feedback: [
           { required: true, message: '请输入走访汇报', trigger: 'blur' },
           { validator: textareaMaxLimit, trigger: 'blur' }
@@ -145,7 +127,6 @@ export default {
         });
       }
     });
-    await this.queryRegionManager({});
   },
   methods: {
     removeFile(file, fileList) {
@@ -183,7 +164,6 @@ export default {
     },
     ...mapActions([
       'queryVisitAppointDetail',
-      'queryRegionManager',
       'addApproveVisit',
       'getProductFileId',
       'uploadProductScheme',

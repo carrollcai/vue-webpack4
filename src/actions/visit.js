@@ -45,6 +45,7 @@ const actions = {
   },
   queryVisitAppointDetail: ({ commit }, params) => {
     return API.queryVisitAppointDetailAPI(params).then((res) => {
+      console.log(res);
       commit(types.VISIT_APPOINT_DETAIL, res.data);
     });
   },

@@ -11,17 +11,12 @@
           <el-input v-model="appointVisitForm.organizeName" clearable placeholder="走访公司名称" />
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="appointVisitForm.isFirstVisit" clearable placeholder="是否首客">
-            <el-option
-              v-for="item in firstGuestOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="appointVisitForm.visitStatusData" @change="getVisitStatus" clearable placeholder="走访状态">
+            <el-option v-for="item in taskTypeList" :key="item.value" :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-input v-model="appointVisitForm.processor" clearable placeholder="指派走访人" />
+        <el-form-item class="form-query-input-width form-left-width" @change="getProcessor">
+          <el-input v-model="appointVisitForm.processorData" clearable placeholder="走访人" />
         </el-form-item>
       </div>
       <div class="overflow-hidden">
@@ -33,10 +28,9 @@
         </el-form-item>
       </div>
     </el-form>
-    <el-tabs v-model="appointVisitForm.state" @tab-click="getState">
-      <el-tab-pane label="全部" name=""></el-tab-pane>
-      <el-tab-pane label="待执行" name="2"></el-tab-pane>
-      <el-tab-pane label="已执行" name="4"></el-tab-pane>
+    <el-tabs v-model="appointVisitForm.visitResource" @tab-click="getVisitResource">
+      <el-tab-pane label="指派列表" name="2"></el-tab-pane>
+      <el-tab-pane label="走访列表" name="1"></el-tab-pane>
     </el-tabs>
    </div>
    <div class="m-container table-container">
@@ -50,9 +44,9 @@
       <el-table-column label="走访编号" property="visitCode" width="180" />
       <el-table-column label="走访时间"  property="visitStartTime" width="180" />
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
-      <el-table-column label="指派走访人" property="processor"  width="210"/>
-      <el-table-column label="是否首客"  property="isFirstVisit" width="90" :formatter="isFirstVisitFn" />
-      <el-table-column label="走访状态"  property="visitStatus" width="90" :formatter="visitStatusFn" />
+      <el-table-column v-if="appointVisitForm.visitResource === '2'" label="指派走访人" property="processorCN"/>
+      <el-table-column v-if="appointVisitForm.visitResource === '1'" label="走访人" property="processorCN"/>
+      <el-table-column v-if="appointVisitForm.visitResource === '1'" label="走访状态" property="visitStatus" :formatter="visitStatusFn"/>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
@@ -69,6 +63,8 @@
 import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
 import {PAGE_NO, PAGE_SIZE} from '@/config/index.js';
+const visitList = [{value: '', label: '全部'}, {value: '1', label: '未完成'}, {value: '2', label: '已完成'}];
+const appointList = [{value: '', label: '全部'}, {value: '1', label: '待执行'}, {value: '2', label: '已执行'}, {value: '2', label: '已取消'}];
 export default {
   components: {
     WmTable
@@ -84,35 +80,43 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeRange: '',
-      firstGuestOption: [{
-        value: '0',
-        label: '否'
-      }, {
-        value: '1',
-        label: '是'
-      }]
+      firstGuestOption: [{value: '0', label: '否'}, {value: '1', label: '是'}],
+      taskTypeList: appointList
     };
   },
   beforeMount() {
     this.query();
   },
   methods: {
-    isFirstVisitFn(row, clo, value) {
-      if (value === '0') {
-        return '否';
+    getProcessor(value) {
+      if (value !== '') {
+        this.appointVisitForm.processor = [value];
       } else {
-        return '是';
+        this.appointVisitForm.processor = [];
+      }
+    },
+    getVisitStatus(value) {
+      if (value !== '') {
+        this.appointVisitForm.visitStatus = [value];
+      } else {
+        this.appointVisitForm.visitStatus = [];
       }
     },
     visitStatusFn(row, clo, value) {
-      if (value === '1') {
-        return '待审核';
-      } else if (value === '2') {
-        return '待执行';
-      } else if (value === '3') {
-        return '已驳回';
-      } else if (value === '4') {
-        return '已完成';
+      if (this.appointVisitForm.visitResource === '1') {
+        if (value === '1') {
+          return '待执行';
+        } else if (value === '2') {
+          return '已执行';
+        } else if (value === '2') {
+          return '已取消';
+        }
+      } else {
+        if (value === '1') {
+          return '未完成';
+        } else if (value === '2') {
+          return '已完成';
+        }
       }
     },
     getTimeRange(time) {
@@ -132,22 +136,33 @@ export default {
       this.appointVisitForm.pageSize = value;
       this.query();
     },
-    getState(value) {
+    getVisitResource(value) {
       this.appointVisitForm.pageNo = this.pageNo;
       this.appointVisitForm.pageSize = this.pageSize;
-      if (value.name !== '') {
-        this.appointVisitForm.visitStatus = [value.name];
+      if (value.name === '1') {
+        this.taskTypeList = appointList;
       } else {
-        this.appointVisitForm.visitStatus = [];
+        this.taskTypeList = visitList;
       }
+      this.appointVisitForm.visitStatusData = '';
+      this.appointVisitForm.visitStatus = [];
       this.query();
     },
     viewDetail(row, execution) {
-      let path = `/visit/visit-appoint-detail/${row.visitId}?isExecute=${execution}`;
+      let path = '';
+      if (this.appointVisitForm.visitResource === '1') {
+        this.appointVisitForm.visitResource = '2';
+        this.query();
+      } else {
+        path = `/visit/visit-appoint-detail/${row.visitId}?isExecute=${execution}`;
+      }
+      // path = `/visit/visit-appoint-detail/${row.visitId}?isExecute=${execution}`;
       this.$router.push(path);
     },
     query() {
       let { state, ...params } = this.appointVisitForm;
+      delete params.visitStatusData;
+      delete params.processorData;
       this.getAppointVisitList(params);
     },
     createVisitApplication() {

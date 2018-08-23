@@ -1,0 +1,30 @@
+@import "scss/variables.scss";
+.visit-create {
+  margin-top: $blockWidth;
+  display: flex;
+  justify-content: center;
+  form {
+    width: 562px;
+    margin-right: 90px;
+  }
+  .hr {
+    margin: 0px 32px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .hr:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 960px;
+    margin-right: -275px;
+    border-bottom: 1px #e5e5e5 solid;
+  }
+  .el-form-item__content {
+    margin-right: 0; display: flex;
+    .form-input-medium, .el-input, .form-input-large, .el-select {
+      flex: 1;
+    }
+  }
+}
