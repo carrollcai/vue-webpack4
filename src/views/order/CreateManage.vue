@@ -8,7 +8,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderCreateManageForm.ordNameOrCode" placeholder="订单名称/编码" />
+            <el-input clearable v-model="orderCreateManageForm.ordNameOrCode" placeholder="订单编号/名称" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
             <el-input clearable v-model="orderCreateManageForm.organizeNameOrCode" placeholder="合作集团/编码" />
@@ -60,12 +60,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="处理人" property="processorName" />
-        <el-table-column label="订单状态">
+        <el-table-column label="联系人" property="processorName" />
+        <!-- <el-table-column label="订单状态">
           <template slot-scope="scope">
             {{orderStatus[scope.row.ordStatus]}}
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
@@ -195,7 +195,7 @@ export default {
         await this.deleteOrderRow({ ordId: row.ordId });
         await this.$message({
           type: 'success',
-          message: '删除成功'
+          message: '您已成功删除该条订单！'
         });
         await this.query();
       }).catch(() => {
@@ -221,7 +221,7 @@ export default {
       });
     },
     handleDetail(row) {
-      const path = `/order/create-manage/detail/${row.ordId}${row.processInsId ? `/${row.processInsId}` : ''}`;
+      const path = `/order/create-manage/detail/${row.ordCode}${row.processInsId ? `/${row.processInsId}` : ''}`;
       this.$router.push(path);
     },
     handleCreate() {

@@ -16,12 +16,23 @@
         <el-form-item label="选择地区：">
           <div class="flex-row">
 
-            <el-form-item prop="visitAuditor">
+            <el-form-item class="multilevel-linkage" prop="visitAuditor">
               <el-cascader style="width: 392px;" v-if="processorList"
+                @active-item-change="itemChange"
                 @change="getRegion"
                 :options="processorList"
                 v-model="applyFrom.province">
               </el-cascader>
+              <div class="tag-list">
+                <el-tag
+                  :key="tag"
+                  v-for="tag in applyFrom.provinceList"
+                  closable
+                  :disable-transitions="false"
+                  @close="handleClose(tag)">
+                  {{tag}}
+                </el-tag>
+              </div>
             </el-form-item>
             <el-form-item style="margin-left: 26px;">
               <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
@@ -191,6 +202,7 @@ export default {
         {label: '显示', value: '1', type: 0}
       ],
       applyFrom: {
+        provinceList: [],
         name: '',
         extractDate: '',
         extractDateType: '1',

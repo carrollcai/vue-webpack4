@@ -49,3 +49,11 @@
     .el-checkbox {margin-left: 0; margin-right: 30px;}
   }
 }
+.multilevel-linkage {
+  position: relative;
+  .tag-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

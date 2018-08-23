@@ -17,14 +17,11 @@ export default {
   },
   beforeMount() {
     this.$nextTick(() => {
-      // let prams = {};
-      // this.queryDataExtractionSteps();
-      this.queryDataDetail({id: this.id});
+      this.queryDataDetail({id: Number(this.id)});
     });
   },
   computed: {
     ...mapState({
-      // dataSteps: ({ dataExtraction }) => dataExtraction.dataSteps.list,
       dataDetailList: ({ dataExtraction }) => dataExtraction.dataDetailList
     })
   },
@@ -43,7 +40,6 @@ export default {
       this.$router.push({path: '/data-extraction/data-audit'});
     },
     ...mapActions([
-      // 'queryDataExtractionSteps',
       'queryDataDetail',
       'auditDataExtraction'
     ])

@@ -25,69 +25,118 @@
 
         <detail-content :orderOverviewDetail="handleTaskDetail" />
       </div>
+      <!-- 待签约 -->
       <div v-if="routeType === 'pay' || routeType === 'sign'" class="detail-line"></div>
-
-      <el-form class="handle-task-detail-form"
-      label-width="112px"
-      ref="assign"
-      v-if="routeType === 'sign'"
-      :model="assignForm"
-      :rules="assignRules">
-        <el-form-item label="处理结果：">
-          <el-radio v-model="assignForm.status" :label="1">完成签约</el-radio>
-          <el-radio v-model="assignForm.status" :label="0">客户取消</el-radio>
-        </el-form-item>
-        <el-form-item label="签约时间：" v-if="assignForm.status === 1">
-          <el-date-picker class="form-input-large"
-          v-model="assignForm.time"
-          type="date"
-          format="yyyy-MM-dd"
-          :editable="false" />
-        </el-form-item>
-        <el-form-item v-if="assignForm.status === 1" label="签约合同：" prop="files" required>
-          <!-- accept属性不能完全支持 -->
-          <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files">
-            <el-button slot="trigger" size="small">
-              <i class="icon-up margin-right-8"></i>上传文件
-            </el-button>
-            <div slot="tip" class="el-upload__tip">
-              <p class="lh1-5">{{FILE_TIP[0]}}</p>
-              <p class="lh1-5">{{FILE_TIP[1]}}</p>
-            </div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="是否落收反馈：" v-if="assignForm.status === 1">
-          <el-radio v-model="assignForm.status" :label="1">是</el-radio>
-          <el-radio v-model="assignForm.status" :label="0">否</el-radio>
-        </el-form-item>
-        <el-form-item v-if="assignForm.status === 1" label="备注：" prop="dealResult">
-          <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
-        </el-form-item>
-        <el-form-item v-if="assignForm.status !== 1" label="取消原因：" prop="dealResult">
-          <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
-        </el-form-item>
-        <el-form-item>
+      <div v-if="routeType === 'sign'" class="p-table">
+        <dl class="tHead">
+          <dt class="tH01">订购产品</dt>
+          <dd class="tH02">处理意见</dd>
+        </dl>
+        <dl class="tTr">
+          <dt class="tH01">产品名称01</dt>
+          <dd class="tH02">
+            <el-form class="handle-task-detail-form"
+            label-width="112px"
+            ref="assign"
+            :model="assignForm"
+            :rules="assignRules">
+              <el-form-item label-width="130px" label="处理结果：" required>
+                <el-radio v-model="assignForm.status" :label="1">完成签约</el-radio>
+                <el-radio v-model="assignForm.status" :label="0">客户取消</el-radio>
+              </el-form-item>
+              <el-form-item label-width="130px" label="签约时间：" v-if="assignForm.status === 1" required prop="time">
+                <el-date-picker class="form-input-large"
+                v-model="assignForm.time"
+                type="date"
+                format="yyyy-MM-dd"
+                :editable="false" />
+              </el-form-item>
+              <el-form-item label-width="130px" v-if="assignForm.status === 1" label="签约合同：" prop="files">
+                <!-- accept属性不能完全支持 -->
+                <el-upload class="upload-demo" :auto-upload="false" :on-change="fileChange" :multiple="false" :on-remove="removeFile" :file-list="assignForm.files">
+                  <el-button slot="trigger" size="small">
+                    <i class="icon-up margin-right-8"></i>上传文件
+                  </el-button>
+                  <div slot="tip" class="el-upload__tip">
+                    <p class="lh1-5">{{FILE_TIP[0]}}</p>
+                    <p class="lh1-5">{{FILE_TIP[1]}}</p>
+                  </div>
+                </el-upload>
+              </el-form-item>
+              <el-form-item label-width="130px" label="是否落收反馈：" v-if="assignForm.status === 1" required prop="isFeedBack">
+                <el-radio v-model="assignForm.isFeedBack" :label="1">是</el-radio>
+                <el-radio v-model="assignForm.isFeedBack" :label="0">否</el-radio>
+              </el-form-item>
+              <el-form-item label-width="130px" v-if="assignForm.status === 1" label="备注：" prop="dealResult">
+                <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
+              </el-form-item>
+              <el-form-item label-width="130px" v-if="assignForm.status !== 1" label="取消原因：" prop="dealResult">
+                <el-input type="textarea" class="form-input-large" v-model="assignForm.dealResult" />
+              </el-form-item>
+            </el-form>
+          </dd>
+        </dl>
+        <dl class="tTr">
+          <dt class="tH01">产品名称02</dt>
+          <dd class="tH02">您暂无权限处理~</dd>
+        </dl>
+      </div>
+      <el-form v-if="routeType === 'sign'">
+        <el-form-item class="btn">
           <el-button type="primary" @click="submitAssignForm()" :loading="submitAssignButton">{{!submitAssignButton ? '确定' : '加载中'}}</el-button>
           <form-cancel :path="'/order/handle-task'">取消</form-cancel>
         </el-form-item>
       </el-form>
+      <!-- <div class="p-table">
+        <dl class="tHead">
+          <dt class="tH01">产品名称02</dt>
+          <dd class="tH02">您暂无权限处理~</dd>
+        </dl>
+        <dl class="tTr">
+          <dt class="tH01">产品名称02</dt>
+          <dd class="tH02">您暂无权限处理~</dd>
+        </dl>
+      </div> -->
 
-      <el-form class="handle-task-detail-form" label-width="112px" v-if="routeType === 'pay'" ref="pay" :model="payForm" :rules="payRules">
-        <el-form-item label="付款金额：" prop="money">
-          <el-input class="form-input-medium" type="text" maxlength="10" v-model="payForm.money" placeholder="请输入合同金额">
-            <template slot="append">万元/月</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitPayForm">确定</el-button>
-          <form-cancel :path="'/order/handle-task'">取消</form-cancel>
-        </el-form-item>
-      </el-form>
-
-      <div class="task-submit-button">
-        <el-button type="primary" @click="submitSign" v-if="routeType === 'detail-sign'">签约处理</el-button>
-        <el-button type="primary" @click="submitSign" v-if="routeType === 'detail-pay'">付款处理</el-button>
-      </div>
+      <!-- 待支付 -->
+        <div class="p-table" v-if="routeType === 'pay'">
+          <dl class="tHead">
+            <dt class="tH01">订购产品</dt>
+            <dd class="tH02">处理意见</dd>
+          </dl>
+          <dl class="tTr">
+            <dt class="tH01">产品名称01</dt>
+            <dd class="tH02">
+              <el-form class="handle-task-detail-form" label-width="112px" ref="pay" :model="payForm" :rules="payRules">
+                <el-form-item label="签约合同：">
+                  <div>
+                    <span class="blue" v-for="(file, k) in hasSignedFile" :key="k" @click="downloadFile(file)">
+                      {{file.fileName}}
+                    </span>
+                  </div>
+                </el-form-item>
+                <el-form-item label="付款金额：" prop="money">
+                  <el-input class="form-input-medium" type="text" maxlength="10" v-model="payForm.money" placeholder="请输入合同金额">
+                    <template slot="append">元</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item label="备注：" prop="dealResult">
+                  <el-input type="textarea" class="form-input-large" v-model="payForm.dealResult" />
+                </el-form-item>
+              </el-form>
+            </dd>
+          </dl>
+          <dl class="tTr">
+            <dt class="tH01">产品名称02</dt>
+            <dd class="tH02">您暂无权限处理~</dd>
+          </dl>
+        </div>
+        <el-form v-if="routeType === 'pay'">
+          <el-form-item class="btn">
+            <el-button type="primary" @click="submitPayForm">确定</el-button>
+            <form-cancel :path="'/order/handle-task'">取消</form-cancel>
+          </el-form-item>
+        </el-form>
     </div>
   </div>
 </template>
@@ -97,7 +146,7 @@ import { mapActions, mapState } from 'vuex';
 import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
-import { multFileValid, inte5Deci4, textareaLimit } from '@/utils/rules.js';
+import { fileValidLen, inte5Deci4, textareaLimit } from '@/utils/rules.js';
 import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
 
@@ -109,7 +158,7 @@ export default {
   },
   data() {
     const fileCheck = (rule, value, callback) => {
-      multFileValid(this.assignForm.files, callback);
+      fileValidLen(this.assignForm.files, callback);
     };
     return {
       FILE_TIP,
@@ -123,16 +172,24 @@ export default {
         ]
       },
       assignForm: {
+        time: '',
+        isFeedBack: '',
         status: 1,
         files: [],
         dealResult: ''
       },
       assignRules: {
+        time: [
+          { required: true, message: '请选择签约时间', trigger: ['blur', 'change'] }
+        ],
+        isFeedBack: [
+          { required: true, message: '请选择是否落收反馈', trigger: 'change' }
+        ],
         files: [
           { validator: fileCheck }
         ],
         dealResult: [
-          { required: true, message: '请输入取消原因', trigger: 'blur' },
+          { required: true, message: '请输入内容', trigger: 'blur' },
           { validator: textareaLimit, trigger: 'blur' }
         ]
       },
@@ -226,7 +283,7 @@ export default {
     submitAssignForm() {
       this.$refs.assign.validate(valid => {
         if (!valid) return false;
-
+        debugger;
         // 客户取消
         if (!this.assignForm.status) {
           let assignParams = {
@@ -250,36 +307,40 @@ export default {
               id: this.id,
               taskInsId: this.taskInsId,
               resultStatus: this.processCompleteStatus,
-              dealResult: '' // 这个字段必传，可为空
-            }
+              dealResult: this.assignForm.dealResult // 这个字段必传，可为空
+            },
+            isFeedBack: this.assignForm.isFeedBack
           };
           this.submitAssignContract({ params, submitParams });
         }
       });
     },
-    submitSign() {
-      // 跳转到付款的详情
-      let path = '';
-      if (this.routeType === 'detail-sign') {
-        path = `/order/handle-task/sign/${this.id}?taskInsId=${this.taskInsId}`;
-      } else {
-        path = `/order/handle-task/pay/${this.id}?taskInsId=${this.taskInsId}`;
-      }
-      this.$router.push(path);
-    },
     submitPayForm() {
       const params = {
-        ordPayAmount: this.payForm.money,
+        ordPayAmount: Number(this.payForm.money),
         taskRequest: {
-          id: this.id,
-          taskInsId: this.taskInsId,
-          resultStatus: '5'
+          id: Number(this.id),
+          taskInsId: Number(this.taskInsId),
+          resultStatus: '5',
+          dealResult: this.payForm.dealResult,
+          dealPerson: Number(this.handleTaskDetail.processor)
         }
       };
       this.$refs.pay.validate(valid => {
         if (!valid) return false;
         this.submitPay(params);
       });
+    },
+    queryElecAPI() {
+      this.orderDownloadFile();
+    },
+    downloadFile(obj) {
+      let params = {
+        fileTypeId: obj.fileTypeId,
+        fileSaveName: obj.fileSaveName,
+        fileName: obj.fileName
+      };
+      this.orderDownloadFile(params);
     },
     ...mapActions([
       'getNewFileInputId',
@@ -289,8 +350,13 @@ export default {
       'submitAssignContract',
       'submitPay',
       'gethasSignedFile',
-      'getOrderProcessInfo'
+      'getOrderProcessInfo',
+      'orderDownloadFile'
     ])
   }
 };
 </script>
+
+<style lang="scss">
+.btn {text-align: center; margin-top: 26px;}
+</style>

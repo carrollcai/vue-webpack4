@@ -25,10 +25,10 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编码" />
+            <el-input clearable v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编号" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderHandleTaskForm.organizeNameOrCode" placeholder="合作集团/编码" />
+            <el-input clearable v-model="orderHandleTaskForm.staffName" placeholder="创建人" />
           </el-form-item>
         </div>
         <div class="flex">
@@ -50,6 +50,7 @@
         <el-table-column label="订单名称" property="ordName" />
         <el-table-column label="创建时间" property="createDate" />
         <el-table-column label="合作集团" property="organizeName" />
+        <el-table-column label="创建人" property="staffName" />
         <el-table-column v-if="orderHandleTaskForm.businessStatus === '1'" label="处理结果" property="businessStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
