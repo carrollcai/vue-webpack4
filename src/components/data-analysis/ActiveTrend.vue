@@ -36,7 +36,7 @@
                   :editable="false"
                   placeholder="选择开始日期"
                   v-model="trend.startDate"
-                  :picker-options="startOptions"
+                  :picker-options="startOptions(trend.endDate)"
                   @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
@@ -47,7 +47,7 @@
                   :editable="false"
                   placeholder="选择结束日期"
                   v-model="trend.endDate"
-                  :picker-options="endOptions"
+                  :picker-options="endOptions(trend.startDate)"
                   @change="triggerValidate()" />
               </el-form-item>
             </el-form-item>
@@ -130,17 +130,17 @@
 </template>
 
 <script>
-import moment from 'moment';
+import { mapState, mapActions, mapMutations } from 'vuex';
+
 import MultiLine from 'components/chart/MultiLine.vue';
 import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
 import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
 import LineChart from 'components/chart/Line.vue';
-import { TREND_RADIO } from '@/config';
-import { mapState, mapActions, mapMutations } from 'vuex';
 import WmTable from 'components/Table.vue';
-import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
+
 import mixins from './mixins';
-import * as types from '@/store/types';
+import { TREND_RADIO } from '@/config';
+import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
 
 export default {
   mixins: [mixins],
@@ -176,13 +176,14 @@ export default {
         startDateBeforeEndDate(startDate, endDate, callback);
       }
     };
+
     const checkRangeDate = (rule, value, callback) => {
       const { startDate, endDate } = this.trend;
       if (startDate && endDate) {
         monthRange(startDate, endDate, callback);
       }
     };
-    const that = this;
+
     return {
       trendRadio: TREND_RADIO,
       mobileIpArr: ['移动IP用户'],
@@ -195,31 +196,13 @@ export default {
           { required: true, message: '请选择开始时间', trigger: 'change' }
         ],
         endDate: [
-          { required: true, message: '请选择结束范围', trigger: 'change' }
+          { required: true, message: '请选择结束时间', trigger: 'change' }
         ],
         checkDate: [
           { validator: checkDate, trigger: 'change' },
           { validator: checkRangeDate, trigger: 'change' }
         ]
       },
-      startOptions: {
-        disabledDate(time) {
-          if (that.trend.endDate) {
-            return (time.getTime() < moment(that.trend.endDate).add(-12, 'months').toDate().getTime()) || (time.getTime() > new Date(that.trend.endDate).getTime());
-          } else {
-            return time.getTime() > Date.now();
-          }
-        }
-      },
-      endOptions: {
-        disabledDate(time) {
-          if (that.trend.startDate) {
-            return (time.getTime() > moment(that.trend.startDate).add(12, 'months').toDate().getTime()) || (time.getTime() < new Date(that.trend.startDate).getTime());
-          } else {
-            return time.getTime() > Date.now();
-          }
-        }
-      }
     };
   },
   computed: {
@@ -241,9 +224,9 @@ export default {
     },
     downloadDataAnalysis() {
       this.$refs['activeTrendForm'].validate(valid => {
-        if (!valid) return false;
-
-        this.downloadTrendDataAnalysis();
+        if (valid) {
+          this.downloadTrendDataAnalysis();
+        }
       });
     },
     triggerValidate() {
@@ -268,36 +251,20 @@ export default {
     },
     query() {
       const that = this;
-      this.$refs['activeTrendForm'].validate(valid => {
+      that.$refs['activeTrendForm'].validate(valid => {
         if (valid) {
-          this.getTrendList().then(() => {
-            that.handleChangeType(that.trend.chartRadio);
-          });
+          that.$emit('query');
         }
       });
     },
     handleChangeType(val) {
-      let type = types.ACTIVE_UPDATE_PROVINCE_TREND;
-      if (this.isProvince) {
-        type = types.ACTIVE_UPDATE_PROVINCE_TREND;
-      }
-
-      if (this.isDistrict) {
-        type = types.ACTIVE_UPDATE_DISTRICT_TREND;
-      }
-
-      if (this.isWholeCountry) {
-        type = types.ACTIVE_UPDATE_COUNTRY_TREND;
-      }
-
-      this.$store.commit(type, { chartRadio: val });
+      this.$emit('changeType', val);
     },
     ...mapMutations({
       initDate: 'ACTIVE_INIT_DATE'
     }),
     ...mapActions([
       'getTrendList',
-      'getTrendNewMembers',
       'downloadTrendDataAnalysis'
     ])
   }

@@ -13,14 +13,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import { CLIENT } from '@/config';
 
 export default {
   data() {
     return {
       client: CLIENT,
-      localProvinceSelected: [],
       activeSearchRules: {
         clientSelected: [
           { required: true, message: '请选择客户端', trigger: 'change' }
@@ -30,67 +29,13 @@ export default {
   },
   computed: {
     ...mapState({
-      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj,
-      currentUser: ({ root }) => root.currentUser
+      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj
     })
   },
-  beforeMount() {
-    if (this.activeObj.provinceSelected) {
-      this.localProvinceSelected = Object.cloneDeep(this.activeObj.provinceSelected);
-    }
-    this.query();
-  },
   methods: {
-    redirectDailyLive() {
-      const path = `/analysis/daily-live`;
-      this.$router.push(path);
-    },
-    provinceChange(val) {
-      const { provinces } = this.currentUser.operator;
-      let isExistAll = val.some(val => val === null);
-      let provinceNames = provinces.map(val => val.value);
-
-      // 是否点击全部
-      let isClickAll = !(isExistAll === this.localProvinceSelected.some(val => val === null));
-
-      // 点击全部
-      if (isClickAll) {
-        // 子选项未全选
-        if (val.length !== provinceNames.length) {
-          this.activeObj.provinceSelected = provinceNames;
-          this.activeObj.provinceSelected.push(null);
-        } else {
-          // 子选项已全选
-          this.activeObj.provinceSelected = [];
-        }
-      } else {
-        if (!isExistAll && val.length === provinceNames.length) {
-          this.activeObj.provinceSelected.push(null);
-        } else {
-          this.activeObj.provinceSelected = this.activeObj.provinceSelected.filter(val => val !== null);
-        }
-      }
-      this.localProvinceSelected = Object.cloneDeep(this.activeObj.provinceSelected);
-    },
     query() {
-      const { activeObj } = this;
-      // 第一模块
-      this.getMembers(activeObj);
-      this.getDailyActiveUser(activeObj);
-      // 第二模块
-      this.getTrendList().then(() => {
-        this.getTrendNewMembers();
-      });
-      // 第三模块
-      this.getProvinceUser();
-    },
-    ...mapActions([
-      'getMembers',
-      'getDailyActiveUser',
-      'getTrendList',
-      'getProvinceUser',
-      'getTrendNewMembers'
-    ])
+      this.$emit('query');
+    }
   }
 };
 </script>

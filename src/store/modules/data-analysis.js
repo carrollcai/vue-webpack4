@@ -26,7 +26,7 @@ const state = {
   },
   members: [],
   membersList: [],
-  // 第二模块
+  // 活跃度分析 - 活跃度趋势分析
   trend: {
     dateType: 0,
     date: [new Date(nineDaysAgo), new Date(twoDaysAgo)],
@@ -85,7 +85,8 @@ const state = {
     startDate: new Date(sixMonthsAgo),
     endDate: new Date(oneMonthAgo),
     mode: 0,
-    selected: 0
+    selected: 0,
+    chartRadio: '0'
   },
   // 新增用户分析 - 各省份用户新增排名情况
   adduserMapTrend: {

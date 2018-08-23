@@ -1,7 +1,7 @@
 <template>
-  <div class="active-userdata block-containter">
+  <div class="new-user-analyze active-userdata block-containter">
     <div class="userdata-header">
-      <div class="trend-header-title">{{`6月新增用户数据`}}</div>
+      <div class="trend-header-title">6月新增用户数据</div>
     </div>
     <div class="userdata-main">
       <div class="userdata-main-left">
@@ -21,7 +21,7 @@
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">新增会员用户</div>
+          <div class="userdata-main-left__title ellipsis">新增会员活跃用户</div>
           <div class="userdata-main-left__num">{{dailyUser.newMembers}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>

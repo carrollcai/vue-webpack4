@@ -20,24 +20,119 @@ export default {
         {
           'London': 180.9,
           'Berlin': 135.5,
+          'Berlin1': 135.5,
+          'Berlin2': 135.5,
+          'Berlin3': 135.5,
+          'Berlin4': 135.5,
+          'Berlin5': 135.5,
           '月份': 'Apr.'
         },
         {
-          'London': 18.9,
           'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
           '月份': 'Jun.'
         },
         {
           'London': 180.9,
           'Berlin': 135.5,
+          'Berlin1': 35.5,
+          'Berlin2': 135.5,
+          'Berlin3': 35.5,
+          'Berlin4': 35.5,
+          'Berlin5': 35.5,
           '月份': 'Aug.'
-        }
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun1.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun2.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun3.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun4.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun5.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun32.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun33.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun24.'
+        },
+        {
+          'Berlin': 35.5,
+          'Berlin1': 135.5,
+          'Berlin2': 35.5,
+          'Berlin3': 135.5,
+          'Berlin4': 35.5,
+          'Berlin5': 135.5,
+          '月份': 'Jun22.'
+        },
       ]
     },
     fields: {
       type: Array,
       default: function() {
-        return ['London', 'Berlin'];
+        return ['London', 'Berlin', 'Berlin1', 'Berlin2', 'Berlin3', 'Berlin4', 'Berlin5'];
       }
     },
     position: {
@@ -66,7 +161,8 @@ export default {
     drawChart(data) {
       const { height, id, fields } = this;
       this.chart && this.chart.destroy();
-      this.chart = new G2.Chart({
+
+      let chart = this.chart = new G2.Chart({
         id: id,
         forceFit: true,
         height: height
@@ -81,13 +177,13 @@ export default {
         value: 'value' // value字段
       });
 
-      this.chart.source(dv);
+      chart.source(dv);
 
-      this.chart.interval().position(this.position).color('name').adjust([{
+      chart.interval().position(this.position).color('name').adjust([{
         type: 'dodge',
         marginRatio: 1 / 32
       }]);
-      this.chart.render();
+      chart.render();
     }
   }
 };

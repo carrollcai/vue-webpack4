@@ -110,6 +110,14 @@ const actions = {
   downloadRetTrendDataAnalysis: ({ commit, state }, params) => {
     const req = retTrendReq(state);
     return API.downloadRetTrendDataAnalysisAPI(req);
+  },
+  /**
+   * 查询 新增用户趋势分析
+   */
+  queryVip: ({ commit, state }, params) => {
+    return new Promise((resolve) => {
+      resolve();
+    });
   }
 };
 
