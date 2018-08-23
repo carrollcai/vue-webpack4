@@ -2,7 +2,7 @@ export default {
   methods: {
     // 省份
     isProvince() {
-      return true;
+      return false;
     },
     // 大区
     isDistrict() {
@@ -10,7 +10,7 @@ export default {
     },
     // 全国
     isWholeCountry() {
-      return false;
+      return true;
     },
     getPermissionParams() {
       const {isProvince, isDistrict, isWholeCountry} = this;

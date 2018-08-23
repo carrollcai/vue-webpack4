@@ -300,6 +300,12 @@ export const ADDUSER_TREND_RADIO = {
   3: '新增会员用户',
 };
 
+export const ADDUSER_TREND_COUNTRY_RADIO = {
+  0: '新增用户',
+  1: '新增手机用户',
+  2: '新增会员用户',
+};
+
 export const RETENTION_TREND_RADIO = {
   0: '新增用户留存率',
   1: '留存用户流失率'

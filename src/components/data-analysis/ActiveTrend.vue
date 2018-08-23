@@ -2,7 +2,6 @@
   <div class="active-trend block-containter">
     <el-form ref="activeTrendForm" :model="trend" :rules="activeTrendRules">
       <div class="trend-header">
-        <!-- <div class="trend-header-title">活跃度分析</div> -->
         <div class="trend-header-title">{{title}}</div>
         <div class="trend-header-right">
           <el-form-item class="normalize-form-item" v-if="isWholeCountry">
@@ -66,6 +65,7 @@
               </el-radio-button>
             </el-radio-group>
           </div>
+          <el-button class="data-download" type="primary" icon="icon-download" @click="downloadDataAnalysis" title="导出数据"/>
         </div>
       </div>
     </el-form>
@@ -79,9 +79,6 @@
           <span>{{radioTransformDate(i)}}</span>
         </el-radio>
       </div>
-      <div @click="downloadDataAnalysis" class="cursor-pointer">
-        <i class="el-icon-download"></i>下载此数据分析
-      </div>
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
@@ -89,29 +86,33 @@
         <div class="no-data" v-if="trend.chartRadio === 0">
           <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
         <!--手机账号登录用户-->
         <div class="no-data" v-if="trend.chartRadio === 1">
           <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
         <!--移动IP用户-->
         <div class="no-data" v-else-if="trend.chartRadio === 2">
           <div class="no-data" v-if="Object.isNullArray(trendData)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
         <!--非移动IP用户-->
         <div class="no-data" v-else-if="trend.chartRadio === 3">
           <div class="no-data" v-if="Object.isNullArray(trendData)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
-            <multi-line v-if="isDistrict" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
       </div>
@@ -131,6 +132,8 @@
 <script>
 import moment from 'moment';
 import MultiLine from 'components/chart/MultiLine.vue';
+import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
+import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
 import LineChart from 'components/chart/Line.vue';
 import { TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
@@ -162,7 +165,9 @@ export default {
   components: {
     WmTable,
     MultiLine,
-    LineChart
+    LineChart,
+    BasicAreaChart,
+    GroupedColumnChart
   },
   data() {
     const checkDate = (rule, value, callback) => {

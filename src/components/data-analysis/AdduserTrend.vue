@@ -5,18 +5,29 @@
         <div class="trend-header-title">新增用户趋势分析</div>
         <div class="trend-header-right">
           <div class="trend-header-right__query">
-            <el-form-item class="normalize-form-item adduser-trend-dimen" prop="provinceSelected">
+            <el-form-item v-if="isWholeCountry" class="normalize-form-item adduser-trend-dimen" prop="provinceSelected">
               <el-select class="user-form-item__input" placeholder="请选择" v-model="adduserTrend.selected" @change="provinceChange">
                 <el-option v-for="(val, key) in addUserTrendDimension" :key="val" :label="val" :value="Number(key)" />
               </el-select>
             </el-form-item>
             <el-form-item class="normalize-form-item" prop="checkDate">
               <el-form-item class="normalize-form-item float-left" prop="startDate">
-                <el-date-picker class="user-form-item__input" type="month" placeholder="选择开始日期" v-model="trend.startDate" @change="triggerValidate()" />
+                <el-date-picker class="user-form-item__input"
+                  type="month"
+                  placeholder="选择开始日期"
+                  v-model="trend.startDate"
+                  :editable="false"
+                  @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
               <el-form-item class="normalize-form-item float-left" prop="endDate">
-                <el-date-picker class="user-form-item__input" type="month" placeholder="选择结束日期" v-model="trend.endDate" @change="triggerValidate()" />
+                <el-date-picker class="user-form-item__input"
+                  type="month"
+                  placeholder="选择结束日期"
+                  v-model="trend.endDate"
+                  :editable="false"
+                  @change="triggerValidate()"
+                />
               </el-form-item>
             </el-form-item>
           </div>
@@ -33,7 +44,7 @@
               </el-radio-button>
             </el-radio-group>
           </div>
-          <el-button class="data-download" type="primary" icon="el-icon-edit" @click="downloadAdduserTrend"/>
+          <el-button class="data-download" type="primary" icon="icon-download" @click="downloadDataAnalysis" title="导出数据"/>
         </div>
       </div>
     </el-form>
@@ -43,9 +54,6 @@
           <span v-if="trend.dateType">{{radioTransformDate(i)}}</span>
           <span v-else>{{radioTransformDate(i)}}</span>
         </el-radio>
-      </div>
-      <div @click="downloadDataAnalysis" class="cursor-pointer">
-        <i class="el-icon-download"></i>下载此数据分析
       </div>
     </div>
     <div class="trend-mode">
@@ -81,6 +89,20 @@ export default {
     WmTable,
     NoData,
     Column
+  },
+  props: {
+    isProvince: {
+      type: Boolean,
+      default: false
+    },
+    isDistrict: {
+      type: Boolean,
+      default: false
+    },
+    isWholeCountry: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     const checkDate = (rule, value, callback) => {
@@ -185,7 +207,7 @@ export default {
   computed: {
     ...mapState({
       adduserTrend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
-      trend: ({ dataAnalysis }) => dataAnalysis.trend,
+      trend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
       trendList: ({ dataAnalysis }) => dataAnalysis.trendList,
       trendNewMembers: ({ dataAnalysis }) => dataAnalysis.trendNewMembers,
       membersList: ({ dataAnalysis }) => dataAnalysis.membersList

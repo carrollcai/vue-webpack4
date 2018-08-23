@@ -1,18 +1,39 @@
 <template>
   <div class="province-user block-containter">
     <div class="province-user-header">
-      <div class="provinceUser-header-title">大区各省份用户新增排名情况</div>
+      <div class="provinceUser-header-title">{{title}}</div>
       <el-form ref="provinceUserForm" :model="provinceUser" :rules="provinceUserRules" class="flex">
         <el-form-item class="normalize-form-item" prop="checkDate">
           <el-form-item class="normalize-form-item float-left" prop="startDate">
-            <el-date-picker class="user-form-item__input" type="month" placeholder="选择开始日期" v-model="adduserTrend.startDate" @change="triggerValidate()" />
+            <el-date-picker class="user-form-item__input"
+              type="month"
+              :editable="false"
+              :clearable="false"
+              placeholder="选择开始日期"
+              v-model="adduserMapTrend.startDate"
+              @change="triggerValidate()" />
           </el-form-item>
           <span class="date-connect-line float-left">-</span>
           <el-form-item class="normalize-form-item float-left" prop="endDate">
-            <el-date-picker class="user-form-item__input" type="month" placeholder="选择结束日期" v-model="adduserTrend.endDate" @change="triggerValidate()" />
+            <el-date-picker class="user-form-item__input"
+              type="month"
+              :editable="false"
+              :clearable="false"
+              placeholder="选择结束日期"
+              v-model="adduserMapTrend.endDate"
+              @change="triggerValidate()" />
           </el-form-item>
         </el-form-item>
       </el-form>
+    </div>
+    <div class="trend-sub">
+      <div class="trend-sub__radio">
+        <el-radio-group v-model="adduserMapTrend.chartRadio" @change="handleChangeType">
+          <el-radio v-for="(item, index) in trendRadio" :key="index" :label="index">
+            {{item}}
+          </el-radio>
+        </el-radio-group>
+      </div>
     </div>
     <div class="province-user-chart">
       <no-data :data="provinceUserList">
@@ -33,8 +54,15 @@ import Map from 'components/chart/Map.vue';
 import Rank from './rank/Rank.vue';
 import NoData from 'components/NoData.vue';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
+import { ADDUSER_TREND_COUNTRY_RADIO } from '@/config';
 
 export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  },
   components: {
     Map,
     Rank,
@@ -42,24 +70,25 @@ export default {
   },
   computed: {
     ...mapState({
-      adduserTrend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
+      adduserMapTrend: ({ dataAnalysis }) => dataAnalysis.adduserMapTrend,
       provinceUserList: ({ dataAnalysis }) => dataAnalysis.provinceUserList
     })
   },
   data() {
     const checkDate = (rule, value, callback) => {
-      const { startDate, endDate } = this.adduserTrend;
+      const { startDate, endDate } = this.adduserMapTrend;
       if (startDate && endDate) {
         startDateBeforeEndDate(startDate, endDate, callback);
       }
     };
     const checkRangeDate = (rule, value, callback) => {
-      const { startDate, endDate } = this.adduserTrend;
+      const { startDate, endDate } = this.adduserMapTrend;
       if (startDate && endDate) {
         monthRange(startDate, endDate, callback);
       }
     };
     return {
+      trendRadio: ADDUSER_TREND_COUNTRY_RADIO,
       provinceUserRules: {
         date: [
           { required: true, message: '请选择时间范围', trigger: 'change' },
@@ -83,7 +112,7 @@ export default {
       this.query();
     },
     triggerValidate() {
-      if (this.adduserTrend.startDate && this.adduserTrend.endDate) {
+      if (this.adduserMapTrend.startDate && this.adduserMapTrend.endDate) {
         this.query();
       }
     },
@@ -93,6 +122,9 @@ export default {
           this.getProvinceUser();
         }
       });
+    },
+    handleChangeType() {
+      this.query();
     },
     ...mapActions([
       'getProvinceUser'

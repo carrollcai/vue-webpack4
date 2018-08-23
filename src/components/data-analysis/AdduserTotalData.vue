@@ -6,18 +6,18 @@
     <div class="userdata-main">
       <div class="userdata-main-left">
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">{{!activeObj.dateType ? '日' : '月'}}活跃用户数</div>
+          <div class="userdata-main-left__title ellipsis">新增用户</div>
           <div class="userdata-main-left__num">{{dailyUser.activeUserNum}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">手机账号登录用户</div>
+          <div class="userdata-main-left__title ellipsis">新增手机用户</div>
           <div class="userdata-main-left__num">{{dailyUser.mobileAccount}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
-          <div class="userdata-main-left__title ellipsis">移动IP用户 / 非移动IP用户</div>
-          <div class="userdata-main-left__num">{{dailyUser.mobileIp + ' / ' + dailyUser.unmobileIp}}</div>
+          <div class="userdata-main-left__title ellipsis">新增游客用户</div>
+          <div class="userdata-main-left__num">{{dailyUser.mobileIp}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">

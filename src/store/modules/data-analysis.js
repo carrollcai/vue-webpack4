@@ -78,6 +78,7 @@ const state = {
   adduserObj: {
     clientSelected: '咪咕视频',
   },
+  // 新增用户分析 - 新增用户趋势分析
   adduserTrend: {
     dateType: 0,
     date: [new Date(nineDaysAgo), new Date(twoDaysAgo)],
@@ -86,14 +87,21 @@ const state = {
     mode: 0,
     selected: 0
   },
-  adduserMemberTrend: {
+  // 新增用户分析 - 各省份用户新增排名情况
+  adduserMapTrend: {
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
+    chartRadio: '0'
+  },
+  // 新增用户分析 - 新增会员用户趋势分析
+  adduserVipTrend: {
     dateType: 0,
     date: [new Date(nineDaysAgo), new Date(twoDaysAgo)],
     startDate: new Date(sixMonthsAgo),
     endDate: new Date(oneMonthAgo),
     mode: 0,
-    chartRadio: 0
-  }
+    chartRadio: '0'
+  },
 };
 
 const mutations = {
@@ -296,12 +304,10 @@ const mutations = {
     state.retTrendList = data.map(val => {
       val.newUserRetPer = (val.newRetainNum / val.newMembersNum * 100).toFixed(1) + '%';
       val.retLossPer = (val.dropoutNum / val.retainNum * 100).toFixed(1) + '%';
-      // 方便图表字段展示, toFix()返回的是string。
-      // val.value = parseFloat(val.newUserRetPer.replace('%', '')) | 0;
       return val;
     });
   },
-  // 省份-留存流失趋势分析
+  // 留存流失分析- 省份 - 留存流失趋势分析
   [types.RETENTION_UPDATE_PROVINCE_TREND_LIST](state, data) {
     let type = data.chartRadio;
     let label = RETENTION_TREND_RADIO[type];

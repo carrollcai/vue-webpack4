@@ -1,34 +1,13 @@
 <template>
-  <el-form ref="activeSearchForm" :model="activeObj" :rules="activeSearchRules" class="active-search block-containter">
-    <div class="active-search__select">
-      <!--
-      <div class="active-search__province">
-        <el-form-item class="normalize-form-item">省份：</el-form-item>
-        <el-form-item class="normalize-form-item" prop="provinceSelected">
-          <el-select class="user-form-item__input" v-if="currentUser.operator.provinces.length" v-model="activeObj.provinceSelected" placeholder="请选择" multiple @change="provinceChange" collapse-tags>
-            <el-option v-if="currentUser.operator.provinces.length > 1" :key="null" label="全部" :value="null" />
-            <el-option v-for="item in currentUser.operator.provinces" :key="item.value" :label="item.value" :value="item.value" />
-          </el-select>
-        </el-form-item>
-      </div>
-      -->
-      <div class="active-search__client">
-        <el-form-item class="normalize-form-item">客户端：</el-form-item>
-        <el-form-item class="normalize-form-item" prop="clientSelected">
-          <el-select class="user-form-item__input" v-if="client.length" v-model="activeObj.clientSelected" placeholder="请选择">
-            <el-option v-for="item in client" :key="item.value" :label="item.value" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </div>
+  <el-form ref="activeSearchForm" :model="activeObj" :rules="activeSearchRules" class="block-containter">
+    <div class="active-search__title">
+      活跃度分析
     </div>
-    <div class="province-operate">
-      <div class="search-btn">
-        <el-button type="primary" @click="query">查询</el-button>
-      </div>
-      <!-- <div class="daliy-download">
-        <el-button style="width: 120px;" @click="redirectDailyLive">申请日活下载</el-button>
-      </div> -->
+    <div class="active-search__client">
+      <span>客户端：</span>
+      <el-radio-group size="small" v-model="activeObj.clientSelected" @change="query">
+        <el-radio v-for="(val, i) in client"  :label="val.value" border size="medium" :key="i">{{val.value}}</el-radio>
+      </el-radio-group>
     </div>
   </el-form>
 </template>
@@ -116,5 +95,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.active-search__title {
+  height: 28px;
+  line-height: 28px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 20px;
+}
+.active-search__title span {
+  height: 20px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+}
 </style>
