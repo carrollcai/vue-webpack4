@@ -2,20 +2,22 @@
 <div>
   <div class="m-container">
     <el-form class="form-manage" ref="myVisitManageForm" v-model="appointVisitForm">
-      <div class="flex">
-        <el-form-item prop="date">
-          <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-input v-model="appointVisitForm.organizeName" clearable placeholder="走访公司名称" />
-        </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="appointVisitForm.visitStatusData" @change="getVisitStatus" clearable placeholder="走访状态">
-            <el-option v-for="item in taskTypeList" :key="item.value" :value="item.value" :label="item.label"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width" @change="getProcessor">
+      <div class="flex" style="flex-direction: column">
+        <div class="flex">
+          <el-form-item prop="date">
+            <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width">
+            <el-input v-model="appointVisitForm.organizeName" clearable placeholder="走访公司名称" />
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width">
+            <el-select v-model="appointVisitForm.visitStatusData" @change="getVisitStatus" clearable placeholder="走访状态">
+              <el-option v-for="item in taskTypeList" :key="item.value" :value="item.value" :label="item.label"></el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <el-form-item class="form-query-input-width" @change="getProcessor">
           <el-input v-model="appointVisitForm.processorData" clearable placeholder="走访人" />
         </el-form-item>
       </div>
@@ -178,4 +180,7 @@ export default {
 
 <style lang="scss">
 @import "scss/variables.scss";
+.overflow-hidden .el-form-item {
+  margin-left: 48px;
+}
 </style>

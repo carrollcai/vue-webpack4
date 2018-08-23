@@ -12,23 +12,13 @@ import {
 
 const createAppointFrom = {
   visitTheme: '',
-  organizeId: '',
   organizeName: '',
-  visitAddress: '',
   intervieweeName: '',
-  intervieweeMobile: '',
-  visitPresentMembers: '',
-  visitContent: '',
-  relOpporId: '',
-  relOpporCode: '',
-  processor: '',
-  assignNote: '',
-  problemCoordinate: '',
-  isFirstVisit: 1,
-  visitTime: null,
-  timeRange: null,
   visitStartTime: '',
-  visitEndTime: ''
+  visitEndTime: '',
+  processor: [],
+  visitTime: null,
+  timeRange: null
 };
 
 const state = {
@@ -124,7 +114,7 @@ const mutations = {
   },
   [types.GET_PROCESSOR_LIST](state, data) {
     // 审核人结构
-    let handlers = data.map(val => {
+    /* let handlers = data.map(val => {
       let newVal = {};
       newVal.value = val.codeValue;
       newVal.label = val.codeName;
@@ -143,7 +133,15 @@ const mutations = {
       return newVal;
     });
     state.getProcessorList = handlers.filter(val => val.children && val.children.length);
-    state.getProcessorList = state.getProcessorList[0].children[0].children;
+    state.getProcessorList = state.getProcessorList[0].children[0].children; */
+    let arr = [];
+    data.filter(val => {
+      arr.push({
+        value: String(val.operatorId),
+        label: val.staffName
+      });
+    });
+    state.getProcessorList = arr;
   },
   [types.REGION_MANAGE_LIST](state, data) {
     state.regionManageList = data;

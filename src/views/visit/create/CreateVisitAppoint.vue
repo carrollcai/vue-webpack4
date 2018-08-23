@@ -36,6 +36,7 @@
           <el-select
             v-if="getProcessorList"
             v-model="createAppointFrom.processor"
+            multiple
             filterable
             placeholder="请选择">
             <el-option
@@ -87,7 +88,7 @@ export default {
   },
   beforeMount() {
     this.getRelOpporId('');
-    this.queryProcessor({});
+    this.queryProcessors({});
     this.getAssignhandler();
     this.queryRegionManager({});
   },
@@ -164,7 +165,7 @@ export default {
       'getAssignhandler',
       'queryRegisterList',
       'queryRegionManager',
-      'queryProcessor'
+      'queryProcessors'
     ])
   }
 };
