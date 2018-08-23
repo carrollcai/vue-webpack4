@@ -1,6 +1,11 @@
 <template>
   <div>
-    <retention-search :is-whole-country="isWholeCountry()" :is-province="isProvince()" :is-district="isDistrict()" @query="handleQuery"/>
+    <retention-search
+      :is-whole-country="isWholeCountry()"
+      :is-province="isProvince()"
+      :is-district="isDistrict()"
+      @query="handleQuery"
+    />
     <div class="retention-user-outer">
       <retention-user :type="0" />
       <div class="retention-user-center"></div>
@@ -11,7 +16,8 @@
       :is-province="isProvince()"
       :is-district="isDistrict()"
       @trend="handleChangeType"
-      @query="handleQuery"/>
+      @query="handleQuery"
+    />
   </div>
 </template>
 

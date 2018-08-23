@@ -1,18 +1,18 @@
 <template>
-  <el-form ref="activeSearchForm" :model="adduserObj" class="block-containter">
+  <el-form ref="activeSearchForm" :model="addUserObj" class="block-containter">
     <div class="adduser-search__title">
-      新增用户分析<span>{{`（权限：全国）`}}</span>
+      新增用户分析
     </div>
     <div class="adduser-search-client">
       <span>客户端：</span>
-      <el-radio v-for="(val, i) in clients" v-model="adduserObj.clientSelected" :label="val.value" border size="medium" :key="i">{{val.value}}</el-radio>
-      <!-- <el-radio v-model="radio8" label="2" border size="medium">备选项2</el-radio> -->
+      <el-radio-group size="small" v-model="addUserObj.clientSelected" @change="handleChange">
+        <el-radio v-for="(val, i) in clients"  :label="val.value" border size="medium" :key="i">{{val.value}}</el-radio>
+      </el-radio-group>
     </div>
   </el-form>
 </template>
 
 <script>
-/* 新增用户分析只有月维度 */
 import { mapState, mapActions } from 'vuex';
 import { CLIENT } from '@/config';
 
@@ -24,14 +24,17 @@ export default {
   },
   computed: {
     ...mapState({
-      adduserObj: ({ dataAnalysis }) => dataAnalysis.adduserObj,
+      addUserObj: ({ dataAnalysis }) => dataAnalysis.adduserObj,
       currentUser: ({ root }) => root.currentUser
     })
   },
   methods: {
     ...mapActions([
 
-    ])
+    ]),
+    handleChange() {
+      this.$emit('query');
+    }
   }
 };
 </script>

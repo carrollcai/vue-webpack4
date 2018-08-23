@@ -33,7 +33,7 @@
 }
 
 .active-search__client {
-  margin-left: $blockWidth;
+  margin-top: 32px;
 }
 
 .userdata-main {
@@ -56,12 +56,22 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  padding-right: 40px;
+  flex:1;
+
+  &:last-child{
+    border-right: none;
+  }
 }
 
-.userdata-main-left__outer+.userdata-main-left__outer {
-  padding-left: 40px;
+.new-user-analyze{
+  .userdata-main-left{
+    flex: 1;
+  }
 }
+
+/* .userdata-main-left__outer+.userdata-main-left__outer {
+  padding-left: 40px;
+} */
 
 .userdata-main-left__title {
   height: 16px;

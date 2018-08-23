@@ -2,7 +2,6 @@
   <div class="active-trend block-containter">
     <el-form ref="activeTrendForm" :model="trend" :rules="activeTrendRules">
       <div class="trend-header">
-        <!-- <div class="trend-header-title">活跃度分析</div> -->
         <div class="trend-header-title">{{title}}</div>
         <div class="trend-header-right">
           <el-form-item class="normalize-form-item" v-if="isWholeCountry">
@@ -37,7 +36,7 @@
                   :editable="false"
                   placeholder="选择开始日期"
                   v-model="trend.startDate"
-                  :picker-options="startOptions"
+                  :picker-options="startOptions(trend.endDate)"
                   @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
@@ -48,7 +47,7 @@
                   :editable="false"
                   placeholder="选择结束日期"
                   v-model="trend.endDate"
-                  :picker-options="endOptions"
+                  :picker-options="endOptions(trend.startDate)"
                   @change="triggerValidate()" />
               </el-form-item>
             </el-form-item>
@@ -66,6 +65,7 @@
               </el-radio-button>
             </el-radio-group>
           </div>
+          <el-button class="data-download" type="primary" icon="icon-download" @click="downloadDataAnalysis" title="导出数据"/>
         </div>
       </div>
     </el-form>
@@ -79,9 +79,6 @@
           <span>{{radioTransformDate(i)}}</span>
         </el-radio>
       </div>
-      <div @click="downloadDataAnalysis" class="cursor-pointer">
-        <i class="el-icon-download"></i>下载此数据分析
-      </div>
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
@@ -89,29 +86,33 @@
         <div class="no-data" v-if="trend.chartRadio === 0">
           <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
         <!--手机账号登录用户-->
         <div class="no-data" v-if="trend.chartRadio === 1">
           <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
         <!--移动IP用户-->
         <div class="no-data" v-else-if="trend.chartRadio === 2">
           <div class="no-data" v-if="Object.isNullArray(trendData)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
         <!--非移动IP用户-->
         <div class="no-data" v-else-if="trend.chartRadio === 3">
           <div class="no-data" v-if="Object.isNullArray(trendData)">暂无数据</div>
           <template v-else>
-            <multi-line v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
-            <multi-line v-if="isDistrict" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
+            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
           </template>
         </div>
       </div>
@@ -129,15 +130,17 @@
 </template>
 
 <script>
-import moment from 'moment';
-import MultiLine from 'components/chart/MultiLine.vue';
-import LineChart from 'components/chart/Line.vue';
-import { TREND_RADIO } from '@/config';
 import { mapState, mapActions, mapMutations } from 'vuex';
+
+import MultiLine from 'components/chart/MultiLine.vue';
+import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
+import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
+import LineChart from 'components/chart/Line.vue';
 import WmTable from 'components/Table.vue';
-import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
+
 import mixins from './mixins';
-import * as types from '@/store/types';
+import { TREND_RADIO } from '@/config';
+import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
 
 export default {
   mixins: [mixins],
@@ -162,7 +165,9 @@ export default {
   components: {
     WmTable,
     MultiLine,
-    LineChart
+    LineChart,
+    BasicAreaChart,
+    GroupedColumnChart
   },
   data() {
     const checkDate = (rule, value, callback) => {
@@ -171,13 +176,14 @@ export default {
         startDateBeforeEndDate(startDate, endDate, callback);
       }
     };
+
     const checkRangeDate = (rule, value, callback) => {
       const { startDate, endDate } = this.trend;
       if (startDate && endDate) {
         monthRange(startDate, endDate, callback);
       }
     };
-    const that = this;
+
     return {
       trendRadio: TREND_RADIO,
       mobileIpArr: ['移动IP用户'],
@@ -190,31 +196,13 @@ export default {
           { required: true, message: '请选择开始时间', trigger: 'change' }
         ],
         endDate: [
-          { required: true, message: '请选择结束范围', trigger: 'change' }
+          { required: true, message: '请选择结束时间', trigger: 'change' }
         ],
         checkDate: [
           { validator: checkDate, trigger: 'change' },
           { validator: checkRangeDate, trigger: 'change' }
         ]
       },
-      startOptions: {
-        disabledDate(time) {
-          if (that.trend.endDate) {
-            return (time.getTime() < moment(that.trend.endDate).add(-12, 'months').toDate().getTime()) || (time.getTime() > new Date(that.trend.endDate).getTime());
-          } else {
-            return time.getTime() > Date.now();
-          }
-        }
-      },
-      endOptions: {
-        disabledDate(time) {
-          if (that.trend.startDate) {
-            return (time.getTime() > moment(that.trend.startDate).add(12, 'months').toDate().getTime()) || (time.getTime() < new Date(that.trend.startDate).getTime());
-          } else {
-            return time.getTime() > Date.now();
-          }
-        }
-      }
     };
   },
   computed: {
@@ -236,9 +224,9 @@ export default {
     },
     downloadDataAnalysis() {
       this.$refs['activeTrendForm'].validate(valid => {
-        if (!valid) return false;
-
-        this.downloadTrendDataAnalysis();
+        if (valid) {
+          this.downloadTrendDataAnalysis();
+        }
       });
     },
     triggerValidate() {
@@ -263,36 +251,20 @@ export default {
     },
     query() {
       const that = this;
-      this.$refs['activeTrendForm'].validate(valid => {
+      that.$refs['activeTrendForm'].validate(valid => {
         if (valid) {
-          this.getTrendList().then(() => {
-            that.handleChangeType(that.trend.chartRadio);
-          });
+          that.$emit('query');
         }
       });
     },
     handleChangeType(val) {
-      let type = types.ACTIVE_UPDATE_PROVINCE_TREND;
-      if (this.isProvince) {
-        type = types.ACTIVE_UPDATE_PROVINCE_TREND;
-      }
-
-      if (this.isDistrict) {
-        type = types.ACTIVE_UPDATE_DISTRICT_TREND;
-      }
-
-      if (this.isWholeCountry) {
-        type = types.ACTIVE_UPDATE_COUNTRY_TREND;
-      }
-
-      this.$store.commit(type, { chartRadio: val });
+      this.$emit('changeType', val);
     },
     ...mapMutations({
       initDate: 'ACTIVE_INIT_DATE'
     }),
     ...mapActions([
       'getTrendList',
-      'getTrendNewMembers',
       'downloadTrendDataAnalysis'
     ])
   }

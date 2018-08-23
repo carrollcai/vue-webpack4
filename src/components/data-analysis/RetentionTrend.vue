@@ -5,9 +5,6 @@
       <div class="trend-header-right">
         <div class="trend-header-right__query">
           <el-form ref="retTrendForm" :model="retTrend" :rules="retTrendTrendRules" class="flex">
-            <!-- <el-form-item class="normalize-form-item">
-              查询：
-            </el-form-item> -->
             <el-form-item class="normalize-form-item" v-if="isWholeCountry">
               <el-select class="user-form-item__input"
                 v-model="retTrend.district"
@@ -25,7 +22,7 @@
                   v-model="retTrend.startDate"
                   :editable="false"
                   :clearable="false"
-                  :picker-options="startOptions"
+                  :picker-options="startOptions(retTrend.endDate)"
                   @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
@@ -35,7 +32,7 @@
                   :editable="false"
                   :clearable="false"
                   v-model="retTrend.endDate"
-                  :picker-options="endOptions"
+                  :picker-options="endOptions(retTrend.startDate)"
                   @change="triggerValidate()" />
               </el-form-item>
             </el-form-item>
@@ -54,22 +51,24 @@
             </el-radio-button>
           </el-radio-group>
         </div>
+        <el-button class="data-download" type="primary" icon="icon-download" @click="downloadDataAnalysis" title="导出数据"/>
       </div>
     </div>
     <div class="trend-sub">
-      <div class="trend-sub__radio">
-        <el-radio v-if="!retTrend.mode" v-for="i in Object.keys(trendRadio)" :key="i" v-model="retTrend.chartRadio" :label="Number(i)" @change="changeRadio">
+      <div class="trend-sub__radio" v-if="!retTrend.mode">
+        <el-radio v-for="i in Object.keys(trendRadio)" :key="i" v-model="retTrend.chartRadio" :label="Number(i)" @change="changeRadio">
           {{trendRadio[i]}}
         </el-radio>
-      </div>
-      <div @click="downloadDataAnalysis" class="cursor-pointer">
-        <i class="el-icon-download"></i>下载此数据分析
       </div>
     </div>
     <div class="trend-mode">
       <div v-if="!retTrend.mode" class="trend-chart">
         <div class="no-data" v-if="Object.isNullArray(retTrendList)">暂无数据</div>
-        <multi-line v-else :charData="retTrendData" :id="'line'" :fields="retTrendFields" />
+        <!-- <multi-line v-else :charData="retTrendData" :id="'line'" :fields="retTrendFields" /> -->
+        <template v-else>
+          <basic-area-chart v-if="isProvince"  :charData="retTrendData" id="line" :fields="retTrendFields" />
+          <grouped-column-chart v-if="isDistrict || isWholeCountry" id="retention-trend"/>
+        </template>
       </div>
       <div v-else>
         <wm-table :source="retTrendList" :max-height="500">
@@ -87,12 +86,13 @@
 </template>
 
 <script>
-import moment from 'moment';
-import LineChart from 'components/chart/Line.vue';
-import MultiLine from 'components/chart/MultiLine.vue';
-import { RETENTION_TREND_RADIO } from '@/config';
 import { mapState, mapActions } from 'vuex';
+
+import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
+import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
 import WmTable from 'components/Table.vue';
+
+import { RETENTION_TREND_RADIO } from '@/config';
 import { startDateBeforeEndDate, monthRange } from '@/utils/rules.js';
 import mixins from './mixins';
 
@@ -113,8 +113,8 @@ export default {
     }
   },
   components: {
-    LineChart,
-    MultiLine,
+    BasicAreaChart,
+    GroupedColumnChart,
     WmTable
   },
   data() {
@@ -130,7 +130,6 @@ export default {
         monthRange(startDate, endDate, callback);
       }
     };
-    const that = this;
     return {
       trendRadio: RETENTION_TREND_RADIO,
       retTrendTrendRules: {
@@ -138,31 +137,13 @@ export default {
           { required: true, message: '请选择开始时间', trigger: 'change' }
         ],
         endDate: [
-          { required: true, message: '请选择结束范围', trigger: 'change' }
+          { required: true, message: '请选择结束时间', trigger: 'change' }
         ],
         checkDate: [
           { validator: checkDate, trigger: 'change' },
           { validator: checkRangeDate, trigger: 'change' }
         ]
       },
-      startOptions: {
-        disabledDate(time) {
-          if (that.retTrend.endDate) {
-            return (time.getTime() < moment(that.retTrend.endDate).add(-12, 'months').toDate().getTime()) || (time.getTime() > new Date(that.retTrend.endDate).getTime());
-          } else {
-            return time.getTime() > Date.now();
-          }
-        }
-      },
-      endOptions: {
-        disabledDate(time) {
-          if (that.retTrend.startDate) {
-            return (time.getTime() > moment(that.retTrend.startDate).add(12, 'months').toDate().getTime()) || (time.getTime() < new Date(that.retTrend.startDate).getTime());
-          } else {
-            return time.getTime() > Date.now();
-          }
-        }
-      }
     };
   },
   computed: {
