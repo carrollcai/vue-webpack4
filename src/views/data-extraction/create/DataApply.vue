@@ -7,6 +7,7 @@
     </el-breadcrumb>
   </div>
   <div class="m-container table-container">
+    <!-- <multilevelLinkage></multilevelLinkage> -->
     <el-form :label-position="'right'" :model="applyFrom" ref="refName" :rules="applyFromVaild">
       <h3 class="data-title">数据基本信息</h3>
       <div class="base-info">
@@ -21,7 +22,9 @@
                 @active-item-change="itemChange"
                 @change="getRegion"
                 :options="processorList"
-                v-model="applyFrom.province">
+                v-model="applyFrom.province"
+                :change-on-select="true"
+                :props="{}">
               </el-cascader>
               <div class="tag-list">
                 <el-tag
@@ -158,10 +161,14 @@
 
 <script>
 import mixins from './mixins';
+import multilevelLinkage from '@/components/data-extraction/MultilevelLinkage.vue';
 import {mapState} from 'vuex';
 const sexList = [{label: '男', value: '1'}, {label: '女', value: '2'}];
 export default {
   mixins: [mixins],
+  components: {
+    multilevelLinkage
+  },
   data() {
     return {
       activeMap: new Map(),

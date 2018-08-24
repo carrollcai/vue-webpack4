@@ -72,9 +72,9 @@ import CreateVisitAppoint from '@/views/visit/create/CreateVisitAppoint.vue';
 import VisitAppointDetail from '@/views/visit/detail/VisitAppointDetail.vue';
 
 /* 走访任务处理 */
-import MissionHandling from '@/views/visit/MissionHandling.vue';
-import VisitMissionHandle from '@/views/visit/handle/MissionHandle.vue';
-import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
+// import MissionHandling from '@/views/visit/MissionHandling.vue';
+// import VisitMissionHandle from '@/views/visit/handle/MissionHandle.vue';
+// import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
 
 /* 数据提取管理 */
 import DataDownload from '@/views/data-extraction/DataDownload.vue';
@@ -365,7 +365,7 @@ const dynamicRoutes = [
         meta: { menuId: 32 }
       },
       /* 走访任务处理 */
-      {
+      /* {
         path: '/visit/mission-handling',
         name: 'visit-mission-handling',
         component: MissionHandling,
@@ -388,8 +388,7 @@ const dynamicRoutes = [
         name: 'visit-mission-handle-detail',
         component: VisitMissionDetail,
         meta: { menuId: 33 }
-      },
-
+      }, */
       { path: '/system/role/management', component: Role, meta: { menuId: 10 } },
       // type分为create / edit
       { path: '/system/role/:type/:id?', component: RoleCreate, meta: { menuId: 10 } },

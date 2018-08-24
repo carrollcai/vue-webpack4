@@ -234,14 +234,14 @@ export const MENU_PERMISSIONS = [
         name: '走访指派',
         url: '/visit/visit-appoint',
         enable: false
-      },
+      }/* ,
       {
         menuId: 33,
         parentId: 30,
         name: '走访任务处理',
         url: '/visit/mission-handling',
         enable: false
-      }
+      } */
     ]
   },
   {

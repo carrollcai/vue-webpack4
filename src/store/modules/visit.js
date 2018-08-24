@@ -1,47 +1,37 @@
-import { createHelpers } from 'vuex-map-fields';
+// import { createHelpers } from 'vuex-map-fields';
 import * as types from '../types';
 import {
   PAGE_NO,
   PAGE_SIZE
 } from '@/config/index.js';
 
-const { getVisitField, updateVisitField } = createHelpers({
+/* const { getVisitField, updateVisitField } = createHelpers({
   getterType: 'getVisitField',
   mutationType: 'updateVisitField'
-});
+}); */
 
 const createAppointFrom = {
   visitTheme: '',
-  organizeId: '',
   organizeName: '',
-  visitAddress: '',
   intervieweeName: '',
-  intervieweeMobile: '',
-  visitPresentMembers: '',
-  visitContent: '',
-  relOpporId: '',
-  relOpporCode: '',
-  processor: '',
-  assignNote: '',
-  problemCoordinate: '',
-  isFirstVisit: 1,
-  visitTime: null,
-  timeRange: null,
   visitStartTime: '',
-  visitEndTime: ''
+  visitEndTime: '',
+  processor: [],
+  visitTime: null,
+  timeRange: null
 };
 
 const state = {
   myVisitManageFrom: {
     visitStartTime: '',
     visitEndTime: '',
-    visitStatus: [],
+    visitStatus: ['1'],
     organizeName: '',
-    isFirstVisit: '',
+    visitResource: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    state: null
-    // visitTime: ''
+    state: '1'
+    // visitTime: null
   },
   myVisitManageList: {},
   createVisitFrom: {
@@ -69,32 +59,23 @@ const state = {
     visitStartTime: '',
     visitEndTime: '',
     visitStatus: [],
+    visitStatusData: '',
     organizeName: '',
-    isFirstVisit: '',
+    processor: [],
+    processorData: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
-    state: null
+    visitResource: '1',
     // timeRang: ''
   },
   createAppointFrom: {
     visitTheme: '',
-    organizeId: '',
     organizeName: '',
-    visitAddress: '',
     intervieweeName: '',
-    intervieweeMobile: '',
-    visitPresentMembers: '',
-    visitContent: '',
-    relOpporId: '',
-    relOpporCode: '',
-    processor: '',
-    assignNote: '',
-    problemCoordinate: '',
-    isFirstVisit: 1,
-    visitTime: null,
-    timeRange: null,
     visitStartTime: '',
-    visitEndTime: ''
+    visitEndTime: '',
+    visitTime: null,
+    timeRange: null
   },
   appointVisitList: {},
   visitAppointDetail: {},
@@ -133,7 +114,7 @@ const mutations = {
   },
   [types.GET_PROCESSOR_LIST](state, data) {
     // 审核人结构
-    let handlers = data.map(val => {
+    /* let handlers = data.map(val => {
       let newVal = {};
       newVal.value = val.codeValue;
       newVal.label = val.codeName;
@@ -152,7 +133,15 @@ const mutations = {
       return newVal;
     });
     state.getProcessorList = handlers.filter(val => val.children && val.children.length);
-    state.getProcessorList = state.getProcessorList[0].children[0].children;
+    state.getProcessorList = state.getProcessorList[0].children[0].children; */
+    let arr = [];
+    data.filter(val => {
+      arr.push({
+        value: String(val.operatorId),
+        label: val.staffName
+      });
+    });
+    state.getProcessorList = arr;
   },
   [types.REGION_MANAGE_LIST](state, data) {
     state.regionManageList = data;
@@ -160,21 +149,21 @@ const mutations = {
   [types.REGISTER_LIST](state, data) {
     state.registerList = data.list;
   },
-  [types.HANDLE_VISIT_MANAGE_LIST](state, data) {
+  /* [types.HANDLE_VISIT_MANAGE_LIST](state, data) {
     state.handleVisits = data;
   },
   [types.VISIT_DETAIL](state, data) {
     state.visitDetail = data;
   },
-  updateVisitField
+  updateVisitField */
 };
 
-const getters = {
+/* const getters = {
   getVisitField
-};
+}; */
 
 export default {
   state,
-  mutations,
-  getters
+  mutations
+  // getters
 };

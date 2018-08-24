@@ -13,13 +13,8 @@
           <el-input v-model="myVisitManageFrom.organizeName" clearable placeholder="走访公司名称"></el-input>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-select v-model="myVisitManageFrom.isFirstVisit" clearable placeholder="是否首客">
-            <el-option
-              v-for="item in firstGuestOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="myVisitManageFrom.visitResource" clearable placeholder="任务类型">
+            <el-option v-for="item in visitResourceList" :key="item.value" :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-form-item>
       </div>
@@ -28,16 +23,14 @@
           <el-button type="primary" @click="query">查询</el-button>
         </el-form-item>
         <el-form-item class="form-left-width">
-          <el-button class="el-button--have-icon" @click.prevent="createVisit" icon="el-icon-plus">新建走访申请</el-button>
+          <el-button class="el-button--have-icon" @click.prevent="createVisit" icon="el-icon-plus">新建走访计划</el-button>
         </el-form-item>
       </div>
     </el-form>
     <el-tabs v-model="myVisitManageFrom.state" @tab-click="getState">
       <el-tab-pane label="全部" name=""></el-tab-pane>
-      <el-tab-pane label="待执行" name="2"></el-tab-pane>
-      <el-tab-pane label="已完成" name="4"></el-tab-pane>
-      <el-tab-pane label="待审核" name="1"></el-tab-pane>
-      <el-tab-pane label="已驳回" name="3"></el-tab-pane>
+      <el-tab-pane label="待执行" name="1"></el-tab-pane>
+      <el-tab-pane label="已执行" name="2"></el-tab-pane>
     </el-tabs>
   </div>
   <div class="m-container table-container">
@@ -51,20 +44,20 @@
       <el-table-column label="走访编号" property="visitCode" width="180"/>
       <el-table-column label="走访时间" property="visitStartTime" />
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
-      <el-table-column label="是否首客" property="isFirstVisit" :formatter="isFirstVisitFn" />
-      <el-table-column label="走访状态" property="visitStatus" :formatter="visitStatusFn" />
-      <el-table-column label="操作" width="130">
+      <el-table-column label="任务类型" property="visitResource" :formatter="visitResourceFn"/>
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button class="table-button" v-if="scope.row.visitStatus === '2'" type="text" @click="viewDetail(scope.row, true)">
-            执行处理
+          <el-button class="table-button" v-if="scope.row.visitStatus === '1'" type="text" @click="viewDetail(scope.row, true)">
+            走访汇报
           </el-button>
-          <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="createVisit(scope.row)">
+          <!-- 自建的则支持修改 -->
+          <el-button v-if="scope.row.visitResource === 1 && myVisitManageFrom.state === '1'" type="text" @click="createVisit(scope.row)">
             修改
           </el-button>
-          <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
+          <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
             删除
           </el-button> -->
         </template>
@@ -96,35 +89,18 @@ export default {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
       timeRange: '',
-      firstGuestOption: [{
-        value: '0',
-        label: '否'
-      }, {
-        value: '1',
-        label: '是'
-      }]
+      visitResourceList: [{value: '1', label: '自提'}, {value: '2', label: '指派'}]
     };
   },
   beforeMount() {
     this.query();
   },
   methods: {
-    isFirstVisitFn(row, clo, value) {
-      if (value === '0') {
-        return '否';
-      } else {
-        return '是';
-      }
-    },
-    visitStatusFn(row, clo, value) {
-      if (value === '1') {
-        return '待审核';
-      } else if (value === '2') {
-        return '待执行';
-      } else if (value === '3') {
-        return '已驳回';
-      } else if (value === '4') {
-        return '已完成';
+    visitResourceFn(row, clo, value) {
+      if (value === 1) {
+        return '自提';
+      } else if (value === 2) {
+        return '指派';
       }
     },
     getTimeRange(time) {
@@ -139,6 +115,7 @@ export default {
     getState(value) {
       this.myVisitManageFrom.pageNo = this.pageNo;
       this.myVisitManageFrom.pageSize = this.pageSize;
+      console.log(value.name !== '');
       if (value.name !== '') {
         this.myVisitManageFrom.visitStatus = [value.name];
       } else {

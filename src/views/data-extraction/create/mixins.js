@@ -35,9 +35,16 @@ export default {
     this.queryProcessor({});
   },
   methods: {
+    itemChange(value) {
+      console.log(value, 'itemChange');
+    },
     getRegion(value) {
+      console.log(value, 'getRegion');
       this.applyFrom.province = [];
       this.applyFrom.provinceList.push(value[1]);
+    },
+    handleClose(value) {
+      console.log(value, 'handleClose');
     },
     getServiceTime(value) {
       if (value === '不显示') {
