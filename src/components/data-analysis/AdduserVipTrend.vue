@@ -6,8 +6,12 @@
         <div class="trend-header-right">
           <div class="trend-header-right__query">
             <el-form-item v-if="isWholeCountry" class="normalize-form-item adduser-trend-dimen" prop="provinceSelected">
-              <el-select class="user-form-item__input" placeholder="请选择" v-model="adduserTrend.selected" @change="handleChangeProvince">
-                <el-option v-for="(val, key) in addUserTrendDimension" :key="val" :label="val" :value="Number(key)" />
+              <el-select class="user-form-item__input"
+                placeholder="请选择"
+                v-model="trend.region"
+                @change="handleChangeProvince"
+              >
+                <el-option v-for="(val, key) in addUserTrendDimension" :key="val" :label="val" :value="key" />
               </el-select>
             </el-form-item>
             <el-form-item class="normalize-form-item" prop="checkDate">
@@ -63,14 +67,19 @@
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
-        <no-data :data="testArr">
-          <grouped-column-chart id="vip-column-chart"/>
+        <no-data :data="addUserVipData">
+          <grouped-column-chart
+            id="vip-column-chart"
+            :fields="addUserVipFields"
+            :char-data="addUserVipData"
+          />
         </no-data>
       </div>
       <div v-else>
-        <wm-table :source="trendList" :max-height="500">
+        <wm-table :source="addUserVipList" :max-height="500">
+          <el-table-column label="客户端" property="periodId" />
+          <el-table-column label="省份" property="periodId" />
           <el-table-column label="日期" property="periodId" />
-          <el-table-column :label="!trend.dateType ? '日活跃用户数' : '月活跃用户数'" property="activeNum" />
           <el-table-column label="手机账号登录用户" property="msisdnNum" />
           <el-table-column label="移动IP用户" property="chinaMobileIpNum" />
           <el-table-column label="非移动IP用户" property="otherIpNum" />
@@ -129,7 +138,6 @@ export default {
     return {
       addUserTrendDimension: ADD_USER_TREND_DIMENSION,
       trendRadio: ADDUSER_TREND_RADIO,
-      mobileIpArr: ['移动IP用户', '非移动IP用户'],
       activeTrendRules: {
         date: [
           { required: true, message: '请选择时间范围', trigger: 'change' },
@@ -153,9 +161,9 @@ export default {
     ...mapState({
       adduserTrend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
       trend: ({ dataAnalysis }) => dataAnalysis.adduserVipTrend,
-      trendList: ({ dataAnalysis }) => dataAnalysis.trendList,
-      trendNewMembers: ({ dataAnalysis }) => dataAnalysis.trendNewMembers,
-      membersList: ({ dataAnalysis }) => dataAnalysis.membersList
+      addUserVipList: ({ dataAnalysis }) => dataAnalysis.addUserVipList,
+      addUserVipData: ({ dataAnalysis }) => dataAnalysis.addUserVipData,
+      addUserVipFields: ({ dataAnalysis }) => dataAnalysis.addUserVipFields,
     })
   },
   beforeMount() {
@@ -166,10 +174,6 @@ export default {
     },
     downloadAdduserTrend() {
 
-    },
-    radioTransformDate(i) {
-      if (i !== '0') return this.trendRadio[i];
-      return !this.trend.dateType ? this.trendRadio[i] : this.trendRadio[i].replace('日', '月');
     },
     downloadDataAnalysis() {
       this.$refs['activeTrendForm'].validate(valid => {
@@ -182,16 +186,6 @@ export default {
       if (this.trend.startDate && this.trend.endDate) {
         this.query();
       }
-    },
-    newMembersFields() {
-      return this.membersList.map(val => val.item);
-    },
-    addFieldsTrendList() {
-      return this.trendList.map(val => {
-        val[this.mobileIpArr[0]] = val.chinaMobileIpNum;
-        val[this.mobileIpArr[1]] = val.otherIpNum;
-        return val;
-      });
     },
     dateTypeChange() {
       const { trend } = this;
@@ -213,8 +207,6 @@ export default {
       initDate: 'ACTIVE_INIT_DATE'
     }),
     ...mapActions([
-      'getTrendList',
-      'getTrendNewMembers',
       'downloadTrendDataAnalysis'
     ])
   }

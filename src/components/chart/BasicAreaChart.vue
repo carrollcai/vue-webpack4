@@ -59,8 +59,9 @@ export default {
       dv.transform({
         type: 'fold',
         fields: fields, // 展开字段集
-        key: 'which', // key字段
-        value: 'value' // value字段
+        key: 'type', // key字段
+        value: 'value', // value字段
+        retains: [ 'periodId' ]
       });
 
       this.chart.source(dv, {
@@ -70,9 +71,9 @@ export default {
       });
 
       // 这里必须在line里加color，否则曲线会有问题
-      this.chart.area().position('periodId*value').color('which').shape('smooth');
-      this.chart.line().position('periodId*value').color('which').size(1).shape('smooth');
-      this.chart.point().position('periodId*value').color('which').shape('circle');
+      this.chart.area().position('periodId*value').color('type').shape('smooth');
+      this.chart.line().position('periodId*value').color('type').size(1).shape('smooth');
+      this.chart.point().position('periodId*value').color('type').shape('circle');
 
       this.chart.render();
     }

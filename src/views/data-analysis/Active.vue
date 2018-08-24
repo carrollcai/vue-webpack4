@@ -99,6 +99,9 @@ export default {
         that.handleChangeType(that.trend.chartRadio);
       });
     },
+    /**
+     * 活跃度趋势分析 改变类型
+     */
     handleChangeType(val) {
       const {isProvince, isDistrict, isWholeCountry} = this;
       let type = types.ACTIVE_UPDATE_PROVINCE_TREND;
@@ -118,11 +121,9 @@ export default {
       this.$store.commit(type, { chartRadio: val });
     },
     ...mapActions([
-      'getMembers',
       'getDailyActiveUser',
       'getTrendList',
-      'getProvinceUser',
-      'getTrendNewMembers'
+      'getProvinceUser'
     ])
   }
 };

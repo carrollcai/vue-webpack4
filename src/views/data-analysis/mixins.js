@@ -6,11 +6,11 @@ export default {
     },
     // 大区
     isDistrict() {
-      return false;
+      return true;
     },
     // 全国
     isWholeCountry() {
-      return true;
+      return false;
     },
     getPermissionParams() {
       const {isProvince, isDistrict, isWholeCountry} = this;

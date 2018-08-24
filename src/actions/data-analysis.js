@@ -112,13 +112,41 @@ const actions = {
     return API.downloadRetTrendDataAnalysisAPI(req);
   },
   /**
-   * 查询 新增用户趋势分析
+   * 新增用户分析-查询 新增用户数据
    */
-  queryVip: ({ commit, state }, params) => {
+  queryAddUserOverview({commit}, params) {
     return new Promise((resolve) => {
+      commit(types.ADD_USER_OVERVIEW, {});
       resolve();
     });
-  }
+  },
+  /**
+   *新增用户分析-查询 新增用户趋势分析 数据
+   */
+  queryAddUserTrend({commit}, params) {
+    return new Promise((resolve) => {
+      commit(types.ADD_USER_TREND, []);
+      resolve();
+    });
+  },
+  /**
+   *新增用户分析-查询 用户新增排名情况 数据
+   */
+  queryAddUserMap({commit}, params) {
+    return new Promise((resolve) => {
+      commit(types.ADD_USER_MAP, []);
+      resolve();
+    });
+  },
+  /**
+   *新增用户分析-查询 新增会员用户趋势分析 数据
+   */
+  queryAddUserVip({commit}, params) {
+    return new Promise((resolve) => {
+      commit(types.ADD_USER_VIP, []);
+      resolve();
+    });
+  },
 };
 
 function activeReq(state) {

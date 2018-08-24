@@ -4,26 +4,12 @@
       <div class="provinceUser-header-title">{{title}}</div>
       <el-form ref="provinceUserForm" :model="userMapTrend" :rules="provinceUserRules" class="flex">
         <el-form-item class="normalize-form-item" prop="checkDate">
-          <el-form-item class="normalize-form-item float-left" prop="startDate">
-            <el-date-picker class="user-form-item__input"
-              type="month"
+          <el-form-item prop="date" class="normalize-form-item">
+            <el-date-picker type="daterange"
+              placeholder="选择日期"
+              v-model="userMapTrend.date"
               :editable="false"
-              :clearable="false"
-              placeholder="选择开始日期"
-              v-model="userMapTrend.startDate"
-              :picker-options="startOptions(userMapTrend.endDate)"
-              @change="triggerValidate()" />
-          </el-form-item>
-          <span class="date-connect-line float-left">-</span>
-          <el-form-item class="normalize-form-item float-left" prop="endDate">
-            <el-date-picker class="user-form-item__input"
-              type="month"
-              :editable="false"
-              :clearable="false"
-              placeholder="选择结束日期"
-              v-model="userMapTrend.endDate"
-              :picker-options="endOptions(userMapTrend.startDate)"
-              @change="triggerValidate()" />
+              @change="query" />
           </el-form-item>
         </el-form-item>
       </el-form>
@@ -38,12 +24,12 @@
       </div>
     </div>
     <div class="province-user-chart">
-      <no-data :data="provinceUserList">
+      <no-data :data="addUserMapList">
         <div class="province-user-chart">
           <div class="province-user-chart__map">
-            <Map id="adduserMap" :charData="provinceUserList" :width="700" :height="500" />
+            <Map id="adduserMap" :charData="addUserMapList" :width="700" :height="500" />
           </div>
-          <rank :list="provinceUserList" />
+          <rank :list="addUserMapList" />
         </div>
       </no-data>
     </div>
@@ -78,7 +64,7 @@ export default {
   computed: {
     ...mapState({
       userMapTrend: ({ dataAnalysis }) => dataAnalysis.adduserMapTrend,
-      provinceUserList: ({ dataAnalysis }) => dataAnalysis.provinceUserList
+      addUserMapList: ({ dataAnalysis }) => dataAnalysis.addUserMapList
     })
   },
   data() {
@@ -115,14 +101,6 @@ export default {
     };
   },
   methods: {
-    dateTypeChange() {
-      this.query();
-    },
-    triggerValidate() {
-      if (this.userMapTrend.startDate && this.userMapTrend.endDate) {
-        this.query();
-      }
-    },
     query() {
       this.$refs['provinceUserForm'].validate(valid => {
         if (valid) {
