@@ -25,7 +25,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 135.5,
           'Berlin5': 135.5,
-          '月份': 'Apr.'
+          'periodId': 'Apr.'
         },
         {
           'Berlin': 35.5,
@@ -34,7 +34,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun.'
+          'periodId': 'Jun.'
         },
         {
           'London': 180.9,
@@ -44,7 +44,7 @@ export default {
           'Berlin3': 35.5,
           'Berlin4': 35.5,
           'Berlin5': 35.5,
-          '月份': 'Aug.'
+          'periodId': 'Aug.'
         },
         {
           'Berlin': 35.5,
@@ -53,7 +53,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun1.'
+          'periodId': 'Jun1.'
         },
         {
           'Berlin': 35.5,
@@ -62,7 +62,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun2.'
+          'periodId': 'Jun2.'
         },
         {
           'Berlin': 35.5,
@@ -71,7 +71,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun3.'
+          'periodId': 'Jun3.'
         },
         {
           'Berlin': 35.5,
@@ -80,7 +80,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun4.'
+          'periodId': 'Jun4.'
         },
         {
           'Berlin': 35.5,
@@ -89,7 +89,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun5.'
+          'periodId': 'Jun5.'
         },
         {
           'Berlin': 35.5,
@@ -98,7 +98,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun32.'
+          'periodId': 'Jun32.'
         },
         {
           'Berlin': 35.5,
@@ -107,7 +107,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun33.'
+          'periodId': 'Jun33.'
         },
         {
           'Berlin': 35.5,
@@ -116,7 +116,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun24.'
+          'periodId': 'Jun24.'
         },
         {
           'Berlin': 35.5,
@@ -125,7 +125,7 @@ export default {
           'Berlin3': 135.5,
           'Berlin4': 35.5,
           'Berlin5': 135.5,
-          '月份': 'Jun22.'
+          'periodId': 'Jun22.'
         },
       ]
     },
@@ -137,7 +137,7 @@ export default {
     },
     position: {
       type: String,
-      default: '月份*value'
+      default: 'periodId*value'
     },
     width: {
       type: Number

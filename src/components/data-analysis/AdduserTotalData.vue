@@ -7,22 +7,22 @@
       <div class="userdata-main-left">
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增用户</div>
-          <div class="userdata-main-left__num">{{dailyUser.activeUserNum}}</div>
+          <div class="userdata-main-left__num">{{overviewData.activeUserNum}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增手机用户</div>
-          <div class="userdata-main-left__num">{{dailyUser.mobileAccount}}</div>
+          <div class="userdata-main-left__num">{{overviewData.mobileAccount}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增游客用户</div>
-          <div class="userdata-main-left__num">{{dailyUser.mobileIp}}</div>
+          <div class="userdata-main-left__num">{{overviewData.mobileIp}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增会员活跃用户</div>
-          <div class="userdata-main-left__num">{{dailyUser.newMembers}}</div>
+          <div class="userdata-main-left__num">{{overviewData.newMembers}}</div>
           <div class="userdata-main-left__rank">全国No.1</div>
         </div>
       </div>
@@ -54,7 +54,8 @@ export default {
     ...mapState({
       members: ({ dataAnalysis }) => dataAnalysis.members,
       dailyUser: ({ dataAnalysis }) => dataAnalysis.dailyUser,
-      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj
+      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj,
+      overviewData: ({ dataAnalysis }) => dataAnalysis.addUserOverviewData
     })
   },
   methods: {

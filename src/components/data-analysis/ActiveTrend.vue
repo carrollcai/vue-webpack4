@@ -71,48 +71,26 @@
     </el-form>
     <div class="trend-sub">
       <div class="trend-sub__radio">
-        <el-radio v-if="!trend.mode" v-for="i in Object.keys(trendRadio)"
-          :key="i"
+        <el-radio-group v-if="!trend.mode"
           v-model="trend.chartRadio"
-          :label="Number(i)"
           @change="handleChangeType">
-          <span>{{radioTransformDate(i)}}</span>
-        </el-radio>
+            <el-radio
+              v-for="i in Object.keys(trendRadio)"
+              :key="i"
+              :label="Number(i)"
+            >
+              <span>{{radioTransformDate(i)}}</span>
+            </el-radio>
+        </el-radio-group>
       </div>
     </div>
     <div class="trend-mode">
       <div v-if="!trend.mode" class="trend-chart">
-        <!--活跃用户-->
-        <div class="no-data" v-if="trend.chartRadio === 0">
+        <div class="no-data">
           <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
-
-            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
-          </template>
-        </div>
-        <!--手机账号登录用户-->
-        <div class="no-data" v-if="trend.chartRadio === 1">
-          <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
-          <template v-else>
-            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
-            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
-          </template>
-        </div>
-        <!--移动IP用户-->
-        <div class="no-data" v-else-if="trend.chartRadio === 2">
-          <div class="no-data" v-if="Object.isNullArray(trendData)">暂无数据</div>
-          <template v-else>
-            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
-            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
-          </template>
-        </div>
-        <!--非移动IP用户-->
-        <div class="no-data" v-else-if="trend.chartRadio === 3">
-          <div class="no-data" v-if="Object.isNullArray(trendData)">暂无数据</div>
-          <template v-else>
-            <basic-area-chart v-if="isProvince" :charData="trendData" :id="'line'" :fields="trendFields" />
-            <grouped-column-chart v-if="isWholeCountry || isDistrict" :id="'active-trend'"/>
+            <basic-area-chart v-if="isProvince" id="active-line" :char-data="trendData" :fields="trendFields" />
+            <grouped-column-chart v-if="isDistrict || isWholeCountry" id="active-trend" :char-data="trendData" :fields="trendFields"/>
           </template>
         </div>
       </div>
@@ -186,7 +164,6 @@ export default {
 
     return {
       trendRadio: TREND_RADIO,
-      mobileIpArr: ['移动IP用户'],
       activeTrendRules: {
         date: [
           { required: true, message: '请选择时间范围', trigger: 'change' },
@@ -237,12 +214,6 @@ export default {
     newMembersFields() {
       return this.membersList.map(val => val.item);
     },
-    addFieldsTrendList() {
-      return this.trendList.map(val => {
-        val[this.mobileIpArr[0]] = val.chinaMobileIpNum;
-        return val;
-      });
-    },
     dateTypeChange() {
       const { trend } = this;
       // 初始化区间段 日最近7天，月最近半年
@@ -264,7 +235,6 @@ export default {
       initDate: 'ACTIVE_INIT_DATE'
     }),
     ...mapActions([
-      'getTrendList',
       'downloadTrendDataAnalysis'
     ])
   }

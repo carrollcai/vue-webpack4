@@ -134,3 +134,7 @@ function isFileAcceptable(fileName) {
   }
   return false;
 };
+
+export function convertNull(data) {
+  return data === null ? '-' : data;
+}
