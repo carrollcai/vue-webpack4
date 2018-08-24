@@ -19,16 +19,16 @@
       :rules="formDataValid"
       ref="visitRef">
       <el-form-item label="审核结果：" label-width="140px" required prop="isCancle">
-        <el-radio v-model="formData.isCancle" :label="2">走访汇报</el-radio>
-        <el-radio v-model="formData.isCancle" :label="3">取消走访</el-radio>
+        <el-radio v-model="formData.isCancle" label="2">走访汇报</el-radio>
+        <el-radio v-model="formData.isCancle" label="3">取消走访</el-radio>
       </el-form-item>
-      <el-form-item v-if="formData.isCancle === 2" label="走访汇报：" label-width="130px" prop="feedback">
+      <el-form-item v-if="formData.isCancle === '2'" label="走访汇报：" label-width="130px" prop="feedback">
         <el-input v-model="formData.feedback" placeholder="简要描述一下处理方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
-      <el-form-item v-if="formData.isCancle === 3" label="取消原因：" label-width="130px" prop="feedback">
+      <el-form-item v-if="formData.isCancle === '3'" label="取消原因：" label-width="130px" prop="feedback">
         <el-input v-model="formData.feedback" placeholder="取消原因" type="textarea" :rows="4"></el-input>
       </el-form-item>
-      <el-form-item v-if="formData.isCancle === 2" label="物料上传：" label-width="130px" prop="files">
+      <el-form-item v-if="formData.isCancle === '2'" label="物料上传：" label-width="130px" prop="files">
         <el-upload class="upload-demo" action=""
           :auto-upload="false"
           :on-change="fileChange"
@@ -96,9 +96,9 @@ export default {
       },
       formData: {
         feedback: '',
-        visitId: this.$route.params.id,
+        visitId: Number(this.$route.params.id),
         fileInputId: '',
-        isCancle: 2
+        isCancle: '2'
       },
       formDataValid: {
         feedback: [
@@ -151,7 +151,9 @@ export default {
       this.getProductFileId().then((res) => {
         this.uploadData.fileInputId = res.data;
         this.formData.fileInputId = res.data;
-        this.uploadProductScheme(this.uploadData);
+        if (this.uploadData.files.length > 0) {
+          this.uploadProductScheme(this.uploadData);
+        }
         this.query();
       });
     },

@@ -51,9 +51,17 @@
 }
 .multilevel-linkage {
   position: relative;
+  border: 1px #E7E7E7 solid;
+  border-radius: 3px;
+  .el-cascader {
+    width: 315px;
+    .el-input input {border: 0;}
+  }
   .tag-list {
-    position: absolute;
-    top: 0;
-    left: 0;
+    margin-top: -40px;
+    width: 270px;
+    position: relative;
+    z-index: 2;
+    .el-tag {margin-left: 8px;}
   }
 }

@@ -6,7 +6,7 @@ const state = {
     startDate: '',
     endDate: '',
     name: '',
-    extractBusinessStatus: 0,
+    extractBusinessStatus: null,
     isOpen: null,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,

@@ -45,7 +45,6 @@ const actions = {
   },
   queryVisitAppointDetail: ({ commit }, params) => {
     return API.queryVisitAppointDetailAPI(params).then((res) => {
-      console.log(res);
       commit(types.VISIT_APPOINT_DETAIL, res.data);
     });
   },
@@ -121,9 +120,6 @@ const actions = {
         type: 'success',
         duration: 3000
       });
-      commit(types.ROUTE_CHANGE, {
-        path: '/visit/mission-handling'
-      });
     });
   },
   /**
@@ -150,7 +146,15 @@ const actions = {
     }, () => {
       commit(types.VISIT_DETAIL, {});
     });
-  }
+  },
+  /**
+   * 查询走访详情
+   */
+  queryVisitAssignDetail: ({ commit }, params) => {
+    return API.queryVisitAssignDetailAPI(params).then((res) => {
+      commit(types.APPOINT_VISIT_LIST, res.data);
+    });
+  },
 };
 
 export default actions;

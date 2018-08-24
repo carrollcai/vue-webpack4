@@ -92,7 +92,8 @@ const state = {
     activeName: 'first'
   },
   handleVisits: {},
-  visitDetail: {}
+  visitDetail: {},
+  visitAssignDetail: {}
 };
 const mutations = {
   // 清空创建数据
@@ -112,9 +113,12 @@ const mutations = {
     state.visitAppointDetail = data;
     // state.createVisitFrom = Object.assign(state.createVisitFrom, data) ;
   },
+  [types.VISIT_ASSIGN_DETAIL](state, data) {
+    state.visitAssignDetail = data;
+  },
   [types.GET_PROCESSOR_LIST](state, data) {
     // 审核人结构
-    /* let handlers = data.map(val => {
+    let handlers = data.map(val => {
       let newVal = {};
       newVal.value = val.codeValue;
       newVal.label = val.codeName;
@@ -133,15 +137,7 @@ const mutations = {
       return newVal;
     });
     state.getProcessorList = handlers.filter(val => val.children && val.children.length);
-    state.getProcessorList = state.getProcessorList[0].children[0].children; */
-    let arr = [];
-    data.filter(val => {
-      arr.push({
-        value: String(val.operatorId),
-        label: val.staffName
-      });
-    });
-    state.getProcessorList = arr;
+    state.getProcessorList = state.getProcessorList[0].children[0].children;
   },
   [types.REGION_MANAGE_LIST](state, data) {
     state.regionManageList = data;

@@ -48,16 +48,31 @@
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column v-if="appointVisitForm.visitResource === '2'" label="指派走访人" property="processorCN"/>
       <el-table-column v-if="appointVisitForm.visitResource === '1'" label="走访人" property="processorCN"/>
-      <el-table-column v-if="appointVisitForm.visitResource === '1'" label="走访状态" property="visitStatus" :formatter="visitStatusFn"/>
+      <el-table-column v-if="appointVisitForm.visitResource === '1'" label="走访状态" property="visitStatusCN"/>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
+          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.visitStatus === '2' && scope.row.visitEvaluate === '0'" class="table-button" type="text" @click="hageResource(scope.row)">
+            评价
+          </el-button>
         </template>
       </el-table-column>
     </wm-table>
   </div>
+
+  <el-dialog
+    title="评价"
+    :visible.sync="dialogVisible"
+    width="30%"
+    :before-close="handleClose">
+    <el-input v-model="visitEvaluate" clearable placeholder="评价" />
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="submitEvaluate">确 定</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -81,6 +96,9 @@ export default {
     return {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
+      dialogVisible: false,
+      visitEvaluate: '',
+      visitId: '',
       timeRange: '',
       firstGuestOption: [{value: '0', label: '否'}, {value: '1', label: '是'}],
       taskTypeList: appointList
@@ -90,6 +108,10 @@ export default {
     this.query();
   },
   methods: {
+    hageResource(row) {
+      this.visitId = row.visitId;
+      this.dialogVisible = true;
+    },
     getProcessor(value) {
       if (value !== '') {
         this.appointVisitForm.processor = [value];
@@ -102,23 +124,6 @@ export default {
         this.appointVisitForm.visitStatus = [value];
       } else {
         this.appointVisitForm.visitStatus = [];
-      }
-    },
-    visitStatusFn(row, clo, value) {
-      if (this.appointVisitForm.visitResource === '1') {
-        if (value === '1') {
-          return '待执行';
-        } else if (value === '2') {
-          return '已执行';
-        } else if (value === '2') {
-          return '已取消';
-        }
-      } else {
-        if (value === '1') {
-          return '未完成';
-        } else if (value === '2') {
-          return '已完成';
-        }
       }
     },
     getTimeRange(time) {
@@ -151,15 +156,28 @@ export default {
       this.query();
     },
     viewDetail(row, execution) {
+      debugger;
       let path = '';
-      if (this.appointVisitForm.visitResource === '1') {
-        this.appointVisitForm.visitResource = '2';
-        this.query();
+      let resource = this.appointVisitForm.visitResource;
+      if (resource === '2') {
+        this.appointVisitForm.visitResource = '1';
+        this.queryVisitAssignDetail({
+          pageNo: this.pageNo,
+          pageSize: this.pageSize,
+          visitCode: row.visitCode,
+          visitResource: 1,
+          visitStatus: []
+        });
       } else {
         path = `/visit/visit-appoint-detail/${row.visitId}?isExecute=${execution}`;
+        this.$router.push(path);
       }
-      // path = `/visit/visit-appoint-detail/${row.visitId}?isExecute=${execution}`;
-      this.$router.push(path);
+    },
+    submitEvaluate() {
+      this.judgeVisit({
+        visitId: this.visitId,
+        visitEvaluate: this.visitEvaluate
+      });
     },
     query() {
       let { state, ...params } = this.appointVisitForm;
@@ -171,8 +189,17 @@ export default {
       const path = '/visit/create-visit-appoint';
       this.$router.push(path);
     },
+    handleClose(done) {
+      this.$confirm('确认关闭？').then(_ => {
+        done();
+      }).catch(_ => {
+        console.log(_);
+      });
+    },
     ...mapActions([
-      'getAppointVisitList'
+      'getAppointVisitList',
+      'judgeVisit',
+      'queryVisitAssignDetail'
     ])
   }
 };

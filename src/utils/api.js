@@ -336,7 +336,7 @@ export default {
    * 查询走访详情
    */
   queryVisitDetailAPI: API('/esop/visit/queryDetailVisit'),
-
+  queryVisitAssignDetailAPI: API('/esop/visit/queryVisitAssign'),
   /**
    * 评价走访任务
    */
