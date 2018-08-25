@@ -103,7 +103,8 @@ export default {
   createOrderAPI: API('/esop/bizOrder/save'), // 新建订单
   updateOrderAPI: API('/esop/bizOrder/update'), // 修改订单
   getOrderDetailAPI: API('/esop/bizOrder/detail'), // 获取订单详情
-  getOverViewDetailAPI: API('/esop/bizOrder/overViewDetail'),
+  // getOverViewDetailAPI: API('/esop/bizOrder/overViewDetail'),
+  getOverViewDetailAPI: API('/esop/bizOrder/detail'),
   getAssignhandlerAPI: API('/esop/operator/getAssignOperatorList'), // 获取分派
   createAssignAPI: API('/esop/bizOrder/nodeMove'), // 推动流程，创建分派resultStatus=0，取消resultStatus=3
   submitOrderRowAPI: API('/esop/bizOrder/startProcess'), // 提交订单
@@ -361,7 +362,7 @@ export default {
    * 查询走访详情
    */
   queryVisitDetailAPI: API('/esop/visit/queryDetailVisit'),
-
+  queryVisitAssignDetailAPI: API('/esop/visit/queryVisitAssign'),
   /**
    * 评价走访任务
    */

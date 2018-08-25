@@ -26,7 +26,7 @@
     </el-form>
     <div class="tab-bar">
       <el-tabs v-model="downloadForm.extractBusinessStatus" @tab-click="getState">
-        <el-tab-pane label="全部" :name="0"></el-tab-pane>
+        <el-tab-pane label="全部" :name="null"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
         <el-tab-pane label="数据提取中" :name="2"></el-tab-pane>
         <el-tab-pane label="提取成功" :name="3"></el-tab-pane>
@@ -54,14 +54,14 @@
             ref="popover"
             placement="top"
             title="温馨提示"
-            width="200"
+            width="100"
             trigger="hover"
             content="数据生成中，请耐心等待">
           </el-popover>
           <span v-if="scope.row.extractBusinessStatusName === '审核不通过'">
             <el-popover
               placement="top"
-              width="200"
+              width="100"
               trigger="click"
               :content="`${scope.row.upApproveDate}${scope.row.upApproveOpName}${scope.row.upApprovedealResult}`">
               <i slot="reference" class="el-icon-info"></i>
@@ -69,7 +69,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="280">
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button v-if="scope.row.extractBusinessStatus === '1'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
           <el-button v-if="scope.row.extractBusinessStatus === '1'" class="table-button" type="text" @click="revoke(scope.row)">撤销</el-button>
@@ -185,7 +185,8 @@ export default {
       this.downloadForm.isOpen = true;
       this.query();
     },
-    getState() {
+    getState(value) {
+      this.downloadForm.extractBusinessStatus = value.name;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
       this.downloadForm.isOpen = false;
@@ -200,13 +201,17 @@ export default {
       this.query();
     },
     query() {
-      let data = Object.assign({}, this.downloadForm);
+      let data = this.downloadForm;
+      if (data.extractBusinessStatus === '0') {
+        data.extractBusinessStatus = null;
+      }
       // delete data.extractBusinessStatus;
       delete data.timeRange;
       delete data.isOpen;
       this.queryDataDownload(data);
     },
     confirm(info, name, id) {
+      debugger;
       this.$confirm(info, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

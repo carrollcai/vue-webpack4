@@ -16,15 +16,13 @@
         </el-form-item>
         <el-form-item label="选择地区：">
           <div class="flex-row">
-
             <el-form-item class="multilevel-linkage" prop="visitAuditor">
               <el-cascader style="width: 392px;" v-if="processorList"
-                @active-item-change="itemChange"
                 @change="getRegion"
                 :options="processorList"
                 v-model="applyFrom.province"
-                :change-on-select="true"
-                :props="{}">
+                :placeholder="applyFrom.provinceList.length > 0 ? '' : '请选择'"
+                :change-on-select="false">
               </el-cascader>
               <div class="tag-list">
                 <el-tag
@@ -210,6 +208,7 @@ export default {
       ],
       applyFrom: {
         provinceList: [],
+        provinceData: [],
         name: '',
         extractDate: '',
         extractDateType: '1',
@@ -227,7 +226,10 @@ export default {
         serviceTime: '',
         isserviceTime: false
       },
-      submitData: {}
+      submitData: {
+        region: [],
+        province: []
+      }
     };
   },
   computed: {

@@ -78,7 +78,7 @@ export default {
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         processor: [
-          { required: true, message: '请选择指派人', trigger: 'change' }
+          { required: true, message: '请选择指派人', trigger: 'blur' }
         ]
       }
     };

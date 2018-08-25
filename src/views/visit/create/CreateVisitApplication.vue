@@ -11,11 +11,11 @@
     <div class="m-container visit-create">
       <el-form :label-position="'right'" :model="createVisitFrom" ref="visitRef" :rules="createVisitVaild">
         <el-form-item label="走访主题：" label-width="140px" required prop="visitTheme">
-          <el-input v-model="createVisitFrom.visitTheme" class="form-input-medium" placeholder="请输入主题" />
+          <el-input v-model="createVisitFrom.visitTheme" :disabled="visitId && visitId > 0" class="form-input-medium" placeholder="请输入主题" />
         </el-form-item>
         <el-form-item label="走访公司：" label-width="140px" required>
           <el-form-item prop="organizeName">
-            <el-input v-model="createVisitFrom.organizeName" class="form-input-260" style=" margin-right: 20px;" placeholder="集团名称"></el-input>
+            <el-input v-model="createVisitFrom.organizeName" :disabled="visitId && visitId > 0" class="form-input-260" style=" margin-right: 20px;" placeholder="集团名称"></el-input>
             <!-- <el-autocomplete class="form-input-half" v-model="createVisitFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="集团名称" @select="handleSelect" :trigger-on-focus="false" /> -->
           </el-form-item>
           <div class="form-input-sep">-</div>

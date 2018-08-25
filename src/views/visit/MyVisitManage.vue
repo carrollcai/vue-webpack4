@@ -115,7 +115,6 @@ export default {
     getState(value) {
       this.myVisitManageFrom.pageNo = this.pageNo;
       this.myVisitManageFrom.pageSize = this.pageSize;
-      console.log(value.name !== '');
       if (value.name !== '') {
         this.myVisitManageFrom.visitStatus = [value.name];
       } else {

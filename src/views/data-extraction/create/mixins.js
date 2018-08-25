@@ -35,17 +35,70 @@ export default {
     this.queryProcessor({});
   },
   methods: {
-    itemChange(value) {
-      console.log(value, 'itemChange');
-    },
+    // 选择
     getRegion(value) {
-      console.log(value, 'getRegion');
       this.applyFrom.province = [];
-      this.applyFrom.provinceList.push(value[1]);
+      let l = value.length;
+      let region = '';
+      let province = '';
+      let regionName = '';
+      if (value && l === 1) {
+        region = value[0];
+        this.processorList.filter(res => {
+          if (res.value === region) {
+            regionName = res.label;
+            this.applyFrom.provinceData.push({
+              regionValue: res.value,
+              regionLabel: res.label
+            });
+            return regionName;
+          }
+        });
+      } else if (value && l === 2) {
+        region = value[0];
+        province = value[1];
+        this.submitData.province.push(province);
+        this.processorList.filter(res => {
+          if (res.value === region) {
+            res.children.filter(item => {
+              if (item.value === province) {
+                regionName = res.label + '/' + item.label;
+                this.applyFrom.provinceData.push({
+                  regionValue: res.value,
+                  regionLabel: res.label,
+                  provinceValue: item.value,
+                  provinceLabel: item.label
+                });
+                return regionName;
+              }
+            });
+          }
+        });
+      }
+      this.submitData.region.push(region);
+      this.applyFrom.provinceList.push(regionName);
+      // this.applyFrom.provinceList = returnArr(value)
     },
+    // 删除
     handleClose(value) {
-      console.log(value, 'handleClose');
+      let list = this.applyFrom.provinceList;
+      let index = list.indexOf(value);
+      if (index >= 0) {
+        list.splice(index, 1);
+      }
     },
+    // 删除数组元素
+    // 排重
+    /* returnArr(value) {
+      let arr = this.applyFrom.provinceList;
+      let newArr = [];
+      arr.forEach(v, i, arr => {
+        var bool = arr.indexOf(v, i + 1);
+        if (bool === -1) {
+          return newArr.push(v);
+        }
+      });
+    }, */
     getServiceTime(value) {
       if (value === '不显示') {
         this.submitData.serviceTime = '0';
@@ -155,7 +208,6 @@ export default {
         channelType: sourceObj
       };
       let parms = Object.assign(this.submitData, data, userObj, activeObj);
-      console.log(parms);
       this.$refs.refName.validate((valid) => {
         if (valid) {
           this.applyDataExtraction(parms);
