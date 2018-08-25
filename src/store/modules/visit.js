@@ -16,9 +16,15 @@ const createAppointFrom = {
   intervieweeName: '',
   visitStartTime: '',
   visitEndTime: '',
-  processor: [],
   visitTime: null,
-  timeRange: null
+  timeRange: null,
+  processor: [],
+  processorData: [],
+  regionData: {
+    regionList: [],
+    processorList: [],
+    processor: []
+  }
 };
 
 const state = {
@@ -75,7 +81,14 @@ const state = {
     visitStartTime: '',
     visitEndTime: '',
     visitTime: null,
-    timeRange: null
+    timeRange: null,
+    processor: [],
+    processorData: [],
+    regionData: {
+      regionList: [],
+      processorList: [],
+      processor: []
+    }
   },
   appointVisitList: {},
   visitAppointDetail: {},
@@ -136,8 +149,9 @@ const mutations = {
       });
       return newVal;
     });
-    state.getProcessorList = handlers.filter(val => val.children && val.children.length);
-    state.getProcessorList = state.getProcessorList[0].children[0].children;
+    state.getProcessorList = handlers;
+    // state.getProcessorList = handlers.filter(val => val.children && val.children.length);
+    // state.getProcessorList = state.getProcessorList[0].children[0].children;
   },
   [types.REGION_MANAGE_LIST](state, data) {
     state.regionManageList = data;

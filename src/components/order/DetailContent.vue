@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{orderOverviewDetail}}
     <div class="task-three-detail">
       <div class="task-three-detail-item">
         <div class="left">订单名称：</div>

@@ -38,7 +38,7 @@
         <!-- <el-table-column label="处理人" property="processorName" /> -->
         <el-table-column label="订购产品及状态">
           <template slot-scope="scope">
-            <p v-for="item in scope.row.viewProductDtoList" :key="item">{{orderStatus[item.ordStatus]}}：{{item.productName}}</p>
+            <p v-for="item in scope.row.ordProductDtoList" :key="item">{{item.ordStatusName}}{{item.productName ? '：' + item.productName : ''}}</p>
           </template>
         </el-table-column>
         <el-table-column label="操作">
