@@ -11,7 +11,7 @@
       </div>
       <div class="task-detail-item">
         <div class="left">走访状态：</div>
-        <div class="right">{{visitDetails.visitStatus}}</div>
+        <div class="right">{{visitDetails.visitStatusCN}}</div>
       </div>
       <div class="task-detail-item w100" v-if="visitDetails.feedback">
         <div class="left">执行汇报：</div>
@@ -32,9 +32,9 @@
       </div>
       <div class="task-detail-item">
         <div class="left">走访状态：</div>
-        <div class="right">{{visitDetails.visitStatus}}</div>
+        <div class="right">{{visitDetails.visitStatusCN}}</div>
       </div>
-      <div class="task-detail-item w100" v-if="visitDetails.visitStatus === '已取消'">
+      <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '已取消'">
         <div class="left">驳回原因：</div>
         <div class="right" v-if="visitDetails.advice">{{visitDetails.advice}}</div>
       </div>
@@ -112,18 +112,7 @@ export default {
       }
     },
     visitDetails() {
-      let _this = this;
       if (this.visitDetail) {
-        let state = this.visitDetail.visitStatus;
-        if (state === '1') {
-          _this.visitDetail.visitStatus = '待审核';
-        } else if (state === '2' || state === '0') {
-          _this.visitDetail.visitStatus = '待执行';
-        } else if (state === '3') {
-          _this.visitDetail.visitStatus = '已驳回';
-        } else if (state === '4') {
-          _this.visitDetail.visitStatus = '已完成';
-        }
         return this.visitDetail;
       }
     }

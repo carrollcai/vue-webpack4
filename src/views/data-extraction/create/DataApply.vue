@@ -59,7 +59,19 @@
             </el-form-item>
           </div>
         </el-form-item>
-        <el-form-item label="用户信息：" required prop="userInfo">
+        <el-form-item label="客户端：" required prop="clientType">
+          <el-checkbox-group v-model="applyFrom.clientType" @change="clientFn">
+            <el-checkbox v-for="item in clientTypeList" :key="item" :label="item.label"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </div>
+      <el-form-item class="detail-setting" label="明细设置：">
+        <el-checkbox-group v-model="applyFrom.detailSet">
+          <el-checkbox :disabled="item.type === 1" v-for="item in detailSetList" :key="item.value" :label="item.label"></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+      <div class="detail-set">
+        <el-form-item label="用户信息：" v-if="applyFrom.detailSet.indexOf('用户信息') > -1" required prop="userInfo">
           <el-checkbox-group v-model="applyFrom.userInfo">
             <el-checkbox
               :disabled="item.type === 1 && restrictedCity.length > 0 ? true : false"
@@ -68,62 +80,54 @@
               :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="客户端：" required prop="clientType">
-          <el-checkbox-group v-model="applyFrom.clientType" @change="clientFn">
-            <el-checkbox v-for="item in clientTypeList" :key="item" :label="item.label"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="用户类型：" required prop="dataType">
+        <el-form-item label="用户类型：" v-if="applyFrom.detailSet.indexOf('用户类型') > -1" required prop="dataType">
           <el-checkbox-group v-model="applyFrom.dataType">
             <el-checkbox :disabled="item.type === 1 ? isByDay : false" v-for="item in dataTypeList" :key="item" :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-      </div>
-      <h3 class="data-title">数据明细设置</h3>
-      <div class="detail-set">
-        <el-form-item label="来源渠道：">
-          <span class="cancel" @click="resetData('source')">{{sourceSet ? '取消设置' : '设置'}}</span>
-          <div v-if="sourceSet">
+        <el-form-item label="数据来源：" v-if="applyFrom.detailSet.indexOf('数据来源') > -1">
+          <!-- <span class="cancel" @click="resetData('source')">{{sourceSet ? '取消设置' : '设置'}}</span> -->
+          <div>
             <el-checkbox class="all-label" v-model="sourceAll" label="全部" @change="isAllChecked2('sourceAll', 'source', sourceList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.source" @change="handleChecked('sourceAll', 'source', sourceList)">
               <el-checkbox v-for="item in sourceList" :key="item" :label="item.label"></el-checkbox>
             </el-checkbox-group>
           </div>
         </el-form-item>
-        <el-form-item label="会员类型：">
-          <span class="cancel" @click="resetData('vipType')">{{vipTypeSet ? '取消设置' : '设置'}}</span>
-          <div v-if="vipTypeSet">
+        <el-form-item label="会员类型：" v-if="applyFrom.detailSet.indexOf('会员类型') > -1">
+          <!-- <span class="cancel" @click="resetData('vipType')">{{vipTypeSet ? '取消设置' : '设置'}}</span> -->
+          <div>
             <el-checkbox class="all-label" v-model="vipTypeAll" label="全部" @change="isAllChecked2('vipTypeAll', 'vipType', vipTypeList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.vipType" @change="handleChecked('vipTypeAll', 'vipType', vipTypeList)">
               <el-checkbox v-for="item in vipTypeList" :key="item" :label="item.label"></el-checkbox>
             </el-checkbox-group>
           </div>
         </el-form-item>
-        <el-form-item label="用户性别：">
-          <span class="cancel" @click="resetData('sex')">{{sexSet ? '取消设置' : '设置'}}</span>
-          <!-- <el-radio-group v-model="applyFrom.sex" @change="getSex">
+        <el-form-item label="用户性别：" v-if="applyFrom.detailSet.indexOf('性别') > -1">
+          <!-- <span class="cancel" @click="resetData('sex')">{{sexSet ? '取消设置' : '设置'}}</span>
+          <el-radio-group v-model="applyFrom.sex" @change="getSex">
             <el-radio v-for="item in sexList" :key="item" :label="item.label"></el-radio>
           </el-radio-group> -->
-          <div v-if="sexSet">
+          <div>
             <el-checkbox class="all-label" v-model="sexAll" label="全部" @change="isAllChecked2('sexAll', 'sex', sexList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.sex">
               <el-checkbox v-for="item in sexList" :key="item" :label="item.label"></el-checkbox>
             </el-checkbox-group>
           </div>
         </el-form-item>
-        <el-form-item label="用户年龄：">
-          <span class="cancel" @click="resetData('age')">{{ageSet ? '取消设置' : '设置'}}</span>
-          <div v-if="ageSet">
+        <el-form-item label="用户年龄：" v-if="applyFrom.detailSet.indexOf('年龄') > -1">
+          <!-- <span class="cancel" @click="resetData('age')">{{ageSet ? '取消设置' : '设置'}}</span> -->
+          <div>
             <el-checkbox class="all-label" v-model="ageAll" label="全部" @change="isAllChecked2('ageAll', 'age', ageList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.age" @change="handleChecked('ageAll', 'age', ageList)">
               <el-checkbox v-for="item in ageList" :key="item" :label="item.label"></el-checkbox>
             </el-checkbox-group>
           </div>
         </el-form-item>
-        <el-form-item label="用户行为：">
-          <span class="cancel" @click="resetData('userActive')">{{userActiveSet ? '取消设置' : '设置'}}</span>
-          <div v-if="userActiveSet">
-            <el-select v-if="userActiveSet" v-model="applyFrom.userActive" multiple placeholder="请选择">
+        <el-form-item label="用户行为：" v-if="applyFrom.detailSet.indexOf('用户行为') > -1">
+          <!-- <span class="cancel" @click="resetData('userActive')">{{userActiveSet ? '取消设置' : '设置'}}</span> -->
+          <div>
+            <el-select v-model="applyFrom.userActive" multiple placeholder="请选择">
               <el-option
                 v-for="item in userActiveList"
                 :key="item.value"
@@ -133,16 +137,16 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item label="上网方式：">
-          <span class="cancel" @click="resetData('netType')">{{netTypeSet ? '取消设置' : '设置'}}</span>
-          <div v-if="netTypeSet">
+        <el-form-item label="上网方式：" v-if="applyFrom.detailSet.indexOf('上网方式') > -1">
+          <!-- <span class="cancel" @click="resetData('netType')">{{netTypeSet ? '取消设置' : '设置'}}</span> -->
+          <div>
             <el-checkbox class="all-label" v-model="netTypeAll" label="全部" @change="isAllChecked2('netTypeAll', 'netType', netTypeList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.netType" @change="handleChecked('netTypeAll', 'netType', netTypeList)">
               <el-checkbox v-for="item in netTypeList" :key="item" :label="item.label"></el-checkbox>
             </el-checkbox-group>
           </div>
         </el-form-item>
-        <el-form-item label="使用时长：">
+        <el-form-item label="使用时长：" v-if="applyFrom.detailSet.indexOf('使用时长') > -1">
           <el-radio-group v-model="applyFrom.serviceTime" @change="getServiceTime">
           <el-radio :disabled="applyFrom.isserviceTime" v-for="item in serviceTimeList" :key="item" :label="item.label"></el-radio>
           </el-radio-group>
@@ -162,6 +166,11 @@ import mixins from './mixins';
 import multilevelLinkage from '@/components/data-extraction/MultilevelLinkage.vue';
 import {mapState} from 'vuex';
 const sexList = [{label: '男', value: '1'}, {label: '女', value: '2'}];
+const detailSetList = [
+  {label: '用户信息', value: 1, type: 1}, {label: '用户类型', value: 2, type: 1}, {label: '数据来源', value: 3},
+  {label: '会员类型', value: 4}, {label: '性别', value: 5}, {label: '年龄', value: 6},
+  {label: '用户行为', value: 7}, {label: '上网方式', value: 8}, {label: '使用时长', value: 9}
+];
 export default {
   mixins: [mixins],
   components: {
@@ -184,6 +193,7 @@ export default {
       netTypeAll: false,
       restrictedCity: [],
       extractDateType: [{value: '1', label: '按日'}, {value: '2', label: '按月'}],
+      detailSetList: detailSetList,
       dataTypeList: [
         {name: '活跃用户', type: 0, field: 'active'},
         {name: '新增活跃用户', type: 0, field: 'newActive'},
@@ -207,6 +217,7 @@ export default {
         {label: '显示', value: '1', type: 0}
       ],
       applyFrom: {
+        detailSet: ['用户信息', '用户类型'],
         provinceList: [],
         provinceData: [],
         name: '',
@@ -223,7 +234,7 @@ export default {
         age: [],
         userActive: [],
         netType: [],
-        serviceTime: '',
+        serviceTime: [],
         isserviceTime: false
       },
       submitData: {

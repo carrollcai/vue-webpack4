@@ -83,9 +83,21 @@ export default {
     handleClose(value) {
       let list = this.applyFrom.provinceList;
       let index = list.indexOf(value);
+      // this.delArray(value);
       if (index >= 0) {
         list.splice(index, 1);
       }
+    },
+    delArray(value) {
+      let len = value.split('/').length - 1;
+      value = value.split('/')[len];
+      this.createAppointFrom.regionData.regionList.filter((item, index, array) => {
+        if (len === 0 && item.regionLabel === value) {
+          return array.splice(index, 1);
+        } else if (len === 1 && item.processorLabel === value) {
+          return array.splice(index, 1);
+        }
+      });
     },
     // 删除数组元素
     // 排重
@@ -126,7 +138,7 @@ export default {
         this.isByDay = false;
       }
     },
-    resetData(el) {
+    /* resetData(el) {
       this.applyFrom[el] = [];
       if (this[el + 'All']) {
         this[el + 'All'] = false;
@@ -136,7 +148,7 @@ export default {
       } else {
         this[el + 'Set'] = true;
       }
-    },
+    }, */
     isAllChecked(el, active, original) {
       this.applyFrom[active] = this[el] ? original : [];
     },
