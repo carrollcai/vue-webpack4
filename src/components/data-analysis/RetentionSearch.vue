@@ -57,37 +57,10 @@ export default {
     this.query();
   },
   methods: {
-    provinceChange(val) {
-      const { provinces } = this.currentUser.operator;
-      let isSelectedAll = val.some(val => val === null);
-      let provinceNames = provinces.map(val => val.value);
-
-      // 是否点击全部
-      let isClickAll = !(this.localProvinceSelected.some(val => val === null) === isSelectedAll);
-
-      // 选择全部，且子选项未全选
-      if (isClickAll) {
-        if (val.length !== provinceNames.length) {
-          this.retentionObj.provinceSelected = provinceNames;
-          this.retentionObj.provinceSelected.push(null);
-        } else {
-          this.retentionObj.provinceSelected = [];
-        }
-      } else {
-        if (!isSelectedAll && val.length === provinceNames.length) {
-          this.retentionObj.provinceSelected.push(null);
-        } else {
-          this.retentionObj.provinceSelected = this.retentionObj.provinceSelected.filter(val => val !== null);
-        }
-      }
-      this.localProvinceSelected = Object.cloneDeep(this.retentionObj.provinceSelected);
-    },
     query() {
-      this.getRetentionLossUser();
       this.$emit('query');
     },
     ...mapActions([
-      'getRetentionLossUser',
       'getRetTrendList'
     ])
   }

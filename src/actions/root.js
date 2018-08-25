@@ -49,7 +49,8 @@ const actions = {
         'MEMBER_TYPE',
         'EXTRACT_AGE',
         'NET_TYPE',
-        'CONTENT'
+        'CONTENT',
+        'REGION'
       ]
     };
     return API.queryStaticDataAPI(params).then(res => {

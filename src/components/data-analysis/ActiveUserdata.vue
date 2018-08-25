@@ -28,7 +28,7 @@
       </div>
       <div class="userdata-main-left__outer">
         <div class="userdata-main-left__title ellipsis">{{!activeObj.dateType ? '日' : '月'}}活排名情况</div>
-        <div class="userdata-main-left__num">{{dailyUser.newMembers}}</div>
+        <div class="userdata-main-left__num">{{dailyUser.orderNum}}</div>
       </div>
     </div>
   </div>

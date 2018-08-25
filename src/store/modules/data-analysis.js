@@ -6,8 +6,6 @@ import { oneMonthAgo, nineDaysAgo, twoDaysAgo, sixMonthsAgo } from '@/utils/help
 import {
   TREND_RADIO,
   TREND_RADIO_PROPERTY,
-  RETENTION_TREND_RADIO,
-  RETENTION_TREND_RADIO_PORPERTY
 } from '@/config';
 
 import {
@@ -90,7 +88,7 @@ const state = {
     startDate: new Date(sixMonthsAgo),
     endDate: new Date(oneMonthAgo),
     mode: 0,
-    selected: '',
+    district: null,
     chartRadio: '0'
   },
   // 保存 新增用户分析 - 新增用户趋势分析 的原始数据
@@ -100,7 +98,8 @@ const state = {
 
   // 新增用户分析 - 各省份用户新增排名情况
   adduserMapTrend: {
-    date: [new Date(nineDaysAgo), new Date(twoDaysAgo)],
+    startDate: new Date(sixMonthsAgo),
+    endDate: new Date(oneMonthAgo),
     chartRadio: '0'
   },
   // 保存 新增用户分析 - 各省份用户新增排名情况 的原始数据
@@ -112,8 +111,8 @@ const state = {
     startDate: new Date(sixMonthsAgo),
     endDate: new Date(oneMonthAgo),
     mode: 0,
-    region: '',
-    chartRadio: '0'
+    district: null,
+    chartRadio: '1'
   },
   // 保存 新增用户分析 - 新增会员用户趋势分析 的原始数据
   addUserVipList: [],
@@ -132,15 +131,17 @@ const mutations = {
       activeNum: null,
       msisdnNum: null,
       chinaMobileIpNum: null,
-      otherIpNum: null
+      otherIpNum: null,
+      orderNum: null
     };
 
-    state.dailyUser = Object.assign(state.dailyUser, {
+    state.dailyUser = {
       activeUserNum: convertNull(info.activeNum),
       mobileAccount: convertNull(info.msisdnNum),
       mobileIp: convertNull(info.chinaMobileIpNum),
-      unmobileIp: convertNull(info.otherIpNum)
-    });
+      unmobileIp: convertNull(info.otherIpNum),
+      orderNum: convertNull(info.orderNum)
+    };
   },
   [types.TREND_GET_LIST](state, data) {
     state.trendList = data;
@@ -198,72 +199,17 @@ const mutations = {
     }
   },
   // 活跃度分析- 大区 - 活跃度趋势分析
-  // TODO
-  [types.ACTIVE_UPDATE_DISTRICT_TREND](state, data) {
-    /*
-    let type = data.chartRadio;
-    let label = TREND_RADIO[type];
-
-    if (label) {
-      state.trendData = _.map(_.cloneDeep(state.trendList), val => {
-        val[label] = parseInt(val[TREND_RADIO_PROPERTY[type]]);
-        return val;
-      });
-      state.trendFields = [label];
-    } else {
-      state.trendData = [];
-      state.trendFields = [];
-    }
-    */
-
-    let list = [
-      {
-        'periodId': '2018-03',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山东',
-        'member_1': 2665,
-        'member_2': 27421,
-        'member_3_rank': null,
-        'member_2_rank': 1,
-        'member_1_rank': 10
-      },
-      {
-        'periodId': '2018-03',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山西',
-        'member_1': 696,
-        'member_2': 22529,
-        'member_3_rank': null,
-        'member_2_rank': 2,
-        'member_1_rank': 21
-      },
-      {
-        'periodId': '2018-04',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山东',
-        'member_1': 2665,
-        'member_2': 27421,
-        'member_3_rank': null,
-        'member_2_rank': 1,
-        'member_1_rank': 10
-      },
-      {
-        'periodId': '2018-04',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山西',
-        'member_1': 696,
-        'member_2': 22529,
-        'member_3_rank': null,
-        'member_2_rank': 2,
-        'member_1_rank': 21
-      }
-    ];
+  [types.ACTIVE_UPDATE_DISTRICT_TREND](state, type) {
+    let list = _.cloneDeep(state.trendList);
 
     let temp1 = _.groupBy(list, 'periodId');
+
+    const TYPES = {
+      '0': 'activeNum',
+      '1': 'msisdnNum',
+      '2': 'chinaMobileIpNum',
+      '3': 'otherIpNum',
+    };
 
     let result = [];
     let fields = _.uniq(_.map(list, 'province'));
@@ -271,7 +217,7 @@ const mutations = {
       let val = temp1[key];
       let p = {};
       for (let item of val) {
-        p[item.province] = item.member_1;
+        p[item.province] = item[TYPES[type]];
       }
       p.periodId = key;
       result.push(p);
@@ -284,19 +230,25 @@ const mutations = {
   // 活跃度分析- 全国 - 活跃度趋势分析
   // TODO
   [types.ACTIVE_UPDATE_COUNTRY_TREND](state, data) {
-    let type = data.chartRadio;
-    let label = TREND_RADIO[type];
+    let list = _.cloneDeep(state.trendList);
 
-    if (label) {
-      state.trendData = _.map(_.cloneDeep(state.trendList), val => {
-        val[label] = parseInt(val[TREND_RADIO_PROPERTY[type]]);
-        return val;
-      });
-      state.trendFields = [label];
-    } else {
-      state.trendData = [];
-      state.trendFields = [];
+    let temp1 = _.groupBy(list, 'periodId');
+
+    let result = [];
+    let fields = _.uniq(_.map(list, 'province'));
+    for (let key in temp1) {
+      let val = temp1[key];
+      let p = {};
+      for (let item of val) {
+        p[item.province] = item.chinaMobileIpNum;
+      }
+      p.periodId = key;
+      result.push(p);
     }
+    result = _.sortBy(result, 'periodId');
+
+    state.trendData = result;
+    state.trendFields = fields;
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {
     let uniqueMembers = [];
@@ -326,29 +278,33 @@ const mutations = {
     state.mapData = data;
   },
   [types.PROVINCE_GET_USER](state, data) {
-    state.provinceUserList = data.map(val => {
+    let list = data.map(val => {
       return {
         orderNum: val.orderNum,
         name: val.province,
         value: val.activeNum
       };
     });
+
+    let result = _.sortBy(list, 'orderNum');
+
+    state.provinceUserList = result;
   },
   [types.RETENTION_GET_USER](state, data) {
     let info = data[0];
 
     info = info || {
-      newMembersNum: null,
       newRetainNum: null,
+      newMemberNum: null,
       retainNum: null,
       dropoutNum: null
     };
 
     state.retentionLossUser = Object.assign(state.retentionLossUser, {
-      newUser: convertNull(info.newMembersNum),
+      newMemberNum: convertNull(info.newMemberNum),
       newRetainNum: convertNull(info.newRetainNum),
-      retentionUser: convertNull(info.retainNum),
-      lossUser: convertNull(info.dropoutNum)
+      retainNum: convertNull(info.retainNum),
+      dropoutNum: convertNull(info.dropoutNum)
     });
   },
   [types.RETENTION_GET_TREND_LIST](state, data) {
@@ -359,25 +315,57 @@ const mutations = {
     });
   },
   // 留存流失分析- 省份 - 留存流失趋势分析
-  [types.RETENTION_UPDATE_PROVINCE_TREND_LIST](state, data) {
-    let type = data.chartRadio;
-    let label = RETENTION_TREND_RADIO[type];
+  [types.RETENTION_UPDATE_PROVINCE_TREND_LIST](state, type) {
+    let list = _.cloneDeep(state.retTrendList);
 
-    if (label) {
-      let list = Object.assign([], state.retTrendList);
-      state.retTrendData = list.map(val => {
-        val[label] = parseFloat(val[RETENTION_TREND_RADIO_PORPERTY[type]].replace('%', '')) | 0;
-        return val;
-      });
-      state.retTrendFields = [label];
-    } else {
-      state.retTrendData = [];
-      state.retTrendFields = [];
+    const TYPES = {
+      '0': 'retainRate',
+      '1': 'dropoutRate',
+    };
+
+    let temp1 = _.groupBy(list, 'periodId');
+
+    let result = [];
+    let fields = _.uniq(_.map(list, 'province'));
+    for (let key in temp1) {
+      let val = temp1[key];
+      let p = {};
+      for (let item of val) {
+        p[item.province] = parseInt(item[TYPES[type]] * 100);
+      }
+      p.periodId = key;
+      result.push(p);
     }
+    result = _.sortBy(result, 'periodId');
+
+    state.retTrendData = result;
+    state.retTrendFields = fields;
   },
   // 新增用户分析- 新增用户数据
   [types.ADD_USER_OVERVIEW](state, data) {
-    state.addUserOverviewData = data;
+    let info = data[0];
+
+    info = info || {
+      newUserNum: null,
+      newMobileNum: null,
+      newVisitNum: null,
+      newActiveNum: null,
+      newUserNumRank: null,
+      newMobileNumRank: null,
+      newVisitNumRank: null,
+      newActiveNumRank: null
+    };
+
+    state.addUserOverviewData = {
+      newUserNum: convertNull(info.newUserNum),
+      newMobileNum: convertNull(info.newMobileNum),
+      newVisitNum: convertNull(info.newVisitNum),
+      newActiveNum: convertNull(info.newActiveNum),
+      newUserNumRank: convertNull(info.newUserNumRank),
+      newMobileNumRank: convertNull(info.newMobileNumRank),
+      newVisitNumRank: convertNull(info.newVisitNumRank),
+      newActiveNumRank: convertNull(info.newActiveNumRank)
+    };
   },
   // 新增用户分析- 新增用户趋势分析 原始数据
   [types.ADD_USER_TREND](state, data) {
@@ -386,23 +374,82 @@ const mutations = {
   // 新增用户分析- 省份 - 新增用户趋势分析
   [types.ADD_USER_PROVINCE_TREND](state, type) {
     let list = state.addUserTrendList;
-    console.log(list);
-    state.addUserTrendData = [];
-    state.addUserTrendFields = [];
+
+    let temp1 = _.groupBy(list, 'periodId');
+
+    let result = [];
+    let fields = _.uniq(_.map(list, 'province'));
+    for (let key in temp1) {
+      let val = temp1[key];
+      let p = {};
+      for (let item of val) {
+        p[item.province] = item.member_1;
+      }
+      p.periodId = key;
+      result.push(p);
+    }
+    result = _.sortBy(result, 'periodId');
+
+    state.addUserTrendData = result;
+    state.addUserTrendFields = fields;
   },
   // 新增用户分析- 大区 - 新增用户趋势分析
   [types.ADD_USER_DISTRICT_TREND](state, type) {
-    let list = state.addUserTrendList;
-    console.log(list);
-    state.addUserTrendData = [];
-    state.addUserTrendFields = [];
+    let list = _.cloneDeep(state.addUserTrendList);
+
+    const TYPES = {
+      '0': 'newUserNum',
+      '1': 'newMobileNum',
+      '2': 'newVisitNum',
+      '3': 'newActiveNum',
+    };
+
+    let temp1 = _.groupBy(list, 'periodId');
+
+    let result = [];
+    let fields = _.uniq(_.map(list, 'province'));
+    for (let key in temp1) {
+      let val = temp1[key];
+      let p = {};
+      for (let item of val) {
+        p[item.province] = item[TYPES[type]];
+      }
+      p.periodId = key;
+      result.push(p);
+    }
+    result = _.sortBy(result, 'periodId');
+
+    state.addUserTrendData = result;
+    state.addUserTrendFields = fields;
   },
   // 新增用户分析- 全国 - 新增用户趋势分析
   [types.ADD_USER_COUNTRY_TREND](state, type) {
-    let list = state.addUserTrendList;
-    console.log(list);
-    state.addUserTrendData = [];
-    state.addUserTrendFields = [];
+    let list = _.cloneDeep(state.addUserTrendList);
+
+    const TYPES = {
+      '0': 'newUserNum',
+      '1': 'newMobileNum',
+      '2': 'newVisitNum',
+      '3': 'newActiveNum',
+    };
+
+    let temp1 = _.groupBy(list, 'periodId');
+
+    let result = [];
+    let fields = _.uniq(_.map(list, 'province'));
+    for (let key in temp1) {
+      let val = temp1[key];
+      let p = {};
+      for (let item of val) {
+        p[item.province] = item[TYPES[type]];
+      }
+      p.periodId = key;
+      result.push(p);
+    }
+    result = _.sortBy(result, 'periodId');
+
+    state.addUserTrendData = result;
+    state.addUserTrendFields = fields;
   },
   // 新增用户分析- 用户新增排名情况 原始数据
   [types.ADD_USER_MAP](state, data) {
@@ -410,15 +457,53 @@ const mutations = {
   },
   // 新增用户分析- 大区 - 用户新增排名情况
   [types.ADD_USER_DISTRICT_MAP](state, type) {
-    let list = state.addUserMapList;
-    console.log(list);
-    state.addUserMapData = [];
+    let list = _.cloneDeep(state.addUserMapList);
+
+    const TYPES = {
+      '0': 'newUserNum',
+      '1': 'newMobileNum',
+      '2': 'newActiveNum'
+    };
+
+    const RANK_TYPES = {
+      '0': 'newUserNumRank',
+      '1': 'newMobileNumRank',
+      '2': 'newActiveNumRank'
+    };
+
+    let result = _.sortBy(list.map((item) => {
+      item.orderNum = item[RANK_TYPES[type]];
+      item.name = item.province;
+      item.value = item[TYPES[type]];
+      return item;
+    }), 'orderNum');
+
+    state.addUserMapData = result;
   },
   // 新增用户分析- 全国 - 用户新增排名情况
   [types.ADD_USER_COUNTRY_MAP](state, type) {
-    let list = state.addUserMapList;
-    console.log(list);
-    state.addUserMapData = [];
+    let list = _.cloneDeep(state.addUserMapList);
+
+    const TYPES = {
+      '0': 'newUserNum',
+      '1': 'newMobileNum',
+      '2': 'newActiveNum'
+    };
+
+    const RANK_TYPES = {
+      '0': 'newUserNumRank',
+      '1': 'newMobileNumRank',
+      '2': 'newActiveNumRank'
+    };
+
+    let result = _.sortBy(list.map((item) => {
+      item.orderNum = item[RANK_TYPES[type]];
+      item.name = item.province;
+      item.value = item[TYPES[type]];
+      return item;
+    }), 'orderNum');
+
+    state.addUserMapData = result;
   },
   // 新增用户分析- 新增会员用户趋势分析 原始数据
   [types.ADD_USER_VIP](state, data) {
@@ -426,74 +511,37 @@ const mutations = {
   },
   // 新增用户分析- 省份 - 新增会员用户趋势分析
   [types.ADD_USER_PROVINCE_VIP](state, type) {
-    let list = state.addUserVipList;
-    console.log(list);
-    state.addUserVipData = [];
-    state.addUserVipFields = [];
-  },
-  // 新增用户分析- 大区 - 新增会员用户趋势分析
-  [types.ADD_USER_DISTRICT_VIP](state, type) {
-    let list = state.addUserVipList;
-    console.log(list);
-    state.addUserVipData = [];
-    state.addUserVipFields = [];
-
-    list = [
-      {
-        'periodId': '2018-04',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山西',
-        'member_1': 696,
-        'member_2': 22529,
-        'member_3_rank': null,
-        'member_2_rank': 2,
-        'member_1_rank': 21
-      },
-      {
-        'periodId': '2018-03',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山东',
-        'member_1': 2665,
-        'member_2': 27421,
-        'member_3_rank': null,
-        'member_2_rank': 1,
-        'member_1_rank': 10
-      },
-      {
-        'periodId': '2018-03',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山西',
-        'member_1': 696,
-        'member_2': 22529,
-        'member_3_rank': null,
-        'member_2_rank': 2,
-        'member_1_rank': 21
-      },
-      {
-        'periodId': '2018-04',
-        'clientType': '咪咕视频',
-        'member_3': null,
-        'province': '山东',
-        'member_1': 2665,
-        'member_2': 27421,
-        'member_3_rank': null,
-        'member_2_rank': 1,
-        'member_1_rank': 10
-      },
-    ];
-
-    let temp = _.groupBy(list, 'periodId');
+    let list = _.cloneDeep(state.addUserVipList);
+    let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
     let fields = _.uniq(_.map(list, 'province'));
-    for (let key in temp) {
-      let val = temp[key];
+    for (let key in temp1) {
+      let val = temp1[key];
       let p = {};
       for (let item of val) {
-        p[item.province] = item.member_1;
+        p[item.province] = item[`member_${type}`];
+      }
+      p.periodId = key;
+      result.push(p);
+    }
+    result = _.sortBy(result, 'periodId');
+
+    state.addUserVipData = result;
+    state.addUserVipFields = fields;
+  },
+  // 新增用户分析- 大区 - 新增会员用户趋势分析
+  [types.ADD_USER_DISTRICT_VIP](state, type) {
+    let list = _.cloneDeep(state.addUserVipList);
+    let temp1 = _.groupBy(list, 'periodId');
+
+    let result = [];
+    let fields = _.uniq(_.map(list, 'province'));
+    for (let key in temp1) {
+      let val = temp1[key];
+      let p = {};
+      for (let item of val) {
+        p[item.province] = item[`member_${type}`];
       }
       p.periodId = key;
       result.push(p);
@@ -505,10 +553,24 @@ const mutations = {
   },
   // 新增用户分析- 全国 - 新增会员用户趋势分析
   [types.ADD_USER_COUNTRY_VIP](state, type) {
-    let list = state.addUserVipList;
-    console.log(list);
-    state.addUserVipData = [];
-    state.addUserVipFields = [];
+    let list = _.cloneDeep(state.addUserVipList);
+    let temp1 = _.groupBy(list, 'periodId');
+
+    let result = [];
+    let fields = _.uniq(_.map(list, 'province'));
+    for (let key in temp1) {
+      let val = temp1[key];
+      let p = {};
+      for (let item of val) {
+        p[item.province] = item[`member_${type}`];
+      }
+      p.periodId = key;
+      result.push(p);
+    }
+    result = _.sortBy(result, 'periodId');
+
+    state.addUserVipData = result;
+    state.addUserVipFields = fields;
   },
   [types.ACTIVE_INIT_DATE](state, data) {
   },

@@ -47,15 +47,15 @@ export default {
       this.getRetTrendList(this.retTrend).then(() => {
         this.handleChangeType();
       });
+      this.getRetentionLossUser();
     },
     handleChangeType() {
       let val = this.retTrend.chartRadio;
-      if (this.isProvince()) {
-        this.$store.commit(types.RETENTION_UPDATE_PROVINCE_TREND_LIST, { chartRadio: val });
-      }
+      this.$store.commit(types.RETENTION_UPDATE_PROVINCE_TREND_LIST, val);
     },
     ...mapActions([
-      'getRetTrendList'
+      'getRetTrendList',
+      'getRetentionLossUser'
     ])
   }
 };
