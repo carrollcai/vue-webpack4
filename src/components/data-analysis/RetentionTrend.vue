@@ -11,7 +11,7 @@
                 placeholder="请选择"
                 @change="provinceChange">
                 <el-option :key="null" label="全国" :value="null" />
-                <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.value" :value="item.value" />
+                <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
 
@@ -64,10 +64,8 @@
     <div class="trend-mode">
       <div v-if="!retTrend.mode" class="trend-chart">
         <div class="no-data" v-if="Object.isNullArray(retTrendList)">暂无数据</div>
-        <!-- <multi-line v-else :charData="retTrendData" :id="'line'" :fields="retTrendFields" /> -->
         <template v-else>
-          <basic-area-chart v-if="isProvince"  :charData="retTrendData" id="line" :fields="retTrendFields" />
-          <grouped-column-chart v-if="isDistrict || isWholeCountry" id="retention-trend"/>
+          <multi-line :charData="retTrendData" id="line" :fields="retTrendFields" />
         </template>
       </div>
       <div v-else>
@@ -89,6 +87,7 @@
 import { mapState, mapActions } from 'vuex';
 
 import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
+import MultiLine from 'components/chart/MultiLine.vue';
 import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
 import WmTable from 'components/Table.vue';
 
@@ -115,6 +114,7 @@ export default {
   components: {
     BasicAreaChart,
     GroupedColumnChart,
+    MultiLine,
     WmTable
   },
   data() {
@@ -178,6 +178,9 @@ export default {
           this.$emit('query');
         }
       });
+    },
+    provinceChange() {
+      this.query();
     },
     ...mapActions([
       'getRetTrendList',

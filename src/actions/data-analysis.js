@@ -6,27 +6,36 @@ import moment from 'moment';
 const actions = {
   getDailyActiveUser: ({ commit, state }, params) => {
     const req = activeReq(state);
-    if (req.dateType) {
-      return API.getMonthDailyActiveUserAPI(req).then(res => {
-        commit(types.ACTIVE_GET_DAILY_USER, res.data.reportList);
+    let dateType = req.dateType;
+    delete req.dateType;
+
+    // 按月
+    if (dateType) {
+      return API.queryActiveOverviewMonthAPI(req).then(res => {
+        commit(types.ACTIVE_GET_DAILY_USER, res.data);
       });
     } else {
-      return API.getDailyActiveUserAPI(req).then(res => {
-        commit(types.ACTIVE_GET_DAILY_USER, res.data.reportList);
+      return API.queryActiveOverviewDayAPI(req).then(res => {
+        commit(types.ACTIVE_GET_DAILY_USER, res.data);
       });
     }
   },
 
   getTrendList: ({ commit, state }, params) => {
     const req = activeTrendReq(state);
+
+    let dateType = req.dateType;
+    delete req.dateType;
+
+    console.log(dateType);
     // 按月查询
-    if (req.dateType) {
+    if (dateType) {
       return API.getMonthTrendListAPI(req).then(res => {
-        commit(types.TREND_GET_LIST, res.data.reportList);
+        commit(types.TREND_GET_LIST, res.data);
       });
     } else {
       return API.getTrendListAPI(req).then(res => {
-        commit(types.TREND_GET_LIST, res.data.reportList);
+        commit(types.TREND_GET_LIST, res.data);
       });
     }
   },
@@ -66,14 +75,16 @@ const actions = {
 
   getProvinceUser: ({ commit, state }, params) => {
     const req = activeProvinceUserReq(state);
+    let dateType = req.dateType;
+    delete req.dateType;
 
-    if (req.dateType) {
+    if (dateType) {
       return API.getMonthDailyActiveUserAPI(req).then(res => {
-        commit(types.PROVINCE_GET_USER, res.data.reportList);
+        commit(types.PROVINCE_GET_USER, res.data);
       });
     } else {
       return API.getProvinceUserAPI(req).then(res => {
-        commit(types.PROVINCE_GET_USER, res.data.reportList);
+        commit(types.PROVINCE_GET_USER, res.data);
       });
     }
   },
@@ -89,14 +100,14 @@ const actions = {
   getRetentionLossUser: ({ commit, state }, params) => {
     const req = {};
     const { retentionObj } = state.dataAnalysis;
-    let { provinces } = state.root.currentUser.operator;
+    // let { provinces } = state.root.currentUser.operator;
     req.beginDate = oneMonthAgo;
     req.endDate = oneMonthAgo;
     req.clientType = retentionObj.clientSelected;
-    req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
+    // req.provinces = retentionObj.provinceSelected ? retentionObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
 
-    return API.getRetentionLossUserAPI(req).then(res => {
-      commit(types.RETENTION_GET_USER, res.data.reportList);
+    return API.queryRetentionLossUserAPI(req).then(res => {
+      commit(types.RETENTION_GET_USER, res.data);
     });
   },
 
@@ -104,7 +115,7 @@ const actions = {
     const req = retTrendReq(state);
 
     return API.getRetentionLossUserAPI(req).then(res => {
-      commit(types.RETENTION_GET_TREND_LIST, res.data.reportList);
+      commit(types.RETENTION_GET_TREND_LIST, res.data);
     });
   },
   downloadRetTrendDataAnalysis: ({ commit, state }, params) => {
@@ -116,8 +127,10 @@ const actions = {
    */
   queryAddUserOverview({commit}, params) {
     return new Promise((resolve) => {
-      commit(types.ADD_USER_OVERVIEW, {});
-      resolve();
+      API.queryAddUserOverviewAPI(params).then(res => {
+        commit(types.ADD_USER_OVERVIEW, res.data);
+        resolve();
+      });
     });
   },
   /**
@@ -125,8 +138,10 @@ const actions = {
    */
   queryAddUserTrend({commit}, params) {
     return new Promise((resolve) => {
-      commit(types.ADD_USER_TREND, []);
-      resolve();
+      API.queryAddUserTrendAPI(params).then(res => {
+        commit(types.ADD_USER_TREND, res.data);
+        resolve();
+      });
     });
   },
   /**
@@ -134,8 +149,10 @@ const actions = {
    */
   queryAddUserMap({commit}, params) {
     return new Promise((resolve) => {
-      commit(types.ADD_USER_MAP, []);
-      resolve();
+      API.queryAddUserMapAPI(params).then(res => {
+        commit(types.ADD_USER_MAP, res.data);
+        resolve();
+      });
     });
   },
   /**
@@ -143,8 +160,10 @@ const actions = {
    */
   queryAddUserVip({commit}, params) {
     return new Promise((resolve) => {
-      commit(types.ADD_USER_VIP, []);
-      resolve();
+      API.queryAddUserVipAPI(params).then(res => {
+        commit(types.ADD_USER_VIP, res.data);
+        resolve();
+      });
     });
   },
 };
@@ -164,7 +183,6 @@ function activeReq(state) {
 function activeTrendReq(state) {
   const req = {};
   const { trend, activeObj } = state.dataAnalysis;
-  let { provinces } = state.root.currentUser.operator;
   if (trend.date.length) {
     let beginDate, endDate;
     if (trend.dateType) {
@@ -179,14 +197,13 @@ function activeTrendReq(state) {
     req.endDate = endDate;
   }
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
   return req;
 }
 
 function activeProvinceUserReq(state) {
   const req = {};
   const { provinceUser, activeObj } = state.dataAnalysis;
-  let { provinces } = state.root.currentUser.operator;
+  // let { provinces } = state.root.currentUser.operator;
   if (provinceUser.date.length) {
     let beginDate, endDate;
     if (provinceUser.dateType) {
@@ -201,20 +218,19 @@ function activeProvinceUserReq(state) {
     req.endDate = endDate;
   }
 
-  req.isAloneProvince = true;
+  // req.isAloneProvince = true;
   req.clientType = activeObj.clientSelected;
-  req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
+  // req.provinces = activeObj.provinceSelected.length ? activeObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
   return req;
 }
 
 function retTrendReq(state) {
   const req = {};
   const { retentionObj, retTrend } = state.dataAnalysis;
-  let { provinces } = state.root.currentUser.operator;
   req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
   req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
   req.clientType = retentionObj.clientSelected;
-  req.provinces = retentionObj.provinceSelected.length ? retentionObj.provinceSelected.filter(val => val !== null) : provinces.map(val => val.value);
+  req.region = retentionObj.district;
   return req;
 }
 

@@ -72,6 +72,9 @@ const mutations = {
     state.currentUser.operator.staffName = data.secOperatorDTO.staffName;
     state.currentUser.operator.opRegion = data.secOperatorDTO.opRegion;
 
+    // 数据分析页面权限:1：全国，2：大区，3：省
+    state.currentUser.analysePrivilege = data.secOperatorDTO.analysePrivilege;
+
     // 用户拥有的菜单权限
     data.secMenuDTOList.map(val => {
       menuIds.push(val.menuId);

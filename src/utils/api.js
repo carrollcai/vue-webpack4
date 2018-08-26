@@ -48,18 +48,43 @@ export default {
 
   /* 数据分析 */
   getMembersAPI: API('/esop/analysisReport/queryPDNNs'), // 查询新增会员活跃用户数，按日
-  getDailyActiveUserAPI: API('/esop/analysisReport/queryPDARs'), // 分省日活跃用户数，按日
-  getMonthDailyActiveUserAPI: API('/esop/analysisReport/queryMANs'), // 分省日活跃用户数，按月
-  getTrendListAPI: API('/esop/analysisReport/queryPDARs'), // 活跃度分析日活跃数查询，按日
-  getMonthTrendListAPI: API('/esop/analysisReport/queryMANs'), // 活跃度分析月活跃数查询，按月
-  getTrendNewMembersAPI: API('/esop/analysisReport/queryPDNNs'), // 活跃度分析新增会员查询，按日
-  getTrendNewMembersMonthAPI: API('/esop/analysisReport/queryMNANs'), // 活跃度分析新增会员查询，按月
-  getProvinceUserAPI: API('/esop/analysisReport/queryPDARs'), // 各省日活跃用户情况，按日
+
+  // 分省日活跃用户数，按日
+  getDailyActiveUserAPI: API('/esop/analysisReport/queryDActiveWithSum'),
+  // 分省日活跃用户数，按月
+  getMonthDailyActiveUserAPI: API('/esop/analysisReport/queryMActiveWithSum'),
+
+  queryActiveOverviewDayAPI: API('/esop/analysisReport/queryDActive'),
+  queryActiveOverviewMonthAPI: API('/esop/analysisReport/queryMActive'),
+
+  // 活跃度分析日活跃数查询，按日
+  getTrendListAPI: API('/esop/analysisReport/queryDActive'),
+  // 活跃度分析月活跃数查询，按月
+  getMonthTrendListAPI: API('/esop/analysisReport/queryMActive'),
+
+  // 活跃度分析新增会员查询，按日
+  getTrendNewMembersAPI: API('/esop/analysisReport/queryPDNNs'),
+  // 活跃度分析新增会员查询，按月
+  getTrendNewMembersMonthAPI: API('/esop/analysisReport/queryMNANs'),
+  getProvinceUserAPI: API('/esop/analysisReport/queryDActiveWithSum'), // 各省日活跃用户情况，按日
 
   downloadTrendDataAnalysisAPI: download('/esop/analysisReport/downloadPDARs'), // 下载数据分析,按日
   downloadMonthTrendDataAnalysisAPI: download('/esop/analysisReport/downloadMANs'), // 下载数据分析，按月
 
-  getRetentionLossUserAPI: API('/esop/analysisReport/queryMDRs'), // 月留存流失
+  // 新增用户分析 - 查询新增用户数据
+  queryAddUserOverviewAPI: API('/esop/analysisReportNew/queryNewUserRank'),
+
+  // 新增用户分析 -  查询新增用户趋势分析
+  queryAddUserTrendAPI: API('/esop/analysisReportNew/queryNewUserRankByMonth'),
+
+  queryAddUserMapAPI: API('/esop/analysisReportNew/queryNewUserRank'),
+
+  // 新增用户分析 -  查询新增会员用户趋势分析
+  queryAddUserVipAPI: API('/esop/analysisReportNew/queryNewMember'),
+
+  getRetentionLossUserAPI: API('/esop/analysisReport/queryRetainDropout'), // 月留存流失
+
+  queryRetentionLossUserAPI: API('/esop/analysisReport/queryRetainDropoutWithSum'),
   downloadRetTrendDataAnalysisAPI: download('/esop/analysisReport/downloadMDRs'),
 
   /* 任务管理 */

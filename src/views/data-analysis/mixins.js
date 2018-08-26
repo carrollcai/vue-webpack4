@@ -1,16 +1,26 @@
+import {mapState} from 'vuex';
+
 export default {
+  computed: {
+    ...mapState({
+      currentUser: ({root}) => root.currentUser
+    })
+  },
   methods: {
     // 省份
     isProvince() {
-      return false;
+      // return false;
+      return this.currentUser.analysePrivilege === '3';
     },
     // 大区
     isDistrict() {
-      return true;
+      // return false;
+      return this.currentUser.analysePrivilege === '2';
     },
     // 全国
     isWholeCountry() {
-      return false;
+      // return true;
+      return this.currentUser.analysePrivilege === '1';
     },
     getPermissionParams() {
       const {isProvince, isDistrict, isWholeCountry} = this;

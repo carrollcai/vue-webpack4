@@ -1,29 +1,29 @@
 <template>
   <div class="new-user-analyze active-userdata block-containter">
     <div class="userdata-header">
-      <div class="trend-header-title">6月新增用户数据</div>
+      <div class="trend-header-title">{{oneMonthAgoNoDay}}新增用户数据</div>
     </div>
     <div class="userdata-main">
       <div class="userdata-main-left">
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增用户</div>
-          <div class="userdata-main-left__num">{{overviewData.activeUserNum}}</div>
-          <div class="userdata-main-left__rank">全国No.1</div>
+          <div class="userdata-main-left__num">{{overviewData.newUserNum}}</div>
+          <div class="userdata-main-left__rank">全国No.{{overviewData.newUserNumRank}}</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增手机用户</div>
-          <div class="userdata-main-left__num">{{overviewData.mobileAccount}}</div>
-          <div class="userdata-main-left__rank">全国No.1</div>
+          <div class="userdata-main-left__num">{{overviewData.newMobileNum}}</div>
+          <div class="userdata-main-left__rank">全国No.{{overviewData.newMobileNumRank}}</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增游客用户</div>
-          <div class="userdata-main-left__num">{{overviewData.mobileIp}}</div>
-          <div class="userdata-main-left__rank">全国No.1</div>
+          <div class="userdata-main-left__num">{{overviewData.newVisitNum}}</div>
+          <div class="userdata-main-left__rank">全国No.{{overviewData.newVisitNumRank}}</div>
         </div>
         <div class="userdata-main-left__outer">
           <div class="userdata-main-left__title ellipsis">新增会员活跃用户</div>
-          <div class="userdata-main-left__num">{{overviewData.newMembers}}</div>
-          <div class="userdata-main-left__rank">全国No.1</div>
+          <div class="userdata-main-left__num">{{overviewData.newActiveNum}}</div>
+          <div class="userdata-main-left__rank">全国No.{{overviewData.newActiveNumRank}}</div>
         </div>
       </div>
       <div class="userdata-main-right">
@@ -53,8 +53,6 @@ export default {
   computed: {
     ...mapState({
       members: ({ dataAnalysis }) => dataAnalysis.members,
-      dailyUser: ({ dataAnalysis }) => dataAnalysis.dailyUser,
-      activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj,
       overviewData: ({ dataAnalysis }) => dataAnalysis.addUserOverviewData
     })
   },

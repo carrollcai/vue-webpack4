@@ -52,7 +52,8 @@ import AdduserVipTrend from 'components/data-analysis/AdduserVipTrend.vue';
 import mixins from './mixins';
 import * as types from '@/store/types';
 import {
-  oneMonthAgo
+  oneMonthAgo,
+  oneMonthAgoNoDay
 } from '@/utils/helper';
 
 export default {
@@ -98,7 +99,13 @@ export default {
      */
     queryOverview() {
       console.log('queryOverview');
-      this.queryAddUserOverview();
+      const {clientType} = this;
+      let params = {
+        clientType,
+        startDate: oneMonthAgoNoDay,
+        endDate: oneMonthAgoNoDay
+      };
+      this.queryAddUserOverview(params);
     },
     /**
      * 获取 查询新增用户数据的参数
@@ -114,7 +121,14 @@ export default {
      *各省份用户新增排名情况 查询数据
      */
     handleQueryProvinceOverview() {
-      this.queryAddUserMap().then(() => {
+      const {clientType, userMapTrend} = this;
+      let params = {
+        clientType,
+        startDate: userMapTrend.startDate,
+        endDate: userMapTrend.endDate
+      };
+
+      this.queryAddUserMap(params).then(() => {
         this.handleChangeProvinceType(this.userMapTrend.chartRadio);
       });
     },
@@ -142,10 +156,10 @@ export default {
       const {clientType, userTrend} = this;
 
       let params = {
-        clientSelected: clientType,
+        clientType,
         startDate: userTrend.startDate,
         endDate: userTrend.endDate,
-        chartRadio: userTrend.chartRadio
+        region: userTrend.district
       };
 
       this.queryAddUserTrend(params).then(() => {
@@ -180,10 +194,10 @@ export default {
       const {clientType, vipTrend} = this;
 
       let params = {
-        clientSelected: clientType,
+        clientType,
         startDate: vipTrend.startDate,
         endDate: vipTrend.endDate,
-        chartRadio: vipTrend.chartRadio
+        region: vipTrend.district
       };
 
       this.queryAddUserVip(params).then(() => {

@@ -58,7 +58,10 @@ export default {
     ...mapState({
       activeObj: ({ dataAnalysis }) => dataAnalysis.activeObj,
       trend: ({ dataAnalysis }) => dataAnalysis.trend,
-    })
+    }),
+    clientType() {
+      return this.activeObj.clientSelected;
+    }
   },
   created() {
     this.handleQuery();
@@ -85,7 +88,7 @@ export default {
       return this.activeObj;
     },
     /**
-     *
+     * 查询 活跃度排名情况
      */
     handleQueryProvince() {
       this.getProvinceUser();
@@ -95,6 +98,7 @@ export default {
      */
     handleQueryTrend() {
       const that = this;
+
       that.getTrendList().then(() => {
         that.handleChangeType(that.trend.chartRadio);
       });
@@ -118,7 +122,7 @@ export default {
         type = types.ACTIVE_UPDATE_COUNTRY_TREND;
       }
 
-      this.$store.commit(type, { chartRadio: val });
+      this.$store.commit(type, val);
     },
     ...mapActions([
       'getDailyActiveUser',

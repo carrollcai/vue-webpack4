@@ -8,10 +8,11 @@
             <el-form-item v-if="isWholeCountry" class="normalize-form-item adduser-trend-dimen" prop="provinceSelected">
               <el-select class="user-form-item__input"
                 placeholder="请选择"
-                v-model="trend.region"
+                v-model="trend.district"
                 @change="handleChangeProvince"
               >
-                <el-option v-for="(val, key) in addUserTrendDimension" :key="val" :label="val" :value="key" />
+                <el-option :key="null" label="全国" :value="null" />
+                <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
             <el-form-item class="normalize-form-item" prop="checkDate">
@@ -59,8 +60,8 @@
     <div class="trend-sub">
       <div class="trend-sub__radio">
         <el-radio-group v-if="!trend.mode" v-model="trend.chartRadio" @change="changeRadio">
-          <el-radio v-for="(item, index) in trendRadio" :key="index" :label="index">
-            {{item}}
+          <el-radio v-for="(item, index) in MEMBER_TYPE" :key="index" :label="item.value">
+            {{item.label}}
           </el-radio>
         </el-radio-group>
       </div>
@@ -77,13 +78,14 @@
       </div>
       <div v-else>
         <wm-table :source="addUserVipList" :max-height="500">
-          <el-table-column label="客户端" property="periodId" />
-          <el-table-column label="省份" property="periodId" />
+          <el-table-column label="客户端" property="clientType" />
           <el-table-column label="日期" property="periodId" />
-          <el-table-column label="手机账号登录用户" property="msisdnNum" />
-          <el-table-column label="移动IP用户" property="chinaMobileIpNum" />
-          <el-table-column label="非移动IP用户" property="otherIpNum" />
-          <el-table-column label="新增会员用户" property="newMembersNum" />
+          <el-table-column label="省份" property="province" />
+          <el-table-column v-for="(item, index) in MEMBER_TYPE" :key="index" :label="item.label" >
+            <template slot-scope="scope">
+              {{convertNull(scope.row[`member_${item.value}`])}}
+            </template>
+          </el-table-column>
         </wm-table>
       </div>
     </div>
@@ -99,6 +101,9 @@ import NoData from 'components/NoData.vue';
 
 import { ADDUSER_TREND_RADIO, ADD_USER_TREND_DIMENSION } from '@/config';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
+import {
+  convertNull
+} from '@/utils/common';
 import mixins from './mixins';
 
 export default {
@@ -121,6 +126,14 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  computed: {
+    ...mapState({
+      trend: ({ dataAnalysis }) => dataAnalysis.adduserVipTrend,
+      addUserVipList: ({ dataAnalysis }) => dataAnalysis.addUserVipList,
+      addUserVipData: ({ dataAnalysis }) => dataAnalysis.addUserVipData,
+      addUserVipFields: ({ dataAnalysis }) => dataAnalysis.addUserVipFields,
+    })
   },
   data() {
     const checkDate = (rule, value, callback) => {
@@ -157,18 +170,12 @@ export default {
       testArr: [{}]
     };
   },
-  computed: {
-    ...mapState({
-      adduserTrend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
-      trend: ({ dataAnalysis }) => dataAnalysis.adduserVipTrend,
-      addUserVipList: ({ dataAnalysis }) => dataAnalysis.addUserVipList,
-      addUserVipData: ({ dataAnalysis }) => dataAnalysis.addUserVipData,
-      addUserVipFields: ({ dataAnalysis }) => dataAnalysis.addUserVipFields,
-    })
-  },
   beforeMount() {
   },
   methods: {
+    convertNull(val) {
+      return convertNull(val);
+    },
     handleChangeProvince() {
       this.query();
     },

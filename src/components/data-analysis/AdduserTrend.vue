@@ -8,11 +8,13 @@
             <el-form-item v-if="isWholeCountry" class="normalize-form-item adduser-trend-dimen" prop="provinceSelected">
               <el-select class="user-form-item__input"
                 placeholder="请选择"
-                v-model="trend.selected"
+                v-model="trend.district"
                 @change="handleChangeProvince"
               >
-                <el-option v-for="(val, key) in addUserTrendDimension" :key="val" :label="val" :value="key" />
+                <el-option :key="null" label="全国" :value="null" />
+                <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
+
             </el-form-item>
 
             <el-form-item class="normalize-form-item" prop="checkDate">
@@ -82,13 +84,13 @@
       </div>
       <div v-else>
         <wm-table :source="addUserTrendList" :max-height="500">
-          <el-table-column label="客户端" property="periodId" />
-          <el-table-column label="省份" property="periodId" />
+          <el-table-column label="客户端" property="clientType" />
           <el-table-column label="日期" property="periodId" />
-          <el-table-column label="新增用户" property="periodId" />
-          <el-table-column label="新增手机用户" property="periodId" />
-          <el-table-column label="新增游客用户" property="msisdnNum" />
-          <el-table-column label="新增会员用户" property="chinaMobileIpNum" />
+          <el-table-column label="省份" property="province" />
+          <el-table-column label="新增用户" property="newUserNum" />
+          <el-table-column label="新增手机用户" property="newMobileNum" />
+          <el-table-column label="新增游客用户" property="newVisitNum" />
+          <el-table-column label="新增会员用户" property="newActiveNum" />
         </wm-table>
       </div>
     </div>
@@ -129,6 +131,14 @@ export default {
       default: false
     }
   },
+  computed: {
+    ...mapState({
+      trend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
+      addUserTrendList: ({ dataAnalysis }) => dataAnalysis.addUserTrendList,
+      addUserTrendData: ({ dataAnalysis }) => dataAnalysis.addUserTrendData,
+      addUserTrendFields: ({ dataAnalysis }) => dataAnalysis.addUserTrendFields,
+    })
+  },
   data() {
     const checkDate = (rule, value, callback) => {
       const { startDate, endDate } = this.trend;
@@ -162,14 +172,6 @@ export default {
         ]
       },
     };
-  },
-  computed: {
-    ...mapState({
-      trend: ({ dataAnalysis }) => dataAnalysis.adduserTrend,
-      addUserTrendList: ({ dataAnalysis }) => dataAnalysis.addUserTrendList,
-      addUserTrendData: ({ dataAnalysis }) => dataAnalysis.addUserTrendData,
-      addUserTrendFields: ({ dataAnalysis }) => dataAnalysis.addUserTrendFields,
-    })
   },
   beforeMount() {
   },

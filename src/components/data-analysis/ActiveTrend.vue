@@ -10,7 +10,7 @@
               placeholder="请选择"
               @change="provinceChange">
               <el-option :key="null" label="全国" :value="null" />
-              <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.value" :value="item.value" />
+              <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
 
@@ -188,8 +188,6 @@ export default {
       trendList: ({ dataAnalysis }) => dataAnalysis.trendList,
       trendData: ({ dataAnalysis }) => dataAnalysis.trendData,
       trendFields: ({ dataAnalysis }) => dataAnalysis.trendFields,
-      trendNewMembers: ({ dataAnalysis }) => dataAnalysis.trendNewMembers,
-      membersList: ({ dataAnalysis }) => dataAnalysis.membersList
     })
   },
   beforeMount() {
@@ -210,9 +208,6 @@ export default {
       if (this.trend.startDate && this.trend.endDate) {
         this.query();
       }
-    },
-    newMembersFields() {
-      return this.membersList.map(val => val.item);
     },
     dateTypeChange() {
       const { trend } = this;

@@ -10,7 +10,17 @@ export default {
     }),
     // 大区
     DISTRICTS() {
-      return this.staticData.DISTRICTS || [];
+      let list = this.staticData.REGION || [];
+      list = _.filter(list, (item) => {
+        return _.startsWith(item.value, '100003') && item.value !== '100003';
+      });
+      return list;
+    },
+    MEMBER_TYPE() {
+      let list = this.staticData.MEMBER_TYPE || [];
+
+      list.shift();
+      return list;
     }
   },
   data() {
