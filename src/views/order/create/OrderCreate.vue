@@ -185,7 +185,7 @@ export default {
       await this.getOrderEdit({ ordId: id });
       this.selectedProduct = {
         productName: this.orderCreate.productName,
-        productId: this.orderCreate.productId
+        productId: this.orderCreate.productId,
       };
     }
   },
@@ -207,31 +207,6 @@ export default {
         processor: this.orderCreate.processor,
         productId: this.orderCreate.productId
       });
-      /* if (this.orderCreate.orderProductDtoList && this.orderCreate.orderProductDtoList.length <= 0) {
-        let obj = {
-          productName: this.orderCreate.productName,
-          amount: this.orderCreate.amount,
-          processor: this.orderCreate.processor[2] + '',
-          productId : this.orderCreate.productId
-        }
-        this.orderCreate.orderProductDtoList.push(obj);
-      } else {
-        let flag = this.orderCreate.orderProductDtoList.filter((item, index, arr) => {
-          if (item.productName === this.orderCreate.productName) {
-            this.$message({ showClose: true, message: '该产品已添加' });
-            return false;
-          }
-        })
-        if (flag) {
-          let obj = {
-            productName: this.orderCreate.productName,
-            amount: this.orderCreate.amount,
-            processor: this.orderCreate.processor[0] + '',
-            productId : this.orderCreate.productId
-          }
-          this.orderCreate.orderProductDtoList.push(obj);
-        }
-      } */
     },
     routeType() {
       const { type } = this.$route.params;
@@ -261,12 +236,12 @@ export default {
       delete params.amount;
       delete params.processor;
       delete params.productId;
+      delete params.companyBelong;
       params.orderProductDtoList = params.orderProductDtoList.filter(item => {
         delete item.processorData;
         return item;
       });
       params.startProcess = startProcess;
-      console.log(params);
       this.$refs.orderCreateForm.validate(valid => {
         if (!valid) return false;
 

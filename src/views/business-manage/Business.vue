@@ -13,7 +13,10 @@
           <!--<el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="businessForm.opporCode" placeholder="商机编码" />
+          <el-input clearable v-model="businessForm.opporCodeOrName" placeholder="商机编码" />
+        </el-form-item>
+        <el-form-item class="form-query-input-width form-left-width">
+          <el-input clearable v-model="businessForm.opName" placeholder="提供人" />
         </el-form-item>
       </div>
       <div class="flex">
@@ -32,12 +35,10 @@
     <div class="m-container table-container">
       <wm-table :source="businessList.list" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
         <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
-        <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
+        <el-table-column label="商机名称" show-overflow-tooltip property="opporName" />
         <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
         <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
-        <el-table-column label="联系人" show-overflow-tooltip property="contactName" />
-        <el-table-column label="处理人" show-overflow-tooltip property="processor" />
-        <el-table-column label="处理结果" property="opporStatusName" />
+        <el-table-column label="提供人" show-overflow-tooltip property="opName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" class="table-button" @click="handleDetail(scope.row)">详情</el-button>

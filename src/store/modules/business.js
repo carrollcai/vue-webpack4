@@ -11,7 +11,8 @@ const state = {
     endDate: '',
     date: [],
     organizeNameOrCode: '',
-    opporCode: '',
+    opporCodeOrName: '',
+    opName: '',
     opporStatus: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
@@ -21,7 +22,7 @@ const state = {
     endDate: '',
     date: [],
     organizeNameOrCode: '',
-    opporCode: '',
+    opporCodeOrName: '',
     opporStatus: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
@@ -31,7 +32,7 @@ const state = {
     endDate: '',
     date: [],
     organizeNameOrCode: '',
-    opporCode: '',
+    opporCodeOrName: '',
     taskHasComplete: 0,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
@@ -99,7 +100,25 @@ const mutations = {
     });
   },
   [types.REMIND_PERSON](state, data) {
-    state.remindPerson = data;
+    let handlers = data.map(val => {
+      let newVal = {};
+      newVal.value = val.codeValue;
+      newVal.label = val.codeName;
+      newVal.children = val.childrenList && val.childrenList.filter(cval => cval.secOperatorDTOList).map(cval => {
+        let newCval = {};
+        newCval.value = cval.codeValue;
+        newCval.label = cval.codeName;
+        newCval.children = cval.secOperatorDTOList && cval.secOperatorDTOList.map(gcval => {
+          return {
+            value: gcval.operatorId,
+            label: gcval.staffName
+          };
+        });
+        return newCval;
+      });
+      return newVal;
+    });
+    state.remindPerson = handlers;
   },
   [types.SUBMIT_BUSINESS_SEND_STATUS](state, data) {
     state.submitBusinessSendStatus = data.list;

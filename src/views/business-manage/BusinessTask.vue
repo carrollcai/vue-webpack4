@@ -13,7 +13,7 @@
             <!--<el-autocomplete clearable v-model="businessTaskForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="businessTaskForm.opporCode" placeholder="商机编码" />
+            <el-input clearable v-model="businessTaskForm.opporCodeOrName" placeholder="商机编码" />
           </el-form-item>
         </div>
         <div class="flex">
@@ -30,7 +30,8 @@
     <div class="m-container table-container">
       <wm-table :source="businessTaskList.list" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
         <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
-        <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" />
+        <el-table-column label="商机名称" show-overflow-tooltip property="opporName" />
+        <!-- <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" /> -->
         <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
         <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
         <el-table-column label="联系人" show-overflow-tooltip property="contactName" />

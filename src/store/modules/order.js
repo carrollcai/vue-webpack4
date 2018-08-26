@@ -23,11 +23,13 @@ const orderCreate = {
     productName: '',
     amount: '',
     processor: '',
-    processorData: ''
+    processorData: '',
+    companyBelong: ''
   }],
   productName: '',
   amount: '',
   processor: '',
+  companyBelong: '',
   predictRevenue: '',
   startProcess: ''
 };

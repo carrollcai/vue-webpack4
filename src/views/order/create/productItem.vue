@@ -45,11 +45,7 @@ import { PAGE_SIZE } from '@/config/index.js';
 export default {
   data() {
     return {
-      pageSize: PAGE_SIZE,
-      selectedProduct: {
-        productName: '',
-        productId: null
-      }
+      pageSize: PAGE_SIZE
     };
   },
   async beforeMount() {
@@ -87,11 +83,8 @@ export default {
       }, 1000);
     },
     handleProductSelect(item, index) {
-      this.selectedProduct = {
-        productName: item.productName,
-        productId: item.productId
-      };
       this.orderCreate.orderProductDtoList[index].productId = item.productId;
+      this.orderCreate.orderProductDtoList[index].companyBelong = item.operatorInfo.opRegion;
       this.updateOrderCreate({ productId: item.productId });
     },
     ...mapMutations({

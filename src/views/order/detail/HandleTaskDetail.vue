@@ -23,7 +23,7 @@
         <!-- 已取消 -->
         <detail-bar v-if="getProcessContent()" :title="['处理结果：', '取消原因：']" :content="getProcessContent()" />
 
-        <detail-content :orderOverviewDetail="handleTaskDetail" />
+        <detail-content :orderOverviewDetail="handleTaskDetail[0]" />
       </div>
       <!-- 待签约 -->
       <div v-if="routeType === 'pay' || routeType === 'sign'" class="detail-line"></div>
@@ -215,7 +215,7 @@ export default {
     })
   },
   async beforeMount() {
-    await this.getHandleTaskDetail({ ordId: this.id });
+    await this.getHandleTaskDetail({ ordCode: this.id });
     // 签约获取指派人流程
     if (this.handleTaskDetail.assignReason && this.taskInsId) {
       await this.getOrderProcessInfo({ taskInsId: this.taskInsId });

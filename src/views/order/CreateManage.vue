@@ -60,7 +60,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="联系人" property="processorName" />
+        <el-table-column label="联系人" property="contactName" />
         <!-- <el-table-column label="订单状态">
           <template slot-scope="scope">
             {{orderStatus[scope.row.ordStatus]}}
