@@ -5,6 +5,11 @@ import {
 } from '@/config/index.js';
 
 const state = {
+  regionData: {
+    regionList: [],
+    processorList: [],
+    processor: []
+  },
   cooperationGroupList: [],
   businessForm: {
     startDate: '',

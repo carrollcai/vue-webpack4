@@ -19,7 +19,6 @@ const createAppointFrom = {
   visitTime: null,
   timeRange: null,
   processor: [],
-  processorData: [],
   regionData: {
     regionList: [],
     processorList: [],
@@ -68,7 +67,6 @@ const state = {
     visitStatusData: '',
     organizeName: '',
     processor: [],
-    processorData: '',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
     visitResource: '1',

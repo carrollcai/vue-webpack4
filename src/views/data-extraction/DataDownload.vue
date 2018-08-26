@@ -45,7 +45,7 @@
       :defaultSort = "{prop: 'insertdate', order: 'descending'}"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
-      <el-table-column label="任务名称" show-overflow-tooltip property="name" width="350" />
+      <el-table-column label="任务名称" show-overflow-tooltip property="name" />
       <el-table-column label="提交时间" sortable property="createTime" width="210" />
       <el-table-column label="审核状态" property="extractBusinessStatusName" width="210">
         <template slot-scope="scope">

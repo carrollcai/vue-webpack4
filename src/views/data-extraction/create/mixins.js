@@ -35,82 +35,6 @@ export default {
     this.queryProcessor({});
   },
   methods: {
-    // 选择
-    getRegion(value) {
-      this.applyFrom.province = [];
-      let l = value.length;
-      let region = '';
-      let province = '';
-      let regionName = '';
-      if (value && l === 1) {
-        region = value[0];
-        this.processorList.filter(res => {
-          if (res.value === region) {
-            regionName = res.label;
-            this.applyFrom.provinceData.push({
-              regionValue: res.value,
-              regionLabel: res.label
-            });
-            return regionName;
-          }
-        });
-      } else if (value && l === 2) {
-        region = value[0];
-        province = value[1];
-        this.submitData.province.push(province);
-        this.processorList.filter(res => {
-          if (res.value === region) {
-            res.children.filter(item => {
-              if (item.value === province) {
-                regionName = res.label + '/' + item.label;
-                this.applyFrom.provinceData.push({
-                  regionValue: res.value,
-                  regionLabel: res.label,
-                  provinceValue: item.value,
-                  provinceLabel: item.label
-                });
-                return regionName;
-              }
-            });
-          }
-        });
-      }
-      this.submitData.region.push(region);
-      this.applyFrom.provinceList.push(regionName);
-      // this.applyFrom.provinceList = returnArr(value)
-    },
-    // 删除
-    handleClose(value) {
-      let list = this.applyFrom.provinceList;
-      let index = list.indexOf(value);
-      // this.delArray(value);
-      if (index >= 0) {
-        list.splice(index, 1);
-      }
-    },
-    delArray(value) {
-      let len = value.split('/').length - 1;
-      value = value.split('/')[len];
-      this.createAppointFrom.regionData.regionList.filter((item, index, array) => {
-        if (len === 0 && item.regionLabel === value) {
-          return array.splice(index, 1);
-        } else if (len === 1 && item.processorLabel === value) {
-          return array.splice(index, 1);
-        }
-      });
-    },
-    // 删除数组元素
-    // 排重
-    /* returnArr(value) {
-      let arr = this.applyFrom.provinceList;
-      let newArr = [];
-      arr.forEach(v, i, arr => {
-        var bool = arr.indexOf(v, i + 1);
-        if (bool === -1) {
-          return newArr.push(v);
-        }
-      });
-    }, */
     getServiceTime(value) {
       if (value === '不显示') {
         this.submitData.serviceTime = '0';
@@ -138,17 +62,6 @@ export default {
         this.isByDay = false;
       }
     },
-    /* resetData(el) {
-      this.applyFrom[el] = [];
-      if (this[el + 'All']) {
-        this[el + 'All'] = false;
-      }
-      if (this[el + 'Set']) {
-        this[el + 'Set'] = false;
-      } else {
-        this[el + 'Set'] = true;
-      }
-    }, */
     isAllChecked(el, active, original) {
       this.applyFrom[active] = this[el] ? original : [];
     },
@@ -193,6 +106,10 @@ export default {
       return obj;
     },
     onSubmit() {
+      debugger;
+      if (this.regionData.regionList && this.regionData.regionList.length <= 0) {
+        this.$message({ showClose: true, message: '请选择地区', type: 'info' });
+      }
       let userObj = this.openDataFn(this.applyFrom.userInfo, this.userInfoList, this.userMap);
       let activeObj = this.openDataFn(this.applyFrom.dataType, this.dataTypeList, this.activeMap);
       let sourceObj = this.getDataValueFn(this.applyFrom.source, this.sourceList, []);
@@ -206,6 +123,14 @@ export default {
       ageObj = this.ageAll ? [0] : ageObj;
       netTypeObj = this.netTypeAll ? [0] : netTypeObj;
       sexObj = this.sexAll ? [0] : sexObj;
+      this.regionData.regionList && this.regionData.regionList.filter(item => {
+        if (item.regionValue) {
+          this.submitData.region.push(item.regionValue);
+        }
+        if (item.provinceValue) {
+          this.submitData.province.push(item.provinceValue);
+        }
+      });
       let data = {
         name: this.applyFrom.name,
         extractDate: this.applyFrom.extractDate,

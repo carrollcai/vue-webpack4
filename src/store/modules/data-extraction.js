@@ -2,6 +2,11 @@ import * as types from '../types';
 import {PAGE_NO, PAGE_SIZE} from '@/config';
 
 const state = {
+  regionData: {
+    regionList: [],
+    processorList: [],
+    processor: []
+  },
   downloadForm: {
     startDate: '',
     endDate: '',

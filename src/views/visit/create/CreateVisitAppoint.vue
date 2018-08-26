@@ -32,7 +32,11 @@
         <!-- <div class="hr"></div> -->
         <el-form-item label="指派走访人：">
           <el-form-item class="visit-linkage" prop="visitAuditor">
-            <el-cascader v-if="getProcessorList"
+            <multilevelLinkage
+              :listData.sync="getProcessorList"
+              :storeData.sync="createAppointFrom.regionData">
+            </multilevelLinkage>
+            <!-- <el-cascader v-if="getProcessorList"
               @change="getProcessor"
               :options="getProcessorList"
               v-model="createAppointFrom.processorData"
@@ -48,7 +52,7 @@
                 @close="handleClose(tag)">
                 {{tag}}
               </el-tag>
-            </div>
+            </div> -->
           </el-form-item>
         </el-form-item>
         <el-form-item label="指派说明：" required prop="assignNote">
@@ -66,9 +70,13 @@
 
 <script>
 import mixins from './mixins';
+import multilevelLinkage from '@/components/multilevelLinkage.vue';
 import { mapState, mapActions, mapMutations } from 'vuex';
 export default {
   mixins: [mixins],
+  components: {
+    multilevelLinkage
+  },
   data() {
     return {
       localBusinessList: [],
@@ -100,57 +108,6 @@ export default {
     this.clearAppointCreate();
   },
   methods: {
-    getProcessor(value) {
-      this.createAppointFrom.processorData = [];
-      let list = this.getProcessorList || null;
-      let region = value[0] || null;
-      let province = value[1] || null;
-      let processor = value[2] || null;
-      let regionName = '';
-
-      list && list.filter(res => {
-        if (res.value === region) {
-          res.children && res.children.filter(item => {
-            if (item.value === province) {
-              item.children && item.children.filter(val => {
-                if (val.value === processor) {
-                  regionName = res.label + '/' + item.label + '/' + val.label;
-                  let obj = {
-                    regionValue: res.value,
-                    regionLabel: res.label,
-                    provinceValue: item.value,
-                    provinceLabel: item.label,
-                    processorValue: val.value,
-                    processorLabel: val.label,
-                    regionName: regionName
-                  };
-                  this.createAppointFrom.regionData.regionList.push(obj);
-                  return regionName;
-                }
-              });
-            }
-          });
-        }
-      });
-      this.createAppointFrom.regionData.processorList.push(regionName);
-    },
-    // 删除
-    handleClose(value) {
-      let list = this.createAppointFrom.regionData.processorList;
-      let index = list.indexOf(value);
-      this.delArray(value);
-      if (index >= 0) {
-        list.splice(index, 1);
-      }
-    },
-    delArray(value) {
-      value = value.split('/')[value.split('/').length - 1];
-      this.createAppointFrom.regionData.regionList.filter((item, index, array) => {
-        if (item.processorLabel === value) {
-          return array.splice(index, 1);
-        }
-      });
-    },
     /* connectOrganize() {
       const isSelected = val => val.organizeName === this.createAppointFrom.organizeName || val.organizeCode === this.createAppointFrom.organizeName;
       let selectedObj = this.localBusinessList.filter(isSelected)[0];
@@ -197,9 +154,7 @@ export default {
       }, 1000);
     }, */
     submitVisitApplication() {
-      this.createAppointFrom.regionData.regionList.filter((item, index, array) => {
-        this.createAppointFrom.processor.push(item.processorValue);
-      });
+      this.createAppointFrom.processor = this.createAppointFrom.regionData.processor;
       let { visitTime, timeRange, ...params } = this.createAppointFrom;
       this.$refs.visitRef.validate((valid) => {
         if (valid) {

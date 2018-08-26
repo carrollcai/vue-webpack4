@@ -16,25 +16,10 @@
         </el-form-item>
         <el-form-item label="选择地区：">
           <div class="flex-row">
-            <el-form-item class="multilevel-linkage" prop="visitAuditor">
-              <el-cascader style="width: 392px;" v-if="processorList"
-                @change="getRegion"
-                :options="processorList"
-                v-model="applyFrom.province"
-                :placeholder="applyFrom.provinceList.length > 0 ? '' : '请选择'"
-                :change-on-select="false">
-              </el-cascader>
-              <div class="tag-list">
-                <el-tag
-                  :key="tag"
-                  v-for="tag in applyFrom.provinceList"
-                  closable
-                  :disable-transitions="false"
-                  @close="handleClose(tag)">
-                  {{tag}}
-                </el-tag>
-              </div>
-            </el-form-item>
+            <multilevelLinkage
+              :listData.sync="processorList"
+              :storeData.sync="regionData">
+            </multilevelLinkage>
             <el-form-item style="margin-left: 26px;">
               <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
             </el-form-item>
@@ -163,7 +148,7 @@
 
 <script>
 import mixins from './mixins';
-import multilevelLinkage from '@/components/data-extraction/MultilevelLinkage.vue';
+import multilevelLinkage from '@/components/multilevelLinkage.vue';
 import {mapState} from 'vuex';
 const sexList = [{label: '男', value: '1'}, {label: '女', value: '2'}];
 const detailSetList = [
@@ -218,8 +203,7 @@ export default {
       ],
       applyFrom: {
         detailSet: ['用户信息', '用户类型'],
-        provinceList: [],
-        provinceData: [],
+        // provinceList: [],
         name: '',
         extractDate: '',
         extractDateType: '1',
@@ -243,8 +227,13 @@ export default {
       }
     };
   },
+  beforeMount() {
+    this.regionData.regionList = [];
+    this.regionData.processorList = [];
+  },
   computed: {
     ...mapState({
+      regionData: ({ dataExtraction }) => dataExtraction.regionData,
       staticData: ({ root }) => root.staticData,
       processorList: ({ dataExtraction }) => dataExtraction.processorList
     }),
