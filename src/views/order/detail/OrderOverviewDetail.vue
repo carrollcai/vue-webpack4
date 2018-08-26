@@ -55,8 +55,8 @@ export default {
     this.isOverview = this.$route.fullPath.includes('/overview/detail/');
   },
   async beforeMount() {
-    const { id, processId } = this.$route.params;
-    console.log(processId);
+    // const { id, processId } = this.$route.params;
+    const { id } = this.$route.params;
     // 如果这边不让getOrderOverviewDetail在后面执行，会导致orderOverviewDetail里的对象消失，因为orderOverviewDetail没定义对象内属性
     await this.getOrderOverviewDetail({ ordCode: id });
     /* await processId && this.getOrderOverviewProcess({
