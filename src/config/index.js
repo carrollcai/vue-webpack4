@@ -265,13 +265,13 @@ export const MENU_PERMISSIONS = [
         url: '/system/user/management',
         enable: false
       },
-      {
-        menuId: 34,
-        parentId: 9,
-        name: '全局配置',
-        url: '/system/config',
-        enable: false
-      }
+      // {
+      //   menuId: 34,
+      //   parentId: 9,
+      //   name: '全局配置',
+      //   url: '/system/config',
+      //   enable: false
+      // }
     ]
   }
 ];
