@@ -138,3 +138,12 @@ function isFileAcceptable(fileName) {
 export function convertNull(data) {
   return data === null ? '-' : data;
 }
+
+export function chinaDatetransformDate(vals = '') {
+  let dates = vals.split('-');
+  if (dates.length) {
+    return `${dates[1]}-${dates[2]}`;
+  } else {
+    return '';
+  }
+}

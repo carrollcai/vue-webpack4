@@ -15,9 +15,7 @@ export default {
   props: {
     charData: {
       type: Array,
-      default: function() {
-        return [];
-      }
+      default: () => []
     },
     width: {
       type: Number
@@ -30,9 +28,7 @@ export default {
     id: String,
     fields: {
       type: Array,
-      default: function() {
-        return [];
-      }
+      default: () => []
     }
   },
   mounted() {
@@ -65,8 +61,14 @@ export default {
       });
 
       this.chart.source(dv, {
-        periodId: {
-          range: [0, 1]
+        // periodId: {
+        //   range: [0, 1]
+        // }
+        value: {
+          min: 0,
+          formatter: function formatter(val) {
+            return (val * 100).toFixed(2) + '%';
+          }
         }
       });
 

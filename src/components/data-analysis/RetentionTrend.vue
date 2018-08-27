@@ -5,7 +5,7 @@
       <div class="trend-header-right">
         <div class="trend-header-right__query">
           <el-form ref="retTrendForm" :model="retTrend" :rules="retTrendTrendRules" class="flex">
-            <el-form-item class="normalize-form-item" v-if="isWholeCountry">
+            <el-form-item class="normalize-form-item  province-form-item" v-if="isWholeCountry">
               <el-select class="user-form-item__input"
                 v-model="retTrend.district"
                 placeholder="请选择"
@@ -15,7 +15,7 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item class="normalize-form-item trend-header-right__query" prop="checkDate">
+            <el-form-item class="normalize-form-item" prop="checkDate">
               <el-form-item class="normalize-form-item float-left" prop="startDate">
                 <el-date-picker type="month"
                   placeholder="选择开始日期"

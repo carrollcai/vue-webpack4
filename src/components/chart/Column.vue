@@ -47,12 +47,26 @@ export default {
         height: height,
         // padding: this.multipart ? 'auto' : [40, 80]
       });
-
+      /* 这里有一个坑，
+      * 如果数据类型为2018-08-27，g2会报错，需要转换一个数据格式,
+      * 解决方案：https://github.com/alibaba/BizCharts/issues/120
+      */
+      // let newData = data.map((val, i) => {
+      //   return {
+      //     name: val.province,
+      //     // '月份': new Date(val.periodId),
+      //     '月份': chinaDatetransformDate(val.periodId),
+      //     '数量': val.activeNum,
+      //   };
+      // });
+      // console.log(data);
       this.chart.source(data);
-      this.chart.interval().position('月份*月均降雨量').color('name').adjust([{
-        type: 'dodge',
-        marginRatio: 1 / 32
-      }]);
+
+      this.chart.interval().position('月份*数量').color('name')
+        .adjust([{
+          type: 'dodge',
+          marginRatio: 1 / 32
+        }]);
       this.chart.render();
     }
   }

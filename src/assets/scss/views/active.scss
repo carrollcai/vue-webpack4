@@ -30,10 +30,8 @@
 .active-search__client {
   display: flex;
   align-items: center;
-}
-
-.active-search__client {
   margin-top: 32px;
+  justify-content: space-between;
 }
 
 .userdata-main {
@@ -56,15 +54,14 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  flex:1;
-
-  &:last-child{
+  flex: 1;
+  &:last-child {
     border-right: none;
   }
 }
 
-.new-user-analyze{
-  .userdata-main-left{
+.new-user-analyze {
+  .userdata-main-left {
     flex: 1;
   }
 }
@@ -139,7 +136,7 @@
 }
 
 .trend-header-right__query {
-  margin-left: $formWidth;
+  margin-left: $blockWidth;
   display: flex;
 }
 

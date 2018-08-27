@@ -5,7 +5,7 @@
         <div class="trend-header-title">新增用户趋势分析</div>
         <div class="trend-header-right">
           <div class="trend-header-right__query">
-            <el-form-item v-if="isWholeCountry" class="normalize-form-item adduser-trend-dimen" prop="provinceSelected">
+            <el-form-item v-if="isWholeCountry" class="normalize-form-item province-form-item" prop="provinceSelected">
               <el-select class="user-form-item__input"
                 placeholder="请选择"
                 v-model="trend.district"
@@ -215,7 +215,7 @@ export default {
 </script>
 
 <style lang="scss">
-.adduser-trend-dimen {
+.province-form-item {
   width: 160px;
   margin-right: 16px;
 }

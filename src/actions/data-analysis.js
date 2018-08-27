@@ -27,7 +27,7 @@ const actions = {
     let dateType = req.dateType;
     delete req.dateType;
 
-    console.log(dateType);
+    // console.log(dateType);
     // 按月查询
     if (dateType) {
       return API.getMonthTrendListAPI(req).then(res => {
@@ -125,7 +125,7 @@ const actions = {
   /**
    * 新增用户分析-查询 新增用户数据
    */
-  queryAddUserOverview({commit}, params) {
+  queryAddUserOverview({ commit }, params) {
     return new Promise((resolve) => {
       API.queryAddUserOverviewAPI(params).then(res => {
         commit(types.ADD_USER_OVERVIEW, res.data);
@@ -136,7 +136,7 @@ const actions = {
   /**
    *新增用户分析-查询 新增用户趋势分析 数据
    */
-  queryAddUserTrend({commit}, params) {
+  queryAddUserTrend({ commit }, params) {
     return new Promise((resolve) => {
       API.queryAddUserTrendAPI(params).then(res => {
         commit(types.ADD_USER_TREND, res.data);
@@ -147,7 +147,7 @@ const actions = {
   /**
    *新增用户分析-查询 用户新增排名情况 数据
    */
-  queryAddUserMap({commit}, params) {
+  queryAddUserMap({ commit }, params) {
     return new Promise((resolve) => {
       API.queryAddUserMapAPI(params).then(res => {
         commit(types.ADD_USER_MAP, res.data);
@@ -158,7 +158,7 @@ const actions = {
   /**
    *新增用户分析-查询 新增会员用户趋势分析 数据
    */
-  queryAddUserVip({commit}, params) {
+  queryAddUserVip({ commit }, params) {
     return new Promise((resolve) => {
       API.queryAddUserVipAPI(params).then(res => {
         commit(types.ADD_USER_VIP, res.data);
@@ -183,6 +183,7 @@ function activeReq(state) {
 function activeTrendReq(state) {
   const req = {};
   const { trend, activeObj } = state.dataAnalysis;
+  console.log(trend);
   if (trend.date.length) {
     let beginDate, endDate;
     if (trend.dateType) {
@@ -192,6 +193,7 @@ function activeTrendReq(state) {
       beginDate = moment(trend.date[0]).format('YYYY-MM-DD');
       endDate = moment(trend.date[1]).format('YYYY-MM-DD');
     }
+    req.region = trend.district;
     req.dateType = trend.dateType;
     req.beginDate = beginDate;
     req.endDate = endDate;
@@ -230,7 +232,7 @@ function retTrendReq(state) {
   req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
   req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
   req.clientType = retentionObj.clientSelected;
-  req.region = retentionObj.district;
+  req.region = retTrend.district;
   return req;
 }
 

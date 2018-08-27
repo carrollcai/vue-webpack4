@@ -322,7 +322,6 @@ const mutations = {
       '0': 'retainRate',
       '1': 'dropoutRate',
     };
-
     let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
@@ -331,13 +330,12 @@ const mutations = {
       let val = temp1[key];
       let p = {};
       for (let item of val) {
-        p[item.province] = parseInt(item[TYPES[type]] * 100);
+        p[item.province] = item[TYPES[type]];
       }
       p.periodId = key;
       result.push(p);
     }
     result = _.sortBy(result, 'periodId');
-
     state.retTrendData = result;
     state.retTrendFields = fields;
   },
