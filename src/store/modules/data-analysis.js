@@ -68,7 +68,9 @@ const state = {
     newUser: 0,
     newRetainNum: 0,
     retentionUser: 0,
-    lossUser: 0
+    lossUser: 0,
+    dropoutRate: null,
+    retainRate: null,
   },
   retTrend: {
     startDate: new Date(sixMonthsAgo),
@@ -301,14 +303,18 @@ const mutations = {
       newRetainNum: null,
       newMemberNum: null,
       retainNum: null,
-      dropoutNum: null
+      dropoutNum: null,
+      dropoutRate: null,
+      retainRate: null,
     };
 
     state.retentionLossUser = Object.assign(state.retentionLossUser, {
       newMemberNum: convertNull(info.newMemberNum),
       newRetainNum: convertNull(info.newRetainNum),
       retainNum: convertNull(info.retainNum),
-      dropoutNum: convertNull(info.dropoutNum)
+      dropoutNum: convertNull(info.dropoutNum),
+      dropoutRate: info.dropoutRate,
+      retainRate: info.retainRate,
     });
   },
   [types.RETENTION_GET_TREND_LIST](state, data) {
