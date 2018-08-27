@@ -24,9 +24,9 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item class="normalize-form-item"
-              prop="">
-              <el-form-item checkDateclass="normalize-form-item float-left"
+            <el-form-item class="normalize-form-item">
+              <el-form-item checkDate
+                class="normalize-form-item float-left"
                 prop="startDate">
                 <el-date-picker class="user-form-item__input"
                   type="month"
@@ -90,13 +90,12 @@
       <div v-if="!trend.mode"
         class="trend-chart">
         <no-data :data="addUserTrendData">
-          <basic-area-chart v-if="isProvince"
+          <!-- <basic-area-chart v-if="isProvince"
             id="new-user-area-chart"
             :char-data="addUserTrendData"
-            :fields="addUserTrendFields" />
+            :fields="addUserTrendFields" /> -->
 
-          <grouped-column-chart v-if="isDistrict || isWholeCountry"
-            id="new-user-column-chart"
+          <grouped-column-chart id="new-user-column-chart"
             :char-data="addUserTrendData"
             :fields="addUserTrendFields" />
         </no-data>

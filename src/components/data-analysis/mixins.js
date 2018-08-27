@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 import moment from 'moment';
 
 export default {
@@ -17,7 +17,7 @@ export default {
       return list;
     },
     MEMBER_TYPE() {
-      let list = this.staticData.MEMBER_TYPE || [];
+      let list = Object.cloneDeep(this.staticData.MEMBER_TYPE) || [];
 
       list.shift();
       return list;
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     memberNumFilter(value) {
-      let result = _.find(this.DISTRICTS, {value});
+      let result = _.find(this.DISTRICTS, { value });
 
       return result ? result.label : '';
     },
