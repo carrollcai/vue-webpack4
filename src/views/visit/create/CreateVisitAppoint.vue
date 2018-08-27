@@ -11,14 +11,14 @@
     <div class="m-container visit-create">
       <el-form :label-position="'right'" label-width="140px" :model="createAppointFrom"  ref="visitRef" :rules="createVisitVaild">
         <el-form-item label="走访主题：" required prop="visitTheme">
-          <el-input :disabled="visitId && visitId > 0" v-model="createAppointFrom.visitTheme" class="form-input-120" placeholder="请输入主题" />
+          <el-input maxlength="25" :disabled="visitId && visitId > 0" v-model="createAppointFrom.visitTheme" class="form-input-120" placeholder="请输入主题" />
         </el-form-item>
         <el-form-item label="走访公司：" label-width="140px" required prop="organizeName">
-          <el-input :disabled="visitId && visitId > 0" v-model="createAppointFrom.organizeName" class="form-input-120" placeholder="集团名称"></el-input>
+          <el-input maxlength="25" :disabled="visitId && visitId > 0" v-model="createAppointFrom.organizeName" class="form-input-120" placeholder="集团名称"></el-input>
           <!-- <el-autocomplete class="form-input-half" v-model="createAppointFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="集团名称" @select="handleSelect" :trigger-on-focus="false" /> -->
         </el-form-item>
         <el-form-item label="走访对象：" required prop="intervieweeName">
-          <el-input v-model="createAppointFrom.intervieweeName" placeholder="姓名" class="form-input-120"></el-input>
+          <el-input maxlength="50" v-model="createAppointFrom.intervieweeName" placeholder="姓名" class="form-input-120"></el-input>
         </el-form-item>
         <el-form-item label="走访时间：" label-width="140px" required>
           <el-form-item prop="visitTime">

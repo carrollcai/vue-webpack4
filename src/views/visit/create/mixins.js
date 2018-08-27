@@ -3,6 +3,20 @@ import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
+    const noTextareaMaxLimit = (rule, value, callback) => {
+      if (String(value).trim().length > 50) {
+        callback(new Error(`输入内容字符不能超过50`));
+      } else {
+        callback();
+      }
+    };
+    const noTextareaLimit = (rule, value, callback) => {
+      if (String(value).trim().length > 50) {
+        callback(new Error(`输入内容字符不能超过50`));
+      } else {
+        callback();
+      }
+    };
     const textLimit = (rule, value, callback) => {
       if (String(value).trim() === '') {
         callback(new Error('输入内容不能为空'));
@@ -42,7 +56,7 @@ export default {
         ],
         intervieweeName: [
           { required: true, message: '请输入走访对象姓名', trigger: ['change', 'blur'] },
-          { validator: textLimit, trigger: 'blur' }
+          { validator: textareaLimit, trigger: 'blur' }
         ],
         intervieweeMobile: [
           { required: true, message: '请输入联系电话', trigger: 'blur' },
@@ -57,12 +71,11 @@ export default {
           { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         relOpporCode: [
-          { required: true, message: '请输入涉及商机', trigger: ['change', 'blur'] },
-          { validator: textareaLimit, trigger: 'blur' }
+          { validator: noTextareaLimit, trigger: 'blur' }
         ],
         problemCoordinate: [
-          { required: true, message: '请输入问题协调', trigger: ['change', 'blur'] },
-          { validator: textareaMaxLimit, trigger: 'blur' }
+          { message: '请输入问题协调', trigger: ['change', 'blur'] },
+          { validator: noTextareaMaxLimit, trigger: 'blur' }
         ],
         isFirstVisit: [
           { required: true, message: '请选择是否首课走访', trigger: 'change' }

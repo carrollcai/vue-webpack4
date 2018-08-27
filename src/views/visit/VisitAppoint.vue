@@ -17,7 +17,7 @@
             </el-select>
           </el-form-item>
         </div>
-        <el-form-item class="form-query-input-width" @change="getProcessor">
+        <el-form-item class="form-query-input-width">
           <el-input v-model="appointVisitForm.processorData" clearable placeholder="走访人" />
         </el-form-item>
       </div>
@@ -112,13 +112,6 @@ export default {
       this.visitId = row.visitId;
       this.dialogVisible = true;
     },
-    getProcessor(value) {
-      if (value !== '') {
-        this.appointVisitForm.processor = [value];
-      } else {
-        this.appointVisitForm.processor = [];
-      }
-    },
     getVisitStatus(value) {
       if (value !== '') {
         this.appointVisitForm.visitStatus = [value];
@@ -156,7 +149,6 @@ export default {
       this.query();
     },
     viewDetail(row, execution) {
-      debugger;
       let path = '';
       let resource = this.appointVisitForm.visitResource;
       if (resource === '2') {
@@ -183,6 +175,11 @@ export default {
       let { state, ...params } = this.appointVisitForm;
       delete params.visitStatusData;
       delete params.processorData;
+      if (this.appointVisitForm.processorData !== '') {
+        this.appointVisitForm.processor = [this.appointVisitForm.processorData];
+      } else {
+        this.appointVisitForm.processor = [];
+      }
       this.getAppointVisitList(params);
     },
     createVisitApplication() {

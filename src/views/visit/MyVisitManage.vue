@@ -54,16 +54,30 @@
             走访汇报
           </el-button>
           <!-- 自建的则支持修改 -->
-          <el-button v-if="scope.row.visitResource === 1 && myVisitManageFrom.state === '1'" type="text" @click="createVisit(scope.row)">
+          <el-button v-if="scope.row.visitStatus === '1'" type="text" @click="createVisit(scope.row)">
             修改
           </el-button>
           <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
             删除
           </el-button> -->
+          <el-button v-if="scope.row.visitStatus === '2' && (scope.row.visitEvaluate === '0' || scope.row.visitEvaluate === 0)" class="table-button" type="text" @click="hageResource(scope.row)">
+            评价
+          </el-button>
         </template>
       </el-table-column>
     </wm-table>
   </div>
+  <el-dialog
+    title="评价"
+    :visible.sync="dialogVisible"
+    width="30%"
+    :before-close="handleClose">
+    <el-input v-model="visitEvaluate" clearable placeholder="评价" />
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="submitEvaluate">确 定</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
@@ -88,17 +102,33 @@ export default {
     return {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
+      dialogVisible: false,
+      visitEvaluate: '',
+      visitId: '',
       timeRange: '',
-      visitResourceList: [{value: '1', label: '自提'}, {value: '2', label: '指派'}]
+      visitResourceList: [{value: '1', label: '自建'}, {value: '2', label: '指派'}]
     };
   },
   beforeMount() {
     this.query();
   },
   methods: {
+    hageResource(row) {
+      this.visitId = row.visitId;
+      this.dialogVisible = true;
+    },
+    submitEvaluate() {
+      this.judgeVisit({
+        visitId: this.visitId,
+        visitEvaluate: this.visitEvaluate
+      }).then(res => {
+        this.dialogVisible = false;
+        this.$message({ showClose: true, message: '评价成功！', type: 'success' });
+      });
+    },
     visitResourceFn(row, clo, value) {
       if (value === 1) {
-        return '自提';
+        return '自建';
       } else if (value === 2) {
         return '指派';
       }
@@ -151,6 +181,7 @@ export default {
     },
     ...mapActions([
       'getMyVisitManageList',
+      'judgeVisit',
       'deleteVisitApp'
     ])
   }
