@@ -73,6 +73,7 @@ export default {
   downloadRetTrendDataAnalysisAPI: download('/esop/analysisReport/downloadRetainDropout'), // 下载留存流失趋势分析
   downloadNewUserRankByMonthAPI: download('/esop/analysisReportNew/downloadNewUserRankByMonth'), // 新增用户趋势分析下载
   downloadNewMemberAPI: download('/esop/analysisReportNew/downloadNewMember'), // 新增活跃会员分析下载
+  eventUseraddDownloadAPI: download('/esop/analysisReportNew/downloadNewMember'), // 球球活动下载
 
   // 新增用户分析 - 查询新增用户数据
   queryAddUserOverviewAPI: API('/esop/analysisReportNew/queryNewUserRank'),

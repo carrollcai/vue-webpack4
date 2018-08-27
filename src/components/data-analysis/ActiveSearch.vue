@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { CLIENT } from '@/config';
 
 export default {
@@ -101,7 +101,8 @@ export default {
   },
   methods: {
     eventDownload() {
-
+      let params = this.eventObj;
+      this.eventUseraddDownload(params);
     },
     provinceChange(val) {
       const { provinces } = this.currentUser.operator;
@@ -132,7 +133,10 @@ export default {
     },
     query() {
       this.$emit('query');
-    }
+    },
+    ...mapActions([
+      'eventUseraddDownload'
+    ]),
   }
 };
 </script>

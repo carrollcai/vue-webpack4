@@ -143,7 +143,10 @@ export function convertNull(data) {
 export function chinaDatetransformDate(vals = '') {
   let dates = vals.split('-');
   if (dates.length) {
-    return `${dates[1]}-${dates[2]}`;
+    if (dates.length === 2) {
+      return vals;
+    }
+    return `${dates[1]} -${dates[2]} `;
   } else {
     return '';
   }

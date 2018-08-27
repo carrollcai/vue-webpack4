@@ -168,13 +168,16 @@ const actions = {
   },
 
   // 新增用户趋势分析下载
-  downloadAdduserDataAnalysis: ({ commit, state }, params) => {
+  downloadAdduserDataAnalysis({ commit, state }, params) {
     API.downloadNewUserRankByMonthAPI(params);
   },
   // 新增活跃会员分析下载
-  downloadNewMember: ({ commit, state }, params) => {
+  downloadNewMember({ commit, state }, params) {
     API.downloadNewMemberAPI(params);
   },
+  eventUseraddDownload({ commit, state }, params) {
+    API.eventUseraddDownloadAPI(params);
+  }
 };
 
 function activeReq(state) {

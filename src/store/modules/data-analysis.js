@@ -313,8 +313,8 @@ const mutations = {
   },
   [types.RETENTION_GET_TREND_LIST](state, data) {
     state.retTrendList = data.map(val => {
-      val.newUserRetPer = (val.newRetainNum / val.newMembersNum * 100).toFixed(1) + '%';
-      val.retLossPer = (val.dropoutNum / val.retainNum * 100).toFixed(1) + '%';
+      val.newUserRetPer = (val.retainRate * 100).toFixed(1) + '%';
+      val.retLossPer = (val.dropoutRate * 100).toFixed(1) + '%';
       return val;
     });
   },
