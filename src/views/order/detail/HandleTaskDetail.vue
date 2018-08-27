@@ -194,8 +194,10 @@ export default {
         ]
       },
       routeType: '',
+      ordCode: null,
       id: null,
-      taskInsId: null
+      taskInsId: null,
+      operatorId: '',
     };
   },
   created() {
@@ -215,7 +217,10 @@ export default {
     })
   },
   async beforeMount() {
-    await this.getHandleTaskDetail({ ordCode: this.id });
+    this.getUserInfoSelf({}).then(res => {
+      this.operatorId = res;
+    });
+    await this.getHandleTaskDetail({ ordCode: this.ordCode });
     // 签约获取指派人流程
     if (this.handleTaskDetail.assignReason && this.taskInsId) {
       await this.getOrderProcessInfo({ taskInsId: this.taskInsId });
@@ -231,7 +236,8 @@ export default {
   methods: {
     routeChange() {
       this.routeType = this.$route.params.type;
-      this.id = this.$route.params.id;
+      this.ordCode = this.$route.params.id;
+      this.id = this.$route.query.ordId;
       this.taskInsId = this.$route.query.taskInsId;
       this.businessStatus = this.$route.query.businessStatus;
     },
@@ -323,7 +329,7 @@ export default {
           taskInsId: Number(this.taskInsId),
           resultStatus: '5',
           dealResult: this.payForm.dealResult,
-          dealPerson: Number(this.handleTaskDetail.processor)
+          dealPerson: this.operatorId
         }
       };
       this.$refs.pay.validate(valid => {
@@ -343,6 +349,7 @@ export default {
       this.orderDownloadFile(params);
     },
     ...mapActions([
+      'getUserInfoSelf',
       'getNewFileInputId',
       'getHandleTaskDetail',
       'uploadOrderHandleTask',

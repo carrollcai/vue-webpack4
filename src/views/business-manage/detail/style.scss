@@ -1,0 +1,40 @@
+.tTable {
+  border: 1px #E7E7E7 solid;
+  .el-form-item__content {
+    margin-left: 0 !important;
+  }
+  .tHead {
+    display: flex;
+    height: 40px;
+    line-height: 40px;
+    background: #F0F2F5;
+    text-align: center;
+    > div {
+      flex: 1;
+      padding: 0 15px;
+      border-left: 1px #E7E7E7 solid;
+      margin-left: -1px;
+    }
+  }
+  .tBody {
+    .td {
+      display: flex;
+      border-bottom: 1px #E7E7E7 solid;
+      margin-bottom: -1px;
+      > div {
+        flex: 1;
+        padding: 0 15px;
+        border-left: 1px #E7E7E7 solid;
+        margin-left: -1px;
+      }
+      .del {
+        text-align: center;
+        line-height: 40px;
+      }
+    } 
+  }
+  .add {
+    text-align: center;
+    line-height: 40px;
+  }
+}

@@ -64,16 +64,12 @@
     </div>
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
-        <el-form-item  class="business-person" label="指派处理人：" prop="assignHandlers">
-          <multilevelLinkage
-            :listData.sync="assignHandlers"
-            :storeData.sync="regionData">
-          </multilevelLinkage>
-          <!-- <el-cascader style="width: 392px;" v-if="assignHandlers"
+        <el-form-item  label="指派处理人：" prop="assignHandlers">
+          <el-cascader style="width: 392px;" v-if="assignHandlers"
             :options="assignHandlers"
             v-model="sendForm.person"
             @change="handleChange">
-          </el-cascader> -->
+          </el-cascader>
         </el-form-item>
         <el-form-item label="分派的原因：">
           <el-input maxlength="500" resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
@@ -101,13 +97,11 @@
 
 <script>
 import WmTable from 'components/Table.vue';
-import multilevelLinkage from '@/components/multilevelLinkage.vue';
 import { mapState, mapActions } from 'vuex';
 import moment from 'moment';
 export default {
   components: {
-    WmTable,
-    multilevelLinkage
+    WmTable
   },
   computed: {
     cooperNumList() {
@@ -116,7 +110,6 @@ export default {
       }
     },
     ...mapState({
-      regionData: ({ business }) => business.regionData,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       businessTaskForm: ({ business }) => business.businessTaskForm,
       businessTaskList: ({ business }) => business.businessTaskList,
@@ -230,13 +223,13 @@ export default {
     },
     // 分派确定
     sendConfirm() {
-      this.sendForm.person = this.regionData.processor;
       let params = this.sendParam;
       if (this.sendForm.person !== '') {
         if (this.sendForm.reason.trim() !== '') {
-          // params.dealPerson = this.sendForm.person.pop();
-          params.dealPerson = this.sendForm.person;
+          params.dealPerson = this.sendForm.person.pop();
           params.dealResult = this.sendForm.reason.trim();
+          console.log(this.sendForm.person);
+          console.log(params.dealPerson);
           this.submitBusinessSend(params).then(res => {
             if (res.data) {
               this.sendDialogVisible = false;
@@ -353,17 +346,5 @@ export default {
   line-height: 20px;
   color: rgba(0, 0, 0, 0.25);
   font-size: 14px;padding-bottom:0px;
-}
-.business-person {
-  min-height: 40px;
-  > .el-form-item__label {
-    float: none;
-  }
-  > .el-form-item__content {
-    min-height: 40px;
-  }
-  .el-cascader {
-    width: 380px !important;
-  }
 }
 </style>

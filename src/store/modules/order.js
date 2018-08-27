@@ -46,7 +46,7 @@ const state = {
     startDate: '',
     endDate: '',
     date: [],
-    ordStatus: 0
+    ordStatus: null
   },
   orderOverviewObj: {
     list: [],

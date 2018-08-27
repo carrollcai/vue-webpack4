@@ -12,7 +12,7 @@
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
         <!-- <audit-steps style="margin-left: 180px;" v-if="this.$route.params.processId && processList.length" :processList="processList" :businessToOrderId="orderOverviewDetail.relOpporId" /> -->
-        <detail-content v-if="Object.keys(orderOverviewDetail).length" :orderOverviewDetail="orderOverviewDetail" />
+        <detail-content v-if="orderOverviewDetail && Object.keys(orderOverviewDetail).length" :orderOverviewDetail="orderOverviewDetail" />
       </div>
       <div class="p-table">
         <dl class="tHead">

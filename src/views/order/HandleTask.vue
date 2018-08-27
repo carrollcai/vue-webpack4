@@ -167,11 +167,11 @@ export default {
       this.query();
     },
     handlePay(row) {
-      const path = `/order/handle-task/pay/${row.ordCode}?taskInsId=${row.taskInsId}`;
+      const path = `/order/handle-task/pay/${row.ordCode}?ordId=${row.ordId}&taskInsId=${row.taskInsId}`;
       this.$router.push(path);
     },
     handleSign(row) {
-      const path = `/order/handle-task/sign/${row.ordCode}?taskInsId=${row.taskInsId}`;
+      const path = `/order/handle-task/sign/${row.ordCode}?ordId=${row.ordId}&taskInsId=${row.taskInsId}`;
       this.$router.push(path);
     },
     // handleDispatch(row) {
@@ -185,11 +185,11 @@ export default {
       let path = '';
       // 不同状态，详情页展示不一样
       if (businessStatus === '0') {
-        path = `/order/handle-task/detail-sign/${row.ordCode}?taskInsId=${row.taskInsId}`;
+        path = `/order/handle-task/detail-sign/${row.ordCode}?ordId=${row.ordId}&taskInsId=${row.taskInsId}`;
       } else if (businessStatus === '4') {
-        path = `/order/handle-task/detail-pay/${row.ordCode}?taskInsId=${row.taskInsId}`;
+        path = `/order/handle-task/detail-pay/${row.ordCode}?ordId=${row.ordId}&taskInsId=${row.taskInsId}`;
       } else {
-        path = `/order/handle-task/detail/${row.ordCode}?taskInsId=${row.taskInsId}&businessStatus=${businessStatus}`;
+        path = `/order/handle-task/detail/${row.ordCode}?ordId=${row.ordId}&taskInsId=${row.taskInsId}&businessStatus=${businessStatus}`;
       }
       this.$router.push(path);
     },
