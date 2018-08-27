@@ -6,6 +6,13 @@ const actions = {
   /**
    * 总览
    */
+  getUserInfoSelf({ commit }, params) {
+    return API.getCurrentUserInfoAPI(params).then(res => {
+      if (res.data.secOperatorDTO) {
+        return res.data.secOperatorDTO.operatorId;
+      }
+    });
+  },
   getOrderOverviewList: ({ commit }, params) => {
     return API.getOrderOverviewListAPI(params).then((res) => {
       commit(types.ORDER_GET_LIST, res.data);
