@@ -44,6 +44,10 @@ const state = {
   trendData: [],
   trendFields: [],
   trendNewMembers: [],
+  eventObj: {
+    provinceSelected: [],
+    date: '',
+  },
   // 第三模块
   provinceUser: {
     dateType: 0,

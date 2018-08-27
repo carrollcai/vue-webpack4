@@ -68,8 +68,11 @@ export default {
   getTrendNewMembersMonthAPI: API('/esop/analysisReport/queryMNANs'),
   getProvinceUserAPI: API('/esop/analysisReport/queryDActiveWithSum'), // 各省日活跃用户情况，按日
 
-  downloadTrendDataAnalysisAPI: download('/esop/analysisReport/downloadPDARs'), // 下载数据分析,按日
-  downloadMonthTrendDataAnalysisAPI: download('/esop/analysisReport/downloadMANs'), // 下载数据分析，按月
+  downloadTrendDataAnalysisAPI: download('/esop/analysisReport/downloadDActive'), // 下载数据分析,按日
+  downloadMonthTrendDataAnalysisAPI: download('/esop/analysisReport/downloadMActive'), // 下载数据分析，按月
+  downloadRetTrendDataAnalysisAPI: download('/esop/analysisReport/downloadRetainDropout'), // 下载留存流失趋势分析
+  downloadNewUserRankByMonthAPI: download('/esop/analysisReportNew/downloadNewUserRankByMonth'), // 新增用户趋势分析下载
+  downloadNewMemberAPI: download('/esop/analysisReportNew/downloadNewMember'), // 新增活跃会员分析下载
 
   // 新增用户分析 - 查询新增用户数据
   queryAddUserOverviewAPI: API('/esop/analysisReportNew/queryNewUserRank'),
@@ -85,7 +88,6 @@ export default {
   getRetentionLossUserAPI: API('/esop/analysisReport/queryRetainDropout'), // 月留存流失
 
   queryRetentionLossUserAPI: API('/esop/analysisReport/queryRetainDropoutWithSum'),
-  downloadRetTrendDataAnalysisAPI: download('/esop/analysisReport/downloadMDRs'),
 
   /* 任务管理 */
   getTaskQueryListAPI: API('http://localhost:3618/task/management'), // 任务查询列表

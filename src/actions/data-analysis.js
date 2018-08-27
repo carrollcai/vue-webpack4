@@ -166,6 +166,15 @@ const actions = {
       });
     });
   },
+
+  // 新增用户趋势分析下载
+  downloadAdduserDataAnalysis: ({ commit, state }, params) => {
+    API.downloadNewUserRankByMonthAPI(params);
+  },
+  // 新增活跃会员分析下载
+  downloadNewMember: ({ commit, state }, params) => {
+    API.downloadNewMemberAPI(params);
+  },
 };
 
 function activeReq(state) {
@@ -183,7 +192,6 @@ function activeReq(state) {
 function activeTrendReq(state) {
   const req = {};
   const { trend, activeObj } = state.dataAnalysis;
-  console.log(trend);
   if (trend.date.length) {
     let beginDate, endDate;
     if (trend.dateType) {

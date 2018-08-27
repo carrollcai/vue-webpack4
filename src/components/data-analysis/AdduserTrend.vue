@@ -1,24 +1,33 @@
 <template>
   <div class="active-trend block-containter">
-    <el-form ref="activeTrendForm" :model="trend" :rules="activeTrendRules">
+    <el-form ref="activeTrendForm"
+      :model="trend"
+      :rules="activeTrendRules">
       <div class="trend-header">
         <div class="trend-header-title">新增用户趋势分析</div>
         <div class="trend-header-right">
           <div class="trend-header-right__query">
-            <el-form-item v-if="isWholeCountry" class="normalize-form-item province-form-item" prop="provinceSelected">
+            <el-form-item v-if="isWholeCountry"
+              class="normalize-form-item province-form-item"
+              prop="provinceSelected">
               <el-select class="user-form-item__input"
                 placeholder="请选择"
                 v-model="trend.district"
-                @change="handleChangeProvince"
-              >
-                <el-option :key="null" label="全国" :value="null" />
-                <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.label" :value="item.value" />
+                @change="handleChangeProvince">
+                <el-option :key="null"
+                  label="全国"
+                  :value="null" />
+                <el-option v-for="item in DISTRICTS"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value" />
               </el-select>
-
             </el-form-item>
 
-            <el-form-item class="normalize-form-item" prop="checkDate">
-              <el-form-item class="normalize-form-item float-left" prop="startDate">
+            <el-form-item class="normalize-form-item"
+              prop="">
+              <el-form-item checkDateclass="normalize-form-item float-left"
+                prop="startDate">
                 <el-date-picker class="user-form-item__input"
                   type="month"
                   placeholder="选择开始日期"
@@ -29,7 +38,8 @@
                   @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
-              <el-form-item class="normalize-form-item float-left" prop="endDate">
+              <el-form-item class="normalize-form-item float-left"
+                prop="endDate">
                 <el-date-picker class="user-form-item__input"
                   type="month"
                   placeholder="选择结束日期"
@@ -37,8 +47,7 @@
                   :editable="false"
                   :clearable="false"
                   :picker-options="endOptions(trend.startDate)"
-                  @change="triggerValidate()"
-                />
+                  @change="triggerValidate()" />
               </el-form-item>
             </el-form-item>
           </div>
@@ -46,7 +55,8 @@
             |
           </div>
           <div>
-            <el-radio-group v-model="trend.mode" size="small">
+            <el-radio-group v-model="trend.mode"
+              size="small">
               <el-radio-button :label="0">
                 <i class="icon-chart"></i>
               </el-radio-button>
@@ -55,42 +65,59 @@
               </el-radio-button>
             </el-radio-group>
           </div>
-          <el-button class="data-download" type="primary" icon="icon-download" @click="downloadDataAnalysis" title="导出数据"/>
+          <el-button class="data-download"
+            type="primary"
+            icon="icon-download"
+            @click="downloadDataAnalysis"
+            title="导出数据" />
         </div>
       </div>
     </el-form>
     <div class="trend-sub">
       <div class="trend-sub__radio">
-        <el-radio-group v-if="!trend.mode" v-model="trend.chartRadio" @change="changeRadio">
-          <el-radio  v-for="(item, index) in trendRadio" :key="index"  :label="index" >
+        <el-radio-group v-if="!trend.mode"
+          v-model="trend.chartRadio"
+          @change="changeRadio">
+          <el-radio v-for="(item, index) in trendRadio"
+            :key="index"
+            :label="index">
             {{item}}
           </el-radio>
         </el-radio-group>
       </div>
     </div>
     <div class="trend-mode">
-      <div v-if="!trend.mode" class="trend-chart">
+      <div v-if="!trend.mode"
+        class="trend-chart">
         <no-data :data="addUserTrendData">
           <basic-area-chart v-if="isProvince"
             id="new-user-area-chart"
             :char-data="addUserTrendData"
-            :fields="addUserTrendFields"/>
+            :fields="addUserTrendFields" />
 
           <grouped-column-chart v-if="isDistrict || isWholeCountry"
             id="new-user-column-chart"
             :char-data="addUserTrendData"
-            :fields="addUserTrendFields"/>
+            :fields="addUserTrendFields" />
         </no-data>
       </div>
       <div v-else>
-        <wm-table :source="addUserTrendList" :max-height="500">
-          <el-table-column label="客户端" property="clientType" />
-          <el-table-column label="日期" property="periodId" />
-          <el-table-column label="省份" property="province" />
-          <el-table-column label="新增用户" property="newUserNum" />
-          <el-table-column label="新增手机用户" property="newMobileNum" />
-          <el-table-column label="新增游客用户" property="newVisitNum" />
-          <el-table-column label="新增会员用户" property="newActiveNum" />
+        <wm-table :source="addUserTrendList"
+          :max-height="500">
+          <el-table-column label="客户端"
+            property="clientType" />
+          <el-table-column label="日期"
+            property="periodId" />
+          <el-table-column label="省份"
+            property="province" />
+          <el-table-column label="新增用户"
+            property="newUserNum" />
+          <el-table-column label="新增手机用户"
+            property="newMobileNum" />
+          <el-table-column label="新增游客用户"
+            property="newVisitNum" />
+          <el-table-column label="新增会员用户"
+            property="newActiveNum" />
         </wm-table>
       </div>
     </div>
@@ -98,7 +125,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 import NoData from 'components/NoData.vue';
 import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
@@ -179,14 +206,11 @@ export default {
     handleChangeProvince() {
       this.query();
     },
-    downloadAdduserTrend() {
-
-    },
     downloadDataAnalysis() {
       this.$refs['activeTrendForm'].validate(valid => {
         if (!valid) return false;
 
-        this.downloadTrendDataAnalysis();
+        this.$emit('downloadAdduserTrend');
       });
     },
     triggerValidate() {
@@ -206,10 +230,7 @@ export default {
     },
     ...mapMutations({
       initDate: 'ACTIVE_INIT_DATE'
-    }),
-    ...mapActions([
-      'downloadTrendDataAnalysis'
-    ])
+    })
   }
 };
 </script>
