@@ -52,8 +52,8 @@
           <div class="tBody">
             <productItem></productItem>
           </div>
-          <div class="add" @click="addList">
-            增加一条
+          <div class="add blue">
+            <span @click="addList"><i class="el-icon-plus"></i>增加一条</span>
           </div>
         </div>
         </el-form-item>

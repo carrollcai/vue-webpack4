@@ -16,6 +16,11 @@ const actions = {
       commit(types.ORDER_OV_SIGN_HANDLE, res.data);
     });
   },
+  getOrderOverviewProcessList: ({ commit }, params) => {
+    return API.queryCustomerProcessedAPI(params).then(res => {
+      return res.data;
+    });
+  },
   getOrderOverviewProcess: ({ commit }, params) => {
     return API.queryCustomerProcessedAPI(params).then(res => {
       commit(types.ORDER_GET_PROCESS_LIST, res.data);

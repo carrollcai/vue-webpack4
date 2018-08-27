@@ -21,7 +21,7 @@
         </div>
       </el-form>
       <el-tabs v-model="orderOverviewForm.ordStatus" @tab-click="tabChange">
-        <el-tab-pane label="全部" :name="0"></el-tab-pane>
+        <el-tab-pane label="全部" :name="null"></el-tab-pane>
         <el-tab-pane label="待签约" :name="2"></el-tab-pane>
         <el-tab-pane label="待付款" :name="3"></el-tab-pane>
         <el-tab-pane label="已完成" :name="4"></el-tab-pane>
@@ -82,7 +82,11 @@ export default {
     });
   },
   methods: {
-    tabChange() {
+    tabChange(value) {
+      if (value === 0 || value === '0') {
+        this.orderOverviewForm.ordStatus = null;
+      }
+      console.log(this.orderOverviewForm.ordStatus);
       this.pageChange();
       this.query();
     },

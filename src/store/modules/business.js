@@ -5,6 +5,21 @@ import {
 } from '@/config/index.js';
 
 const state = {
+  toOrderCreate: {
+    productId: null,
+    orderProductDtoList: [{
+      productId: null,
+      productName: '',
+      amount: '',
+      processor: '',
+      processorData: '',
+      companyBelong: ''
+    }],
+    productName: '',
+    amount: '',
+    processor: '',
+    companyBelong: ''
+  },
   regionData: {
     regionList: [],
     processorList: [],

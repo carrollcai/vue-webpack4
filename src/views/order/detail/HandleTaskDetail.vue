@@ -194,6 +194,7 @@ export default {
         ]
       },
       routeType: '',
+      ordCode: null,
       id: null,
       taskInsId: null
     };
@@ -215,7 +216,7 @@ export default {
     })
   },
   async beforeMount() {
-    await this.getHandleTaskDetail({ ordCode: this.id });
+    await this.getHandleTaskDetail({ ordCode: this.ordCode });
     // 签约获取指派人流程
     if (this.handleTaskDetail.assignReason && this.taskInsId) {
       await this.getOrderProcessInfo({ taskInsId: this.taskInsId });
@@ -231,7 +232,8 @@ export default {
   methods: {
     routeChange() {
       this.routeType = this.$route.params.type;
-      this.id = this.$route.params.id;
+      this.ordCode = this.$route.params.id;
+      this.id = this.$route.query.ordId;
       this.taskInsId = this.$route.query.taskInsId;
       this.businessStatus = this.$route.query.businessStatus;
     },
