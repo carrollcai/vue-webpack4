@@ -4,17 +4,17 @@
       <div class="trend-header">
         <div class="trend-header-title">{{title}}</div>
         <div class="trend-header-right">
-          <el-form-item class="normalize-form-item" v-if="isWholeCountry">
+          <el-form-item class="normalize-form-item province-form-item" v-if="isWholeCountry">
             <el-select class="user-form-item__input"
               v-model="trend.district"
               placeholder="请选择"
-              @change="provinceChange">
+              @change="handleChangeProvince">
               <el-option :key="null" label="全国" :value="null" />
               <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
 
-          <el-radio-group class="trend-header-right__query" v-model="trend.dateType" size="small" @change="dateTypeChange">
+          <el-radio-group class="flex" v-model="trend.dateType" size="small" @change="dateTypeChange">
             <el-radio-button :label="0">按日</el-radio-button>
             <el-radio-button :label="1">按月</el-radio-button>
           </el-radio-group>
@@ -74,13 +74,13 @@
         <el-radio-group v-if="!trend.mode"
           v-model="trend.chartRadio"
           @change="handleChangeType">
-            <el-radio
-              v-for="i in Object.keys(trendRadio)"
-              :key="i"
-              :label="Number(i)"
-            >
-              <span>{{radioTransformDate(i)}}</span>
-            </el-radio>
+          <el-radio
+            v-for="i in Object.keys(trendRadio)"
+            :key="i"
+            :label="Number(i)"
+          >
+            <span>{{radioTransformDate(i)}}</span>
+          </el-radio>
         </el-radio-group>
       </div>
     </div>
@@ -89,8 +89,7 @@
         <div class="no-data">
           <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <basic-area-chart v-if="isProvince" id="active-line" :char-data="trendData" :fields="trendFields" />
-            <grouped-column-chart v-if="isDistrict || isWholeCountry" id="active-trend" :char-data="trendData" :fields="trendFields"/>
+            <column :charData="transformChartNeed(trendList)" :id="'activeColumn'" />
           </template>
         </div>
       </div>
@@ -115,10 +114,12 @@ import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
 import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
 import LineChart from 'components/chart/Line.vue';
 import WmTable from 'components/Table.vue';
+import Column from 'components/chart/Column.vue';
 
 import mixins from './mixins';
 import { TREND_RADIO } from '@/config';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
+import { chinaDatetransformDate } from '@/utils/common.js';
 
 export default {
   mixins: [mixins],
@@ -141,6 +142,7 @@ export default {
     }
   },
   components: {
+    Column,
     WmTable,
     MultiLine,
     LineChart,
@@ -163,6 +165,7 @@ export default {
     };
 
     return {
+      dataMode: 0,
       trendRadio: TREND_RADIO,
       activeTrendRules: {
         date: [
@@ -190,10 +193,31 @@ export default {
       trendFields: ({ dataAnalysis }) => dataAnalysis.trendFields,
     })
   },
-  beforeMount() {
-  },
   methods: {
+    handleChangeProvince() {
+      this.query();
+    },
+    transformChartNeed(list) {
+      let modeObj = {
+        0: 'activeNum',
+        1: 'chinaMobileIpNum',
+        2: 'msisdnNum',
+        3: 'otherIpNum'
+      };
+      let _list = list.map(val => {
+        let obj = {
+          '数量': val[modeObj[this.trend.chartRadio]]
+        };
+        return {
+          name: val.province,
+          '月份': chinaDatetransformDate(val.periodId),
+          ...obj,
+        };
+      });
+      return _list;
+    },
     radioTransformDate(i) {
+      // 这个函数会触发多次，每次只触发第一次
       if (i !== '0') return this.trendRadio[i];
       return !this.trend.dateType ? this.trendRadio[i] : this.trendRadio[i].replace('日', '月');
     },
@@ -216,10 +240,9 @@ export default {
       this.query();
     },
     query() {
-      const that = this;
-      that.$refs['activeTrendForm'].validate(valid => {
+      this.$refs['activeTrendForm'].validate(valid => {
         if (valid) {
-          that.$emit('query');
+          this.$emit('query');
         }
       });
     },

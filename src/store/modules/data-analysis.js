@@ -44,6 +44,10 @@ const state = {
   trendData: [],
   trendFields: [],
   trendNewMembers: [],
+  eventObj: {
+    provinceSelected: [],
+    date: '',
+  },
   // 第三模块
   provinceUser: {
     dateType: 0,
@@ -309,8 +313,8 @@ const mutations = {
   },
   [types.RETENTION_GET_TREND_LIST](state, data) {
     state.retTrendList = data.map(val => {
-      val.newUserRetPer = (val.newRetainNum / val.newMembersNum * 100).toFixed(1) + '%';
-      val.retLossPer = (val.dropoutNum / val.retainNum * 100).toFixed(1) + '%';
+      val.newUserRetPer = (val.retainRate * 100).toFixed(1) + '%';
+      val.retLossPer = (val.dropoutRate * 100).toFixed(1) + '%';
       return val;
     });
   },
@@ -322,7 +326,6 @@ const mutations = {
       '0': 'retainRate',
       '1': 'dropoutRate',
     };
-
     let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
@@ -331,13 +334,12 @@ const mutations = {
       let val = temp1[key];
       let p = {};
       for (let item of val) {
-        p[item.province] = parseInt(item[TYPES[type]] * 100);
+        p[item.province] = item[TYPES[type]];
       }
       p.periodId = key;
       result.push(p);
     }
     result = _.sortBy(result, 'periodId');
-
     state.retTrendData = result;
     state.retTrendFields = fields;
   },
@@ -375,6 +377,13 @@ const mutations = {
   [types.ADD_USER_PROVINCE_TREND](state, type) {
     let list = state.addUserTrendList;
 
+    const TYPES = {
+      '0': 'newUserNum',
+      '1': 'newMobileNum',
+      '2': 'newVisitNum',
+      '3': 'newActiveNum',
+    };
+
     let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
@@ -383,13 +392,14 @@ const mutations = {
       let val = temp1[key];
       let p = {};
       for (let item of val) {
-        p[item.province] = item.member_1;
+        p[item.province] = item[TYPES[type]];
       }
       p.periodId = key;
       result.push(p);
     }
     result = _.sortBy(result, 'periodId');
 
+    console.log(result);
     state.addUserTrendData = result;
     state.addUserTrendFields = fields;
   },

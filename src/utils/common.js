@@ -4,6 +4,7 @@
  */
 
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_MAX_COUNT } from '@/config/index.js';
+import moment from 'moment';
 
 /**
  * @export 数组里的对象类型是否有重复
@@ -137,4 +138,20 @@ function isFileAcceptable(fileName) {
 
 export function convertNull(data) {
   return data === null ? '-' : data;
+};
+
+export function chinaDatetransformDate(vals = '') {
+  let dates = vals.split('-');
+  if (dates.length) {
+    if (dates.length === 2) {
+      return vals;
+    }
+    return `${dates[1]} -${dates[2]} `;
+  } else {
+    return '';
+  }
+};
+
+export function addFirstDayinMonth(val) {
+  return moment(val).format('YYYY-MM') + '-01';
 }

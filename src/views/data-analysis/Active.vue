@@ -97,10 +97,8 @@ export default {
      * 活跃度趋势分析 查询数据
      */
     handleQueryTrend() {
-      const that = this;
-
-      that.getTrendList().then(() => {
-        that.handleChangeType(that.trend.chartRadio);
+      this.getTrendList().then(() => {
+        this.handleChangeType(this.trend.chartRadio);
       });
     },
     /**

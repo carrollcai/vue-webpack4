@@ -4,19 +4,30 @@
       <div class="trend-header-title">留存流失趋势分析</div>
       <div class="trend-header-right">
         <div class="trend-header-right__query">
-          <el-form ref="retTrendForm" :model="retTrend" :rules="retTrendTrendRules" class="flex">
-            <el-form-item class="normalize-form-item" v-if="isWholeCountry">
+          <el-form ref="retTrendForm"
+            :model="retTrend"
+            :rules="retTrendTrendRules"
+            class="flex">
+            <el-form-item class="normalize-form-item  province-form-item"
+              v-if="isWholeCountry">
               <el-select class="user-form-item__input"
                 v-model="retTrend.district"
                 placeholder="请选择"
                 @change="provinceChange">
-                <el-option :key="null" label="全国" :value="null" />
-                <el-option v-for="item in DISTRICTS" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option :key="null"
+                  label="全国"
+                  :value="null" />
+                <el-option v-for="item in DISTRICTS"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value" />
               </el-select>
             </el-form-item>
 
-            <el-form-item class="normalize-form-item trend-header-right__query" prop="checkDate">
-              <el-form-item class="normalize-form-item float-left" prop="startDate">
+            <el-form-item class="normalize-form-item"
+              prop="checkDate">
+              <el-form-item class="normalize-form-item float-left"
+                prop="startDate">
                 <el-date-picker type="month"
                   placeholder="选择开始日期"
                   v-model="retTrend.startDate"
@@ -26,7 +37,8 @@
                   @change="triggerValidate()" />
               </el-form-item>
               <span class="date-connect-line float-left">-</span>
-              <el-form-item class="normalize-form-item float-left" prop="endDate">
+              <el-form-item class="normalize-form-item float-left"
+                prop="endDate">
                 <el-date-picker type="month"
                   placeholder="选择结束日期"
                   :editable="false"
@@ -42,7 +54,8 @@
           |
         </div>
         <div>
-          <el-radio-group v-model="retTrend.mode" size="small">
+          <el-radio-group v-model="retTrend.mode"
+            size="small">
             <el-radio-button :label="0">
               <i class="icon-chart"></i>
             </el-radio-button>
@@ -51,32 +64,53 @@
             </el-radio-button>
           </el-radio-group>
         </div>
-        <el-button class="data-download" type="primary" icon="icon-download" @click="downloadDataAnalysis" title="导出数据"/>
+        <el-button class="data-download"
+          type="primary"
+          icon="icon-download"
+          @click="downloadDataAnalysis"
+          title="导出数据" />
       </div>
     </div>
     <div class="trend-sub">
-      <div class="trend-sub__radio" v-if="!retTrend.mode">
-        <el-radio v-for="i in Object.keys(trendRadio)" :key="i" v-model="retTrend.chartRadio" :label="Number(i)" @change="changeRadio">
+      <div class="trend-sub__radio"
+        v-if="!retTrend.mode">
+        <el-radio v-for="i in Object.keys(trendRadio)"
+          :key="i"
+          v-model="retTrend.chartRadio"
+          :label="Number(i)"
+          @change="changeRadio">
           {{trendRadio[i]}}
         </el-radio>
       </div>
     </div>
     <div class="trend-mode">
-      <div v-if="!retTrend.mode" class="trend-chart">
-        <div class="no-data" v-if="Object.isNullArray(retTrendList)">暂无数据</div>
+      <div v-if="!retTrend.mode"
+        class="trend-chart">
+        <div class="no-data"
+          v-if="Object.isNullArray(retTrendList)">暂无数据</div>
         <template v-else>
-          <multi-line :charData="retTrendData" id="line" :fields="retTrendFields" />
+          <multi-line :charData="retTrendData"
+            id="line"
+            :fields="retTrendFields" />
         </template>
       </div>
       <div v-else>
-        <wm-table :source="retTrendList" :max-height="500">
-          <el-table-column label="月份" property="periodId" />
-          <el-table-column label="本月新增用户" property="newMembersNum" />
-          <el-table-column label="本月留存客户" property="retainNum" />
-          <el-table-column label="本月流失用户" property="dropoutNum" />
-          <el-table-column label="上月新增本月留存" property="newRetainNum" />
-          <el-table-column label="新增用户留存率" property="newUserRetPer" />
-          <el-table-column label="留存用户流失率" property="retLossPer" />
+        <wm-table :source="retTrendList"
+          :max-height="500">
+          <el-table-column label="月份"
+            property="periodId" />
+          <el-table-column label="上月活跃用户数"
+            property="activeNum" />
+          <el-table-column label="上月存留用户数"
+            property="retainNum" />
+          <el-table-column label="上月存留本月流失用户数"
+            property="dropoutNum" />
+          <el-table-column label="上月新增本月存留用户数"
+            property="newRetainNum" />
+          <el-table-column label="新增用户留存率"
+            property="newUserRetPer" />
+          <el-table-column label="留存用户流失率"
+            property="retLossPer" />
         </wm-table>
       </div>
     </div>
