@@ -3,8 +3,10 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item v-if="isOverview" :to="{ path: '/order/overview' }">订单总览</el-breadcrumb-item>
-          <el-breadcrumb-item v-if="!isOverview" :to="{ path: '/order/create-manage' }">订单创建管理</el-breadcrumb-item>
+          <el-breadcrumb-item v-if="isOverview"
+            :to="{ path: '/order/overview' }">订单总览</el-breadcrumb-item>
+          <el-breadcrumb-item v-if="!isOverview"
+            :to="{ path: '/order/create-manage' }">订单创建管理</el-breadcrumb-item>
           <el-breadcrumb-item>订单详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -12,17 +14,24 @@
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
         <!-- <audit-steps style="margin-left: 180px;" v-if="this.$route.params.processId && processList.length" :processList="processList" :businessToOrderId="orderOverviewDetail.relOpporId" /> -->
-        <detail-content v-if="orderOverviewDetail && Object.keys(orderOverviewDetail).length" :orderOverviewDetail="orderOverviewDetail" />
+        <detail-content v-if="orderOverviewDetail && Object.keys(orderOverviewDetail).length"
+          :orderOverviewDetail="orderOverviewDetail" />
       </div>
-      <div class="p-table">
+
+      <div class="p-table"
+        v-if="processList.length">
         <dl class="tHead">
-          <dt class="tH01">产品名称02</dt>
-          <dd class="tH02">您暂无权限处理~</dd>
+          <dt class="tH01">订购产品</dt>
+          <dd class="tH02">订单状态</dd>
         </dl>
-        <dl class="tTr" v-if="productList" v-for="(item, k) in productList" :key="k">
+        <dl class="tTr"
+          v-for="(item, index) in processList"
+          :key="index">
           <dt class="tH01">{{item.productName}}</dt>
           <dd class="tH02">
-            {{item}}
+            <audit-steps v-if="item.list && item.list.length"
+              background-color="#fff"
+              :processList="item.list" />
           </dd>
         </dl>
       </div>
@@ -33,41 +42,45 @@
 <script>
 import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
   components: {
     AuditSteps,
     DetailContent
   },
+  data() {
+    return {
+      objData: []
+    };
+  },
   computed: {
-    productList() {
-      if (Object.keys(this.orderOverviewDetail).length) {
-        return this.orderOverviewDetail;
-      }
-    },
     ...mapState({
-      orderOverviewDetail: ({ order }) => order.orderOverviewDetail[0]
-      // processList: ({ order }) => order.processList
+      orderOverviewDetail: ({ order }) => order.orderOverviewDetail[0],
+      processList: ({ order }) => order.processList,
     })
   },
   created() {
     this.isOverview = this.$route.fullPath.includes('/overview/detail/');
   },
   async beforeMount() {
-    // const { id, processId } = this.$route.params;
+    // 清空processList数据
+    this.removeProcessList();
+
     const { id } = this.$route.params;
-    // 如果这边不让getOrderOverviewDetail在后面执行，会导致orderOverviewDetail里的对象消失，因为orderOverviewDetail没定义对象内属性
     await this.getOrderOverviewDetail({ ordCode: id });
-    /* await processId && this.getOrderOverviewProcess({
-       processInsId: processId,
-       businessStatus: ['1']
-     }); */
+    await this.getOrderOverviewProcessList({
+      ordProductDtoList: this.orderOverviewDetail.ordProductDtoList
+    });
   },
   methods: {
+    ...mapMutations({
+      removeProcessList: 'ORDER_REMOVE_PROCESS_LIST',
+    }),
     ...mapActions([
       'getOrderOverviewDetail',
-      // 'getOrderOverviewProcess',
+      'getOrderOverviewProcess',
+      'getOrderOverviewProcessList',
     ])
   }
 };
