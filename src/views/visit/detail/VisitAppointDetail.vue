@@ -23,7 +23,7 @@
         <el-radio v-model="formData.isCancle" label="3">取消走访</el-radio>
       </el-form-item>
       <el-form-item v-if="formData.isCancle === '2'" label="走访汇报：" label-width="130px" prop="feedback">
-        <el-input v-model="formData.feedback" placeholder="简要描述一下处理方案" type="textarea" :rows="4"></el-input>
+        <el-input maxlength="500" v-model="formData.feedback" placeholder="简要描述一下处理方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
       <el-form-item v-if="formData.isCancle === '3'" label="取消原因：" label-width="130px" prop="feedback">
         <el-input v-model="formData.feedback" placeholder="取消原因" type="textarea" :rows="4"></el-input>

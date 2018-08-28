@@ -42,7 +42,7 @@
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="走访编号" property="visitCode" width="180"/>
-      <el-table-column label="走访时间" property="visitStartTime" />
+      <el-table-column label="走访时间" property="visitStartTime" :formatter="visitTimeFn" />
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column label="任务类型" property="visitResource" :formatter="visitResourceFn"/>
       <el-table-column label="操作" width="180">
@@ -60,7 +60,7 @@
           <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
             删除
           </el-button> -->
-          <el-button v-if="scope.row.visitStatus === '2' && (scope.row.visitEvaluate === '0' || scope.row.visitEvaluate === 0)" class="table-button" type="text" @click="hageResource(scope.row)">
+          <el-button v-if="scope.row.visitStatus === '2' && (scope.row.isOverDate === '0' || scope.row.isOverDate === 0)" class="table-button" type="text" @click="hageResource(scope.row)">
             评价
           </el-button>
         </template>
@@ -125,6 +125,13 @@ export default {
         this.dialogVisible = false;
         this.$message({ showClose: true, message: '评价成功！', type: 'success' });
       });
+    },
+    visitTimeFn(row, clo, value) {
+      if (row.visitStartTime) {
+        let start = row.visitStartTime.split(' ')[0];
+        let end = row.visitEndTime ? '-' + row.visitEndTime.split(' ')[0] : '';
+        return start + end;
+      }
     },
     visitResourceFn(row, clo, value) {
       if (value === 1) {

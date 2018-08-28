@@ -22,8 +22,8 @@ export default {
         userInfo: [
           { required: true, message: '请选择用户信息', trigger: ['change', 'blur'] }
         ],
-        area: [
-          { required: true, message: '请选择地域', trigger: ['change', 'blur'] }
+        province: [
+          { required: true, message: '请选择省份', trigger: ['change', 'blur'] }
         ],
         region: [
           { required: true, message: '请输入区域名称', trigger: ['change', 'blur'] }
@@ -32,6 +32,8 @@ export default {
     };
   },
   beforeMount() {
+    this.provinceList = null;
+    this.processorList = [];
     this.queryProcessor({});
   },
   methods: {
@@ -107,8 +109,16 @@ export default {
     },
     onSubmit() {
       debugger;
-      if (this.regionData.regionList && this.regionData.regionList.length <= 0) {
-        this.$message({ showClose: true, message: '请选择地区', type: 'info' });
+      if (this.processorList && this.processorList.length) {
+        if (this.regionData.regionList && this.regionData.regionList.length <= 0) {
+          this.$message({ showClose: true, message: '请选择地区', type: 'info' });
+          return false;
+        }
+      } else if (this.provinceList && this.provinceList.length) {
+        if (!this.submitData.province) {
+          this.$message({ showClose: true, message: '请选择省份', type: 'info' });
+          return false;
+        }
       }
       let userObj = this.openDataFn(this.applyFrom.userInfo, this.userInfoList, this.userMap);
       let activeObj = this.openDataFn(this.applyFrom.dataType, this.dataTypeList, this.activeMap);
