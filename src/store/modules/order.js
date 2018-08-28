@@ -24,12 +24,13 @@ const orderCreate = {
     amount: '',
     processor: [],
     processorData: [],
-    companyBelong: ''
+    companyBelong: '',
+    productHandlers: [],
   }],
   productName: '',
   amount: '',
   processor: '',
-  companyBelong: '',
+  // companyBelong: '',
   predictRevenue: '',
   startProcess: ''
 };
@@ -90,7 +91,7 @@ const state = {
     totalCount: 1
   },
   assignHandlers: [],
-  productHandlers: [],
+  // productHandlers: [],
   handleTaskDetail: [],
   lastProcessInfo: {
     lastOpName: '',
@@ -121,11 +122,14 @@ const mutations = {
     state.orderHandleTaskObj = Object.assign(state.orderHandleTaskObj, data);
   },
   [types.ORDER_QUERY_PRODUCT_HANDLER](state, data) {
-    let dataList = data.map(item => {
-      let itemObj = {value: item.staffName, label: item.staffId};
-      return itemObj;
+    let dataList = data.list.map(item => {
+      return {
+        value: item.staffName,
+        label: item.operatorId,
+      };
     });
-    state.productHandlers = dataList;
+    state.orderCreate.orderProductDtoList[data.index].companyBelong = data.list[0].opRegion || '';
+    state.orderCreate.orderProductDtoList[data.index].productHandlers = dataList;
   },
   [types.ORDER_QUERY_ASSIGN_HANDLER](state, data) {
     // 改造指派人结构
@@ -204,6 +208,15 @@ const mutations = {
   },
   [types.ORDER_LAST_PROCESS_INFO](state, data) {
     state.lastProcessInfo = data.length ? data[0] : state.lastProcessInfo;
+  },
+  [types.ORDER_HANDLE_PROCESS](state, data) {
+    let item = state.orderCreate.orderProductDtoList[data.index];
+    item.processor = item.processorData.map(val => {
+      let processor = item.productHandlers.filter(cval => cval.value === val)[0];
+      if (processor) {
+        return processor.label;
+      }
+    });
   }
 };
 

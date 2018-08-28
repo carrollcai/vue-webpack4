@@ -53,8 +53,13 @@ const actions = {
   },
   // 产品指派处理人
   getProductHandler: ({ commit }, params) => {
-    return API.getProductHandlerAPI(params).then(res => {
-      commit(types.ORDER_QUERY_PRODUCT_HANDLER, res.data);
+    let { index, ..._params } = params;
+    console.log(params);
+    return API.getProductHandlerAPI(_params).then(res => {
+      commit(types.ORDER_QUERY_PRODUCT_HANDLER, {
+        list: res.data,
+        index,
+      });
     });
   },
   // 创建分派
