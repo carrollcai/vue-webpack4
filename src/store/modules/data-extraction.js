@@ -75,8 +75,7 @@ const mutations = {
     } else {
       state.provinceList = data[0].province;
     }
-    
-  },
+  }
 };
 
 export default {
