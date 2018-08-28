@@ -148,7 +148,11 @@ const mutations = {
     state.orderOverviewDetail = Object.assign({}, data);
   },
   [types.ORDER_GET_PROCESS_LIST](state, data) {
-    state.processList = data;
+    console.log(state.processList);
+    state.processList = state.processList.concat(data);
+  },
+  [types.ORDER_REMOVE_PROCESS_LIST](state, data) {
+    state.processList = [];
   },
   [types.ORDER_UPDATE_CREATE](state, data) {
     state.orderCreate = Object.assign({}, state.orderCreate, data);

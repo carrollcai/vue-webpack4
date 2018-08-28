@@ -1,27 +1,39 @@
 <template>
-  <div class="audit-steps">
-    <div v-if="title" class="title">{{title}}</div>
+  <div class="audit-steps"
+    :style="{'background-color': backgroundColor}">
+    <div v-if="title"
+      class="title">{{title}}</div>
     <div>
-      <div style="display: flex;">
-        <div class="child-title" v-for="(item, i) in processList" :key="item.processId" :style="{'flex-basis': percent()}">
+      <div class="flex">
+        <div class="child-title"
+          v-for="(item, i) in processList"
+          :key="item.processId"
+          :style="{'flex-basis': percent()}">
           <!-- 商机转订单特殊处理 -->
           {{!(businessToOrderId && i === 0) ? item.taskName : '商机转订单'}}
         </div>
       </div>
-      <el-steps :active="activeIndex()" align-center>
-        <el-step v-for="item in processList" :key="item.processId" :title="titleFilter(item)" :description="taskDesc(item)">
+      <el-steps :active="activeIndex()"
+        align-center>
+        <el-step v-for="item in processList"
+          :key="item.processId"
+          :title="titleFilter(item)"
+          :description="taskDesc(item)">
         </el-step>
       </el-steps>
-      <div style="display: flex;">
-        <div class="child" v-for="item in processList" :key="item.processId" :style="{'flex-basis': percent()}">
-          <el-popover
-            popper-class="audit-deal-result"
+      <div class="flex">
+        <div class="child"
+          v-for="item in processList"
+          :key="item.processId"
+          :style="{'flex-basis': percent()}">
+          <el-popover popper-class="audit-deal-result"
             v-if="isNotPassed(item)"
             placement="top"
             width="200"
             trigger="click"
             :content="item.dealResult">
-            <el-button slot="reference" type="text">查看原因</el-button>
+            <el-button slot="reference"
+              type="text">查看原因</el-button>
           </el-popover>
         </div>
       </div>
@@ -35,6 +47,10 @@
  */
 export default {
   props: {
+    backgroundColor: {
+      type: String,
+      default: 'rgba(250, 250, 250, 1)'
+    },
     businessToOrderId: {
       type: String,
       default: ''
@@ -56,7 +72,6 @@ export default {
     },
     taskDesc(item) {
       let result = '';
-
       if (item.hasComplete === 1) {
         result = (item.opName ? item.opName : '') + (item.businessStatusName ? item.businessStatusName : (item.businessStatus ? item.businessStatus : ''));
       }
@@ -91,7 +106,7 @@ export default {
 }
 .audit-steps {
   border-radius: 2px;
-  background-color: rgba(250, 250, 250, 1);
+  // background-color: rgba(250, 250, 250, 1);
   padding-bottom: 24px;
   padding-top: 24px;
   .title {
