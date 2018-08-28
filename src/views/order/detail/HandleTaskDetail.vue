@@ -187,7 +187,7 @@
                 </el-form-item>
               </el-form>
             </dd>
-            <dd class="tH02"
+            <dd class="tH02 p-table-denied"
               v-if="!premissionDenied(item)">您暂无权限处理~</dd>
           </dl>
         </div>
@@ -245,7 +245,7 @@ export default {
       },
       assignForm: {
         time: '',
-        isFeedBack: '',
+        isFeedBack: 1,
         status: 1,
         files: [],
         dealResult: ''
@@ -363,7 +363,7 @@ export default {
       if (fileBeforeUpload.call(this, file, fileList)) return false;
 
       this.assignForm.files.push(file.raw);
-      this.$refs.assign.validateField('files');
+      this.$refs.assign[0].validateField('files');
     },
     removeFile(file, fileList) {
       /**
@@ -373,12 +373,13 @@ export default {
       let index = this.assignForm.files.findIndex(val => val.uid === file.uid);
       this.assignForm.files.splice(index, 1);
 
-      this.$refs.assign.validateField('files');
+      this.$refs.assign[0].validateField('files');
     },
     submitAssignForm() {
-      this.$refs.assign.validate(valid => {
+      console.log(this.$refs.assign);
+      // 当$refs在循环里，会变成一个数组
+      this.$refs.assign[0].validate(valid => {
         if (!valid) return false;
-        debugger;
         // 客户取消
         if (!this.assignForm.status) {
           let assignParams = {
