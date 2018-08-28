@@ -152,7 +152,8 @@ export default {
         content: this.applyFrom.userActive,
         sex: sexObj,
         netType: netTypeObj,
-        channelType: sourceObj
+        channelType: sourceObj,
+        city: this.restrictedCity ? 1 : ''
       };
       let parms = Object.assign(this.submitData, data, userObj, activeObj);
       this.$refs.refName.validate((valid) => {

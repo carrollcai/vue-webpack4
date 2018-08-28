@@ -55,7 +55,7 @@
           </el-button>
           <!-- 自建的则支持修改 -->
           <el-button v-if="scope.row.visitStatus === '1'" type="text" @click="createVisit(scope.row)">
-            修改
+            编辑
           </el-button>
           <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
             删除

@@ -77,7 +77,7 @@
           <el-button v-if="scope.row.extractBusinessStatus === '2'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
 
           <el-button v-if="scope.row.extractBusinessStatus === '3'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
-          <el-button v-if="scope.row.extractBusinessStatus === '3'" class="table-button" type="text" @click="downloadFile(scope.row)">数据下载</el-button>
+          <!-- <el-button v-if="scope.row.extractBusinessStatus === '3'" class="table-button" type="text" @click="downloadFile(scope.row)">数据下载</el-button> -->
 
           <el-button v-if="scope.row.extractBusinessStatus === '4'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
 

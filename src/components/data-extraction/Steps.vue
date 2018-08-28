@@ -49,40 +49,40 @@ export default {
     processLists() {
       let _Data = this.processList;
       if (_Data) {
-        let obj = null;
-        _Data.map((val) => {
-          if (val.taskName === '二级审核') {
-            if (val.businessStatus === '3') {
-              obj = {
-                hasComplete: 1,
-                hasCompleteName: '已完成',
-                taskName: '审核不通过',
-                businessStatus: '已处理',
-                sortId: val.sortId,
-                taskId: val.taskId,
-                taskKey: val.taskKey
-              };
-            } else {
-              obj = {
-                hasComplete: 0,
-                hasCompleteName: '未完成',
-                taskName: '数据生成中',
-                businessStatus: '待处理',
-                sortId: val.sortId,
-                taskId: val.taskId,
-                taskKey: val.taskKey
-              };
-            }
-            if (this.$route.name === 'data-audit-detail') {
-              _Data.push(obj);
-            }
+        let status = this.dataDetailList.extractBusinessStatus;
+        let statusName = this.dataDetailList.extractBusinessStatusName;
+        let obj = {};
+        let flag = false;
+        if (_Data[2].taskName.indexOf('审核') !== -1 && _Data[2].hasComplete === 0) {
+          flag = true;
+        }
+        if (status < 2) {
+          obj.taskName = '数据生成';
+          obj.hasComplete = 0;
+          obj.hasCompleteName = '未完成';
+          obj.businessStatus = '待处理';
+        } else {
+          if (flag) {
+            obj.taskName = '数据生成';
+            obj.hasComplete = 0;
+            obj.hasCompleteName = '未完成';
+            obj.businessStatus = '待处理';
+          } else {
+            obj.taskName = statusName;
+            obj.hasComplete = 1;
+            obj.hasCompleteName = '已完成';
+            obj.businessStatus = '已处理';
           }
-        });
+        }
+        if (this.$route.name === 'data-detail') {
+          _Data.push(obj);
+        }
         return _Data;
       }
     },
     ...mapState({
-      processList: ({ dataExtraction }) => dataExtraction.dataSteps
+      processList: ({ dataExtraction }) => dataExtraction.dataSteps,
+      dataDetailList: ({ dataExtraction }) => dataExtraction.dataDetailList
     })
   },
   methods: {

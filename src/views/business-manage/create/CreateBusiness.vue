@@ -182,7 +182,7 @@ export default {
       filesArrList: [],
       uploadData: {
         fileInputId: '',
-        fileTypeId: FILE_TYPE_ID.visit,
+        fileTypeId: FILE_TYPE_ID.business,
         moduleId: 1,
         expireDate: '',
         effectiveDate: '',

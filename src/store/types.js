@@ -171,6 +171,7 @@ export const REGISTER_LIST = 'REGISTER_LIST';
 export const VISIT_DETAIL = 'VISIT_DETAIL';
 export const VISIT_ASSIGN_DETAIL = 'VISIT_ASSIGN_DETAIL';
 export const APPOINT_CREATE = 'APPOINT_CREATE';
+export const APPLICATION_CREATE = 'APPLICATION_CREATE';
 
 /* dashboard */
 export const HOME_MODULE = 'HOME_MODULE';

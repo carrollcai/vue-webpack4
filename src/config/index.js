@@ -432,7 +432,8 @@ export const FILE_TYPE_ID = {
   order: 501,
   product: 502,
   requirement: 503,
-  visit: 504
+  visit: 504,
+  business: 506
 };
 
 export const ADD_USER_TREND_DIMENSION = {
