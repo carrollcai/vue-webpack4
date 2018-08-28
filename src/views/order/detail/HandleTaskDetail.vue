@@ -12,42 +12,25 @@
     </div>
     <div class="m-container o-overview-detail">
       <div class="task-detail-content"
-        v-if="Object.keys(handleTaskDetail).length">
-        <!-- 签约处理，必须是指派任务才能显示 -->
-        <detail-bar v-if="getSignHandleContent()"
-          :title="['指派人：', '指派原因：']"
-          :content="getSignHandleContent()" />
-        <!-- 签约指派 -->
-        <detail-bar v-if="getTodoSignContent()"
-          :title="['处理结果：', '指派处理人：', '指派原因：']"
-          :content="getTodoSignContent()" />
-        <!-- 已签约 -->
-        <detail-bar v-if="getHasSignContent()"
-          :title="['处理结果：', '签约合同：']"
-          :content="getHasSignContent()" />
-        <!-- 已付款 -->
-        <detail-bar v-if="getPayContent()"
-          :title="['处理结果：', '付款金额：']"
-          :content="getPayContent()" />
-        <!-- 已取消 -->
-        <detail-bar v-if="getProcessContent()"
-          :title="['处理结果：', '取消原因：']"
-          :content="getProcessContent()" />
+        v-if="handleTaskDetail && Object.keys(handleTaskDetail).length">
+        <detail-content :orderOverviewDetail="handleTaskDetail" />
 
-        <detail-content :orderOverviewDetail="handleTaskDetail[0]" />
+        <order-product-list v-if="routeType === 'detail'"
+          :processList="processList"
+          :isShowAll="true" />
       </div>
       <!-- 待签约 -->
       <div class="detail-line"
         v-if="routeType === 'pay' || routeType === 'sign'"></div>
       <div v-if="routeType === 'sign'">
         <div class="p-table"
-          v-if="handleTaskDetail[0] && handleTaskDetail[0].ordProductDtoList">
+          v-if="handleTaskDetail && handleTaskDetail.ordProductDtoList">
           <dl class="tHead">
             <dt class="tH01">订购产品</dt>
             <dd class="tH02">处理意见</dd>
           </dl>
           <dl class="tTr"
-            v-for="(item, index) in handleTaskDetail[0].ordProductDtoList"
+            v-for="(item, index) in handleTaskDetail.ordProductDtoList"
             :key="index">
             <dt class="tH01">{{item.productName}}</dt>
             <dd class="tH02"
@@ -143,13 +126,13 @@
       <!-- 待支付 -->
       <div v-if="routeType === 'pay'">
         <div class="p-table"
-          v-if="handleTaskDetail[0] && handleTaskDetail[0].ordProductDtoList">
+          v-if="handleTaskDetail && handleTaskDetail.ordProductDtoList">
           <dl class="tHead">
             <dt class="tH01">订购产品</dt>
             <dd class="tH02">处理意见</dd>
           </dl>
           <dl class="tTr"
-            v-for="(item, index) in handleTaskDetail[0].ordProductDtoList"
+            v-for="(item, index) in handleTaskDetail.ordProductDtoList"
             :key="index">
             <dt class="tH01">{{item.productName}}</dt>
             <dd class="tH02"
@@ -214,10 +197,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
 import DetailBar from 'components/order/DetailBar.vue';
+import OrderProductList from 'components/order/OrderProductList.vue';
 import { fileValidLen, inte5Deci4, textareaLimit } from '@/utils/rules.js';
 import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
@@ -226,7 +210,8 @@ export default {
   components: {
     AuditSteps,
     DetailContent,
-    DetailBar
+    DetailBar,
+    OrderProductList,
   },
   data() {
     const fileCheck = (rule, value, callback) => {
@@ -281,7 +266,7 @@ export default {
   },
   computed: {
     ...mapState({
-      handleTaskDetail: ({ order }) => order.handleTaskDetail,
+      handleTaskDetail: ({ order }) => order.handleTaskDetail[0],
       processList: ({ order }) => order.processList,
       submitAssignButton: ({ order }) => order.submitAssignButton,
       hasSignedFile: ({ order }) => order.hasSignedFile,
@@ -290,14 +275,23 @@ export default {
     })
   },
   async beforeMount() {
+    // 清空processList数据
+    this.removeProcessList();
+
     this.getUserInfoSelf({}).then(res => {
       this.operatorId = res;
     });
     await this.getHandleTaskDetail({ ordCode: this.ordCode });
+
+    // 获取流程信息
+    await this.getOrderOverviewProcessList({
+      ordProductDtoList: this.handleTaskDetail.ordProductDtoList
+    });
+
     // 签约获取指派人流程
-    if (this.handleTaskDetail.assignReason && this.taskInsId) {
-      await this.getOrderProcessInfo({ taskInsId: this.taskInsId });
-    }
+    // if (this.handleTaskDetail.assignReason && this.taskInsId) {
+    //   await this.getOrderProcessInfo({ taskInsId: this.taskInsId });
+    // }
     // 获取文件名和地址
     await this.handleTaskDetail.fileId && this.gethasSignedFile({ fileInputId: this.handleTaskDetail.fileId });
   },
@@ -376,7 +370,6 @@ export default {
       this.$refs.assign[0].validateField('files');
     },
     submitAssignForm() {
-      console.log(this.$refs.assign);
       // 当$refs在循环里，会变成一个数组
       this.$refs.assign[0].validate(valid => {
         if (!valid) return false;
@@ -422,13 +415,10 @@ export default {
           dealPerson: this.operatorId
         }
       };
-      this.$refs.pay.validate(valid => {
+      this.$refs.pay[0].validate(valid => {
         if (!valid) return false;
         this.submitPay(params);
       });
-    },
-    queryElecAPI() {
-      this.orderDownloadFile();
     },
     downloadFile(obj) {
       let params = {
@@ -438,6 +428,9 @@ export default {
       };
       this.orderDownloadFile(params);
     },
+    ...mapMutations({
+      removeProcessList: 'ORDER_REMOVE_PROCESS_LIST',
+    }),
     ...mapActions([
       'getUserInfoSelf',
       'getNewFileInputId',
@@ -447,8 +440,9 @@ export default {
       'submitAssignContract',
       'submitPay',
       'gethasSignedFile',
-      'getOrderProcessInfo',
-      'orderDownloadFile'
+      // 'getOrderProcessInfo',
+      'orderDownloadFile',
+      'getOrderOverviewProcessList'
     ])
   }
 };

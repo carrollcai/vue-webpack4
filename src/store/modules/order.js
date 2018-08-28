@@ -90,7 +90,7 @@ const state = {
     totalCount: 1
   },
   assignHandlers: [],
-  handleTaskDetail: {},
+  handleTaskDetail: [],
   lastProcessInfo: {
     lastOpName: '',
     lastDealResult: ''
@@ -148,7 +148,7 @@ const mutations = {
     state.orderOverviewDetail = Object.assign({}, data);
   },
   [types.ORDER_GET_PROCESS_LIST](state, data) {
-    console.log(state.processList);
+    // console.log(state.processList);
     state.processList = state.processList.concat(data);
   },
   [types.ORDER_REMOVE_PROCESS_LIST](state, data) {
