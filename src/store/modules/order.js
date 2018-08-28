@@ -22,8 +22,8 @@ const orderCreate = {
     productId: null,
     productName: '',
     amount: '',
-    processor: '',
-    processorData: '',
+    processor: [],
+    processorData: [],
     companyBelong: ''
   }],
   productName: '',
@@ -90,6 +90,7 @@ const state = {
     totalCount: 1
   },
   assignHandlers: [],
+  productHandlers: [],
   handleTaskDetail: {},
   lastProcessInfo: {
     lastOpName: '',
@@ -118,6 +119,13 @@ const mutations = {
   },
   [types.ORDER_HT_GET_LIST](state, data) {
     state.orderHandleTaskObj = Object.assign(state.orderHandleTaskObj, data);
+  },
+  [types.ORDER_QUERY_PRODUCT_HANDLER](state, data) {
+    let dataList = data.map(item => {
+      let itemObj = {value: item.staffName, label: item.staffId};
+      return itemObj;
+    });
+    state.productHandlers = dataList;
   },
   [types.ORDER_QUERY_ASSIGN_HANDLER](state, data) {
     // 改造指派人结构

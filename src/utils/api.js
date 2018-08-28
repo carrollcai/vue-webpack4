@@ -109,6 +109,7 @@ export default {
   // getOverViewDetailAPI: API('/esop/bizOrder/overViewDetail'),
   getOverViewDetailAPI: API('/esop/bizOrder/detail'),
   getAssignhandlerAPI: API('/esop/operator/getAssignOperatorList'), // 获取分派
+  getProductHandlerAPI: API('/esop/operator/selectOrdProOperator'), // 获取产品指派人
   createAssignAPI: API('/esop/bizOrder/nodeMove'), // 推动流程，创建分派resultStatus=0，取消resultStatus=3
   submitOrderRowAPI: API('/esop/bizOrder/startProcess'), // 提交订单
   deleteOrderRowAPI: API('/esop/bizOrder/delete'), // 删除订单,

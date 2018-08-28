@@ -55,6 +55,12 @@ const actions = {
       commit(types.ORDER_QUERY_ASSIGN_HANDLER, res.data);
     });
   },
+  // 产品指派处理人
+  getProductHandler: ({ commit }, params) => {
+    return API.getProductHandlerAPI(params).then(res => {
+      commit(types.ORDER_QUERY_PRODUCT_HANDLER, res.data);
+    });
+  },
   // 创建分派
   // createAssign: ({ commit }, params) => {
   //   return API.createAssignAPI(params).then(res => {
