@@ -13,12 +13,12 @@
     </div>
     <div class="m-container o-overview-detail">
       <div class="task-detail-content">
-        <!-- <audit-steps style="margin-left: 180px;" v-if="this.$route.params.processId && processList.length" :processList="processList" :businessToOrderId="orderOverviewDetail.relOpporId" /> -->
         <detail-content v-if="orderOverviewDetail && Object.keys(orderOverviewDetail).length"
           :orderOverviewDetail="orderOverviewDetail" />
       </div>
 
-      <div class="p-table"
+      <order-product-list :processList="processList" />
+      <!-- <div class="p-table"
         v-if="processList.length">
         <dl class="tHead">
           <dt class="tH01">订购产品</dt>
@@ -28,13 +28,16 @@
           v-for="(item, index) in processList"
           :key="index">
           <dt class="tH01">{{item.productName}}</dt>
-          <dd class="tH02">
+          <dd class="tH02"
+            v-if="premissionDenied(item)">
             <audit-steps v-if="item.list && item.list.length"
               background-color="#fff"
               :processList="item.list" />
           </dd>
+          <dd class="tH02 p-table-denied"
+            v-if="!premissionDenied(item)">您暂无权限处理~</dd>
         </dl>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -42,12 +45,14 @@
 <script>
 import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
+import OrderProductList from 'components/order/OrderProductList.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
   components: {
     AuditSteps,
-    DetailContent
+    DetailContent,
+    OrderProductList
   },
   data() {
     return {
@@ -58,6 +63,7 @@ export default {
     ...mapState({
       orderOverviewDetail: ({ order }) => order.orderOverviewDetail[0],
       processList: ({ order }) => order.processList,
+      // opRegion: ({ root }) => root.currentUser.operator.opRegion,
     })
   },
   created() {
@@ -74,12 +80,18 @@ export default {
     });
   },
   methods: {
+    // premissionDenied(item) {
+    //   // 如果当前用户所属归属地和流程归属地相同
+    //   if (Number(this.opRegion) === item.companyBelong) {
+    //     return true;
+    //   }
+    // },
     ...mapMutations({
       removeProcessList: 'ORDER_REMOVE_PROCESS_LIST',
     }),
     ...mapActions([
       'getOrderOverviewDetail',
-      'getOrderOverviewProcess',
+      // 'getOrderOverviewProcess',
       'getOrderOverviewProcessList',
     ])
   }

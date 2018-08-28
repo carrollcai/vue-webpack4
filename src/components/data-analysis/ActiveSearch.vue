@@ -26,9 +26,9 @@
           trigger="click"
           @show="resetOrganizeInfo">
           <el-form class="temporary-module-form"
-            ref="organizeNameInfo"
-            :rules="organizeNameInfoRules"
-            :model="organizeNameInfo">
+            ref="eventForm"
+            :rules="eventRules"
+            :model="eventObj">
             <el-form-item class="form-query-input-width temporary-module-first-input"
               prop="provinceSelected">
               <el-select class="user-form-item__input"
@@ -48,7 +48,7 @@
                   :value="item.value" />
               </el-select>
             </el-form-item>
-            <el-form-item class="form-query-input-width">
+            <el-form-item class="form-query-input-width" prop="date">
               <el-date-picker type="daterange"
                 placeholder="选择日期"
                 v-model="eventObj.date"
@@ -73,6 +73,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { CLIENT } from '@/config';
+import moment from 'moment';
 
 export default {
   data() {
@@ -83,6 +84,14 @@ export default {
       activeSearchRules: {
         clientSelected: [
           { required: true, message: '请选择客户端', trigger: 'change' }
+        ]
+      },
+      eventRules: {
+        provinceSelected: [
+          { required: true, message: '请选择省份', trigger: 'change' }
+        ],
+        date: [
+          { required: true, message: '请选择时间', trigger: 'change' },
         ]
       }
     };
@@ -102,7 +111,15 @@ export default {
   methods: {
     eventDownload() {
       let params = this.eventObj;
-      this.eventUseraddDownload(params);
+      this.$refs.eventForm.validate(valid => {
+        if (!valid) return false;
+
+        this.eventUseraddDownload({
+          startDate: moment(params.date[0]).format('YYYY-MM-DD'),
+          endDate: moment(params.date[1]).format('YYYY-MM-DD'),
+          province: params.provinceSelected,
+        });
+      });
     },
     provinceChange(val) {
       const { provinces } = this.currentUser.operator;

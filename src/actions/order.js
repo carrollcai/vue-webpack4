@@ -13,44 +13,40 @@ const actions = {
       }
     });
   },
-  getOrderOverviewList: ({ commit }, params) => {
+  getOrderOverviewList({ commit }, params) {
     return API.getOrderOverviewListAPI(params).then((res) => {
       commit(types.ORDER_GET_LIST, res.data);
     });
   },
-  overviewSignHandle: ({ commit }, params) => {
+  overviewSignHandle({ commit }, params) {
     return API.overviewSignHandleAPI(params).then((res) => {
       commit(types.ORDER_OV_SIGN_HANDLE, res.data);
     });
   },
-  getOrderOverviewProcess: ({ commit }, params) => {
-    return API.queryCustomerProcessedAPI({
-      processInsId: params.processInsId
-    }).then(res => {
+  async getOrderOverviewProcessList({ commit, dispatch }, params) {
+    // 这里不能用forEach控制流程，需要用for of
+    for (let val of params.ordProductDtoList) {
+      let res = await API.queryCustomerProcessedAPI({
+        processInsId: val.processInsId
+      });
       let data = {
-        ...params,
+        ...val,
         list: res.data
       };
-      commit(types.ORDER_GET_PROCESS_LIST, data);
-    });
-  },
-  getOrderOverviewProcessList({ commit, dispatch }, params) {
-    console.log(params);
-    params.ordProductDtoList.forEach(async val => {
-      await dispatch('getOrderOverviewProcess', val);
-    });
+      await commit(types.ORDER_GET_PROCESS_LIST, data);
+    }
   },
 
   /**
    * 创建管理
    */
-  getCreateManageList: ({ commit }, params) => {
+  getCreateManageList({ commit }, params) {
     return API.getCreateManageListAPI(params).then(res => {
       commit(types.ORDER_CM_GET_LIST, res.data);
     });
   },
   // 指派处理人
-  getAssignhandler: ({ commit }, params) => {
+  getAssignhandler({ commit }, params) {
     return API.getAssignhandlerAPI(params).then(res => {
       commit(types.ORDER_QUERY_ASSIGN_HANDLER, res.data);
     });
@@ -62,7 +58,7 @@ const actions = {
     });
   },
   // 创建分派
-  // createAssign: ({ commit }, params) => {
+  // createAssign({ commit }, params) {
   //   return API.createAssignAPI(params).then(res => {
   //     // 请求成功后需要刷新视图
   //     Message({
@@ -72,17 +68,17 @@ const actions = {
   //   });
   // },
   // 提交订单
-  submitOrderRow: ({ commit }, params) => {
+  submitOrderRow({ commit }, params) {
     return API.submitOrderRowAPI(params).then(res => {
       commit(types.ORDER_SUBMIT_ORDER_ROW, res.data);
     });
   },
-  deleteOrderRow: ({ commit }, params) => {
+  deleteOrderRow({ commit }, params) {
     return API.deleteOrderRowAPI(params).then(res => {
       commit(types.ORDER_DELETE_ORDER_ROW, res.data);
     });
   },
-  createOrder: ({ commit }, params) => {
+  createOrder({ commit }, params) {
     return API.createOrderAPI(params).then((res) => {
       Message({
         message: '创建成功',
@@ -94,7 +90,7 @@ const actions = {
       });
     });
   },
-  updateOrder: ({ commit }, params) => {
+  updateOrder({ commit }, params) {
     return API.updateOrderAPI(params).then((res) => {
       Message({
         message: '修改成功',
@@ -106,17 +102,17 @@ const actions = {
       });
     });
   },
-  queryProductByCodeOrName: ({ commit }, params) => {
+  queryProductByCodeOrName({ commit }, params) {
     return API.queryProductByCodeOrNameAPI(params).then(res => {
       commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
     });
   },
-  getOrderEdit: ({ commit }, params) => {
+  getOrderEdit({ commit }, params) {
     return API.getOrderDetailAPI(params).then(res => {
       commit(types.ORDER_GET_EDIT, res.data);
     });
   },
-  getOrganizeAddress: ({ commit }, params) => {
+  getOrganizeAddress({ commit }, params) {
     return API.getOrganizeAddressAPI(params).then((res) => {
       commit(types.ORDER_QUERY_ORGANIZE_ADDRESS, res.data);
     });
@@ -125,33 +121,33 @@ const actions = {
   /**
    * 处理任务
    */
-  uploadOrderHandleTask: ({ commit }, params) => {
+  uploadOrderHandleTask({ commit }, params) {
     return API.uploadFileAPI(params).then(res => {
       return '';
     }, err => {
       return err;
     });
   },
-  getHandleTaskList: ({ commit }, params) => {
+  getHandleTaskList({ commit }, params) {
     return API.getHandleTaskListAPI(params).then(res => {
       commit(types.ORDER_HT_GET_LIST, res.data);
     });
   },
-  getHandleTaskDetail: ({ commit }, params) => {
+  getHandleTaskDetail({ commit }, params) {
     return API.getOrderDetailAPI(params).then(res => {
       commit(types.ORDER_GET_HANDLE_TASK_DETAIL, res.data);
     });
   },
   // 设置集团关联
-  setConnectOriganize: ({ commit }, params) => {
+  setConnectOriganize({ commit }, params) {
     return API.setConnectOriganizeAPI(params);
   },
-  getOrderOverviewDetail: ({ commit }, params) => {
+  getOrderOverviewDetail({ commit }, params) {
     return API.getOverViewDetailAPI(params).then(res => {
       commit(types.ORDER_OVERVIEW_GET_DETAIL, res.data);
     });
   },
-  cancelAssign: ({ commit }, params) => {
+  cancelAssign({ commit }, params) {
     return API.createAssignAPI(params).then(() => {
       Message({
         message: '提交成功',
@@ -188,7 +184,7 @@ const actions = {
       commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
     });
   },
-  submitPay: ({ commit }, params) => {
+  submitPay({ commit }, params) {
     return API.submitOrderPayAPI(params).then(res => {
       Message({
         message: '提交成功',
@@ -199,19 +195,19 @@ const actions = {
       });
     });
   },
-  gethasSignedFile: ({ commit }, params) => {
+  gethasSignedFile({ commit }, params) {
     return API.getFileThroughtFileIdAPI(params).then(res => {
       commit(types.ORDER_GET_HAS_SIGNED_FILE, res.data);
     });
   },
-  orderDownloadFile: ({ commit }, params) => {
+  orderDownloadFile({ commit }, params) {
     return API.downloadAttachFileAPI(params);
   },
-  getOrderProcessInfo: ({ commit }, params) => {
-    return API.getQueryTaskAPI(params).then(res => {
-      commit(types.ORDER_LAST_PROCESS_INFO, res.data);
-    });
-  }
+  // getOrderProcessInfo({ commit }, params) {
+  //   return API.getQueryTaskAPI(params).then(res => {
+  //     commit(types.ORDER_LAST_PROCESS_INFO, res.data);
+  //   });
+  // }
 };
 
 export default actions;
