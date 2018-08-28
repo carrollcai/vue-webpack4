@@ -47,7 +47,7 @@
       </div>
       <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '已取消'">
         <div class="left">取消原因：</div>
-        <div class="right" v-if="visitDetails.advice">{{visitDetails.visitResource}}</div>
+        <div class="right" v-if="visitDetails.advice">{{visitDetails.feedback}}</div>
       </div>
     </div>
     <div class="task-detail-item">

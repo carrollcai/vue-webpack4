@@ -31,7 +31,8 @@ const state = {
   },
   dataAuditList: {},
   dataTaskList: [],
-  processorList: []
+  processorList: [],
+  provinceList: null
 };
 
 const mutations = {
@@ -68,7 +69,13 @@ const mutations = {
       }
       return newVal;
     });
-    state.processorList = handlers;
+    console.log(data);
+    if (data[0].region) {
+      state.processorList = handlers;
+    } else {
+      state.provinceList = data[0].province;
+    }
+    
   },
 };
 

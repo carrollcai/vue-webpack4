@@ -44,7 +44,7 @@
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="走访编号" property="visitCode" width="180" />
-      <el-table-column label="走访时间"  property="visitStartTime" width="180" />
+      <el-table-column label="走访时间"  property="visitStartTime" width="180" :formatter="visitTimeFn" />
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column v-if="appointVisitForm.visitResource === '2'" label="指派走访人" property="processorCN"/>
       <el-table-column v-if="appointVisitForm.visitResource === '1'" label="走访人" property="processorCN"/>
@@ -81,7 +81,7 @@ import WmTable from 'components/Table.vue';
 import { mapState, mapActions } from 'vuex';
 import {PAGE_NO, PAGE_SIZE} from '@/config/index.js';
 const visitList = [{value: '', label: '全部'}, {value: '1', label: '未完成'}, {value: '2', label: '已完成'}];
-const appointList = [{value: '', label: '全部'}, {value: '1', label: '待执行'}, {value: '2', label: '已执行'}, {value: '2', label: '已取消'}];
+const appointList = [{value: '', label: '全部'}, {value: '1', label: '待执行'}, {value: '2', label: '已执行'}, {value: '3', label: '已取消'}];
 export default {
   components: {
     WmTable
@@ -108,6 +108,12 @@ export default {
     this.query();
   },
   methods: {
+    visitTimeFn(row, clo, value) {
+      if (row.visitStartTime) {
+        let start = row.visitStartTime.split(' ')[0];
+        return start;
+      }
+    },
     hageResource(row) {
       this.visitId = row.visitId;
       this.dialogVisible = true;
@@ -172,14 +178,14 @@ export default {
       });
     },
     query() {
+      if (!this.appointVisitForm.processorData) {
+        this.appointVisitForm.processor = [];
+      } else {
+        this.appointVisitForm.processor = [this.appointVisitForm.processorData];
+      }
       let { state, ...params } = this.appointVisitForm;
       delete params.visitStatusData;
       delete params.processorData;
-      if (this.appointVisitForm.processorData !== '') {
-        this.appointVisitForm.processor = [this.appointVisitForm.processorData];
-      } else {
-        this.appointVisitForm.processor = [];
-      }
       this.getAppointVisitList(params);
     },
     createVisitApplication() {

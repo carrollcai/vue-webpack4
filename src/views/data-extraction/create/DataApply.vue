@@ -14,12 +14,33 @@
         <el-form-item label="任务名称：" required prop="name">
           <el-input v-model="applyFrom.name" style="width: 320px !important;" placeholder="请输入任务名称" />
         </el-form-item>
-        <el-form-item label="选择地区：">
+        <el-form-item v-if="processorList && processorList.length" label="选择地区：">
           <div class="flex-row">
             <multilevelLinkage
-              :listData.sync="processorList"
+              :listData.sync="processorList "
               :storeData.sync="regionData">
             </multilevelLinkage>
+            <el-form-item style="margin-left: 26px;">
+              <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
+            </el-form-item>
+          </div>
+        </el-form-item>
+        <el-form-item v-if="provinceList && provinceList.length" label="选择省份：">
+          <div class="flex-row">
+            <el-select
+              v-model="submitData.province"
+              multiple
+              filterable
+              allow-create
+              default-first-option
+              placeholder="请选择选择省份">
+              <el-option
+                v-for="item in provinceList"
+                :key="item.province"
+                :label="item.provinceName"
+                :value="item.province">
+              </el-option>
+            </el-select>
             <el-form-item style="margin-left: 26px;">
               <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
             </el-form-item>
@@ -163,6 +184,7 @@ export default {
   },
   data() {
     return {
+      provinceData: '',
       activeMap: new Map(),
       userMap: new Map(),
       sourceSet: false,
@@ -235,7 +257,8 @@ export default {
     ...mapState({
       regionData: ({ dataExtraction }) => dataExtraction.regionData,
       staticData: ({ root }) => root.staticData,
-      processorList: ({ dataExtraction }) => dataExtraction.processorList
+      processorList: ({ dataExtraction }) => dataExtraction.processorList,
+      provinceList: ({ dataExtraction }) => dataExtraction.provinceList
     }),
     clientTypeList() {
       let data = this.staticData.CLIENT_TYPE;
