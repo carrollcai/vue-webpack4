@@ -226,10 +226,8 @@ export default {
       let params = this.sendParam;
       if (this.sendForm.person !== '') {
         if (this.sendForm.reason.trim() !== '') {
-          params.dealPerson = this.sendForm.person.pop();
+          params.dealPerson = this.sendForm.person[this.sendForm.person.length - 1];
           params.dealResult = this.sendForm.reason.trim();
-          console.log(this.sendForm.person);
-          console.log(params.dealPerson);
           this.submitBusinessSend(params).then(res => {
             if (res.data) {
               this.sendDialogVisible = false;
