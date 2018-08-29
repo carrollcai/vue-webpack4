@@ -126,10 +126,10 @@
         <el-form-item label="需要协调的问题：">
           <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="orderData.needCoordinationIssue"></el-input>
         </el-form-item>-->
-        <el-form-item label="项目是否招标：" prop="isProjectInvitation">
+        <!-- <el-form-item label="项目是否招标：" prop="isProjectInvitation">
           <el-radio v-model="orderData.isProjectInvitation" label="1">是</el-radio>
           <el-radio v-model="orderData.isProjectInvitation" label="0">否</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="">
           <el-button type="primary" @click="submit">提交</el-button>
           <el-button @click="cancel" plain>取消</el-button>
