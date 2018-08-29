@@ -38,8 +38,8 @@
     </div>
     <div class="task-detail-item">
       <div class="left">附件下载：</div>
-      <div class="right" v-if="detailData.fileInputId && hasSignedFile">
-        <span class="blue" style="margin-right: 10px" v-for="item in hasSignedFile" :key="item" @click="downloadFile(item)">{{item.fileName}}</span></div>
+      <div class="right" v-if="detailData.fileInputId && files.length">
+        <span class="blue" style="margin-right: 10px;cursor:pointer;" v-for="item in files" :key="item" @click="downloadFile(item)">{{item.fileName}}</span></div>
     </div>
   </div>
 </template>
@@ -48,12 +48,15 @@
 import { mapState, mapActions } from 'vuex';
 export default {
   props: {
-    detailData: JSON
+    detailData: JSON,
+    files: {
+      type: Array,
+      default() {
+        return [];
+      }
+    }
   },
   computed: {
-    ...mapState({
-      hasSignedFile: ({ order }) => order.hasSignedFile
-    })
   },
   methods: {
     downloadFile(res) {

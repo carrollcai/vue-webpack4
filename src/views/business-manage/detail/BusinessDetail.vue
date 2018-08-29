@@ -21,7 +21,7 @@
         <detail-head v-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="queryTask[0]"></detail-head>
         <detail-head v-else-if="this.$route.params.taskHasComplete === '1' && queryTask[0] && !queryTask[0].businessStatusName === '已分派'" :type="queryTask[0].businessStatusName" :headData="businessDetail"></detail-head>
         <detail-head v-else :type="businessDetail.opporStatusName" :headData="businessDetail"></detail-head>
-        <detail-body :detailData="businessDetail"></detail-body>
+        <detail-body :detailData="businessDetail" :files="files"></detail-body>
         <div class="pl" v-if="businessDetail.opporStatusName === '草稿'">
           <el-button type="primary" @click="handleSubmit()">提交处理</el-button>
         </div>
@@ -88,7 +88,8 @@ export default {
       },
       designPerson: [],
       sendParam: {},
-      cancelParam: {}
+      cancelParam: {},
+      files: []
     };
   },
   beforeMount() {
@@ -98,7 +99,9 @@ export default {
     let taskparam = {};
     taskparam.taskInsId = parseInt(this.$route.params.taskInsId);
     this.getBusinessDetail(opprparam).then(res => {
-      this.gethasSignedFile({fileInputId: this.businessDetail.fileInputId});
+      this.queryElec({fileInputId: this.businessDetail.fileInputId}).then((res) => {
+        this.files = res.data;
+      });
     });
     if (this.$route.params.taskHasComplete === '1') {
       this.getQueryTask(taskparam);
@@ -208,7 +211,7 @@ export default {
       }
     },
     ...mapActions([
-      'getBusinessDetail', 'gethasSignedFile', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft', 'getQueryTask', 'getAssignhandler'
+      'getBusinessDetail', 'queryElec', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft', 'getQueryTask', 'getAssignhandler'
     ])
   }
 };
