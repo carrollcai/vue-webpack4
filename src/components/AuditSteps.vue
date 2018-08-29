@@ -27,15 +27,14 @@
             v-for="item in processList"
             :key="item.processId"
             :style="{'flex-basis': percent()}">
-            <div>
-              <span v-if="item.fileList"
-                class="blue"
-                v-for="(file, k) in item.fileList"
-                :key="k"
-                @click="downloadFile(file)">
-                {{file.fileName}}
-              </span>
-            </div>
+            <!-- 只有已签约会展示文件 -->
+            <span v-if="Object.isExistArray(fileList) && hasSignStatus === Number(item.businessStatus)"
+              class="blue"
+              v-for="(file, k) in fileList"
+              :key="k"
+              @click="downloadFile(file)">
+              {{file.fileName}}
+            </span>
           </div>
         </div>
       </div>
@@ -65,9 +64,16 @@ export default {
     processList: {
       type: Array,
       default: () => []
-    }
+    },
+    fileList: {
+      type: Array,
+      default: () => []
+    },
   },
-  created() {
+  data() {
+    return {
+      hasSignStatus: 5
+    };
   },
   methods: {
     titleFilter(item) {

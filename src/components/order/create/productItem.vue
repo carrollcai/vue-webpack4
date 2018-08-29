@@ -62,6 +62,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
 import { checkMultRules } from '@/utils/common.js';
+import { isPositive } from '@/utils/rules.js';
 
 export default {
   data() {
@@ -72,7 +73,7 @@ export default {
           { required: true, message: '请输入产品名称', trigger: 'blur' },
         ],
         amount: [
-          { required: true, message: '请输入数量', trigger: 'blur' },
+          { validator: isPositive, trigger: 'blur' },
         ],
         processorData: [
           { required: true, message: '请输入指派人', trigger: 'change' },

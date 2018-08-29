@@ -17,14 +17,13 @@
 
         <!-- 已处理详情 -->
         <order-product-list v-if="routeType === 'detail'"
-          :processList="processList"
-          :isShowAll="true" />
+          :processList="processList" />
       </div>
       <!-- 待签约 -->
       <div class="detail-line"
         v-if="routeType === 'pay' || routeType === 'sign'"></div>
 
-      <div v-if="routeType === 'sign'">
+      <div v-if="routeType === 'sign' && handleTaskDetail && handleTaskDetail.ordProductDtoList">
         <sign-handle :handleTaskDetail="handleTaskDetail"
           :premissionDenied="premissionDenied"
           :processCompleteStatus="processCompleteStatus"
@@ -32,7 +31,7 @@
           :id="id" />
       </div>
 
-      <div v-if="routeType === 'pay' && handiveTaskDetail && handiveTaskDetail.ordProductDtoList">
+      <div v-if="routeType === 'pay' && handleTaskDetail && handleTaskDetail.ordProductDtoList">
         <pay-handle :handleTaskDetail="handleTaskDetail"
           :premissionDenied="premissionDenied"
           :operatorId="operatorId"
@@ -89,7 +88,7 @@ export default {
   },
   computed: {
     ...mapState({
-      handleTaskDetail: ({ order }) => order.handleTaskDetail[0],
+      handleTaskDetail: ({ order }) => order.handleTaskDetail,
       processList: ({ order }) => order.processList,
       hasSignedFile: ({ order }) => order.hasSignedFile,
       lastProcessInfo: ({ order }) => order.lastProcessInfo,
