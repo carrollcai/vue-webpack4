@@ -207,6 +207,7 @@ export default {
       this.query();
     },
     query() {
+      this.downloadForm.pageNo = '1';
       let { ...data } = this.downloadForm;
       if (data.extractBusinessStatus === '0') {
         data.extractBusinessStatus = null;
