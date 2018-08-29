@@ -42,7 +42,7 @@ export default {
   methods: {
     circlePercent() {
       const { type, retentionLossUser } = this;
-      let percent = !type ? parseInt(retentionLossUser.dropoutRate * 100) : parseInt(retentionLossUser.retainRate * 100);
+      let percent = !type ? parseInt(retentionLossUser.retainRate * 100) : parseInt(retentionLossUser.dropoutRate * 100);
       return percent | 0;
     }
   }

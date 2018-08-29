@@ -66,10 +66,10 @@
           </el-select> -->
         </el-form-item>
         <el-form-item label="走访内容：" label-width="140px" prop="visitContent">
-          <el-input maxlength="500" v-model="createVisitFrom.visitContent" type="textarea" class="form-input-large" placeholder="请输入走访内容" />
+          <el-input :maxlength="500" v-model="createVisitFrom.visitContent" type="textarea" class="form-input-large" placeholder="请输入走访内容" />
         </el-form-item>
         <el-form-item label="问题协调：" label-width="140px" prop="problemCoordinate">
-          <el-input maxlength="500" v-model="createVisitFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
+          <el-input :maxlength="500" v-model="createVisitFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
         </el-form-item>
         <el-form-item label="是否首客走访：" label-width="140px" required prop="isFirstVisit">
           <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
