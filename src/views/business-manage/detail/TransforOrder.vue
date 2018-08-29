@@ -128,7 +128,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
-import { checkPhone, emailCheck, inte5Deci4, checkLeftRightSpace } from '@/utils/rules.js';
+import { checkPhone, emailCheck, inte8Deci2, checkLeftRightSpace } from '@/utils/rules.js';
 
 import filters from '@/views/business-manage/filters';
 import productItem from 'components/order/create/productItem.vue';
@@ -193,7 +193,7 @@ export default {
         ],
         predictRevenue: [
           { required: true, message: '请输入预计收入', trigger: 'blur' },
-          { validator: inte5Deci4, trigger: ['blur', 'change'] }
+          { validator: inte8Deci2, trigger: ['blur', 'change'] }
         ],
         predictSignTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }

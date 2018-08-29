@@ -154,7 +154,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
 import productItem from 'components/order/create/productItem.vue';
-import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte5Deci4, textAccountLimit } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte8Deci2, textAccountLimit } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -182,8 +182,8 @@ export default {
           { validator: textAccountLimit, trigger: 'blur' }
         ],
         predictRevenue: [
-          { required: true, message: '请输入预定合同金额', trigger: 'blur' },
-          { validator: inte5Deci4, trigger: 'blur' }
+          // { required: true, message: '请输入预定合同金额', trigger: 'blur' },
+          { validator: inte8Deci2, trigger: 'blur' }
         ],
         predictSignTime: [
           { required: true, message: '请输入预定签约时间', trigger: 'blur' }
