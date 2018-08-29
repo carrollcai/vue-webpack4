@@ -246,7 +246,7 @@ export default {
     relOpporValue(element) {
       this.registerList.filter((item, index, array) => {
         if (item.opporCode === element.value) {
-          this.createVisitFrom.relOpporId = item.opporId;
+          this.editVisitFromHandle.relOpporId = item.opporId;
         }
       });
     },
@@ -314,9 +314,13 @@ export default {
       delete params.isSubmit;
       delete params.visitTime;
       delete params.timeRange;
-      this.$refs.visitRef.validate((valid) => {
+      this.$refs.visitEditRef.validate((valid) => {
         if (valid) {
-          this.addApproveVisit(params);
+          this.$refs.visitRef.validate((valids) => {
+            if (valids) {
+              this.addApproveVisit(params);
+            }
+          });
         }
       });
     },
