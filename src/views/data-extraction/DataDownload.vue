@@ -40,7 +40,7 @@
   <div class="m-container table-container">
     <wm-table v-if="dataDownloadList && dataDownloadList.list"
       :source="dataDownloadList.list"
-      :total="dataDownloadList.total"
+      :total="dataDownloadList.totalCount"
       :pageNo="downloadForm.pageNo"
       :pageSize="downloadForm.pageSize"
       @onPagination="onPagination"

@@ -33,7 +33,7 @@
 <div class="m-container table-container">
   <wm-table v-if="dataAuditList && dataAuditList.list"
     :source="dataAuditList.list"
-    :total="dataAuditList.list.length"
+    :total="dataAuditList.totalCount"
     :pageNo="auditForm.pageNo"
     :pageSize="auditForm.pageSize"
     @onPagination="onPagination"

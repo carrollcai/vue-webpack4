@@ -162,7 +162,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { checkPhone, emailCheck, checkLeftRightSpace, fileValidLen } from '@/utils/rules.js';
+import { checkPhone, emailCheck, checkLeftRightSpace, textAccountLimit, fileValidLen } from '@/utils/rules.js';
 import filters from '@/views/business-manage/filters';
 import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
@@ -222,7 +222,7 @@ export default {
       rules: {
         opporName: [
           { required: true, message: '请输入商机名称', trigger: 'blur' },
-          { validator: checkLeftRightSpace, trigger: 'blur' }
+          { validator: textAccountLimit, trigger: 'blur' }
         ],
         opporType: [
           { required: true, message: '请选择商机类别', trigger: ['blur', 'change'] }
@@ -247,7 +247,7 @@ export default {
           { validator: checkPhone, trigger: 'blur' }
         ],
         contactEmail: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' },
+          { message: '请输入电子邮箱', trigger: 'blur' },
           { validator: emailCheck, trigger: 'blur' }
         ],
         busiDesc: [
