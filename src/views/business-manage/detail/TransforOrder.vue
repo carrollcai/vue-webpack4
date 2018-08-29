@@ -23,7 +23,7 @@
     <div class="order-container">
       <el-form :rules="rules" ref="transForm" :model="orderData" label-width="140px">
         <el-form-item label="订单名称：" prop="ordName">
-          <el-input maxlength="30" v-model="orderData.ordName" class="form-input-medium" placeholder="请输入订单名称">
+          <el-input :maxlength="25" v-model="orderData.ordName" class="form-input-medium" placeholder="请输入订单名称">
           </el-input>
         </el-form-item>
         <!-- <el-form-item label="订购产品：" prop="productName">
