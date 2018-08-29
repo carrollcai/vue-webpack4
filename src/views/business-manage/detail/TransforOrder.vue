@@ -100,7 +100,7 @@
           <el-input maxlength="500" v-model="orderData.busiDesc" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述"></el-input>
         </el-form-item>
         <el-form-item label="合作方案：" prop="teamProject">
-          <el-input type="textarea" class="form-input-large" v-model="orderData.teamProject" placeholder="请输入合作方案" />
+          <el-input type="textarea" class="form-input-large" :maxlength="500" v-model="orderData.teamProject" placeholder="请输入合作方案" />
         </el-form-item>
         <el-form-item label="预计收入" prop="predictRevenue">
           <el-input v-model="orderData.predictRevenue" class="form-input-medium" placeholder="请输入预计收入">

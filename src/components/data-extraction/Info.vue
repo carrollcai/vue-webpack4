@@ -7,7 +7,7 @@
       <li><span>用户类型：</span>{{activeData}}</li>
       <li><span>客户端：</span><label>{{infoData.clientType}}</label></li>
       <li><span>用户信息：</span><label>{{userInfoData}}</label></li>
-      <li><span>地址：</span>{{infoData.productType}}</li>
+      <li><span>省份选择：</span>{{infoData.area}}</li>
     </ul>
     <h3>数据明细设置</h3>
     <ul class="b-i-list">
