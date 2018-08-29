@@ -24,9 +24,9 @@
       </el-form-item>
     </div>
   </el-form>
-  <el-tabs v-model="auditForm.taskHasComplete" @tab-click="getState">
-    <el-tab-pane label="待审核" :name="0" :value="0"></el-tab-pane>
-    <el-tab-pane label="已审核" :name="1" :value="1"></el-tab-pane>
+  <el-tabs :value="auditForm.taskHasComplete" @tab-click="getState">
+    <el-tab-pane label="待审核" name="0"></el-tab-pane>
+    <el-tab-pane label="已审核" name="1"></el-tab-pane>
   </el-tabs>
 </div>
 <div class="m-container table-container">
@@ -121,7 +121,7 @@ export default {
       }
     },
     getState(e) {
-      this.auditForm.taskHasComplete = Number(e.$attrs.value);
+      this.auditForm.taskHasComplete = e.name;
       this.auditForm.pageNo = this.pageNo;
       this.auditForm.pageSize = this.pageSize;
       this.query();
