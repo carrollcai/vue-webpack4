@@ -74,8 +74,8 @@ export default {
           { validator: noTextareaLimit, trigger: 'blur' }
         ],
         problemCoordinate: [
-          { message: '请输入问题协调', trigger: ['change', 'blur'] },
-          { validator: noTextareaMaxLimit, trigger: 'blur' }
+          { message: '请输入问题协调', trigger: 'blur' },
+          { validator: textareaMaxLimit, trigger: 'blur' }
         ],
         isFirstVisit: [
           { required: true, message: '请选择是否首课走访', trigger: 'change' }
