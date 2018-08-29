@@ -70,7 +70,11 @@ export default {
           } else {
             obj.taskName = statusName;
             obj.hasComplete = 1;
-            obj.hasCompleteName = '已完成';
+            if (status === 3) {
+              obj.hasCompleteName = '数据生成中需要一段时间，请耐心等待生成后会短信通知您！';
+            } else {
+              obj.hasCompleteName = '已完成';
+            }
             obj.businessStatus = '已处理';
           }
         }
