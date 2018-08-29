@@ -1,84 +1,141 @@
 <template>
   <div>
     <div class="m-container">
-      <el-form class="form-manage" ref="orderCreateManage" :rules="orderCreateManageRules" :model="orderCreateManageForm">
+      <el-form class="form-manage"
+        ref="orderCreateManage"
+        :rules="orderCreateManageRules"
+        :model="orderCreateManageForm">
         <div class="flex">
           <el-form-item prop="date">
-            <el-date-picker v-model="orderCreateManageForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
+            <el-date-picker v-model="orderCreateManageForm.date"
+              type="daterange"
+              start-placeholder="创建开始日期"
+              end-placeholder="创建结束日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderCreateManageForm.ordNameOrCode" placeholder="订单编号/名称" />
+            <el-input clearable
+              v-model="orderCreateManageForm.ordNameOrCode"
+              placeholder="订单编号/名称" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderCreateManageForm.organizeNameOrCode" placeholder="合作集团/编码" />
+            <el-input clearable
+              v-model="orderCreateManageForm.organizeNameOrCode"
+              placeholder="合作集团/编码" />
           </el-form-item>
         </div>
         <div class="flex">
           <el-form-item class="form-left-width">
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary"
+              @click="query">查询</el-button>
           </el-form-item>
           <el-form-item class="form-left-width">
-            <el-button class="el-button--have-icon" @click.prevent="handleCreate" icon="el-icon-plus">新建订单</el-button>
+            <el-button class="el-button--have-icon"
+              @click.prevent="handleCreate"
+              icon="el-icon-plus">新建订单</el-button>
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="orderCreateManageForm.ordStatus" @tab-click="tabChange">
-        <el-tab-pane label="全部" :name="0"></el-tab-pane>
-        <el-tab-pane label="草稿" :name="1"></el-tab-pane>
-        <el-tab-pane label="待签约" :name="2"></el-tab-pane>
-        <el-tab-pane label="待付款" :name="3"></el-tab-pane>
-        <el-tab-pane label="已完成" :name="4"></el-tab-pane>
-        <el-tab-pane label="已取消" :name="5"></el-tab-pane>
+      <el-tabs v-model="orderCreateManageForm.ordStatus"
+        @tab-click="tabChange">
+        <el-tab-pane label="全部"
+          :name="0"></el-tab-pane>
+        <el-tab-pane label="草稿"
+          :name="1"></el-tab-pane>
+        <el-tab-pane label="待签约"
+          :name="2"></el-tab-pane>
+        <el-tab-pane label="待付款"
+          :name="3"></el-tab-pane>
+        <el-tab-pane label="已完成"
+          :name="4"></el-tab-pane>
+        <el-tab-pane label="已取消"
+          :name="5"></el-tab-pane>
       </el-tabs>
     </div>
 
     <div class="m-container table-container">
-      <wm-table :source="orderCreateManageObj.list" :pageNo="orderCreateManageForm.pageNo" :pageSize="orderCreateManageForm.pageSize" :total="orderCreateManageObj.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="订单编号" property="ordCode" />
-        <el-table-column label="订单名称" property="ordName" />
-        <el-table-column label="创建时间" property="createDate" />
-        <el-table-column label="合作集团" property="organizeName">
+      <wm-table :source="orderCreateManageObj.list"
+        :pageNo="orderCreateManageForm.pageNo"
+        :pageSize="orderCreateManageForm.pageSize"
+        :total="orderCreateManageObj.totalCount"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="订单编号"
+          property="ordCode" />
+        <el-table-column label="订单名称"
+          property="ordName" />
+        <el-table-column label="创建时间"
+          property="createDate" />
+        <el-table-column label="合作集团"
+          property="organizeName">
           <template slot-scope="scope">
             <div>
               {{scope.row.organizeName}}
-              <el-popover v-model="scope.row.dialogVisible" v-if="!scope.row.organizeId" placement="bottom" width="256" trigger="click" @show="resetOrganizeInfo">
+              <el-popover v-model="scope.row.dialogVisible"
+                v-if="!scope.row.organizeId"
+                placement="bottom"
+                width="256"
+                trigger="click"
+                @show="resetOrganizeInfo">
                 <div class="o-popover-title">
                   系统暂未录入该集团，请尽快关联已录入集团！
                 </div>
-                <el-form style="margin-top: 16px;" ref="organizeNameInfo" :rules="organizeNameInfoRules" :model="organizeNameInfo">
-                  <el-form-item class="margin-bottom-16" prop="organizeName">
-                    <el-autocomplete :maxLength="25" class="form-input-medium" v-model="organizeNameInfo.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>
+                <el-form style="margin-top: 16px;"
+                  ref="organizeNameInfo"
+                  :rules="organizeNameInfoRules"
+                  :model="organizeNameInfo">
+                  <el-form-item class="margin-bottom-16"
+                    prop="organizeName">
+                    <el-autocomplete :maxLength="25"
+                      class="form-input-medium"
+                      v-model="organizeNameInfo.organizeName"
+                      :fetch-suggestions="querySearchAsync"
+                      placeholder="合作集团/编码"
+                      @select="handleSelect"></el-autocomplete>
                   </el-form-item>
-                  <el-form-item class="margin-bottom-16" prop="organizeName">
-                    <el-button type="primary" @click="connectOrganize(scope.row)">确 定</el-button>
+                  <el-form-item class="margin-bottom-16"
+                    prop="organizeName">
+                    <el-button type="primary"
+                      @click="connectOrganize(scope.row)">确 定</el-button>
                     <el-button @click="scope.row.dialogVisible = false">取 消</el-button>
                   </el-form-item>
                 </el-form>
-                <i slot="reference" class="el-icon-info"></i>
+                <i slot="reference"
+                  class="el-icon-info"></i>
               </el-popover>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="联系人" property="contactName" />
-        <!-- <el-table-column label="订单状态">
+        <el-table-column label="联系人"
+          property="contactName" />
+        <el-table-column label="订购产品及状态">
           <template slot-scope="scope">
-            {{orderStatus[scope.row.ordStatus]}}
+            <p v-for="item in scope.row.ordProductDtoList"
+              :key="item">
+              <b>{{item.ordStatusName}}</b>{{item.productName ? '：' + item.productName : ''}}</p>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-dropdown class="table-more-btn" v-if="scope.row.ordStatus === 1" @command="handleCommand(scope.row, $event)">
+            <el-dropdown class="table-more-btn"
+              v-if="scope.row.ordStatus === 1"
+              @command="handleCommand(scope.row, $event)">
               <span class="el-dropdown-link">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
+                更多
+                <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item class="el-dropdown-link" command="submit">提交</el-dropdown-item>
-                <el-dropdown-item class="el-dropdown-link" command="edit">修改</el-dropdown-item>
-                <el-dropdown-item class="el-dropdown-link" command="delete">删除</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link"
+                  command="submit">提交</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link"
+                  command="edit">修改</el-dropdown-item>
+                <el-dropdown-item class="el-dropdown-link"
+                  command="delete">删除</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </template>
