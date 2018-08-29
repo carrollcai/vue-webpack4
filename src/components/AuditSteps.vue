@@ -72,7 +72,7 @@ export default {
   },
   data() {
     return {
-      hasSignStatus: 5
+      hasSignStatus: 2
     };
   },
   methods: {
