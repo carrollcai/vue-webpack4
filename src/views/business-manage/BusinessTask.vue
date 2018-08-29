@@ -64,9 +64,9 @@
     </div>
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
-        <el-form-item  label="指派处理人：" prop="assignHandlers">
-          <el-cascader style="width: 392px;" v-if="assignHandlers"
-            :options="assignHandlers"
+        <el-form-item  label="指派处理人：" prop="remindPerson">
+          <el-cascader style="width: 392px;" v-if="remindPerson"
+            :options="remindPerson"
             v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
@@ -113,8 +113,7 @@ export default {
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       businessTaskForm: ({ business }) => business.businessTaskForm,
       businessTaskList: ({ business }) => business.businessTaskList,
-      remindPerson: ({business}) => business.remindPerson,
-      assignHandlers: ({ order }) => order.assignHandlers
+      remindPerson: ({business}) => business.remindPerson
     })
   },
   data() {
@@ -159,6 +158,7 @@ export default {
     //   _params.opporStatus = '';
     // }
     this.getBusinessTaskList(_params);
+    this.getRemindPerson({});
     // const params = this.businessTaskForm;
     // params.taskHasComplete = this.status;
     // this.getBusinessTaskList(params);
@@ -199,12 +199,15 @@ export default {
     },
     // 点击分派
     handleSend(row) {
+      this.remindPerson = [];
+      this.sendForm.person = [];
+      this.sendForm.reason = '';
       this.sendDialogVisible = true;
       this.sendParam.taskInsId = row.taskInsId;
       this.sendParam.resultStatus = '0';
       this.sendParam.id = row.opporId;
       // 初始化输入框内容部数据
-      this.getAssignhandler();
+      this.getRemindPerson();
     },
     // 点击作废
     handleCancel(row) {
@@ -218,20 +221,20 @@ export default {
     // 分派取消
     sendCancel() {
       this.sendDialogVisible = false;
-      this.sendForm.person = '';
+      this.sendForm.person = [];
       this.sendForm.reason = '';
     },
     // 分派确定
     sendConfirm() {
       let params = this.sendParam;
-      if (this.sendForm.person !== '') {
+      if (this.sendForm.person && this.sendForm.person.length > 0) {
         if (this.sendForm.reason.trim() !== '') {
           params.dealPerson = this.sendForm.person[this.sendForm.person.length - 1];
           params.dealResult = this.sendForm.reason.trim();
           this.submitBusinessSend(params).then(res => {
             if (res.data) {
               this.sendDialogVisible = false;
-              this.sendForm.person = '';
+              this.sendForm.person = [];
               this.sendForm.reason = '';
               this.$message({ showClose: true, message: '您已成功分派！', type: 'success' });
               this.query();
@@ -319,7 +322,11 @@ export default {
     handleChange(value) {
     },
     ...mapActions([
-      'getCooperationGroupList', 'getBusinessTaskList', 'getRemindPerson', 'submitBusinessSend', 'submitBusinessCancel', 'getAssignhandler'
+      'getCooperationGroupList',
+      'getBusinessTaskList',
+      'getRemindPerson',
+      'submitBusinessSend',
+      'submitBusinessCancel'
     ])
   }
 };

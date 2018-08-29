@@ -204,6 +204,19 @@ export const inte8Deci2 = (rule, value, callback) => {
     callback(new Error('整数部分最多8位，小数部分最多2位'));
   }
 };
+export const nointe8Deci2 = (rule, value, callback) => {
+  const reg = /^\d{1,8}(?:\.\d{1,2})?$/;
+  let flag = !value ? '0' : '1';
+  if (flag === '1') {
+    if (String(value).trim() === '' || value === null) {
+      // callback();
+    } else if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
+      callback();
+    } else {
+      callback(new Error('整数部分最多8位，小数部分最多2位'));
+    }
+  }
+};
 
 // 多文件校验
 export const multFileValid = (files, callback) => {

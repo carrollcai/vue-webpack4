@@ -35,8 +35,8 @@
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
       <el-form ref="form" :model="sendForm">
         <el-form-item label="指派处理人：" prop="">
-          <el-cascader style="width: 392px;" v-if="assignHandlers"
-            :options="assignHandlers"
+          <el-cascader style="width: 392px;" v-if="remindPerson"
+            :options="remindPerson"
             v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
@@ -112,7 +112,7 @@ export default {
       businessDetail: ({ business }) => business.businessDetail,
       designatePerson: ({business}) => business.designatePerson,
       queryTask: ({business}) => business.queryTask,
-      assignHandlers: ({ order }) => order.assignHandlers
+      remindPerson: ({business}) => business.remindPerson
     })
   },
   methods: {
@@ -136,12 +136,14 @@ export default {
     },
     // 点击分派
     handleSend(row) {
+      this.remindPerson = [];
+      this.sendForm.person = [];
       this.sendDialogVisible = true;
       this.sendParam.taskInsId = this.$route.params.taskInsId;
       this.sendParam.resultStatus = '0';
       this.sendParam.id = this.$route.params.opporId;
       // 初始化输入框内容部数据
-      this.getAssignhandler();
+      this.getRemindPerson({});
     },
     // 点击作废
     handleCancel(row) {
@@ -211,7 +213,13 @@ export default {
       }
     },
     ...mapActions([
-      'getBusinessDetail', 'queryElec', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft', 'getQueryTask', 'getAssignhandler'
+      'getBusinessDetail',
+      'queryElec',
+      'getDesignatePerson',
+      'submitBusinessSend',
+      'submitBusinessCancel',
+      'submitBusinessDraft',
+      'getQueryTask'
     ])
   }
 };
