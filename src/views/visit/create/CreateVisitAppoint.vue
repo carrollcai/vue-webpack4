@@ -30,8 +30,8 @@
           </el-form-item>
         </el-form-item>
         <!-- <div class="hr"></div> -->
-        <el-form-item label="指派走访人：">
-          <el-form-item class="visit-linkage" prop="visitAuditor">
+        <el-form-item label="指派走访人：" required>
+          <el-form-item class="visit-linkage">
             <multilevelLinkage
               :listData.sync="getProcessorList"
               :storeData.sync="createAppointFrom.regionData">
@@ -154,6 +154,13 @@ export default {
       }, 1000);
     }, */
     submitVisitApplication() {
+      if (this.getProcessorList && this.getProcessorList.length) {
+        let region = this.createAppointFrom.regionData.regionList;
+        if (region && region.length <= 0) {
+          this.$message({ showClose: true, message: '请选择指派人', type: 'info' });
+          return false;
+        }
+      }
       this.createAppointFrom.processor = this.createAppointFrom.regionData.processor;
       let { visitTime, timeRange, ...params } = this.createAppointFrom;
       this.$refs.visitRef.validate((valid) => {
