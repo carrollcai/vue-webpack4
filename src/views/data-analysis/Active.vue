@@ -105,22 +105,7 @@ export default {
      * 活跃度趋势分析 改变类型
      */
     handleChangeType(val) {
-      const {isProvince, isDistrict, isWholeCountry} = this;
-      let type = types.ACTIVE_UPDATE_PROVINCE_TREND;
-
-      if (isProvince()) {
-        type = types.ACTIVE_UPDATE_PROVINCE_TREND;
-      }
-
-      if (isDistrict()) {
-        type = types.ACTIVE_UPDATE_DISTRICT_TREND;
-      }
-
-      if (isWholeCountry()) {
-        type = types.ACTIVE_UPDATE_COUNTRY_TREND;
-      }
-
-      this.$store.commit(type, val);
+      this.$store.commit(types.ACTIVE_UPDATE_TREND, val);
     },
     ...mapActions([
       'getDailyActiveUser',
