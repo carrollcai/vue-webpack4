@@ -37,6 +37,11 @@ export default {
     this.queryProcessor({});
   },
   methods: {
+    handleChangeCities(val) {
+      if (val) {
+        this.applyFrom.userInfo = [];
+      }
+    },
     getServiceTime(value) {
       if (value === '不显示') {
         this.submitData.serviceTime = '0';
@@ -105,7 +110,6 @@ export default {
       return obj;
     },
     onSubmit() {
-      debugger;
       if (this.processorList && this.processorList.length) {
         if (this.regionData.regionList && this.regionData.regionList.length <= 0) {
           this.$message({ showClose: true, message: '请选择地区', type: 'info' });

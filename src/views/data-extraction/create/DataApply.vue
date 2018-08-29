@@ -21,7 +21,7 @@
               :storeData.sync="regionData">
             </multilevelLinkage>
             <el-form-item style="margin-left: 26px;">
-              <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
+              <el-checkbox v-model="restrictedCity" @change="handleChangeCities" label="地市"></el-checkbox>
             </el-form-item>
           </div>
         </el-form-item>
@@ -42,7 +42,7 @@
               </el-option>
             </el-select>
             <el-form-item style="margin-left: 26px;">
-              <el-checkbox v-model="restrictedCity" label="地市"></el-checkbox>
+              <el-checkbox v-model="restrictedCity" @change="handleChangeCities" label="地市"></el-checkbox>
             </el-form-item>
           </div>
         </el-form-item>
