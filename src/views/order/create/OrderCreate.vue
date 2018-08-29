@@ -140,14 +140,14 @@
               :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="项目是否招标："
+        <!-- <el-form-item label="项目是否招标："
           prop="isProjectInvitation"
           required>
           <el-radio v-model="orderCreate.isProjectInvitation"
             :label="item.value"
             v-for="(item, i) in projectInvitationStatic"
             :key="i">{{item.label}}</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary"
             @click="submitForm(true)">提交</el-button>
