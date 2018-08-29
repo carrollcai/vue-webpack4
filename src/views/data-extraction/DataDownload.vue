@@ -4,11 +4,12 @@
     <el-form class="form-manage" ref="downloadForm" v-model="downloadForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="downloadForm.timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker clearable v-model="downloadForm.timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
           <el-autocomplete class="form-input-half"
+            clearable
             v-model="downloadForm.name"
             :fetch-suggestions="querySearchAsync"
             placeholder="任务名称"
@@ -42,11 +43,10 @@
       :total="dataDownloadList.total"
       :pageNo="downloadForm.pageNo"
       :pageSize="downloadForm.pageSize"
-      :defaultSort = "{prop: 'insertdate', order: 'descending'}"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" show-overflow-tooltip property="name" />
-      <el-table-column label="提交时间" sortable property="createTime" width="210" />
+      <el-table-column label="提交时间" property="createTime" width="210" />
       <el-table-column label="审核状态" property="extractBusinessStatusName" width="210">
         <template slot-scope="scope">
           {{scope.row.extractBusinessStatusName}}

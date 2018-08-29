@@ -4,16 +4,17 @@
   <el-form class="form-manage" v-model="auditForm">
     <div class="flex">
       <el-form-item>
-        <el-date-picker v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker clearable v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
-        <el-input v-model="auditForm.staffName" placeholder="请输入提交人" />
+        <el-input clearable v-model="auditForm.staffName" placeholder="请输入提交人" />
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
         <el-autocomplete class="form-input-half"
           v-model="auditForm.name"
           :fetch-suggestions="querySearchAsync"
+          clearable
           placeholder="任务名称"
           :trigger-on-focus="false" />
       </el-form-item>
@@ -35,11 +36,10 @@
     :total="dataAuditList.list.length"
     :pageNo="auditForm.pageNo"
     :pageSize="auditForm.pageSize"
-    :defaultSort = "{prop: 'insertdate', order: 'descending'}"
     @onPagination="onPagination"
     @onSizePagination="onSizePagination">
     <el-table-column label="任务名称" show-overflow-tooltip property="name" />
-    <el-table-column label="提交时间" sortable property="createTime" width="180" />
+    <el-table-column label="提交时间" property="createTime" width="180" />
     <el-table-column label="提交人" property="staffName" width="170" />
     <el-table-column label="用户归属" property="opRegion" width="180"/>
     <el-table-column label="操作" width="200">
