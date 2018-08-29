@@ -46,7 +46,7 @@
     <el-table-column label="操作" width="200">
       <template slot-scope="scope">
         <el-button v-if="scope.row.businessStatus === '1'" class="table-button" type="text" @click="toAudit(scope.row)">去审核</el-button>
-        <el-button v-if="scope.row.businessStatus === '2'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
+        <el-button class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
       </template>
     </el-table-column>
   </wm-table>
