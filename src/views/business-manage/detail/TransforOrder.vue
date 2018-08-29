@@ -81,20 +81,7 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="订购产品：" required>
-        <div class="tTable">
-          <div class="tHead">
-            <div style="min-width: 140px;">订购产品</div>
-            <div>订购数量</div>
-            <div>处理人</div>
-            <div>操作</div>
-          </div>
-          <div class="tBody">
-            <productItem></productItem>
-          </div>
-          <div class="add blue">
-            <span @click="addList"><i class="el-icon-plus"></i>增加一条</span>
-          </div>
-        </div>
+          <productItem ref="productItemRef" />
         </el-form-item>
         <el-form-item label="业务描述：" prop="busiDesc">
           <el-input maxlength="500" v-model="orderData.busiDesc" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述"></el-input>
@@ -126,10 +113,10 @@
         <el-form-item label="需要协调的问题：">
           <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="orderData.needCoordinationIssue"></el-input>
         </el-form-item>-->
-        <!-- <el-form-item label="项目是否招标：" prop="isProjectInvitation">
+        <el-form-item label="项目是否招标：" prop="isProjectInvitation">
           <el-radio v-model="orderData.isProjectInvitation" label="1">是</el-radio>
           <el-radio v-model="orderData.isProjectInvitation" label="0">否</el-radio>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submit">提交</el-button>
           <el-button @click="cancel" plain>取消</el-button>
@@ -140,11 +127,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { checkPhone, emailCheck, inte5Deci4, checkLeftRightSpace } from '@/utils/rules.js';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import { checkPhone, emailCheck, inte8Deci2, checkLeftRightSpace } from '@/utils/rules.js';
 
 import filters from '@/views/business-manage/filters';
-import productItem from './productItem.vue';
+import productItem from 'components/order/create/productItem.vue';
 export default {
   mixins: [filters],
   components: {
@@ -206,7 +193,7 @@ export default {
         ],
         predictRevenue: [
           { required: true, message: '请输入预计收入', trigger: 'blur' },
-          { validator: inte5Deci4, trigger: ['blur', 'change'] }
+          { validator: inte8Deci2, trigger: ['blur', 'change'] }
         ],
         predictSignTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
@@ -248,28 +235,18 @@ export default {
       return this.$store.getters.transforOrderDetail;
     },
     ...mapState({
-      toOrderCreate: ({ business }) => business.toOrderCreate,
+      orderCreate: ({ order }) => order.orderCreate,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       transforOrderDetail: ({ business }) => business.transforOrderDetail,
       businessDetail: ({business}) => business.businessDetail,
       productNameCode: ({business}) => business.productNameCode
     })
   },
+  beforeDestroy() {
+    // 组件注销的时候，需要清空表单数据
+    this.clearOrderCreate();
+  },
   methods: {
-    addList() {
-      let proList = this.toOrderCreate.orderProductDtoList;
-      let l = proList.length - 1;
-      if (proList[l].productName === '' || proList[l].processor === '' || proList[l].amount === '') {
-        this.$message({ showClose: true, message: '请先填写完整在新增!', type: 'info' });
-        return false;
-      }
-      proList.push({
-        productName: this.toOrderCreate.productName,
-        amount: this.toOrderCreate.amount,
-        processor: this.toOrderCreate.processor,
-        productId: this.toOrderCreate.productId
-      });
-    },
     async querySearchAsync(queryString, cb) {
       this.noData = false;
       if (!queryString) return false;
@@ -318,9 +295,14 @@ export default {
       };
     },
     handleSelect(item) {
-      this.businessData.organizeId = item.organizeId;
+      this.updateOrderCreate({ address: item.orgAddress });
     },
     submit() {
+      this.orderData.orderProductDtoList = this.orderCreate.orderProductDtoList.filter(item => {
+        delete item.processorData;
+        delete item.productHandlers;
+        return item;
+      });
       const params = this.orderData;
       delete params.opporProcessor;
       delete params.opporAssignReason;
@@ -328,12 +310,7 @@ export default {
       delete params.predictContractAmount;
       delete params.productName;
       delete params.productId;
-      params.orderProductDtoList = this.toOrderCreate.orderProductDtoList.filter(item => {
-        delete item.processorData;
-        return item;
-      });
       params.taskInsId = this.$route.params.taskInsId;
-      console.log(params);
       this.$refs['transForm'].validate(valid => {
         if (!valid) return false;
         this.saveBusinessOrder(params).then(res => {
@@ -350,8 +327,16 @@ export default {
       const path = `/business-manage/business-task`;
       this.$router.push(path);
     },
+    ...mapMutations({
+      updateOrderCreate: 'ORDER_UPDATE_CREATE',
+      clearOrderCreate: 'ORDER_CREATE'
+    }),
     ...mapActions([
-      'getTransforOrderDetail', 'getCooperationGroupList', 'getBusinessDetail', 'saveBusinessOrder', 'getProductNameCode'
+      'getTransforOrderDetail',
+      'getCooperationGroupList',
+      'getBusinessDetail',
+      'saveBusinessOrder',
+      'getProductNameCode'
     ])
   }
 };

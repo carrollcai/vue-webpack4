@@ -16,28 +16,8 @@
         <detail-content v-if="orderOverviewDetail && Object.keys(orderOverviewDetail).length"
           :orderOverviewDetail="orderOverviewDetail" />
       </div>
-
-      <order-product-list :processList="processList" />
-      <!-- <div class="p-table"
-        v-if="processList.length">
-        <dl class="tHead">
-          <dt class="tH01">订购产品</dt>
-          <dd class="tH02">订单状态</dd>
-        </dl>
-        <dl class="tTr"
-          v-for="(item, index) in processList"
-          :key="index">
-          <dt class="tH01">{{item.productName}}</dt>
-          <dd class="tH02"
-            v-if="premissionDenied(item)">
-            <audit-steps v-if="item.list && item.list.length"
-              background-color="#fff"
-              :processList="item.list" />
-          </dd>
-          <dd class="tH02 p-table-denied"
-            v-if="!premissionDenied(item)">您暂无权限处理~</dd>
-        </dl>
-      </div> -->
+      <order-product-list :processList="processList"
+        :isShowAll="true" />
     </div>
   </div>
 </template>
@@ -45,7 +25,7 @@
 <script>
 import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
-import OrderProductList from 'components/order/OrderProductList.vue';
+import OrderProductList from 'components/order/detail/OrderProductList.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
@@ -61,7 +41,7 @@ export default {
   },
   computed: {
     ...mapState({
-      orderOverviewDetail: ({ order }) => order.orderOverviewDetail[0],
+      orderOverviewDetail: ({ order }) => order.orderOverviewDetail,
       processList: ({ order }) => order.processList,
       // opRegion: ({ root }) => root.currentUser.operator.opRegion,
     })

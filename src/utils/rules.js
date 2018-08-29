@@ -4,16 +4,17 @@
  */
 
 import {
-  INPUT_NUM_MAX,
+  INPUT_BIG_WORD_MAX,
   DATE_LIMIT,
   MONTH_LIMIT,
   INPUT_TEXT_LIMIT,
   INPUT_ACCOUNT_LIMIT,
   INPUT_TEXTAREA_LIMIT,
-  FILE_UPLOAD_LIMIT,
+  FILE_MAX_COUNT,
   INPUT_TEXTAREA_MAX_LIMIT,
   EMAIL_MAX_LENGTH,
-  INPUT_LENGTH_TWENTY
+  INPUT_LENGTH_TWENTY,
+  INPUT_NUMBER_LIMIT,
 } from '@/config/index.js';
 import moment from 'moment';
 
@@ -39,8 +40,12 @@ export const isNonnegative = (rule, value, callback) => {
 // 正整数，需要先经过非空检验（isEmpty）
 export const isPositive = (rule, value, callback) => {
   const reg = /^[1-9]\d*$/;
-  if (reg.test(value)) {
+  if (value === '' || value === null) {
     callback();
+  } else if (reg.test(value)) {
+    callback();
+  } else if (value > INPUT_NUMBER_LIMIT) {
+    callback(new Error(`不得超过${INPUT_NUMBER_LIMIT}`));
   } else {
     callback(new Error('请输入正确数字类型'));
   }
@@ -48,8 +53,8 @@ export const isPositive = (rule, value, callback) => {
 
 // 最大数量校验
 export const maxLimit = (rule, value, callback) => {
-  if (Number(value) > INPUT_NUM_MAX) {
-    callback(new Error(`输入内容不能超过${INPUT_NUM_MAX}`));
+  if (Number(value) > INPUT_BIG_WORD_MAX) {
+    callback(new Error(`输入内容不能超过${INPUT_BIG_WORD_MAX}`));
   } else {
     callback();
   }
@@ -188,13 +193,15 @@ export const emailCheck = (rule, value, callback) => {
   }
 };
 
-// 整数部分最多5位，小数部分最多4位
-export const inte5Deci4 = (rule, value, callback) => {
-  const reg = /^\d{1,5}(?:\.\d{1,4})?$/;
-  if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
+// 整数部分最多8位，小数部分最多2位
+export const inte8Deci2 = (rule, value, callback) => {
+  const reg = /^\d{1,8}(?:\.\d{1,2})?$/;
+  if (String(value).trim() === '' || value === null) {
+    callback();
+  } else if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
     callback();
   } else {
-    callback(new Error('整数部分最多5位，小数部分最多4位'));
+    callback(new Error('整数部分最多8位，小数部分最多2位'));
   }
 };
 
@@ -202,8 +209,8 @@ export const inte5Deci4 = (rule, value, callback) => {
 export const multFileValid = (files, callback) => {
   if (!files.length) {
     callback(new Error('请上传文件'));
-  } else if (files.length > FILE_UPLOAD_LIMIT) {
-    callback(new Error(`文件上传数量不能超过${FILE_UPLOAD_LIMIT}个`));
+  } else if (files.length > FILE_MAX_COUNT) {
+    callback(new Error(`文件上传数量不能超过${FILE_MAX_COUNT}个`));
   } else {
     callback();
   }
@@ -211,8 +218,8 @@ export const multFileValid = (files, callback) => {
 
 // 非必填
 export const fileValidLen = (files, callback) => {
-  if (files.length && files.length > FILE_UPLOAD_LIMIT) {
-    callback(new Error(`文件上传数量不能超过${FILE_UPLOAD_LIMIT}个`));
+  if (files.length && files.length > FILE_MAX_COUNT) {
+    callback(new Error(`文件上传数量不能超过${FILE_MAX_COUNT}个`));
   } else {
     callback();
   }

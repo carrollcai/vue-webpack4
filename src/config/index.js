@@ -320,15 +320,15 @@ export const RETENTION_TREND_RADIO_PORPERTY = {
 // 时间限制
 export const DATE_LIMIT = 30;
 export const MONTH_LIMIT = 12;
-export const INPUT_NUM_MAX = 2000;
+export const INPUT_BIG_WORD_MAX = 2000;
 export const INPUT_ACCOUNT_LIMIT = 25;
 // export const INPUT_GROUP_NAME_LIMIT = 25;
 export const INPUT_TEXT_LIMIT = 30;
 export const INPUT_TEXTAREA_LIMIT = 50;
 export const INPUT_TEXTAREA_MAX_LIMIT = 500;
-export const FILE_UPLOAD_LIMIT = 5;
 export const EMAIL_MAX_LENGTH = 35;
 export const INPUT_LENGTH_TWENTY = 20;
+export const INPUT_NUMBER_LIMIT = 1000000;
 
 // 上传文件支持类型
 export const FILE_ACCEPT = [
@@ -347,7 +347,9 @@ export const FILE_TIP = [
 ];
 
 // 文件上传的最大个数
-export const FILE_MAX_COUNT = 5;
+// export const FILE_MAX_COUNT = 5;
+// 20180829修改上传文件，最多只能上传一个
+export const FILE_MAX_COUNT = 1;
 
 export const FILE_ERROR_TIP = '只支持word、excel、ppt、pdf、rar格式';
 

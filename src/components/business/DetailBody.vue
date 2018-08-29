@@ -38,14 +38,20 @@
     </div>
     <div class="task-detail-item">
       <div class="left">附件下载：</div>
-      <div class="right" v-if="detailData.fileInputId && files.length">
-        <span class="blue" style="margin-right: 10px;cursor:pointer;" v-for="item in files" :key="item" @click="downloadFile(item)">{{item.fileName}}</span></div>
+      <div class="right"
+        v-if="detailData.fileInputId && files.length">
+        <span class="blue"
+          style="margin-right: 10px;cursor:pointer;"
+          v-for="item in files"
+          :key="item"
+          @click="downloadFile(item)">{{item.fileName}}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
   props: {
     detailData: JSON,

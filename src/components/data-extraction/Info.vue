@@ -3,7 +3,7 @@
     <h3>数据基本信息</h3>
     <ul class="b-i-list">
       <li><span>任务名称：</span>{{ infoData.name }}</li>
-      <li><span>数据日期：</span>{{infoData.extractDate}}</li>
+      <li><span>数据日期：</span>{{dataQueryDate}}</li>
       <li><span>用户类型：</span>{{activeData}}</li>
       <li><span>客户端：</span><label>{{infoData.clientType}}</label></li>
       <li><span>用户信息：</span><label>{{userInfoData}}</label></li>
@@ -33,6 +33,14 @@ export default {
         return '女';
       }
     },
+    dataQueryDate() {
+      let dd = this.infoData.extractDate;
+      if (this.infoData.extractDateType === '2') {
+        let ad = dd.split('-');
+        dd = ad[0] + '-' + ad[1];
+      }
+      return dd;
+    },
     ageData() {
       if (this.infoData.age === '不限') {
         return '不限';
@@ -54,28 +62,41 @@ export default {
       }
     },
     userInfoData() {
+      let ud = '';
       if (this.infoData.mobliePhone === '1') {
-        return '手机号';
-      } else if (this.infoData.ip === '1') {
-        return 'IP地址';
-      } else if (this.infoData.imei === '1') {
-        return 'IMEI号码';
-      } else if (this.infoData.idfa === '1') {
-        return 'IDFA号码';
+        ud += ';手机号';
       }
+      if (this.infoData.ip === '1') {
+        ud += ';IP地址';
+      }
+      if (this.infoData.imei === '1') {
+        ud += ';IMEI号码';
+      }
+      if (this.infoData.idfa === '1') {
+        ud += ';IDFA号码';
+      }
+      ud = ud.replace(';', '');
+      return ud;
     },
     activeData() {
+      let ut = '';
       if (this.infoData.active === '1') {
-        return '活跃用户';
-      } else if (this.infoData.newActive === '1') {
-        return '新增活跃用户';
-      } else if (this.infoData.newMember === '1') {
-        return '新增会员用户';
-      } else if (this.infoData.retainMember === '1') {
-        return '存留会员用户';
-      } else if (this.infoData.dropoutMember === '1') {
-        return '流失会员用户';
+        ut += ';活跃用户';
       }
+      if (this.infoData.newActive === '1') {
+        ut += ';新增活跃用户';
+      }
+      if (this.infoData.newMember === '1') {
+        ut += ';新增会员用户';
+      }
+      if (this.infoData.retainMember === '1') {
+        ut += ';存留会员用户';
+      }
+      if (this.infoData.dropoutMember === '1') {
+        ut += ';流失会员用户';
+      }
+      ut = ut.replace(';', '');
+      return ut;
     }
   },
 

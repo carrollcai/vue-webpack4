@@ -3,7 +3,7 @@
     v-if="processList.length">
     <dl class="tHead">
       <dt class="tH01">订购产品</dt>
-      <dd class="tH02">订单状态</dd>
+      <dd class="tH02 tHead-title">订单状态</dd>
     </dl>
     <dl class="tTr"
       v-for="(item, index) in processList"
@@ -13,7 +13,8 @@
         v-if="premissionDenied(item)">
         <audit-steps v-if="item.list && item.list.length"
           background-color="#fff"
-          :processList="item.list" />
+          :processList="item.list"
+          :fileList="item.fileList" />
       </dd>
       <dd class="tH02 p-table-denied"
         v-if="!premissionDenied(item)">您暂无权限处理~</dd>

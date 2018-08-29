@@ -61,9 +61,13 @@
           <span v-if="scope.row.extractBusinessStatusName === '审核不通过'">
             <el-popover
               placement="top"
-              width="100"
-              trigger="click"
-              :content="`${scope.row.upApproveDate}${scope.row.upApproveOpName}${scope.row.upApprovedealResult}`">
+              width="200"
+              trigger="click">
+              <div>
+                <p>{{scope.row.upApproveDate}}</p>
+                <p>{{scope.row.upApproveOpName}} <b>审核不通过</b></p>
+                <p>原因：{{scope.row.upApprovedealResult}}</p>
+              </div>
               <i slot="reference" class="el-icon-info"></i>
             </el-popover>
           </span>
@@ -203,6 +207,7 @@ export default {
       this.query();
     },
     query() {
+      this.downloadForm.pageNo = '1';
       let { ...data } = this.downloadForm;
       if (data.extractBusinessStatus === '0') {
         data.extractBusinessStatus = null;

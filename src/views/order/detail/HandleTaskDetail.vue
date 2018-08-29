@@ -15,15 +15,15 @@
         v-if="handleTaskDetail && Object.keys(handleTaskDetail).length">
         <detail-content :orderOverviewDetail="handleTaskDetail" />
 
+        <!-- 已处理详情 -->
         <order-product-list v-if="routeType === 'detail'"
-          :processList="processList"
-          :isShowAll="true" />
+          :processList="processList" />
       </div>
       <!-- 待签约 -->
       <div class="detail-line"
         v-if="routeType === 'pay' || routeType === 'sign'"></div>
 
-      <div v-if="routeType === 'sign' && Object.isExistArray(handleTaskDetail.ordProductDtoList)">
+      <div v-if="routeType === 'sign' && handleTaskDetail && handleTaskDetail.ordProductDtoList">
         <sign-handle :handleTaskDetail="handleTaskDetail"
           :premissionDenied="premissionDenied"
           :processCompleteStatus="processCompleteStatus"
@@ -31,7 +31,7 @@
           :id="id" />
       </div>
 
-      <div v-if="routeType === 'pay' && Object.isExistArray(handleTaskDetail.ordProductDtoList)">
+      <div v-if="routeType === 'pay' && handleTaskDetail && handleTaskDetail.ordProductDtoList">
         <pay-handle :handleTaskDetail="handleTaskDetail"
           :premissionDenied="premissionDenied"
           :operatorId="operatorId"
@@ -54,18 +54,18 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
-import AuditSteps from 'components/AuditSteps.vue';
+// import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
-import DetailBar from 'components/order/DetailBar.vue';
-import OrderProductList from 'components/order/OrderProductList.vue';
+// import DetailBar from 'components/order/DetailBar.vue';
+import OrderProductList from 'components/order/detail/OrderProductList.vue';
 import SignHandle from 'components/order/detail/SignHandle.vue';
 import PayHandle from 'components/order/detail/PayHandle.vue';
 
 export default {
   components: {
-    AuditSteps,
+    // AuditSteps,
     DetailContent,
-    DetailBar,
+    // DetailBar,
     OrderProductList,
     SignHandle,
     PayHandle,
@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     ...mapState({
-      handleTaskDetail: ({ order }) => order.handleTaskDetail[0],
+      handleTaskDetail: ({ order }) => order.handleTaskDetail,
       processList: ({ order }) => order.processList,
       hasSignedFile: ({ order }) => order.hasSignedFile,
       lastProcessInfo: ({ order }) => order.lastProcessInfo,
@@ -132,6 +132,13 @@ export default {
     }
   },
   methods: {
+    routeChange() {
+      this.routeType = this.$route.params.type;
+      this.ordCode = this.$route.params.id;
+      this.id = this.$route.query.ordId;
+      this.taskInsId = this.$route.query.taskInsId;
+      this.businessStatus = this.$route.query.businessStatus;
+    },
     premissionDenied(item) {
       // 如果当前用户所属归属地和流程归属地相同
       if (Number(this.opRegion) === item.companyBelong) {
@@ -148,13 +155,6 @@ export default {
       }
       this.$router.push(path);
     },
-    routeChange() {
-      this.routeType = this.$route.params.type;
-      this.ordCode = this.$route.params.id;
-      this.id = this.$route.query.ordId;
-      this.taskInsId = this.$route.query.taskInsId;
-      this.businessStatus = this.$route.query.businessStatus;
-    },
     ...mapMutations({
       removeProcessList: 'ORDER_REMOVE_PROCESS_LIST',
       removePayDetailFiles: 'ORDER_REMOVE_PAY_DETAIL_FILES',
@@ -164,7 +164,6 @@ export default {
       'getNewFileInputId',
       'getHandleTaskDetail',
       'uploadOrderHandleTask',
-      // 'gethasSignedFile',
       'getOrderOverviewProcessList',
       'gethasSignedFileList'
     ])
