@@ -139,7 +139,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
-import { checkPhone, emailCheck, nointe8Deci2, checkLeftRightSpace, isNonnegative } from '@/utils/rules.js';
+import { checkPhone, emailCheck, nointe8Deci2, checkLeftRightSpace } from '@/utils/rules.js';
 
 import filters from '@/views/business-manage/filters';
 import productItem from 'components/order/create/productItem.vue';
