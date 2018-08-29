@@ -42,6 +42,7 @@
     <el-table-column label="提交时间" property="createTime" width="180" />
     <el-table-column label="提交人" property="staffName" width="170" />
     <el-table-column label="用户归属" property="opRegion" width="180"/>
+    <el-table-column label="审核结果" property="businessStatusName" width="120"/>
     <el-table-column label="操作" width="200">
       <template slot-scope="scope">
         <el-button v-if="scope.row.businessStatus === '1'" class="table-button" type="text" @click="toAudit(scope.row)">去审核</el-button>
