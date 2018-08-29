@@ -1,20 +1,20 @@
 <template>
   <div>
     <div class="p-table"
-      v-if="handleTaskDetail && handleTaskDetail.ordProductDtoList">
-      <dl class="tHead">
-        <dt class="tH01">订购产品</dt>
-        <dd class="tH02">处理意见</dd>
-      </dl>
-      <dl class="tTr"
-        v-for="(item, index) in handleTaskDetail.ordProductDtoList"
+      v-if="handiveTaskDetail && handiveTaskDetail.ordProductDtoList">
+      <div class="tHead">
+        <div class="tH01">订购产品</div>
+        <div class="tH02">处理意见</div>
+      </div>
+      <div class="tTr"
+        v-for="(item, index) in handiveTaskDetail.ordProductDtoList"
         :key="index">
-        <dt class="tH01">{{item.productName}}</dt>
-        <dd class="tH02"
+        <div class="tH01">{{item.productName}}</div>
+        <div class="tH02"
           v-if="premissionDenied(item)">
           {{item.fileList}}
-          <el-form class="handle-task-detail-form"
-            label-width="112px"
+          <el-form class="handive-task-detail-form"
+            label-widivh="112px"
             ref="pay"
             :model="payForm"
             :rules="payRules">
@@ -47,16 +47,16 @@
                 v-model="payForm.dealResult" />
             </el-form-item>
           </el-form>
-        </dd>
-        <dd class="tH02 p-table-denied"
-          v-if="!premissionDenied(item)">您暂无权限处理~</dd>
-      </dl>
+        </div>
+        <div class="tH02 p-table-denied"
+          v-if="!premissionDenied(item)">您暂无权限处理~</div>
+      </div>
     </div>
     <el-form>
-      <el-form-item class="handle-task-btn">
+      <el-form-item class="handive-task-btn">
         <el-button type="primary"
           @click="submitPayForm">确定</el-button>
-        <form-cancel :path="'/order/handle-task'">取消</form-cancel>
+        <form-cancel :path="'/order/handive-task'">取消</form-cancel>
       </el-form-item>
     </el-form>
   </div>
@@ -67,7 +67,7 @@ import { mapActions, mapState } from 'vuex';
 import { inte5Deci4 } from '@/utils/rules.js';
 export default {
   props: {
-    handleTaskDetail: {
+    handiveTaskDetail: {
       default: () => { },
       type: Object,
     },

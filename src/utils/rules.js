@@ -10,7 +10,7 @@ import {
   INPUT_TEXT_LIMIT,
   INPUT_ACCOUNT_LIMIT,
   INPUT_TEXTAREA_LIMIT,
-  FILE_UPLOAD_LIMIT,
+  FILE_MAX_COUNT,
   INPUT_TEXTAREA_MAX_LIMIT,
   EMAIL_MAX_LENGTH,
   INPUT_LENGTH_TWENTY
@@ -202,8 +202,8 @@ export const inte5Deci4 = (rule, value, callback) => {
 export const multFileValid = (files, callback) => {
   if (!files.length) {
     callback(new Error('请上传文件'));
-  } else if (files.length > FILE_UPLOAD_LIMIT) {
-    callback(new Error(`文件上传数量不能超过${FILE_UPLOAD_LIMIT}个`));
+  } else if (files.length > FILE_MAX_COUNT) {
+    callback(new Error(`文件上传数量不能超过${FILE_MAX_COUNT}个`));
   } else {
     callback();
   }
@@ -211,8 +211,8 @@ export const multFileValid = (files, callback) => {
 
 // 非必填
 export const fileValidLen = (files, callback) => {
-  if (files.length && files.length > FILE_UPLOAD_LIMIT) {
-    callback(new Error(`文件上传数量不能超过${FILE_UPLOAD_LIMIT}个`));
+  if (files.length && files.length > FILE_MAX_COUNT) {
+    callback(new Error(`文件上传数量不能超过${FILE_MAX_COUNT}个`));
   } else {
     callback();
   }

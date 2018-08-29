@@ -326,7 +326,6 @@ export const INPUT_ACCOUNT_LIMIT = 25;
 export const INPUT_TEXT_LIMIT = 30;
 export const INPUT_TEXTAREA_LIMIT = 50;
 export const INPUT_TEXTAREA_MAX_LIMIT = 500;
-export const FILE_UPLOAD_LIMIT = 5;
 export const EMAIL_MAX_LENGTH = 35;
 export const INPUT_LENGTH_TWENTY = 20;
 
@@ -347,7 +346,9 @@ export const FILE_TIP = [
 ];
 
 // 文件上传的最大个数
-export const FILE_MAX_COUNT = 5;
+// export const FILE_MAX_COUNT = 5;
+// 20180829修改上传文件，最多只能上传一个
+export const FILE_MAX_COUNT = 1;
 
 export const FILE_ERROR_TIP = '只支持word、excel、ppt、pdf、rar格式';
 

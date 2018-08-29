@@ -1,40 +1,42 @@
 <template>
-  <div class="audit-steps"
-    :style="{'background-color': backgroundColor}">
-    <div v-if="title"
-      class="title">{{title}}</div>
-    <div>
-      <div class="flex">
-        <div class="child-title"
-          v-for="(item, i) in processList"
-          :key="item.processId"
-          :style="{'flex-basis': percent()}">
-          <!-- 商机转订单特殊处理 -->
-          {{!(businessToOrderId && i === 0) ? item.taskName : '商机转订单'}}
+  <div>
+    <div class="audit-steps"
+      :style="{'background-color': backgroundColor}">
+      <div v-if="title"
+        class="title">{{title}}</div>
+      <div>
+        <div class="flex">
+          <div class="child-title"
+            v-for="(item, i) in processList"
+            :key="item.processId"
+            :style="{'flex-basis': percent()}">
+            <!-- 商机转订单特殊处理 -->
+            {{!(businessToOrderId && i === 0) ? item.taskName : '商机转订单'}}
+          </div>
         </div>
-      </div>
-      <el-steps :active="activeIndex()"
-        align-center>
-        <el-step v-for="item in processList"
-          :key="item.processId"
-          :title="titleFilter(item)"
-          :description="taskDesc(item)">
-        </el-step>
-      </el-steps>
-      <div class="flex">
-        <div class="child"
-          v-for="item in processList"
-          :key="item.processId"
-          :style="{'flex-basis': percent()}">
-          <el-popover popper-class="audit-deal-result"
-            v-if="isNotPassed(item)"
-            placement="top"
-            width="200"
-            trigger="click"
-            :content="item.dealResult">
-            <el-button slot="reference"
-              type="text">查看原因</el-button>
-          </el-popover>
+        <el-steps :active="activeIndex()"
+          align-center>
+          <el-step v-for="item in processList"
+            :key="item.processId"
+            :title="`${titleFilter(item)} ${taskDesc(item)}`"
+            :description="item.dealResult">
+          </el-step>
+        </el-steps>
+        <div class="flex">
+          <div class="child"
+            v-for="item in processList"
+            :key="item.processId"
+            :style="{'flex-basis': percent()}">
+            <div>
+              <span v-if="item.fileList"
+                class="blue"
+                v-for="(file, k) in item.fileList"
+                :key="k"
+                @click="downloadFile(file)">
+                {{file.fileName}}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -45,6 +47,7 @@
 /*
  * 公共的进度流程封装
  */
+import { mapActions } from 'vuex';
 export default {
   props: {
     backgroundColor: {
@@ -90,7 +93,18 @@ export default {
         .map(val => val.hasComplete)
         .lastIndexOf(1);
       return index > -1 ? index + 1 : 0;
-    }
+    },
+    downloadFile(obj) {
+      let params = {
+        fileTypeId: obj.fileTypeId,
+        fileSaveName: obj.fileSaveName,
+        fileName: obj.fileName
+      };
+      this.orderDownloadFile(params);
+    },
+    ...mapActions([
+      'orderDownloadFile',
+    ]),
   }
 };
 </script>
@@ -106,9 +120,9 @@ export default {
 }
 .audit-steps {
   border-radius: 2px;
-  // background-color: rgba(250, 250, 250, 1);
-  padding-bottom: 24px;
-  padding-top: 24px;
+  // // background-color: rgba(250, 250, 250, 1);
+  margin-bottom: 24px;
+  margin-top: 24px;
   .title {
     height: 24px;
     line-height: 24px;

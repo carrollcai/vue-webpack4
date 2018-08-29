@@ -45,7 +45,7 @@
 <script>
 import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/DetailContent.vue';
-import OrderProductList from 'components/order/OrderProductList.vue';
+import OrderProductList from 'components/order/detail/OrderProductList.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {

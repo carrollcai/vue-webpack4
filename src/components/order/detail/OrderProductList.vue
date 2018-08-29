@@ -3,7 +3,7 @@
     v-if="processList.length">
     <dl class="tHead">
       <dt class="tH01">订购产品</dt>
-      <dd class="tH02">订单状态</dd>
+      <dd class="tH02 tHead-title">订单状态</dd>
     </dl>
     <dl class="tTr"
       v-for="(item, index) in processList"
