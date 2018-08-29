@@ -9,6 +9,7 @@ const orderCreate = {
   predictSignTime: '',
   predictAgreementTime: '',
   isProjectInvitation: '1',
+  organizeId: '',
   organizeName: '',
   address: '',
   contactName: '',
@@ -129,7 +130,8 @@ const mutations = {
         label: item.operatorId,
       };
     });
-    state.orderCreate.orderProductDtoList[data.index].companyBelong = data.list[0].opRegion || '';
+    state.orderCreate.orderProductDtoList[data.index].companyBelong = data.item.region;
+    state.orderCreate.orderProductDtoList[data.index].productId = data.item.productId;
     state.orderCreate.orderProductDtoList[data.index].productHandlers = dataList;
   },
   [types.ORDER_QUERY_ASSIGN_HANDLER](state, data) {

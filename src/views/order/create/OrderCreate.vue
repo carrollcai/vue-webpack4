@@ -8,6 +8,7 @@
         </el-breadcrumb>
       </div>
     </div>
+    {{orderCreate}}
     <div class="m-container order-create">
       <el-form :label-position="'right'"
         label-width="140px"
@@ -261,6 +262,8 @@ export default {
       return type === 'create' ? '新建' : '修改';
     },
     handleSelect(item) {
+      console.log(item);
+      this.updateOrderCreate({ organizeId: item.organizeId });
       this.updateOrderCreate({ address: item.orgAddress });
     },
     async querySearchAsync(queryString, cb) {
