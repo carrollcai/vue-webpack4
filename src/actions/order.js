@@ -23,19 +23,6 @@ const actions = {
       commit(types.ORDER_OV_SIGN_HANDLE, res.data);
     });
   },
-  async getOrderOverviewProcessList({ commit, dispatch }, params) {
-    // 这里不能用forEach控制流程，需要用for of
-    for (let val of params.ordProductDtoList) {
-      let res = await API.queryCustomerProcessedAPI({
-        processInsId: val.processInsId
-      });
-      let data = {
-        ...val,
-        list: res.data
-      };
-      await commit(types.ORDER_GET_PROCESS_LIST, data);
-    }
-  },
 
   /**
    * 创建管理
@@ -213,6 +200,36 @@ const actions = {
   //     commit(types.ORDER_LAST_PROCESS_INFO, res.data);
   //   });
   // }
+
+  async getOrderOverviewProcessList({ commit, dispatch }, params) {
+    // 这里不能用forEach控制流程，需要用for of
+    for (let val of params.ordProductDtoList) {
+      let res = await API.queryCustomerProcessedAPI({
+        processInsId: val.processInsId
+      });
+      let data = {
+        ...val,
+        list: res.data
+      };
+      await commit(types.ORDER_GET_PROCESS_LIST, data);
+    }
+  },
+  async gethasSignedFileList({ commit }, params) {
+    // 这里不能用forEach控制流程，需要用for of
+    for (let val of params.ordProductDtoList) {
+      // 如果不存在fileId就不上传
+      if (!val.fileId) return false;
+
+      let res = await API.getFileThroughtFileIdAPI({
+        fileInputId: val.fileId
+      });
+      let data = {
+        ...val,
+        fileList: res.data
+      };
+      await commit(types.ORDER_GET_HAS_SIGNED_FILE_LIST, data);
+    }
+  }
 };
 
 export default actions;

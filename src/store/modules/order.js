@@ -55,6 +55,7 @@ const state = {
   },
   orderOverviewDetail: {},
   processList: [],
+  payDetailFileList: [],
 
   // 创建管理
   orderCreateManageForm: {
@@ -160,8 +161,13 @@ const mutations = {
     state.orderOverviewDetail = Object.assign({}, data);
   },
   [types.ORDER_GET_PROCESS_LIST](state, data) {
-    // console.log(state.processList);
     state.processList = state.processList.concat(data);
+    // console.log(state.processList);
+  },
+  [types.ORDER_GET_HAS_SIGNED_FILE_LIST](state, data) {
+    // 这里需要直接改变processList的引用，不能直接操作数组，vue检测不到
+    // Error: state.processList[data.index].fileList = data.list;
+    state.payDetailFileList = state.payDetailFileList.concat(data);
   },
   [types.ORDER_REMOVE_PROCESS_LIST](state, data) {
     state.processList = [];
@@ -180,7 +186,9 @@ const mutations = {
     state.submitAssignButton = !state.submitAssignButton;
   },
   [types.ORDER_GET_HAS_SIGNED_FILE](state, data) {
-    state.hasSignedFile = data;
+    // state.hasSignedFile = data;
+    let item = state.orderCreate.orderProductDtoList[data.index];
+    item.hasSignedFile = data.list;
   },
   [types.ORDER_OVERVIEW_PAGE_CHANGE](state, data) {
     state.orderOverviewForm = data
@@ -217,6 +225,18 @@ const mutations = {
         return processor.label;
       }
     });
+  },
+  // 删除订购产品中某一条
+  [types.ORDER_DELETE_PRODUCT](state, data) {
+    let nick = state.orderCreate.orderProductDtoList;
+    nick.splice(data.index, 1);
+  },
+  [types.ORDER_ADD_PRODUCT](state, data) {
+    let newArr = Object.cloneDeep(orderCreate.orderProductDtoList);
+    state.orderCreate.orderProductDtoList = state.orderCreate.orderProductDtoList.concat(newArr);
+  },
+  [types.ORDER_REMOVE_PAY_DETAIL_FILES](state, data) {
+    state.payDetailFileList = [];
   }
 };
 
