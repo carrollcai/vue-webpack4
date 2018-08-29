@@ -4,7 +4,7 @@
  */
 
 import {
-  INPUT_NUM_MAX,
+  INPUT_BIG_WORD_MAX,
   DATE_LIMIT,
   MONTH_LIMIT,
   INPUT_TEXT_LIMIT,
@@ -13,7 +13,8 @@ import {
   FILE_MAX_COUNT,
   INPUT_TEXTAREA_MAX_LIMIT,
   EMAIL_MAX_LENGTH,
-  INPUT_LENGTH_TWENTY
+  INPUT_LENGTH_TWENTY,
+  INPUT_NUMBER_LIMIT,
 } from '@/config/index.js';
 import moment from 'moment';
 
@@ -39,8 +40,12 @@ export const isNonnegative = (rule, value, callback) => {
 // 正整数，需要先经过非空检验（isEmpty）
 export const isPositive = (rule, value, callback) => {
   const reg = /^[1-9]\d*$/;
-  if (reg.test(value)) {
+  if (value === '' || value === null) {
     callback();
+  } else if (reg.test(value)) {
+    callback();
+  } else if (value > INPUT_NUMBER_LIMIT) {
+    callback(new Error(`不得超过${INPUT_NUMBER_LIMIT}`));
   } else {
     callback(new Error('请输入正确数字类型'));
   }
@@ -48,8 +53,8 @@ export const isPositive = (rule, value, callback) => {
 
 // 最大数量校验
 export const maxLimit = (rule, value, callback) => {
-  if (Number(value) > INPUT_NUM_MAX) {
-    callback(new Error(`输入内容不能超过${INPUT_NUM_MAX}`));
+  if (Number(value) > INPUT_BIG_WORD_MAX) {
+    callback(new Error(`输入内容不能超过${INPUT_BIG_WORD_MAX}`));
   } else {
     callback();
   }

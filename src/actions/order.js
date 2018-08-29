@@ -204,13 +204,22 @@ const actions = {
   async getOrderOverviewProcessList({ commit, dispatch }, params) {
     // 这里不能用forEach控制流程，需要用for of
     for (let val of params.ordProductDtoList) {
+      let fileList = [];
       let res = await API.queryCustomerProcessedAPI({
         processInsId: val.processInsId
       });
+      if (val.fileId) {
+        let fileReq = await API.getFileThroughtFileIdAPI({
+          fileInputId: val.fileId
+        });
+        fileList = fileReq.data;
+      }
       let data = {
         ...val,
+        fileList,
         list: res.data
       };
+      console.log(data);
       await commit(types.ORDER_GET_PROCESS_LIST, data);
     }
   },

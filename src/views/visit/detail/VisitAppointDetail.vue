@@ -10,15 +10,76 @@
       </el-breadcrumb>
     </div>
   </div>
-  <div class="m-container container-mt16">
-    <Vdetail :visitDetail="visitDetailData" :filesArr="filesArrList"></Vdetail>
+  <!-- 详情 -->
+  <div v-if="isExecute !== 'true'" class="m-container container-mt16">
+    <Vdetail v-if="isExecute !== 'true'" :visitDetail="visitDetailData" :filesArr="filesArrList"></Vdetail>
   </div>
-  <div v-if="isExecute === 'true'" class="m-container transfer-out">
+  <!-- 详情编辑 -->
+  <div v-else class="m-container container-mt16 visit-create">
+    <el-form :label-position="'right'" :model="editVisitFromHandle" ref="visitEditRef" :rules="createVisitVaild">
+      <el-form-item label="走访主题：" label-width="140px" required prop="visitTheme">
+        <el-input maxlength="25" v-model="editVisitFromHandle.visitTheme" :disabled="true" class="form-input-medium" placeholder="请输入主题" />
+      </el-form-item>
+      <el-form-item label="走访公司：" label-width="140px" required>
+        <el-form-item prop="organizeName">
+          <el-input maxlength="25" v-model="editVisitFromHandle.organizeName" :disabled="true" class="form-input-260" style=" margin-right: 20px;" placeholder="集团名称"></el-input>
+          <!-- <el-autocomplete class="form-input-half" v-model="editVisitFromHandle.organizeName" :fetch-suggestions="querySearchAsync" placeholder="集团名称" @select="handleSelect" :trigger-on-focus="false" /> -->
+        </el-form-item>
+        <div class="form-input-sep">-</div>
+        <el-form-item prop="visitAddress">
+          <el-input maxlength="50" v-model="editVisitFromHandle.visitAddress" class="form-input-260" style=" margin-right: 20px;" placeholder="办公地址"></el-input>
+        </el-form-item>
+      </el-form-item>
+      <el-form-item label="走访对象：" label-width="140px" required>
+        <el-form-item prop="intervieweeName">
+          <el-input maxlength="50" v-model="editVisitFromHandle.intervieweeName" class="form-input-half" placeholder="姓名"></el-input>
+        </el-form-item>
+        <div class="form-input-sep">-</div>
+        <el-form-item prop="intervieweeMobile">
+          <el-input v-model="editVisitFromHandle.intervieweeMobile" maxlength="11" class="form-input-260" style=" margin-right: 20px;" placeholder="联系电话"></el-input>
+        </el-form-item>
+      </el-form-item>
+      <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
+        <el-input maxlength="50" v-model="editVisitFromHandle.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“;”隔开" />
+      </el-form-item>
+      <el-form-item label="计划走访时间：" label-width="140px" required>
+        <el-form-item prop="visitTime">
+          <el-date-picker v-model="editVisitFromHandle.visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
+        </el-form-item>
+        <div class="form-input-sep">-</div>
+        <el-form-item prop="timeRange">
+          <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="editVisitFromHandle.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
+        </el-form-item>
+      </el-form-item>
+      <el-form-item label="涉及商机编码：" label-width="140px" prop="relOpporCode">
+        <el-autocomplete
+          class="form-input-260"
+          v-model="editVisitFromHandle.relOpporCode"
+          :fetch-suggestions="getRelOpporId"
+          placeholder="涉及商机编码"
+          :value-key="opporId"
+          @select="relOpporValue"
+          :trigger-on-focus="false" />
+      </el-form-item>
+      <el-form-item label="走访内容：" label-width="140px" prop="visitContent">
+        <el-input maxlength="500" v-model="editVisitFromHandle.visitContent" type="textarea" class="form-input-large" placeholder="请输入走访内容" />
+      </el-form-item>
+      <el-form-item label="问题协调：" label-width="140px" prop="problemCoordinate">
+        <el-input maxlength="500" v-model="editVisitFromHandle.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
+      </el-form-item>
+      <el-form-item label="是否首客走访：" label-width="140px" required prop="isFirstVisit">
+        <el-radio style="margin-top: 14px;" v-model="editVisitFromHandle.isFirstVisit" :value="1" :label="1">是</el-radio>
+        <el-radio style="margin-top: 14px;" v-model="editVisitFromHandle.isFirstVisit" :value="0" :label="0">否</el-radio>
+      </el-form-item>
+    </el-form>
+  </div>
+  <!-- 执行处理 -->
+  <div v-if="isExecute === 'true'" class="m-container visit-create">
     <el-form
       :model="formData"
       :rules="formDataValid"
       ref="visitRef">
-      <el-form-item label="审核结果：" label-width="140px" required prop="isCancle">
+      <el-form-item label="走访结果：" label-width="140px" required prop="isCancle">
         <el-radio v-model="formData.isCancle" label="2">走访汇报</el-radio>
         <el-radio v-model="formData.isCancle" label="3">取消走访</el-radio>
       </el-form-item>
@@ -53,14 +114,16 @@
 </template>
 
 <script>
+import mixins from '../create/mixins';
 import WmTable from 'components/Table.vue';
 import Vdetail from 'components/visit/VisitDetail.vue';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import { textareaMaxLimit, fileValidLen } from '@/utils/rules.js';
 import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
 
 export default {
+  mixins: [mixins],
   components: {
     WmTable,
     Vdetail
@@ -72,7 +135,8 @@ export default {
       }
     },
     ...mapState({
-      visitAppointDetail: ({ visit }) => visit.visitAppointDetail
+      visitAppointDetail: ({ visit }) => visit.visitAppointDetail,
+      registerList: ({ visit }) => visit.registerList,
     })
   },
   data() {
@@ -84,8 +148,30 @@ export default {
       visitId: this.$route.params.id,
       isExecute: this.$route.query.isExecute,
       routeName: this.$route.name,
+      checkTime: true,
       fileList: [],
       filesArrList: [],
+      editVisitFromHandle: {
+        visitId: this.$route.params.id,
+        visitTheme: '',
+        organizeId: '',
+        organizeName: '',
+        visitAddress: '',
+        intervieweeName: '',
+        intervieweeMobile: '',
+        visitPresentMembers: '',
+        visitContent: '',
+        relOpporId: '',
+        relOpporCode: '',
+        problemCoordinate: '',
+        visitAuditor: '',
+        isFirstVisit: 1,
+        visitStartTime: '',
+        visitEndTime: '',
+        isSubmit: 1,
+        visitTime: null,
+        timeRange: null
+      },
       uploadData: {
         fileInputId: '',
         fileTypeId: FILE_TYPE_ID.visit,
@@ -126,9 +212,70 @@ export default {
           });
         });
       }
+      let start = this.visitAppointDetail.visitStartTime;
+      let end = this.visitAppointDetail.visitEndTime;
+      if (start) {
+        this.checkTime = false;
+        this.editVisitFromHandle.visitTime = start;
+        if (end) {
+          let arr = [start.split(' ')[1], end.split(' ')[1]];
+          this.editVisitFromHandle.timeRange = arr;
+        }
+      }
+      this.editVisitFromHandle.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
+      this.editVisitFromHandle.visitTheme = this.visitAppointDetail.visitTheme;
+      this.editVisitFromHandle.organizeId = this.visitAppointDetail.organizeId;
+      this.editVisitFromHandle.organizeName = this.visitAppointDetail.organizeName;
+      this.editVisitFromHandle.visitAddress = this.visitAppointDetail.visitAddress;
+      this.editVisitFromHandle.intervieweeName = this.visitAppointDetail.intervieweeName;
+      this.editVisitFromHandle.intervieweeMobile = this.visitAppointDetail.intervieweeMobile;
+      this.editVisitFromHandle.visitPresentMembers = this.visitAppointDetail.visitPresentMembers;
+      this.editVisitFromHandle.visitContent = this.visitAppointDetail.visitContent;
+      this.editVisitFromHandle.relOpporId = this.visitAppointDetail.relOpporId;
+      this.editVisitFromHandle.relOpporCode = this.visitAppointDetail.relOpporCode;
+      this.editVisitFromHandle.problemCoordinate = this.visitAppointDetail.problemCoordinate;
+      this.editVisitFromHandle.visitEndTime = this.visitAppointDetail.visitEndTime;
+      this.editVisitFromHandle.visitStartTime = this.visitAppointDetail.visitStartTime;
     });
   },
+  beforeDestroy() {
+    // 组件注销的时候，需要清空表单数据
+    this.clearApplicationCreate();
+  },
   methods: {
+    relOpporValue(element) {
+      this.registerList.filter((item, index, array) => {
+        if (item.opporCode === element.value) {
+          this.createVisitFrom.relOpporId = item.opporId;
+        }
+      });
+    },
+    async getRelOpporId(item, cb) {
+      let data = {
+        opporCode: item,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      };
+      await this.queryRegisterList(data);
+
+      await clearTimeout(this.timeout);
+      this.timeout = await setTimeout(() => {
+        this.registerList = this.registerList.map(val => Object.assign(val, { value: val.opporCode }));
+        cb(this.registerList);
+      }, 1000);
+    },
+    getTimeVisit(time) {
+      this.checkTime = false;
+    },
+    getTimeRange(time) {
+      if (time) {
+        this.editVisitFromHandle.visitStartTime = this.editVisitFromHandle.visitTime + ' ' + time[0];
+        this.editVisitFromHandle.visitEndTime = this.editVisitFromHandle.visitTime + ' ' + time[1];
+      } else {
+        this.editVisitFromHandle.visitStartTime = '';
+        this.editVisitFromHandle.visitEndTime = '';
+      }
+    },
     removeFile(file, fileList) {
       let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
       this.uploadData.files.splice(index, 1);
@@ -139,43 +286,58 @@ export default {
       this.uploadData.files.push(file.raw);
       this.$refs.visitRef.validateField('files');
     },
-    async submitAssignForm() {
-      await this.getProductFileId().then((res) => {
-        this.uploadData.fileInputId = res.data;
-        this.formData.fileInputId = res.data;
-        this.uploadProductScheme(this.uploadData);
-      });
-    },
     onSubmit() {
-      // this.submitAssignForm();
-      this.getProductFileId().then((res) => {
-        this.uploadData.fileInputId = res.data;
-        this.formData.fileInputId = res.data;
+      if (this.visitAppointDetail.fileInputId) {
+        this.uploadData.fileInputId = this.visitAppointDetail.fileInputId;
+        this.formData.fileInputId = this.visitAppointDetail.fileInputId;
         if (this.uploadData.files.length > 0) {
           this.uploadProductScheme(this.uploadData);
         }
         this.query();
-      });
+      } else {
+        this.getProductFileId().then((res) => {
+          this.uploadData.fileInputId = res.data;
+          this.formData.fileInputId = res.data;
+          if (this.uploadData.files.length > 0) {
+            this.uploadProductScheme(this.uploadData);
+          }
+          this.query();
+        });
+      }
     },
     query() {
+      let params = Object.assign({}, this.formData, this.editVisitFromHandle);
+      delete params.visitTheme;
+      delete params.organizeName;
+      delete params.organizeId;
+      delete params.visitAuditor;
+      delete params.isSubmit;
+      delete params.visitTime;
+      delete params.timeRange;
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
-          this.addApproveVisit(this.formData);
+          this.addApproveVisit(params);
         }
       });
     },
+    ...mapMutations({
+      clearApplicationCreate: 'APPLICATION_CREATE'
+    }),
     ...mapActions([
       'queryVisitAppointDetail',
       'addApproveVisit',
       'getProductFileId',
       'uploadProductScheme',
-      'queryElec'
+      'queryElec',
+      'editVisitApp',
+      'queryRegisterList'
     ])
   }
 };
 </script>
 
 <style lang="scss">
+@import "../create/style.scss";
 @import "scss/variables.scss";
 .container-mt16 {margin-top: 16px;}
 .transfer-out {

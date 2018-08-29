@@ -13,7 +13,8 @@
         v-if="premissionDenied(item)">
         <audit-steps v-if="item.list && item.list.length"
           background-color="#fff"
-          :processList="item.list" />
+          :processList="item.list"
+          :fileList="item.fileList" />
       </dd>
       <dd class="tH02 p-table-denied"
         v-if="!premissionDenied(item)">您暂无权限处理~</dd>

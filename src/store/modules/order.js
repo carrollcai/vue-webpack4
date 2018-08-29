@@ -93,7 +93,7 @@ const state = {
   },
   assignHandlers: [],
   // productHandlers: [],
-  handleTaskDetail: [],
+  handleTaskDetail: {},
   lastProcessInfo: {
     lastOpName: '',
     lastDealResult: ''
@@ -161,6 +161,7 @@ const mutations = {
     state.orderOverviewDetail = Object.assign({}, data);
   },
   [types.ORDER_GET_PROCESS_LIST](state, data) {
+    console.log(data);
     state.processList = state.processList.concat(data);
     // console.log(state.processList);
   },

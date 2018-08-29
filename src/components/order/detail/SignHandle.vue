@@ -1,10 +1,9 @@
 <template>
   <div>
-    <div class="p-table"
-      v-if="handleTaskDetail && handleTaskDetail.ordProductDtoList">
+    <div class="p-table">
       <dl class="tHead">
         <dt class="tH01">订购产品</dt>
-        <dd class="tH02">处理意见</dd>
+        <dd class="tH02 tHead-title">处理意见</dd>
       </dl>
       <dl class="tTr"
         v-for="(item, index) in handleTaskDetail.ordProductDtoList"
