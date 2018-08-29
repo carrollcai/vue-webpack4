@@ -40,7 +40,9 @@ export const isNonnegative = (rule, value, callback) => {
 // 正整数，需要先经过非空检验（isEmpty）
 export const isPositive = (rule, value, callback) => {
   const reg = /^[1-9]\d*$/;
-  if (reg.test(value)) {
+  if (value === '' || value === null) {
+    callback();
+  } else if (reg.test(value)) {
     callback();
   } else if (value > INPUT_NUMBER_LIMIT) {
     callback(new Error(`不得超过${INPUT_NUMBER_LIMIT}`));
