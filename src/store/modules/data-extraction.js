@@ -27,7 +27,8 @@ const state = {
     name: '',
     taskHasComplete: 0,
     pageNo: PAGE_NO,
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    timeRange: ''
   },
   dataAuditList: {},
   dataTaskList: [],

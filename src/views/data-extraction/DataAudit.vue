@@ -4,7 +4,7 @@
   <el-form class="form-manage" v-model="auditForm">
     <div class="flex">
       <el-form-item>
-        <el-date-picker clearable v-model="timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker clearable v-model="auditForm.timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
       </el-form-item>
       <el-form-item class="form-query-input-width form-left-width">
@@ -136,7 +136,9 @@ export default {
       this.query();
     },
     query() {
-      this.queryDataAudit(this.auditForm);
+      let { ...data } = this.auditForm;
+      delete data.timeRange;
+      this.queryDataAudit(data);
     },
     ...mapActions([
       'queryDataAudit',

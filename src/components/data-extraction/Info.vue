@@ -9,12 +9,12 @@
       <li><span>用户信息：</span><label>{{userInfoData}}</label></li>
       <li><span>省份选择：</span>{{infoData.area}}</li>
     </ul>
-    <h3>数据明细设置</h3>
+    <h3 v-if="infoData.memberType || sexData || ageData || infoData.content">数据明细设置</h3>
     <ul class="b-i-list">
-      <li><span>会员类型：</span>{{infoData.memberType}}</li>
-      <li><span>性别：</span>{{sexData}}</li>
-      <li><span>年龄：</span>{{ageData}}</li>
-      <li><span>用户行为：</span><label>{{infoData.content}}</label></li>
+      <li v-if="infoData.memberType"><span>会员类型：</span>{{infoData.memberType}}</li>
+      <li v-if="sexData"><span>性别：</span>{{sexData}}</li>
+      <li v-if="ageData"><span>年龄：</span>{{ageData}}</li>
+      <li v-if="infoData.content"><span>用户行为：</span><label>{{infoData.content}}</label></li>
     </ul>
   </div>
 </template>

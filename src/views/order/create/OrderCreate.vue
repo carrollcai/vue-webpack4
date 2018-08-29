@@ -80,7 +80,8 @@
         </el-form-item>
         <el-form-item label="订购产品："
           required>
-          <div class="tTable">
+          <productItem ref="productItemRef" />
+          <!-- <div class="tTable">
             <div class="tHead">
               <div style="min-width: 140px;">订购产品</div>
               <div>订购数量</div>
@@ -88,13 +89,13 @@
               <div>操作</div>
             </div>
             <div class="tBody">
-              <productItem></productItem>
+              <productItem @validate="productItemValidate" />
             </div>
             <div class="add blue">
               <span @click="addList">
                 <i class="el-icon-plus"></i>增加一条</span>
             </div>
-          </div>
+          </div> -->
         </el-form-item>
         <el-form-item label="业务描述："
           prop="busiDesc">
@@ -160,7 +161,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
-import productItem from './productItem.vue';
+import productItem from 'components/order/create/productItem.vue';
 import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte5Deci4, textAccountLimit } from '@/utils/rules.js';
 
 export default {
@@ -263,20 +264,6 @@ export default {
     this.clearOrderCreate();
   },
   methods: {
-    addList() {
-      let proList = this.orderCreate.orderProductDtoList;
-      let l = proList.length - 1;
-      if (proList[l].productName === '' || proList[l].processor === '' || proList[l].amount === '') {
-        this.$message({ showClose: true, message: '请先填写完整在新增!', type: 'info' });
-        return false;
-      }
-      proList.push({
-        productName: this.orderCreate.productName,
-        amount: this.orderCreate.amount,
-        processor: this.orderCreate.processor,
-        productId: this.orderCreate.productId
-      });
-    },
     routeType() {
       const { type } = this.$route.params;
       return type === 'create' ? '新建' : '修改';
@@ -314,7 +301,8 @@ export default {
       params.startProcess = startProcess;
 
       this.$refs.orderCreateForm.validate(valid => {
-        if (!valid) return false;
+        let productItemValidate = this.$refs.productItemRef.validate();
+        if (!valid || !productItemValidate) return false;
 
         if (type === 'create') {
           this.createOrder(params);

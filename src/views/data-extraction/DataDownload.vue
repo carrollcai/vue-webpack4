@@ -30,7 +30,7 @@
         <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
         <el-tab-pane label="数据生成中" :name="2"></el-tab-pane>
-        <el-tab-pane label="数据生成" :name="3"></el-tab-pane>
+        <el-tab-pane label="生成成功" :name="3"></el-tab-pane>
         <!-- <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
         <el-tab-pane label="已取消" :name="4"></el-tab-pane> -->
       </el-tabs>
@@ -50,7 +50,7 @@
       <el-table-column label="审核状态" property="extractBusinessStatusName" width="210">
         <template slot-scope="scope">
           {{scope.row.extractBusinessStatusName}}
-          <el-popover  v-if="scope.row.extractBusinessStatusName === '数据提取中'"
+          <el-popover  v-if="scope.row.extractBusinessStatusName === '数据生成中'"
             ref="popover"
             placement="top"
             title="温馨提示"
@@ -146,7 +146,7 @@ export default {
       }, 1000);
     },
     revoke(row) {
-      let info = '数据提取任务将被取消，是否确认撤销?';
+      let info = '数据生成任务将被取消，是否确认撤销?';
       let name = '撤销';
       let id = {id: row.id};
       this.confirm(info, name, id);
@@ -203,7 +203,7 @@ export default {
       this.query();
     },
     query() {
-      let data = this.downloadForm;
+      let { ...data } = this.downloadForm;
       if (data.extractBusinessStatus === '0') {
         data.extractBusinessStatus = null;
       }
