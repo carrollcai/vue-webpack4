@@ -4,11 +4,12 @@
     <el-form class="form-manage" ref="downloadForm" v-model="downloadForm">
       <div class="flex">
         <el-form-item>
-          <el-date-picker v-model="downloadForm.timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker clearable v-model="downloadForm.timeRange" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
           <el-autocomplete class="form-input-half"
+            clearable
             v-model="downloadForm.name"
             :fetch-suggestions="querySearchAsync"
             placeholder="任务名称"
@@ -25,28 +26,27 @@
       </div>
     </el-form>
     <div class="tab-bar">
-      <el-tabs v-model="downloadForm.extractBusinessStatus" @tab-click="getState">
-        <el-tab-pane label="全部" :name="null"></el-tab-pane>
+      <el-tabs v-model="extractBusinessStatus" @tab-click="getState">
+        <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
         <el-tab-pane label="数据提取中" :name="2"></el-tab-pane>
         <el-tab-pane label="提取成功" :name="3"></el-tab-pane>
         <!-- <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
         <el-tab-pane label="已取消" :name="4"></el-tab-pane> -->
       </el-tabs>
-      <more-tabs :statusData.sync="downloadForm.extractBusinessStatus" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
+      <more-tabs :statusData.sync="extractBusinessStatus" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
     </div>
   </div>
   <div class="m-container table-container">
     <wm-table v-if="dataDownloadList && dataDownloadList.list"
       :source="dataDownloadList.list"
-      :total="dataDownloadList.total"
+      :total="dataDownloadList.totalCount"
       :pageNo="downloadForm.pageNo"
       :pageSize="downloadForm.pageSize"
-      :defaultSort = "{prop: 'insertdate', order: 'descending'}"
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="任务名称" show-overflow-tooltip property="name" />
-      <el-table-column label="提交时间" sortable property="createTime" width="210" />
+      <el-table-column label="提交时间" property="createTime" width="210" />
       <el-table-column label="审核状态" property="extractBusinessStatusName" width="210">
         <template slot-scope="scope">
           {{scope.row.extractBusinessStatusName}}
@@ -102,7 +102,8 @@ export default {
   data() {
     return {
       pageNo: PAGE_NO,
-      pageSize: PAGE_SIZE
+      pageSize: PAGE_SIZE,
+      extractBusinessStatus: 0
     };
   },
   computed: {
@@ -179,6 +180,7 @@ export default {
       }
     },
     getStateFn(value) {
+      this.extractBusinessStatus = value;
       this.downloadForm.extractBusinessStatus = value;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
@@ -186,7 +188,7 @@ export default {
       this.query();
     },
     getState(value) {
-      this.downloadForm.extractBusinessStatus = value.name;
+      this.downloadForm.extractBusinessStatus = value.name === 0 ? null : value.name;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
       this.downloadForm.isOpen = false;

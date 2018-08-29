@@ -4,7 +4,7 @@
       <el-form class="form-manage" ref="taskManageForm">
         <div class="flex">
           <el-form-item prop="date">
-            <el-date-picker v-model="myBusinessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker clearable v-model="myBusinessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
@@ -12,7 +12,7 @@
             <!--<el-autocomplete clearable v-model="myBusinessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="myBusinessForm.opporCodeOrName" placeholder="商机编码" />
+            <el-input clearable v-model="myBusinessForm.opporCodeOrName" placeholder="商机名称/编号" />
           </el-form-item>
         </div>
         <div class="flex">

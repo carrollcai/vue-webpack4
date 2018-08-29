@@ -4,7 +4,7 @@
       更多 <i class="el-icon el-icon-arrow-down" :class="isOpen ? 'el-table__expand-icon--expanded' : ''"></i>
     </div>
     <div v-if="String(isOpen) === 'true'" class="open-tabs">
-      <p :class="statusData === item.value ? 'blue' : ''" v-for="item in stateList" :key="item.value" @click="getState(item)">{{statusDatas}}{{item.name}}</p>
+      <p class="open-tabs_tab" :class="statusData === item.value ? 'blue' : ''" v-for="item in stateList" :key="item.value" @click="getState(item)">{{statusDatas}}{{item.name}}</p>
     </div>
   </div>
 </template>
@@ -55,6 +55,9 @@ export default {
   .blue {color: #3778FF;}
   .el-tabs__nav-wrap::after {
     display: none;
+  }
+  .open-tabs_tab, .tab-more{
+    cursor: pointer;
   }
 }
 .tabs {
