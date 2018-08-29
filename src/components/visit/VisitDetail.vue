@@ -40,14 +40,14 @@
           <span style="display: block;">{{visitDetails.feedback}}</span>
           <p v-if="isFileInputId" class="download-style"><span v-if="filesArr && filesArr.length" v-for="item in filesArr" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
         </div>
-        <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '待执行'">
-          <div class="left">指派说明：</div>
-          <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
-        </div>
+      </div>
+      <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '待执行'">
+        <div class="left">指派说明：</div>
+        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
       <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '已取消'">
         <div class="left">取消原因：</div>
-        <div class="right" v-if="visitDetails.advice">{{visitDetails.feedback}}</div>
+        <div class="right" v-if="visitDetails.feedback">{{visitDetails.feedback}}</div>
       </div>
     </div>
     <div class="task-detail-item">

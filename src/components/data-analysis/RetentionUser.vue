@@ -4,7 +4,7 @@
       {{ !type ? '上月新增用户留存率' : '上月留存用户流失率' }}
       <el-tooltip class="item"
         effect="dark"
-        :content="!type ? '新增率 = 上月留存用户数 / 上月新增用户数' : '留存率 = 上月流失用户数 / 上月留存用户数'"
+        :content="!type ? '新增率 = 上月新增本月存留用户数 / 上月新增用户数' : '留存率 = 上月存留本月流失用户数 / 上月留存用户数'"
         placement="top-start">
         <i class="el-icon-info"></i>
       </el-tooltip>

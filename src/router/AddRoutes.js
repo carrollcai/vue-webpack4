@@ -359,6 +359,12 @@ const dynamicRoutes = [
         meta: { menuId: 32 }
       },
       {
+        path: '/visit/edit-visit-appoint/:id',
+        name: 'edit-visit-appoint',
+        component: CreateVisitAppoint,
+        meta: { menuId: 32 }
+      },
+      {
         path: '/visit/visit-appoint-detail/:id',
         name: 'visit-appoint-detail',
         component: VisitAppointDetail,

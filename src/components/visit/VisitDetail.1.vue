@@ -55,7 +55,7 @@
       </div>
       <div class="task-detail-item w100">
         <div class="left">驳回原因：</div>
-        <div class="right" v-if="visitDetails.advice">{{visitDetails.advice}}</div>
+        <div class="right" v-if="visitDetails.feedback">{{visitDetails.feedback}}</div>
       </div>
     </div>
     <div class="visit-title" v-if="routeName === 'visit-appoint-detail' && (visitDetails.visitStatus === '4' || visitDetails.visitStatus === '已完成')">

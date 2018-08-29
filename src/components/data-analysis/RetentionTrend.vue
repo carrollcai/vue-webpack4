@@ -99,6 +99,8 @@
           :max-height="500">
           <el-table-column label="月份"
             property="periodId" />
+          <el-table-column :label="isWholeCountry ? (retTrend.district ? '省份' : '大区') : '省份'"
+            property="province" />
           <el-table-column label="上月活跃用户数"
             property="activeNum" />
           <el-table-column label="上月存留用户数"

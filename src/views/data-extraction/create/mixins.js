@@ -45,16 +45,13 @@ export default {
       }
     },
     clientFn(value) {
-      this.isUseTimeFn();
-    },
-    isUseTimeFn() {
-      let clientStr = String(this.applyFrom.client);
-      if (clientStr.indexOf('咪咕直播') !== -1 || clientStr.indexOf('咪咕影院') !== -1) {
+      let clientStr = String(value);
+      if (clientStr.indexOf('咪咕直播') > -1) {
         this.applyFrom.isUseTime = true;
-        return true;
+      } else if (clientStr.indexOf('咪咕影院') > -1) {
+        this.applyFrom.isUseTime = true;
       } else {
         this.applyFrom.isUseTime = false;
-        return false;
       }
     },
     changeDate(value) {
@@ -152,7 +149,8 @@ export default {
         content: this.applyFrom.userActive,
         sex: sexObj,
         netType: netTypeObj,
-        channelType: sourceObj
+        channelType: sourceObj,
+        city: this.restrictedCity ? 1 : ''
       };
       let parms = Object.assign(this.submitData, data, userObj, activeObj);
       this.$refs.refName.validate((valid) => {

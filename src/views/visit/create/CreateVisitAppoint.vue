@@ -3,7 +3,7 @@
     <div class="m-container">
       <div class="breadcrumb">
         <el-breadcrumb>
-          <el-breadcrumb-item :to="{ path: '/visit/visit-appoint' }">我的走访管理</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/visit/visit-appoint' }">走访指派</el-breadcrumb-item>
           <el-breadcrumb-item>新建走访指派</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -160,6 +160,7 @@ export default {
         if (valid) {
           delete params.processorData;
           delete params.regionData;
+          // params.visitId = this.visitId;
           // if (!this.connectOrganize()) return false;
           this.addCreateAppiont(params).then(() => {
             this.cancel();
@@ -173,7 +174,6 @@ export default {
       this.$router.push({path: '/visit/visit-appoint'});
     },
     ...mapMutations({
-      // updateOrderCreate: 'ORDER_UPDATE_CREATE',
       clearAppointCreate: 'APPOINT_CREATE'
     }),
     ...mapActions([

@@ -14,7 +14,7 @@
         <el-form-item label="任务名称：" required prop="name">
           <el-input v-model="applyFrom.name" style="width: 320px !important;" placeholder="请输入任务名称" />
         </el-form-item>
-        <el-form-item v-if="processorList && processorList.length" label="选择地区：">
+        <el-form-item required v-if="processorList && processorList.length" label="选择地区：">
           <div class="flex-row">
             <multilevelLinkage
               :listData.sync="processorList "
@@ -25,7 +25,7 @@
             </el-form-item>
           </div>
         </el-form-item>
-        <el-form-item v-if="provinceList && provinceList.length" label="选择省份：">
+        <el-form-item required v-if="provinceList && provinceList.length" label="选择省份：">
           <div class="flex-row">
             <el-select
               v-model="submitData.province"
@@ -73,7 +73,11 @@
       </div>
       <el-form-item class="detail-setting" label="明细设置：">
         <el-checkbox-group v-model="applyFrom.detailSet">
-          <el-checkbox :disabled="item.type === 1" v-for="item in detailSetList" :key="item.value" :label="item.label"></el-checkbox>
+          <el-checkbox
+            :disabled="item.type === 1 || (item.type === 2 && applyFrom.isUseTime)"
+            v-for="item in detailSetList"
+            :key="item.value"
+            :label="item.label"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <div class="detail-set">
@@ -154,8 +158,8 @@
         </el-form-item>
         <el-form-item label="使用时长：" v-if="applyFrom.detailSet.indexOf('使用时长') > -1">
           <el-radio-group v-model="applyFrom.serviceTime" @change="getServiceTime">
-          <el-radio :disabled="applyFrom.isserviceTime" v-for="item in serviceTimeList" :key="item" :label="item.label"></el-radio>
-          </el-radio-group>
+          <el-radio :disabled="applyFrom.isUseTime" v-for="item in serviceTimeList" :key="item" :label="item.label"></el-radio>
+        </el-radio-group>
         </el-form-item>
       </div>
       <el-form-item>
@@ -174,8 +178,8 @@ import {mapState} from 'vuex';
 const sexList = [{label: '男', value: '1'}, {label: '女', value: '2'}];
 const detailSetList = [
   {label: '用户信息', value: 1, type: 1}, {label: '用户类型', value: 2, type: 1}, {label: '数据来源', value: 3},
-  {label: '会员类型', value: 4}, {label: '性别', value: 5}, {label: '年龄', value: 6},
-  {label: '用户行为', value: 7}, {label: '上网方式', value: 8}, {label: '使用时长', value: 9}
+  {label: '会员类型', value: 4, type: 1}, {label: '性别', value: 5}, {label: '年龄', value: 6},
+  {label: '用户行为', value: 7, type: 1}, {label: '上网方式', value: 8}, {label: '使用时长', value: 9, type: 2}
 ];
 export default {
   mixins: [mixins],
@@ -241,15 +245,15 @@ export default {
         userActive: [],
         netType: [],
         serviceTime: [],
-        isserviceTime: false
+        isserviceTime: false,
+        isUseTime: false
       },
-      submitData: {
-        region: [],
-        province: []
-      }
+      submitData: {}
     };
   },
   beforeMount() {
+    this.submitData.region = [];
+    this.submitData.province = [];
     this.regionData.regionList = [];
     this.regionData.processorList = [];
   },

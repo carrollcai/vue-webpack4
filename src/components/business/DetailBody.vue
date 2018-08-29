@@ -51,15 +51,36 @@
       <div class="left">需要协调处：</div>
       <div class="right">{{detailData.needCoordinationIssue}}</div>
     </div>
+    <div class="task-detail-item">
+      <div class="left">附件下载：</div>
+      <div class="right" v-if="detailData.fileInputId && hasSignedFile">
+        <span class="blue" style="margin-right: 10px" v-for="item in hasSignedFile" :key="item" @click="downloadFile(item)">{{item.fileName}}</span></div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
   props: {
     detailData: JSON
   },
+  computed: {
+    ...mapState({
+      hasSignedFile: ({ order }) => order.hasSignedFile
+    })
+  },
   methods: {
+    downloadFile(res) {
+      this.orderDownloadFile({
+        fileTypeId: res.fileTypeId,
+        fileSaveName: res.fileSaveName,
+        fileName: res.fileName
+      });
+    },
+    ...mapActions([
+      'orderDownloadFile'
+    ])
   }
 };
 </script>

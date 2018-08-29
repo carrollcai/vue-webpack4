@@ -69,7 +69,7 @@
           <el-input maxlength="500" v-model="createVisitFrom.visitContent" type="textarea" class="form-input-large" placeholder="请输入走访内容" />
         </el-form-item>
         <el-form-item label="问题协调：" label-width="140px" prop="problemCoordinate">
-          <el-input maxlength="50" v-model="createVisitFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
+          <el-input maxlength="500" v-model="createVisitFrom.problemCoordinate" type="textarea" class="form-input-large" placeholder="请输入问题协调内容" />
         </el-form-item>
         <el-form-item label="是否首客走访：" label-width="140px" required prop="isFirstVisit">
           <el-radio style="margin-top: 14px;" v-model="createVisitFrom.isFirstVisit" :value="1" :label="1">是</el-radio>
@@ -86,7 +86,7 @@
 
 <script>
 import mixins from './mixins';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 export default {
   mixins: [mixins],
   data() {
@@ -99,24 +99,7 @@ export default {
       auditorOptions: [],
       fromVaild: {},
       pointAuditor: [],
-      codeValue: [],
-      editValue: {
-        visitId: '',
-        visitTheme: '',
-        organizeId: '',
-        organizeName: '',
-        visitAddress: '',
-        intervieweeName: '',
-        intervieweeMobile: '',
-        visitPresentMembers: '',
-        visitContent: '',
-        relOpporId: '',
-        relOpporCode: '',
-        problemCoordinate: '',
-        isFirstVisit: 0,
-        visitStartTime: '',
-        visitEndTime: ''
-      }
+      codeValue: []
     };
   },
   computed: {
@@ -147,27 +130,26 @@ export default {
             this.createVisitFrom.timeRange = arr;
           }
         }
-        this.visitAppointDetail.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
-        Object.assign(this.createVisitFrom, this.visitAppointDetail);
+        this.createVisitFrom.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
+        this.createVisitFrom.visitTheme = this.visitAppointDetail.visitTheme;
+        this.createVisitFrom.organizeId = this.visitAppointDetail.organizeId;
+        this.createVisitFrom.organizeName = this.visitAppointDetail.organizeName;
+        this.createVisitFrom.visitAddress = this.visitAppointDetail.visitAddress;
+        this.createVisitFrom.intervieweeName = this.visitAppointDetail.intervieweeName;
+        this.createVisitFrom.intervieweeMobile = this.visitAppointDetail.intervieweeMobile;
+        this.createVisitFrom.visitPresentMembers = this.visitAppointDetail.visitPresentMembers;
+        this.createVisitFrom.visitContent = this.visitAppointDetail.visitContent;
+        this.createVisitFrom.relOpporId = this.visitAppointDetail.relOpporId;
+        this.createVisitFrom.relOpporCode = this.visitAppointDetail.relOpporCode;
+        this.createVisitFrom.problemCoordinate = this.visitAppointDetail.problemCoordinate;
+        this.createVisitFrom.visitEndTime = this.visitAppointDetail.visitEndTime;
+        this.createVisitFrom.visitStartTime = this.visitAppointDetail.visitStartTime;
       });
-    } else {
-      this.createVisitFrom.visitTheme = '';
-      this.createVisitFrom.organizeId = '';
-      this.createVisitFrom.organizeName = '';
-      this.createVisitFrom.visitAddress = '';
-      this.createVisitFrom.intervieweeName = '';
-      this.createVisitFrom.intervieweeMobile = '';
-      this.createVisitFrom.visitPresentMembers = '';
-      this.createVisitFrom.visitContent = '';
-      this.createVisitFrom.relOpporId = '';
-      this.createVisitFrom.relOpporCode = '';
-      this.createVisitFrom.problemCoordinate = '';
-      this.createVisitFrom.isFirstVisit = 1;
-      this.createVisitFrom.visitStartTime = '';
-      this.createVisitFrom.visitEndTime = '';
-      this.createVisitFrom.timeRange = '';
-      this.createVisitFrom.visitTime = '';
     }
+  },
+  beforeDestroy() {
+    // 组件注销的时候，需要清空表单数据
+    this.clearApplicationCreate();
   },
   methods: {
     /* connectOrganize() {
@@ -194,7 +176,6 @@ export default {
     },
     relOpporValue(element) {
       this.registerList.filter((item, index, array) => {
-        console.log(item.opporCode, element, item.opporId);
         if (item.opporCode === element.value) {
           this.createVisitFrom.relOpporId = item.opporId;
         }
@@ -239,58 +220,29 @@ export default {
       }, 1000);
     }, */
     query() {
-      var _this = this;
-      if (this.visitId > 0) {
-        this.editValue = {
-          visitId: this.visitId,
-          visitTheme: this.createVisitFrom.visitTheme,
-          organizeId: this.createVisitFrom.organizeId,
-          organizeName: this.createVisitFrom.organizeName,
-          visitAddress: this.createVisitFrom.visitAddress,
-          intervieweeName: this.createVisitFrom.intervieweeName,
-          intervieweeMobile: this.createVisitFrom.intervieweeMobile,
-          visitPresentMembers: this.createVisitFrom.visitPresentMembers,
-          visitContent: this.createVisitFrom.visitContent,
-          relOpporId: this.createVisitFrom.relOpporId,
-          relOpporCode: this.createVisitFrom.relOpporCode,
-          problemCoordinate: this.createVisitFrom.problemCoordinate,
-          isFirstVisit: this.createVisitFrom.isFirstVisit,
-          visitStartTime: this.createVisitFrom.visitStartTime,
-          visitEndTime: this.createVisitFrom.visitEndTime
-        };
-        let { visitTime, timeRange, ...params } = this.editValue;
-        delete params.organizeId;
-        delete params.visitAuditor;
-        delete params.isSubmit;
-        this.$refs.visitRef.validate((valid) => {
-          if (valid) {
-            // if (!this.connectOrganize()) return false;
-            _this.editVisitApp(params);
+      let { visitTime, timeRange, ...params } = this.createVisitFrom;
+      delete params.organizeId;
+      delete params.visitAuditor;
+      delete params.isSubmit;
+      this.$refs.visitRef.validate((valid) => {
+        if (valid) {
+          if (this.visitId > 0) {
+            params.visitId = this.visitId;
+            this.editVisitApp(params);
           } else {
-            return false;
+            this.addCreateVisit(params);
           }
-        });
-      } else {
-        let { visitTime, timeRange, ...params } = this.createVisitFrom;
-        delete params.organizeId;
-        delete params.visitAuditor;
-        delete params.isSubmit;
-        this.$refs.visitRef.validate((valid) => {
-          if (valid) {
-            // if (!this.connectOrganize()) return false;
-            _this.addCreateVisit(params);
-          } else {
-            return false;
-          }
-        });
-      }
+        } else {
+          return false;
+        }
+      });
     },
     cancel() {
       this.$router.push({path: '/visit/my-visit-manage'});
     },
-    /* ...mapMutations({
-      updateOrderCreate: 'ORDER_UPDATE_CREATE'
-    }), */
+    ...mapMutations({
+      clearApplicationCreate: 'APPLICATION_CREATE'
+    }),
     ...mapActions([
       'addCreateVisit',
       // 'getOrganizeAddress',

@@ -89,13 +89,14 @@
         <div class="no-data">
           <div class="no-data" v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <column :charData="transformChartNeed(trendList)" :id="'activeColumn'" />
+            <grouped-column-chart :char-data="trendData" :fields="trendFields" id="activeColumn"/>
           </template>
         </div>
       </div>
       <div v-else>
         <wm-table :source="trendList" :max-height="500">
           <el-table-column label="日期" property="periodId" />
+          <el-table-column :label="isWholeCountry ? (trend.district === null ? '大区' : '省份') : '省份'" property="province" />
           <el-table-column :label="!trend.dateType ? '日活跃用户数' : '月活跃用户数'" property="activeNum" />
           <el-table-column label="手机账号登录用户" property="msisdnNum" />
           <el-table-column label="移动IP用户" property="chinaMobileIpNum" />
@@ -119,7 +120,6 @@ import Column from 'components/chart/Column.vue';
 import mixins from './mixins';
 import { TREND_RADIO } from '@/config';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
-import { chinaDatetransformDate } from '@/utils/common.js';
 
 export default {
   mixins: [mixins],
@@ -196,25 +196,6 @@ export default {
   methods: {
     handleChangeProvince() {
       this.query();
-    },
-    transformChartNeed(list) {
-      let modeObj = {
-        0: 'activeNum',
-        1: 'chinaMobileIpNum',
-        2: 'msisdnNum',
-        3: 'otherIpNum'
-      };
-      let _list = list.map(val => {
-        let obj = {
-          '数量': val[modeObj[this.trend.chartRadio]]
-        };
-        return {
-          name: val.province,
-          '月份': chinaDatetransformDate(val.periodId),
-          ...obj,
-        };
-      });
-      return _list;
     },
     radioTransformDate(i) {
       // 这个函数会触发多次，每次只触发第一次

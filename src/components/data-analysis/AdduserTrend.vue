@@ -107,7 +107,7 @@
             property="clientType" />
           <el-table-column label="日期"
             property="periodId" />
-          <el-table-column label="省份"
+          <el-table-column :label="isWholeCountry ? (trend.district ? '省份' : '大区') : '省份'"
             property="province" />
           <el-table-column label="新增用户"
             property="newUserNum" />

@@ -146,7 +146,17 @@ export default {
       type: Number,
       default: 500
     },
-    id: String
+    id: String,
+    sourceConfig: {
+      type: Object,
+      default: function() {
+        return {
+          periodId: {
+            type: 'cat'
+          }
+        };
+      }
+    }
   },
   mounted() {
     this.drawChart(this.charData);
@@ -177,7 +187,7 @@ export default {
         value: 'value' // value字段
       });
 
-      chart.source(dv);
+      chart.source(dv, this.sourceConfig);
 
       chart.interval().position(this.position).color('name').adjust([{
         type: 'dodge',

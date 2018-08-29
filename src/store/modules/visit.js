@@ -9,7 +9,26 @@ import {
   getterType: 'getVisitField',
   mutationType: 'updateVisitField'
 }); */
-
+const createVisitFrom = {
+  visitTheme: '',
+  organizeId: '',
+  organizeName: '',
+  visitAddress: '',
+  intervieweeName: '',
+  intervieweeMobile: '',
+  visitPresentMembers: '',
+  visitContent: '',
+  relOpporId: '',
+  relOpporCode: '',
+  problemCoordinate: '',
+  visitAuditor: '',
+  isFirstVisit: 1,
+  visitStartTime: '',
+  visitEndTime: '',
+  isSubmit: 1,
+  visitTime: null,
+  timeRange: null
+};
 const createAppointFrom = {
   visitTheme: '',
   organizeName: '',
@@ -19,6 +38,7 @@ const createAppointFrom = {
   visitTime: null,
   timeRange: null,
   processor: [],
+  processorData: [],
   regionData: {
     regionList: [],
     processorList: [],
@@ -39,26 +59,7 @@ const state = {
     // visitTime: null
   },
   myVisitManageList: {},
-  createVisitFrom: {
-    visitTheme: '',
-    organizeId: '',
-    organizeName: '',
-    visitAddress: '',
-    intervieweeName: '',
-    intervieweeMobile: '',
-    visitPresentMembers: '',
-    visitContent: '',
-    relOpporId: '',
-    relOpporCode: '',
-    problemCoordinate: '',
-    visitAuditor: '',
-    isFirstVisit: 1,
-    visitStartTime: '',
-    visitEndTime: '',
-    isSubmit: 1,
-    visitTime: null,
-    timeRange: null
-  },
+  createVisitFrom: Object.cloneDeep(createVisitFrom),
   createVisitData: {},
   appointVisitForm: {
     visitStartTime: '',
@@ -72,22 +73,7 @@ const state = {
     visitResource: '1',
     // timeRang: ''
   },
-  createAppointFrom: {
-    visitTheme: '',
-    organizeName: '',
-    intervieweeName: '',
-    visitStartTime: '',
-    visitEndTime: '',
-    visitTime: null,
-    timeRange: null,
-    processor: [],
-    processorData: [],
-    regionData: {
-      regionList: [],
-      processorList: [],
-      processor: []
-    }
-  },
+  createAppointFrom: Object.cloneDeep(createAppointFrom),
   appointVisitList: {},
   visitAppointDetail: {},
   regionManageList: [],
@@ -110,6 +96,9 @@ const mutations = {
   // 清空创建数据
   [types.APPOINT_CREATE](state, data) {
     state.createAppointFrom = Object.cloneDeep(createAppointFrom);
+  },
+  [types.APPLICATION_CREATE](state, data) {
+    state.createVisitFrom = Object.cloneDeep(createVisitFrom);
   },
   [types.MY_VISIT_MANAGE_LIST](state, data) {
     state.myVisitManageList = data;

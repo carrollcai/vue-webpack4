@@ -97,7 +97,9 @@ export default {
     this.types = this.$route.params.taskInsId;
     let taskparam = {};
     taskparam.taskInsId = parseInt(this.$route.params.taskInsId);
-    this.getBusinessDetail(opprparam);
+    this.getBusinessDetail(opprparam).then(res => {
+      this.gethasSignedFile({fileInputId: this.businessDetail.fileInputId});
+    });
     if (this.$route.params.taskHasComplete === '1') {
       this.getQueryTask(taskparam);
     }
@@ -206,7 +208,7 @@ export default {
       }
     },
     ...mapActions([
-      'getBusinessDetail', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft', 'getQueryTask', 'getAssignhandler'
+      'getBusinessDetail', 'gethasSignedFile', 'getDesignatePerson', 'submitBusinessSend', 'submitBusinessCancel', 'submitBusinessDraft', 'getQueryTask', 'getAssignhandler'
     ])
   }
 };

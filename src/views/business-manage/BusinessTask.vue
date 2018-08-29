@@ -4,7 +4,7 @@
       <el-form class="form-manage" ref="taskManageForm" :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
-            <el-date-picker v-model="businessTaskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker clearable v-model="businessTaskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
 
@@ -13,7 +13,7 @@
             <!--<el-autocomplete clearable v-model="businessTaskForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="businessTaskForm.opporCodeOrName" placeholder="商机编码" />
+            <el-input clearable v-model="businessTaskForm.opporCodeOrName" placeholder="商机名称/编号" />
           </el-form-item>
         </div>
         <div class="flex">
@@ -226,10 +226,8 @@ export default {
       let params = this.sendParam;
       if (this.sendForm.person !== '') {
         if (this.sendForm.reason.trim() !== '') {
-          params.dealPerson = this.sendForm.person.pop();
+          params.dealPerson = this.sendForm.person[this.sendForm.person.length - 1];
           params.dealResult = this.sendForm.reason.trim();
-          console.log(this.sendForm.person);
-          console.log(params.dealPerson);
           this.submitBusinessSend(params).then(res => {
             if (res.data) {
               this.sendDialogVisible = false;

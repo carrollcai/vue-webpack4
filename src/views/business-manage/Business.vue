@@ -13,7 +13,7 @@
           <!--<el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="businessForm.opporCodeOrName" placeholder="商机编码" />
+          <el-input clearable v-model="businessForm.opporCodeOrName" placeholder="商机名称/编号" />
         </el-form-item>
         <el-form-item class="form-query-input-width form-left-width">
           <el-input clearable v-model="businessForm.opName" placeholder="提供人" />

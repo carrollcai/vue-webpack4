@@ -21,7 +21,7 @@ const actions = {
   /**
    * 查询 “商机详情” 数据
    */
-  getBusinessDetail: ({ commit }, params) => {
+  getBusinessDetail({ commit, dispatch }, params) {
     return API.getBusinessDetailAPI(params).then(res => {
       commit(types.BUSINESS_DETAIL, res.data);
     });
