@@ -97,8 +97,6 @@
       <div v-else>
         <wm-table :source="addUserVipList"
           :max-height="500">
-          <el-table-column label="客户端"
-            property="clientType" />
           <el-table-column label="日期"
             property="periodId" />
           <el-table-column :label="isWholeCountry ? (trend.district ? '省份' : '大区') : '省份'"
