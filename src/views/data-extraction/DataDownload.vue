@@ -29,8 +29,8 @@
       <el-tabs v-model="extractBusinessStatus" @tab-click="getState">
         <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
-        <el-tab-pane label="数据提取中" :name="2"></el-tab-pane>
-        <el-tab-pane label="提取成功" :name="3"></el-tab-pane>
+        <el-tab-pane label="数据生成中" :name="2"></el-tab-pane>
+        <el-tab-pane label="数据生成" :name="3"></el-tab-pane>
         <!-- <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
         <el-tab-pane label="已取消" :name="4"></el-tab-pane> -->
       </el-tabs>
