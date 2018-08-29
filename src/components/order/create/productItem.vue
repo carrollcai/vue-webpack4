@@ -36,8 +36,7 @@
               v-model="item.processorData"
               :disabled="!item.productHandlers.length"
               @change="item => handleProcessorSelect(i)"
-              multiple
-              collapse-tags>
+              multiple>
               <el-option v-for="cItem in item.productHandlers"
                 :key="cItem.value"
                 :label="cItem.value"

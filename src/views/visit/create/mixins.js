@@ -3,13 +3,13 @@ import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 
 export default {
   data() {
-    const noTextareaMaxLimit = (rule, value, callback) => {
-      if (String(value).trim().length > 50) {
-        callback(new Error(`输入内容字符不能超过50`));
-      } else {
-        callback();
-      }
-    };
+    // const noTextareaMaxLimit = (rule, value, callback) => {
+    //   if (String(value).trim().length > 50) {
+    //     callback(new Error(`输入内容字符不能超过50`));
+    //   } else {
+    //     callback();
+    //   }
+    // };
     const noTextareaLimit = (rule, value, callback) => {
       if (String(value).trim().length > 50) {
         callback(new Error(`输入内容字符不能超过50`));
