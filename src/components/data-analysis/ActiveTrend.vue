@@ -95,6 +95,7 @@
       </div>
       <div v-else>
         <wm-table :source="trendList" :max-height="500">
+          <el-table-column label="客户端" property="clientType" />
           <el-table-column label="日期" property="periodId" />
           <el-table-column :label="isWholeCountry ? (trend.district === null ? '大区' : '省份') : '省份'" property="province" />
           <el-table-column :label="!trend.dateType ? '日活跃用户数' : '月活跃用户数'" property="activeNum" />

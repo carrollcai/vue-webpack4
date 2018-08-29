@@ -2,10 +2,6 @@
   <div class="visit-datil">
     <div class="visit-title" v-if="visitDetails.visitResource === 1">
       <div class="task-detail-item">
-        <div class="left">指派人：</div>
-        <div class="right">无</div>
-      </div>
-      <div class="task-detail-item">
         <div class="left">走访人：</div>
         <div class="right">{{visitDetails.opId}}</div>
       </div>
