@@ -271,7 +271,7 @@ export default {
           this.$message({
             type: 'success',
             dangerouslyUseHTMLString: true,
-            message: `<p>您已成功提交该订单！</p><p>处理人：${row.processorName}</p>`
+            message: `<p>您已成功提交该订单！</p>`
           });
           this.query();
         });
