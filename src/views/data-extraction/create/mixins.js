@@ -96,6 +96,7 @@ export default {
         let df = this.applyFrom.detailSet.indexOf('使用时长');
         if (df > -1) {
           this.applyFrom.detailSet.splice(df, 1);
+          this.applyFrom.serviceTime = [];
         }
       } else {
         this.applyFrom.isUseTime = false;
