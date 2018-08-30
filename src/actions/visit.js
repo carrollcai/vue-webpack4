@@ -155,6 +155,11 @@ const actions = {
       commit(types.APPOINT_VISIT_LIST, res.data);
     });
   },
+  isOpporExist: ({ commit }, params) => {
+    return API.isOpporExistAPI(params).then((res) => {
+      return res.data;
+    });
+  },
 };
 
 export default actions;
