@@ -323,7 +323,7 @@
             placeholder="请输入所在职位"
             key="managerJob-input"></el-input>
         </el-form-item>
-        <el-form-item label="是否短信提醒" prop="needSms" key="needSms">
+        <el-form-item label="短信提醒审核人" prop="needSms" key="needSms">
           <el-radio-group v-model="customer.needSms" size="small">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">否</el-radio>
