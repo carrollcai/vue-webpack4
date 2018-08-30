@@ -24,6 +24,7 @@ const actions = {
   getBusinessDetail({ commit, dispatch }, params) {
     return API.getBusinessDetailAPI(params).then(res => {
       commit(types.BUSINESS_DETAIL, res.data);
+      return res.data;
     });
   },
   /**
