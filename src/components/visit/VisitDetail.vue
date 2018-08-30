@@ -2,10 +2,6 @@
   <div class="visit-datil">
     <div class="visit-title" v-if="visitDetails.visitResource === 1">
       <div class="task-detail-item">
-        <div class="left">指派人：</div>
-        <div class="right">无</div>
-      </div>
-      <div class="task-detail-item">
         <div class="left">走访人：</div>
         <div class="right">{{visitDetails.opId}}</div>
       </div>
@@ -13,12 +9,20 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatusCN}}</div>
       </div>
+      <div class="task-detail-item" v-if="visitDetails.visitStatusCN === '已取消'">
+        <div class="left">取消原因：</div>
+        <div class="right" v-if="visitDetails.feedback">{{visitDetails.feedback}}</div>
+      </div>
       <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '已执行'">
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
           <span style="display: block;">{{visitDetails.feedback}}</span>
           <p v-if="isFileInputId" class="download-style"><span v-if="filesArr && filesArr.length" v-for="item in filesArr" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
         </div>
+      </div>
+      <div class="task-detail-item w100" v-if="visitDetails.assignNote && visitDetails.visitStatusCN === '待执行'">
+        <div class="left">指派说明：</div>
+        <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
       </div>
     </div>
     <div class="visit-title" v-else>
@@ -34,6 +38,10 @@
         <div class="left">走访状态：</div>
         <div class="right">{{visitDetails.visitStatusCN}}</div>
       </div>
+      <div class="task-detail-item" v-if="visitDetails.visitStatusCN === '已取消'">
+        <div class="left">取消原因：</div>
+        <div class="right" v-if="visitDetails.feedback">{{visitDetails.feedback}}</div>
+      </div>
       <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '已执行'">
         <div class="left">执行汇报：</div>
         <div class="right" v-if="visitDetails.feedback">
@@ -41,13 +49,9 @@
           <p v-if="isFileInputId" class="download-style"><span v-if="filesArr && filesArr.length" v-for="item in filesArr" :key="item" @click="dowloadFile(item.name, item.path)" class="blue">{{item.name}}</span></p>
         </div>
       </div>
-      <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '待执行'">
+      <div class="task-detail-item w100">
         <div class="left">指派说明：</div>
         <div class="right" v-if="visitDetails.assignNote">{{visitDetails.assignNote}}</div>
-      </div>
-      <div class="task-detail-item w100" v-if="visitDetails.visitStatusCN === '已取消'">
-        <div class="left">取消原因：</div>
-        <div class="right" v-if="visitDetails.feedback">{{visitDetails.feedback}}</div>
       </div>
     </div>
     <div class="task-detail-item">

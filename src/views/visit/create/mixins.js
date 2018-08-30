@@ -4,8 +4,8 @@ import { checkPhone, textareaLimit, textareaMaxLimit } from '@/utils/rules.js';
 export default {
   data() {
     const noTextareaMaxLimit = (rule, value, callback) => {
-      if (String(value).trim().length > 50) {
-        callback(new Error(`输入内容字符不能超过50`));
+      if (String(value).trim().length > 500) {
+        callback(new Error(`输入内容字符不能超过500`));
       } else {
         callback();
       }
@@ -59,7 +59,7 @@ export default {
           { validator: textareaLimit, trigger: 'blur' }
         ],
         intervieweeMobile: [
-          { required: true, message: '请输入联系电话', trigger: 'blur' },
+          { required: true, message: '请输入联系电话', trigger: ['change', 'blur'] },
           { validator: checkPhone, trigger: 'blur' }
         ],
         visitPresentMembers: [
@@ -74,7 +74,7 @@ export default {
           { validator: noTextareaLimit, trigger: 'blur' }
         ],
         problemCoordinate: [
-          { message: '请输入问题协调', trigger: ['change', 'blur'] },
+          { message: '请输入问题协调', trigger: 'blur' },
           { validator: noTextareaMaxLimit, trigger: 'blur' }
         ],
         isFirstVisit: [

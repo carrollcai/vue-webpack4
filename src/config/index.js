@@ -328,7 +328,7 @@ export const INPUT_TEXTAREA_LIMIT = 50;
 export const INPUT_TEXTAREA_MAX_LIMIT = 500;
 export const EMAIL_MAX_LENGTH = 35;
 export const INPUT_LENGTH_TWENTY = 20;
-export const INPUT_NUMBER_LIMIT = 1000000;
+export const INPUT_NUMBER_LIMIT = 100000000;
 
 // 上传文件支持类型
 export const FILE_ACCEPT = [

@@ -42,16 +42,16 @@ export const isPositive = (rule, value, callback) => {
   const reg = /^[1-9]\d*$/;
   if (value === '' || value === null) {
     callback();
-  } else if (reg.test(value)) {
-    callback();
   } else if (value > INPUT_NUMBER_LIMIT) {
     callback(new Error(`不得超过${INPUT_NUMBER_LIMIT}`));
+  } else if (reg.test(value)) {
+    callback();
   } else {
     callback(new Error('请输入正确数字类型'));
   }
 };
 
-// 最大数量校验
+// 文本最大数量校验
 export const maxLimit = (rule, value, callback) => {
   if (Number(value) > INPUT_BIG_WORD_MAX) {
     callback(new Error(`输入内容不能超过${INPUT_BIG_WORD_MAX}`));
@@ -193,13 +193,28 @@ export const emailCheck = (rule, value, callback) => {
   }
 };
 
-// 整数部分最多5位，小数部分最多4位
-export const inte5Deci4 = (rule, value, callback) => {
-  const reg = /^\d{1,5}(?:\.\d{1,4})?$/;
-  if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
+// 整数部分最多8位，小数部分最多2位
+export const inte8Deci2 = (rule, value, callback) => {
+  const reg = /^\d{1,8}(?:\.\d{1,2})?$/;
+  if (String(value).trim() === '' || value === null) {
+    callback();
+  } else if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
     callback();
   } else {
-    callback(new Error('整数部分最多5位，小数部分最多4位'));
+    callback(new Error('整数部分最多8位，小数部分最多2位'));
+  }
+};
+export const nointe8Deci2 = (rule, value, callback) => {
+  const reg = /^\d{1,8}(?:\.\d{1,2})?$/;
+  let flag = !value ? '0' : '1';
+  if (flag === '1') {
+    if (String(value).trim() === '' || value === null) {
+      // callback();
+    } else if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
+      callback();
+    } else {
+      callback(new Error('整数部分最多8位，小数部分最多2位'));
+    }
   }
 };
 

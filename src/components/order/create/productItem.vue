@@ -36,8 +36,7 @@
               v-model="item.processorData"
               :disabled="!item.productHandlers.length"
               @change="item => handleProcessorSelect(i)"
-              multiple
-              collapse-tags>
+              multiple>
               <el-option v-for="cItem in item.productHandlers"
                 :key="cItem.value"
                 :label="cItem.value"
@@ -126,11 +125,13 @@ export default {
       }, 1000);
     },
     handleProductSelect(item, index) {
+      console.log(item);
       // 更新订购产品
       this.getProductHandler({
-        opRegion: item.region,
-        roleList: item.roleList,
-        index: index
+        // opRegion: item.region,
+        // roleList: item.roleList,
+        item,
+        index,
       });
     },
     validate() {

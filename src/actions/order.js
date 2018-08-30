@@ -40,11 +40,16 @@ const actions = {
   },
   // 产品指派处理人
   getProductHandler: ({ commit }, params) => {
-    let { index, ..._params } = params;
+    let { index, item } = params;
+    let _params = {
+      opRegion: item.region,
+      roleList: item.roleList,
+    };
     console.log(params);
     return API.getProductHandlerAPI(_params).then(res => {
       commit(types.ORDER_QUERY_PRODUCT_HANDLER, {
         list: res.data,
+        item: item,
         index,
       });
     });

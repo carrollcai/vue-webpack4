@@ -23,7 +23,7 @@
     <div class="order-container">
       <el-form :rules="rules" ref="transForm" :model="orderData" label-width="140px">
         <el-form-item label="订单名称：" prop="ordName">
-          <el-input :maxlength="25" v-model="orderData.ordName" class="form-input-medium" placeholder="请输入订单名称">
+          <el-input maxlength="25" v-model="orderData.ordName" class="form-input-medium" placeholder="请输入订单名称">
           </el-input>
         </el-form-item>
         <!-- <el-form-item label="订购产品：" prop="productName">
@@ -89,22 +89,33 @@
         <el-form-item label="合作方案：" prop="teamProject">
           <el-input type="textarea" class="form-input-large" :maxlength="500" v-model="orderData.teamProject" placeholder="请输入合作方案" />
         </el-form-item>
-        <el-form-item label="预计收入" prop="predictRevenue">
+        <el-form-item label="预计收入：" prop="predictRevenue">
           <el-input v-model="orderData.predictRevenue" class="form-input-medium" placeholder="请输入预计收入">
+            <template slot="append">元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="预计签约时间：" prop="predictSignTime">
           <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderData.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="预计协议期：" prop="predictAgreementTime">
-          <el-select class="form-input-medium" v-model="orderData.predictAgreementTime" placeholder="请选择">
+        <el-form-item label="预计协议期：" required="true">
+          <!-- <el-select class="form-input-medium" v-model="orderData.predictAgreementTime" placeholder="请选择">
               <el-option
               v-for="item in PREDICT_AGREEMENT_TIME"
               :key="item.value"
               :label="item.label"
               :value="item.value">
               </el-option>
-          </el-select>
+              <template slot="append">元</template>
+          </el-select> -->
+          <el-form-item prop="predictAgreementTime" style="display: inline-block;">
+            <el-input v-model="orderData.predictAgreementTime" :maxlength="3" class="form-input-medium" placeholder="请输入预计协议期" />
+          </el-form-item>
+          <el-form-item style="display: inline-block; min-width: 50px;">
+            <el-select class="form-input-medium" v-model="date" placeholder="请选择">
+              <el-option label="年" :value="0"></el-option>
+              <el-option label="月" :value="1"></el-option>
+            </el-select>
+          </el-form-item>
         </el-form-item>
 
         <!--<el-form-item label="订单需求：" prop="busiRequire">
@@ -128,7 +139,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
-import { checkPhone, emailCheck, inte5Deci4, checkLeftRightSpace } from '@/utils/rules.js';
+import { checkPhone, emailCheck, nointe8Deci2, checkLeftRightSpace } from '@/utils/rules.js';
 
 import filters from '@/views/business-manage/filters';
 import productItem from 'components/order/create/productItem.vue';
@@ -147,6 +158,7 @@ export default {
       }
     };
     return {
+      date: 0,
       selectedProduct: {
         productName: '',
         productId: null
@@ -176,7 +188,7 @@ export default {
           { validator: checkPhone, trigger: 'blur' }
         ],
         contactEmail: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' },
+          { message: '请输入电子邮箱', trigger: 'blur' },
           { validator: emailCheck, trigger: 'blur' }
         ],
         busiDesc: [
@@ -192,8 +204,7 @@ export default {
           { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         predictRevenue: [
-          { required: true, message: '请输入预计收入', trigger: 'blur' },
-          { validator: inte5Deci4, trigger: ['blur', 'change'] }
+          { validator: nointe8Deci2, trigger: 'blur' }
         ],
         predictSignTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }

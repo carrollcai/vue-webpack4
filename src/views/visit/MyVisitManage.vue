@@ -50,19 +50,16 @@
           <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button class="table-button" v-if="scope.row.visitStatus === '1'" type="text" @click="viewDetail(scope.row, true)">
+          <el-button class="table-button" v-if="scope.row.visitStatus === '1' && scope.row.visitResource === 2" type="text" @click="viewDetail(scope.row, true)">
             走访汇报
           </el-button>
           <!-- 自建的则支持修改 -->
-          <el-button v-if="scope.row.visitStatus === '1'" type="text" @click="createVisit(scope.row)">
+          <el-button v-if="scope.row.visitStatus === '1' && scope.row.visitResource === 1" type="text" @click="createVisit(scope.row)">
             编辑
           </el-button>
           <!-- <el-button v-if="scope.row.visitStatus === '0'" type="text" @click="deleteVisite(scope.row)">
             删除
           </el-button> -->
-          <el-button v-if="scope.row.visitStatus === '2' && (scope.row.isOverDate === '0' || scope.row.isOverDate === 0)" class="table-button" type="text" @click="hageResource(scope.row)">
-            评价
-          </el-button>
         </template>
       </el-table-column>
     </wm-table>
@@ -115,6 +112,7 @@ export default {
   methods: {
     hageResource(row) {
       this.visitId = row.visitId;
+      this.visitEvaluate = '';
       this.dialogVisible = true;
     },
     submitEvaluate() {

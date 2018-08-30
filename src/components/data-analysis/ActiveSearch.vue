@@ -61,8 +61,8 @@
                 @click="eventDownload()">立即下载</el-button>
             </el-form-item>
           </el-form>
-          <span slot="reference">"球球"新增活跃用户下载
-            <i class="icon-downloan"></i>
+          <span slot="reference" class="download_qiuqiu">"球球"新增活跃用户下载
+            <i class="icon-download"></i>
           </span>
         </el-popover>
       </div>
@@ -173,5 +173,9 @@ export default {
 }
 .temporary-module-first-input {
   margin-top: 16px;
+}
+.download_qiuqiu{
+  cursor: pointer;
+  color: #3778FF;
 }
 </style>

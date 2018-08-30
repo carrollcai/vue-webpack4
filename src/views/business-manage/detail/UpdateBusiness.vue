@@ -114,7 +114,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { checkPhone, emailCheck, checkLeftRightSpace, inte5Deci4 } from '@/utils/rules.js';
+import { checkPhone, emailCheck, checkLeftRightSpace, inte8Deci2 } from '@/utils/rules.js';
 import filters from '@/views/business-manage/filters';
 export default {
   mixins: [filters],
@@ -176,7 +176,7 @@ export default {
         ],
         predictContractAmount: [
           { required: true, message: '请输入预计收入', trigger: 'blur' },
-          { validator: inte5Deci4, trigger: ['blur', 'change'] }
+          { validator: inte8Deci2, trigger: ['blur', 'change'] }
         ],
         predictSignTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }

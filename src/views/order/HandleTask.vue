@@ -28,6 +28,11 @@
             <el-input clearable v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编号" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
+            <el-input clearable
+              v-model="orderHandleTaskForm.organizeNameOrCode"
+              placeholder="合作集团/编码" />
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width">
             <el-input clearable v-model="orderHandleTaskForm.staffName" placeholder="创建人" />
           </el-form-item>
         </div>

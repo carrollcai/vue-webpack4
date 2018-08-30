@@ -97,6 +97,8 @@
       <div v-else>
         <wm-table :source="retTrendList"
           :max-height="500">
+          <el-table-column label="客户端"
+            property="clientType" />
           <el-table-column label="月份"
             property="periodId" />
           <el-table-column :label="isWholeCountry ? (retTrend.district ? '省份' : '大区') : '省份'"
