@@ -21,27 +21,8 @@
               </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="预计收入：" prop="predictContractAmount">
-          <el-input v-model="businessData.predictContractAmount" class="form-input-medium" placeholder="请输入预计收入">
-            <template slot="append">万元/月</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="businessData.predictSignTime" placeholder="请选择时间"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="预计协议期：" prop="predictAgreementTime">
-          <el-select class="form-input-medium" v-model="businessData.predictAgreementTime" placeholder="请选择">
-              <el-option
-              v-for="item in PREDICT_AGREEMENT_TIME"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-              </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="项目是否招标：" prop="isProjectInvitation">
-          <el-radio v-model="businessData.isProjectInvitation" label="1">是</el-radio>
-          <el-radio v-model="businessData.isProjectInvitation" label="0">否</el-radio>
+        <el-form-item label="商机名称：" prop="opporName">
+          <el-input maxlength="25" v-model="businessData.opporName" class="form-input-medium" placeholder="请输入商机名称" />
         </el-form-item>
         <el-form-item label="联系人员：" prop="contactName">
           <el-input maxlength="6" class="form-input-80" v-model="businessData.contactName" placeholder="姓名"></el-input>
@@ -79,11 +60,30 @@
         <el-form-item label="业务描述：" prop="busiDesc">
           <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="businessData.busiDesc"></el-input>
         </el-form-item>
-        <el-form-item label="业务需求：" prop="busiRequire">
-          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务需求" v-model="businessData.busiRequire"></el-input>
+        <el-form-item label="合作建议：" prop="busiOperating">
+          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入合作建议" v-model="businessData.busiOperating"></el-input>
         </el-form-item>
-        <el-form-item label="需要协调的问题：">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="businessData.needCoordinationIssue"></el-input>
+        <el-form-item label="商机有效期：" prop="busiValidity">
+          <el-input v-model="businessData.busiValidity" class="form-input-medium" placeholder="请输入商机有效期">
+            <template slot="append">月</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="附件：" label-width="130px">
+          <el-upload class="upload-demo" action=""
+            :auto-upload="false"
+            :on-change="handleChangeFile"
+            :multiple="false"
+            :on-remove="handleRemoveFile"
+            :file-list="uploadFiles"
+          >
+            <el-button slot="trigger" size="small">
+              <i class="icon-up margin-right-8"></i>上传文件
+            </el-button>
+            <div slot="tip" class="el-upload__tip">
+              <p class="lh1-5">{{FILE_TIP[0]}}</p>
+              <p class="lh1-5">{{FILE_TIP[1]}}</p>
+            </div>
+          </el-upload>
         </el-form-item>
       </el-form>
       </div>
@@ -92,15 +92,26 @@
       <div class="hr"></div>
       <div class="b-container">
           <el-form label-width="140px" style="width: 545px;">
-            <el-form-item label="提醒人：">
-              <el-select class="form-input-medium" multiple v-model="businessData.remindersArr" placeholder="请选择提醒人" @change="changeReminders">
-                  <el-option
-                  v-for="item in remindPerson"
-                  :key="item.operatorId"
-                  :label="item.staffName"
-                  :value="item.operatorId">
-                  </el-option>
-              </el-select>
+            <el-form-item label="提醒人设置：">
+              <el-form-item class="business-linkage" prop="visitAuditor">
+                <el-cascader v-if="remindPerson"
+                  @change="getProcessor"
+                  :options="remindPerson"
+                  v-model="processorData"
+                  :placeholder="''"
+                  :change-on-select="false">
+                </el-cascader>
+                <div class="tag-list">
+                  <el-tag
+                    :key="tag"
+                    v-for="tag in regionData.processorList"
+                    closable
+                    :disable-transitions="false"
+                    @close="handleClose(tag)">
+                    {{tag}}
+                  </el-tag>
+                </div>
+              </el-form-item>
             </el-form-item>
             <el-form-item label="">
               <el-button type="primary" @click="save">保存</el-button>
@@ -114,32 +125,39 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { checkPhone, emailCheck, checkLeftRightSpace, inte8Deci2 } from '@/utils/rules.js';
+import _ from 'lodash';
+
+import {
+  checkPhone,
+  emailCheck,
+  checkLeftRightSpace,
+  textAccountLimit
+} from '@/utils/rules.js';
 import filters from '@/views/business-manage/filters';
+
+import { FILE_TIP, FILE_TYPE_ID } from '@/config';
+
+import { fileBeforeUpload } from '@/utils/common.js';
+
 export default {
   mixins: [filters],
   components: {
   },
   data() {
     return {
-      form: {
-        opporType: '',
-        predictContractAmount: '',
-        predictSignTime: '',
-        predictAgreementTime: '',
-        isProjectInvitation: '1',
-        contactName: '',
-        contactGender: '',
-        contactMobile: '',
-        contactEmail: '',
-        organizeName: '',
-        address: '',
-        busiDesc: '',
-        busiRequire: '',
-        needCoordinationIssue: '',
-        remindersArr: ''
+      FILE_TIP,
+      regionData: {
+        regionList: [],
+        processorList: [],
+        processor: []
       },
+      processorData: [],
+      processors: [],
       rules: {
+        opporName: [
+          { required: true, message: '请输入商机名称', trigger: 'blur' },
+          { validator: textAccountLimit, trigger: 'blur' }
+        ],
         opporType: [
           { required: true, message: '请选择商机类别', trigger: ['blur', 'change'] }
         ],
@@ -163,8 +181,10 @@ export default {
           { validator: checkPhone, trigger: 'blur' }
         ],
         contactEmail: [
-          { required: true, message: '请输入电子邮箱', trigger: 'blur' },
           { validator: emailCheck, trigger: 'blur' }
+        ],
+        busiOperating: [
+          { required: true, message: '请输入合作建议', trigger: 'blur' }
         ],
         busiDesc: [
           { required: true, message: '请输入业务描述', trigger: 'blur' },
@@ -174,27 +194,27 @@ export default {
           { required: true, message: '请输入业务需求', trigger: 'blur' },
           { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
-        predictContractAmount: [
-          { required: true, message: '请输入预计收入', trigger: 'blur' },
-          { validator: inte8Deci2, trigger: ['blur', 'change'] }
+        busiValidity: [
+          { required: true, message: '请输入商机有效期', trigger: 'blur' }
         ],
-        predictSignTime: [
-          { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
-        ],
-        predictAgreementTime: [
-          { required: true, message: '请选择预计协议期', trigger: ['blur', 'change'] }
-        ],
-        isProjectInvitation: [
-          { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
-        ]
       },
-      noData: false
+      noData: false,
+      PRE_DATA_FIRST: {
+      },
+      PRE_DATA_SECOND: {
+      },
+      PRE_DATA_THIRD: {
+      },
+      ALL_NODES: [],
+      uploadFiles: [],
+      uploadData: {
+        files: [],
+        deleteFiles: []
+      }
     };
   },
   beforeMount() {
-    const { opporId } = this.$route.params;
-    this.getBusinessDetail({ opporId });
-    this.getRemindPerson();
+    this.init();
   },
   computed: {
     businessData() {
@@ -211,20 +231,87 @@ export default {
     })
   },
   methods: {
-    changeReminders(val) {
-      let arr = [];
-      val.map(val => {
-        this.remindPerson.map(cval => {
-          let flag = false;
-          cval.children && cval.children.map(gval => {
-            if (Number(val) === Number(gval.operatorId)) {
-              flag = true;
+    initData(list) {
+      const {ALL_NODES} = this;
+      this.PRE_DATA_FIRST = _.keyBy(list, 'value');
+      this.PRE_DATA_SECOND = _.keyBy(_.flattenDeep(_.map(list, 'children')), 'value');
+      this.PRE_DATA_THIRD = _.keyBy(_.flattenDeep(_.map(_.flattenDeep(_.map(list, 'children')), 'children')), 'value');
+
+      for (let item of list) {
+        let children = item.children;
+        if (children && children.length) {
+          for (let child of children) {
+            ALL_NODES.push({
+              label: child.label,
+              value: child.value,
+              parent: item.value
+            });
+
+            if (child.children && child.children.length) {
+              for (let son of child.children) {
+                ALL_NODES.push({
+                  label: son.label,
+                  value: son.value,
+                  parent: child.value
+                });
+              }
             }
-          });
-          flag && arr.push(cval.operatorId);
+          }
+        }
+
+        ALL_NODES.push({
+          label: item.label,
+          value: item.value,
+          parent: null
+        });
+      }
+
+      this.ALL_NODES = _.keyBy(ALL_NODES, 'value');
+    },
+    init() {
+      const { opporId } = this.$route.params;
+      this.getRemindPerson().then(() => {
+        this.initData(this.remindPerson);
+
+        this.getBusinessDetail({ opporId }).then((business) => {
+          if (business.fileInputId) {
+            this.queryElec({fileInputId: business.fileInputId}).then((res) => {
+              this.uploadFiles = res.data;
+              this.uploadFiles.map((item) => {
+                item.name = item.fileName;
+                return item;
+              });
+            });
+          }
+
+          const {ALL_NODES} = this;
+          let processors = business.remindersArr;
+          if (processors && processors.length) {
+            for (let processor of processors) {
+              let processorNode = ALL_NODES[processor];
+              // 父节点
+              let parentNode = ALL_NODES[processorNode.parent];
+              if (parentNode && ALL_NODES[parentNode.parent]) {
+                this.regionData.processorList.push(`${ALL_NODES[parentNode.parent].label}/${parentNode.label}/${processorNode.label}`);
+                this.processors.push(processor);
+              }
+            }
+          }
         });
       });
-      return [...new Set(this.businessData.remindersArr.concat(arr))];
+    },
+    handleChangeFile(file, fileList) {
+      if (!fileBeforeUpload.call(this, file, fileList)) {
+        this.uploadData.files.push(file.raw);
+      }
+    },
+    handleRemoveFile(file) {
+      if (file.elecInstId) {
+        this.uploadData.deleteFiles.push(file);
+      } else {
+        let index = this.uploadData.files.findIndex(val => val.uid === file.uid);
+        this.uploadData.files.splice(index, 1);
+      }
     },
     async querySearchAsync(queryString, cb) {
       this.noData = false;
@@ -253,58 +340,125 @@ export default {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
+    getProcessor(value) {
+      const {PRE_DATA_FIRST, PRE_DATA_SECOND, PRE_DATA_THIRD, processors} = this;
+      this.processorData = [];
+      let processor = value[2] || null;
+
+      if (_.indexOf(processors, processor) < 0) {
+        this.regionData.processorList.push(`${PRE_DATA_FIRST[value[0]].label}/${PRE_DATA_SECOND[value[1]].label}/${PRE_DATA_THIRD[value[2]].label}`);
+        this.processors.push(processor);
+      }
+    },
+    // 删除
+    handleClose(value) {
+      let list = this.regionData.processorList;
+      let index = list.indexOf(value);
+      if (index >= 0) {
+        list.splice(index, 1);
+        this.processors.splice(index, 1);
+      }
+    },
+    removeAttributes(business) {
+      delete business.opporCode;
+      delete business.contactGenderName;
+      delete business.isProjectInvitationName;
+      delete business.opporStatus;
+      delete business.opporStatusName;
+      delete business.opMobile;
+      delete business.opId;
+      delete business.createDate;
+      delete business.doneDate;
+      delete business.state;
+      delete business.opporTypeName;
+      delete business.predictAgreementTimeName;
+    },
+    handleFiles() {
+      const that = this;
+      const {uploadData} = that;
+      const {fileInputId} = that.businessData;
+
+      let promises = [];
+
+      let deleteFiles = uploadData.deleteFiles;
+      if (deleteFiles && deleteFiles.length) {
+        for (let deleteFile of deleteFiles) {
+          promises.push(new Promise((resolve, reject) => {
+            that.delUplodFile({
+              elecInstId: deleteFile.elecInstId,
+              fileTypeId: FILE_TYPE_ID.business
+            }).then((res) => {
+              resolve();
+            }, (err) => {
+              reject(new Error(err));
+            });
+          }));
+        }
+      }
+
+      let files = uploadData.files;
+
+      if (files && files.length) {
+        promises.push(new Promise((resolve, reject) => {
+          that.uploadProductScheme({
+            fileInputId,
+            fileTypeId: FILE_TYPE_ID.business,
+            moduleId: 1,
+            expireDate: '',
+            effectiveDate: '',
+            files: files
+          }).then(() => {
+            resolve();
+          }, (err) => {
+            reject(new Error(err));
+          });
+        }));
+      }
+
+      return Promise.all(promises);
+    },
     save() {
       this.$refs['businessForm'].validate(valid => {
-        if (!valid) return false;
-        const params = this.businessData;
-        delete params.opporCode;
-        delete params.contactGenderName;
-        delete params.isProjectInvitationName;
-        delete params.opporStatus;
-        delete params.opporStatusName;
-        delete params.opMobile;
-        delete params.opId;
-        delete params.createDate;
-        delete params.doneDate;
-        delete params.state;
-        delete params.opporTypeName;
-        delete params.predictAgreementTimeName;
-        this.editBusinessDetail(params).then(res => {
-          if (res.data) {
-            this.$message({ showClose: true, message: '您已成功修改该条商机！', type: 'success' });
-            const path = `/business-manage/business-create-manage`;
-            this.$router.push(path);
-          } else {
-            this.$message({ showClose: true, message: '修改失败！', type: 'error' });
-          }
-        });
+        if (valid) {
+          const params = this.businessData;
+          params.remindersArr = this.processors;
+
+          this.removeAttributes(params);
+
+          this.handleFiles().then(() => {
+            this.editBusinessDetail(params).then(res => {
+              if (res.data) {
+                this.$message({ showClose: true, message: '您已成功修改该条商机！', type: 'success' });
+                const path = `/business-manage/business-create-manage`;
+                this.$router.push(path);
+              } else {
+                this.$message({ showClose: true, message: '修改失败！', type: 'error' });
+              }
+            });
+          });
+        }
       });
     },
     submit() {
       this.$refs['businessForm'].validate(valid => {
-        if (!valid) return false;
-        const params = this.businessData;
-        delete params.opporCode;
-        delete params.contactGenderName;
-        delete params.isProjectInvitationName;
-        delete params.opporStatus;
-        delete params.opporStatusName;
-        delete params.opMobile;
-        delete params.opId;
-        delete params.createDate;
-        delete params.doneDate;
-        delete params.state;
-        delete params.opporTypeName;
-        delete params.predictAgreementTimeName;
-        this.editBusinessDetailApprove(params).then(res => {
-          if (res.data) {
-            this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
-            const path = `/business-manage/business-create-manage`;
-            this.$router.push(path);
-          } else {
-            this.$message({ showClose: true, message: '提交失败！', type: 'error' });
-          }
-        });
+        if (valid) {
+          const params = this.businessData;
+          params.remindersArr = this.processors;
+
+          this.removeAttributes(params);
+
+          this.handleFiles().then(() => {
+            this.editBusinessDetailApprove(params).then(res => {
+              if (res.data) {
+                this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
+                const path = `/business-manage/business-create-manage`;
+                this.$router.push(path);
+              } else {
+                this.$message({ showClose: true, message: '提交失败！', type: 'error' });
+              }
+            });
+          });
+        }
       });
     },
     cancel() {
@@ -312,7 +466,14 @@ export default {
       this.$router.push(path);
     },
     ...mapActions([
-      'getOfficeAddress', 'getCooperationGroupList', 'getBusinessDetail', 'editBusinessDetail', 'getRemindPerson', 'editBusinessDetailApprove'
+      'getCooperationGroupList',
+      'getBusinessDetail',
+      'editBusinessDetail',
+      'getRemindPerson',
+      'editBusinessDetailApprove',
+      'queryElec',
+      'delUplodFile',
+      'uploadProductScheme'
     ])
   }
 };
