@@ -49,6 +49,14 @@ export default {
         this.submitData.serviceTime = '1';
       }
     },
+    getWastage(value) {
+      let clientStr = String(value);
+      if (clientStr.indexOf('存留会员用户') > -1) {
+        this.isByDay = true;
+      } else {
+        this.isByDay = false;
+      }
+    },
     clientFn(value) {
       let clientStr = String(value);
       if (clientStr.indexOf('咪咕直播') > -1) {
@@ -115,11 +123,6 @@ export default {
           this.$message({ showClose: true, message: '请选择地区', type: 'info' });
           return false;
         }
-      } else if (this.provinceList && this.provinceList.length) {
-        if (!this.submitData.province) {
-          this.$message({ showClose: true, message: '请选择省份', type: 'info' });
-          return false;
-        }
       }
       let userObj = this.openDataFn(this.applyFrom.userInfo, this.userInfoList, this.userMap);
       let activeObj = this.openDataFn(this.applyFrom.dataType, this.dataTypeList, this.activeMap);
@@ -156,6 +159,7 @@ export default {
         channelType: sourceObj,
         city: this.restrictedCity ? 1 : ''
       };
+      this.submitData.province = this.applyFrom.province;
       let parms = Object.assign(this.submitData, data, userObj, activeObj);
       this.$refs.refName.validate((valid) => {
         if (valid) {

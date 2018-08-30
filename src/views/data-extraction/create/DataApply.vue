@@ -25,10 +25,10 @@
             </el-form-item>
           </div>
         </el-form-item>
-        <el-form-item required v-if="provinceList && provinceList.length" label="选择省份：">
+        <el-form-item required v-if="provinceList && provinceList.length" prop="province" label="选择省份：">
           <div class="flex-row">
             <el-select
-              v-model="submitData.province"
+              v-model="applyFrom.province"
               multiple
               filterable
               allow-create
@@ -92,7 +92,7 @@
         </el-form-item>
         <el-form-item label="用户类型：" v-if="applyFrom.detailSet.indexOf('用户类型') > -1" required prop="dataType">
           <el-checkbox-group v-model="applyFrom.dataType">
-            <el-checkbox :disabled="item.type === 1 ? isByDay : false" v-for="item in dataTypeList" :key="item" :label="item.name"></el-checkbox>
+            <el-checkbox :disabled="(item.type === 1 && isByDay === true) || (item.wastage === 2 && applyFrom.dataType.indexOf('存留会员用户') >= 0) ? true : false" v-for="item in dataTypeList" :key="item" :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="数据来源：" v-if="applyFrom.detailSet.indexOf('数据来源') > -1">
@@ -210,7 +210,7 @@ export default {
         {name: '新增活跃用户', type: 0, field: 'newActive'},
         {name: '新增会员用户', type: 0, field: 'newMember'},
         {name: '存留会员用户', type: 1, field: 'retainMember'},
-        {name: '流失会员用户', type: 1, field: 'dropoutMember'}
+        {name: '流失会员用户', type: 1, field: 'dropoutMember', wastage: 2}
       ],
       userInfoList: [
         {name: '手机号', type: 0, field: 'mobliePhone'},
@@ -229,7 +229,7 @@ export default {
       ],
       applyFrom: {
         detailSet: ['用户信息', '用户类型'],
-        // provinceList: [],
+        province: [],
         name: '',
         extractDate: '',
         extractDateType: '1',

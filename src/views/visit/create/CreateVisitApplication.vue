@@ -35,14 +35,15 @@
         <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
           <el-input maxlength="50" v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“;”隔开" />
         </el-form-item>
-        <el-form-item label="计划走访时间：" label-width="140px" required>
-          <el-form-item prop="visitTime">
+        <el-form-item label="计划走访时间：" label-width="140px" required prop="visitTime">
+          <el-date-picker v-model="createVisitFrom.visitTime" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']"></el-date-picker>
+          <!-- <el-form-item prop="visitTime">
             <el-date-picker v-model="createVisitFrom.visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="timeRange">
             <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createVisitFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
-          </el-form-item>
+          </el-form-item> -->
         </el-form-item>
         <el-form-item label="涉及商机编码：" label-width="140px" prop="relOpporCode">
           <el-autocomplete
@@ -120,16 +121,6 @@ export default {
     this.getAssignhandler();
     if (this.visitId && this.visitId > 0) {
       await this.queryVisitAppointDetail({visitId: this.visitId}).then(() => {
-        let start = this.visitAppointDetail.visitStartTime;
-        let end = this.visitAppointDetail.visitEndTime;
-        if (start) {
-          this.checkTime = false;
-          this.createVisitFrom.visitTime = start;
-          if (end) {
-            let arr = [start.split(' ')[1], end.split(' ')[1]];
-            this.createVisitFrom.timeRange = arr;
-          }
-        }
         this.createVisitFrom.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
         this.createVisitFrom.visitTheme = this.visitAppointDetail.visitTheme;
         this.createVisitFrom.organizeId = this.visitAppointDetail.organizeId;
@@ -162,7 +153,16 @@ export default {
         return false;
       }
     }, */
-    getTimeVisit(time) {
+    getTimeRange(time) {
+      if (time) {
+        this.createVisitFrom.visitStartTime = time[0];
+        this.createVisitFrom.visitEndTime = time[1];
+      } else {
+        this.createVisitFrom.visitStartTime = '';
+        this.createVisitFrom.visitEndTime = '';
+      }
+    },
+    /* getTimeVisit(time) {
       this.checkTime = false;
     },
     getTimeRange(time) {
@@ -173,7 +173,7 @@ export default {
         this.createVisitFrom.visitStartTime = '';
         this.createVisitFrom.visitEndTime = '';
       }
-    },
+    }, */
     relOpporValue(element) {
       this.registerList.filter((item, index, array) => {
         if (item.opporCode === element.value) {
@@ -220,10 +220,12 @@ export default {
       }, 1000);
     }, */
     query() {
-      let { visitTime, timeRange, ...params } = this.createVisitFrom;
+      let { ...params } = this.createVisitFrom;
       delete params.organizeId;
       delete params.visitAuditor;
       delete params.isSubmit;
+      delete params.visitTime;
+      delete params.timeRange;
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
           if (this.visitId > 0) {

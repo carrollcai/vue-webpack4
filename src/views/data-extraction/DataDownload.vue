@@ -26,7 +26,7 @@
       </div>
     </el-form>
     <div class="tab-bar">
-      <el-tabs v-model="extractBusinessStatus" @tab-click="getState">
+      <el-tabs v-model="downloadForm.extractBusinessStatus" @tab-click="getState">
         <el-tab-pane label="全部" :name="0"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
         <el-tab-pane label="数据生成中" :name="2"></el-tab-pane>
@@ -34,7 +34,7 @@
         <!-- <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
         <el-tab-pane label="已取消" :name="4"></el-tab-pane> -->
       </el-tabs>
-      <more-tabs :statusData.sync="extractBusinessStatus" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
+      <more-tabs :statusData.sync="downloadForm.extractBusinessStatus" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
     </div>
   </div>
   <div class="m-container table-container">
@@ -62,7 +62,7 @@
             <el-popover
               placement="top"
               width="200"
-              trigger="click">
+              trigger="hover">
               <div>
                 <p>{{scope.row.upApproveDate}}</p>
                 <p>{{scope.row.upApproveOpName}} <b>审核不通过</b></p>
@@ -75,17 +75,9 @@
       </el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.extractBusinessStatus === '1'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
+          <el-button class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
           <el-button v-if="scope.row.extractBusinessStatus === '1'" class="table-button" type="text" @click="revoke(scope.row)">撤销</el-button>
-
-          <el-button v-if="scope.row.extractBusinessStatus === '2'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
-
-          <el-button v-if="scope.row.extractBusinessStatus === '3'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
           <!-- <el-button v-if="scope.row.extractBusinessStatus === '3'" class="table-button" type="text" @click="downloadFile(scope.row)">数据下载</el-button> -->
-
-          <el-button v-if="scope.row.extractBusinessStatus === '4'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
-
-          <el-button v-if="scope.row.extractBusinessStatus === '5'" class="table-button" type="text" @click="viewDetail(scope.row)">查看详情</el-button>
         </template>
       </el-table-column>
     </wm-table>
@@ -113,7 +105,8 @@ export default {
   computed: {
     isOpenData() {
       let _this = this;
-      if (this.downloadForm.extractBusinessStatus === 4 || this.downloadForm.extractBusinessStatus === 5) {
+      let state = this.downloadForm.extractBusinessStatus;
+      if (state === 4 || state === 5 || state === 6) {
         _this.downloadForm.isOpen = true;
       }
       return this.downloadForm.isOpen;

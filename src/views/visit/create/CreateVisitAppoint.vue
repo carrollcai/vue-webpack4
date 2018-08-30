@@ -20,14 +20,8 @@
         <el-form-item label="走访对象：" required prop="intervieweeName">
           <el-input maxlength="50" v-model="createAppointFrom.intervieweeName" placeholder="姓名" class="form-input-120"></el-input>
         </el-form-item>
-        <el-form-item label="走访时间：" label-width="140px" required>
-          <el-form-item prop="visitTime">
-            <el-date-picker v-model="createAppointFrom.visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
-          </el-form-item>
-          <div class="form-input-sep">-</div>
-          <el-form-item  prop="timeRange">
-            <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="createAppointFrom.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
-          </el-form-item>
+        <el-form-item label="计划走访时间：" label-width="140px" required prop="visitTime">
+          <el-date-picker v-model="createAppointFrom.visitTime" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']"></el-date-picker>
         </el-form-item>
         <!-- <div class="hr"></div> -->
         <el-form-item label="指派走访人：" required>
@@ -56,7 +50,7 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="指派说明：" required prop="assignNote">
-          <el-input v-model="createAppointFrom.assignNote" type="textarea" class="form-input-large" placeholder="请输入指派说明" />
+          <el-input :maxlength="500" v-model="createAppointFrom.assignNote" type="textarea" class="form-input-large" placeholder="请输入指派说明" />
         </el-form-item>
 
         <el-form-item>
@@ -108,6 +102,15 @@ export default {
     this.clearAppointCreate();
   },
   methods: {
+    getTimeRange(time) {
+      if (time) {
+        this.createAppointFrom.visitStartTime = time[0];
+        this.createAppointFrom.visitEndTime = time[1];
+      } else {
+        this.createAppointFrom.visitStartTime = '';
+        this.createAppointFrom.visitEndTime = '';
+      }
+    },
     /* connectOrganize() {
       const isSelected = val => val.organizeName === this.createAppointFrom.organizeName || val.organizeCode === this.createAppointFrom.organizeName;
       let selectedObj = this.localBusinessList.filter(isSelected)[0];
@@ -125,18 +128,6 @@ export default {
         pageSize: this.pageSize
       };
       await this.queryRegisterList(data);
-    },
-    getTimeVisit(time) {
-      this.checkTime = false;
-    },
-    getTimeRange(time) {
-      if (time) {
-        this.createAppointFrom.visitStartTime = this.createAppointFrom.visitTime + ' ' + time[0];
-        this.createAppointFrom.visitEndTime = this.createAppointFrom.visitTime + ' ' + time[1];
-      } else {
-        this.createAppointFrom.visitStartTime = '';
-        this.createAppointFrom.visitEndTime = '';
-      }
     },
     /* async querySearchAsync(queryString, cb) {
       if (!queryString.trim()) return false;

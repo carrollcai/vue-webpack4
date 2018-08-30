@@ -22,7 +22,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="商机名称：" prop="opporName">
-          <el-input v-model="form.opporName" class="form-input-medium" placeholder="请输入商机名称" />
+          <el-input maxlength="25" v-model="form.opporName" class="form-input-medium" placeholder="请输入商机名称" />
         </el-form-item>
         <!-- <el-form-item label="预计收入：" prop="predictContractAmount">
           <el-input v-model="form.predictContractAmount" class="form-input-medium" placeholder="请输入预计收入">

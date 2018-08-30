@@ -41,7 +41,7 @@
       <div class="right"
         v-if="detailData.fileInputId && files.length">
         <span class="blue"
-          style="margin-right: 10px;cursor:pointer;"
+          style="margin-right: 20px;cursor:pointer;"
           v-for="item in files"
           :key="item"
           @click="downloadFile(item)">{{item.fileName}}</span>
