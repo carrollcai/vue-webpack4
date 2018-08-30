@@ -74,17 +74,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <!--<el-form-item label="成立日期" prop="establishTime" key="establishTime">
-              <el-date-picker
-                v-model="customer.establishTime"
-                type="date"
-                :editable="false"
-                :clearable="false"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="dateOptions"
-                placeholder="请选择成立日期">
-              </el-date-picker>
-            </el-form-item>-->
+
             <el-form-item label="所属省份" key="provinceId">
               <el-select
                 key="province-select"
@@ -123,19 +113,6 @@
                 placeholder="请输入优势能力"
                 key="orgAdvantage-input"></el-input>
             </el-form-item>
-            <!--<el-form-item label="机构类型" prop="orgIndustryType" key="orgIndustryType">
-              <el-select
-                key="orgIndustryType-select"
-                v-model="customer.orgIndustryType"
-                placeholder="请选择机构类型">
-                <el-option
-                  v-for="item in ORG_INDUSTRY_TYPE"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>-->
             <el-form-item label="经营范围" prop="businessScope" key="Business-Scope">
               <el-input class="form-input-624" v-model="customer.businessScope"
                 :maxlength="500"
@@ -191,16 +168,7 @@
                 value-format="yyyy-MM-dd HH:mm:ss"
                 placeholder="请选择成立时间">
               </el-date-picker>
-              <!--<el-input v-model="customer.registerNum"
-                placeholder="请输入工商注册号"
-                :maxlength="13"
-                key="registerNum-input"></el-input>-->
             </el-form-item>
-            <!--<el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
-              <el-input v-model="customer.organizeRepresent"
-                placeholder="8位数字+1位校验码"
-                key="registerNum-input"></el-input>
-            </el-form-item>-->
             <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
               <el-input
               v-model="customer.socialCreditCode"
@@ -328,6 +296,7 @@
             v-model="customer.managerName"
             :fetch-suggestions="querySearchManagersAsync"
             placeholder="请输入客户经理"
+            @select="handleSelect"
           ></el-autocomplete>
         </el-form-item>
         <el-form-item label="手机号码" prop="managerMobile" key="managerMobile">
@@ -418,7 +387,7 @@ export default {
       if (!queryString) return false;
       let params = {
         pageSize: 20,
-        organizeName: queryString
+        staffName: queryString
       };
       await this.queryCustomerManagers(params);
       await clearTimeout(this.timeout);
@@ -426,8 +395,6 @@ export default {
         var results = this.groupCustomerManagerList;
         cb(results);
       }, 1000);
-    },
-    handleSelect(item) {
     },
     saveCustomer() {
       this.$refs.managerForm.validate((valid) => {
