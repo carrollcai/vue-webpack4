@@ -58,7 +58,7 @@
           property="ordName" />
         <el-table-column label="创建时间"
           property="createDate" />
-          <el-table-column label="创建人"
+        <el-table-column label="创建人"
           property="createName" />
         <el-table-column label="合作集团"
           property="organizeName" />
@@ -114,10 +114,6 @@ export default {
   },
   methods: {
     tabChange(value) {
-      if (value === 0 || value === '0') {
-        this.orderOverviewForm.ordStatus = null;
-      }
-      console.log(this.orderOverviewForm.ordStatus);
       this.pageChange();
       this.query();
     },

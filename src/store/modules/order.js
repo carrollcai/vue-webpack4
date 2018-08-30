@@ -163,9 +163,8 @@ const mutations = {
     state.orderOverviewDetail = Object.assign({}, data);
   },
   [types.ORDER_GET_PROCESS_LIST](state, data) {
-    console.log(data);
+    // console.log(data);
     state.processList = state.processList.concat(data);
-    // console.log(state.processList);
   },
   [types.ORDER_GET_HAS_SIGNED_FILE_LIST](state, data) {
     // 这里需要直接改变processList的引用，不能直接操作数组，vue检测不到

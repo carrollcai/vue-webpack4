@@ -1,7 +1,7 @@
 <template>
   <div class="province-user block-containter">
     <div class="province-user-header">
-      <div class="provinceUser-header-title">{{title}}</div>
+      <div class="trend-header-title">{{title}}</div>
       <el-form ref="provinceUserForm" :model="userMapTrend" :rules="provinceUserRules" class="flex">
         <el-form-item class="normalize-form-item" prop="checkDate">
           <el-form-item class="normalize-form-item float-left" prop="startDate">
