@@ -45,15 +45,17 @@
                 :value="cItem.value" />
             </el-select>
           </el-form-item>
-          <el-form-item class="del">
-            <span @click="delFn(i)"
+          <el-form-item class="del blue">
+            <span class="cursor-pointer"
+              @click="delFn(i)"
               v-if="ordProductDtoList.length > 1">删除</span>
           </el-form-item>
         </el-form>
       </div>
     </div>
     <div class="add blue">
-      <span @click="addList">
+      <span class="cursor-pointer"
+        @click="addList">
         <i class="el-icon-plus"></i>增加一条</span>
     </div>
   </div>

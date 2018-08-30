@@ -177,10 +177,15 @@ import mixins from './mixins';
 import multilevelLinkage from '@/components/multilevelLinkage.vue';
 import {mapState} from 'vuex';
 const sexList = [{label: '男', value: '1'}, {label: '女', value: '2'}];
-const detailSetList = [
+/* const detailSetList = [
   {label: '用户信息', value: 1, type: 1}, {label: '用户类型', value: 2, type: 1}, {label: '数据来源', value: 3},
   {label: '会员类型', value: 4, type: 1}, {label: '性别', value: 5}, {label: '年龄', value: 6},
   {label: '用户行为', value: 7, type: 1}, {label: '上网方式', value: 8}, {label: '使用时长', value: 9, type: 2}
+]; */
+const detailSetList = [
+  {label: '用户信息', value: 1, type: 1}, {label: '用户类型', value: 2, type: 1}, {label: '数据来源', value: 3},
+  {label: '性别', value: 5}, {label: '年龄', value: 6},
+  {label: '上网方式', value: 8}, {label: '使用时长', value: 9, type: 2}
 ];
 export default {
   mixins: [mixins],

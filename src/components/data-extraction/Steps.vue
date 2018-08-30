@@ -48,12 +48,12 @@ export default {
   computed: {
     processLists() {
       let _Data = this.processList;
-      if (_Data) {
+      if (_Data.length) {
         let status = this.dataDetailList.extractBusinessStatus;
         let statusName = this.dataDetailList.extractBusinessStatusName;
         let obj = {};
         let flag = false;
-        if (_Data[2].taskName.indexOf('审核') !== -1 && _Data[2].hasComplete === 0) {
+        if (_Data[2] && _Data[2].taskName.indexOf('审核') !== -1 && _Data[2].hasComplete === 0) {
           flag = true;
         }
         if (status < 2) {
@@ -92,9 +92,9 @@ export default {
   methods: {
     desc(item) {
       let createDate = item.createDate ? item.createDate : '';
-      let opName = item.opName ? item.opName : '';
-      let hasCompleteName = item.hasCompleteName ? item.hasCompleteName : '';
-      return `${createDate}${opName}${hasCompleteName}`;
+      let opName = item.opName ? (item.opName === '我' ? '（我）' : item.opName) : '';
+      let businessStatusName = item.businessStatusName ? item.businessStatusName : '';
+      return `${createDate}${opName}${businessStatusName}`;
     },
     percent() {
       return this.processList.length && parseFloat(1 / this.processList.length * 100).toFixed(4) + '%';

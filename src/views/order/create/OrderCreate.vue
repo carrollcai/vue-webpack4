@@ -79,11 +79,10 @@
               placeholder="邮箱" />
           </el-form-item>
         </el-form-item>
-        {{orderCreate.ordProductDtoList}}
+        <!-- {{orderCreate.ordProductDtoList}} -->
         <el-form-item label="订购产品："
           required>
-          <product-item v-if="orderCreate.ordProductDtoList.length"
-            ref="productItemRef" />
+          <product-item ref="productItemRef" />
         </el-form-item>
         <el-form-item label="业务描述："
           prop="busiDesc">
@@ -158,6 +157,7 @@ export default {
       }
     };
     return {
+      organizeNameList: [],
       pageSize: PAGE_SIZE,
       timeout: null,
       selectedProduct: {
@@ -247,12 +247,19 @@ export default {
     this.clearOrderCreate();
   },
   methods: {
+    connectOrganize() {
+      const { organizeName } = this.orderCreate;
+      const isSelected = val => val.organizeName === organizeName || val.organizeCode === organizeName;
+      const selectedObj = this.organizeNameList.filter(isSelected)[0];
+      if (selectedObj) {
+        this.updateOrderCreate({ organizeId: selectedObj.organizeId });
+      }
+    },
     routeType() {
       const { type } = this.$route.params;
       return type === 'create' ? '新建' : '修改';
     },
     handleSelect(item) {
-      // console.log(item);
       this.updateOrderCreate({ organizeId: item.organizeId });
       this.updateOrderCreate({ address: item.orgAddress });
     },
@@ -263,16 +270,23 @@ export default {
         organizeName: queryString
       };
 
+      // 每次查询时，清空organized
+      this.updateOrderCreate({ organizeId: '' });
+
       await this.getOrganizeAddress(params);
 
       await clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
+        this.organizeNameList = this.orderOrganizeAddressList;
+
         cb(this.orderOrganizeAddressList);
       }, 1000);
     },
     submitForm(startProcess) {
+      this.connectOrganize();
       const { type, id } = this.$route.params;
       const params = Object.cloneDeep(this.orderCreate);
+
       delete params.productName;
       delete params.amount;
       delete params.processor;
@@ -281,6 +295,10 @@ export default {
       params.ordProductDtoList = params.ordProductDtoList.filter(item => {
         delete item.processorData;
         delete item.productHandlers;
+        delete item.id;
+        delete item.ordId;
+        delete item.ordStatus;
+        delete item.ordStatusName;
         return item;
       });
       params.startProcess = startProcess;

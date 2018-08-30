@@ -42,18 +42,17 @@ const actions = {
     });
   },
   // 产品指派处理人
-  getProductHandler({ commit }, params) {
+  async getProductHandler({ commit }, params) {
     let { index, item } = params;
     let data = {
       opRegion: item.region,
       roleList: item.roleList,
     };
-    return API.getProductHandlerAPI(data).then(res => {
-      commit(types.ORDER_QUERY_PRODUCT_HANDLER, {
-        list: res.data,
-        item,
-        index,
-      });
+    let res = await API.getProductHandlerAPI(data);
+    await commit(types.ORDER_QUERY_PRODUCT_HANDLER, {
+      list: res.data,
+      item,
+      index,
     });
   },
   // 提交订单
@@ -91,25 +90,27 @@ const actions = {
       });
     });
   },
-  queryProductByCodeOrName({ commit }, params) {
-    return API.queryProductByCodeOrNameAPI(params).then(res => {
-      commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
-    });
+  async queryProductByCodeOrName({ commit }, params) {
+    let res = await API.queryProductByCodeOrNameAPI(params);
+    await commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
+    return res.data;
   },
+  // 修改获取订单数据
   async getOrderEdit({ commit, dispatch }, params) {
-    // 如果有指派人，需要取指派人接口
     let index = 0;
-    let res = await API.getOrderDetailAPI(params);
+    let res = await API.getOrderUpdateAPI(params);
+    res.data = res.data[0];
     await commit(types.ORDER_GET_EDIT, res.data);
+    // 如果有指派人，需要取指派人接口
     for (let val of res.data.ordProductDtoList) {
-      debugger;
-      ++index;
       if (val.productName) {
-        let productNameList = await dispatch('getOrganizeAddress', {
+        // 获取产品名称所对应的列表
+        let productNameList = await dispatch('queryProductByCodeOrName', {
           pageSize: PAGE_SIZE,
-          organizeName: val.productName
+          productName: val.productName
         });
-        let productFilterList = productNameList.filter(cVal => cVal.productId === Number(val.productId));
+        console.log(productNameList);
+        let productFilterList = productNameList.list && productNameList.list.filter(cVal => cVal.productId === Number(val.productId));
         if (productFilterList[0]) {
           await dispatch('getProductHandler', {
             item: productFilterList[0],
@@ -117,11 +118,17 @@ const actions = {
           });
         }
       }
+      // 这个地方index需要在尾部添加
+      ++index;
+      console.log(index);
     }
+    // 将指派人id转换成指派人name
+    commit(types.ORDER_EDIT_PROCESSOR_TO_NAME);
   },
   getOrganizeAddress({ commit }, params) {
     return API.getOrganizeAddressAPI(params).then((res) => {
       commit(types.ORDER_QUERY_ORGANIZE_ADDRESS, res.data);
+      return res.data;
     });
   },
 
@@ -210,7 +217,7 @@ const actions = {
   orderDownloadFile({ commit }, params) {
     return API.downloadAttachFileAPI(params);
   },
-
+  // 详情页获取流程图
   async getOrderOverviewProcessList({ commit, dispatch }, params) {
     // 这里不能用forEach控制流程，需要用for of
     for (let val of params.ordProductDtoList) {

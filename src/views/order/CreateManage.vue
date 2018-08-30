@@ -248,13 +248,14 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
-        await this.deleteOrderRow({ ordId: row.ordId });
-        await this.$message({
-          type: 'success',
-          message: '您已成功删除该条订单！'
+      }).then(() => {
+        this.deleteOrderRow({ ordCode: row.ordCode }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '您已成功删除该条订单！'
+          });
+          this.query();
         });
-        await this.query();
       }).catch(() => {
         this.$message('已取消删除');
       });
@@ -266,13 +267,14 @@ export default {
         type: 'warning'
       }).then(async () => {
         // 提交订单
-        await this.submitOrderRow({ id: row.ordId });
-        await this.$message({
-          type: 'success',
-          dangerouslyUseHTMLString: true,
-          message: `<p>您已成功提交该订单！</p><p>处理人：${row.processorName}</p>`
+        this.submitOrderRow({ id: row.ordCode }).then(() => {
+          this.$message({
+            type: 'success',
+            dangerouslyUseHTMLString: true,
+            message: `<p>您已成功提交该订单！</p><p>处理人：${row.processorName}</p>`
+          });
+          this.query();
         });
-        await this.query();
       }).catch(() => {
         this.$message('已取消提交');
       });

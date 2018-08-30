@@ -21,7 +21,7 @@
               label-width="130px"
               v-if="item.fileId && payDetailFileList.length">
               <div>
-                <span class="blue"
+                <span class="blue cursor-pointer"
                   v-for="(file, k) in payDetailFileList[0].fileList"
                   :key="k"
                   @click="downloadFile(file)">
