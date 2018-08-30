@@ -79,11 +79,10 @@
               placeholder="邮箱" />
           </el-form-item>
         </el-form-item>
-        {{orderCreate.ordProductDtoList}}
+        <!-- {{orderCreate.ordProductDtoList}} -->
         <el-form-item label="订购产品："
           required>
-          <product-item v-if="orderCreate.ordProductDtoList.length"
-            ref="productItemRef" />
+          <product-item ref="productItemRef" />
         </el-form-item>
         <el-form-item label="业务描述："
           prop="busiDesc">
@@ -281,6 +280,10 @@ export default {
       params.ordProductDtoList = params.ordProductDtoList.filter(item => {
         delete item.processorData;
         delete item.productHandlers;
+        delete item.id;
+        delete item.ordId;
+        delete item.ordStatus;
+        delete item.ordStatusName;
         return item;
       });
       params.startProcess = startProcess;

@@ -34,6 +34,7 @@ const ordProductDtoListObj = {
   processorData: [],
   companyBelong: '',
   productHandlers: [],
+  // productList: [],
 };
 
 const state = {
@@ -187,6 +188,7 @@ const mutations = {
   },
   [types.ORDER_QUERY_PRODUCT_NAME](state, data) {
     state.productList = data.list.map(val => Object.assign(val, { value: val.productName }));
+    // state.orderCreate.ordProductDtoList[data.index].productList = data.list.map(val => Object.assign(val, { value: val.productName }));
   },
   [types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS](state, data) {
     state.submitAssignButton = !state.submitAssignButton;
@@ -248,6 +250,19 @@ const mutations = {
     let item = Object.cloneDeep(ordProductDtoListObj);
     state.orderCreate.ordProductDtoList = state.orderCreate.ordProductDtoList.concat([item]);
   },
+  [types.ORDER_EDIT_PROCESSOR_TO_NAME](state, data) {
+    state.orderCreate.ordProductDtoList = state.orderCreate.ordProductDtoList.map(val => {
+      let processorData = [];
+      val.processor.map(cVal => {
+        let _filter = val.productHandlers.filter(gcVal => Number(gcVal.label) === Number(cVal));
+        _filter[0] && processorData.push(_filter[0].value);
+      });
+      return {
+        ...val,
+        processorData,
+      };
+    });
+  }
 };
 
 export default {
