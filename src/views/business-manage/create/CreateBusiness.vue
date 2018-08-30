@@ -46,6 +46,18 @@
           <el-radio v-model="form.isProjectInvitation" label="1">是</el-radio>
           <el-radio v-model="form.isProjectInvitation" label="0">否</el-radio>
         </el-form-item> -->
+        <el-form-item label="合作集团：" prop="organizeName">
+          <el-autocomplete maxlength="25" class="form-input-half" v-model="form.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
+          <el-card class="create-business-box-card" v-if="noData">
+            <div>
+              系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
+            </div>
+          </el-card>
+          <span class="form-input-sep">-</span>
+          <el-form-item prop="address" style="display:inline-block;">
+            <el-input @focus="noData = false;" @blur="noData = false;" maxlength="50" class="form-input-half" v-model="form.address" placeholder="办公地址"></el-input>
+          </el-form-item>
+        </el-form-item>
         <el-form-item label="联系人员：" prop="contactName">
           <el-input maxlength="6" class="form-input-80" v-model="form.contactName" placeholder="姓名"></el-input>
           <span class="form-input-sep">-</span>
@@ -63,19 +75,7 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="联系邮箱：" prop="contactEmail">
-            <el-input maxlength="35" class="form-input-320" v-model="form.contactEmail" placeholder="请输入邮箱"></el-input>
-          </el-form-item>
-        <el-form-item label="合作集团：" prop="organizeName">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="form.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
-          <el-card class="create-business-box-card" v-if="noData">
-            <div>
-              系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
-            </div>
-          </el-card>
-          <span class="form-input-sep">-</span>
-          <el-form-item prop="address" style="display:inline-block;">
-            <el-input @focus="noData = false;" @blur="noData = false;" maxlength="50" class="form-input-half" v-model="form.address" placeholder="办公地址"></el-input>
-          </el-form-item>
+          <el-input maxlength="35" class="form-input-320" v-model="form.contactEmail" placeholder="请输入邮箱"></el-input>
         </el-form-item>
         <el-form-item label="业务描述：" prop="busiDesc">
           <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.busiDesc"></el-input>
