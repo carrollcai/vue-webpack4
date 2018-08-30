@@ -8,7 +8,8 @@ import {
 } from '@/config';
 
 import {
-  convertNull
+  convertNull,
+  validateChartData
 } from '@/utils/common';
 
 const state = {
@@ -206,7 +207,7 @@ const mutations = {
     }
     result = _.sortBy(result, 'periodId');
 
-    state.trendData = result;
+    state.trendData = validateChartData(result, fields);
     state.trendFields = fields;
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {
@@ -358,7 +359,7 @@ const mutations = {
     }
     result = _.sortBy(result, 'periodId');
 
-    state.addUserTrendData = result;
+    state.addUserTrendData = validateChartData(result, fields);
     state.addUserTrendFields = fields;
   },
   // 新增用户分析- 用户新增排名情况 原始数据
@@ -412,7 +413,7 @@ const mutations = {
     }
     result = _.sortBy(result, 'periodId');
 
-    state.addUserVipData = result;
+    state.addUserVipData = validateChartData(result, fields);
     state.addUserVipFields = fields;
   },
   [types.ACTIVE_INIT_DATE](state, data) {
