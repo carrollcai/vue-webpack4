@@ -245,18 +245,19 @@ const actions = {
   },
   // 获取附件列表
   async gethasSignedFileList({ commit }, params) {
+    console.log(params);
     for (let val of params.ordProductDtoList) {
       // 如果不存在fileId，不请求API
-      if (!val.fileId) return false;
-
-      let res = await API.getFileThroughtFileIdAPI({
-        fileInputId: val.fileId
-      });
-      let data = {
-        ...val,
-        fileList: res.data
-      };
-      await commit(types.ORDER_GET_HAS_SIGNED_FILE_LIST, data);
+      if (val.fileId) {
+        let res = await API.getFileThroughtFileIdAPI({
+          fileInputId: val.fileId
+        });
+        let data = {
+          ...val,
+          fileList: res.data
+        };
+        await commit(types.ORDER_GET_HAS_SIGNED_FILE_LIST, data);
+      }
     }
   }
 };
