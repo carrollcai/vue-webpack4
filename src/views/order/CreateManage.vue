@@ -267,7 +267,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         // 提交订单
-        this.submitOrderRow({ id: row.ordCode }).then(() => {
+        this.submitOrderRow({ code: row.ordCode }).then(() => {
           this.$message({
             type: 'success',
             dangerouslyUseHTMLString: true,

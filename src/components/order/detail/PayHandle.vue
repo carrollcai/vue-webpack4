@@ -65,7 +65,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { inte8Deci2 } from '@/utils/rules.js';
+import { inte8Deci2, textareaMaxLimit } from '@/utils/rules.js';
 export default {
   props: {
     handleTaskDetail: {
@@ -86,6 +86,10 @@ export default {
         money: [
           { required: true, message: '请输入合同金额', trigger: 'blur' },
           { validator: inte8Deci2, trigger: 'blur' }
+        ],
+        dealResult: [
+          { required: true, message: '请输入备注', trigger: 'blur' },
+          { validator: textareaMaxLimit, trigger: 'blur' }
         ]
       },
     };

@@ -222,14 +222,18 @@ const actions = {
     // 这里不能用forEach控制流程，需要用for of
     for (let val of params.ordProductDtoList) {
       let fileList = [];
-      let res = await API.queryCustomerProcessedAPI({
-        processInsId: val.processInsId
-      });
-      if (val.fileId) {
-        let fileReq = await API.getFileThroughtFileIdAPI({
-          fileInputId: val.fileId
+      let res = {};
+      // 草稿状态不请求流程接口
+      if (val.processInsId) {
+        res = await API.queryCustomerProcessedAPI({
+          processInsId: val.processInsId
         });
-        fileList = fileReq.data;
+        if (val.fileId) {
+          let fileReq = await API.getFileThroughtFileIdAPI({
+            fileInputId: val.fileId
+          });
+          fileList = fileReq.data;
+        }
       }
       let data = {
         ...val,

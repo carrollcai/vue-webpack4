@@ -1,6 +1,5 @@
 <template>
-  <div class="p-table"
-    v-if="processList.length">
+  <div class="p-table">
     <dl class="tHead">
       <dt class="tH01">订购产品</dt>
       <dd class="tH02 tHead-title">订单状态</dd>
