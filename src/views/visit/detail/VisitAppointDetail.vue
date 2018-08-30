@@ -11,11 +11,12 @@
     </div>
   </div>
   <!-- 详情 -->
-  <div v-if="isExecute !== 'true'" class="m-container container-mt16">
-    <Vdetail v-if="isExecute !== 'true'" :visitDetail="visitDetailData" :filesArr="filesArrList"></Vdetail>
+  {{isExecute !== 'true' || (isExecute === 'true' && visitResource === '1')}}/{{isExecute === 'true' && visitResource === '2'}}
+  <div v-if="isExecute !== 'true' || (isExecute === 'true' && visitResource === '1')" class="m-container container-mt16">
+    <Vdetail :visitDetail="visitDetailData" :filesArr="filesArrList"></Vdetail>
   </div>
   <!-- 详情编辑 -->
-  <div v-else class="m-container container-mt16 visit-create">
+  <div v-if="isExecute === 'true' && visitResource === '2'" class="m-container container-mt16 visit-create">
     <el-form :label-position="'right'" :model="editVisitFromHandle" ref="visitEditRef" :rules="createVisitVaild">
       <el-form-item label="走访主题：" label-width="140px" required prop="visitTheme">
         <el-input maxlength="25" v-model="editVisitFromHandle.visitTheme" :disabled="true" class="form-input-medium" placeholder="请输入主题" />
@@ -147,6 +148,7 @@ export default {
       FILE_TIP,
       visitId: this.$route.params.id,
       isExecute: this.$route.query.isExecute,
+      visitResource: this.$route.query.visitResource,
       routeName: this.$route.name,
       checkTime: true,
       fileList: [],
@@ -314,15 +316,23 @@ export default {
       delete params.isSubmit;
       delete params.visitTime;
       delete params.timeRange;
-      this.$refs.visitEditRef.validate((valid) => {
-        if (valid) {
-          this.$refs.visitRef.validate((valids) => {
-            if (valids) {
-              this.addApproveVisit(params);
-            }
-          });
-        }
-      });
+      if (this.visitResource === '2') {
+        this.$refs.visitEditRef.validate((valid) => {
+          if (valid) {
+            this.$refs.visitRef.validate((valids) => {
+              if (valids) {
+                this.addApproveVisit(params);
+              }
+            });
+          }
+        });
+      } else if (this.visitResource === '1') {
+        this.$refs.visitRef.validate((valids) => {
+          if (valids) {
+            this.addApproveVisit(params);
+          }
+        });
+      }
     },
     ...mapMutations({
       clearApplicationCreate: 'APPLICATION_CREATE'

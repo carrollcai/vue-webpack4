@@ -166,7 +166,7 @@ export default {
       this.query();
     },
     viewDetail(row, execution) {
-      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}`;
+      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}&visitResource=${row.visitResource}`;
       this.$router.push(path);
     },
     query() {
