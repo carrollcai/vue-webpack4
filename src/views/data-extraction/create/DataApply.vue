@@ -77,6 +77,7 @@
             :disabled="item.type === 1 || (item.type === 2 && applyFrom.isUseTime)"
             v-for="item in detailSetList"
             :key="item.value"
+            @change="handleChangeDetailSettings"
             :label="item.label"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>

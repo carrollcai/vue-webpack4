@@ -53,6 +53,7 @@
             placeholder="涉及商机编码"
             :value-key="opporId"
             @select="relOpporValue"
+            @blur="hasOpporExist"
             :trigger-on-focus="false" />
           <!-- <el-select
             v-model="createVisitFrom.relOpporCode"
@@ -100,7 +101,8 @@ export default {
       auditorOptions: [],
       fromVaild: {},
       pointAuditor: [],
-      codeValue: []
+      codeValue: [],
+      relOpporCode: ''
     };
   },
   computed: {
@@ -135,6 +137,7 @@ export default {
         this.createVisitFrom.problemCoordinate = this.visitAppointDetail.problemCoordinate;
         this.createVisitFrom.visitEndTime = this.visitAppointDetail.visitEndTime;
         this.createVisitFrom.visitStartTime = this.visitAppointDetail.visitStartTime;
+        this.createVisitFrom.visitTime = [this.visitAppointDetail.visitStartTime, this.visitAppointDetail.visitEndTime];
       });
     }
   },
@@ -174,6 +177,26 @@ export default {
         this.createVisitFrom.visitEndTime = '';
       }
     }, */
+    hasOpporExist(item) {
+      this.relOpporCode = this.createVisitFrom.relOpporCode;
+      if (this.relOpporCode) {
+        this.isOpporExist({opporCode: this.relOpporCode}).then(res => {
+          if (res <= 0) {
+            this.createVisitFrom.relOpporCode = '';
+            this.createVisitFrom.relOpporId = '';
+          } else {
+            this.registerList.filter((item, index, array) => {
+              if (item.opporCode === this.relOpporCode) {
+                this.createVisitFrom.relOpporId = item.opporId;
+              }
+            });
+          }
+        });
+      } else {
+        this.createVisitFrom.relOpporCode = '';
+        this.createVisitFrom.relOpporId = '';
+      };
+    },
     relOpporValue(element) {
       this.registerList.filter((item, index, array) => {
         if (item.opporCode === element.value) {
@@ -253,7 +276,8 @@ export default {
       'queryVisitAppointDetail',
       'editVisitApp',
       'queryRegionManager',
-      'queryProcessors'
+      'queryProcessors',
+      'isOpporExist'
     ])
   }
 };

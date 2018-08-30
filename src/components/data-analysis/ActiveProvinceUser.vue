@@ -4,45 +4,56 @@
       <!--
       <div class="provinceUser-header-title">各省{{!provinceUser.dateType ? '日' : '月'}}活跃用户情况</div>
       -->
-      <div class="provinceUser-header-title">{{title}}</div>
-      <el-form ref="provinceUserForm" :model="provinceUser" :rules="provinceUserRules" class="flex">
+      <div class="trend-header-title">{{title}}</div>
+      <el-form ref="provinceUserForm"
+        :model="provinceUser"
+        :rules="provinceUserRules"
+        class="flex">
         <el-form-item class="normalize-form-item">
-          <el-radio-group v-model="provinceUser.dateType" size="small" @change="dateTypeChange">
+          <el-radio-group v-model="provinceUser.dateType"
+            size="small"
+            @change="dateTypeChange">
             <el-radio-button :label="0">按日</el-radio-button>
             <el-radio-button :label="1">按月</el-radio-button>
           </el-radio-group>
         </el-form-item>
 
         <el-form-item class="normalize-form-item provinceUser-search"></el-form-item>
-        <el-form-item v-if="!provinceUser.dateType" prop="date" class="normalize-form-item">
-          <el-date-picker type="daterange" placeholder="选择日期" v-model="provinceUser.date" :editable="false" @change="query" />
+        <el-form-item v-if="!provinceUser.dateType"
+          prop="date"
+          class="normalize-form-item">
+          <el-date-picker type="daterange"
+            placeholder="选择日期"
+            v-model="provinceUser.date"
+            :editable="false"
+            @change="query" />
         </el-form-item>
 
-        <el-form-item v-if="provinceUser.dateType" class="normalize-form-item" prop="checkDate">
-          <el-form-item class="normalize-form-item float-left" prop="startDate">
-            <el-date-picker
-              class="user-form-item__input"
+        <el-form-item v-if="provinceUser.dateType"
+          class="normalize-form-item"
+          prop="checkDate">
+          <el-form-item class="normalize-form-item float-left"
+            prop="startDate">
+            <el-date-picker class="user-form-item__input"
               type="month"
               placeholder="选择开始日期"
               :editable="false"
               :clearable="false"
               v-model="provinceUser.startDate"
               :picker-options="startOptions(provinceUser.endDate)"
-              @change="triggerValidate()"
-            />
+              @change="triggerValidate()" />
           </el-form-item>
           <span class="date-connect-line float-left">-</span>
-          <el-form-item class="normalize-form-item float-left" prop="endDate">
-            <el-date-picker
-              class="user-form-item__input"
+          <el-form-item class="normalize-form-item float-left"
+            prop="endDate">
+            <el-date-picker class="user-form-item__input"
               type="month"
               placeholder="选择结束日期"
               :editable="false"
               :clearable="false"
               v-model="provinceUser.endDate"
               :picker-options="endOptions(provinceUser.startDate)"
-              @change="triggerValidate()"
-            />
+              @change="triggerValidate()" />
           </el-form-item>
         </el-form-item>
       </el-form>
@@ -51,7 +62,10 @@
       <no-data :data="provinceUserList">
         <div class="province-user-chart">
           <div class="province-user-chart__map">
-            <Map :id="'adduserMap'" :charData="provinceUserList" :width="700" :height="500" />
+            <Map :id="'adduserMap'"
+              :charData="provinceUserList"
+              :width="700"
+              :height="500" />
           </div>
           <!-- <rank :list="provinceUserList" :title="`${!provinceUser.dateType ? '日' : '月'}活全国排名情况：`" /> -->
           <rank :list="provinceUserList" />

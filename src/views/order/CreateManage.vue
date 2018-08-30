@@ -205,7 +205,7 @@ export default {
       const selectedObj = this.organizeNameList.filter(isSelected)[0];
       if (selectedObj) {
         await this.setConnectOriganize({
-          ordId: row.ordId,
+          ordCode: row.ordCode,
           organizeId: selectedObj.organizeId,
           organizeName: selectedObj.organizeName
         });
@@ -240,7 +240,7 @@ export default {
       this.query();
     },
     handleEdit(row) {
-      const path = `/order/manage/edit/${row.ordId}`;
+      const path = `/order/manage/edit/${row.ordCode}`;
       this.$router.push(path);
     },
     handleDelete(row) {

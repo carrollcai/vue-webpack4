@@ -18,7 +18,7 @@
       </div>
       <div class="flex">
         <el-form-item class="form-left-width">
-          <el-button type="primary" @click="query">查询</el-button>
+          <el-button type="primary" @click="searchQuery">查询</el-button>
         </el-form-item>
         <el-form-item class="form-left-width">
           <el-button class="el-button--have-icon" @click="toDataApply" icon="el-icon-plus">数据提取申请</el-button>
@@ -50,14 +50,17 @@
       <el-table-column label="审核状态" property="extractBusinessStatusName" width="210">
         <template slot-scope="scope">
           {{scope.row.extractBusinessStatusName}}
-          <el-popover  v-if="scope.row.extractBusinessStatusName === '数据生成中'"
-            ref="popover"
-            placement="top"
-            title="温馨提示"
-            width="100"
-            trigger="hover"
-            content="数据生成中，请耐心等待">
-          </el-popover>
+          <span v-if="scope.row.extractBusinessStatusName === '数据生成中'">
+            <el-popover
+              ref="popover"
+              placement="top"
+              title="温馨提示"
+              width="100"
+              trigger="hover"
+              content="数据生成中，请耐心等待">
+              <i slot="reference" class="el-icon-info"></i>
+            </el-popover>
+          </span>
           <span v-if="scope.row.extractBusinessStatusName === '审核不通过'">
             <el-popover
               placement="top"
@@ -199,8 +202,11 @@ export default {
       this.downloadForm.pageSize = value;
       this.query();
     },
-    query() {
+    searchQuery() {
       this.downloadForm.pageNo = '1';
+      this.query();
+    },
+    query() {
       let { ...data } = this.downloadForm;
       if (data.extractBusinessStatus === '0') {
         data.extractBusinessStatus = null;

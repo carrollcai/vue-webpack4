@@ -8,7 +8,8 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="detail-bar-container" v-if="orderData.opporAssignReason">
+    <div class="detail-bar-container"
+      v-if="orderData.opporAssignReason">
       <div class="detail-bar">
         <div class="detail-bar-item">
           <div class="title">指派人：</div>
@@ -16,14 +17,22 @@
         </div>
         <div class="detail-bar-item-2">
           <div class="title">指派原因：</div>
-          <div class="ellipsis" :title="orderData.opporAssignReason">{{orderData.opporAssignReason}}</div>
+          <div class="ellipsis"
+            :title="orderData.opporAssignReason">{{orderData.opporAssignReason}}</div>
         </div>
       </div>
     </div>
     <div class="order-container">
-      <el-form :rules="rules" ref="transForm" :model="orderData" label-width="140px">
-        <el-form-item label="订单名称：" prop="ordName">
-          <el-input maxlength="25" v-model="orderData.ordName" class="form-input-medium" placeholder="请输入订单名称">
+      <el-form :rules="rules"
+        ref="transForm"
+        :model="orderData"
+        label-width="140px">
+        <el-form-item label="订单名称："
+          prop="ordName">
+          <el-input maxlength="25"
+            v-model="orderData.ordName"
+            class="form-input-medium"
+            placeholder="请输入订单名称">
           </el-input>
         </el-form-item>
         <!-- <el-form-item label="订购产品：" prop="productName">
@@ -46,95 +55,132 @@
               </el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item label="合作集团：" prop="organizeName">
-          <el-autocomplete disabled maxlength="25" class="form-input-half" v-model="orderData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
-          <el-card class="create-business-box-card" v-if="noData">
+        <el-form-item label="合作集团："
+          prop="organizeName">
+          <el-autocomplete disabled
+            maxlength="25"
+            class="form-input-half"
+            v-model="orderData.organizeName"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="合作集团/编码"
+            @select="handleSelect"
+            @blur="noData = false;"></el-autocomplete>
+          <el-card class="create-business-box-card"
+            v-if="noData">
             <div>
               系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
             </div>
           </el-card>
           <span class="form-input-sep">-</span>
-          <el-form-item prop="address" style="display:inline-block;">
-            <el-input disabled maxlength="50" class="form-input-half" v-model="orderData.address" placeholder="办公地址"></el-input>
+          <el-form-item prop="address"
+            style="display:inline-block;">
+            <el-input disabled
+              maxlength="50"
+              class="form-input-half"
+              v-model="orderData.address"
+              placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="联系人：" prop="contactName">
-          <el-input maxlength="6" class="form-input-80" v-model="orderData.contactName" placeholder="姓名"></el-input>
+        <el-form-item label="联系人："
+          prop="contactName">
+          <el-input maxlength="6"
+            class="form-input-80"
+            v-model="orderData.contactName"
+            placeholder="姓名"></el-input>
           <span class="form-input-sep">-</span>
-          <el-form-item prop="contactGender" style="display: inline-block;">
-            <el-select class="form-input-80" v-model="orderData.contactGender" placeholder="性别">
-                <el-option
-                v-for="item in SEX"
+          <el-form-item prop="contactGender"
+            style="display: inline-block;">
+            <el-select class="form-input-80"
+              v-model="orderData.contactGender"
+              placeholder="性别">
+              <el-option v-for="item in SEX"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
-                </el-option>
+              </el-option>
             </el-select>
           </el-form-item>
           <span class="form-input-sep">-</span>
-          <el-form-item prop="contactMobile" style="display: inline-block;">
-            <el-input maxlength="11" class="form-input-120" v-model="orderData.contactMobile" placeholder="手机号"></el-input>
+          <el-form-item prop="contactMobile"
+            style="display: inline-block;">
+            <el-input maxlength="11"
+              class="form-input-120"
+              v-model="orderData.contactMobile"
+              placeholder="手机号"></el-input>
           </el-form-item>
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactEmail">
-            <el-input maxlength="35" class="form-input-320" v-model="orderData.contactEmail" placeholder="请输入邮箱"></el-input>
+            <el-input maxlength="35"
+              class="form-input-320"
+              v-model="orderData.contactEmail"
+              placeholder="请输入邮箱"></el-input>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="订购产品：" required>
+        <el-form-item label="订购产品："
+          required>
           <productItem ref="productItemRef" />
         </el-form-item>
-        <el-form-item label="业务描述：" prop="busiDesc">
-          <el-input maxlength="500" v-model="orderData.busiDesc" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述"></el-input>
+        <el-form-item label="业务描述："
+          prop="busiDesc">
+          <el-input maxlength="500"
+            v-model="orderData.busiDesc"
+            class="form-input-320"
+            type="textarea"
+            :rows="3"
+            placeholder="请输入业务描述"></el-input>
         </el-form-item>
-        <el-form-item label="合作方案：" prop="teamProject">
-          <el-input type="textarea" class="form-input-large" :maxlength="500" v-model="orderData.teamProject" placeholder="请输入合作方案" />
+        <el-form-item label="合作方案："
+          prop="teamProject">
+          <el-input type="textarea"
+            class="form-input-large"
+            :maxlength="500"
+            v-model="orderData.teamProject"
+            placeholder="请输入合作方案" />
         </el-form-item>
-        <el-form-item label="预计收入：" prop="predictRevenue">
-          <el-input v-model="orderData.predictRevenue" class="form-input-medium" placeholder="请输入预计收入">
+        <el-form-item label="预计收入："
+          prop="predictRevenue">
+          <el-input v-model="orderData.predictRevenue"
+            class="form-input-medium"
+            placeholder="请输入预计收入">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderData.predictSignTime" placeholder="请选择时间"></el-date-picker>
+        <el-form-item label="预计签约时间："
+          prop="predictSignTime">
+          <el-date-picker class="form-input-medium"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            type="date"
+            v-model="orderData.predictSignTime"
+            placeholder="请选择时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="预计协议期：" required="true">
-          <!-- <el-select class="form-input-medium" v-model="orderData.predictAgreementTime" placeholder="请选择">
-              <el-option
-              v-for="item in PREDICT_AGREEMENT_TIME"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-              </el-option>
-              <template slot="append">元</template>
-          </el-select> -->
-          <el-form-item prop="predictAgreementTime" style="display: inline-block;">
-            <el-input v-model="orderData.predictAgreementTime" :maxlength="3" class="form-input-medium" placeholder="请输入预计协议期" />
-          </el-form-item>
-          <el-form-item style="display: inline-block; min-width: 50px;">
-            <el-select class="form-input-medium" v-model="date" placeholder="请选择">
-              <el-option label="年" :value="0"></el-option>
-              <el-option label="月" :value="1"></el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="预计协议期："
+          prop="predictAgreementTime">
+          <el-input class="form-input-medium"
+            v-model="orderData.predictAgreementTime"
+            placeholder="请输入时间">
+            <template slot="append">月</template>
+          </el-input>
         </el-form-item>
-
         <!--<el-form-item label="订单需求：" prop="busiRequire">
           <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="orderData.busiRequire"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
           <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="orderData.needCoordinationIssue"></el-input>
         </el-form-item>-->
-        <el-form-item label="项目是否招标：" prop="isProjectInvitation">
+        <!-- <el-form-item label="项目是否招标：" prop="isProjectInvitation">
           <el-radio v-model="orderData.isProjectInvitation" label="1">是</el-radio>
           <el-radio v-model="orderData.isProjectInvitation" label="0">否</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="">
-          <el-button type="primary" @click="submit">提交</el-button>
-          <el-button @click="cancel" plain>取消</el-button>
+          <el-button type="primary"
+            @click="submit">提交</el-button>
+          <el-button @click="cancel"
+            plain>取消</el-button>
         </el-form-item>
       </el-form>
-      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -184,7 +230,7 @@ export default {
           { required: true, message: '请选择性别', trigger: ['blur', 'change'] }
         ],
         contactMobile: [
-          {required: true, message: '请输入手机号码', trigger: 'blur'},
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
           { validator: checkPhone, trigger: 'blur' }
         ],
         contactEmail: [
@@ -249,8 +295,8 @@ export default {
       orderCreate: ({ order }) => order.orderCreate,
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       transforOrderDetail: ({ business }) => business.transforOrderDetail,
-      businessDetail: ({business}) => business.businessDetail,
-      productNameCode: ({business}) => business.productNameCode
+      businessDetail: ({ business }) => business.businessDetail,
+      productNameCode: ({ business }) => business.productNameCode
     })
   },
   beforeDestroy() {
@@ -309,7 +355,7 @@ export default {
       this.updateOrderCreate({ address: item.orgAddress });
     },
     submit() {
-      this.orderData.orderProductDtoList = this.orderCreate.orderProductDtoList.filter(item => {
+      this.orderData.ordProductDtoList = this.orderCreate.ordProductDtoList.filter(item => {
         delete item.processorData;
         delete item.productHandlers;
         return item;
@@ -367,15 +413,19 @@ export default {
   margin-top: $blockWidth;
 }
 .create-business-box-card {
-  position:absolute;z-index:2;line-height:20px;
+  position: absolute;
+  z-index: 2;
+  line-height: 20px;
   .el-card__body {
     padding: 10px;
-    color: rgba(0,0,0,0.45);
+    color: rgba(0, 0, 0, 0.45);
   }
 }
 .transfor-order {
   .detail-bar-container {
-    background: rgb(255, 255, 255);margin-top:16px;padding-top: 10px;
+    background: rgb(255, 255, 255);
+    margin-top: 16px;
+    padding-top: 10px;
   }
   .detail-bar {
     margin: 17px 24px 0px 24px;
@@ -399,7 +449,10 @@ export default {
       flex: 2;
       display: flex;
       .ellipsis {
-        width: 600px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+        width: 600px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

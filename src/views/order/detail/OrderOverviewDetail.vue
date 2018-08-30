@@ -24,7 +24,7 @@
 
 <script>
 import AuditSteps from 'components/AuditSteps.vue';
-import DetailContent from 'components/order/DetailContent.vue';
+import DetailContent from 'components/order/detail/DetailContent.vue';
 import OrderProductList from 'components/order/detail/OrderProductList.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
@@ -55,9 +55,13 @@ export default {
 
     const { id } = this.$route.params;
     await this.getOrderOverviewDetail({ ordCode: id });
-    await this.getOrderOverviewProcessList({
-      ordProductDtoList: this.orderOverviewDetail.ordProductDtoList
-    });
+    // 如果是草稿状态，不请求流程
+    let isDraftStatus = this.orderOverviewDetail.ordProductDtoList.filter(val => val.processInsId);
+    if (isDraftStatus.length) {
+      await this.getOrderOverviewProcessList({
+        ordProductDtoList: this.orderOverviewDetail.ordProductDtoList
+      });
+    }
   },
   methods: {
     // premissionDenied(item) {

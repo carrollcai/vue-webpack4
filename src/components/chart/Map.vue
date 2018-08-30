@@ -1,5 +1,6 @@
 <template>
-  <div :style="{width: typeof width === 'number' ? `${width}px` : width , height:`${height}px` }" :id="id"></div>
+  <div :style="{width: typeof width === 'number' ? `${width}px` : width , height:`${height}px` }"
+    :id="id"></div>
 </template>
 
 <script>
@@ -44,6 +45,12 @@ export default {
   },
   methods: {
     drawChart(data) {
+      data = data.map(val => {
+        return {
+          '省份': val.name,
+          '数量': val.value,
+        };
+      });
       this.chart && this.chart.destroy();
 
       const { height, id, mapData } = this;
@@ -88,7 +95,7 @@ export default {
 
       var userDv = ds.createView().source(data).transform({
         geoDataView: worldMap,
-        field: 'name',
+        field: '省份',
         type: 'geo.region',
         as: ['longitude', 'latitude']
       }).transform({
@@ -104,11 +111,11 @@ export default {
           // alias: '每100位女性对应的男性数量'
         }
       });
-      userView.polygon().position('longitude*latitude').opacity('value').tooltip('name*value').animate({
+      userView.polygon().position('longitude*latitude').opacity('数量').tooltip('省份*数量').animate({
         leave: {
           animation: 'fadeOut'
         }
-      }).color('value', colorRange);
+      }).color('数量', colorRange);
 
       this.chart.render();
     }
