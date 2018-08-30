@@ -92,9 +92,9 @@ export default {
   methods: {
     desc(item) {
       let createDate = item.createDate ? item.createDate : '';
-      let opName = item.opName ? (item.opName === '我' ? '（我）' : item.opName) : '';
+      let opName = item.opName ? (item.opName === '我' ? '(我)' : item.opName) : '';
       let businessStatusName = item.businessStatusName ? item.businessStatusName : '';
-      return `${createDate}${opName}${businessStatusName}`;
+      return `${createDate} ${opName} ${businessStatusName}`;
     },
     percent() {
       return this.processList.length && parseFloat(1 / this.processList.length * 100).toFixed(4) + '%';
