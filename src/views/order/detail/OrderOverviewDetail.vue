@@ -16,7 +16,7 @@
         <detail-content v-if="orderOverviewDetail && Object.keys(orderOverviewDetail).length"
           :orderOverviewDetail="orderOverviewDetail" />
       </div>
-      {{processList}}
+      <!-- {{processList}} -->
       <order-product-list :processList="processList"
         :isShowAll="true" />
     </div>
