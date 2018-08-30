@@ -44,7 +44,7 @@
       @onPagination="onPagination"
       @onSizePagination="onSizePagination">
       <el-table-column label="走访编号" property="visitCode" width="180" />
-      <el-table-column label="走访时间"  property="visitStartTime" width="180" :formatter="visitTimeFn" />
+      <el-table-column label="走访时间"  property="visitStartTime" width="190" :formatter="visitTimeFn" />
       <el-table-column label="走访公司" property="organizeName" show-overflow-tooltip />
       <el-table-column v-if="appointVisitForm.visitResource === '2'" label="指派走访人" property="processorCN"/>
       <el-table-column v-if="appointVisitForm.visitResource === '1'" label="走访人" property="processorCN"/>
@@ -54,7 +54,10 @@
           <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.isOverDate === 0" class="table-button" type="text" @click="hageResource(scope.row)">
+          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.visitStatusCN === '已执行' && scope.row.isOverDate === 0" class="table-button" type="text" @click="hageResource(scope.row)">
+            评价
+          </el-button>
+          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.visitStatusCN === '已执行' && scope.row.isOverDate === 1" class="table-button" style="color: #999" type="text">
             评价
           </el-button>
         </template>
@@ -66,7 +69,12 @@
     :visible.sync="dialogVisible"
     width="30%"
     :before-close="handleClose">
-    <el-input v-model="visitEvaluate" clearable placeholder="评价" />
+    <el-input
+      v-model="visitEvaluate"
+      clearable
+      required
+      :maxlength="500"
+      placeholder="评价" />
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
       <el-button type="primary" @click="submitEvaluate">确 定</el-button>
@@ -113,18 +121,23 @@ export default {
       this.dialogVisible = true;
     },
     submitEvaluate() {
-      this.judgeVisit({
-        visitId: this.visitId,
-        visitEvaluate: this.visitEvaluate
-      }).then(res => {
-        this.dialogVisible = false;
-        this.$message({ showClose: true, message: '评价成功！', type: 'success' });
-      });
+      if (this.visitEvaluate.trim() !== '') {
+        this.judgeVisit({
+          visitId: this.visitId,
+          visitEvaluate: this.visitEvaluate
+        }).then(res => {
+          this.dialogVisible = false;
+          this.$message({ showClose: true, message: '评价成功！', type: 'success' });
+        });
+      } else {
+        this.$message({ showClose: true, message: '请输入评价内容！', type: 'info' });
+      }
     },
     visitTimeFn(row, clo, value) {
       if (row.visitStartTime) {
         let start = row.visitStartTime.split(' ')[0];
-        return start;
+        let end = row.visitEndTime ? '-' + row.visitEndTime.split(' ')[0] : '';
+        return start + end;
       }
     },
     getVisitStatus(value) {

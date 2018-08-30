@@ -157,7 +157,7 @@ export default {
         sex: sexObj,
         netType: netTypeObj,
         channelType: sourceObj,
-        city: this.restrictedCity ? 1 : ''
+        city: this.restrictedCity.length ? 1 : ''
       };
       this.submitData.province = this.applyFrom.province;
       let parms = Object.assign(this.submitData, data, userObj, activeObj);
