@@ -157,6 +157,7 @@ export default {
       }
     };
     return {
+      organizeNameList: [],
       pageSize: PAGE_SIZE,
       timeout: null,
       selectedProduct: {
@@ -246,12 +247,19 @@ export default {
     this.clearOrderCreate();
   },
   methods: {
+    connectOrganize() {
+      const { organizeName } = this.orderCreate;
+      const isSelected = val => val.organizeName === organizeName || val.organizeCode === organizeName;
+      const selectedObj = this.organizeNameList.filter(isSelected)[0];
+      if (selectedObj) {
+        this.updateOrderCreate({ organizeId: selectedObj.organizeId });
+      }
+    },
     routeType() {
       const { type } = this.$route.params;
       return type === 'create' ? '新建' : '修改';
     },
     handleSelect(item) {
-      // console.log(item);
       this.updateOrderCreate({ organizeId: item.organizeId });
       this.updateOrderCreate({ address: item.orgAddress });
     },
@@ -262,16 +270,23 @@ export default {
         organizeName: queryString
       };
 
+      // 每次查询时，清空organized
+      this.updateOrderCreate({ organizeId: '' });
+
       await this.getOrganizeAddress(params);
 
       await clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
+        this.organizeNameList = this.orderOrganizeAddressList;
+
         cb(this.orderOrganizeAddressList);
       }, 1000);
     },
     submitForm(startProcess) {
+      this.connectOrganize();
       const { type, id } = this.$route.params;
       const params = Object.cloneDeep(this.orderCreate);
+
       delete params.productName;
       delete params.amount;
       delete params.processor;

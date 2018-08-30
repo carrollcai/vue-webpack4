@@ -145,17 +145,17 @@ export default {
       }, 1000);
     }, */
     submitVisitApplication() {
-      if (this.getProcessorList && this.getProcessorList.length) {
-        let region = this.createAppointFrom.regionData.regionList;
-        if (region && region.length <= 0) {
-          this.$message({ showClose: true, message: '请选择指派人', type: 'info' });
-          return false;
-        }
-      }
       this.createAppointFrom.processor = this.createAppointFrom.regionData.processor;
       let { visitTime, timeRange, ...params } = this.createAppointFrom;
       this.$refs.visitRef.validate((valid) => {
         if (valid) {
+          if (this.getProcessorList && this.getProcessorList.length) {
+            let region = this.createAppointFrom.regionData.regionList;
+            if (region && region.length <= 0) {
+              this.$message({ showClose: true, message: '请选择指派人', type: 'info' });
+              return false;
+            }
+          }
           delete params.processorData;
           delete params.regionData;
           // params.visitId = this.visitId;
