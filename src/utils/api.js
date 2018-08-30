@@ -346,6 +346,7 @@ export default {
   editBusinessDetailAPI: API('esop/bizOppor/edit'),
   // 根据产品编码或名称查询
   getProductNameCodeAPI: API('esop/product/queryByCodeOrName'),
+  isOpporExistAPI: API('esop/visit/isOpporExist'),
   /* visit */
   getMyVisitManageListAPI: API('esop/visit/queryVisitSelf'),
   addCreateVisitAPI: API('esop/visit/addVisitSelf'),

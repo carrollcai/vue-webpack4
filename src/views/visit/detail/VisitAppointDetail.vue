@@ -11,7 +11,6 @@
     </div>
   </div>
   <!-- 详情 -->
-  {{isExecute !== 'true' || (isExecute === 'true' && visitResource === '1')}}/{{isExecute === 'true' && visitResource === '2'}}
   <div v-if="isExecute !== 'true' || (isExecute === 'true' && visitResource === '1')" class="m-container container-mt16">
     <Vdetail :visitDetail="visitDetailData" :filesArr="filesArrList"></Vdetail>
   </div>
@@ -44,13 +43,7 @@
         <el-input maxlength="50" v-model="editVisitFromHandle.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“;”隔开" />
       </el-form-item>
       <el-form-item label="计划走访时间：" label-width="140px" required>
-        <el-form-item prop="visitTime">
-          <el-date-picker v-model="editVisitFromHandle.visitTime" @change="getTimeVisit" class="form-input-medium form-input-half" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" :editable="false"></el-date-picker>
-        </el-form-item>
-        <div class="form-input-sep">-</div>
-        <el-form-item prop="timeRange">
-          <el-time-picker class="form-input-260" style="margin-top: 5px;" :disabled="checkTime" v-model="editVisitFromHandle.timeRange" @change="getTimeRange" format="HH:mm:ss" value-format="HH:mm:ss" is-range start-placeholder="开始时间" end-placeholder="结束时间" :editable="false" />
-        </el-form-item>
+        <el-date-picker v-model="editVisitFromHandle.visitTime" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']"></el-date-picker>
       </el-form-item>
       <el-form-item label="涉及商机编码：" label-width="140px" prop="relOpporCode">
         <el-autocomplete
@@ -60,6 +53,7 @@
           placeholder="涉及商机编码"
           :value-key="opporId"
           @select="relOpporValue"
+          @blur="hasOpporExist"
           :trigger-on-focus="false" />
       </el-form-item>
       <el-form-item label="走访内容：" label-width="140px" prop="visitContent">
@@ -171,8 +165,7 @@ export default {
         visitStartTime: '',
         visitEndTime: '',
         isSubmit: 1,
-        visitTime: null,
-        timeRange: null
+        visitTime: null
       },
       uploadData: {
         fileInputId: '',
@@ -214,16 +207,7 @@ export default {
           });
         });
       }
-      let start = this.visitAppointDetail.visitStartTime;
-      let end = this.visitAppointDetail.visitEndTime;
-      if (start) {
-        this.checkTime = false;
-        this.editVisitFromHandle.visitTime = start;
-        if (end) {
-          let arr = [start.split(' ')[1], end.split(' ')[1]];
-          this.editVisitFromHandle.timeRange = arr;
-        }
-      }
+      this.editVisitFromHandle.visitTime = [this.visitAppointDetail.visitStartTime, this.visitAppointDetail.visitEndTime];
       this.editVisitFromHandle.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
       this.editVisitFromHandle.visitTheme = this.visitAppointDetail.visitTheme;
       this.editVisitFromHandle.organizeId = this.visitAppointDetail.organizeId;
@@ -245,6 +229,26 @@ export default {
     this.clearApplicationCreate();
   },
   methods: {
+    hasOpporExist(item) {
+      this.relOpporCode = this.editVisitFromHandle.relOpporCode;
+      if (this.relOpporCode) {
+        this.isOpporExist({opporCode: this.relOpporCode}).then(res => {
+          if (res <= 0) {
+            this.editVisitFromHandle.relOpporCode = '';
+            this.editVisitFromHandle.relOpporId = '';
+          } else {
+            this.registerList.filter((item, index, array) => {
+              if (item.opporCode === this.relOpporCode) {
+                this.editVisitFromHandle.relOpporId = item.opporId;
+              }
+            });
+          }
+        });
+      } else {
+        this.editVisitFromHandle.relOpporCode = '';
+        this.editVisitFromHandle.relOpporId = '';
+      };
+    },
     relOpporValue(element) {
       this.registerList.filter((item, index, array) => {
         if (item.opporCode === element.value) {
@@ -266,13 +270,10 @@ export default {
         cb(this.registerList);
       }, 1000);
     },
-    getTimeVisit(time) {
-      this.checkTime = false;
-    },
     getTimeRange(time) {
       if (time) {
-        this.editVisitFromHandle.visitStartTime = this.editVisitFromHandle.visitTime + ' ' + time[0];
-        this.editVisitFromHandle.visitEndTime = this.editVisitFromHandle.visitTime + ' ' + time[1];
+        this.editVisitFromHandle.visitStartTime = time[0];
+        this.editVisitFromHandle.visitEndTime = time[1];
       } else {
         this.editVisitFromHandle.visitStartTime = '';
         this.editVisitFromHandle.visitEndTime = '';
@@ -315,7 +316,6 @@ export default {
       delete params.visitAuditor;
       delete params.isSubmit;
       delete params.visitTime;
-      delete params.timeRange;
       if (this.visitResource === '2') {
         this.$refs.visitEditRef.validate((valid) => {
           if (valid) {
@@ -344,7 +344,8 @@ export default {
       'uploadProductScheme',
       'queryElec',
       'editVisitApp',
-      'queryRegisterList'
+      'queryRegisterList',
+      'isOpporExist'
     ])
   }
 };

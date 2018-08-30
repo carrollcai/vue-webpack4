@@ -21,7 +21,7 @@
       </div>
       <div class="flex">
         <el-form-item class="form-left-width">
-          <el-button type="primary" @click="query">查询</el-button>
+          <el-button type="primary" @click="searchQuery">查询</el-button>
         </el-form-item>
       </div>
     </el-form>
@@ -102,6 +102,10 @@ export default {
     handleDetail(row) {
       const path = `/business-manage/business-detail/${row.opporId}/0/0/0`;
       this.$router.push(path);
+    },
+    searchQuery() {
+      this.businessForm.pageNo = 1;
+      this.query();
     },
     query() {
       const params = this.businessForm;

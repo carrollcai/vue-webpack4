@@ -158,6 +158,7 @@
           prop="predictAgreementTime">
           <el-input class="form-input-medium"
             v-model="orderData.predictAgreementTime"
+            maxlength="3"
             placeholder="请输入时间">
             <template slot="append">月</template>
           </el-input>
