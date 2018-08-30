@@ -41,29 +41,18 @@ const actions = {
   // 产品指派处理人
   getProductHandler: ({ commit }, params) => {
     let { index, item } = params;
-    let _params = {
+    let data = {
       opRegion: item.region,
       roleList: item.roleList,
     };
-    console.log(params);
-    return API.getProductHandlerAPI(_params).then(res => {
+    return API.getProductHandlerAPI(data).then(res => {
       commit(types.ORDER_QUERY_PRODUCT_HANDLER, {
         list: res.data,
-        item: item,
+        item,
         index,
       });
     });
   },
-  // 创建分派
-  // createAssign({ commit }, params) {
-  //   return API.createAssignAPI(params).then(res => {
-  //     // 请求成功后需要刷新视图
-  //     Message({
-  //       message: '分派成功',
-  //       type: 'success'
-  //     });
-  //   });
-  // },
   // 提交订单
   submitOrderRow({ commit }, params) {
     return API.submitOrderRowAPI(params).then(res => {
@@ -200,11 +189,6 @@ const actions = {
   orderDownloadFile({ commit }, params) {
     return API.downloadAttachFileAPI(params);
   },
-  // getOrderProcessInfo({ commit }, params) {
-  //   return API.getQueryTaskAPI(params).then(res => {
-  //     commit(types.ORDER_LAST_PROCESS_INFO, res.data);
-  //   });
-  // }
 
   async getOrderOverviewProcessList({ commit, dispatch }, params) {
     // 这里不能用forEach控制流程，需要用for of
@@ -224,14 +208,13 @@ const actions = {
         fileList,
         list: res.data
       };
-      console.log(data);
       await commit(types.ORDER_GET_PROCESS_LIST, data);
     }
   },
+  // 获取附件列表
   async gethasSignedFileList({ commit }, params) {
-    // 这里不能用forEach控制流程，需要用for of
     for (let val of params.ordProductDtoList) {
-      // 如果不存在fileId就不上传
+      // 如果不存在fileId，不请求API
       if (!val.fileId) return false;
 
       let res = await API.getFileThroughtFileIdAPI({
