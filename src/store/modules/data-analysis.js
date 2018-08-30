@@ -118,7 +118,7 @@ const state = {
     endDate: new Date(oneMonthAgo),
     mode: 0,
     district: null,
-    chartRadio: '1'
+    chartRadio: null
   },
   // 保存 新增用户分析 - 新增会员用户趋势分析 的原始数据
   addUserVipList: [],
@@ -127,6 +127,9 @@ const state = {
 };
 
 const mutations = {
+  [types.INIT_ADD_USER_VIP_TYPE](state, data) {
+    state.adduserVipTrend.chartRadio = data;
+  },
   [types.CLIENT_GET](state, data) {
     state.client = data;
   },
