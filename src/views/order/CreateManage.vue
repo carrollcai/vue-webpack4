@@ -205,7 +205,7 @@ export default {
       const selectedObj = this.organizeNameList.filter(isSelected)[0];
       if (selectedObj) {
         await this.setConnectOriganize({
-          ordId: row.ordId,
+          ordCode: row.ordCode,
           organizeId: selectedObj.organizeId,
           organizeName: selectedObj.organizeName
         });

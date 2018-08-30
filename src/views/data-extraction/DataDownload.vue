@@ -18,7 +18,7 @@
       </div>
       <div class="flex">
         <el-form-item class="form-left-width">
-          <el-button type="primary" @click="query">查询</el-button>
+          <el-button type="primary" @click="searchQuery">查询</el-button>
         </el-form-item>
         <el-form-item class="form-left-width">
           <el-button class="el-button--have-icon" @click="toDataApply" icon="el-icon-plus">数据提取申请</el-button>
@@ -202,8 +202,11 @@ export default {
       this.downloadForm.pageSize = value;
       this.query();
     },
-    query() {
+    searchQuery() {
       this.downloadForm.pageNo = '1';
+      this.query();
+    },
+    query() {
       let { ...data } = this.downloadForm;
       if (data.extractBusinessStatus === '0') {
         data.extractBusinessStatus = null;

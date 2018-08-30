@@ -125,7 +125,6 @@ export default {
       }, 1000);
     },
     handleProductSelect(item, index) {
-      console.log(item);
       // 更新订购产品
       this.getProductHandler({
         // opRegion: item.region,

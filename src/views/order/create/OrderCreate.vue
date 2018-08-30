@@ -148,7 +148,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
 import productItem from 'components/order/create/productItem.vue';
-import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte8Deci2, textAccountLimit, isPositive } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte8Deci2, textAccountLimit, isOverMonth } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -184,7 +184,7 @@ export default {
         ],
         predictAgreementTime: [
           { required: true, message: '请选择预计协议期', trigger: 'change' },
-          { validator: isPositive, trigger: 'blur' },
+          { validator: isOverMonth, trigger: 'blur' },
         ],
         contactName: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
