@@ -50,7 +50,7 @@
           <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button class="table-button" v-if="scope.row.visitStatus === '1' && scope.row.visitResource === 2" type="text" @click="viewDetail(scope.row, true)">
+          <el-button class="table-button" v-if="scope.row.visitStatus === '1'" type="text" @click="viewDetail(scope.row, true)">
             走访汇报
           </el-button>
           <!-- 自建的则支持修改 -->
@@ -166,7 +166,7 @@ export default {
       this.query();
     },
     viewDetail(row, execution) {
-      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}`;
+      let path = `/visit/visit-application-detail/${row.visitId}?isExecute=${execution}&visitResource=${row.visitResource}`;
       this.$router.push(path);
     },
     query() {

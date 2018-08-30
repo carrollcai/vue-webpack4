@@ -1,6 +1,9 @@
 import * as types from '../store/types';
 import API from '../utils/api';
 import { Message } from 'element-ui';
+import {
+  PAGE_SIZE,
+} from '@/config/index.js';
 
 const actions = {
   /**
@@ -39,7 +42,7 @@ const actions = {
     });
   },
   // 产品指派处理人
-  getProductHandler: ({ commit }, params) => {
+  getProductHandler({ commit }, params) {
     let { index, item } = params;
     let data = {
       opRegion: item.region,
@@ -93,10 +96,28 @@ const actions = {
       commit(types.ORDER_QUERY_PRODUCT_NAME, res.data);
     });
   },
-  getOrderEdit({ commit }, params) {
-    return API.getOrderDetailAPI(params).then(res => {
-      commit(types.ORDER_GET_EDIT, res.data);
-    });
+  async getOrderEdit({ commit, dispatch }, params) {
+    // 如果有指派人，需要取指派人接口
+    let index = 0;
+    let res = await API.getOrderDetailAPI(params);
+    await commit(types.ORDER_GET_EDIT, res.data);
+    for (let val of res.data.ordProductDtoList) {
+      debugger;
+      ++index;
+      if (val.productName) {
+        let productNameList = await dispatch('getOrganizeAddress', {
+          pageSize: PAGE_SIZE,
+          organizeName: val.productName
+        });
+        let productFilterList = productNameList.filter(cVal => cVal.productId === Number(val.productId));
+        if (productFilterList[0]) {
+          await dispatch('getProductHandler', {
+            item: productFilterList[0],
+            index
+          });
+        }
+      }
+    }
   },
   getOrganizeAddress({ commit }, params) {
     return API.getOrganizeAddressAPI(params).then((res) => {

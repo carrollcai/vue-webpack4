@@ -240,7 +240,7 @@ export default {
       this.query();
     },
     handleEdit(row) {
-      const path = `/order/manage/edit/${row.ordId}`;
+      const path = `/order/manage/edit/${row.ordCode}`;
       this.$router.push(path);
     },
     handleDelete(row) {

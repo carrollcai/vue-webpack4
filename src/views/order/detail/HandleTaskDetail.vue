@@ -55,8 +55,8 @@
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
 // import AuditSteps from 'components/AuditSteps.vue';
-import DetailContent from 'components/order/DetailContent.vue';
-// import DetailBar from 'components/order/DetailBar.vue';
+import DetailContent from 'components/order/detail/DetailContent.vue';
+// import DetailBar from 'components/order/detail/DetailBar.vue';
 import OrderProductList from 'components/order/detail/OrderProductList.vue';
 import SignHandle from 'components/order/detail/SignHandle.vue';
 import PayHandle from 'components/order/detail/PayHandle.vue';

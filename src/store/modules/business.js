@@ -7,7 +7,7 @@ import {
 const state = {
   toOrderCreate: {
     productId: null,
-    orderProductDtoList: [{
+    ordProductDtoList: [{
       productId: null,
       productName: '',
       amount: '',
@@ -81,7 +81,7 @@ const state = {
 
 const mutations = {
   [types.COOPERATION_GROUP](state, data) {
-    state.cooperationGroupList = data.list.map(val => Object.assign(val, {value: val.organizeName}));
+    state.cooperationGroupList = data.list.map(val => Object.assign(val, { value: val.organizeName }));
   },
   [types.BUSINESS_OPPORTUNITY_LIST](state, data) {
     state.businessList = data;
@@ -171,7 +171,7 @@ const mutations = {
     state.editBusinessDetailApproveStatus = data;
   },
   [types.PRODUCT_NAME_CODE](state, data) {
-    state.productNameCode = data.list.map(val => Object.assign(val, {value: val.productName}));
+    state.productNameCode = data.list.map(val => Object.assign(val, { value: val.productName }));
   },
   [types.QUERY_TASK](state, data) {
     state.queryTask = data;

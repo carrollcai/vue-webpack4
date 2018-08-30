@@ -11,13 +11,12 @@
         <dt class="tH01">{{item.productName}}</dt>
         <dd class="tH02"
           v-if="premissionDenied(item)">
-          <!-- {{item.fileList}} -->
           <el-form class="handle-task-detail-form"
             label-widivh="112px"
             ref="pay"
             :model="payForm"
             :rules="payRules">
-            <!-- 这个地方可以会出现bug，现在取附件，只取第一条 -->
+            <!-- 这个地方可能会出现bug，现在取附件，只取第一条 -->
             <el-form-item label="签约合同："
               label-width="130px"
               v-if="item.fileId && payDetailFileList.length">
@@ -35,7 +34,7 @@
               prop="money">
               <el-input class="form-input-medium"
                 type="text"
-                maxlength="10"
+                maxlength="11"
                 v-model="payForm.money"
                 placeholder="请输入合同金额">
                 <template slot="append">元</template>

@@ -15,6 +15,7 @@ import {
   EMAIL_MAX_LENGTH,
   INPUT_LENGTH_TWENTY,
   INPUT_NUMBER_LIMIT,
+  INPUT_MONTH_MAX_LIMIT,
 } from '@/config/index.js';
 import moment from 'moment';
 
@@ -44,6 +45,20 @@ export const isPositive = (rule, value, callback) => {
     callback();
   } else if (value > INPUT_NUMBER_LIMIT) {
     callback(new Error(`不得超过${INPUT_NUMBER_LIMIT}`));
+  } else if (reg.test(value)) {
+    callback();
+  } else {
+    callback(new Error('请输入正确数字类型'));
+  }
+};
+
+// 月份限制在两位正整数
+export const isOverMonth = (rule, value, callback) => {
+  const reg = /^[1-9]\d*$/;
+  if (value === '' || value === null) {
+    callback();
+  } else if (value >= INPUT_MONTH_MAX_LIMIT) {
+    callback(new Error(`月份不得超过${INPUT_MONTH_MAX_LIMIT}`));
   } else if (reg.test(value)) {
     callback();
   } else {

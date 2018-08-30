@@ -5,10 +5,9 @@ import {
 } from '@/config/index.js';
 const orderCreate = {
   ordName: '',
-  // predictContractAmount: null,
   predictSignTime: '',
   predictAgreementTime: '',
-  isProjectInvitation: '1',
+  // isProjectInvitation: '1',
   organizeId: '',
   organizeName: '',
   address: '',
@@ -19,21 +18,22 @@ const orderCreate = {
   busiDesc: '',
   teamProject: '',
   productId: null,
-  orderProductDtoList: [{
-    productId: null,
-    productName: '',
-    amount: '',
-    processor: [],
-    processorData: [],
-    companyBelong: '',
-    productHandlers: [],
-  }],
+  ordProductDtoList: [],
   productName: '',
   amount: '',
   processor: '',
-  // companyBelong: '',
   predictRevenue: '',
   startProcess: ''
+};
+
+const ordProductDtoListObj = {
+  productId: null,
+  productName: '',
+  amount: '',
+  processor: [],
+  processorData: [],
+  companyBelong: '',
+  productHandlers: [],
 };
 
 const state = {
@@ -130,9 +130,9 @@ const mutations = {
         label: item.operatorId,
       };
     });
-    state.orderCreate.orderProductDtoList[data.index].companyBelong = data.item.region;
-    state.orderCreate.orderProductDtoList[data.index].productId = data.item.productId;
-    state.orderCreate.orderProductDtoList[data.index].productHandlers = dataList;
+    state.orderCreate.ordProductDtoList[data.index].companyBelong = data.item.region;
+    state.orderCreate.ordProductDtoList[data.index].productId = data.item.productId;
+    state.orderCreate.ordProductDtoList[data.index].productHandlers = dataList;
   },
   [types.ORDER_QUERY_ASSIGN_HANDLER](state, data) {
     // 改造指派人结构
@@ -178,9 +178,13 @@ const mutations = {
   [types.ORDER_UPDATE_CREATE](state, data) {
     state.orderCreate = Object.assign({}, state.orderCreate, data);
   },
+  // 修改获取数据
   [types.ORDER_GET_EDIT](state, data) {
     let { processName, processor, ...filterData } = data;
     state.orderCreate = filterData;
+
+    console.log(state.orderCreate);
+    // state.orderCreate.ordProductDtoList = filterData.ordProductDtoList;
   },
   [types.ORDER_QUERY_PRODUCT_NAME](state, data) {
     state.productList = data.list.map(val => Object.assign(val, { value: val.productName }));
@@ -190,7 +194,7 @@ const mutations = {
   },
   [types.ORDER_GET_HAS_SIGNED_FILE](state, data) {
     // state.hasSignedFile = data;
-    let item = state.orderCreate.orderProductDtoList[data.index];
+    let item = state.orderCreate.ordProductDtoList[data.index];
     item.hasSignedFile = data.list;
   },
   [types.ORDER_OVERVIEW_PAGE_CHANGE](state, data) {
@@ -221,7 +225,7 @@ const mutations = {
     state.lastProcessInfo = data.length ? data[0] : state.lastProcessInfo;
   },
   [types.ORDER_HANDLE_PROCESS](state, data) {
-    let item = state.orderCreate.orderProductDtoList[data.index];
+    let item = state.orderCreate.ordProductDtoList[data.index];
     item.processor = item.processorData.map(val => {
       let processor = item.productHandlers.filter(cval => cval.value === val)[0];
       if (processor) {
@@ -231,16 +235,20 @@ const mutations = {
   },
   // 删除订购产品中某一条
   [types.ORDER_DELETE_PRODUCT](state, data) {
-    let nick = state.orderCreate.orderProductDtoList;
+    let nick = state.orderCreate.ordProductDtoList;
     nick.splice(data.index, 1);
   },
   [types.ORDER_ADD_PRODUCT](state, data) {
-    let newArr = Object.cloneDeep(orderCreate.orderProductDtoList);
-    state.orderCreate.orderProductDtoList = state.orderCreate.orderProductDtoList.concat(newArr);
+    let item = Object.cloneDeep(ordProductDtoListObj);
+    state.orderCreate.ordProductDtoList = state.orderCreate.ordProductDtoList.concat([item]);
   },
   [types.ORDER_REMOVE_PAY_DETAIL_FILES](state, data) {
     state.payDetailFileList = [];
-  }
+  },
+  [types.ORDER_INIT_CREATE](state, data) {
+    let item = Object.cloneDeep(ordProductDtoListObj);
+    state.orderCreate.ordProductDtoList = state.orderCreate.ordProductDtoList.concat([item]);
+  },
 };
 
 export default {
