@@ -39,6 +39,8 @@ export default {
   methods: {
     handleChangeCities(val) {
       if (val) {
+        this.applyFrom.userInfo = [val];
+      } else {
         this.applyFrom.userInfo = [];
       }
     },
@@ -157,7 +159,7 @@ export default {
         sex: sexObj,
         netType: netTypeObj,
         channelType: sourceObj,
-        city: this.restrictedCity.length ? 1 : ''
+        city: this.restrictedCity && this.restrictedCity.length > 0 ? 1 : ''
       };
       this.submitData.province = this.applyFrom.province;
       let parms = Object.assign(this.submitData, data, userObj, activeObj);

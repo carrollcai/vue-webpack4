@@ -50,14 +50,17 @@
       <el-table-column label="审核状态" property="extractBusinessStatusName" width="210">
         <template slot-scope="scope">
           {{scope.row.extractBusinessStatusName}}
-          <el-popover  v-if="scope.row.extractBusinessStatusName === '数据生成中'"
-            ref="popover"
-            placement="top"
-            title="温馨提示"
-            width="100"
-            trigger="hover"
-            content="数据生成中，请耐心等待">
-          </el-popover>
+          <span v-if="scope.row.extractBusinessStatusName === '数据生成中'">
+            <el-popover
+              ref="popover"
+              placement="top"
+              title="温馨提示"
+              width="100"
+              trigger="hover"
+              content="数据生成中，请耐心等待">
+              <i slot="reference" class="el-icon-info"></i>
+            </el-popover>
+          </span>
           <span v-if="scope.row.extractBusinessStatusName === '审核不通过'">
             <el-popover
               placement="top"
