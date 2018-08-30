@@ -21,10 +21,6 @@
           <div class="customer-create-info">
             <el-form-item label="集团名称" prop="organizeName" key="organizeName">
               <el-autocomplete maxlength="25" v-model="customer.organizeName" :fetch-suggestions="querySearchAsync" placeholder="请输入集团名称"></el-autocomplete>
-              <!--<el-input v-model="customer.organizeName"
-                :maxlength="25"
-                placeholder="请输入集团名称"
-                key="name-input"></el-input>-->
             </el-form-item>
             <el-form-item label="集团属性" prop="organizeType" key="organizeType">
               <el-select v-model="customer.organizeType"
@@ -93,7 +89,6 @@
               </el-select>
             </el-form-item>
             <el-form-item label="公司标签" key="companyTag">
-              <!--{{customer.label}}-->
               <el-popover :width="598" :visible-arrow="false" placement="bottom-start" trigger="focus">
                 <div class="custComTip">
                   推荐 :<el-tag :key="rec" v-for="rec in tagLibraryList" @click.native="add(rec)">{{rec}}</el-tag>
@@ -118,17 +113,6 @@
                 placeholder="请输入优势能力"
                 key="orgAdvantage-input"></el-input>
             </el-form-item>
-            <!--<el-form-item label="成立日期" prop="establishTime" key="establishTime">
-              <el-date-picker
-                v-model="customer.establishTime"
-                type="date"
-                :editable="false"
-                :clearable="false"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="dateOptions"
-                placeholder="请选择成立日期">
-              </el-date-picker>
-            </el-form-item>-->
             <el-form-item label="经营范围" prop="businessScope" key="Business-Scope">
               <el-input class="form-input-624" v-model="customer.businessScope"
                 :maxlength="500"
@@ -184,16 +168,8 @@
                 value-format="yyyy-MM-dd HH:mm:ss"
                 placeholder="请选择成立时间">
               </el-date-picker>
-              <!--<el-input v-model="customer.registerNum"
-                placeholder="请输入工商注册号"
-                :maxlength="13"
-                key="registerNum-input"></el-input>-->
+
             </el-form-item>
-            <!--<el-form-item label="组织机构代表" prop="organizeRepresent" key="organizeRepresent">
-              <el-input v-model="customer.organizeRepresent"
-                placeholder="8位数字+1位校验码"
-                key="registerNum-input"></el-input>
-            </el-form-item>-->
             <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
               <el-input
               v-model="customer.socialCreditCode"
@@ -235,9 +211,6 @@
                 placeholder="请输入证件地址"
                 key="licenceAddress-input"></el-input>
             </el-form-item>
-            <!--<el-form-item>
-              <el-button type="primary" @click="toSecondStep">下一步</el-button>
-            </el-form-item>-->
           </div>
           <div class="base-optional-info">
             <el-form-item style="width:645px;"></el-form-item>
@@ -245,84 +218,6 @@
               <el-button type="primary" @click="toSecondStep">下一步</el-button>
             </el-form-item>
           </div>
-          <!--<div class="base-info" v-if="open === 'true'">
-            <el-form-item label="工商注册号" prop="registerNum" key="registeNum">
-              <el-input v-model="customer.registerNum"
-                placeholder="请输入工商注册号"
-                :maxlength="13"
-                key="registerNum-input"></el-input>
-            </el-form-item>
-            <el-form-item label="证件类型" key="certificateType">
-              <el-select v-model="customer.certificateType"
-                clearable
-                key="certificateType-select"
-                placeholder="请选择证件类型">
-                <el-option
-                  v-for="item in CERTIFICATE_TYPE"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="统一社会信用代码" prop="socialCreditCode" key="socialCreditCode">
-              <el-input
-              v-model="customer.socialCreditCode"
-              placeholder="请输入统一社会信用代码"
-              :maxlength="18"
-              key="socialCreditCode-input"></el-input>
-            </el-form-item>
-            <el-form-item label="注册资金类型" key="registerFundType">
-              <el-select v-model="customer.registerFundType"
-                clearable
-                key="registerFundType-select"
-                placeholder="请选择注册资金类型">
-                <el-option
-                  v-for="item in REGISTER_FUND_TYPE"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="注册资金" prop="registerFund" key="registerFund">
-              <el-input v-model="customer.registerFund" placeholder="请输入注册资金" key="registerFund-input">
-                <template slot="append">万元</template>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="经营期限" prop="businessTerm" key="operation-term">
-              <el-input v-model="customer.businessTerm"
-                :maxlength="3"
-                placeholder="请输入经营期限" key="operation-input">
-                <template slot="append">年</template>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="登记机关" key="registrateOrg">
-              <el-input v-model="customer.registrateOrg"
-                :maxlength="20"
-                placeholder="请输入登记机关"
-                key="registrateOrg-input"></el-input>
-            </el-form-item>
-            <el-form-item label="发证日期" key="Licence-date">
-              <el-date-picker
-                v-model="customer.openTime"
-                type="date"
-                :editable="false"
-                :picker-options="dateOptions"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="请选择发证日期">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="证件地址" key="Licence-address">
-              <el-input v-model="customer.certificateAddress"
-                :maxlength="50"
-                placeholder="请输入证件地址"
-                key="licenceAddress-input"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="toSecondStep">下一步</el-button>
-            </el-form-item>
-          </div>-->
       </el-form>
       <div class="second-step" v-if="isSecondStep()">
         <el-table
@@ -396,6 +291,7 @@
             v-model="customer.managerName"
             :fetch-suggestions="querySearchManagersAsync"
             placeholder="请输入客户经理"
+            @select="handleSelect"
           ></el-autocomplete>
         </el-form-item>
         <el-form-item label="手机号码" prop="managerMobile" key="managerMobile">
@@ -485,7 +381,7 @@ export default {
       if (!queryString) return false;
       let params = {
         pageSize: 20,
-        organizeName: queryString
+        staffName: queryString
       };
       await this.queryCustomerManagers(params);
       await clearTimeout(this.timeout);
