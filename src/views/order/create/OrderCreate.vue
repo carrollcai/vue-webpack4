@@ -8,7 +8,6 @@
         </el-breadcrumb>
       </div>
     </div>
-    {{orderCreate}}
     <div class="m-container order-create">
       <el-form :label-position="'right'"
         label-width="140px"
@@ -82,21 +81,6 @@
         <el-form-item label="订购产品："
           required>
           <product-item ref="productItemRef" />
-          <!-- <div class="tTable">
-            <div class="tHead">
-              <div style="min-width: 140px;">订购产品</div>
-              <div>订购数量</div>
-              <div>处理人</div>
-              <div>操作</div>
-            </div>
-            <div class="tBody">
-              <productItem @validate="productItemValidate" />
-            </div>
-            <div class="add blue">
-              <span @click="addList">
-                <i class="el-icon-plus"></i>增加一条</span>
-            </div>
-          </div> -->
         </el-form-item>
         <el-form-item label="业务描述："
           prop="busiDesc">
@@ -132,6 +116,15 @@
         </el-form-item>
         <el-form-item label="预计协议期："
           prop="predictAgreementTime">
+          <el-input class="form-input-medium"
+            v-model="orderCreate.predictAgreementTime"
+            placeholder="请输入时间">
+            <template slot="append">月</template>
+          </el-input>
+        </el-form-item>
+
+        <!-- <el-form-item label="预计协议期："
+          prop="predictAgreementTime">
           <el-select class="form-input-medium"
             v-model="orderCreate.predictAgreementTime"
             placeholder="请选择时间">
@@ -140,7 +133,7 @@
               :label="item.label"
               :value="item.value" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary"
             @click="submitForm(true)">提交</el-button>
@@ -155,7 +148,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
 import productItem from 'components/order/create/productItem.vue';
-import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte8Deci2, textAccountLimit } from '@/utils/rules.js';
+import { checkPhone, emailCheck, textLimit, textareaLimit, textareaMaxLimit, inte8Deci2, textAccountLimit, isPositive } from '@/utils/rules.js';
 
 export default {
   components: {
@@ -190,7 +183,8 @@ export default {
           { required: true, message: '请输入预定签约时间', trigger: 'blur' }
         ],
         predictAgreementTime: [
-          { required: true, message: '请选择预计协议期', trigger: 'change' }
+          { required: true, message: '请选择预计协议期', trigger: 'change' },
+          { validator: isPositive, trigger: 'blur' },
         ],
         contactName: [
           { required: true, message: '请输入姓名', trigger: 'blur' },

@@ -7,7 +7,7 @@
       </div>
       <div class="task-three-detail-item">
         <div class="left">预计协议期：</div>
-        <div class="right">{{orderOverviewDetail.predictAgreementTime}}年</div>
+        <div class="right">{{orderOverviewDetail.predictAgreementTime}}月</div>
       </div>
       <!-- <div class="task-three-detail-item">
         <div class="left">是否项目招标：</div>
@@ -17,7 +17,7 @@
     <div class="task-three-detail">
       <div class="task-three-detail-item">
         <div class="left">预计收入：</div>
-        <div class="right">{{orderOverviewDetail.predictContractAmount? `${orderOverviewDetail.predictContractAmount}元/月`: '-'}}</div>
+        <div class="right">{{orderOverviewDetail.predictRevenue ? `${orderOverviewDetail.predictRevenue}元`: '-'}}</div>
       </div>
       <div class="task-three-detail-item">
         <div class="left">预计签约时间：</div>

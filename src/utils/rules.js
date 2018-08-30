@@ -42,16 +42,16 @@ export const isPositive = (rule, value, callback) => {
   const reg = /^[1-9]\d*$/;
   if (value === '' || value === null) {
     callback();
-  } else if (reg.test(value)) {
-    callback();
   } else if (value > INPUT_NUMBER_LIMIT) {
     callback(new Error(`不得超过${INPUT_NUMBER_LIMIT}`));
+  } else if (reg.test(value)) {
+    callback();
   } else {
     callback(new Error('请输入正确数字类型'));
   }
 };
 
-// 最大数量校验
+// 文本最大数量校验
 export const maxLimit = (rule, value, callback) => {
   if (Number(value) > INPUT_BIG_WORD_MAX) {
     callback(new Error(`输入内容不能超过${INPUT_BIG_WORD_MAX}`));

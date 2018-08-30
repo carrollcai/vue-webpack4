@@ -152,6 +152,12 @@ export function chinaDatetransformDate(vals = '') {
   }
 };
 
+/**
+ * @description 将`2018-08`转换成`2018-08-01`
+ * @export
+ * @param {*} val
+ * @returns
+ */
 export function addFirstDayinMonth(val) {
   return moment(val).format('YYYY-MM') + '-01';
 }
