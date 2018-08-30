@@ -54,10 +54,10 @@
           <el-button class="table-button" type="text" @click="viewDetail(scope.row, false)">
             查看
           </el-button>
-          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.visitStatusCN === '已执行' && scope.row.isOverDate === 0" class="table-button" type="text" @click="hageResource(scope.row)">
+          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.visitStatusCN === '已执行' && scope.row.visitEvaluate !== '' && scope.row.isOverDate === 0" class="table-button" type="text" @click="hageResource(scope.row)">
             评价
           </el-button>
-          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.visitStatusCN === '已执行' && scope.row.isOverDate === 1" class="table-button" style="color: #999" type="text">
+          <el-button v-if="appointVisitForm.visitResource === '1' && scope.row.visitStatusCN === '已执行' && scope.row.visitEvaluate === '' && scope.row.isOverDate === 1" class="table-button" style="color: #999" type="text">
             评价
           </el-button>
         </template>

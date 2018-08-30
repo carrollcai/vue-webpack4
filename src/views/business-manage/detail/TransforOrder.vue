@@ -97,37 +97,24 @@
         <el-form-item label="预计签约时间：" prop="predictSignTime">
           <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="orderData.predictSignTime" placeholder="请选择时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="预计协议期：" required="true">
-          <!-- <el-select class="form-input-medium" v-model="orderData.predictAgreementTime" placeholder="请选择">
-              <el-option
-              v-for="item in PREDICT_AGREEMENT_TIME"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-              </el-option>
-              <template slot="append">元</template>
-          </el-select> -->
-          <el-form-item prop="predictAgreementTime" style="display: inline-block;">
-            <el-input v-model="orderData.predictAgreementTime" :maxlength="3" class="form-input-medium" placeholder="请输入预计协议期" />
-          </el-form-item>
-          <el-form-item style="display: inline-block; min-width: 50px;">
-            <el-select class="form-input-medium" v-model="date" placeholder="请选择">
-              <el-option label="年" :value="0"></el-option>
-              <el-option label="月" :value="1"></el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="预计协议期："
+          prop="predictAgreementTime">
+          <el-input class="form-input-medium"
+            v-model="orderData.predictAgreementTime"
+            placeholder="请输入时间">
+            <template slot="append">月</template>
+          </el-input>
         </el-form-item>
-
         <!--<el-form-item label="订单需求：" prop="busiRequire">
           <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="orderData.busiRequire"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
           <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="orderData.needCoordinationIssue"></el-input>
         </el-form-item>-->
-        <el-form-item label="项目是否招标：" prop="isProjectInvitation">
+        <!-- <el-form-item label="项目是否招标：" prop="isProjectInvitation">
           <el-radio v-model="orderData.isProjectInvitation" label="1">是</el-radio>
           <el-radio v-model="orderData.isProjectInvitation" label="0">否</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="">
           <el-button type="primary" @click="submit">提交</el-button>
           <el-button @click="cancel" plain>取消</el-button>
