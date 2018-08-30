@@ -84,7 +84,7 @@
           <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入合作建议" v-model="form.busiOperating"></el-input>
         </el-form-item>
         <el-form-item label="商机有效期：" prop="busiValidity">
-          <el-input v-model="form.busiValidity" class="form-input-medium" placeholder="请输入商机有效期">
+          <el-input v-model="form.busiValidity" maxlength="2" class="form-input-medium" placeholder="请输入商机有效期">
             <template slot="append">月</template>
           </el-input>
           <!-- <el-select v-model="form.busiValidity" placeholder="请选择">
