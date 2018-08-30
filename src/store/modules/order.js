@@ -7,7 +7,6 @@ const orderCreate = {
   ordName: '',
   predictSignTime: '',
   predictAgreementTime: '',
-  // isProjectInvitation: '1',
   organizeId: '',
   organizeName: '',
   address: '',

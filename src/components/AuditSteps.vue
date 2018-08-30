@@ -29,7 +29,7 @@
             :style="{'flex-basis': percent()}">
             <!-- 只有已签约会展示文件 -->
             <span v-if="Object.isExistArray(fileList) && hasSignStatus === Number(item.businessStatus)"
-              class="blue"
+              class="blue cursor-pointer"
               v-for="(file, k) in fileList"
               :key="k"
               @click="downloadFile(file)">

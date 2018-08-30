@@ -1,7 +1,6 @@
 <template>
   <div class="tTable"
     v-if="ordProductDtoList.length">
-    {{ordProductDtoList}}
     <div class="tHead">
       <div class="title">订购产品</div>
       <div class="title">订购数量</div>

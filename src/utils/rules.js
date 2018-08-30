@@ -185,7 +185,7 @@ export const startDateBeforeEndDate = (effectiveDate, expireDate, callback) => {
 
 // 手机号校验
 export const checkPhone = (rule, value, callback) => {
-  const reg = /^1[34578]\d{9}$/;
+  const reg = /^1[23456789]\d{9}$/;
   if (reg.test(value)) {
     callback();
   } else {
