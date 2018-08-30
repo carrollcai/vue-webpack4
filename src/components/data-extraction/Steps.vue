@@ -37,52 +37,16 @@ export default {
   beforeMount() {
     this.$nextTick(() => {
       let prams = {
-        processInsId: this.processInsId
+        processInsId: this.processInsId,
+        state: this.businessStatus,
+        apply: this.$route.name === 'data-audit-detail' ? 1 : 2
       };
-      // if (this.processList.businessStatus === '1') {
-        // prams.businessStatus = [1];
-      // }
       this.queryDataExtractionSteps(prams);
     });
   },
   computed: {
     processLists() {
-      let _Data = this.processList;
-      if (_Data.length) {
-        let status = this.dataDetailList.extractBusinessStatus;
-        let statusName = this.dataDetailList.extractBusinessStatusName;
-        let obj = {};
-        let flag = false;
-        if (_Data[2] && _Data[2].taskName.indexOf('审核') !== -1 && _Data[2].hasComplete === 0) {
-          flag = true;
-        }
-        if (status < 2) {
-          obj.taskName = '数据生成';
-          obj.hasComplete = 0;
-          obj.hasCompleteName = '未完成';
-          obj.businessStatus = '待处理';
-        } else {
-          if (flag) {
-            obj.taskName = '数据生成';
-            obj.hasComplete = 0;
-            obj.hasCompleteName = '未完成';
-            obj.businessStatus = '待处理';
-          } else {
-            obj.taskName = statusName;
-            obj.hasComplete = 1;
-            if (status === 3) {
-              obj.hasCompleteName = '数据生成中需要一段时间，请耐心等待生成后会短信通知您！';
-            } else {
-              obj.hasCompleteName = '已完成';
-            }
-            obj.businessStatus = '已处理';
-          }
-        }
-        if (this.$route.name === 'data-detail') {
-          _Data.push(obj);
-        }
-        return _Data;
-      }
+      return this.processList;
     },
     ...mapState({
       processList: ({ dataExtraction }) => dataExtraction.dataSteps,
@@ -94,6 +58,7 @@ export default {
       let createDate = item.createDate ? item.createDate : '';
       let opName = item.opName ? (item.opName === '我' ? '（我）' : item.opName) : '';
       let businessStatusName = item.businessStatusName ? item.businessStatusName : '';
+      // let hasCompleteName = item.hasCompleteName ? item.hasCompleteName : '';
       return `${createDate}${opName}${businessStatusName}`;
     },
     percent() {
