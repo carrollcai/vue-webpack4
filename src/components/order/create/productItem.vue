@@ -1,5 +1,6 @@
 <template>
-  <div class="tTable">
+  <div class="tTable"
+    v-if="ordProductDtoList.length">
     <div class="tHead">
       <div class="title">订购产品</div>
       <div class="title">订购数量</div>
@@ -8,7 +9,7 @@
     </div>
     <div class="tBody">
       <div class="td"
-        v-for="(item, i) in orderCreate.orderProductDtoList"
+        v-for="(item, i) in ordProductDtoList"
         :key="i">
         <el-form class="td"
           :model="item"
@@ -32,7 +33,8 @@
 
           <el-form-item prop="processorData"
             class="form-input-half">
-            <el-select placeholder="指派人"
+            <el-select v-if="item.productHandlers"
+              placeholder="指派人"
               v-model="item.processorData"
               :disabled="!item.productHandlers.length"
               @change="item => handleProcessorSelect(i)"
@@ -45,7 +47,7 @@
           </el-form-item>
           <el-form-item class="del">
             <span @click="delFn(i)"
-              v-if="orderCreate.orderProductDtoList.length > 1">删除</span>
+              v-if="ordProductDtoList.length > 1">删除</span>
           </el-form-item>
         </el-form>
       </div>
@@ -80,16 +82,19 @@ export default {
       }
     };
   },
+  beforeMount() {
+    console.log(this.ordProductDtoList);
+  },
   computed: {
     ...mapState({
-      orderCreate: ({ order }) => order.orderCreate,
+      ordProductDtoList: ({ order }) => order.orderCreate.ordProductDtoList,
       productList: ({ order }) => order.productList,
     })
   },
   methods: {
     addList() {
       this.addOrderProduct();
-      // let proList = this.orderCreate.orderProductDtoList;
+      // let proList = this.ordProductDtoList;
       // let l = proList.length - 1;
       // if (proList[l].productName === '' || proList[l].processor === '' || proList[l].amount === '') {
       //   this.$message({ showClose: true, message: '请先填写完整在新增!', type: 'info' });

@@ -41,6 +41,7 @@
               placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
+
         <el-form-item label="联系人："
           required>
           <el-form-item prop="contactName"
@@ -78,9 +79,11 @@
               placeholder="邮箱" />
           </el-form-item>
         </el-form-item>
+        {{orderCreate.ordProductDtoList}}
         <el-form-item label="订购产品："
           required>
-          <product-item ref="productItemRef" />
+          <product-item v-if="orderCreate.ordProductDtoList.length"
+            ref="productItemRef" />
         </el-form-item>
         <el-form-item label="业务描述："
           prop="busiDesc">
@@ -89,6 +92,7 @@
             v-model="orderCreate.busiDesc"
             placeholder="请输入描述" />
         </el-form-item>
+
         <el-form-item label="合作方案："
           prop="teamProject">
           <el-input type="textarea"
@@ -96,6 +100,7 @@
             v-model="orderCreate.teamProject"
             placeholder="请输入合作方案" />
         </el-form-item>
+
         <el-form-item label="预计收入："
           prop="predictRevenue">
           <el-input class="form-input-medium"
@@ -104,6 +109,7 @@
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
+
         <el-form-item label="预定签约时间："
           prop="predictSignTime">
           <el-date-picker class="form-input-medium"
@@ -122,18 +128,6 @@
             <template slot="append">月</template>
           </el-input>
         </el-form-item>
-
-        <!-- <el-form-item label="预计协议期："
-          prop="predictAgreementTime">
-          <el-select class="form-input-medium"
-            v-model="orderCreate.predictAgreementTime"
-            placeholder="请选择时间">
-            <el-option v-for="item in agreementTimeStatic"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value" />
-          </el-select>
-        </el-form-item> -->
         <el-form-item>
           <el-button type="primary"
             @click="submitForm(true)">提交</el-button>
@@ -239,11 +233,13 @@ export default {
     const { type, id } = this.$route.params;
     if (type !== 'create') {
       // 修改的话，需要给本地产品缓存重新赋值
-      await this.getOrderEdit({ ordId: id });
+      await this.getOrderEdit({ ordCode: id });
       this.selectedProduct = {
         productName: this.orderCreate.productName,
         productId: this.orderCreate.productId,
       };
+    } else {
+      this.initOrderCreate();
     }
   },
   beforeDestroy() {
@@ -256,7 +252,7 @@ export default {
       return type === 'create' ? '新建' : '修改';
     },
     handleSelect(item) {
-      console.log(item);
+      // console.log(item);
       this.updateOrderCreate({ organizeId: item.organizeId });
       this.updateOrderCreate({ address: item.orgAddress });
     },
@@ -282,7 +278,7 @@ export default {
       delete params.processor;
       delete params.productId;
       delete params.companyBelong;
-      params.orderProductDtoList = params.orderProductDtoList.filter(item => {
+      params.ordProductDtoList = params.ordProductDtoList.filter(item => {
         delete item.processorData;
         delete item.productHandlers;
         return item;
@@ -304,7 +300,8 @@ export default {
     },
     ...mapMutations({
       updateOrderCreate: 'ORDER_UPDATE_CREATE',
-      clearOrderCreate: 'ORDER_CREATE'
+      clearOrderCreate: 'ORDER_CREATE',
+      initOrderCreate: 'ORDER_INIT_CREATE',
     }),
     ...mapActions([
       'getOrderEdit',

@@ -44,7 +44,7 @@
       <div class="right">{{orderOverviewDetail.busiDesc}}</div>
     </div>
     <div class="task-detail-item">
-      <div class="left">合同方案：</div>
+      <div class="left">合作方案：</div>
       <div class="right">{{orderOverviewDetail.teamProject}}</div>
     </div>
   </div>
