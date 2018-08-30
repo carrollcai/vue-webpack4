@@ -106,6 +106,7 @@ export default {
   createOrderAPI: API('/esop/bizOrder/save'), // 新建订单
   updateOrderAPI: API('/esop/bizOrder/update'), // 修改订单
   getOrderDetailAPI: API('/esop/bizOrder/detail'), // 获取订单详情
+  getOrderUpdateAPI: API('/esop/bizOrder/updateDetail'), // 获取订单草稿状态
   // getOverViewDetailAPI: API('/esop/bizOrder/overViewDetail'),
   getOverViewDetailAPI: API('/esop/bizOrder/detail'),
   getAssignhandlerAPI: API('/esop/operator/getAssignOperatorList'), // 获取分派

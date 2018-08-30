@@ -92,7 +92,6 @@ export default {
       });
 
       // 可视化用户数据
-
       var userDv = ds.createView().source(data).transform({
         geoDataView: worldMap,
         field: '省份',
@@ -101,15 +100,12 @@ export default {
       }).transform({
         type: 'map',
         callback: function callback(obj) {
-          // obj.trend = obj.value > 100 ? '男性更多' : '女性更多';
           return obj;
         }
       });
       var userView = this.chart.view();
       userView.source(userDv, {
-        'trend': {
-          // alias: '每100位女性对应的男性数量'
-        }
+        'trend': {}
       });
       userView.polygon().position('longitude*latitude').opacity('数量').tooltip('省份*数量').animate({
         leave: {
