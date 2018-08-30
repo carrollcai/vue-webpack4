@@ -44,6 +44,36 @@ export default {
         this.applyFrom.userInfo = [];
       }
     },
+    handleChangeDetailSettings(val, e) {
+      if (!val) {
+        if (e.target.value === '数据来源') {
+          this.applyFrom.source = [];
+          this.sourceAll = false;
+        }
+        if (e.target.value === '会员类型') {
+          this.applyFrom.vipType = [];
+          this.vipTypeAll = false;
+        }
+        if (e.target.value === '性别') {
+          this.applyFrom.sex = [];
+          this.sexAll = false;
+        }
+        if (e.target.value === '年龄') {
+          this.applyFrom.age = [];
+          this.ageAll = false;
+        }
+        if (e.target.value === '用户行为') {
+          this.applyFrom.userActive = [];
+        }
+        if (e.target.value === '上网方式') {
+          this.applyFrom.netType = [];
+          this.netTypeAll = false;
+        }
+        if (e.target.value === '使用时长') {
+          this.applyFrom.serviceTime = [];
+        }
+      }
+    },
     getServiceTime(value) {
       if (value === '不显示') {
         this.submitData.serviceTime = '0';
@@ -61,10 +91,12 @@ export default {
     },
     clientFn(value) {
       let clientStr = String(value);
-      if (clientStr.indexOf('咪咕直播') > -1) {
+      if (clientStr.indexOf('咪咕直播') > -1 || clientStr.indexOf('咪咕影院') > -1) {
         this.applyFrom.isUseTime = true;
-      } else if (clientStr.indexOf('咪咕影院') > -1) {
-        this.applyFrom.isUseTime = true;
+        let df = this.applyFrom.detailSet.indexOf('使用时长');
+        if (df > -1) {
+          this.applyFrom.detailSet.splice(df, 1);
+        }
       } else {
         this.applyFrom.isUseTime = false;
       }
@@ -72,6 +104,7 @@ export default {
     changeDate(value) {
       if (value === '1') {
         this.isByDay = true;
+        this.applyFrom.dataType = [];
       } else {
         this.isByDay = false;
       }
