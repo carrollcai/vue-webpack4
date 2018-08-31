@@ -7,7 +7,7 @@
     <dl class="tTr"
       v-for="(item, index) in processList"
       :key="index">
-      <dt class="tH01">您暂无权限处理~您暂无权限处理~您暂无权限处理~您暂无权限处理~您暂无权限处理~</dt>
+      <dt class="tH01">{{item.productName}}</dt>
       <dd class="tH02"
         v-if="premissionDenied(item)">
         <audit-steps v-if="item.list && item.list.length"
