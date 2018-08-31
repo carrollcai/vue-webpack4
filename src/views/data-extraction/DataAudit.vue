@@ -101,7 +101,7 @@ export default {
       }, 1000);
     },
     viewDetail(row) {
-      let path = `/data-extraction/data-audit-detail/${row.id}?processInsId=${row.processInsId}&isAudit=false`;
+      let path = `/data-extraction/data-audit-detail/${row.id}?processInsId=${row.processInsId}&businessStatus=${row.businessStatus}&isAudit=false`;
       this.$router.push({path: path});
     },
     toAudit(row) {
@@ -109,7 +109,7 @@ export default {
         id: row.id,
         taskInsId: row.taskInsId
       };
-      let path = `/data-extraction/data-audit-detail/${row.id}?processInsId=${row.processInsId}&data=${JSON.stringify(data)}&isAudit=true`;
+      let path = `/data-extraction/data-audit-detail/${row.id}?processInsId=${row.processInsId}&businessStatus=${row.businessStatus}&data=${JSON.stringify(data)}&isAudit=true`;
       this.$router.push({path: path});
     },
     getTimeRange(time) {

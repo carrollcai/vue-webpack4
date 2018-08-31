@@ -27,12 +27,10 @@
     </el-form>
     <div class="tab-bar">
       <el-tabs v-model="downloadForm.extractBusinessStatus" @tab-click="getState">
-        <el-tab-pane label="全部" :name="0"></el-tab-pane>
+        <el-tab-pane label="全部" :name="null"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
         <el-tab-pane label="数据生成中" :name="2"></el-tab-pane>
         <el-tab-pane label="生成成功" :name="3"></el-tab-pane>
-        <!-- <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
-        <el-tab-pane label="已取消" :name="4"></el-tab-pane> -->
       </el-tabs>
       <more-tabs :statusData.sync="downloadForm.extractBusinessStatus" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
     </div>

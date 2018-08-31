@@ -29,8 +29,8 @@ const actions = {
           productId: null,
           productName: '',
           amount: '',
-          processor: '',
-          processorData: '',
+          processor: [],
+          processorData: [],
           companyBelong: '',
           productHandlers: []
         }
