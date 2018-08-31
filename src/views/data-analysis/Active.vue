@@ -38,10 +38,10 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 
-import ActiveSearch from 'components/data-analysis/ActiveSearch.vue';
-import ActiveUserdata from 'components/data-analysis/ActiveUserdata.vue';
-import ActiveTrend from 'components/data-analysis/ActiveTrend.vue';
-import ActiveProvinceUser from 'components/data-analysis/ActiveProvinceUser.vue';
+import ActiveSearch from 'components/data-analysis/active/ActiveSearch.vue';
+import ActiveUserdata from 'components/data-analysis/active/ActiveUserdata.vue';
+import ActiveTrend from 'components/data-analysis/active/ActiveTrend.vue';
+import ActiveProvinceUser from 'components/data-analysis/active/ActiveProvinceUser.vue';
 
 import mixins from './mixins.js';
 import * as types from '@/store/types';

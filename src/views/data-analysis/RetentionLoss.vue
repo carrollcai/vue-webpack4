@@ -23,9 +23,9 @@
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import RetentionSearch from 'components/data-analysis/RetentionSearch.vue';
-import RetentionUser from 'components/data-analysis/RetentionUser.vue';
-import RetentionTrend from 'components/data-analysis/RetentionTrend.vue';
+import RetentionSearch from 'components/data-analysis/retention/RetentionSearch.vue';
+import RetentionUser from 'components/data-analysis/retention/RetentionUser.vue';
+import RetentionTrend from 'components/data-analysis/retention/RetentionTrend.vue';
 
 import mixins from './mixins.js';
 import * as types from '@/store/types';

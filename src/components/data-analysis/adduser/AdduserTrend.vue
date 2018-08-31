@@ -90,11 +90,6 @@
       <div v-if="!trend.mode"
         class="trend-chart">
         <no-data :data="addUserTrendData">
-          <!-- <basic-area-chart v-if="isProvince"
-            id="new-user-area-chart"
-            :char-data="addUserTrendData"
-            :fields="addUserTrendFields" /> -->
-
           <grouped-column-chart id="new-user-column-chart"
             :char-data="addUserTrendData"
             :fields="addUserTrendFields" />
@@ -125,15 +120,13 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-
 import NoData from 'components/NoData.vue';
 import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
 import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
 import WmTable from 'components/Table.vue';
-
 import { ADDUSER_TREND_RADIO, ADD_USER_TREND_DIMENSION } from '@/config';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
-import mixins from './mixins';
+import mixins from '../mixins';
 
 export default {
   mixins: [mixins],

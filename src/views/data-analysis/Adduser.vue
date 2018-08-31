@@ -37,11 +37,11 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import AdduserSearch from 'components/data-analysis/AdduserSearch.vue';
-import AdduserTotalData from 'components/data-analysis/AdduserTotalData.vue';
-import AdduserTrend from 'components/data-analysis/AdduserTrend.vue';
-import AdduserTotalDataChart from 'components/data-analysis/AdduserTotalDataChart.vue';
-import AdduserVipTrend from 'components/data-analysis/AdduserVipTrend.vue';
+import AdduserSearch from 'components/data-analysis/adduser/AdduserSearch.vue';
+import AdduserTotalData from 'components/data-analysis/adduser/AdduserTotalData.vue';
+import AdduserTrend from 'components/data-analysis/adduser/AdduserTrend.vue';
+import AdduserTotalDataChart from 'components/data-analysis/adduser/AdduserTotalDataChart.vue';
+import AdduserVipTrend from 'components/data-analysis/adduser/AdduserVipTrend.vue';
 import { addFirstDayinMonth } from '@/utils/common.js';
 
 import mixins from './mixins';
