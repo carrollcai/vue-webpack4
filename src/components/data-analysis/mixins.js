@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { mapState } from 'vuex';
 import moment from 'moment';
 
+import * as types from '@/store/types';
+
 export default {
   computed: {
     ...mapState({
@@ -17,9 +19,13 @@ export default {
       return list;
     },
     MEMBER_TYPE() {
-      let list = Object.cloneDeep(this.staticData.MEMBER_TYPE) || [];
+      let list = _.cloneDeep(this.staticData.MEMBER_TYPE) || [];
 
       list.shift();
+
+      if (list.length) {
+        this.$store.commit(types.INIT_ADD_USER_VIP_TYPE, list[0].value);
+      }
       return list;
     }
   },

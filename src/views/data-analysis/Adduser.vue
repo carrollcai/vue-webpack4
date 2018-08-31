@@ -37,11 +37,11 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import AdduserSearch from 'components/data-analysis/AdduserSearch.vue';
-import AdduserTotalData from 'components/data-analysis/AdduserTotalData.vue';
-import AdduserTrend from 'components/data-analysis/AdduserTrend.vue';
-import AdduserTotalDataChart from 'components/data-analysis/AdduserTotalDataChart.vue';
-import AdduserVipTrend from 'components/data-analysis/AdduserVipTrend.vue';
+import AdduserSearch from 'components/data-analysis/adduser/AdduserSearch.vue';
+import AdduserTotalData from 'components/data-analysis/adduser/AdduserTotalData.vue';
+import AdduserTrend from 'components/data-analysis/adduser/AdduserTrend.vue';
+import AdduserTotalDataChart from 'components/data-analysis/adduser/AdduserTotalDataChart.vue';
+import AdduserVipTrend from 'components/data-analysis/adduser/AdduserVipTrend.vue';
 import { addFirstDayinMonth } from '@/utils/common.js';
 
 import mixins from './mixins';
@@ -103,6 +103,7 @@ export default {
 
       if (isProvince()) {
         this.queryOverview();
+        this.queryLastMonthNewNembers();
       }
 
       if (isDistrict() || isWholeCountry()) {
@@ -124,6 +125,18 @@ export default {
         endDate: addFirstDayinMonth(oneMonthAgoNoDay)
       };
       this.queryAddUserOverview(params);
+    },
+    /**
+     * 查询 上一个月新增会员用户
+     */
+    queryLastMonthNewNembers() {
+      const { clientType } = this;
+      let params = {
+        clientType,
+        startDate: oneMonthAgo,
+        endDate: oneMonthAgo
+      };
+      this.queryAddUserLastMonthNewNembers(params);
     },
     /**
      * 获取 查询新增用户数据的参数
@@ -208,7 +221,8 @@ export default {
       'queryAddUserMap',
       'queryAddUserVip',
       'downloadAdduserDataAnalysis',
-      'downloadNewMember'
+      'downloadNewMember',
+      'queryAddUserLastMonthNewNembers',
     ]),
   }
 };

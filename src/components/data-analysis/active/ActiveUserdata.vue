@@ -1,7 +1,9 @@
 <template>
   <div class="active-userdata block-containter">
     <div class="userdata-header">
-      <el-radio-group v-model="activeObj.dateType" size="small" @change="dateChange">
+      <el-radio-group v-model="activeObj.dateType"
+        size="small"
+        @change="dateChange">
         <el-radio-button :label="0">按日</el-radio-button>
         <el-radio-button :label="1">按月</el-radio-button>
       </el-radio-group>

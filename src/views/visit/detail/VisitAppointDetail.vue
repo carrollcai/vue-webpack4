@@ -42,7 +42,7 @@
       <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
         <el-input maxlength="50" v-model="editVisitFromHandle.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“;”隔开" />
       </el-form-item>
-      <el-form-item label="计划走访时间：" label-width="140px" required>
+      <el-form-item label="计划走访时间：" label-width="140px" required prop="visitTime">
         <el-date-picker v-model="editVisitFromHandle.visitTime" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']"></el-date-picker>
       </el-form-item>
       <el-form-item label="涉及商机编码：" label-width="140px" prop="relOpporCode">
@@ -208,7 +208,11 @@ export default {
         });
       }
       this.editVisitFromHandle.visitTime = [this.visitAppointDetail.visitStartTime, this.visitAppointDetail.visitEndTime];
-      this.editVisitFromHandle.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
+      if (this.visitResource === '2') {
+        this.editVisitFromHandle.isFirstVisit = 1;
+      } else {
+        this.editVisitFromHandle.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
+      }
       this.editVisitFromHandle.visitTheme = this.visitAppointDetail.visitTheme;
       this.editVisitFromHandle.organizeId = this.visitAppointDetail.organizeId;
       this.editVisitFromHandle.organizeName = this.visitAppointDetail.organizeName;

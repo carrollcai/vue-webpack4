@@ -24,6 +24,17 @@ const actions = {
   getBusinessDetail({ commit, dispatch }, params) {
     return API.getBusinessDetailAPI(params).then(res => {
       commit(types.BUSINESS_DETAIL, res.data);
+      res.data.ordProductDtoList = [
+        {
+          productId: null,
+          productName: '',
+          amount: '',
+          processor: [],
+          processorData: [],
+          companyBelong: '',
+          productHandlers: []
+        }
+      ];
       return res.data;
     });
   },

@@ -278,12 +278,14 @@ export default {
   beforeMount() {
     const opprparam = {};
     opprparam.opporId = this.$route.params.opporId;
-    this.getBusinessDetail(opprparam);
+    this.getBusinessDetail(opprparam).then(res => {
+      this.orderCreate.ordProductDtoList = res.ordProductDtoList;
+      this.selectedProduct = {
+        productName: this.orderData.productName,
+        productId: this.orderData.productId
+      };
+    });
     this.getTransforOrderDetail(opprparam);
-    this.selectedProduct = {
-      productName: this.orderData.productName,
-      productId: this.orderData.productId
-    };
   },
   computed: {
     businessData() {

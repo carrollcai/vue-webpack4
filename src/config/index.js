@@ -22,7 +22,7 @@ export const MENU_PERMISSIONS = [
     menuId: 35,
     name: '数据提取管理',
     url: '/data-extraction',
-    icon: 'icon-client',
+    icon: 'icon-shujuku',
     enable: false,
     children: [
       {
@@ -318,7 +318,7 @@ export const RETENTION_TREND_RADIO_PORPERTY = {
 
 /* rules 限制 */
 // 时间限制
-export const DATE_LIMIT = 30;
+export const DATE_LIMIT = 31;
 export const MONTH_LIMIT = 12;
 export const INPUT_BIG_WORD_MAX = 2000;
 export const INPUT_ACCOUNT_LIMIT = 25;

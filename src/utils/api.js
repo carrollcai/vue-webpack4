@@ -47,7 +47,8 @@ export default {
   deleteUserAPI: API('/esop/operator/deleteInfo'),
 
   /* 数据分析 */
-  getMembersAPI: API('/esop/analysisReport/queryPDNNs'), // 查询新增会员活跃用户数，按日
+  // getMembersAPI: API('/esop/analysisReport/queryPDNNs'), // 查询新增会员活跃用户数，按日
+  // getMembersAPI: API('/esop/analysisReportNew/queryNewMember'), // 查询新增会员活跃用户数，按日
 
   // 分省日活跃用户数，按日
   getDailyActiveUserAPI: API('/esop/analysisReport/queryDActiveWithSum'),

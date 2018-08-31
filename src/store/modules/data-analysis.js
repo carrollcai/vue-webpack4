@@ -8,7 +8,8 @@ import {
 } from '@/config';
 
 import {
-  convertNull
+  convertNull,
+  validateChartData
 } from '@/utils/common';
 
 const state = {
@@ -117,7 +118,7 @@ const state = {
     endDate: new Date(oneMonthAgo),
     mode: 0,
     district: null,
-    chartRadio: '1'
+    chartRadio: null
   },
   // 保存 新增用户分析 - 新增会员用户趋势分析 的原始数据
   addUserVipList: [],
@@ -126,6 +127,9 @@ const state = {
 };
 
 const mutations = {
+  [types.INIT_ADD_USER_VIP_TYPE](state, data) {
+    state.adduserVipTrend.chartRadio = data;
+  },
   [types.CLIENT_GET](state, data) {
     state.client = data;
   },
@@ -206,7 +210,7 @@ const mutations = {
     }
     result = _.sortBy(result, 'periodId');
 
-    state.trendData = result;
+    state.trendData = validateChartData(result, fields);
     state.trendFields = fields;
   },
   [types.ACTIVE_GET_MEMBERS](state, data) {
@@ -227,6 +231,7 @@ const mutations = {
         value: val.newMembersNum
       });
     });
+    console.log(uniqueMembers);
     state.members = uniqueMembers;
 
     // 新增会员用户总数
@@ -358,7 +363,7 @@ const mutations = {
     }
     result = _.sortBy(result, 'periodId');
 
-    state.addUserTrendData = result;
+    state.addUserTrendData = validateChartData(result, fields);
     state.addUserTrendFields = fields;
   },
   // 新增用户分析- 用户新增排名情况 原始数据
@@ -388,7 +393,7 @@ const mutations = {
       return item;
     }), 'orderNum');
 
-    state.addUserMapData = result;
+    state.addUserMapData = validateChartData(result, ['orderNum', 'value']);
   },
   // 新增用户分析- 新增会员用户趋势分析 原始数据
   [types.ADD_USER_VIP](state, data) {
@@ -412,13 +417,16 @@ const mutations = {
     }
     result = _.sortBy(result, 'periodId');
 
-    state.addUserVipData = result;
+    state.addUserVipData = validateChartData(result, fields);
     state.addUserVipFields = fields;
   },
   [types.ACTIVE_INIT_DATE](state, data) {
   },
   [types.PROVINCER_USER_INIT_DATE](state, data) {
   },
+  [types.ADD_USER_LAST_MONTH_VIP](state, data) {
+    state.members = data;
+  }
 };
 
 export default {

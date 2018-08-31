@@ -79,7 +79,6 @@
               placeholder="邮箱" />
           </el-form-item>
         </el-form-item>
-        <!-- {{orderCreate.ordProductDtoList}} -->
         <el-form-item label="订购产品："
           required>
           <product-item ref="productItemRef" />
@@ -170,7 +169,6 @@ export default {
           { validator: textAccountLimit, trigger: 'blur' }
         ],
         predictRevenue: [
-          // { required: true, message: '请输入预定合同金额', trigger: 'blur' },
           { validator: inte8Deci2, trigger: 'blur' }
         ],
         predictSignTime: [
@@ -247,6 +245,7 @@ export default {
     this.clearOrderCreate();
   },
   methods: {
+    // 提交之前关联集团id
     connectOrganize() {
       const { organizeName } = this.orderCreate;
       const isSelected = val => val.organizeName === organizeName || val.organizeCode === organizeName;
@@ -270,7 +269,7 @@ export default {
         organizeName: queryString
       };
 
-      // 每次查询时，清空organized
+      // 每次查询时，清空organizeId
       this.updateOrderCreate({ organizeId: '' });
 
       await this.getOrganizeAddress(params);
@@ -284,9 +283,11 @@ export default {
     },
     submitForm(startProcess) {
       this.connectOrganize();
+
       const { type, id } = this.$route.params;
       const params = Object.cloneDeep(this.orderCreate);
 
+      // 删除不必要上传的字段
       delete params.productName;
       delete params.amount;
       delete params.processor;
@@ -301,6 +302,7 @@ export default {
         delete item.ordStatusName;
         return item;
       });
+      // 草稿还是直接提交
       params.startProcess = startProcess;
 
       this.$refs.orderCreateForm.validate(valid => {

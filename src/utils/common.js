@@ -161,3 +161,15 @@ export function chinaDatetransformDate(vals = '') {
 export function addFirstDayinMonth(val) {
   return moment(val).format('YYYY-MM') + '-01';
 }
+
+export function validateChartData(list, fields) {
+  for (let item of list) {
+    for (let field of fields) {
+      if (item[field] !== null && item[field] !== undefined) {
+        return list;
+      }
+    }
+  }
+
+  return [];
+}

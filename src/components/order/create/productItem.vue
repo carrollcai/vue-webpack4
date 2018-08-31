@@ -84,9 +84,6 @@ export default {
       }
     };
   },
-  beforeMount() {
-    console.log(this.ordProductDtoList);
-  },
   computed: {
     ...mapState({
       ordProductDtoList: ({ order }) => order.orderCreate.ordProductDtoList,
@@ -96,18 +93,6 @@ export default {
   methods: {
     addList() {
       this.addOrderProduct();
-      // let proList = this.ordProductDtoList;
-      // let l = proList.length - 1;
-      // if (proList[l].productName === '' || proList[l].processor === '' || proList[l].amount === '') {
-      //   this.$message({ showClose: true, message: '请先填写完整在新增!', type: 'info' });
-      //   return false;
-      // }
-      // proList.push({
-      //   productName: this.orderCreate.productName,
-      //   amount: this.orderCreate.amount,
-      //   processor: this.orderCreate.processor,
-      //   productId: this.orderCreate.productId
-      // });
     },
     handleProcessorSelect(i) {
       this.handleOrderProcess({
@@ -147,7 +132,6 @@ export default {
     ...mapMutations({
       deleteOrderProduct: 'ORDER_DELETE_PRODUCT',
       handleOrderProcess: 'ORDER_HANDLE_PROCESS',
-      updateOrderCreate: 'ORDER_UPDATE_CREATE',
       addOrderProduct: 'ORDER_ADD_PRODUCT',
     }),
     ...mapActions([

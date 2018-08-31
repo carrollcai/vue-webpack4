@@ -43,7 +43,6 @@ export default {
     ...mapState({
       orderOverviewDetail: ({ order }) => order.orderOverviewDetail,
       processList: ({ order }) => order.processList,
-      // opRegion: ({ root }) => root.currentUser.operator.opRegion,
     })
   },
   created() {
@@ -55,27 +54,19 @@ export default {
 
     const { id } = this.$route.params;
     await this.getOrderOverviewDetail({ ordCode: id });
+
     // 如果是草稿状态，不请求流程
-    let isDraftStatus = this.orderOverviewDetail.ordProductDtoList.filter(val => val.processInsId);
-    if (isDraftStatus.length) {
-      await this.getOrderOverviewProcessList({
-        ordProductDtoList: this.orderOverviewDetail.ordProductDtoList
-      });
-    }
+    // let isNotDraftStatus = this.orderOverviewDetail.ordProductDtoList.filter(val => val.processInsId);
+    await this.getOrderOverviewProcessList({
+      ordProductDtoList: this.orderOverviewDetail.ordProductDtoList,
+    });
   },
   methods: {
-    // premissionDenied(item) {
-    //   // 如果当前用户所属归属地和流程归属地相同
-    //   if (Number(this.opRegion) === item.companyBelong) {
-    //     return true;
-    //   }
-    // },
     ...mapMutations({
       removeProcessList: 'ORDER_REMOVE_PROCESS_LIST',
     }),
     ...mapActions([
       'getOrderOverviewDetail',
-      // 'getOrderOverviewProcess',
       'getOrderOverviewProcessList',
     ])
   }

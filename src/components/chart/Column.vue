@@ -1,9 +1,11 @@
 <template>
-  <div :style="{ width: `100%`, height:`${height}px` }" :id="id"></div>
+  <div :style="{ width: `100%`, height:`${height}px` }"
+    :id="id"></div>
 </template>
 
 <script>
 import G2 from '@antv/g2';
+import DataSet from '@antv/data-set';
 
 export default {
   data() {
@@ -17,16 +19,32 @@ export default {
       type: Array,
       default: () => []
     },
+    fields: {
+      type: Array,
+      default: () => []
+    },
+    position: {
+      type: String,
+      default: 'periodId*value'
+    },
     width: {
       type: Number
-      // default: 500
     },
     height: {
       type: Number,
       default: 500
     },
     id: String,
-    temperature: Boolean
+    sourceConfig: {
+      type: Object,
+      default: () => {
+        return {
+          periodId: {
+            type: 'cat'
+          }
+        };
+      }
+    }
   },
   mounted() {
     this.drawChart(this.charData);
@@ -39,35 +57,31 @@ export default {
   methods: {
     // 注意点，图表的排序顺序需要是Number类型的，String默认不排序
     drawChart(data) {
-      const { height, id } = this;
+      const { height, id, fields } = this;
       this.chart && this.chart.destroy();
-      this.chart = new G2.Chart({
+
+      let chart = this.chart = new G2.Chart({
         id: id,
         forceFit: true,
-        height: height,
-        // padding: this.multipart ? 'auto' : [40, 80]
+        height: height
       });
-      /* 这里有一个坑，
-      * 如果数据类型为2018-08-27，g2会报错，需要转换一个数据格式,
-      * 解决方案：https://github.com/alibaba/BizCharts/issues/120
-      */
-      // let newData = data.map((val, i) => {
-      //   return {
-      //     name: val.province,
-      //     // '月份': new Date(val.periodId),
-      //     '月份': chinaDatetransformDate(val.periodId),
-      //     '数量': val.activeNum,
-      //   };
-      // });
-      // console.log(data);
-      this.chart.source(data);
 
-      this.chart.interval().position('月份*数量').color('name')
-        .adjust([{
-          type: 'dodge',
-          marginRatio: 1 / 32
-        }]);
-      this.chart.render();
+      const dataSet = new DataSet();
+      const dv = dataSet.createView().source(data);
+      dv.transform({
+        type: 'fold',
+        fields: fields, // 展开字段集
+        key: 'name', // key字段
+        value: 'value' // value字段
+      });
+
+      chart.source(dv, this.sourceConfig);
+
+      chart.interval().position(this.position).color('name').adjust([{
+        type: 'dodge',
+        marginRatio: 1 / 32
+      }]);
+      chart.render();
     }
   }
 };

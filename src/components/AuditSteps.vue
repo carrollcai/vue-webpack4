@@ -28,7 +28,7 @@
             :key="item.processId"
             :style="{'flex-basis': percent()}">
             <!-- 只有已签约会展示文件 -->
-            <span v-if="Object.isExistArray(fileList) && hasSignStatus === Number(item.businessStatus)"
+            <span v-if="Object.isExistArray(fileList) && Number(item.taskId) === taskId && (hasSignStatus === Number(item.businessStatus) || hasCompeleted === Number(item.businessStatus))"
               class="blue cursor-pointer"
               v-for="(file, k) in fileList"
               :key="k"
@@ -72,7 +72,9 @@ export default {
   },
   data() {
     return {
-      hasSignStatus: 2
+      hasSignStatus: 2,
+      taskId: 10005,
+      hasCompeleted: 5,
     };
   },
   methods: {

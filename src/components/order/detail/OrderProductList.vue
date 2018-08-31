@@ -1,6 +1,5 @@
 <template>
-  <div class="p-table"
-    v-if="processList.length">
+  <div class="order-p-table">
     <dl class="tHead">
       <dt class="tH01">订购产品</dt>
       <dd class="tH02 tHead-title">订单状态</dd>
@@ -8,7 +7,7 @@
     <dl class="tTr"
       v-for="(item, index) in processList"
       :key="index">
-      <dt class="tH01">{{item.productName}}</dt>
+      <dt class="tH01">您暂无权限处理~您暂无权限处理~您暂无权限处理~您暂无权限处理~您暂无权限处理~</dt>
       <dd class="tH02"
         v-if="premissionDenied(item)">
         <audit-steps v-if="item.list && item.list.length"
@@ -42,7 +41,6 @@ export default {
   },
   computed: {
     ...mapState({
-      // processList: ({ order }) => order.processList,
       opRegion: ({ root }) => root.currentUser.operator.opRegion,
     })
   },
@@ -59,5 +57,58 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.order-p-table {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px #eee solid;
+  border-bottom: 0;
+  .tH01,
+  .tH02 {
+    min-height: 40px; // line-height: 40px;
+  }
+  .tHead,
+  .tTr {
+    border-bottom: 1px #eee solid;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+  }
+  .tH01,
+  .tHead-title {
+    width: 210px;
+    padding: 0 20px;
+    border-right: 1px #eee solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .tHead-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .tH02 {
+    flex: 1;
+  }
+  .tHead {
+    display: flex;
+    background: #f0f2f5;
+    opacity: 0.8;
+    text-align: center;
+  }
+  .tTr {
+    display: flex;
+  }
+  .p-table-denied {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 14px;
+  }
+}
 </style>

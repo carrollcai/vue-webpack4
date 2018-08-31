@@ -26,15 +26,13 @@
       </div>
     </el-form>
     <div class="tab-bar">
-      <el-tabs v-model="downloadForm.extractBusinessStatus" @tab-click="getState">
-        <el-tab-pane label="全部" :name="0"></el-tab-pane>
+      <el-tabs v-model="downloadForm.status" @tab-click="getState">
+        <el-tab-pane label="全部" :name="100"></el-tab-pane>
         <el-tab-pane label="审核中" :name="1"></el-tab-pane>
         <el-tab-pane label="数据生成中" :name="2"></el-tab-pane>
         <el-tab-pane label="生成成功" :name="3"></el-tab-pane>
-        <!-- <el-tab-pane label="审核不通过" :name="3"></el-tab-pane>
-        <el-tab-pane label="已取消" :name="4"></el-tab-pane> -->
       </el-tabs>
-      <more-tabs :statusData.sync="downloadForm.extractBusinessStatus" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
+      <more-tabs :statusData.sync="downloadForm.status" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
     </div>
   </div>
   <div class="m-container table-container">
@@ -148,8 +146,8 @@ export default {
     revoke(row) {
       let info = '数据生成任务将被取消，是否确认撤销?';
       let name = '撤销';
-      let id = {id: row.id};
-      this.confirm(info, name, id);
+      let params = {id: row.id};
+      this.confirm(info, name, params);
     },
     downloadFile(row) {
       this.gethasSignedFile({fileInputId: Number(row.fileId)}).then(res => {
@@ -180,15 +178,14 @@ export default {
       }
     },
     getStateFn(value) {
-      this.extractBusinessStatus = value;
-      this.downloadForm.extractBusinessStatus = value;
+      this.downloadForm.status = value;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
       this.downloadForm.isOpen = true;
       this.query();
     },
     getState(value) {
-      this.downloadForm.extractBusinessStatus = value.name === 0 ? null : value.name;
+      this.downloadForm.status = value.name;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
       this.downloadForm.isOpen = false;
@@ -206,29 +203,35 @@ export default {
       this.downloadForm.pageNo = '1';
       this.query();
     },
-    query() {
-      let { ...data } = this.downloadForm;
-      if (data.extractBusinessStatus === '0') {
-        data.extractBusinessStatus = null;
+    async query() {
+      if (this.downloadForm.status === 100 || this.downloadForm.status === '100') {
+        this.downloadForm.extractBusinessStatus = null;
+      } else {
+        this.downloadForm.extractBusinessStatus = this.downloadForm.status;
       }
-      // delete data.extractBusinessStatus;
+      let { ...data } = this.downloadForm;
+      delete data.status;
       delete data.timeRange;
       delete data.isOpen;
-      this.queryDataDownload(data);
+      await this.queryDataDownload(data);
     },
     confirm(info, name, id) {
-      debugger;
       this.$confirm(info, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.deleteDownLoadData(id);
-        this.query();
+      }).then((res) => {
+        this.deleteDownLoadData(id).then((res) => {
+          this.query();
+          this.$message({
+            message: '撤销成功',
+            type: 'success'
+          });
+        });
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: `已取消${name}`
+          message: `已取${name}`
         });
       });
     },
