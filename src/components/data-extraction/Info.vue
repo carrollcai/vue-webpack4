@@ -12,8 +12,11 @@
     <h3 v-if="infoData.memberType || sexData || ageData || infoData.content">数据明细设置</h3>
     <ul class="b-i-list">
       <li v-if="infoData.memberType"><span>会员类型：</span>{{infoData.memberType}}</li>
+      <li v-if="infoData.channelType"><span>数据来源：</span>{{infoData.channelType}}</li>
       <li v-if="sexData"><span>性别：</span>{{sexData}}</li>
       <li v-if="ageData"><span>年龄：</span>{{ageData}}</li>
+      <li v-if="infoData.netType"><span>上网方式：</span>{{infoData.netType}}</li>
+      <li v-if="serviceTime"><span>使用时长：</span>{{serviceTime}}</li>
       <li v-if="infoData.content"><span>用户行为：</span><label>{{infoData.content}}</label></li>
     </ul>
   </div>
@@ -24,6 +27,13 @@ export default {
     infoData: Object
   },
   computed: {
+    serviceTime() {
+      if (this.infoData.serviceTime === '0') {
+        return '不显示';
+      } else if (this.infoData.serviceTime === '1') {
+        return '显示';
+      }
+    },
     sexData() {
       if (this.infoData.sex === '0') {
         return '不限';
