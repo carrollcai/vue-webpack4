@@ -22,7 +22,7 @@ export const MENU_PERMISSIONS = [
     menuId: 35,
     name: '数据提取管理',
     url: '/data-extraction',
-    icon: 'icon-client',
+    icon: 'icon-shujuku',
     enable: false,
     children: [
       {

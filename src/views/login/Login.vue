@@ -7,15 +7,21 @@
       <div class="login-line"></div>
       <div class="login-desc__detail">
         <ul>
-          <li><i class="list-icon"></i>客户端数据查看，清晰准确</li>
-          <li><i class="list-icon"></i>集团客户信息共享，便捷可靠</li>
-          <li><i class="list-icon"></i>订单跟踪管理，高效清晰</li>
+          <li>
+            <i class="list-icon"></i>客户端数据查看，清晰准确</li>
+          <li>
+            <i class="list-icon"></i>集团客户信息共享，便捷可靠</li>
+          <li>
+            <i class="list-icon"></i>订单跟踪管理，高效清晰</li>
         </ul>
       </div>
     </div>
     <div class="login-form">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="密码登录" name="first" key="tab-first">
+      <el-tabs v-model="activeName"
+        @tab-click="handleClick">
+        <el-tab-pane label="密码登录"
+          name="first"
+          key="tab-first">
           <login-input type="text"
             key="login-name"
             v-model="loginName"
@@ -29,7 +35,9 @@
             @focus="clearError"
             @keyup="handleLogin"></login-input>
         </el-tab-pane>
-        <el-tab-pane label="短信登录" name="second" key="tab-second">
+        <el-tab-pane label="短信登录"
+          name="second"
+          key="tab-second">
           <login-input type="text"
             key="login-mobile"
             :maxlength="11"
@@ -48,8 +56,8 @@
               :class="{'is-sent': isSent}"
               @click="handleSendSms">
               {{isSent ? `已发送（${time}s）` : '获取验证码'}}
-              </span>
-            </login-input>
+            </span>
+          </login-input>
         </el-tab-pane>
       </el-tabs>
       <div class="body">
@@ -57,7 +65,8 @@
           {{errorMsg ? errorMsg : '&nbsp;'}}
         </div>
         <div class="btn-group">
-          <el-button type="primary" @click="handleLogin">登录</el-button>
+          <el-button type="primary"
+            @click="handleLogin">登录</el-button>
         </div>
       </div>
     </div>
@@ -66,7 +75,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import LoginInput from 'components/LoginInput.vue';
+import LoginInput from 'components/login/LoginInput.vue';
 export default {
   name: 'Login',
   components: {
@@ -88,7 +97,7 @@ export default {
   },
   methods: {
     validateForm() {
-      let {loginName, pwd, activeName} = this;
+      let { loginName, pwd, activeName } = this;
 
       // 密码登录
       if (activeName === 'first') {
@@ -170,7 +179,7 @@ export default {
     },
 
     handleSendSms() {
-      const {loginName, isSent} = this;
+      const { loginName, isSent } = this;
       if (isSent) {
         return false;
       }
@@ -215,32 +224,32 @@ export default {
 <style lang="scss">
 $padding-left: 46px;
 
-.login{
+.login {
   height: 100%;
   width: 100%;
-  background: url('~@/assets/images/login-bk.jpg') no-repeat;
+  background: url("~@/assets/images/login-bk.jpg") no-repeat;
   background-size: 100% 100%;
 
   display: flex;
   justify-content: space-between;
 
-  *{
+  * {
     box-sizing: border-box;
   }
 
-  .login-desc{
+  .login-desc {
     width: 752px;
     margin: 34px 0 0 68px;
   }
 
-  .login-desc__title{
+  .login-desc__title {
     display: flex;
     align-items: center;
     font-size: 36px;
-    color: #FFFFFF;
+    color: #ffffff;
 
-    .title-icon{
-      background: url('~@/assets/images/login-icon.png') no-repeat;
+    .title-icon {
+      background: url("~@/assets/images/login-icon.png") no-repeat;
       width: 34px;
       height: 34px;
       margin-right: 16px;
@@ -248,60 +257,60 @@ $padding-left: 46px;
     }
   }
 
-  .login-line{
-    background: url('~@/assets/images/line.png') no-repeat;
+  .login-line {
+    background: url("~@/assets/images/line.png") no-repeat;
     margin: 37px 0;
     height: 1px;
   }
 
-  .login-desc__detail{
+  .login-desc__detail {
     margin-left: 49px;
     ul {
-      li{
-        color: #FFFFFF;
-        .list-icon{
-          background: url('~@/assets/images/check.png') no-repeat;
+      li {
+        color: #ffffff;
+        .list-icon {
+          background: url("~@/assets/images/check.png") no-repeat;
           width: 15px;
           height: 11px;
           margin-right: 16px;
           display: inline-block;
         }
 
-        &:not(:last-child){
+        &:not(:last-child) {
           margin-bottom: 16px;
         }
       }
     }
   }
 
-  .login-form{
+  .login-form {
     width: 480px;
-    background: #FFFFFF;
+    background: #ffffff;
     box-sizing: border-box;
     height: auto;
     align-self: center;
     margin-right: 170px;
 
-    .title{
+    .title {
       box-sizing: border-box;
       color: rgba(0, 0, 0, 0.85);
       font-size: 24px;
       text-align: center;
     }
 
-    .body{
+    .body {
       width: 100%;
-      .input-wrapper{
+      .input-wrapper {
         height: 70px;
         display: flex;
         align-items: flex-end;
       }
 
-      .btn-group{
+      .btn-group {
         display: flex;
         justify-content: center;
         margin: 0 0 40px 0;
-        .el-button{
+        .el-button {
           width: 360px;
           align-self: flex-end;
         }
@@ -309,14 +318,14 @@ $padding-left: 46px;
     }
   }
 
-  .error-msg{
-    color: #F5222D;
+  .error-msg {
+    color: #f5222d;
     font-size: 14px;
     height: 20px;
     margin: 16px 0;
   }
 
-  .el-tabs__item{
+  .el-tabs__item {
     font-size: 18px;
     width: 150px;
     height: 75px;
@@ -324,29 +333,30 @@ $padding-left: 46px;
     text-align: center;
   }
 
-  .el-tabs__header{
+  .el-tabs__header {
     margin-bottom: 0;
   }
 
-  .el-tabs__content, .body{
+  .el-tabs__content,
+  .body {
     padding: 0 53px;
   }
 
-  .el-tabs__nav-wrap::after{
+  .el-tabs__nav-wrap::after {
     height: 1px;
   }
 
-  .el-tabs__nav{
+  .el-tabs__nav {
     margin: 0 85px;
   }
 
-  .send-sms{
+  .send-sms {
     position: absolute;
     right: 16px;
     bottom: 2px;
-    color:#3778FF ;
+    color: #3778ff;
     cursor: pointer;
-    &.is-sent{
+    &.is-sent {
       color: rgba(0, 0, 0, 0.25);
       cursor: not-allowed;
     }
