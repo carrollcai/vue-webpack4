@@ -177,6 +177,8 @@ export default {
       ageObj = this.ageAll ? [0] : ageObj;
       netTypeObj = this.netTypeAll ? [0] : netTypeObj;
       sexObj = this.sexAll ? [0] : sexObj;
+      this.submitData.region = [];
+      this.submitData.province = [];
       this.regionData.regionList && this.regionData.regionList.filter(item => {
         if (item.regionValue) {
           this.submitData.region.push(item.regionValue);
@@ -199,7 +201,9 @@ export default {
         channelType: sourceObj,
         city: this.restrictedCity && this.restrictedCity.length > 0 ? 1 : ''
       };
-      this.submitData.province = this.applyFrom.province;
+      if (!!this.provinceValue && !!this.provinceList.length) {
+        this.submitData.province = this.applyFrom.province;
+      }
       let parms = Object.assign(this.submitData, data, userObj, activeObj);
       this.$refs.refName.validate((valid) => {
         if (valid) {
