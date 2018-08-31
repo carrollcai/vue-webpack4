@@ -88,7 +88,7 @@
     </div>
     <div class="task-detail-item">
       <div class="left">是否首客走访：</div>
-      <div class="right">{{visitDetails.isFirstVisit === 0 || visitDetails.isFirstVisit === '0' ? '否' : '是'}}</div>
+      <div v-if="visitDetails.isFirstVisit" class="right">{{visitDetails.isFirstVisit === 0 || visitDetails.isFirstVisit === '0' ? '否' : '是'}}</div>
     </div>
     <div class="task-detail-item">
       <div class="left">走访评价：</div>
