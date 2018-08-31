@@ -201,7 +201,7 @@ export default {
         channelType: sourceObj,
         city: this.restrictedCity && this.restrictedCity.length > 0 ? 1 : ''
       };
-      if (!!this.provinceValue && !!this.provinceList.length) {
+      if (!!this.applyFrom.province && !!this.applyFrom.province.length) {
         this.submitData.province = this.applyFrom.province;
       }
       let parms = Object.assign(this.submitData, data, userObj, activeObj);
