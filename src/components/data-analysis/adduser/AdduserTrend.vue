@@ -90,7 +90,7 @@
       <div v-if="!trend.mode"
         class="trend-chart">
         <no-data :data="addUserTrendData">
-          <grouped-column-chart id="new-user-column-chart"
+          <Column id="new-user-column-chart"
             :char-data="addUserTrendData"
             :fields="addUserTrendFields" />
         </no-data>
@@ -121,8 +121,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import NoData from 'components/NoData.vue';
-import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
-import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
+import Column from 'components/chart/Column.vue';
 import WmTable from 'components/Table.vue';
 import { ADDUSER_TREND_RADIO, ADD_USER_TREND_DIMENSION } from '@/config';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
@@ -133,8 +132,7 @@ export default {
   components: {
     WmTable,
     NoData,
-    GroupedColumnChart,
-    BasicAreaChart
+    Column,
   },
   props: {
     isProvince: {

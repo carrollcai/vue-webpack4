@@ -111,7 +111,7 @@
           <div class="no-data"
             v-if="Object.isNullArray(trendList)">暂无数据</div>
           <template v-else>
-            <grouped-column-chart :char-data="trendData"
+            <Column :char-data="trendData"
               :fields="trendFields"
               id="activeColumn" />
           </template>
@@ -143,11 +143,9 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import MultiLine from 'components/chart/MultiLine.vue';
-import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
-import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
+import Column from 'components/chart/Column.vue';
 import LineChart from 'components/chart/Line.vue';
 import WmTable from 'components/Table.vue';
-import Column from 'components/chart/Column.vue';
 import mixins from '../mixins';
 import { TREND_RADIO } from '@/config';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
@@ -173,12 +171,10 @@ export default {
     }
   },
   components: {
-    Column,
     WmTable,
     MultiLine,
     LineChart,
-    BasicAreaChart,
-    GroupedColumnChart
+    Column
   },
   data() {
     const checkDate = (rule, value, callback) => {

@@ -123,9 +123,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import BasicAreaChart from 'components/chart/BasicAreaChart.vue';
 import MultiLine from 'components/chart/MultiLine.vue';
-import GroupedColumnChart from 'components/chart/GroupedColumnChart.vue';
 import WmTable from 'components/Table.vue';
 import { RETENTION_TREND_RADIO } from '@/config';
 import { startDateBeforeEndDate, monthRange } from '@/utils/rules.js';
@@ -148,8 +146,6 @@ export default {
     }
   },
   components: {
-    BasicAreaChart,
-    GroupedColumnChart,
     MultiLine,
     WmTable
   },
