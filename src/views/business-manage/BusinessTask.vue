@@ -1,95 +1,162 @@
 <template>
   <div>
     <div class="m-container">
-      <el-form class="form-manage" ref="taskManageForm" :rules="taskManageRules">
+      <el-form class="form-manage"
+        ref="taskManageForm"
+        :rules="taskManageRules">
         <div class="flex">
           <el-form-item>
-            <el-date-picker clearable v-model="businessTaskForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+            <el-date-picker clearable
+              v-model="businessTaskForm.date"
+              type="daterange"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
 
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="businessTaskForm.organizeNameOrCode" placeholder="合作集团/编码" />
+            <el-input clearable
+              v-model="businessTaskForm.organizeNameOrCode"
+              placeholder="合作集团/编码" />
             <!--<el-autocomplete clearable v-model="businessTaskForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="businessTaskForm.opporCodeOrName" placeholder="商机名称/编号" />
+            <el-input clearable
+              v-model="businessTaskForm.opporCodeOrName"
+              placeholder="商机名称/编号" />
           </el-form-item>
         </div>
         <div class="flex">
           <el-form-item class="form-left-width">
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary"
+              @click="query">查询</el-button>
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="businessTaskForm.taskHasComplete" @tab-click="tabChange">
-        <el-tab-pane label="待处理" :name="0"></el-tab-pane>
-        <el-tab-pane label="已处理" :name="1"></el-tab-pane>
+      <el-tabs v-model="businessTaskForm.taskHasComplete"
+        @tab-click="tabChange">
+        <el-tab-pane label="待处理"
+          :name="0"></el-tab-pane>
+        <el-tab-pane label="已处理"
+          :name="1"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
-      <wm-table :source="businessTaskList.list" :pageNo="businessTaskForm.pageNo" :pageSize="businessTaskForm.pageSize" :total="businessTaskList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
-        <el-table-column label="商机名称" show-overflow-tooltip property="opporName" />
+      <wm-table :source="businessTaskList.list"
+        :pageNo="businessTaskForm.pageNo"
+        :pageSize="businessTaskForm.pageSize"
+        :total="businessTaskList.totalCount"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="商机编号"
+          show-overflow-tooltip
+          property="opporCode" />
+        <el-table-column label="商机名称"
+          show-overflow-tooltip
+          property="opporName" />
         <!-- <el-table-column label="商机描述" show-overflow-tooltip property="busiDesc" /> -->
-        <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
-        <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
-        <el-table-column label="联系人" show-overflow-tooltip property="contactName" />
+        <el-table-column label="合作集团"
+          show-overflow-tooltip
+          property="organizeName" />
+        <el-table-column label="创建时间"
+          show-overflow-tooltip
+          property="createDate" />
+        <el-table-column label="联系人"
+          show-overflow-tooltip
+          property="contactName" />
         <!--<el-table-column v-if="businessTaskForm.taskHasComplete === 1" label="处理人" property="contactName" />-->
-        <el-table-column label="处理结果" v-if="businessTaskForm.taskHasComplete === 1" property="businessStatusName" />
+        <el-table-column label="处理结果"
+          v-if="businessTaskForm.taskHasComplete === 1"
+          property="businessStatusName" />
         <!--<el-table-column v-if="businessTaskForm.opporCode === '1'" label="处理结果" property="businessStatus" />-->
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button class="table-button" v-if="businessTaskForm.taskHasComplete === '0'" type="text" @click="handleTrans(scope.row)">
+            <el-button class="table-button"
+              v-if="businessTaskForm.taskHasComplete === '0'"
+              type="text"
+              @click="handleTrans(scope.row)">
               转订单
             </el-button>
             <template v-if="businessTaskForm.taskHasComplete === '0'">
-              <el-dropdown class="table-more-btn" @command="handleCommand(scope.row, $event)">
-                <el-button class="table-button" type="text">
-                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+              <el-dropdown class="table-more-btn"
+                @command="handleCommand(scope.row, $event)">
+                <el-button class="table-button"
+                  type="text">
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item class="el-dropdown-link" command="detail">详情</el-dropdown-item>
-                  <el-dropdown-item class="el-dropdown-link" command="send">分派</el-dropdown-item>
-                  <el-dropdown-item class="el-dropdown-link" command="cancel">作废</el-dropdown-item>
+                  <el-dropdown-item class="el-dropdown-link"
+                    command="detail">详情</el-dropdown-item>
+                  <el-dropdown-item class="el-dropdown-link"
+                    command="send">分派</el-dropdown-item>
+                  <el-dropdown-item class="el-dropdown-link"
+                    command="cancel">作废</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </template>
-            <el-button v-else type="text" class="table-button" @click="handleDetail(scope.row)">
+            <el-button v-else
+              type="text"
+              class="table-button"
+              @click="handleDetail(scope.row)">
               详情
             </el-button>
           </template>
         </el-table-column>
       </wm-table>
     </div>
-    <el-dialog class="business-task-dialog" width="433px" height="312px" title="分派" :visible.sync="sendDialogVisible">
-      <el-form ref="form" :model="sendForm">
-        <el-form-item  label="指派处理人：" prop="remindPerson">
-          <el-cascader style="width: 392px;" v-if="remindPerson"
+    <el-dialog class="business-task-dialog"
+      width="433px"
+      height="312px"
+      title="分派"
+      :visible.sync="sendDialogVisible">
+      <el-form ref="form"
+        :model="sendForm">
+        <el-form-item label="指派处理人："
+          prop="remindPerson">
+          <el-cascader style="width: 392px;"
+            v-if="remindPerson"
             :options="remindPerson"
             v-model="sendForm.person"
             @change="handleChange">
           </el-cascader>
         </el-form-item>
         <el-form-item label="分派的原因：">
-          <el-input maxlength="500" resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
+          <el-input maxlength="500"
+            resize="none"
+            type="textarea"
+            v-model="sendForm.reason"
+            placeholder="请输入优势能力"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer"
+        class="dialog-footer">
         <el-button @click="sendCancel">取 消</el-button>
-        <el-button type="primary" @click="sendConfirm">确 定</el-button>
+        <el-button type="primary"
+          @click="sendConfirm">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog class="business-task-dialog" width="433px" height="312px" title="作废" :visible.sync="cancelDialogVisible">
-      <el-form ref="form" :model="cancelForm">
+    <el-dialog class="business-task-dialog"
+      width="433px"
+      height="312px"
+      title="作废"
+      :visible.sync="cancelDialogVisible">
+      <el-form ref="form"
+        :model="cancelForm">
         <el-form-item label="作废原因：">
-          <el-input maxlength="500" resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
+          <el-input maxlength="500"
+            resize="none"
+            type="textarea"
+            v-model="cancelForm.reason"
+            placeholder="请输入优势能力"></el-input>
         </el-form-item>
         <p class="tipsText">*如确定要作废该商机，请填写原因供创建者查看</p>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer"
+        class="dialog-footer">
         <el-button @click="cancelCancel">取 消</el-button>
-        <el-button type="primary" @click="cancelConfirm">确 定</el-button>
+        <el-button type="primary"
+          @click="cancelConfirm">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -113,11 +180,12 @@ export default {
       cooperationGroupList: ({ business }) => business.cooperationGroupList,
       businessTaskForm: ({ business }) => business.businessTaskForm,
       businessTaskList: ({ business }) => business.businessTaskList,
-      remindPerson: ({business}) => business.remindPerson
+      remindPerson: ({ business }) => business.remindPerson
     })
   },
   data() {
     return {
+      isNotPageChange: true,
       timeRange: '',
       status: 0,
       taskManageRules: {
@@ -180,8 +248,11 @@ export default {
     },
     // 分页
     onPagination(value) {
+      this.isNotPageChange = false;
       this.businessTaskForm.pageNo = value;
-      this.query();
+      this.query().then(() => {
+        this.isNotPageChange = true;
+      });
     },
     // 改变页面展示条数
     onSizePagination(value) {
@@ -274,6 +345,9 @@ export default {
       }
     },
     query() {
+      // 查询的时候，需要将pageNo置为1
+      this.businessTaskForm.pageNo = this.isNotPageChange ? 1 : this.businessTaskForm.pageNo;
+
       const params = this.businessTaskForm;
 
       if (params.date !== null && params.date.length === 2) {
@@ -284,7 +358,7 @@ export default {
         params.endDate = '';
       }
       let { date, ..._params } = this.businessTaskForm;
-      this.getBusinessTaskList(_params);
+      return this.getBusinessTaskList(_params);
     },
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;
@@ -350,6 +424,7 @@ export default {
   height: 20px;
   line-height: 20px;
   color: rgba(0, 0, 0, 0.25);
-  font-size: 14px;padding-bottom:0px;
+  font-size: 14px;
+  padding-bottom: 0px;
 }
 </style>
