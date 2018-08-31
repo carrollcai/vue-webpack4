@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-table">
+    <div class="order-p-table">
       <dl class="tHead">
         <dt class="tH01">订购产品</dt>
         <dd class="tH02 tHead-title">处理意见</dd>
