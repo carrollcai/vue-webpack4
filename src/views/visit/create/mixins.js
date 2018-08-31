@@ -81,7 +81,7 @@ export default {
           { required: true, message: '请选择是否首课走访', trigger: 'change' }
         ],
         visitTime: [
-          { required: true, message: '请选择日期', trigger: 'change' }
+          { required: true, message: '请选择日期', trigger: ['change', 'blur'] }
         ],
         timeRange: [
           { required: true, message: '请选择时间', trigger: 'change' }
