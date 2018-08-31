@@ -161,7 +161,7 @@ export default {
         relOpporCode: '',
         problemCoordinate: '',
         visitAuditor: '',
-        isFirstVisit: 1,
+        isFirstVisit: 0,
         visitStartTime: '',
         visitEndTime: '',
         isSubmit: 1,
@@ -209,7 +209,7 @@ export default {
       }
       this.editVisitFromHandle.visitTime = [this.visitAppointDetail.visitStartTime, this.visitAppointDetail.visitEndTime];
       if (this.visitResource === '2') {
-        this.editVisitFromHandle.isFirstVisit = 1;
+        this.editVisitFromHandle.isFirstVisit = this.visitAppointDetail.isFirstVisit;
       } else {
         this.editVisitFromHandle.isFirstVisit = this.visitAppointDetail.isFirstVisit ? Number(this.visitAppointDetail.isFirstVisit) : 0;
       }
