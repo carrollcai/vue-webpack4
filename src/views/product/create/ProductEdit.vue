@@ -438,7 +438,7 @@ export default {
           if (params.belongToCompany === '核心能力清单' || params.belongToCompany === '一级集采目录') {
             if (params.secondOption && params.specificProduct) {
             } else {
-              this.$message({ showClose: true, message: '若选择产品属性，请选择完整！', type: 'error' });
+              this.$message({ showClose: true, message: '若选择产品归属，请选择完整！', type: 'error' });
               return;
             }
           }
