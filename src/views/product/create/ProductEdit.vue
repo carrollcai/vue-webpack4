@@ -113,7 +113,7 @@
             </el-form-item>
           </el-col>
       </el-form-item>
-      <el-form-item label="产品对接人:" class="col-item">
+      <el-form-item label="产品对接人:" class="col-item" required>
         <el-col :span="11">
           <el-form-item prop="broker">
             <el-select v-model="productSaleDemo.broker" placeholder="对接人" @change="selectBroker">

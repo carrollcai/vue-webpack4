@@ -363,7 +363,7 @@ export default {
         delete item.productHandlers;
         return item;
       });
-      const params = this.orderData;
+      const params = Object.cloneDeep(this.orderData);
       delete params.opporProcessor;
       delete params.opporAssignReason;
       delete params.opporAssignPerson;
@@ -372,6 +372,7 @@ export default {
       delete params.productId;
       params.taskInsId = this.$route.params.taskInsId;
       this.$refs['transForm'].validate(valid => {
+        console.log(valid);
         if (!valid) return false;
         this.saveBusinessOrder(params).then(res => {
           if (res.data) {
