@@ -393,7 +393,7 @@ const mutations = {
       return item;
     }), 'orderNum');
 
-    state.addUserMapData = result;
+    state.addUserMapData = validateChartData(result, ['orderNum', 'value']);
   },
   // 新增用户分析- 新增会员用户趋势分析 原始数据
   [types.ADD_USER_VIP](state, data) {

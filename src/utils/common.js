@@ -165,7 +165,7 @@ export function addFirstDayinMonth(val) {
 export function validateChartData(list, fields) {
   for (let item of list) {
     for (let field of fields) {
-      if (item[field] !== null) {
+      if (item[field] !== null && item[field] !== undefined) {
         return list;
       }
     }
