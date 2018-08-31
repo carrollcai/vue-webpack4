@@ -1,52 +1,84 @@
 <template>
-<div>
-  <div class="m-container">
-    <el-form class="form-manage" ref="businessForm">
-      <div class="flex">
-        <el-form-item>
-          <el-date-picker v-model="businessForm.date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
-          </el-date-picker>
-        </el-form-item>
+  <div>
+    <div class="m-container">
+      <el-form class="form-manage"
+        ref="businessForm">
+        <div class="flex">
+          <el-form-item>
+            <el-date-picker v-model="businessForm.date"
+              type="daterange"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
 
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="businessForm.organizeNameOrCode" placeholder="合作集团/编码" />
-          <!--<el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
-        </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="businessForm.opporCodeOrName" placeholder="商机名称/编号" />
-        </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="businessForm.opName" placeholder="提供人" />
-        </el-form-item>
-      </div>
-      <div class="flex">
-        <el-form-item class="form-left-width">
-          <el-button type="primary" @click="searchQuery">查询</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
-    <el-tabs v-model="businessForm.opporStatus" @tab-click="tabChange">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="待处理" :name="'1'"></el-tab-pane>
-      <el-tab-pane label="已转订单" :name="'2'"></el-tab-pane>
-      <el-tab-pane label="已作废" :name="'3'"></el-tab-pane>
-    </el-tabs>
+          <el-form-item class="form-query-input-width form-left-width">
+            <el-input clearable
+              v-model="businessForm.organizeNameOrCode"
+              placeholder="合作集团/编码" />
+            <!--<el-autocomplete clearable v-model="businessForm.organizeNameOrCode" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect"></el-autocomplete>-->
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width">
+            <el-input clearable
+              v-model="businessForm.opporCodeOrName"
+              placeholder="商机名称/编号" />
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width">
+            <el-input clearable
+              v-model="businessForm.opName"
+              placeholder="提供人" />
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item class="form-left-width">
+            <el-button type="primary"
+              @click="searchQuery">查询</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+      <el-tabs v-model="businessForm.opporStatus"
+        @tab-click="tabChange">
+        <el-tab-pane label="全部"></el-tab-pane>
+        <el-tab-pane label="待处理"
+          :name="'1'"></el-tab-pane>
+        <el-tab-pane label="已转订单"
+          :name="'2'"></el-tab-pane>
+        <el-tab-pane label="已作废"
+          :name="'3'"></el-tab-pane>
+      </el-tabs>
     </div>
     <div class="m-container table-container">
-      <wm-table :source="businessList.list" :pageNo="businessForm.pageNo" :pageSize="businessForm.pageSize" :total="businessList.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="商机编号" show-overflow-tooltip property="opporCode" />
-        <el-table-column label="商机名称" show-overflow-tooltip property="opporName" />
-        <el-table-column label="合作集团" show-overflow-tooltip property="organizeName" />
-        <el-table-column label="创建时间" show-overflow-tooltip property="createDate" />
-        <el-table-column label="提供人" show-overflow-tooltip property="opName" />
+      <wm-table :source="businessList.list"
+        :pageNo="businessForm.pageNo"
+        :pageSize="businessForm.pageSize"
+        :total="businessList.totalCount"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="商机编号"
+          show-overflow-tooltip
+          property="opporCode" />
+        <el-table-column label="商机名称"
+          show-overflow-tooltip
+          property="opporName" />
+        <el-table-column label="合作集团"
+          show-overflow-tooltip
+          property="organizeName" />
+        <el-table-column label="创建时间"
+          show-overflow-tooltip
+          property="createDate" />
+        <el-table-column label="提供人"
+          show-overflow-tooltip
+          property="opName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" class="table-button" @click="handleDetail(scope.row)">详情</el-button>
+            <el-button type="text"
+              class="table-button"
+              @click="handleDetail(scope.row)">详情</el-button>
           </template>
         </el-table-column>
       </wm-table>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -71,6 +103,7 @@ export default {
   },
   data() {
     return {
+      isNotPageChange: true,
       status: '',
       cooperNum: '',
       timeRange: '',
@@ -92,8 +125,11 @@ export default {
       this.query();
     },
     onPagination(value) {
+      this.isNotPageChange = false;
       this.businessForm.pageNo = value;
-      this.query();
+      this.query().then(() => {
+        this.isNotPageChange = true;
+      });
     },
     onSizePagination(value) {
       this.businessForm.pageSize = value;
@@ -108,6 +144,9 @@ export default {
       this.query();
     },
     query() {
+      // 查询的时候，需要将pageNo置为1
+      this.businessForm.pageNo = this.isNotPageChange ? 1 : this.businessForm.pageNo;
+
       const params = this.businessForm;
 
       if (params.date !== null && params.date.length === 2) {
@@ -122,7 +161,7 @@ export default {
         _params.opporStatus = '';
       } else {
       }
-      this.getBusinessList(_params);
+      return this.getBusinessList(_params);
     },
     async querySearchAsync(queryString, cb) {
       if (!queryString) return false;

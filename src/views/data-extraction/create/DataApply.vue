@@ -254,7 +254,10 @@ export default {
         isserviceTime: false,
         isUseTime: false
       },
-      submitData: {}
+      submitData: {
+        province: [],
+        region: []
+      }
     };
   },
   beforeMount() {
