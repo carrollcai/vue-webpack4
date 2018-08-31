@@ -78,7 +78,7 @@ export default {
           { validator: noTextareaMaxLimit, trigger: 'blur' }
         ],
         isFirstVisit: [
-          { required: true, message: '请选择是否首课走访', trigger: 'change' }
+          { required: true, message: '请选择是否首客走访', trigger: ['change', 'blur'] }
         ],
         visitTime: [
           { required: true, message: '请选择日期', trigger: ['change', 'blur'] }
