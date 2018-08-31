@@ -121,7 +121,7 @@
           </el-radio-group> -->
           <div>
             <el-checkbox class="all-label" v-model="sexAll" label="全部" @change="isAllChecked2('sexAll', 'sex', sexList)"></el-checkbox>
-            <el-checkbox-group v-model="applyFrom.sex">
+            <el-checkbox-group v-model="applyFrom.sex" @change="handleChecked('sexAll', 'sex', sexList)">
               <el-checkbox v-for="item in sexList" :key="item" :label="item.label"></el-checkbox>
             </el-checkbox-group>
           </div>
