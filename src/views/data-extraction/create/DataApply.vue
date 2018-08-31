@@ -93,7 +93,7 @@
         </el-form-item>
         <el-form-item label="用户类型：" v-if="applyFrom.detailSet.indexOf('用户类型') > -1" required prop="dataType">
           <el-checkbox-group v-model="applyFrom.dataType">
-            <el-checkbox :disabled="(item.type === 1 && isByDay === true) || (item.wastage === 2 && applyFrom.dataType.indexOf('存留会员用户') >= 0) ? true : false" v-for="item in dataTypeList" :key="item" :label="item.name"></el-checkbox>
+            <el-checkbox :disabled="(item.type === 1 && !!isByDay) || (item.name === '流失会员用户' && applyFrom.dataType.indexOf('存留会员用户') >= 0) || (item.name === '存留会员用户' && applyFrom.dataType.indexOf('流失会员用户') >= 0)" v-for="item in dataTypeList" :key="item" :label="item.name"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="数据来源：" v-if="applyFrom.detailSet.indexOf('数据来源') > -1">
