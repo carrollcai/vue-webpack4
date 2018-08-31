@@ -83,6 +83,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    // 使用flex时，宽度超出换行
+    flex-wrap: wrap;
+    word-break: break-all;
   }
   .tHead-title {
     display: flex;
