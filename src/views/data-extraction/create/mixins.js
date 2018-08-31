@@ -136,6 +136,18 @@ export default {
       let obj = this.strMapToObj(map);
       return obj;
     },
+    openDataNullFn(val, list, map) {
+      list.filter((item, index, arr) => {
+        map.set(item['field'], '');
+        val.map((active) => {
+          if (item.name === active) {
+            map.set(item['field'], '1');
+          }
+        });
+      });
+      let obj = this.strMapToObj(map);
+      return obj;
+    },
     getDataValueFn(val, list, field) {
       val.map((active) => {
         list.filter((item, index, arr) => {
@@ -164,7 +176,8 @@ export default {
       if (String(this.applyFrom.dataType).indexOf('存留会员用户') > -1 && String(this.applyFrom.dataType).indexOf('流失会员用户') > -1) {
         this.applyFrom.dataType.splice(df, 1);
       }
-      let userObj = this.openDataFn(this.applyFrom.userInfo, this.userInfoList, this.userMap);
+      // let userObj = this.openDataFn(this.applyFrom.userInfo, this.userInfoList, this.userMap);
+      let userObj = this.openDataNullFn(this.applyFrom.userInfo, this.userInfoList, this.userMap);
       let activeObj = this.openDataFn(this.applyFrom.dataType, this.dataTypeList, this.activeMap);
       let sourceObj = this.getDataValueFn(this.applyFrom.source, this.sourceList, []);
       let clientTypeObj = this.getDataValueFn(this.applyFrom.clientType, this.clientTypeList, []);
