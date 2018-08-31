@@ -70,6 +70,7 @@ export default {
   },
   data() {
     return {
+      isNotPageChange: true
     };
   },
   beforeMount() {
@@ -88,9 +89,11 @@ export default {
       this.productAuditManageForm.pageSize = 20;
       this.query();
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.productAuditManageForm.pageNo = value;
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.productAuditManageForm.pageSize = value;
@@ -100,6 +103,8 @@ export default {
       this.productAuditManageForm.productNameOrCode = String(value).trim();
     },
     query() {
+      // 查询的时候，需要将pageNo置为1
+      this.productAuditManageForm.pageNo = this.isNotPageChange ? 1 : this.productAuditManageForm.pageNo;
       const params = this.productAuditManageForm;
 
       if (params.date !== null && params.date.length === 2) {

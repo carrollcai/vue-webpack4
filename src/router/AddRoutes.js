@@ -43,7 +43,6 @@ import User from '@/views/system/User.vue';
 import UserCreate from '@/views/system//create/UserCreate.vue';
 import Config from '@/views/system/Config.vue';
 
-// import ProductView from '@/views/product/ProductView.vue';
 import SalesProductStore from '@/views/product/SalesProductStore.vue';
 import CaseManagement from '@/views/product/detail/CaseManagement.vue';
 import ProductCreatManage from '@/views/product/ProductCreatManage.vue';

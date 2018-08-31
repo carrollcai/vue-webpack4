@@ -4,8 +4,7 @@
       <el-form class="form-manage">
         <div class="flex">
           <el-form-item>
-            <el-date-picker
-              v-model="rangeDate"
+            <el-date-picker v-model="rangeDate"
               type="daterange"
               :editable="false"
               value-format="yyyy-MM-dd"
@@ -14,57 +13,89 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="form-query-input-width form-left-width" prop="staffName">
-            <el-input v-model="organizeName" placeholder="走访公司名称" clearable/>
+          <el-form-item class="form-query-input-width form-left-width"
+            prop="staffName">
+            <el-input v-model="organizeName"
+              placeholder="走访公司名称"
+              clearable/>
           </el-form-item>
 
-          <el-form-item class="form-query-input-width form-left-width" prop="code">
-            <el-select v-model="isFirstVisit" clearable placeholder="是否首客">
-              <el-option v-for="(item, i) in VISIT_FIST_VISIT" :key="i" :value="item.value" :label="item.label" />
+          <el-form-item class="form-query-input-width form-left-width"
+            prop="code">
+            <el-select v-model="isFirstVisit"
+              clearable
+              placeholder="是否首客">
+              <el-option v-for="(item, i) in VISIT_FIST_VISIT"
+                :key="i"
+                :value="item.value"
+                :label="item.label" />
             </el-select>
           </el-form-item>
         </div>
         <div class="flex">
           <el-form-item class="form-left-width">
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary"
+              @click="query">查询</el-button>
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="待审核" name="first"></el-tab-pane>
-        <el-tab-pane label="待评价" name="second"></el-tab-pane>
-        <el-tab-pane label="已审核" name="third"></el-tab-pane>
-        <el-tab-pane label="已评价" name="forth"></el-tab-pane>
+      <el-tabs v-model="activeName"
+        @tab-click="handleClick">
+        <el-tab-pane label="待审核"
+          name="first"></el-tab-pane>
+        <el-tab-pane label="待评价"
+          name="second"></el-tab-pane>
+        <el-tab-pane label="已审核"
+          name="third"></el-tab-pane>
+        <el-tab-pane label="已评价"
+          name="forth"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
-      <wm-table
-        :source="handleVisits.list"
+      <wm-table :source="handleVisits.list"
         :total="handleVisits.totalCount"
         :pageNo="pageNo"
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="走访编号" property="visitCode" show-overflow-tooltip/>
-        <el-table-column label="走访时间" property="visitStartTime">
+        <el-table-column label="走访编号"
+          property="visitCode"
+          show-overflow-tooltip/>
+        <el-table-column label="走访时间"
+          property="visitStartTime">
         </el-table-column>
-        <el-table-column label="走访公司" property="organizeName" >
+        <el-table-column label="走访公司"
+          property="organizeName">
         </el-table-column>
-        <el-table-column label="走访发起人" property="opName">
+        <el-table-column label="走访发起人"
+          property="opName">
         </el-table-column>
-        <el-table-column label="是否首客" property="isFirstVisit" />
+        <el-table-column label="是否首客"
+          property="isFirstVisit" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button class="table-button" type="text" v-if="activeName === 'first'" @click="handleAudit(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              v-if="activeName === 'first'"
+              @click="handleAudit(scope.row)">
               审核
             </el-button>
-            <el-button class="table-button" type="text" v-if="activeName === 'second'" @click="toHandle(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              v-if="activeName === 'second'"
+              @click="toHandle(scope.row)">
               评价
             </el-button>
-            <el-button class="table-button" type="text" v-if="activeName === 'third'" @click="toDetail(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              v-if="activeName === 'third'"
+              @click="toDetail(scope.row)">
               查看
             </el-button>
-            <el-button class="table-button" type="text" v-if="activeName === 'forth'" @click="toDetail(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              v-if="activeName === 'forth'"
+              @click="toDetail(scope.row)">
               查看评价
             </el-button>
           </template>
@@ -94,6 +125,7 @@ export default {
   },
   data() {
     return {
+      isNotPageChange: true,
       VISIT_FIST_VISIT,
       STATUS: {
         'first': '0',
@@ -122,8 +154,11 @@ export default {
   },
   methods: {
     onPagination(value) {
+      this.isNotPageChange = false;
       this.pageNo = value;
-      this.query();
+      this.query().then(() => {
+        this.isNotPageChange = true;
+      });
     },
     onSizePagination(value) {
       this.pageSize = value;
@@ -139,6 +174,7 @@ export default {
       this.$router.push(`/visit/mission/handle-audit/${row.visitId}/${row.taskInsId}`);
     },
     getParams() {
+      this.pageNo = this.isNotPageChange ? 1 : this.pageNo;
       const {
         pageNo,
         pageSize,
@@ -159,7 +195,7 @@ export default {
       };
     },
     query() {
-      this.queryHandleVisits(this.getParams());
+      return this.queryHandleVisits(this.getParams());
     },
     handleClick() {
       this.pageNo = 1;

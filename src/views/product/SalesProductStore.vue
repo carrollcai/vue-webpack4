@@ -162,6 +162,7 @@ export default {
   },
   data() {
     return {
+      isNotPageChange: true,
       timeRange: '',
       baseInfo: {
         productId: '',
@@ -215,9 +216,11 @@ export default {
         this.multipleSelection.push(val[i].productId);
       }
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.salesProductStoreForm.pageNo = value;
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.salesProductStoreForm.pageSize = value;
@@ -235,6 +238,8 @@ export default {
       this.salesProductStoreForm.productName = String(value).trim();
     },
     query() {
+      this.salesProductStoreForm.pageNo = this.isNotPageChange ? 1 : this.salesProductStoreForm.pageNo;
+
       if (this.salesProductStoreForm.codeValue) {
         this.salesProductStoreForm.codeType = 'REGION';
       } else {
