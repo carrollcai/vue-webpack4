@@ -245,7 +245,6 @@ const actions = {
   },
   // 获取附件列表
   async gethasSignedFileList({ commit }, params) {
-    console.log(params);
     for (let val of params.ordProductDtoList) {
       // 如果不存在fileId，不请求API
       if (val.fileId) {

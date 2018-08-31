@@ -7,9 +7,7 @@ const actions = {
     return API.getProvinceAPI(req).then(res => {
       commit(types.PROVINCE, res.data.PROVINCE);
     }, err => {
-      if (err) {
-        commit(types.PROVINCE, {});
-      }
+      console.error(err);
     });
   },
   getUserRole({ commit }, params) {
@@ -69,10 +67,13 @@ const actions = {
     });
   },
   async getSystemInfo({ commit, dispatch }, params) {
+    // 获取省份静态数据
     await dispatch('getProvince');
+    // 获取用户信息
     await dispatch('getCurrentUserInfo');
     // 获取用户信息后添加动态路由
     commit('ADD_ROUTES');
+    // 获取其它静态数据
     dispatch('queryStaticData');
   }
 };
