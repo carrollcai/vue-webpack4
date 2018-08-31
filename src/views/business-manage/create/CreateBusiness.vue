@@ -151,8 +151,8 @@
               </el-select>
             </el-form-item> -->
             <el-form-item label="">
-              <el-button type="primary" @click="submit">提交</el-button>
-              <el-button plain @click="save">保存为草稿</el-button>
+              <el-button type="primary" :disabled="isClick" @click="submit">提交</el-button>
+              <el-button plain :disabled="isClick" @click="save">保存为草稿</el-button>
             </el-form-item>
           </el-form>
       </div>
@@ -178,6 +178,7 @@ export default {
       fileValidLen(this.uploadData.files, callback);
     };
     return {
+      isClick: false,
       FILE_TIP,
       busiValidityList: busiValidityList,
       fileList: [],
@@ -404,6 +405,7 @@ export default {
       });
     },
     async submit() {
+      this.isClick = true;
       await this.getFileId();
       this.form.regionData.regionList.filter((item, index, array) => {
         this.form.remindersArr.push(item.processorValue);
@@ -412,7 +414,10 @@ export default {
       this.$refs['businessForm'].validate(valid => {
         delete params.regionData;
         delete params.processorData;
-        if (!valid) return false;
+        if (!valid) {
+          this.isClick = false;
+          return false;
+        }
         this.submitBusinessOppority(params).then(res => {
           if (res.data) {
             this.$message({ showClose: true, message: '您已成功提交该条商机！', type: 'success' });
@@ -420,19 +425,24 @@ export default {
             const path = `/business-manage/business-create-manage`;
             this.$router.push(path);
           } else {
+            this.isClick = false;
             this.$message({ showClose: true, message: '提交失败！', type: 'error' });
           }
         });
       });
     },
     async save() {
+      this.isClick = true;
       await this.getFileId();
       this.form.regionData.regionList.filter((item, index, array) => {
         this.form.remindersArr.push(item.processorValue);
       });
       let {...params} = this.form;
       this.$refs['businessForm'].validate(valid => {
-        if (!valid) return false;
+        if (!valid) {
+          this.isClick = false;
+          return false;
+        }
         delete params.regionData;
         delete params.processorData;
         this.saveBusinessDraft(params).then(res => {
@@ -442,6 +452,7 @@ export default {
             const path = `/business-manage/business-create-manage`;
             this.$router.push(path);
           } else {
+            this.isClick = false;
             this.$message({ showClose: true, message: '保存失败！', type: 'error' });
           }
         });
