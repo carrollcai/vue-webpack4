@@ -109,8 +109,8 @@ const dynamicRoutes = [
       { path: '/data-extraction/data-detail', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 36 } },
       { path: '/data-extraction/data-detail/:id', name: 'data-detail', component: DataExtractionDetail, meta: { menuId: 36 } },
       { path: '/data-extraction/data-apply', name: 'data-apply', component: DataApply, meta: { menuId: 36 } },
-      { path: '/data-extraction/data-audit-detail/:id', name: 'data-audit-detail', component: DataExtractionDetail, meta: { menuId: 37 } },
       { path: '/data-extraction/data-audit', name: 'data-audit', component: DataAudit, meta: { menuId: 37 } },
+      { path: '/data-extraction/data-audit-detail/:id', name: 'data-audit-detail', component: DataExtractionDetail, meta: { menuId: 37 } },
 
       {
         path: '/product/sales-product-store',
