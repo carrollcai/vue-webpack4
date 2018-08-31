@@ -24,7 +24,7 @@ const actions = {
     });
   },
   deleteDownLoadData: ({commit}, params) => {
-    API.deleteDownLoadDataAPI(params).then(res => {
+    return API.deleteDownLoadDataAPI(params).then(res => {
       return res;
     });
   },
