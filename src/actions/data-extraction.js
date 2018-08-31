@@ -25,10 +25,7 @@ const actions = {
   },
   deleteDownLoadData: ({commit}, params) => {
     API.deleteDownLoadDataAPI(params).then(res => {
-      Message({
-        message: '撤销成功',
-        type: 'success'
-      });
+      return res;
     });
   },
   dataDownLoadFile: ({commit}, params) => {
