@@ -134,6 +134,13 @@ export default {
       this.id = this.$route.query.ordId;
       this.taskInsId = this.$route.query.taskInsId;
       this.businessStatus = this.$route.query.businessStatus;
+
+      // 如果是付款处理，需要获取通过附件id获取附件相关信息，添加到流程对象中
+      if (this.routeType === 'pay') {
+        this.gethasSignedFileList({
+          ordProductDtoList: this.handleTaskDetail.ordProductDtoList
+        });
+      }
     },
     premissionDenied(item) {
       // 如果当前用户所属归属地和流程归属地相同

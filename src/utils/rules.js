@@ -210,8 +210,9 @@ export const emailCheck = (rule, value, callback) => {
 
 // 整数部分最多8位，小数部分最多2位
 export const inte8Deci2 = (rule, value, callback) => {
+  console.log(value);
   const reg = /^\d{1,8}(?:\.\d{1,2})?$/;
-  if (String(value).trim() === '' || value === null) {
+  if (String(value).trim() === '' || value === null || value === undefined) {
     callback();
   } else if (reg.test(value) && value.toString().indexOf('.') !== value.length - 1) {
     callback();

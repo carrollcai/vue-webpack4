@@ -276,6 +276,8 @@ import { mapActions, mapState } from 'vuex';
 import mixins from './mixins';
 import { FILE_TYPE_ID } from '@/config/index.js';
 import endsWith from 'lodash/endsWith';
+import { fileBeforeUpload } from '@/utils/common.js';
+
 import {
   FILE_ACCEPT,
   FILE_TIP,
@@ -348,6 +350,9 @@ export default {
       });
     },
     handleChangeFile(file, fileList) {
+      // 添加文件上传文件的验证
+      if (fileBeforeUpload.call(this, file, fileList)) return false;
+
       let fileName = file.name;
       let result = true;
       if (this.isAcceptable(fileName)) {

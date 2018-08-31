@@ -3,33 +3,38 @@
     <div class="td"
       v-for="(item, index) in toOrderCreate.ordProductDtoList"
       :key="index">
-      <div>
-        <el-form-item>
-          <el-autocomplete v-model="item.productName"
-            :fetch-suggestions="queryProductAsync"
-            placeholder="订购产品"
-            @select="((item)=>{handleProductSelect(item, index)})"
-            :trigger-on-focus="false" />
-        </el-form-item>
-      </div>
-      <div>
-        <el-form-item>
-          <el-input v-model="item.amount"
-            maxlength="9"
-            placeholder="数量" />
-        </el-form-item>
-      </div>
-      <div>
-        <el-form-item>
-          <el-cascader v-model="item.processorData"
-            v-if="assignHandlers"
-            :show-all-levels="false"
-            clearable
-            @change="((item)=>{processorFn(item, index)})"
-            :options="assignHandlers">
-          </el-cascader>
-        </el-form-item>
-      </div>
+      <el-form class="td"
+        :model="item"
+        ref="itemForm"
+        :rules="itemRules">
+        <div>
+          <el-form-item prop="productName">
+            <el-autocomplete v-model="item.productName"
+              :fetch-suggestions="queryProductAsync"
+              placeholder="订购产品"
+              @select="((item)=>{handleProductSelect(item, index)})"
+              :trigger-on-focus="false" />
+          </el-form-item>
+        </div>
+        <div>
+          <el-form-item prop="amount">
+            <el-input v-model="item.amount"
+              maxlength="9"
+              placeholder="数量" />
+          </el-form-item>
+        </div>
+        <div>
+          <el-form-item prop="processorData">
+            <el-cascader v-model="item.processorData"
+              v-if="assignHandlers"
+              :show-all-levels="false"
+              clearable
+              @change="((item)=>{processorFn(item, index)})"
+              :options="assignHandlers">
+            </el-cascader>
+          </el-form-item>
+        </div>
+      </el-form>
       <div class="del">
         <span @click="delFn(index)">删除</span>
       </div>
@@ -40,11 +45,24 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { PAGE_SIZE } from '@/config/index.js';
+import { checkMultRules } from '@/utils/common.js';
+import { isPositive } from '@/utils/rules.js';
 
 export default {
   data() {
     return {
-      pageSize: PAGE_SIZE
+      pageSize: PAGE_SIZE,
+      itemRules: {
+        productName: [
+          { required: true, message: '请输入产品名称', trigger: 'blur' },
+        ],
+        amount: [
+          { validator: isPositive, trigger: 'blur' },
+        ],
+        processorData: [
+          { required: true, message: '请输入指派人', trigger: 'change' },
+        ]
+      }
     };
   },
   async beforeMount() {
@@ -85,6 +103,10 @@ export default {
       this.toOrderCreate.ordProductDtoList[index].productId = item.productId;
       this.toOrderCreate.ordProductDtoList[index].companyBelong = item.operatorInfo.opRegion;
       this.updateOrderCreate({ productId: item.productId });
+    },
+    validate() {
+      let checkMult = checkMultRules(this.$refs['itemForm']);
+      return checkMult;
     },
     ...mapMutations({
       updateOrderCreate: 'ORDER_UPDATE_CREATE'

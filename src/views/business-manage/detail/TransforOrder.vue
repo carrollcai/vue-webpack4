@@ -118,7 +118,7 @@
         </el-form-item>
         <el-form-item label="订购产品："
           required>
-          <productItem ref="productItemRef" />
+          <product-item ref="productItemRef" />
         </el-form-item>
         <el-form-item label="业务描述："
           prop="busiDesc">
@@ -186,7 +186,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
-import { checkPhone, emailCheck, nointe8Deci2, checkLeftRightSpace } from '@/utils/rules.js';
+import { checkPhone, emailCheck, inte8Deci2, checkLeftRightSpace } from '@/utils/rules.js';
 
 import filters from '@/views/business-manage/filters';
 import productItem from 'components/order/create/productItem.vue';
@@ -251,7 +251,7 @@ export default {
           { validator: checkLeftRightSpace, trigger: 'blur' }
         ],
         predictRevenue: [
-          { validator: nointe8Deci2, trigger: 'blur' }
+          { validator: inte8Deci2, trigger: 'blur' }
         ],
         predictSignTime: [
           { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
@@ -358,12 +358,14 @@ export default {
       this.updateOrderCreate({ address: item.orgAddress });
     },
     submit() {
-      this.orderData.ordProductDtoList = this.orderCreate.ordProductDtoList.filter(item => {
+      let params = Object.cloneDeep(this.orderData);
+      let ordProductDtoList = Object.cloneDeep(this.orderCreate.ordProductDtoList);
+      params.ordProductDtoList = ordProductDtoList.filter(item => {
         delete item.processorData;
         delete item.productHandlers;
         return item;
       });
-      const params = this.orderData;
+      // const params = this.orderData;
       delete params.opporProcessor;
       delete params.opporAssignReason;
       delete params.opporAssignPerson;
@@ -371,8 +373,11 @@ export default {
       delete params.productName;
       delete params.productId;
       params.taskInsId = this.$route.params.taskInsId;
-      this.$refs['transForm'].validate(valid => {
-        if (!valid) return false;
+      params.predictRevenue = params.predictRevenue ? params.predictRevenue : '';
+      let productItemValidate = this.$refs.productItemRef.validate();
+      this.$refs.transForm.validate(valid => {
+        if (!valid || !productItemValidate) return false;
+
         this.saveBusinessOrder(params).then(res => {
           if (res.data) {
             this.$message({ showClose: true, message: '您已成功提交！', type: 'success' });
