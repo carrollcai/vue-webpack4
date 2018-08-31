@@ -160,6 +160,10 @@ export default {
           return false;
         }
       }
+      let df = String(this.applyFrom.dataType).indexOf('流失会员用户');
+      if (String(this.applyFrom.dataType).indexOf('存留会员用户') > -1 && String(this.applyFrom.dataType).indexOf('流失会员用户') > -1) {
+        this.applyFrom.dataType.splice(df, 1);
+      }
       let userObj = this.openDataFn(this.applyFrom.userInfo, this.userInfoList, this.userMap);
       let activeObj = this.openDataFn(this.applyFrom.dataType, this.dataTypeList, this.activeMap);
       let sourceObj = this.getDataValueFn(this.applyFrom.source, this.sourceList, []);

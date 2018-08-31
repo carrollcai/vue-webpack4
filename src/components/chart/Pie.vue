@@ -2,21 +2,38 @@
   <div style="position: relative;">
     <div style="width: calc(100% - 200px);">
       <div style="font-size: 0px;position: relative;">
-        <div :style="{width: `${width}px`, height:`${height}px` }" :id="id"></div>
+        <div :style="{width: `${width}px`, height:`${height}px` }"
+          :id="id"></div>
       </div>
-      <ul v-if="hasLegend" class="has-legend">
+      <!-- {{legendData}} -->
+      <ul v-if="hasLegend"
+        class="has-legend">
         <div>
-          <li v-for="(item, i) in legendData" :key="i" v-if="i <= 2">
-            <span class="dot" :style="{backgroundColor: item.color}" />
-            <el-tooltip class="item" :disabled="item.item.length <= 4" effect="dark" :content="item.item" placement="top-start">
+          <li v-for="(item, i) in legendData"
+            :key="i"
+            v-if="i <= 2">
+            <span class="dot"
+              :style="{backgroundColor: item.color}" />
+            <el-tooltip class="item"
+              :disabled="item.item.length <= 4"
+              effect="dark"
+              :content="item.item"
+              placement="top-start">
               <span class="legend-title">{{ item.item.length > 4 ? `${item.item.substring(0, 4)}...` : item.item }}</span>
             </el-tooltip>
           </li>
         </div>
         <div class="pie-item">
-          <li v-for="(item, i) in legendData" :key="i" v-if="i > 2">
-            <span class="dot" :style="{backgroundColor: item.color}" />
-            <el-tooltip class="item" :disabled="item.item.length <= 4" effect="dark" :content="item.item" placement="top-start">
+          <li v-for="(item, i) in legendData"
+            :key="i"
+            v-if="i > 2">
+            <span class="dot"
+              :style="{backgroundColor: item.color}" />
+            <el-tooltip class="item"
+              :disabled="item.item.length <= 4"
+              effect="dark"
+              :content="item.item"
+              placement="top-start">
               <span class="legend-title">{{ item.item.length > 4 ? `${item.item.substring(0, 4)}...` : item.item }}</span>
             </el-tooltip>
           </li>
@@ -68,7 +85,6 @@ export default {
       if (hasLegend) {
         const geom = this.chart.getAllGeoms()[0]; // 获取所有的图形
         const items = geom.get('dataArray') || []; // 获取图形对应的
-
         this.legendData = items.map(item => {
           const origin = item[0]._origin;
           origin.color = item[0].color;

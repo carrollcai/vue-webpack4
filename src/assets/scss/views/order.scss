@@ -57,7 +57,11 @@
   width: 360px;
 }
 
-.p-table {
+.handle-task-btn {
+  margin-top: 26px;
+}
+
+.order-p-table {
   margin-top: 40px;
   display: flex;
   flex-direction: column;
@@ -72,7 +76,7 @@
   .tTr {
     border-bottom: 1px #eee solid;
     -webkit-margin-before: 0;
-    -webkit-margin-after: 0
+    -webkit-margin-after: 0;
   }
   .tH01,
   .tHead-title {
@@ -81,7 +85,9 @@
     border-right: 1px #eee solid;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; // 使用flex时，宽度超出换行
+    flex-wrap: wrap;
+    word-break: break-all;
   }
   .tHead-title {
     display: flex;
@@ -93,7 +99,7 @@
   }
   .tHead {
     display: flex;
-    background: #F0F2F5;
+    background: #f0f2f5;
     opacity: 0.8;
     text-align: center;
   }
@@ -109,8 +115,4 @@
     color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
   }
-}
-
-.handle-task-btn {
-  margin-top: 26px;
 }

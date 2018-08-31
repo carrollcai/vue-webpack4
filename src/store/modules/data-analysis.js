@@ -231,6 +231,7 @@ const mutations = {
         value: val.newMembersNum
       });
     });
+    console.log(uniqueMembers);
     state.members = uniqueMembers;
 
     // 新增会员用户总数
@@ -423,6 +424,9 @@ const mutations = {
   },
   [types.PROVINCER_USER_INIT_DATE](state, data) {
   },
+  [types.ADD_USER_LAST_MONTH_VIP](state, data) {
+    state.members = data;
+  }
 };
 
 export default {

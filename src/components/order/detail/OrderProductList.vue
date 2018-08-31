@@ -1,5 +1,5 @@
 <template>
-  <div class="p-table">
+  <div class="order-p-table">
     <dl class="tHead">
       <dt class="tH01">订购产品</dt>
       <dd class="tH02 tHead-title">订单状态</dd>
@@ -56,6 +56,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>
