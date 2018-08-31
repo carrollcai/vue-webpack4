@@ -166,6 +166,10 @@ export default {
       return obj;
     },
     onSubmit() {
+      this.submitData.mobliePhone = '';
+      this.submitData.ip = '';
+      this.submitData.imei = '';
+      this.submitData.idfa = '';
       if (this.processorList && this.processorList.length) {
         if (this.regionData.regionList && this.regionData.regionList.length <= 0) {
           this.$message({ showClose: true, message: '请选择地区', type: 'info' });
