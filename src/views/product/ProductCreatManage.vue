@@ -1,90 +1,134 @@
 <template>
-<div>
-  <div class="m-container">
-    <el-form :model="productCreateForm" class="form-manage">
-      <div class="flex">
-        <el-form-item>
-          <el-select v-model="productCreateForm.productType" clearable placeholder="产品类型">
-            <el-option label="卡类" value="1"></el-option>
-            <el-option label="衍生品类" value="2"></el-option>
-            <el-option label="活动类" value="3"></el-option>
-            <el-option label="智能硬件类" value="4"></el-option>
-            <el-option label="会员" value="5"></el-option>
-            <el-option label="其他" value="6"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="productCreateForm.operatorId" @change="checkOperatorId" placeholder="创建人"></el-input>
-        </el-form-item>
-        <el-form-item class="form-query-input-width form-left-width">
-          <el-input clearable v-model="productCreateForm.productName" @change="checkProductName" placeholder="产品名称/编码"></el-input>
-        </el-form-item>
-      </div>
-      <div class="flex">
-        <el-form-item class="form-left-width">
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-        </el-form-item>
-        <el-form-item class="form-left-width">
-          <el-button class="el-button--have-icon" @click="toCreatProduct" icon="el-icon-plus">新建产品</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
-    <el-tabs v-model="productCreateForm.productStatus" @tab-click="tabChange">
-      <el-tab-pane label="全部"></el-tab-pane>
-      <el-tab-pane label="待审核" :name="'1'"></el-tab-pane>
-      <el-tab-pane label="已发布" :name="'2'"></el-tab-pane>
-      <!--<el-tab-pane label="待下线" :name="'5'"></el-tab-pane>-->
-      <el-tab-pane label="已下线" :name="'3'"></el-tab-pane>
-      <el-tab-pane label="驳回" :name="'4'"></el-tab-pane>
-    </el-tabs>
-  </div>
-  <div class="m-container table-container">
-    <wm-table
-      :source="productList.list"
-      :total="productList.totalCount"
-      :pageNo="productCreateForm.pageNo"
-      :pageSize="productCreateForm.pageSize"
-      @onPagination="onPagination"
-      @onSizePagination="onSizePagination">
-        <el-table-column label="产品编码" show-overflow-tooltip property="productCode">
+  <div>
+    <div class="m-container">
+      <el-form :model="productCreateForm"
+        class="form-manage">
+        <div class="flex">
+          <el-form-item>
+            <el-select v-model="productCreateForm.productType"
+              clearable
+              placeholder="产品类型">
+              <el-option label="卡类"
+                value="1"></el-option>
+              <el-option label="衍生品类"
+                value="2"></el-option>
+              <el-option label="活动类"
+                value="3"></el-option>
+              <el-option label="智能硬件类"
+                value="4"></el-option>
+              <el-option label="会员"
+                value="5"></el-option>
+              <el-option label="其他"
+                value="6"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width">
+            <el-input clearable
+              v-model="productCreateForm.operatorId"
+              @change="checkOperatorId"
+              placeholder="创建人"></el-input>
+          </el-form-item>
+          <el-form-item class="form-query-input-width form-left-width">
+            <el-input clearable
+              v-model="productCreateForm.productName"
+              @change="checkProductName"
+              placeholder="产品名称/编码"></el-input>
+          </el-form-item>
+        </div>
+        <div class="flex">
+          <el-form-item class="form-left-width">
+            <el-button type="primary"
+              @click="onSubmit">查询</el-button>
+          </el-form-item>
+          <el-form-item class="form-left-width">
+            <el-button class="el-button--have-icon"
+              @click="toCreatProduct"
+              icon="el-icon-plus">新建产品</el-button>
+          </el-form-item>
+        </div>
+      </el-form>
+      <el-tabs v-model="productCreateForm.productStatus"
+        @tab-click="tabChange">
+        <el-tab-pane label="全部"></el-tab-pane>
+        <el-tab-pane label="待审核"
+          :name="'1'"></el-tab-pane>
+        <el-tab-pane label="已发布"
+          :name="'2'"></el-tab-pane>
+        <!--<el-tab-pane label="待下线" :name="'5'"></el-tab-pane>-->
+        <el-tab-pane label="已下线"
+          :name="'3'"></el-tab-pane>
+        <el-tab-pane label="驳回"
+          :name="'4'"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="m-container table-container">
+      <wm-table :source="productList.list"
+        :total="productList.totalCount"
+        :pageNo="productCreateForm.pageNo"
+        :pageSize="productCreateForm.pageSize"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="产品编码"
+          show-overflow-tooltip
+          property="productCode">
         </el-table-column>
-        <el-table-column label="产品名称" show-overflow-tooltip property="productName">
+        <el-table-column label="产品名称"
+          show-overflow-tooltip
+          property="productName">
         </el-table-column>
-        <el-table-column label="产品类别" property="productType" :formatter="productTypeFn">
+        <el-table-column label="产品类别"
+          property="productType"
+          :formatter="productTypeFn">
         </el-table-column>
-        <el-table-column label="创建人" show-overflow-tooltip property="operatorId">
+        <el-table-column label="创建人"
+          show-overflow-tooltip
+          property="operatorId">
         </el-table-column>
-        <el-table-column label="产品状态" property="productStatusCN">
+        <el-table-column label="产品状态"
+          property="productStatusCN">
           <template slot-scope="scope">
             <div>
               {{scope.row.productStatusCN}}
-              <el-popover v-if="scope.row.productStatus === 3" placement="top" width="200" trigger="hover">
+              <el-popover v-if="scope.row.productStatus === 3"
+                placement="top"
+                width="200"
+                trigger="hover">
                 <div class="o-popover-title">
                   <p class="op-content">{{scope.row.dealResult.doneDate}}</p>
                   <p class="op-content">{{scope.row.dealResult.opName}}驳回</p>
                   <p class="op-content">原因：{{scope.row.dealResult.cancelReason}}</p>
                 </div>
-                <i slot="reference" class="el-icon-info"></i>
+                <i slot="reference"
+                  class="el-icon-info"></i>
               </el-popover>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="160">
+        <el-table-column label="操作"
+          width="160">
           <template slot-scope="operation">
-            <el-button class="table-button" type="text" @click="toPageDetail(operation.row)">
+            <el-button class="table-button"
+              type="text"
+              @click="toPageDetail(operation.row)">
               详情
             </el-button>
-            <el-button v-if="isEdit(operation.row)" class="table-button" type="text" @click="toPageModefiy(operation.row)">
+            <el-button v-if="isEdit(operation.row)"
+              class="table-button"
+              type="text"
+              @click="toPageModefiy(operation.row)">
               修改
             </el-button>
-            <el-button v-if="isDown(operation.row)" class="table-button" type="text" @click="downLine(operation.row)">
+            <el-button v-if="isDown(operation.row)"
+              class="table-button"
+              type="text"
+              @click="downLine(operation.row)">
               下线
             </el-button>
           </template>
         </el-table-column>
-    </wm-table>
+      </wm-table>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -96,6 +140,7 @@ export default {
   },
   data() {
     return {
+      isNotPageChange: true,
       currentId: ''
     };
   },
@@ -140,7 +185,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.setProductOff({'productId': row.productId}).then((res) => {
+        this.setProductOff({ 'productId': row.productId }).then((res) => {
           this.query();
         });
       }).catch((res) => {
@@ -152,9 +197,11 @@ export default {
       this.productCreateForm.pageSize = 20;
       this.query();
     },
-    onPagination(value) {
+    async onPagination(value) {
+      this.isNotPageChange = false;
       this.productCreateForm.pageNo = value;
-      this.query();
+      await this.query();
+      this.isNotPageChange = true;
     },
     onSizePagination(value) {
       this.productCreateForm.pageSize = value;
@@ -167,6 +214,9 @@ export default {
       this.productCreateForm.operatorId = String(value).trim();
     },
     query() {
+      // 查询的时候，需要将pageNo置为1
+      this.productCreateForm.pageNo = this.isNotPageChange ? 1 : this.productCreateForm.pageNo;
+
       let params = Object.cloneDeep(this.productCreateForm);
       switch (this.productCreateForm.productStatus) {
         case '0':
@@ -197,7 +247,7 @@ export default {
       this.query();
     },
     toCreatProduct() {
-      this.$router.push({path: '/product/create'});
+      this.$router.push({ path: '/product/create' });
     },
     toPageDetail(row) {
       this.$router.push(`/product/product-detail/${row.productId}?isDetail=0`);
@@ -213,14 +263,14 @@ export default {
         type: 'warning'
       }).then(() => {
         var _this = this;
-        this.setdeleteProduct({'productId': productId, 'state': 0}).then((res) => {
+        this.setdeleteProduct({ 'productId': productId, 'state': 0 }).then((res) => {
           if (res.data) {
             if (res.data > -1) {
-              _this.$message({showClose: true, message: '已删除产品成功！', type: 'success'});
+              _this.$message({ showClose: true, message: '已删除产品成功！', type: 'success' });
               var data = { pageNo: '1', pageSize: '20' };
               _this.getProductCreatList(data);
             } else {
-              _this.$message({showClose: true, message: '该产品关联订单，不允许删除', type: 'warning'});
+              _this.$message({ showClose: true, message: '该产品关联订单，不允许删除', type: 'warning' });
             }
           }
         });
@@ -265,7 +315,8 @@ export default {
 <style lang="scss">
 @import "scss/variables.scss";
 .p-manage {
-  padding: 24px; background: #fff;
+  padding: 24px;
+  background: #fff;
 }
 .o-popover-title {
   .op-content {
