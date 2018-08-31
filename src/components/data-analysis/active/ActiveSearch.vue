@@ -19,7 +19,7 @@
             :key="i">{{val.value}}</el-radio>
         </el-radio-group>
       </div>
-      <div class="temporary-module">
+      <div class="temporary-module" v-if="currentUser.operator.regionProvinces.length">
         <el-popover v-model="dialogVisible"
           placement="bottom-end"
           width="400"
@@ -33,7 +33,6 @@
             <el-form-item class="form-query-input-width temporary-module-first-input"
               prop="provinceSelected">
               <el-select class="user-form-item__input"
-                v-if="currentUser.operator.regionProvinces.length"
                 v-model="eventObj.provinceSelected"
                 placeholder="选择省份"
                 multiple
