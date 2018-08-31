@@ -29,6 +29,7 @@
             ref="eventForm"
             :rules="eventRules"
             :model="eventObj">
+            <!-- {{eventObj.provinceSelected}} -->
             <el-form-item class="form-query-input-width temporary-module-first-input"
               prop="provinceSelected">
               <el-select class="user-form-item__input"
@@ -47,8 +48,11 @@
                   :label="item.value"
                   :value="item.value" />
               </el-select>
+              <!-- <select-all :list="currentUser.operator.regionProvinces"
+                v-model="eventObj.provinceSelected" /> -->
             </el-form-item>
-            <el-form-item class="form-query-input-width" prop="date">
+            <el-form-item class="form-query-input-width"
+              prop="date">
               <el-date-picker type="daterange"
                 placeholder="选择日期"
                 v-model="eventObj.date"
@@ -61,7 +65,8 @@
                 @click="eventDownload()">立即下载</el-button>
             </el-form-item>
           </el-form>
-          <span slot="reference" class="download_qiuqiu">"球球"新增活跃用户下载
+          <span slot="reference"
+            class="download_qiuqiu">"球球"新增活跃用户下载
             <i class="icon-download"></i>
           </span>
         </el-popover>
@@ -74,8 +79,12 @@
 import { mapState, mapActions } from 'vuex';
 import { CLIENT } from '@/config';
 import moment from 'moment';
+import SelectAll from 'components/SelectAll.vue';
 
 export default {
+  components: {
+    SelectAll,
+  },
   data() {
     return {
       dialogVisible: false,
@@ -174,8 +183,8 @@ export default {
 .temporary-module-first-input {
   margin-top: 16px;
 }
-.download_qiuqiu{
+.download_qiuqiu {
   cursor: pointer;
-  color: #3778FF;
+  color: #3778ff;
 }
 </style>

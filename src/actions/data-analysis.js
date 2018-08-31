@@ -55,16 +55,19 @@ const actions = {
 
   getMembers: ({ commit, state }, params) => {
     const req = activeReq(state);
+    return API.getMembersAPI(req).then(res => {
+      commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
+    });
     // 按月查询
-    if (req.dateType) {
-      return API.getTrendNewMembersMonthAPI(req).then(res => {
-        commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
-      });
-    } else {
-      return API.getMembersAPI(req).then(res => {
-        commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
-      });
-    }
+    // if (req.dateType) {
+    //   return API.getTrendNewMembersMonthAPI(req).then(res => {
+    //     commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
+    //   });
+    // } else {
+    //   return API.getMembersAPI(req).then(res => {
+    //     commit(types.ACTIVE_GET_MEMBERS, res.data.reportList);
+    //   });
+    // }
   },
 
   getMapJson: ({ commit }, params) => {
@@ -164,6 +167,11 @@ const actions = {
         commit(types.ADD_USER_VIP, res.data);
         resolve();
       });
+    });
+  },
+  queryAddUserLastMonthNewNembers({ commit }, params) {
+    return API.queryAddUserVipAPI(params).then(res => {
+      commit(types.ADD_USER_LAST_MONTH_VIP, res.data);
     });
   },
 

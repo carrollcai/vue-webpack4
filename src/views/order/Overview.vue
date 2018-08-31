@@ -118,7 +118,7 @@ export default {
       this.query();
     },
     handleDetail(row) {
-      const path = `/order/overview/detail/${row.ordCode}/${row.processInsId}`;
+      const path = `/order/overview/detail/${row.ordCode}`;
       this.$router.push(path);
     },
     async onPagination(value) {
