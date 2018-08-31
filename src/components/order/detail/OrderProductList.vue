@@ -41,7 +41,6 @@ export default {
   },
   computed: {
     ...mapState({
-      // processList: ({ order }) => order.processList,
       opRegion: ({ root }) => root.currentUser.operator.opRegion,
     })
   },

@@ -16,7 +16,6 @@
         <detail-content v-if="orderOverviewDetail && Object.keys(orderOverviewDetail).length"
           :orderOverviewDetail="orderOverviewDetail" />
       </div>
-      <!-- {{processList}} -->
       <order-product-list :processList="processList"
         :isShowAll="true" />
     </div>
@@ -44,7 +43,6 @@ export default {
     ...mapState({
       orderOverviewDetail: ({ order }) => order.orderOverviewDetail,
       processList: ({ order }) => order.processList,
-      // opRegion: ({ root }) => root.currentUser.operator.opRegion,
     })
   },
   created() {
@@ -64,18 +62,11 @@ export default {
     });
   },
   methods: {
-    // premissionDenied(item) {
-    //   // 如果当前用户所属归属地和流程归属地相同
-    //   if (Number(this.opRegion) === item.companyBelong) {
-    //     return true;
-    //   }
-    // },
     ...mapMutations({
       removeProcessList: 'ORDER_REMOVE_PROCESS_LIST',
     }),
     ...mapActions([
       'getOrderOverviewDetail',
-      // 'getOrderOverviewProcess',
       'getOrderOverviewProcessList',
     ])
   }

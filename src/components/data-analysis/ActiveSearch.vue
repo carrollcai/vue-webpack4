@@ -32,17 +32,17 @@
             <el-form-item class="form-query-input-width temporary-module-first-input"
               prop="provinceSelected">
               <el-select class="user-form-item__input"
-                v-if="currentUser.operator.provinces.length"
+                v-if="currentUser.operator.regionProvinces.length"
                 v-model="eventObj.provinceSelected"
                 placeholder="选择省份"
                 multiple
                 @change="provinceChange"
                 collapse-tags>
-                <el-option v-if="currentUser.operator.provinces.length > 1"
+                <el-option v-if="currentUser.operator.regionProvinces.length > 1"
                   :key="null"
                   label="全部"
                   :value="null" />
-                <el-option v-for="item in currentUser.operator.provinces"
+                <el-option v-for="item in currentUser.operator.regionProvinces"
                   :key="item.value"
                   :label="item.value"
                   :value="item.value" />
@@ -122,9 +122,9 @@ export default {
       });
     },
     provinceChange(val) {
-      const { provinces } = this.currentUser.operator;
+      const { regionProvinces } = this.currentUser.operator;
       let isExistAll = val.some(val => val === null);
-      let provinceNames = provinces.map(val => val.value);
+      let provinceNames = regionProvinces.map(val => val.value);
 
       // 是否点击全部
       let isClickAll = !(isExistAll === this.localProvinceSelected.some(val => val === null));

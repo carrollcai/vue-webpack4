@@ -54,18 +54,14 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
-// import AuditSteps from 'components/AuditSteps.vue';
 import DetailContent from 'components/order/detail/DetailContent.vue';
-// import DetailBar from 'components/order/detail/DetailBar.vue';
 import OrderProductList from 'components/order/detail/OrderProductList.vue';
 import SignHandle from 'components/order/detail/SignHandle.vue';
 import PayHandle from 'components/order/detail/PayHandle.vue';
 
 export default {
   components: {
-    // AuditSteps,
     DetailContent,
-    // DetailBar,
     OrderProductList,
     SignHandle,
     PayHandle,
@@ -161,9 +157,7 @@ export default {
     }),
     ...mapActions([
       'getUserInfoSelf',
-      'getNewFileInputId',
       'getHandleTaskDetail',
-      'uploadOrderHandleTask',
       'getOrderOverviewProcessList',
       'gethasSignedFileList'
     ])

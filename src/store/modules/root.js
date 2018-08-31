@@ -68,6 +68,7 @@ const mutations = {
     let menuIds = [];
     let sidebars = Object.cloneDeep(MENU_PERMISSIONS);
     const provinces = data.secOperatorDTO.provinces.split(',');
+    const regionProvinces = data.secOperatorDTO.regionProvinces.split(',');
 
     state.currentUser.operator.staffName = data.secOperatorDTO.staffName;
     state.currentUser.operator.opRegion = data.secOperatorDTO.opRegion;
@@ -98,8 +99,8 @@ const mutations = {
     state.currentUser.menuIds = menuIds;
     // 当前用户拥有的菜单权限详情列表
     state.currentUser.menuList = sidebars;
-    // 用户拥有的省份权限
-    state.currentUser.operator.provinces = provinces.map(val => {
+
+    const normalizeProvinces = val => {
       let obj = {};
       state.province.map(cval => {
         if (String(val) === String(cval.key)) {
@@ -110,7 +111,23 @@ const mutations = {
         }
       });
       return obj;
+    };
+    // 用户拥有的省份权限
+    state.currentUser.operator.provinces = provinces.map(val => {
+      return normalizeProvinces(val);
+      // let obj = {};
+      // state.province.map(cval => {
+      //   if (String(val) === String(cval.key)) {
+      //     obj = {
+      //       key: cval.key,
+      //       value: cval.value
+      //     };
+      //   }
+      // });
+      // return obj;
     });
+    // 获取用户的归属地所包含省份的权限
+    state.currentUser.operator.regionProvinces = regionProvinces.map(val => normalizeProvinces(val));
   },
 
   [types.ADD_ROUTES](state, data) {
