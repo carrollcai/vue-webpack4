@@ -26,9 +26,14 @@
           <div class="userdata-main-left__rank">全国No.{{overviewData.newActiveNumRank}}</div>
         </div>
       </div>
-      <div class="userdata-main-right">
+      <div class="userdata-main-right"
+        v-if="members.length">
         <div class="userdata-main-right__chart">
-          <Pie :id="'mountNode'" :charData="members" :width="80" :height="80" hasLegend />
+          <Pie :id="'mountNode'"
+            :charData="transformMemebers(members)"
+            :width="80"
+            :height="80"
+            hasLegend />
         </div>
       </div>
     </div>
@@ -37,7 +42,7 @@
 
 <script>
 import Pie from 'components/chart/Pie.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import { twoDaysAgo, oneMonthAgoNoDay } from '@/utils/helper';
 
 export default {
@@ -53,18 +58,26 @@ export default {
   computed: {
     ...mapState({
       members: ({ dataAnalysis }) => dataAnalysis.members,
-      overviewData: ({ dataAnalysis }) => dataAnalysis.addUserOverviewData
+      overviewData: ({ dataAnalysis }) => dataAnalysis.addUserOverviewData,
+      memberType: ({ root }) => root.staticData.MEMBER_TYPE,
     })
   },
   methods: {
-    dateChange() {
-      this.getMembers();
-      this.getDailyActiveUser();
+    transformMemebers(list) {
+      let newList = this.memberType.map(typeItem => {
+        let obj = {};
+        list.map(item => {
+          if (item[`member_${typeItem.value}`] || parseInt(item[`member_${typeItem.value}`] === 0)) {
+            obj = {
+              item: typeItem.label,
+              value: item[`member_${typeItem.value}`]
+            };
+          }
+        });
+        return obj;
+      });
+      return newList.filter(val => val.value);
     },
-    ...mapActions([
-      'getMembers',
-      'getDailyActiveUser'
-    ])
   }
 };
 </script>

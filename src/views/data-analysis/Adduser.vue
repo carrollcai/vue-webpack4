@@ -103,6 +103,7 @@ export default {
 
       if (isProvince()) {
         this.queryOverview();
+        this.queryLastMonthNewNembers();
       }
 
       if (isDistrict() || isWholeCountry()) {
@@ -124,6 +125,18 @@ export default {
         endDate: addFirstDayinMonth(oneMonthAgoNoDay)
       };
       this.queryAddUserOverview(params);
+    },
+    /**
+     * 查询 上一个月新增会员用户
+     */
+    queryLastMonthNewNembers() {
+      const { clientType } = this;
+      let params = {
+        clientType,
+        startDate: oneMonthAgo,
+        endDate: oneMonthAgo
+      };
+      this.queryAddUserLastMonthNewNembers(params);
     },
     /**
      * 获取 查询新增用户数据的参数
@@ -208,7 +221,8 @@ export default {
       'queryAddUserMap',
       'queryAddUserVip',
       'downloadAdduserDataAnalysis',
-      'downloadNewMember'
+      'downloadNewMember',
+      'queryAddUserLastMonthNewNembers',
     ]),
   }
 };

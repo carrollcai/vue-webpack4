@@ -82,7 +82,7 @@ export const dateRange = (rule, value, callback) => {
   const startDate = value[0].getTime();
   const endDate = value[1].getTime();
   const delta = parseInt(endDate - startDate) / 1000 / 60 / 60 / 24;
-  if (delta > DATE_LIMIT) {
+  if (delta > (DATE_LIMIT - 1)) {
     callback(new Error(`时间跨度不能超过${DATE_LIMIT}天`));
   } else {
     callback();

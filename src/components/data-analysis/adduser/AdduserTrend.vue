@@ -110,7 +110,7 @@
             property="newMobileNum" />
           <el-table-column label="新增游客用户"
             property="newVisitNum" />
-          <el-table-column label="新增会员用户"
+          <el-table-column label="新增会员活跃用户"
             property="newActiveNum" />
         </wm-table>
       </div>
