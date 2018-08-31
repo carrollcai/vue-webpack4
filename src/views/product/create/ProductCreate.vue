@@ -392,7 +392,7 @@ export default {
     handleExceed() {
       this.$message({
         message: `附件个数已满${FILE_MAX_COUNT}个`,
-        type: 'warning'
+        type: 'error'
       });
     },
     handleChangeFile(file, fileList) {
