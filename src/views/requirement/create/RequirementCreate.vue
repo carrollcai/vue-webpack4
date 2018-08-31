@@ -280,7 +280,7 @@ export default {
     },
     handleExceed() {
       this.$message({
-        message: `附件个数已满${FILE_MAX_COUNT}个`,
+        message: `文件上传数量不能超过${FILE_MAX_COUNT}个`,
         type: 'error'
       });
     },
