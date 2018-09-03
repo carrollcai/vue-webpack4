@@ -1,11 +1,11 @@
 <template>
   <el-select v-if="list"
     v-model="internalValue"
-    placeholder="选择省份"
+    :placeholder="placeholder"
     multiple
     @change="selectChange"
     collapse-tags>
-    <el-option v-if="list > 1"
+    <el-option v-if="list.length > 1"
       :key="null"
       label="全部"
       :value="null" />
@@ -17,8 +17,14 @@
 </template>
 
 <script>
+/**
+ * @author carroll
+ * @since 20180903
+ * @description select-all组件，添加全部选中的功能。全部为key为null，数据提交的时候需要去除。
+*/
 export default {
   props: {
+    collapseTags: Boolean,
     value: {
       default: () => [],
       type: Array
@@ -39,8 +45,14 @@ export default {
   data() {
     return {
       internalValue: [],
-      localList: [],
+      localList: [], // 本地的备份，用于对比
     };
+  },
+  created() {
+    this.initializeAll();
+  },
+  beforeUpdate() {
+    this.initializeAll();
   },
   watch: {
     internalValue(val) {
@@ -48,14 +60,26 @@ export default {
       this.$emit('input', value);
       this.$emit('change', value);
     },
+    value(val) {
+      this.initializeValue();
+    }
   },
   methods: {
+    initializeAll() {
+      if (this.value.length === this.list.length && this.value.length > 1) {
+        this.internalValue.push(null);
+        this.localList = Object.cloneDeep(this.internalValue);
+      }
+    },
+
     getValue() {
       return this.internalValue;
     },
-    selectChange(val) {
+
+    selectChange(value) {
       const { list } = this;
-      let isExistAll = val.some(val => val === null);
+      let selected = Object.cloneDeep(this.getValue());
+      let isExistAll = value.some(val => val === null);
       let names = list.map(val => val.value);
 
       // 是否点击全部
@@ -64,26 +88,32 @@ export default {
       // 点击全部
       if (isClickAll) {
         // 子选项未全选
-        if (val.length !== names.length) {
-          this.selected = names;
-          this.selected.push(null);
+        if (value.length !== names.length ||
+          (value.length === names.length && isExistAll)) {
+          selected = names;
+          selected.push(null);
         } else {
           // 子选项已全选
-          this.selected = [];
+          selected = [];
         }
       } else {
-        if (!isExistAll && val.length === names.length) {
-          this.selected.push(null);
+        if (!isExistAll && value.length === names.length) {
+          selected.push(null);
         } else {
-          this.selected = this.selected.filter(val => val !== null);
+          selected = selected.filter(val => val !== null);
         }
       }
-      this.localList = Object.cloneDeep(this.selected);
-      this.$emit('selectChange', this.selected);
+      this.localList = Object.cloneDeep(selected);
+      this.internalValue = Object.cloneDeep(selected);
+    },
+
+    initializeValue(value) {
+      this.internalValue = this.getInitializeValue(this.value);
+    },
+
+    getInitializeValue(value) {
+      return this.value === undefined || this.value === null ? '' : this.value;
     }
   }
 };
 </script>
-
-<style>
-</style>

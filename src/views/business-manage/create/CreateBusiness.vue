@@ -10,21 +10,30 @@
     </div>
     <div class="container">
       <div>
-      <el-form :rules="rules" ref="businessForm" :model="form" label-width="140px">
-        <el-form-item label="商机类别：" prop="opporType">
-          <el-select class="form-input-medium" v-model="form.opporType" placeholder="请选择属性">
-              <el-option
-              v-for="item in BIZ_OPPOR_TYPE"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+        <el-form :rules="rules"
+          ref="businessForm"
+          :model="form"
+          label-width="140px">
+          <el-form-item label="商机类别："
+            prop="opporType">
+            <el-select class="form-input-medium"
+              v-model="form.opporType"
+              placeholder="请选择属性">
+              <el-option v-for="item in BIZ_OPPOR_TYPE"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
               </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商机名称：" prop="opporName">
-          <el-input maxlength="25" v-model="form.opporName" class="form-input-medium" placeholder="请输入商机名称" />
-        </el-form-item>
-        <!-- <el-form-item label="预计收入：" prop="predictContractAmount">
+            </el-select>
+          </el-form-item>
+          <el-form-item label="商机名称："
+            prop="opporName">
+            <el-input maxlength="25"
+              v-model="form.opporName"
+              class="form-input-medium"
+              placeholder="请输入商机名称" />
+          </el-form-item>
+          <!-- <el-form-item label="预计收入：" prop="predictContractAmount">
           <el-input v-model="form.predictContractAmount" class="form-input-medium" placeholder="请输入预计收入">
             <template slot="append">万元</template>
           </el-input>
@@ -46,48 +55,94 @@
           <el-radio v-model="form.isProjectInvitation" label="1">是</el-radio>
           <el-radio v-model="form.isProjectInvitation" label="0">否</el-radio>
         </el-form-item> -->
-        <el-form-item label="合作集团：" prop="organizeName">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="form.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
-          <el-card class="create-business-box-card" v-if="noData">
-            <div>
-              系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
-            </div>
-          </el-card>
-          <span class="form-input-sep">-</span>
-          <el-form-item prop="address" style="display:inline-block;">
-            <el-input @focus="noData = false;" @blur="noData = false;" maxlength="50" class="form-input-half" v-model="form.address" placeholder="办公地址"></el-input>
+          <el-form-item label="合作集团："
+            prop="organizeName">
+            <el-autocomplete maxlength="25"
+              class="form-input-half"
+              v-model="form.organizeName"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="合作集团/编码"
+              @select="handleSelect"
+              @blur="noData = false;"></el-autocomplete>
+            <el-card class="create-business-box-card"
+              v-if="noData">
+              <div>
+                系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
+              </div>
+            </el-card>
+            <span class="form-input-sep">-</span>
+            <el-form-item prop="address"
+              style="display:inline-block;">
+              <el-input @focus="noData = false;"
+                @blur="noData = false;"
+                maxlength="50"
+                class="form-input-half"
+                v-model="form.address"
+                placeholder="办公地址"></el-input>
+            </el-form-item>
           </el-form-item>
-        </el-form-item>
-        <el-form-item label="联系人员：" prop="contactName">
-          <el-input maxlength="6" class="form-input-80" v-model="form.contactName" placeholder="姓名"></el-input>
-          <span class="form-input-sep">-</span>
-          <el-form-item prop="contactGender" style="display: inline-block;">
-            <el-select class="form-input-80" v-model="form.contactGender" placeholder="性别">
-              <el-option v-for="item in SEX"
-                    :key="item.value"
-                    :value="item.value"
-                    :label="item.label" ></el-option>
-            </el-select>
+          <el-form-item label="联系人员："
+            prop="contactName">
+            <el-input maxlength="6"
+              class="form-input-80"
+              v-model="form.contactName"
+              placeholder="姓名"></el-input>
+            <span class="form-input-sep">-</span>
+            <el-form-item prop="contactGender"
+              style="display: inline-block;">
+              <el-select class="form-input-80"
+                v-model="form.contactGender"
+                placeholder="性别">
+                <el-option v-for="item in SEX"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"></el-option>
+              </el-select>
+            </el-form-item>
+            <span class="form-input-sep">-</span>
+            <el-form-item prop="contactMobile"
+              style="display: inline-block;">
+              <el-input maxlength="11"
+                class="form-input-120"
+                v-model="form.contactMobile"
+                placeholder="手机号"></el-input>
+            </el-form-item>
           </el-form-item>
-          <span class="form-input-sep">-</span>
-          <el-form-item prop="contactMobile" style="display: inline-block;">
-            <el-input maxlength="11" class="form-input-120" v-model="form.contactMobile" placeholder="手机号"></el-input>
+          <el-form-item label="联系邮箱："
+            prop="contactEmail">
+            <el-input maxlength="35"
+              class="form-input-320"
+              v-model="form.contactEmail"
+              placeholder="请输入邮箱"></el-input>
           </el-form-item>
-        </el-form-item>
-        <el-form-item label="联系邮箱：" prop="contactEmail">
-          <el-input maxlength="35" class="form-input-320" v-model="form.contactEmail" placeholder="请输入邮箱"></el-input>
-        </el-form-item>
-        <el-form-item label="业务描述：" prop="busiDesc">
-          <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="form.busiDesc"></el-input>
-        </el-form-item>
-        <el-form-item label="合作建议：" prop="busiOperating">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入合作建议" v-model="form.busiOperating"></el-input>
-        </el-form-item>
-        <el-form-item label="商机有效期：" prop="busiValidity">
-          <el-input v-model="form.busiValidity" maxlength="2" class="form-input-medium" placeholder="请输入商机有效期">
-            <template slot="append">月</template>
-          </el-input>
-          <!-- <el-select v-model="form.busiValidity" placeholder="请选择">
+          <el-form-item label="业务描述："
+            prop="busiDesc">
+            <el-input maxlength="500"
+              resize="none"
+              class="form-input-320"
+              type="textarea"
+              :rows="3"
+              placeholder="请输入业务描述"
+              v-model="form.busiDesc"></el-input>
+          </el-form-item>
+          <el-form-item label="合作建议："
+            prop="busiOperating">
+            <el-input maxlength="500"
+              class="form-input-320"
+              type="textarea"
+              :rows="3"
+              placeholder="请输入合作建议"
+              v-model="form.busiOperating"></el-input>
+          </el-form-item>
+          <el-form-item label="商机有效期："
+            prop="busiValidity">
+            <el-input v-model="form.busiValidity"
+              maxlength="2"
+              class="form-input-medium"
+              placeholder="请输入商机有效期">
+              <template slot="append">月</template>
+            </el-input>
+            <!-- <el-select v-model="form.busiValidity" placeholder="请选择">
             <el-option
               v-for="item in busiValidityList"
               :key="item.value"
@@ -95,52 +150,58 @@
               :value="item.value">
             </el-option>
           </el-select> -->
-        </el-form-item>
-        <el-form-item label="附件：" label-width="130px" prop="files">
-          <el-upload class="upload-demo" action=""
-            :auto-upload="false"
-            :on-change="fileChange"
-            :multiple="false"
-            :on-remove="removeFile"
-            :file-list="uploadData.files">
-            <el-button slot="trigger" size="small">
-              <i class="icon-up margin-right-8"></i>上传文件
-            </el-button>
-            <div slot="tip" class="el-upload__tip">
-              <p class="lh1-5">{{FILE_TIP[0]}}</p>
-              <p class="lh1-5">{{FILE_TIP[1]}}</p>
-            </div>
-          </el-upload>
-        </el-form-item>
-      </el-form>
+          </el-form-item>
+          <el-form-item label="附件："
+            label-width="130px"
+            prop="files">
+            <el-upload class="upload-demo"
+              action=""
+              :auto-upload="false"
+              :on-change="fileChange"
+              :multiple="false"
+              :on-remove="removeFile"
+              :file-list="uploadData.files">
+              <el-button slot="trigger"
+                size="small">
+                <i class="icon-up margin-right-8"></i>上传文件
+              </el-button>
+              <div slot="tip"
+                class="el-upload__tip">
+                <p class="lh1-5">{{FILE_TIP[0]}}</p>
+                <p class="lh1-5">{{FILE_TIP[1]}}</p>
+              </div>
+            </el-upload>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
     <div style="background: #fff;">
       <div class="hr"></div>
       <div class="b-container">
-          <el-form label-width="140px" style="width: 545px;">
-            <el-form-item label="提醒人设置：">
-              <el-form-item class="business-linkage" prop="visitAuditor">
-                <el-cascader v-if="remindPerson"
-                  @change="getProcessor"
-                  :options="remindPerson"
-                  v-model="form.processorData"
-                  :placeholder="''"
-                  :change-on-select="false">
-                </el-cascader>
-                <div class="tag-list">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in form.regionData.processorList"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)">
-                    {{tag}}
-                  </el-tag>
-                </div>
-              </el-form-item>
+        <el-form label-width="140px"
+          style="width: 545px;">
+          <el-form-item label="提醒人设置：">
+            <el-form-item class="business-linkage"
+              prop="visitAuditor">
+              <el-cascader v-if="remindPerson"
+                @change="getProcessor"
+                :options="remindPerson"
+                v-model="form.processorData"
+                :placeholder="''"
+                :change-on-select="false">
+              </el-cascader>
+              <div class="tag-list">
+                <el-tag :key="tag"
+                  v-for="tag in form.regionData.processorList"
+                  closable
+                  :disable-transitions="false"
+                  @close="handleClose(tag)">
+                  {{tag}}
+                </el-tag>
+              </div>
             </el-form-item>
-            <!-- <el-form-item label="提醒人设置：">
+          </el-form-item>
+          <!-- <el-form-item label="提醒人设置：">
               <el-select class="form-input-medium" v-model="form.remindersArr" placeholder="请选择提醒人" multiple>
                   <el-option
                   v-for="item in remindPerson"
@@ -150,11 +211,15 @@
                   </el-option>
               </el-select>
             </el-form-item> -->
-            <el-form-item label="">
-              <el-button type="primary" :disabled="isClick" @click="submit">提交</el-button>
-              <el-button plain :disabled="isClick" @click="save">保存为草稿</el-button>
-            </el-form-item>
-          </el-form>
+          <el-form-item label="">
+            <el-button type="primary"
+              :disabled="isClick"
+              @click="submit">提交</el-button>
+            <el-button plain
+              :disabled="isClick"
+              @click="save">保存为草稿</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
@@ -168,7 +233,7 @@ import { checkPhone, emailCheck, checkLeftRightSpace, textAccountLimit, fileVali
 import filters from '@/views/business-manage/filters';
 import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
 import { fileBeforeUpload } from '@/utils/common.js';
-const busiValidityList = [{value: 1, label: '一个月'}, {value: 3, label: '三个月'}, {value: 6, label: '半年'}];
+const busiValidityList = [{ value: 1, label: '一个月' }, { value: 3, label: '三个月' }, { value: 6, label: '半年' }];
 export default {
   mixins: [filters],
   components: {
@@ -317,7 +382,7 @@ export default {
       let processor = value[2] || null;
       let regionName = '';
 
-      let existProcessors = _.filter(this.form.regionData.regionList, {processorValue: processor});
+      let existProcessors = _.filter(this.form.regionData.regionList, { processorValue: processor });
       // 防止重复添加
       if (existProcessors && existProcessors.length) {
         return;
@@ -395,14 +460,13 @@ export default {
       };
     },
     async getFileId() {
-      await this.getNewFileInputId().then((res) => {
-        this.uploadData.fileInputId = res;
-        this.form.fileInputId = res;
-        if (this.uploadData.files.length > 0) {
-          this.uploadOrderHandleTask(this.uploadData);
-        }
-        return this.form;
-      });
+      let res = await this.getNewFileInputId();
+      this.uploadData.fileInputId = res;
+      this.form.fileInputId = res;
+      if (this.uploadData.files.length > 0) {
+        await this.uploadOrderHandleTask(this.uploadData);
+      }
+      return this.form;
     },
     async submit() {
       this.isClick = true;
@@ -410,7 +474,7 @@ export default {
       this.form.regionData.regionList.filter((item, index, array) => {
         this.form.remindersArr.push(item.processorValue);
       });
-      let {...params} = this.form;
+      let { ...params } = this.form;
       this.$refs['businessForm'].validate(valid => {
         delete params.regionData;
         delete params.processorData;
@@ -437,7 +501,7 @@ export default {
       this.form.regionData.regionList.filter((item, index, array) => {
         this.form.remindersArr.push(item.processorValue);
       });
-      let {...params} = this.form;
+      let { ...params } = this.form;
       this.$refs['businessForm'].validate(valid => {
         if (!valid) {
           this.isClick = false;
@@ -480,36 +544,47 @@ export default {
   justify-content: center;
 }
 .b-container {
-  display: flex;-webkit-box-pack: center;justify-content: center;margin-top:32px;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin-top: 32px;
 }
 .el-input-group__append {
-    background-color: #fff;
-    padding: 0 5px;
+  background-color: #fff;
+  padding: 0 5px;
 }
 .hr {
-  height:1px;background:#e5e5e5;margin: 0px 32px;
+  height: 1px;
+  background: #e5e5e5;
+  margin: 0px 32px;
 }
 .create-business-box-card {
-  position:absolute;z-index:2;line-height:20px;
+  position: absolute;
+  z-index: 2;
+  line-height: 20px;
   .el-card__body {
     padding: 10px;
-    color: rgba(0,0,0,0.45);
+    color: rgba(0, 0, 0, 0.45);
   }
 }
 .business-linkage {
   position: relative;
-  border: 1px #E7E7E7 solid;
+  border: 1px #e7e7e7 solid;
   border-radius: 3px;
   .el-cascader {
     width: 395px;
-    .el-input input {border: 0;}
+    .el-input input {
+      border: 0;
+    }
   }
   .tag-list {
     margin-top: -40px;
     width: 300px;
     position: relative;
     z-index: 2;
-    .el-tag {margin-left: 8px;}
+    .el-tag {
+      margin-left: 8px;
+    }
   }
 }
 </style>
