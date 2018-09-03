@@ -320,7 +320,6 @@
 import { mapState, mapActions } from 'vuex';
 import mixins from './mixins';
 import { FILE_TYPE_ID } from '@/config/index.js';
-import endsWith from 'lodash/endsWith';
 import { fileBeforeUpload } from '@/utils/common.js';
 
 import {
@@ -383,7 +382,7 @@ export default {
   methods: {
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
-        if (endsWith(fileName.toLowerCase(), accept)) {
+        if (fileName.toLowerCase().endsWith(accept)) {
           return true;
         }
       }

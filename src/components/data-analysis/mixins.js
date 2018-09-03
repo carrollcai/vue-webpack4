@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { mapState } from 'vuex';
 import moment from 'moment';
 
@@ -13,13 +12,15 @@ export default {
     // 大区
     DISTRICTS() {
       let list = this.staticData.REGION || [];
-      list = _.filter(list, (item) => {
-        return _.startsWith(item.value, '100003') && item.value !== '100003';
-      });
+      // list = _.filter(list, (item) => {
+      //   return _.startsWith(item.value, '100003') && item.value !== '100003';
+      // });
+      list = list.filter(item => item.value.startsWith('100003') && item.value !== '100003');
       return list;
     },
     MEMBER_TYPE() {
-      let list = _.cloneDeep(this.staticData.MEMBER_TYPE) || [];
+      // let list = _.cloneDeep(this.staticData.MEMBER_TYPE) || [];
+      let list = Object.cloneDeep(this.staticData.MEMBER_TYPE) || [];
 
       list.shift();
 
@@ -35,11 +36,6 @@ export default {
     };
   },
   methods: {
-    memberNumFilter(value) {
-      let result = _.find(this.DISTRICTS, { value });
-
-      return result ? result.label : '';
-    },
     startOptions(endDate) {
       return {
         disabledDate(time) {

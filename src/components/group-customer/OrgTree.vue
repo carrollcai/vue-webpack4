@@ -5,9 +5,9 @@
 <script>
 import Echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/graph';
-import map from 'lodash/map';
-import concat from 'lodash/concat';
-import findIndex from 'lodash/findIndex';
+// import map from 'lodash/map';
+// import concat from 'lodash/concat';
+// import findIndex from 'lodash/findIndex';
 
 export default {
   name: 'OrgTree',
@@ -70,7 +70,7 @@ export default {
       };
     },
     deep(data) {
-      const {MAX_VALUE, STEP} = this;
+      const { MAX_VALUE, STEP } = this;
       const that = this;
       let items = [];
 
@@ -115,14 +115,17 @@ export default {
 
         for (let contact of tree) {
           let arr = this.deep(contact);
-          data = concat(data, arr);
+          // data = concat(data, arr);
+          data = data.concat(arr);
         }
 
         for (let contact of data) {
           if (contact.parentContactId) {
             links.push({
-              'source': findIndex(data, {id: contact.id}),
-              'target': findIndex(data, {id: contact.parentContactId})
+              // 'source': findIndex(data, { id: contact.id }),
+              source: data.findIndex(val => Number(val.id) === Number(contact.id)),
+              // 'target': findIndex(data, { id: contact.parentContactId })
+              target: data.findIndex(val => Number(val.id) === Number(contact.parentContactId))
             });
           }
 
@@ -151,7 +154,7 @@ export default {
           color: '#cdd0d5'
         }]),
         legend: [{
-          formatter: function(name) {
+          formatter: (name) => {
             return Echarts.format.truncateText(name, 40, '14px Microsoft Yahei', '…');
           },
           tooltip: {
@@ -216,7 +219,8 @@ export default {
       force.links = data.links;
       force.categories = data.categories;
 
-      option.legend[0].data = map(data.categories, 'name');
+      // option.legend[0].data = map(data.categories, 'name');
+      option.legend[0].data = data.categories.map(val => val.name);
 
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
@@ -225,7 +229,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#orgTree{
+#orgTree {
   width: 100%;
   height: 600px;
 }

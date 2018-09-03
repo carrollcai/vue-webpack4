@@ -170,6 +170,7 @@
         <org-tree :contacts="contacts"></org-tree>
       </template>
     </div>
+    <!-- <tree-column id="test" /> -->
   </div>
 </template>
 
@@ -180,10 +181,12 @@ import OrgTree from 'components/group-customer/OrgTree.vue';
 import filters from './filters';
 import { PAGE_NO, PAGE_SIZE } from '@/config';
 import find from 'lodash/find';
+// import TreeColumn from 'components/chart/TreeColumn.vue';
 export default {
   components: {
     WmTable,
-    OrgTree
+    OrgTree,
+    // TreeColumn,
   },
   mixins: [filters],
   data() {
