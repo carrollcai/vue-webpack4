@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import * as types from '@/store/types';
 
@@ -40,7 +40,7 @@ export default {
       return {
         disabledDate(time) {
           if (endDate) {
-            return (time.getTime() < moment(endDate).add(-12, 'months').toDate().getTime()) || (time.getTime() > new Date(endDate).getTime());
+            return (time.getTime() < dayjs(endDate).add(-12, 'month').toDate().getTime()) || (time.getTime() > new Date(endDate).getTime());
           } else {
             return time.getTime() > Date.now();
           }
@@ -51,7 +51,7 @@ export default {
       return {
         disabledDate(time) {
           if (startDate) {
-            return (time.getTime() > moment(startDate).add(12, 'months').toDate().getTime()) || (time.getTime() < new Date(startDate).getTime());
+            return (time.getTime() > dayjs(startDate).add(12, 'month').toDate().getTime()) || (time.getTime() < new Date(startDate).getTime());
           } else {
             return time.getTime() > Date.now();
           }

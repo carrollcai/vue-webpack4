@@ -1,5 +1,5 @@
 import find from 'lodash/find';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { mapState } from 'vuex';
 export default {
   computed: {
@@ -130,11 +130,10 @@ export default {
     },
     formateDate(date) {
       if (date) {
-        return moment(date).format('YYYY-MM-DD');
+        return dayjs(date).format('YYYY-MM-DD');
       } else {
         return '';
       }
-      // return moment(date).format('YYYY-MM-DD');
     }
   }
 };

@@ -17,7 +17,7 @@ import {
   INPUT_NUMBER_LIMIT,
   INPUT_MONTH_MAX_LIMIT,
 } from '@/config/index.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 // 输入内容不能为空格
 export const isEmpty = (rule, value, callback) => {
@@ -91,8 +91,8 @@ export const dateRange = (rule, value, callback) => {
 
 // 月时间校验
 export const monthRange = (startDate, endDate, callback) => {
-  const startDatefFormat = moment(startDate).format('YYYY-MM');
-  const endDatefFormat = moment(endDate).format('YYYY-MM');
+  const startDatefFormat = dayjs(startDate).format('YYYY-MM');
+  const endDatefFormat = dayjs(endDate).format('YYYY-MM');
   const startArr = startDatefFormat.split('-');
   const endArr = endDatefFormat.split('-');
 
