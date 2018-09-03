@@ -19,7 +19,8 @@
             :key="i">{{val.value}}</el-radio>
         </el-radio-group>
       </div>
-      <div class="temporary-module" v-if="currentUser.operator.regionProvinces.length">
+      <div class="temporary-module"
+        v-if="currentUser.operator.regionProvinces.length">
         <el-popover v-model="dialogVisible"
           placement="bottom-end"
           width="400"
@@ -29,26 +30,13 @@
             ref="eventForm"
             :rules="eventRules"
             :model="eventObj">
-            <!-- {{eventObj.provinceSelected}} -->
             <el-form-item class="form-query-input-width temporary-module-first-input"
               prop="provinceSelected">
-              <el-select class="user-form-item__input"
+              <select-all placeholder="省份选择"
+                v-if="currentUser.operator.regionProvinces.length"
+                :list="currentUser.operator.regionProvinces"
                 v-model="eventObj.provinceSelected"
-                placeholder="选择省份"
-                multiple
-                @change="provinceChange"
-                collapse-tags>
-                <el-option v-if="currentUser.operator.regionProvinces.length > 1"
-                  :key="null"
-                  label="全部"
-                  :value="null" />
-                <el-option v-for="item in currentUser.operator.regionProvinces"
-                  :key="item.value"
-                  :label="item.value"
-                  :value="item.value" />
-              </el-select>
-              <!-- <select-all :list="currentUser.operator.regionProvinces"
-                v-model="eventObj.provinceSelected" /> -->
+                collapse-tags />
             </el-form-item>
             <el-form-item class="form-query-input-width"
               prop="date">
@@ -88,7 +76,6 @@ export default {
     return {
       dialogVisible: false,
       client: CLIENT,
-      localProvinceSelected: [],
       activeSearchRules: {
         clientSelected: [
           { required: true, message: '请选择客户端', trigger: 'change' }
@@ -128,33 +115,6 @@ export default {
           province: params.provinceSelected,
         });
       });
-    },
-    provinceChange(val) {
-      const { regionProvinces } = this.currentUser.operator;
-      let isExistAll = val.some(val => val === null);
-      let provinceNames = regionProvinces.map(val => val.value);
-
-      // 是否点击全部
-      let isClickAll = !(isExistAll === this.localProvinceSelected.some(val => val === null));
-
-      // 点击全部
-      if (isClickAll) {
-        // 子选项未全选
-        if (val.length !== provinceNames.length) {
-          this.eventObj.provinceSelected = provinceNames;
-          this.eventObj.provinceSelected.push(null);
-        } else {
-          // 子选项已全选
-          this.eventObj.provinceSelected = [];
-        }
-      } else {
-        if (!isExistAll && val.length === provinceNames.length) {
-          this.eventObj.provinceSelected.push(null);
-        } else {
-          this.eventObj.provinceSelected = this.eventObj.provinceSelected.filter(val => val !== null);
-        }
-      }
-      this.localProvinceSelected = Object.cloneDeep(this.eventObj.provinceSelected);
     },
     query() {
       this.$emit('query');
