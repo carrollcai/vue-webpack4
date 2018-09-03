@@ -90,7 +90,8 @@
               走访汇报
             </el-button>
             <!-- 自建的则支持修改 -->
-            <el-button v-if="scope.row.visitStatus === '1' && scope.row.visitResource === 1"
+            <el-button class="table-button"
+              v-if="scope.row.visitStatus === '1' && scope.row.visitResource === 1"
               type="text"
               @click="createVisit(scope.row)">
               编辑

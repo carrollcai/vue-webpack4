@@ -1,7 +1,7 @@
 <template>
   <div class="tabs">
     <div class="tab-more" :class="isOpen ? 'blue' : ''" @click.stop="isShow">
-      更多 <i class="el-icon el-icon-arrow-down" :class="isOpen ? 'el-table__expand-icon--expanded' : ''"></i>
+      更多 <i class="el-icon el-icon-arrow-down" :class="String(isOpen) === 'true' ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
     </div>
     <div v-if="String(isOpen) === 'true'" class="open-tabs">
       <p class="open-tabs_tab" :class="statusData === item.value ? 'blue' : ''" v-for="item in stateList" :key="item.value" @click="getState(item)">{{statusDatas}}{{item.name}}</p>

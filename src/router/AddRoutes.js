@@ -62,8 +62,6 @@ import OrderHandleTaskDetail from '@/views/order/detail/HandleTaskDetail.vue';
 /* 我的走访管理 */
 import MyVisitManage from '@/views/visit/MyVisitManage.vue';
 import CreateVisitApplication from '@/views/visit/create/CreateVisitApplication.vue';
-import ExecuteProcess from '@/views/visit/detail/ExecuteProcess.vue';
-import MyVisitView from '@/views/visit/detail/MyVisitView.vue';
 
 /* 走访指派 */
 import VisitAppoint from '@/views/visit/VisitAppoint.vue';
@@ -329,18 +327,6 @@ const dynamicRoutes = [
         path: '/visit/visit-application-detail/:id',
         name: 'visit-application-detail',
         component: VisitAppointDetail,
-        meta: { menuId: 31 }
-      },
-      {
-        path: '/visit/my-visit-view',
-        name: 'my-visit-view',
-        component: MyVisitView,
-        meta: { menuId: 31 }
-      },
-      {
-        path: '/visit/execute-process',
-        name: 'execute-process',
-        component: ExecuteProcess,
         meta: { menuId: 31 }
       },
 
