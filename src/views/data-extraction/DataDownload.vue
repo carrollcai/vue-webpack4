@@ -34,13 +34,12 @@
       </el-tabs>
       <el-dropdown class="tabs" @command="commandFn">
         <span :class="downloadForm.status != 100 && downloadForm.status > 3 ? 'el-dropdown-link' : ''">
-          {{commandName}}<i class="el-icon-arrow-down el-icon--right" :class="isSlidUp === '1' ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+          {{commandName}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-model="downloadForm.status" v-for="item in stateList" :command="item" :key="item.value">{{item.label}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <!-- <more-tabs :statusData.sync="downloadForm.status" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs> -->
     </div>
   </div>
   <div class="m-container table-container">
@@ -96,13 +95,11 @@
 
 <script>
 import WmTable from 'components/Table.vue';
-import MoreTabs from 'components/data-extraction/MoreTabs.vue';
 import { mapState, mapActions } from 'vuex';
 import {PAGE_NO, PAGE_SIZE} from '@/config/index.js';
 export default {
   components: {
-    WmTable,
-    MoreTabs
+    WmTable
   },
   data() {
     return {
@@ -113,19 +110,10 @@ export default {
         {value: 4, label: '审核不通过'},
         {value: 5, label: '已取消'}
       ],
-      commandName: '更多',
-      isSlidUp: '0'
+      commandName: '更多'
     };
   },
   computed: {
-    isOpenData() {
-      let _this = this;
-      let state = this.downloadForm.extractBusinessStatus;
-      if (state === 4 || state === 5 || state === 6) {
-        _this.downloadForm.isOpen = true;
-      }
-      return this.downloadForm.isOpen;
-    },
     ...mapState({
       downloadForm: ({ dataExtraction }) => dataExtraction.downloadForm,
       dataDownloadList: ({ dataExtraction }) => dataExtraction.dataDownloadList,
@@ -140,12 +128,10 @@ export default {
   },
   methods: {
     commandFn(item) {
-      this.isSlidUp = this.isSlidUp === '0' ? '1' : '0';
       this.downloadForm.status = item.value;
       this.commandName = item.label;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
-      this.downloadForm.isOpen = false;
       this.query();
     },
     async querySearchAsync(queryString, cb) {
@@ -200,19 +186,11 @@ export default {
         this.downloadForm.endDate = '';
       }
     },
-    getStateFn(value) {
-      this.downloadForm.status = value;
-      this.downloadForm.pageNo = this.pageNo;
-      this.downloadForm.pageSize = this.pageSize;
-      this.downloadForm.isOpen = true;
-      this.query();
-    },
     getState(value) {
       this.commandName = '更多';
       this.downloadForm.status = value.name;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
-      this.downloadForm.isOpen = false;
       this.query();
     },
     onPagination(value) {
@@ -236,7 +214,6 @@ export default {
       let { ...data } = this.downloadForm;
       delete data.status;
       delete data.timeRange;
-      delete data.isOpen;
       await this.queryDataDownload(data);
     },
     confirm(info, name, id) {

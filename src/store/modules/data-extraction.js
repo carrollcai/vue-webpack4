@@ -13,7 +13,6 @@ const state = {
     name: '',
     extractBusinessStatus: null,
     status: 100,
-    isOpen: null,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
     timeRange: ''
