@@ -32,7 +32,15 @@
         <el-tab-pane label="数据生成中" :name="2"></el-tab-pane>
         <el-tab-pane label="生成成功" :name="3"></el-tab-pane>
       </el-tabs>
-      <more-tabs :statusData.sync="downloadForm.status" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs>
+      <el-dropdown class="tabs" @command="commandFn">
+        <span :class="downloadForm.status != 100 && downloadForm.status > 3 ? 'el-dropdown-link' : ''">
+          {{commandName}}<i class="el-icon-arrow-down el-icon--right" :class="isSlidUp === '1' ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item v-model="downloadForm.status" v-for="item in stateList" :command="item" :key="item.value">{{item.label}}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <!-- <more-tabs :statusData.sync="downloadForm.status" :isOpen.sync="isOpenData" @getStateFn="getStateFn"></more-tabs> -->
     </div>
   </div>
   <div class="m-container table-container">
@@ -100,7 +108,13 @@ export default {
     return {
       pageNo: PAGE_NO,
       pageSize: PAGE_SIZE,
-      extractBusinessStatus: 0
+      stateList: [
+        {value: 6, label: '生成不成功'},
+        {value: 4, label: '审核不通过'},
+        {value: 5, label: '已取消'}
+      ],
+      commandName: '更多',
+      isSlidUp: '0'
     };
   },
   computed: {
@@ -125,6 +139,15 @@ export default {
     });
   },
   methods: {
+    commandFn(item) {
+      this.isSlidUp = this.isSlidUp === '0' ? '1' : '0';
+      this.downloadForm.status = item.value;
+      this.commandName = item.label;
+      this.downloadForm.pageNo = this.pageNo;
+      this.downloadForm.pageSize = this.pageSize;
+      this.downloadForm.isOpen = false;
+      this.query();
+    },
     async querySearchAsync(queryString, cb) {
       if (!queryString.trim()) return false;
       let params = {
@@ -185,6 +208,7 @@ export default {
       this.query();
     },
     getState(value) {
+      this.commandName = '更多';
       this.downloadForm.status = value.name;
       this.downloadForm.pageNo = this.pageNo;
       this.downloadForm.pageSize = this.pageSize;
@@ -245,3 +269,29 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+
+.tab-bar {
+  margin: 0;
+  padding: 0;
+  height: 16px;
+  position: relative;
+  color: #303133;
+  .el-table__expand-icon--expanded {
+    transform: rotate(180deg);
+  }
+  .blue {color: #3778FF;}
+  .el-tabs__nav-wrap::after {
+    display: none;
+  }
+  .open-tabs_tab, .tab-more{
+    cursor: pointer;
+  }
+}
+.tabs {
+  position: absolute !important;
+  left: 355px;
+  top: 11px;
+}
+</style>
