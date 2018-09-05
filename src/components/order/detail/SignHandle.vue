@@ -173,11 +173,6 @@ export default {
       this.$refs.assign[0].validateField('files');
     },
     submitAssignForm() {
-      // this.fullscreenLoading = true;
-      // setTimeout(() => {
-      //   this.fullscreenLoading = false;
-      // }, 5000);
-
       // 当$refs在循环里，会变成一个数组
       this.$refs.assign[0].validate(valid => {
         if (!valid) return false;

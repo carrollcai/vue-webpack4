@@ -26,6 +26,7 @@
               </el-option>
             </el-select>
           </el-form-item>
+
           <el-form-item label="商机名称："
             prop="opporName">
             <el-input maxlength="25"
@@ -33,28 +34,7 @@
               class="form-input-medium"
               placeholder="请输入商机名称" />
           </el-form-item>
-          <!-- <el-form-item label="预计收入：" prop="predictContractAmount">
-          <el-input v-model="form.predictContractAmount" class="form-input-medium" placeholder="请输入预计收入">
-            <template slot="append">万元</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="预计签约时间：" prop="predictSignTime">
-          <el-date-picker class="form-input-medium" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="date" v-model="form.predictSignTime" placeholder="请选择时间"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="预计协议期：" prop="predictAgreementTime">
-          <el-select class="form-input-medium" v-model="form.predictAgreementTime" placeholder="请选择">
-              <el-option
-              v-for="item in PREDICT_AGREEMENT_TIME"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-              </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="项目是否招标：" prop="isProjectInvitation">
-          <el-radio v-model="form.isProjectInvitation" label="1">是</el-radio>
-          <el-radio v-model="form.isProjectInvitation" label="0">否</el-radio>
-        </el-form-item> -->
+
           <el-form-item label="合作集团："
             prop="organizeName">
             <el-autocomplete maxlength="25"
@@ -81,6 +61,7 @@
                 placeholder="办公地址"></el-input>
             </el-form-item>
           </el-form-item>
+
           <el-form-item label="联系人员："
             prop="contactName">
             <el-input maxlength="6"
@@ -108,6 +89,7 @@
                 placeholder="手机号"></el-input>
             </el-form-item>
           </el-form-item>
+
           <el-form-item label="联系邮箱："
             prop="contactEmail">
             <el-input maxlength="35"
@@ -115,6 +97,7 @@
               v-model="form.contactEmail"
               placeholder="请输入邮箱"></el-input>
           </el-form-item>
+
           <el-form-item label="业务描述："
             prop="busiDesc">
             <el-input maxlength="500"
@@ -125,6 +108,7 @@
               placeholder="请输入业务描述"
               v-model="form.busiDesc"></el-input>
           </el-form-item>
+
           <el-form-item label="合作建议："
             prop="busiOperating">
             <el-input maxlength="500"
@@ -134,6 +118,7 @@
               placeholder="请输入合作建议"
               v-model="form.busiOperating"></el-input>
           </el-form-item>
+
           <el-form-item label="商机有效期："
             prop="busiValidity">
             <el-input v-model="form.busiValidity"
@@ -142,15 +127,8 @@
               placeholder="请输入商机有效期">
               <template slot="append">月</template>
             </el-input>
-            <!-- <el-select v-model="form.busiValidity" placeholder="请选择">
-            <el-option
-              v-for="item in busiValidityList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select> -->
           </el-form-item>
+
           <el-form-item label="附件："
             label-width="130px"
             prop="files">
@@ -201,19 +179,10 @@
               </div>
             </el-form-item>
           </el-form-item>
-          <!-- <el-form-item label="提醒人设置：">
-              <el-select class="form-input-medium" v-model="form.remindersArr" placeholder="请选择提醒人" multiple>
-                  <el-option
-                  v-for="item in remindPerson"
-                  :key="item.operatorId"
-                  :label="item.staffName"
-                  :value="item.operatorId">
-                  </el-option>
-              </el-select>
-            </el-form-item> -->
           <el-form-item label="">
             <el-button type="primary"
               :disabled="isClick"
+              v-loading.fullscreen.lock="isClick"
               @click="submit">提交</el-button>
             <el-button plain
               :disabled="isClick"
@@ -261,20 +230,13 @@ export default {
         opporName: '',
         organizeId: '',
         organizeName: '',
-        // predictContractAmount: '',
-        // predictSignTime: '',
-        // predictAgreementTime: '',
-        // isProjectInvitation: '0',
         contactName: '',
         contactGender: '',
         contactMobile: '',
         contactEmail: '',
         address: '',
         busiDesc: '',
-        // busiRequire: '',
-        // needCoordinationIssue: '',
         remindersArr: [],
-        // processor: [],
         processorData: [],
         regionData: {
           regionList: [],
@@ -328,23 +290,6 @@ export default {
         busiValidity: [
           { required: true, message: '请输入商机有效期', trigger: 'blur' }
         ],
-        /* busiRequire: [
-          { required: true, message: '请输入业务需求', trigger: 'blur' },
-          { validator: checkLeftRightSpace, trigger: 'blur' }
-        ],
-        predictContractAmount: [
-          { required: true, message: '请输入预计收入', trigger: 'blur' },
-          { validator: inte8Deci2, trigger: ['blur', 'change'] }
-        ],
-        predictSignTime: [
-          { required: true, message: '请选择预计签约时间', trigger: ['blur', 'change'] }
-        ],
-        predictAgreementTime: [
-          { required: true, message: '请选择预计协议期', trigger: ['blur', 'change'] }
-        ],
-        isProjectInvitation: [
-          { required: true, message: '请选择项目是否招标', trigger: ['blur', 'change'] }
-        ] */
       },
       files: [
         { validator: fileCheck }

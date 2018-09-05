@@ -6,6 +6,8 @@ import { toTrim } from '../common.js';
 export default (url, params, method, config) => {
   // 去掉首尾空格
   toTrim(params);
+  // 当异步事件通过async，await阻塞发生时，loading会在第一次后失效
+  // 原因，后续SHOW_PAGE_LOADING并没有触发视图的变更，采用再按钮上加v-loading.fullscreen.lock，再创建一个loading实例
   store.commit('SHOW_PAGE_LOADING');
   return new Promise((resolve, reject) => {
     let ajx;
@@ -34,9 +36,7 @@ export default (url, params, method, config) => {
         reject(res.data);
       }
       // 处理完事件后，再关闭加载图标
-      setTimeout(() => {
-        store.commit('HIDE_PAGE_LOADING');
-      }, 0);
+      store.commit('HIDE_PAGE_LOADING');
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
       reject(err);
