@@ -6,7 +6,6 @@
         <el-breadcrumb-item>创建集团客户</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    {{customer}}
     <div class="m-container info-block">
       <steps :active="step">
         <step title="集团基本信息"></step>
