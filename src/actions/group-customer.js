@@ -1,6 +1,6 @@
 import * as types from '../store/types';
 import API from '../utils/api';
-import {Message} from 'element-ui';
+import { Message } from 'element-ui';
 
 function removeAttributs(customer) {
   // 删除不需要传的值
@@ -31,7 +31,7 @@ const actions = {
    * @param {Store} Store
    * @param {String} staffName
    */
-  queryCustomerOverviewList: ({commit}, params) => {
+  queryCustomerOverviewList: ({ commit }, params) => {
     API.queryCustomerOverviewListAPI(params).then(res => {
       commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
     }, () => {
@@ -44,7 +44,7 @@ const actions = {
    * @param {Store} Store
    * @param {String} staffName
    */
-  getGroupCustomerList: ({commit}, params) => {
+  getGroupCustomerList: ({ commit }, params) => {
     API.getGroupCustomerListAPI(params).then(res => {
       commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
     }, () => {
@@ -57,7 +57,7 @@ const actions = {
    * @param {Store} Store
    * @param {String} staffName
    */
-  queryCustomerAuditList: ({commit}, params) => {
+  queryCustomerAuditList: ({ commit }, params) => {
     API.queryCustomerAuditListAPI(params).then(res => {
       commit(types.GROUP_CUSTOMER_GET_LIST, res.data);
     }, () => {
@@ -76,7 +76,7 @@ const actions = {
    * @param {Store} Store
    * @param {String} staffName
    */
-  queryCustomerManagers({commit}, params) {
+  queryCustomerManagers({ commit }, params) {
     API.queryCustomerManagerAPI(params).then(res => {
       commit(types.GROUP_CUSTOMER_MANAGERS, res.data);
     });
@@ -86,7 +86,7 @@ const actions = {
    * @param {Store} Store
    * @param {*} customer
    */
-  createCustomer({commit}, customer) {
+  createCustomer({ commit }, customer) {
     API.createCustomerAPI(customer).then((res) => {
       Message({
         message: '创建成功',
@@ -104,7 +104,7 @@ const actions = {
    * @param {Store} Store
    * @param {*} customer
    */
-  createApproveCustomer({commit}, customer) {
+  createApproveCustomer({ commit }, customer) {
     API.createApproveCustomerAPI(customer).then((res) => {
       Message({
         message: '创建并提审成功',
@@ -122,7 +122,7 @@ const actions = {
    * @param {Store} Store
    * @param {*} customer
    */
-  updateCustomer({commit}, customer) {
+  updateCustomer({ commit }, customer) {
     removeAttributs(customer);
     API.updateCustomerAPI(customer).then((res) => {
       Message({
@@ -140,7 +140,7 @@ const actions = {
    * @param {Store} Store
    * @param {*} customer
    */
-  editApproveCustomer({commit}, customer) {
+  editApproveCustomer({ commit }, customer) {
     removeAttributs(customer);
 
     API.editApproveCustomerAPI(customer).then((res) => {
@@ -159,7 +159,7 @@ const actions = {
    * @param {Store} Store
    * @param {Number} customerId 集团客户ID
    */
-  queryCustomer({commit}, customerId) {
+  queryCustomer({ commit }, customerId) {
     return API.queryCustomerAPI({
       organizeId: customerId
     }).then((res) => {
@@ -173,7 +173,7 @@ const actions = {
    * @param {Store} Store
    * @param {Number} customerId 集团客户ID
    */
-  queryCustomerSnapshot({commit}, customerId) {
+  queryCustomerSnapshot({ commit }, customerId) {
     return API.queryCustomerSnapshotAPI({
       organizeId: customerId
     }).then((res) => {
@@ -188,7 +188,7 @@ const actions = {
    * @param {Store} Store
    * @param {Number} customerId 集团客户ID
    */
-  deleteCustomer({commit}, customerId) {
+  deleteCustomer({ commit }, customerId) {
     return API.deleteCustomerAPI({
       organizeId: customerId
     }).then(() => {
@@ -205,7 +205,7 @@ const actions = {
    * @param {Store} Store
    * @param {Number} customerId 集团客户ID
    */
-  approveCustomer({commit}, customerId) {
+  approveCustomer({ commit }, customerId) {
     return API.approveCustomerAPI({
       id: customerId
     }).then((res) => {
@@ -222,7 +222,7 @@ const actions = {
    * @param {Object} Store
    * @param {Object} params 参数
    */
-  auditCustomer({commit}, params) {
+  auditCustomer({ commit }, params) {
     return API.auditCustomerAPI(params).then((res) => {
       Message({
         message: '审核成功',
@@ -239,7 +239,7 @@ const actions = {
    * @param {Object} Store
    * @param {Object} params 参数
    */
-  querySubscribeProducts({commit}, params) {
+  querySubscribeProducts({ commit }, params) {
     API.querySubscribeProductsAPI(params).then(res => {
       commit(types.GROUP_CUSTOMER_SUBSCRIBE_PRODUCTS, res.data);
     }, () => {
@@ -249,7 +249,7 @@ const actions = {
   /**
    * 查询审核集团客户流程
    */
-  queryProcesses({commit}, processInsId) {
+  queryProcesses({ commit }, processInsId) {
     API.queryCustomerProcessedAPI({
       processInsId
     }).then(res => {
@@ -261,7 +261,7 @@ const actions = {
   /**
    * 查询标签库信息
    */
-  getTagLibrary({commit}, params) {
+  getTagLibrary({ commit }, params) {
     API.tagLibraryAPI(params).then(res => {
       commit(types.TAG_LIBRARY_LIST, res.data);
     });
@@ -269,12 +269,18 @@ const actions = {
   /**
    * 查询集团名称
    */
-  getGroupName({commit}, params) {
+  getGroupName({ commit }, params) {
     return API.getGroupNameAPI(params).then(res => {
       commit(types.GROUP_NAME_LIST, res.data.list);
       return res.data.list;
     });
-  }
+  },
+  getGroupVendorName({ commit }, params) {
+    return API.getGroupVendorNameAPI(params).then(res => {
+      commit(types.GROUP_VENDOR_NAME_LIST, res.data.list);
+      return res.data.list;
+    });
+  },
 };
 
 export default actions;

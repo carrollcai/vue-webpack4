@@ -1,6 +1,6 @@
 import { createHelpers } from 'vuex-map-fields';
 import * as types from '../types';
-import {PAGE_NO, PAGE_SIZE} from '@/config';
+import { PAGE_NO, PAGE_SIZE } from '@/config';
 
 const { getCustomerField, updateCustomerField } = createHelpers({
   getterType: 'getCustomerField',
@@ -51,6 +51,7 @@ const state = {
   },
   tagLibraryList: '',
   groupNameList: [],
+  groupVendorNameList: [],
   groupCustomerManagerList: []
 };
 
@@ -95,10 +96,15 @@ const mutations = {
     state.tagLibraryList = data;
   },
   [types.GROUP_NAME_LIST](state, data) {
-    state.groupNameList = data.map(val => Object.assign(val, {value: val.organizeName}));
+    state.groupNameList = data.map(val => Object.assign(val, { value: val.organizeName }));
+  },
+  [types.GROUP_VENDOR_NAME_LIST](state, data) {
+    state.groupVendorNameList = data.map(val => {
+      return Object.assign({}, val, { value: val.vendorName });
+    });
   },
   [types.GROUP_CUSTOMER_MANAGERS](state, data) {
-    state.groupCustomerManagerList = data.map(val => Object.assign(val, {value: val.staffName}));
+    state.groupCustomerManagerList = data.map(val => Object.assign(val, { value: val.staffName }));
   }
 };
 

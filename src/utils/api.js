@@ -156,6 +156,7 @@ export default {
    * 根据名称模糊查询集团信息
    */
   getGroupNameAPI: API('/esop/organize/queryLikeName'),
+  getGroupVendorNameAPI: API('/esop/organize/queryLikeVendorName'),
   /* 产品管理 */
   // 产品总览
   // 产品创建管理
