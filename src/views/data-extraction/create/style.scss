@@ -1,5 +1,7 @@
 @import '@/assets/scss/variables.scss';
 .apply {
+  .fl {float: left;}
+  .line-fl {float: left; height: 40px; line-height: 40px;}
   .data-title {
     font-size: 18px;
     font-weight: 400;
