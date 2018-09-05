@@ -1,13 +1,10 @@
 <template>
-  <div
-    class="login-input"
-    :class="{'show-placeholder': showClear}"
-  >
+  <div class="login-input"
+    :class="{'show-placeholder': showClear}">
     <transition name="el-fade-in">
       <div class="placeholder">{{showClear ? placeholder : '&nbsp;'}}</div>
     </transition>
-    <el-input
-      :maxlength="maxlength"
+    <el-input :maxlength="maxlength"
       :type="type"
       v-model="internalValue"
       auto-complete="off"
@@ -15,8 +12,7 @@
       ref="loginInput"
       @focus="handleFocus"
       @blur="handleBlur"
-      @keyup.enter.native="handleKeyup"
-    >
+      @keyup.enter.native="handleKeyup">
     </el-input>
     <slot></slot>
   </div>

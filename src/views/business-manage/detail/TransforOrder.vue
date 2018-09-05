@@ -29,14 +29,14 @@
         label-width="140px">
         <el-form-item label="订单名称："
           prop="ordName">
-          <el-input maxlength="25"
+          <el-input :maxlength="25"
             v-model="orderData.ordName"
             class="form-input-medium"
             placeholder="请输入订单名称">
           </el-input>
         </el-form-item>
         <!-- <el-form-item label="订购产品：" prop="productName">
-          <el-autocomplete maxlength="25" class="form-input-medium" v-model="orderData.productName" :fetch-suggestions="productQuerySearch" placeholder="请输入产品名称/编码" @select="selectProduct" :trigger-on-focus="false"></el-autocomplete>
+          <el-autocomplete :maxlength="25" class="form-input-medium" v-model="orderData.productName" :fetch-suggestions="productQuerySearch" placeholder="请输入产品名称/编码" @select="selectProduct" :trigger-on-focus="false"></el-autocomplete>
         </el-form-item>
         <el-form-item label="预计合同金额：" prop="predictContractAmount">
           <el-input v-model="orderData.predictContractAmount" class="form-input-medium" placeholder="请输入合同金额">
@@ -58,7 +58,7 @@
         <el-form-item label="合作集团："
           prop="organizeName">
           <el-autocomplete disabled
-            maxlength="25"
+            :maxlength="25"
             class="form-input-half"
             v-model="orderData.organizeName"
             :fetch-suggestions="querySearchAsync"
@@ -75,7 +75,7 @@
           <el-form-item prop="address"
             style="display:inline-block;">
             <el-input disabled
-              maxlength="50"
+              :maxlength="50"
               class="form-input-half"
               v-model="orderData.address"
               placeholder="办公地址"></el-input>
@@ -83,7 +83,7 @@
         </el-form-item>
         <el-form-item label="联系人："
           prop="contactName">
-          <el-input maxlength="6"
+          <el-input :maxlength="6"
             class="form-input-80"
             v-model="orderData.contactName"
             placeholder="姓名"></el-input>
@@ -103,14 +103,14 @@
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactMobile"
             style="display: inline-block;">
-            <el-input maxlength="11"
+            <el-input :maxlength="11"
               class="form-input-120"
               v-model="orderData.contactMobile"
               placeholder="手机号"></el-input>
           </el-form-item>
           <span class="form-input-sep">-</span>
           <el-form-item prop="contactEmail">
-            <el-input maxlength="35"
+            <el-input :maxlength="35"
               class="form-input-320"
               v-model="orderData.contactEmail"
               placeholder="请输入邮箱"></el-input>
@@ -122,7 +122,7 @@
         </el-form-item>
         <el-form-item label="业务描述："
           prop="busiDesc">
-          <el-input maxlength="500"
+          <el-input :maxlength="500"
             v-model="orderData.busiDesc"
             class="form-input-320"
             type="textarea"
@@ -158,7 +158,7 @@
           prop="predictAgreementTime">
           <el-input class="form-input-medium"
             v-model="orderData.predictAgreementTime"
-            maxlength="3"
+            :maxlength="3"
             placeholder="请输入时间">
             <template slot="append">月</template>
           </el-input>
@@ -167,7 +167,7 @@
           <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入订单需求" v-model="orderData.busiRequire"></el-input>
         </el-form-item>
         <el-form-item label="需要协调的问题：">
-          <el-input maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="orderData.needCoordinationIssue"></el-input>
+          <el-input :maxlength="500" class="form-input-320" type="textarea" :rows="3" placeholder="请输入需要协调的问题" v-model="orderData.needCoordinationIssue"></el-input>
         </el-form-item>-->
         <!-- <el-form-item label="项目是否招标：" prop="isProjectInvitation">
           <el-radio v-model="orderData.isProjectInvitation" label="1">是</el-radio>

@@ -122,7 +122,7 @@
           </el-cascader>
         </el-form-item>
         <el-form-item label="分派的原因：">
-          <el-input maxlength="500"
+          <el-input :maxlength="500"
             resize="none"
             type="textarea"
             v-model="sendForm.reason"
@@ -144,7 +144,7 @@
       <el-form ref="form"
         :model="cancelForm">
         <el-form-item label="作废原因：">
-          <el-input maxlength="500"
+          <el-input :maxlength="500"
             resize="none"
             type="textarea"
             v-model="cancelForm.reason"

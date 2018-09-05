@@ -20,7 +20,7 @@
         key="baseForm">
           <div class="customer-create-info">
             <el-form-item label="集团名称" prop="organizeName" key="organizeName">
-              <el-autocomplete maxlength="25" v-model="customer.organizeName" :fetch-suggestions="querySearchAsync" placeholder="请输入集团名称"></el-autocomplete>
+              <el-autocomplete :maxlength="25" v-model="customer.organizeName" :fetch-suggestions="querySearchAsync" placeholder="请输入集团名称"></el-autocomplete>
             </el-form-item>
             <el-form-item label="集团属性" prop="organizeType" key="organizeType">
               <el-select v-model="customer.organizeType"

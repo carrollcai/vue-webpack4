@@ -34,7 +34,7 @@
               prop="money">
               <el-input class="form-input-medium"
                 type="text"
-                maxlength="11"
+                :maxlength="11"
                 v-model="payForm.money"
                 placeholder="请输入合同金额">
                 <template slot="append">元</template>

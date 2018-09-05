@@ -42,7 +42,7 @@
           </el-cascader>
         </el-form-item>
         <el-form-item label="分派的原因：">
-          <el-input maxlength="500" resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
+          <el-input :maxlength="500" resize="none" type="textarea" v-model="sendForm.reason" placeholder="请输入优势能力"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -53,7 +53,7 @@
     <el-dialog class="business-task-dialog" width="433px" height="312px" title="作废" :visible.sync="cancelDialogVisible">
       <el-form ref="form" :model="cancelForm">
         <el-form-item label="作废原因：">
-          <el-input maxlength="500" resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
+          <el-input :maxlength="500" resize="none" type="textarea" v-model="cancelForm.reason" placeholder="请输入优势能力"></el-input>
         </el-form-item>
         <p class="tipsText">*如确定要作废该商机，请填写原因供创建者查看</p>
       </el-form>
