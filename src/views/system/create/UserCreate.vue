@@ -9,41 +9,80 @@
       </div>
     </div>
     <div class="m-container user-create">
-      <el-form :label-position="'right'" label-width="120px" :model="userCreate" ref="userForm" :rules="userCreateRules">
-        <el-form-item label="用户姓名：" prop="staffName">
-          <el-input class="form-input-large" v-model="userCreate.staffName" maxlength="6"></el-input>
+      <el-form :label-position="'right'"
+        label-width="120px"
+        :model="userCreate"
+        ref="userForm"
+        :rules="userCreateRules">
+        <el-form-item label="用户姓名："
+          prop="staffName">
+          <el-input class="form-input-large"
+            v-model="userCreate.staffName"
+            :maxlength="6"></el-input>
         </el-form-item>
-        <el-form-item label="登录账号：" prop="code">
-          <el-input :maxlength="15" class="form-input-large" v-model="userCreate.code"></el-input>
+        <el-form-item label="登录账号："
+          prop="code">
+          <el-input :maxlength="15"
+            class="form-input-large"
+            v-model="userCreate.code"></el-input>
         </el-form-item>
-        <el-form-item label="手机号码：" prop="mobile">
-          <el-input :maxlength="11" class="form-input-large" v-model="userCreate.mobile"></el-input>
+        <el-form-item label="手机号码："
+          prop="mobile">
+          <el-input :maxlength="11"
+            class="form-input-large"
+            v-model="userCreate.mobile"></el-input>
         </el-form-item>
-        <el-form-item label="电子邮箱：" prop="email">
-          <el-input class="form-input-large" v-model="userCreate.email"></el-input>
+        <el-form-item label="电子邮箱："
+          prop="email">
+          <el-input class="form-input-large"
+            v-model="userCreate.email"></el-input>
         </el-form-item>
 
-        <el-form-item label="用户归属：" prop="opRegion">
-          <el-cascader class="form-input-large" expand-trigger="hover" :options="regionRelationList" v-model="userCreate.opRegion" placeholder="用户归属">
+        <el-form-item label="用户归属："
+          prop="opRegion">
+          <el-cascader class="form-input-large"
+            expand-trigger="hover"
+            :options="regionRelationList"
+            v-model="userCreate.opRegion"
+            placeholder="用户归属">
           </el-cascader>
         </el-form-item>
 
-        <el-form-item label="用户角色：" prop="roleId">
-          <el-select class="form-input-large" v-model="userCreate.roleId" multiple>
-            <el-option v-for="(item, i) in userRoleList" :key="i" :value="item.roleId" :label="item.roleName" />
+        <el-form-item label="用户角色："
+          prop="roleId">
+          <el-select class="form-input-large"
+            v-model="userCreate.roleId"
+            multiple>
+            <el-option v-for="(item, i) in userRoleList"
+              :key="i"
+              :value="item.roleId"
+              :label="item.roleName" />
           </el-select>
         </el-form-item>
         <!-- 省份这里需要做key的处理 -->
         <!-- 指定key为null或者0，会报错。选择 collapse-tags就没问题。解决方式改为null字符串 -->
-        <el-form-item label="省份权限：" prop="provinces">
-          <el-select v-if="Object.isExistArray(province)" class="form-input-large" v-model="userCreate.provinces" placeholder="请选择" multiple @change="provinceChange">
-            <el-option v-if="province.length > 1" :key="'null'" label="全部" :value="'null'" />
-            <el-option v-for="(item, i) in province" :key="i" :label="item.value" :value="item.key" />
+        <el-form-item label="省份权限："
+          prop="provinces">
+          <el-select v-if="Object.isExistArray(province)"
+            class="form-input-large"
+            v-model="userCreate.provinces"
+            placeholder="请选择"
+            multiple
+            @change="provinceChange">
+            <el-option v-if="province.length > 1"
+              :key="'null'"
+              label="全部"
+              :value="'null'" />
+            <el-option v-for="(item, i) in province"
+              :key="i"
+              :label="item.value"
+              :value="item.key" />
           </el-select>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm()">提交</el-button>
+          <el-button type="primary"
+            @click="submitForm()">提交</el-button>
           <form-cancel :path="'/system/user/management'">取消</form-cancel>
         </el-form-item>
       </el-form>

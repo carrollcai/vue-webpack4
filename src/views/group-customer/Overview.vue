@@ -4,8 +4,13 @@
       <el-form class="form-manage">
         <div class="flex">
           <el-form-item class="form-query-input-width">
-            <el-select v-model="organizeType" clearable placeholder="集团属性">
-              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
+            <el-select v-model="organizeType"
+              clearable
+              placeholder="集团属性">
+              <el-option v-for="(item, i) in ORGANIZE_TYPE"
+                :key="i"
+                :value="item.value"
+                :label="item.label" />
             </el-select>
           </el-form-item>
           <!--<el-form-item class="form-query-input-width form-left-width" prop="roleId">
@@ -14,50 +19,71 @@
             </el-select>
           </el-form-item>-->
 
-          <el-form-item class="form-query-input-width form-left-width" prop="staffName">
-            <el-input v-model="managerName" clearable placeholder="客户经理" />
+          <el-form-item class="form-query-input-width form-left-width"
+            prop="staffName">
+            <el-input v-model="managerName"
+              clearable
+              placeholder="客户经理" />
           </el-form-item>
 
-          <el-form-item class="form-query-input-width form-left-width" prop="code">
-            <el-autocomplete maxlength="25" v-model="otherField" :fetch-suggestions="querySearchAsync" placeholder="集团名称/编码" clearable></el-autocomplete>
+          <el-form-item class="form-query-input-width form-left-width"
+            prop="code">
+            <el-autocomplete :maxlength="25"
+              v-model="otherField"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="集团名称/编码"
+              clearable></el-autocomplete>
             <!--<el-input v-model="otherField" clearable placeholder="集团名称/编码" />-->
           </el-form-item>
-          <el-form-item class="form-query-input-width form-left-width" prop="tagName">
-            <el-input v-model="label" clearable placeholder="集团标签" />
+          <el-form-item class="form-query-input-width form-left-width"
+            prop="tagName">
+            <el-input v-model="label"
+              clearable
+              placeholder="集团标签" />
           </el-form-item>
         </div>
 
         <div class="flex">
           <el-form-item class="form-left-width">
-            <el-button type="primary" @click="handleQuery">查询</el-button>
+            <el-button type="primary"
+              @click="handleQuery">查询</el-button>
           </el-form-item>
         </div>
       </el-form>
       <div class="customer-overview-management">
-        <wm-table
-          :source="groupCustomerList.list"
+        <wm-table :source="groupCustomerList.list"
           :total="groupCustomerList.totalCount"
           :pageNo="pageNo"
           :pageSize="pageSize"
           @onPagination="onPagination"
           @onSizePagination="onSizePagination">
-          <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
-          <el-table-column label="集团名称" :width="370">
+          <el-table-column label="集团编码"
+            property="organizeCode"
+            show-overflow-tooltip/>
+          <el-table-column label="集团名称"
+            :width="370">
             <template slot-scope="scope">
               <p class="label">{{scope.row.organizeName}}</p>
-              <el-tag v-for="item in scope.row.label" :key="item">{{item}}</el-tag>
+              <el-tag v-for="item in scope.row.label"
+                :key="item">{{item}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="集团属性" property="organizeTypeName" show-overflow-tooltip >
+          <el-table-column label="集团属性"
+            property="organizeTypeName"
+            show-overflow-tooltip>
           </el-table-column>
           <!--<el-table-column label="集团标签" property="label" show-overflow-tooltip>
           </el-table-column>-->
           <!--<el-table-column label="所属省份" property="provinceName">
           </el-table-column>-->
-          <el-table-column label="客户经理" property="managerName" show-overflow-tooltip/>
+          <el-table-column label="客户经理"
+            property="managerName"
+            show-overflow-tooltip/>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
+              <el-button class="table-button"
+                type="text"
+                @click="handleDetail(scope.row)">
                 查看主页
               </el-button>
             </template>
@@ -175,7 +201,9 @@ export default {
     line-height: 2;
   }
   .el-tag {
-    height: 20px;line-height: 18px;margin-right: 5px;
+    height: 20px;
+    line-height: 18px;
+    margin-right: 5px;
   }
 }
 </style>

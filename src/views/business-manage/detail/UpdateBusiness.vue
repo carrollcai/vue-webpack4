@@ -10,114 +10,173 @@
     </div>
     <div class="container">
       <div>
-      <el-form :rules="rules" ref="businessForm" :model="businessData" label-width="140px">
-        <el-form-item label="商机类别：" prop="opporType">
-          <el-select class="form-input-medium" v-model="businessData.opporType" placeholder="请选择属性">
-              <el-option
-              v-for="item in BIZ_OPPOR_TYPE"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-              </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商机名称：" prop="opporName">
-          <el-input maxlength="25" v-model="businessData.opporName" class="form-input-medium" placeholder="请输入商机名称" />
-        </el-form-item>
-        <el-form-item label="联系人员：" prop="contactName">
-          <el-input maxlength="6" class="form-input-80" v-model="businessData.contactName" placeholder="姓名"></el-input>
-          <span class="form-input-sep">-</span>
-          <el-form-item prop="contactGender" style="display: inline-block;">
-            <el-select class="form-input-80" v-model="businessData.contactGender" placeholder="性别">
-                <el-option
-                v-for="item in SEX"
+        <el-form :rules="rules"
+          ref="businessForm"
+          :model="businessData"
+          label-width="140px">
+          <el-form-item label="商机类别："
+            prop="opporType">
+            <el-select class="form-input-medium"
+              v-model="businessData.opporType"
+              placeholder="请选择属性">
+              <el-option v-for="item in BIZ_OPPOR_TYPE"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
-                </el-option>
+              </el-option>
             </el-select>
           </el-form-item>
-          <span class="form-input-sep">-</span>
-          <el-form-item prop="contactMobile" style="display: inline-block;">
-            <el-input maxlength="11" class="form-input-120" v-model="businessData.contactMobile" placeholder="手机号"></el-input>
+          <el-form-item label="商机名称："
+            prop="opporName">
+            <el-input :maxlength="25"
+              v-model="businessData.opporName"
+              class="form-input-medium"
+              placeholder="请输入商机名称" />
           </el-form-item>
-        </el-form-item>
-        <el-form-item label="联系邮箱：" prop="contactEmail" style="display: inline-block;">
-            <el-input maxlength="35" class="form-input-320" v-model="businessData.contactEmail" placeholder="请输入邮箱"></el-input>
+          <el-form-item label="联系人员："
+            prop="contactName">
+            <el-input :maxlength="6"
+              class="form-input-80"
+              v-model="businessData.contactName"
+              placeholder="姓名"></el-input>
+            <span class="form-input-sep">-</span>
+            <el-form-item prop="contactGender"
+              style="display: inline-block;">
+              <el-select class="form-input-80"
+                v-model="businessData.contactGender"
+                placeholder="性别">
+                <el-option v-for="item in SEX"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <span class="form-input-sep">-</span>
+            <el-form-item prop="contactMobile"
+              style="display: inline-block;">
+              <el-input :maxlength="11"
+                class="form-input-120"
+                v-model="businessData.contactMobile"
+                placeholder="手机号"></el-input>
+            </el-form-item>
           </el-form-item>
-        <el-form-item label="合作集团：" prop="organizeName">
-          <el-autocomplete maxlength="25" class="form-input-half" v-model="businessData.organizeName" :fetch-suggestions="querySearchAsync" placeholder="合作集团/编码" @select="handleSelect" @blur="noData = false;"></el-autocomplete>
-          <el-card class="create-business-box-card" v-if="noData">
-            <div>
-              系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
-            </div>
-          </el-card>
-          <span class="form-input-sep">-</span>
-          <el-form-item prop="address" style="display:inline-block;">
-            <el-input @focus="noData = false;" @blur="noData = false;" maxlength="50" class="form-input-half" v-model="businessData.address" placeholder="办公地址"></el-input>
+          <el-form-item label="联系邮箱："
+            prop="contactEmail"
+            style="display: inline-block;">
+            <el-input :maxlength="35"
+              class="form-input-320"
+              v-model="businessData.contactEmail"
+              placeholder="请输入邮箱"></el-input>
           </el-form-item>
-        </el-form-item>
-        <el-form-item label="业务描述：" prop="busiDesc">
-          <el-input maxlength="500" resize="none" class="form-input-320" type="textarea" :rows="3" placeholder="请输入业务描述" v-model="businessData.busiDesc"></el-input>
-        </el-form-item>
-        <el-form-item label="合作建议：" prop="busiOperating">
-          <el-input class="form-input-320" type="textarea" :rows="3" placeholder="请输入合作建议" v-model="businessData.busiOperating"></el-input>
-        </el-form-item>
-        <el-form-item label="商机有效期：" prop="busiValidity">
-          <el-input v-model="businessData.busiValidity" class="form-input-medium" placeholder="请输入商机有效期">
-            <template slot="append">月</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="附件：" label-width="130px">
-          <el-upload class="upload-demo" action=""
-            :auto-upload="false"
-            :on-change="handleChangeFile"
-            :multiple="false"
-            :on-remove="handleRemoveFile"
-            :file-list="uploadFiles"
-          >
-            <el-button slot="trigger" size="small">
-              <i class="icon-up margin-right-8"></i>上传文件
-            </el-button>
-            <div slot="tip" class="el-upload__tip">
-              <p class="lh1-5">{{FILE_TIP[0]}}</p>
-              <p class="lh1-5">{{FILE_TIP[1]}}</p>
-            </div>
-          </el-upload>
-        </el-form-item>
-      </el-form>
+          <el-form-item label="合作集团："
+            prop="organizeName">
+            <el-autocomplete :maxlength="25"
+              class="form-input-half"
+              v-model="businessData.organizeName"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="合作集团/编码"
+              @select="handleSelect"
+              @blur="noData = false;"></el-autocomplete>
+            <el-card class="create-business-box-card"
+              v-if="noData">
+              <div>
+                系统暂未录入该集团，你可以暂时手动输入，建议后续尽快录入并同步关联修改！
+              </div>
+            </el-card>
+            <span class="form-input-sep">-</span>
+            <el-form-item prop="address"
+              style="display:inline-block;">
+              <el-input @focus="noData = false;"
+                @blur="noData = false;"
+                :maxlength="50"
+                class="form-input-half"
+                v-model="businessData.address"
+                placeholder="办公地址"></el-input>
+            </el-form-item>
+          </el-form-item>
+          <el-form-item label="业务描述："
+            prop="busiDesc">
+            <el-input :maxlength="500"
+              resize="none"
+              class="form-input-320"
+              type="textarea"
+              :rows="3"
+              placeholder="请输入业务描述"
+              v-model="businessData.busiDesc"></el-input>
+          </el-form-item>
+          <el-form-item label="合作建议："
+            prop="busiOperating">
+            <el-input class="form-input-320"
+              type="textarea"
+              :rows="3"
+              placeholder="请输入合作建议"
+              v-model="businessData.busiOperating"></el-input>
+          </el-form-item>
+          <el-form-item label="商机有效期："
+            prop="busiValidity">
+            <el-input v-model="businessData.busiValidity"
+              class="form-input-medium"
+              placeholder="请输入商机有效期">
+              <template slot="append">月</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="附件："
+            label-width="130px">
+            <el-upload class="upload-demo"
+              action=""
+              :auto-upload="false"
+              :on-change="handleChangeFile"
+              :multiple="false"
+              :on-remove="handleRemoveFile"
+              :file-list="uploadFiles">
+              <el-button slot="trigger"
+                size="small">
+                <i class="icon-up margin-right-8"></i>上传文件
+              </el-button>
+              <div slot="tip"
+                class="el-upload__tip">
+                <p class="lh1-5">{{FILE_TIP[0]}}</p>
+                <p class="lh1-5">{{FILE_TIP[1]}}</p>
+              </div>
+            </el-upload>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
     <div style="background: #fff;">
       <div class="hr"></div>
       <div class="b-container">
-          <el-form label-width="140px" style="width: 545px;">
-            <el-form-item label="提醒人设置：">
-              <el-form-item class="business-linkage" prop="visitAuditor">
-                <el-cascader v-if="remindPerson"
-                  @change="getProcessor"
-                  :options="remindPerson"
-                  v-model="processorData"
-                  :placeholder="''"
-                  :change-on-select="false">
-                </el-cascader>
-                <div class="tag-list">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in regionData.processorList"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)">
-                    {{tag}}
-                  </el-tag>
-                </div>
-              </el-form-item>
+        <el-form label-width="140px"
+          style="width: 545px;">
+          <el-form-item label="提醒人设置：">
+            <el-form-item class="business-linkage"
+              prop="visitAuditor">
+              <el-cascader v-if="remindPerson"
+                @change="getProcessor"
+                :options="remindPerson"
+                v-model="processorData"
+                :placeholder="''"
+                :change-on-select="false">
+              </el-cascader>
+              <div class="tag-list">
+                <el-tag :key="tag"
+                  v-for="tag in regionData.processorList"
+                  closable
+                  :disable-transitions="false"
+                  @close="handleClose(tag)">
+                  {{tag}}
+                </el-tag>
+              </div>
             </el-form-item>
-            <el-form-item label="">
-              <el-button type="primary" @click="save">保存</el-button>
-              <el-button plain @click="submit">提交</el-button>
-            </el-form-item>
-          </el-form>
+          </el-form-item>
+          <el-form-item label="">
+            <el-button type="primary"
+              @click="save">保存</el-button>
+            <el-button plain
+              @click="submit">提交</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
@@ -232,7 +291,7 @@ export default {
   },
   methods: {
     initData(list) {
-      const {ALL_NODES} = this;
+      const { ALL_NODES } = this;
       this.PRE_DATA_FIRST = _.keyBy(list, 'value');
       this.PRE_DATA_SECOND = _.keyBy(_.flattenDeep(_.map(list, 'children')), 'value');
       this.PRE_DATA_THIRD = _.keyBy(_.flattenDeep(_.map(_.flattenDeep(_.map(list, 'children')), 'children')), 'value');
@@ -275,7 +334,7 @@ export default {
 
         this.getBusinessDetail({ opporId }).then((business) => {
           if (business.fileInputId) {
-            this.queryElec({fileInputId: business.fileInputId}).then((res) => {
+            this.queryElec({ fileInputId: business.fileInputId }).then((res) => {
               this.uploadFiles = res.data;
               this.uploadFiles.map((item) => {
                 item.name = item.fileName;
@@ -284,7 +343,7 @@ export default {
             });
           }
 
-          const {ALL_NODES} = this;
+          const { ALL_NODES } = this;
           let processors = business.remindersArr;
           if (processors && processors.length) {
             for (let processor of processors) {
@@ -341,7 +400,7 @@ export default {
       };
     },
     getProcessor(value) {
-      const {PRE_DATA_FIRST, PRE_DATA_SECOND, PRE_DATA_THIRD, processors} = this;
+      const { PRE_DATA_FIRST, PRE_DATA_SECOND, PRE_DATA_THIRD, processors } = this;
       this.processorData = [];
       let processor = value[2] || null;
 
@@ -375,8 +434,8 @@ export default {
     },
     handleFiles() {
       const that = this;
-      const {uploadData} = that;
-      const {fileInputId} = that.businessData;
+      const { uploadData } = that;
+      const { fileInputId } = that.businessData;
 
       let promises = [];
 
@@ -490,20 +549,27 @@ export default {
   justify-content: center;
 }
 .b-container {
-  display: flex;-webkit-box-pack: center;justify-content: center;margin-top:32px;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin-top: 32px;
 }
 .el-input-group__append {
-    background-color: #fff;
-    padding: 0 5px;
+  background-color: #fff;
+  padding: 0 5px;
 }
 .hr {
-  height:1px;background:#e5e5e5;margin: 0px 32px;
+  height: 1px;
+  background: #e5e5e5;
+  margin: 0px 32px;
 }
 .create-business-box-card {
-  position:absolute;z-index:2;line-height:20px;
+  position: absolute;
+  z-index: 2;
+  line-height: 20px;
   .el-card__body {
     padding: 10px;
-    color: rgba(0,0,0,0.45);
+    color: rgba(0, 0, 0, 0.45);
   }
 }
 </style>

@@ -19,7 +19,7 @@
         <div>
           <el-form-item prop="amount">
             <el-input v-model="item.amount"
-              maxlength="9"
+              :maxlength="9"
               placeholder="数量" />
           </el-form-item>
         </div>

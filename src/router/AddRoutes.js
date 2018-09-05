@@ -37,6 +37,7 @@ import RequirementDetail from '@/views/requirement/detail/RequirementDetail.vue'
 import RequirementHandle from '@/views/requirement/detail/RequirementHandle.vue';
 import RequirementHandleDetail from '@/views/requirement/detail/RequirementHandleDetail.vue';
 
+/* 系统配置 */
 import Role from '@/views/system/Role.vue';
 import RoleCreate from '@/views/system/create/RoleCreate.vue';
 import User from '@/views/system/User.vue';

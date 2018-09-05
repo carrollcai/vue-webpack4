@@ -35,7 +35,7 @@
           <div class="form-input-sep">-</div>
           <el-form-item prop="address"
             style="display:inline-block;">
-            <el-input maxlength="50"
+            <el-input :maxlength="50"
               class="form-input-half"
               v-model="orderCreate.address"
               placeholder="办公地址"></el-input>
@@ -46,7 +46,7 @@
           required>
           <el-form-item prop="contactName"
             style="display: inline-block;">
-            <el-input maxlength="6"
+            <el-input :maxlength="6"
               class="form-input-80"
               v-model="orderCreate.contactName"
               placeholder="姓名"></el-input>
@@ -66,7 +66,7 @@
           <div class="form-input-sep">-</div>
           <el-form-item prop="contactMobile"
             style="display: inline-block;">
-            <el-input maxlength="11"
+            <el-input :maxlength="11"
               class="form-input-120"
               v-model="orderCreate.contactMobile"
               placeholder="手机号"></el-input>

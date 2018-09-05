@@ -2,39 +2,39 @@
   <div class="common-view">
     <div style="height: 100%"
       v-loading.fullscreen.lock="pageLoading">
-      <el-container class="app-container">
+      <div class="app-container">
         <el-header class="app-header">
-          <Header />
+          <con-header />
         </el-header>
         <el-container v-if="currentUser.menuList.length"
           class="app-content">
-          <aside class="app-aside">
+          <div class="app-aside">
             <el-scrollbar class="app-aside-scroll">
-              <Aside style="height: 100%" />
+              <con-aside style="height: 100%" />
             </el-scrollbar>
-          </aside>
-          <main class="app-main">
+          </div>
+          <div class="app-main">
             <el-scrollbar class="app-menu">
               <div class="app-main-content">
                 <router-view />
               </div>
             </el-scrollbar>
-          </main>
+          </div>
         </el-container>
-      </el-container>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Aside from './Aside.vue';
-import Header from './Header.vue';
+import ConAside from './Aside.vue';
+import ConHeader from './Header.vue';
 import { mapState, mapActions, mapMutations } from 'vuex';
 export default {
   name: 'Container',
   components: {
-    Aside,
-    Header
+    ConAside,
+    ConHeader
   },
   beforeMount() {
     this.getUserRole({});

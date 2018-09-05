@@ -36,11 +36,11 @@
         <el-tab-pane label="全部"
           :name="null"></el-tab-pane>
         <el-tab-pane label="待签约"
-          :name="2"></el-tab-pane>
+          name="2"></el-tab-pane>
         <el-tab-pane label="待付款"
-          :name="3"></el-tab-pane>
+          name="3"></el-tab-pane>
         <el-tab-pane label="已完成"
-          :name="4"></el-tab-pane>
+          name="4"></el-tab-pane>
         <!-- <el-tab-pane label="已取消" :name="5"></el-tab-pane> -->
       </el-tabs>
     </div>
@@ -65,8 +65,8 @@
         <!-- <el-table-column label="处理人" property="processorName" /> -->
         <el-table-column label="订购产品及状态">
           <template slot-scope="scope">
-            <p v-for="item in scope.row.ordProductDtoList"
-              :key="item">
+            <p v-for="(item ,i) in scope.row.ordProductDtoList"
+              :key="i">
               <b>{{item.ordStatusName}}</b>{{item.productName ? '：' + item.productName : ''}}</p>
           </template>
         </el-table-column>

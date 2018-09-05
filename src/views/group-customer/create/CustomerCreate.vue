@@ -23,7 +23,7 @@
           <el-form-item label="集团名称"
             prop="organizeName"
             key="name">
-            <el-autocomplete maxlength="25"
+            <el-autocomplete :maxlength="25"
               v-model="customer.organizeName"
               :fetch-suggestions="querySearchAsync"
               placeholder="请输入集团名称"

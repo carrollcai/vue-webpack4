@@ -36,9 +36,9 @@
       <el-tabs v-model="businessTaskForm.taskHasComplete"
         @tab-click="tabChange">
         <el-tab-pane label="待处理"
-          :name="0"></el-tab-pane>
+          name="0"></el-tab-pane>
         <el-tab-pane label="已处理"
-          :name="1"></el-tab-pane>
+          name="1"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
@@ -122,7 +122,7 @@
           </el-cascader>
         </el-form-item>
         <el-form-item label="分派的原因：">
-          <el-input maxlength="500"
+          <el-input :maxlength="500"
             resize="none"
             type="textarea"
             v-model="sendForm.reason"
@@ -144,7 +144,7 @@
       <el-form ref="form"
         :model="cancelForm">
         <el-form-item label="作废原因：">
-          <el-input maxlength="500"
+          <el-input :maxlength="500"
             resize="none"
             type="textarea"
             v-model="cancelForm.reason"

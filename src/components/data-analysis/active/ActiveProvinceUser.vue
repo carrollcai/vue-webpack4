@@ -59,7 +59,7 @@
       <no-data :data="provinceUserList">
         <div class="province-user-chart">
           <div class="province-user-chart__map">
-            <Map :id="'adduserMap'"
+            <map-chart :id="'adduserMap'"
               :charData="provinceUserList"
               :width="700"
               :height="500" />
@@ -73,7 +73,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
-import Map from 'components/chart/Map.vue';
+import MapChart from 'components/chart/Map.vue';
 import Rank from '../common/Rank.vue';
 import NoData from 'components/NoData.vue';
 import { startDateBeforeEndDate, dateRange, monthRange } from '@/utils/rules.js';
@@ -88,7 +88,7 @@ export default {
     }
   },
   components: {
-    Map,
+    MapChart,
     Rank,
     NoData,
   },

@@ -23,8 +23,7 @@
         <el-popover v-model="dialogVisible"
           placement="bottom-end"
           width="400"
-          trigger="click"
-          @show="resetOrganizeInfo">
+          trigger="click">
           <el-form class="temporary-module-form"
             ref="eventForm"
             :rules="eventRules"
