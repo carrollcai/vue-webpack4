@@ -72,8 +72,7 @@
                 v-if="!scope.row.organizeId"
                 placement="bottom"
                 width="256"
-                trigger="click"
-                @show="resetOrganizeInfo">
+                trigger="click">
                 <div class="o-popover-title">
                   系统暂未录入该集团，请尽快关联已录入集团！
                 </div>

@@ -67,7 +67,7 @@ const state = {
     startDate: '',
     endDate: '',
     date: [],
-    ordStatus: 0
+    ordStatus: '0'
   },
   orderCreateManageObj: {
     list: [],
