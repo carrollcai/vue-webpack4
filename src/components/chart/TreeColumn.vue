@@ -20,7 +20,6 @@ export default {
     },
     width: {
       type: Number
-      // default: 500
     },
     height: {
       type: Number,
@@ -46,32 +45,7 @@ export default {
         gender: '男',
         count: 40,
         'class': '一班',
-        grade: '上级领导'
-      }, {
-        gender: '男',
-        count: 35,
-        'class': '二班',
-        grade: '上级领导'
-      }, {
-        gender: '男',
-        count: 20,
-        'class': '三班',
-        grade: '上级领导'
-      }, {
-        gender: '男',
-        count: 30,
-        'class': '一班',
-        grade: '二年级'
-      }, {
-        gender: '男',
-        count: 25,
-        'class': '二班',
-        grade: '二年级'
-      }, {
-        gender: '男',
-        count: 28,
-        'class': '三班',
-        grade: '二年级'
+        grade: '一年级'
       }];
       let _DataSet = DataSet;
       let DataView = _DataSet.DataView;
@@ -84,6 +58,7 @@ export default {
       });
       this.chart.source(data);
       this.chart.coord('theta');
+      // this.chart.coord('rect');
       this.chart.tooltip({
         showTitle: false
       });
@@ -94,8 +69,14 @@ export default {
         },
         lineSmooth: true,
         eachView: function eachView(view, facet) {
+          console.log(view);
+          console.log(facet);
+          // if (facet.rowIndex === 0) {
+          //   return false;
+          // }
           var data = facet.data;
           var dv = new DataView();
+          // transform进行数据转换
           dv.source(data).transform({
             type: 'percent',
             field: 'count',
@@ -109,20 +90,21 @@ export default {
               }
             }
           });
-          view.intervalStack().position('percent').color('gender')
+          // view.intervalStack().position('percent').color('gender')
+          view.intervalStack()
+            .position('percent')
+            // .color('gender')
             .label('grade', {
               offset: 0,
 
               textStyle: {
                 textBaseline: 'middle'
               },
-              htmlTemplate: function formatter(val) {
-                if (val !== 'root') {
-                  return `
-                    <div style="width: 100%">${val} | 'test'</div>
-                    <div style="width: 100%">${val}</div>
-                    `;
-                }
+              formatter(val) {
+                // return `
+                //   ${val} | 'test'
+                //   `;
+                return '';
               }
             });
         }

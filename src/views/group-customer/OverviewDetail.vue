@@ -170,6 +170,8 @@
         <org-tree :contacts="contacts"></org-tree>
       </template>
     </div>
+
+    <!-- {{contacts}} -->
     <!-- <tree-column id="test" /> -->
   </div>
 </template>
