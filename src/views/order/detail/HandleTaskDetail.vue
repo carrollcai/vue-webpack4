@@ -114,13 +114,6 @@ export default {
         ordProductDtoList: this.handleTaskDetail.ordProductDtoList
       });
     }
-
-    // 签约获取指派人流程
-    // if (this.handleTaskDetail.assignReason && this.taskInsId) {
-    //   await this.getOrderProcessInfo({ taskInsId: this.taskInsId });
-    // }
-    // 获取文件名和地址
-    // await this.handleTaskDetail.fileId && this.gethasSignedFile({ fileInputId: this.handleTaskDetail.fileId });
   },
   watch: {
     '$route'() {
@@ -128,6 +121,7 @@ export default {
     }
   },
   methods: {
+    // 因为详情页采用的同一个组件，所以路由改变的时候，需要初始化一些操作
     routeChange() {
       this.routeType = this.$route.params.type;
       this.ordCode = this.$route.params.id;

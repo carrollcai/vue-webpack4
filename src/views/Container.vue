@@ -1,24 +1,28 @@
 <template>
-  <div class="common-view" v-loading.fullscreen.lock="pageLoading">
-    <el-container class="app-container">
-      <el-header class="app-header">
-        <Header />
-      </el-header>
-      <el-container v-if="currentUser.menuList.length" class="app-content">
-        <aside class="app-aside">
-          <el-scrollbar class="app-aside-scroll">
-            <Aside style="height: 100%" />
-          </el-scrollbar>
-        </aside>
-        <main class="app-main">
-          <el-scrollbar class="app-menu">
-            <div class="app-main-content">
-              <router-view />
-            </div>
-          </el-scrollbar>
-        </main>
+  <div class="common-view">
+    <div style="height: 100%"
+      v-loading.fullscreen.lock="pageLoading">
+      <el-container class="app-container">
+        <el-header class="app-header">
+          <Header />
+        </el-header>
+        <el-container v-if="currentUser.menuList.length"
+          class="app-content">
+          <aside class="app-aside">
+            <el-scrollbar class="app-aside-scroll">
+              <Aside style="height: 100%" />
+            </el-scrollbar>
+          </aside>
+          <main class="app-main">
+            <el-scrollbar class="app-menu">
+              <div class="app-main-content">
+                <router-view />
+              </div>
+            </el-scrollbar>
+          </main>
+        </el-container>
       </el-container>
-    </el-container>
+    </div>
   </div>
 </template>
 

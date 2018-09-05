@@ -109,8 +109,10 @@ const actions = {
           pageSize: PAGE_SIZE,
           productName: val.productName
         });
-        console.log(productNameList);
-        let productFilterList = productNameList.list && productNameList.list.filter(cVal => cVal.productId === Number(val.productId));
+
+        let productFilterList = productNameList.list &&
+          productNameList.list.filter(cVal => cVal.productId === Number(val.productId));
+
         if (productFilterList[0]) {
           await dispatch('getProductHandler', {
             item: productFilterList[0],
@@ -176,6 +178,10 @@ const actions = {
   async submitAssignContract({ dispatch, commit }, { params, submitParams }) {
     commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
     let fileInputId = await dispatch('getNewFileInputId');
+    if (!fileInputId) {
+      commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
+      return false;
+    }
     let _params = Object.assign(params, { fileInputId });
     let _submitParams = Object.assign(submitParams, { fileId: fileInputId });
 

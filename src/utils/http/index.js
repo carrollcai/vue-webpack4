@@ -6,6 +6,7 @@ import { toTrim } from '../common.js';
 export const fetch = (url, params, method, config) => {
   // 去掉首尾空格
   toTrim(params);
+  // debugger;
 
   store.commit('SHOW_PAGE_LOADING');
 
@@ -22,7 +23,6 @@ export const fetch = (url, params, method, config) => {
     }
 
     ajx.then(res => {
-      store.commit('HIDE_PAGE_LOADING');
       if (res.data.errorInfo.code === '401') {
         store.commit('ROUTE_CHANGE', { path: '/login' });
       } else if (String(res.data.errorInfo.code) === '200') {
@@ -36,6 +36,8 @@ export const fetch = (url, params, method, config) => {
         });
         reject(res.data);
       }
+      // 处理完事件后，再关闭加载图标
+      store.commit('HIDE_PAGE_LOADING');
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
       reject(err);
