@@ -1,15 +1,12 @@
 import axios from 'axios';
-import store from '../../store';
+import store from '../../store/index.js';
 import { Message } from 'element-ui';
 import { toTrim } from '../common.js';
 
-export const fetch = (url, params, method, config) => {
+export default (url, params, method, config) => {
   // 去掉首尾空格
   toTrim(params);
-  // debugger;
-
   store.commit('SHOW_PAGE_LOADING');
-
   return new Promise((resolve, reject) => {
     let ajx;
     if (method === 'get') {
@@ -37,7 +34,9 @@ export const fetch = (url, params, method, config) => {
         reject(res.data);
       }
       // 处理完事件后，再关闭加载图标
-      store.commit('HIDE_PAGE_LOADING');
+      setTimeout(() => {
+        store.commit('HIDE_PAGE_LOADING');
+      }, 0);
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
       reject(err);

@@ -1,10 +1,10 @@
 import qs from 'qs';
-import { fetch } from './http/index.js';
+import request from './http/index.js';
 import { jsonToFormData } from './common.js';
 
 // const development = 'http://localhost:3618';
 const development = '';
-const API = (url, method) => params => fetch(development + url, params, method || 'post');
+const API = (url, method) => params => request(development + url, params, method || 'post');
 const download = url => params => {
   // console.log(`${qs.stringify(params, {arrayFormat: 'brackets'})}`);
   window.location.href = `${url}?${qs.stringify(params, { arrayFormat: 'brackets' })}`;
@@ -16,7 +16,7 @@ const upload = (url, method) => params => {
       'Content-Type': 'multipart/form-data'
     }
   };
-  return fetch(development + url, formData, 'post', config);
+  return request(development + url, formData, 'post', config);
 };
 
 export default {
