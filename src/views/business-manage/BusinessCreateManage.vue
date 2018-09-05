@@ -39,15 +39,15 @@
       <el-tabs v-model="myBusinessForm.opporStatus"
         @tab-click="tabChange">
         <el-tab-pane label="全部"
-          :name="0"></el-tab-pane>
+          name="0"></el-tab-pane>
         <el-tab-pane label="草稿"
-          :name="1"></el-tab-pane>
+          name="1"></el-tab-pane>
         <el-tab-pane label="待处理"
-          :name="2"></el-tab-pane>
+          name="2"></el-tab-pane>
         <el-tab-pane label="已转订单"
-          :name="3"></el-tab-pane>
+          name="3"></el-tab-pane>
         <el-tab-pane label="已作废"
-          :name="4"></el-tab-pane>
+          name="4"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">

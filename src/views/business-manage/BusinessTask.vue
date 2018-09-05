@@ -36,9 +36,9 @@
       <el-tabs v-model="businessTaskForm.taskHasComplete"
         @tab-click="tabChange">
         <el-tab-pane label="待处理"
-          :name="0"></el-tab-pane>
+          name="0"></el-tab-pane>
         <el-tab-pane label="已处理"
-          :name="1"></el-tab-pane>
+          name="1"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
