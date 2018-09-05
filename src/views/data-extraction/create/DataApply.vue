@@ -8,24 +8,42 @@
   </div>
   <div class="m-container table-container">
     <!-- <multilevelLinkage></multilevelLinkage> -->
-    <el-form :label-position="'right'" :model="applyFrom" ref="refName" :rules="applyFromVaild">
+    <el-form
+      :label-position="'right'"
+      :model="applyFrom"
+      ref="refName"
+      :rules="applyFromVaild">
       <h3 class="data-title">数据基本信息</h3>
       <div class="base-info">
-        <el-form-item label="任务名称：" required prop="name">
-          <el-input v-model="applyFrom.name" style="width: 320px !important;" placeholder="请输入任务名称" />
+        <el-form-item
+          label="任务名称："
+          required
+          prop="name">
+          <el-input
+            v-model="applyFrom.name"
+            style="width: 320px !important;"
+            placeholder="请输入任务名称" />
         </el-form-item>
-        <el-form-item required v-if="processorList && processorList.length" label="选择地区：">
+        <el-form-item required
+          v-if="processorList && processorList.length"
+          label="选择地区：">
           <div class="flex-row">
             <multilevelLinkage
               :listData.sync="processorList "
               :storeData.sync="regionData">
             </multilevelLinkage>
             <el-form-item style="margin-left: 26px;">
-              <el-checkbox v-model="restrictedCity" @change="handleChangeCities" label="地市"></el-checkbox>
+              <el-checkbox
+                v-model="restrictedCity"
+                @change="handleChangeCities"
+                label="地市"></el-checkbox>
             </el-form-item>
           </div>
         </el-form-item>
-        <el-form-item required v-if="provinceList && provinceList.length" prop="province" label="选择省份：">
+        <el-form-item required
+          v-if="provinceList && provinceList.length"
+          prop="province"
+          label="选择省份：">
           <div class="flex-row">
             <el-select
               v-model="applyFrom.province"
@@ -42,7 +60,10 @@
               </el-option>
             </el-select>
             <el-form-item style="margin-left: 26px;">
-              <el-checkbox v-model="restrictedCity" @change="handleChangeCities" label="地市"></el-checkbox>
+              <el-checkbox
+                v-model="restrictedCity"
+                @change="handleChangeCities"
+                label="地市"></el-checkbox>
             </el-form-item>
           </div>
         </el-form-item>
@@ -52,16 +73,65 @@
               <el-select
                 v-model="applyFrom.extractDateType"
                 @change="changeDate">
-                <el-option v-for="item in extractDateType" :key="item" :value="item.value" :label="item.label"></el-option>
+                <el-option
+                  v-for="item in extractDateType"
+                  :key="item"
+                  :value="item.value"
+                  :label="item.label"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item class="ml16" prop="extractDate">
-              <el-date-picker
-                value-format="yyyy-MM-dd"
-                v-model="applyFrom.extractDate"
-                :type="applyFrom.extractDateType === '1' ? 'date' : 'month'"
-                :placeholder="applyFrom.extractDateType === '1' ? '请选择日期' : '请选择月份'">
-              </el-date-picker>
+            <el-form-item
+              class="ml16">
+              <div>
+                <el-form-item
+                  prop="startDate"
+                  class="fl"
+                  v-if="applyFrom.extractDateType !== '1'">
+                  <el-date-picker
+                    v-model="applyFrom.startDate"
+                    type="month"
+                    :editable="false"
+                    :clearable="false"
+                    format="yyyy-MM"
+                    value-format="yyyy-MM"
+                    :picker-options="startOptions(applyFrom.endDate)"
+                    placeholder="请选择开始日期">
+                  </el-date-picker>
+                </el-form-item>
+                <el-form-item
+                  class="line-fl"
+                  v-if="applyFrom.extractDateType !== '1'">
+                  <span class="date-connect-line float-left">-</span>
+                </el-form-item>
+                <el-form-item
+                  class="fl"
+                  prop="endDate"
+                  v-if="applyFrom.extractDateType !== '1'">
+                  <el-date-picker
+                    v-model="applyFrom.endDate"
+                    type="month"
+                    :editable="false"
+                    :clearable="false"
+                    format="yyyy-MM"
+                    value-format="yyyy-MM"
+                    :picker-options="endOptions(applyFrom.startDate)"
+                    placeholder="请选择结束日期">
+                  </el-date-picker>
+                </el-form-item>
+              </div>
+              <el-form-item
+                class="fl"
+                prop="extractDate"
+                v-if="applyFrom.extractDateType === '1'">
+                <el-date-picker
+                  value-format="yyyy-MM-dd"
+                  v-model="applyFrom.extractDate"
+                  :default-time="['00:00:00','23:59:59']"
+                  :type="'daterange'"
+                  start-placeholder="开始日期" end-placeholder="结束日期"
+                  :picker-options="startDayOptions(applyFrom.endDate)">
+                </el-date-picker>
+              </el-form-item>
             </el-form-item>
           </div>
         </el-form-item>
@@ -97,7 +167,6 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="数据来源：" v-if="applyFrom.detailSet.indexOf('数据来源') > -1">
-          <!-- <span class="cancel" @click="resetData('source')">{{sourceSet ? '取消设置' : '设置'}}</span> -->
           <div>
             <el-checkbox class="all-label" v-model="sourceAll" label="全部" @change="isAllChecked2('sourceAll', 'source', sourceList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.source" @change="handleChecked('sourceAll', 'source', sourceList)">
@@ -106,7 +175,6 @@
           </div>
         </el-form-item>
         <el-form-item label="会员类型：" v-if="applyFrom.detailSet.indexOf('会员类型') > -1">
-          <!-- <span class="cancel" @click="resetData('vipType')">{{vipTypeSet ? '取消设置' : '设置'}}</span> -->
           <div>
             <el-checkbox class="all-label" v-model="vipTypeAll" label="全部" @change="isAllChecked2('vipTypeAll', 'vipType', vipTypeList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.vipType" @change="handleChecked('vipTypeAll', 'vipType', vipTypeList)">
@@ -115,10 +183,6 @@
           </div>
         </el-form-item>
         <el-form-item label="用户性别：" v-if="applyFrom.detailSet.indexOf('性别') > -1">
-          <!-- <span class="cancel" @click="resetData('sex')">{{sexSet ? '取消设置' : '设置'}}</span>
-          <el-radio-group v-model="applyFrom.sex" @change="getSex">
-            <el-radio v-for="item in sexList" :key="item" :label="item.label"></el-radio>
-          </el-radio-group> -->
           <div>
             <el-checkbox class="all-label" v-model="sexAll" label="全部" @change="isAllChecked2('sexAll', 'sex', sexList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.sex" @change="handleChecked('sexAll', 'sex', sexList)">
@@ -127,7 +191,6 @@
           </div>
         </el-form-item>
         <el-form-item label="用户年龄：" v-if="applyFrom.detailSet.indexOf('年龄') > -1">
-          <!-- <span class="cancel" @click="resetData('age')">{{ageSet ? '取消设置' : '设置'}}</span> -->
           <div>
             <el-checkbox class="all-label" v-model="ageAll" label="全部" @change="isAllChecked2('ageAll', 'age', ageList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.age" @change="handleChecked('ageAll', 'age', ageList)">
@@ -136,7 +199,6 @@
           </div>
         </el-form-item>
         <el-form-item label="用户行为：" v-if="applyFrom.detailSet.indexOf('用户行为') > -1">
-          <!-- <span class="cancel" @click="resetData('userActive')">{{userActiveSet ? '取消设置' : '设置'}}</span> -->
           <div>
             <el-select v-model="applyFrom.userActive" multiple placeholder="请选择">
               <el-option
@@ -149,7 +211,6 @@
           </div>
         </el-form-item>
         <el-form-item label="上网方式：" v-if="applyFrom.detailSet.indexOf('上网方式') > -1">
-          <!-- <span class="cancel" @click="resetData('netType')">{{netTypeSet ? '取消设置' : '设置'}}</span> -->
           <div>
             <el-checkbox class="all-label" v-model="netTypeAll" label="全部" @change="isAllChecked2('netTypeAll', 'netType', netTypeList)"></el-checkbox>
             <el-checkbox-group v-model="applyFrom.netType" @change="handleChecked('netTypeAll', 'netType', netTypeList)">
@@ -177,11 +238,6 @@ import mixins from './mixins';
 import multilevelLinkage from '@/components/multilevelLinkage.vue';
 import {mapState} from 'vuex';
 const sexList = [{label: '男', value: '1'}, {label: '女', value: '2'}];
-/* const detailSetList = [
-  {label: '用户信息', value: 1, type: 1}, {label: '用户类型', value: 2, type: 1}, {label: '数据来源', value: 3},
-  {label: '会员类型', value: 4, type: 1}, {label: '性别', value: 5}, {label: '年龄', value: 6},
-  {label: '用户行为', value: 7, type: 1}, {label: '上网方式', value: 8}, {label: '使用时长', value: 9, type: 2}
-]; */
 const detailSetList = [
   {label: '用户信息', value: 1, type: 1}, {label: '用户类型', value: 2, type: 1}, {label: '数据来源', value: 3},
   {label: '性别', value: 5}, {label: '年龄', value: 6},

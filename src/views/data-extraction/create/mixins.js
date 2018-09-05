@@ -1,5 +1,6 @@
 import {mapActions} from 'vuex';
 import { inputLengthTwenty } from '@/utils/rules.js';
+import moment from 'moment';
 
 export default {
   data() {
@@ -11,7 +12,13 @@ export default {
           { validator: inputLengthTwenty, trigger: 'blur' }
         ],
         extractDate: [
-          { required: true, message: '请选择', trigger: ['change', 'blur'] }
+          { required: true, message: '请选择日期', trigger: ['change', 'blur'] }
+        ],
+        startDate: [
+          { required: true, message: '请选择开始时间', trigger: ['change', 'blur'] }
+        ],
+        endDate: [
+          { required: true, message: '请选择结束时间', trigger: ['change', 'blur'] }
         ],
         dataType: [
           { required: true, message: '请选择数据类型', trigger: ['change', 'blur'] }
@@ -165,11 +172,41 @@ export default {
       }
       return obj;
     },
+    startDayOptions(date) {
+      return {
+        disabledDate(time) {
+          return time.getTime() > moment(Date.now()).add(-2, 'day').toDate().getTime();
+        }
+      };
+    },
+    startOptions(endDate) {
+      return {
+        disabledDate(time) {
+          if (endDate) {
+            return (time.getTime() < moment(endDate).add(-8, 'months').toDate().getTime()) || (time.getTime() > new Date(endDate).getTime());
+          } else {
+            return time.getTime() > Date.now();
+          }
+        }
+      };
+    },
+    endOptions(startDate) {
+      return {
+        disabledDate(time) {
+          if (startDate) {
+            return (time.getTime() > moment(startDate).add(8, 'months').toDate().getTime()) || (time.getTime() < new Date(startDate).getTime());
+          } else {
+            return time.getTime() > Date.now();
+          }
+        }
+      };
+    },
     onSubmit() {
       this.submitData.mobliePhone = '';
       this.submitData.ip = '';
       this.submitData.imei = '';
       this.submitData.idfa = '';
+      let timeType = this.applyFrom.extractDateType;
       if (this.processorList && this.processorList.length) {
         if (this.regionData.regionList && this.regionData.regionList.length <= 0) {
           this.$message({ showClose: true, message: '请选择地区', type: 'info' });
@@ -204,9 +241,23 @@ export default {
           this.submitData.province.push(item.provinceValue);
         }
       });
+      if (timeType === '1') {
+        let time = this.applyFrom.extractDate;
+        if (time) {
+          this.submitData.extractStartDate = time[0];
+          this.submitData.extractEndDate = time[1];
+        } else {
+          this.submitData.extractStartDate = '';
+          this.submitData.extractEndDate = '';
+        }
+      } else {
+        this.submitData.extractStartDate = this.applyFrom.startDate;
+        this.submitData.extractEndDate = this.applyFrom.endDate;
+      }
+      // return false ;
       let data = {
         name: this.applyFrom.name,
-        extractDate: this.applyFrom.extractDate,
+        // extractDate: this.applyFrom.extractDate,
         extractDateType: this.applyFrom.extractDateType,
         clientType: clientTypeObj,
         // clientType: 2,

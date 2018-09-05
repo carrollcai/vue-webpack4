@@ -13,7 +13,6 @@ const state = {
     name: '',
     extractBusinessStatus: null,
     status: 100,
-    isOpen: null,
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE,
     timeRange: ''
@@ -71,7 +70,6 @@ const mutations = {
       }
       return newVal;
     });
-    console.log(data);
     if (data[0].region) {
       state.processorList = handlers;
     } else {
