@@ -352,13 +352,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "scss/variables.scss";
+<style lang="less">
+@import "~scss/variables.less";
 .el-popover {
   min-width: 35px !important;
 }
 .el-dropdown-link {
-  color: $buttonColor;
+  color: @buttonColor;
   cursor: pointer;
 }
 .tipText {

@@ -47,7 +47,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .detail-bar {
   border-radius: 2px;
   background-color: #fafafa;

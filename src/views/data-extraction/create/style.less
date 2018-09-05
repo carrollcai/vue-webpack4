@@ -1,14 +1,23 @@
-@import '@/assets/scss/variables.scss';
+@import "~@/assets/scss/variables.less";
 .apply {
-  .fl {float: left;}
-  .line-fl {float: left; height: 40px; line-height: 40px;}
+  .fl {
+    float: left;
+  }
+  .line-fl {
+    float: left;
+    height: 40px;
+    line-height: 40px;
+  }
   .data-title {
     font-size: 18px;
     font-weight: 400;
   }
-  .cancel {float: right; color: #3778FF;}
+  .cancel {
+    float: right;
+    color: #3778FF;
+  }
   .base-info {
-    > .el-form-item {
+    >.el-form-item {
       display: flex !important;
     }
     .flex-row {
@@ -24,22 +33,28 @@
       }
     }
   }
-  > .el-form-item {
+  >.el-form-item {
     display: flex !important;
   }
-  .all-label {float: left; margin-right: 36px;}
+  .all-label {
+    float: left;
+    margin-right: 36px;
+  }
   .detail-setting {
     display: flex;
-    > .el-form-item {
+    >.el-form-item {
       min-width: 93px;
     }
-    > .el-form-item__content {
+    >.el-form-item__content {
       flex: 1;
     }
     .el-checkbox {
       min-width: 90px;
     }
-    .el-checkbox {margin-left: 0; margin-right: 30px;}
+    .el-checkbox {
+      margin-left: 0;
+      margin-right: 30px;
+    }
   }
   .detail-set {
     background: #f1f2f3;
@@ -47,14 +62,14 @@
     margin: 0 62px 26px;
     border-radius: 5px;
     position: relative;
-    > .el-form-item {
+    >.el-form-item {
       display: flex;
       padding: 0 59px 0 10px;
-      > .el-form-item__label {
+      >.el-form-item__label {
         min-width: 93px;
         text-align: right;
       }
-      > .el-form-item__content {
+      >.el-form-item__content {
         width: 100%;
       }
     }
@@ -64,7 +79,10 @@
     .blue {
       background: #E6F7FF;
     }
-    .el-checkbox {margin-left: 0; margin-right: 30px;}
+    .el-checkbox {
+      margin-left: 0;
+      margin-right: 30px;
+    }
   }
   .detail-set::after {
     position: absolute;
@@ -78,19 +96,24 @@
     border-bottom: 20px solid #f1f2f3;
   }
 }
+
 .multilevel-linkage {
   position: relative;
   border: 1px #E7E7E7 solid;
   border-radius: 3px;
   .el-cascader {
     width: 315px;
-    .el-input input {border: 0;}
+    .el-input input {
+      border: 0;
+    }
   }
   .tag-list {
     margin-top: -40px;
     width: 270px;
     position: relative;
     z-index: 2;
-    .el-tag {margin-left: 8px;}
+    .el-tag {
+      margin-left: 8px;
+    }
   }
 }

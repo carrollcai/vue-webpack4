@@ -4,8 +4,13 @@
       <el-form class="form-manage">
         <div class="flex">
           <el-form-item class="form-query-input-width">
-            <el-select v-model="organizeType" clearable placeholder="集团属性">
-              <el-option v-for="(item, i) in ORGANIZE_TYPE" :key="i" :value="item.value" :label="item.label" />
+            <el-select v-model="organizeType"
+              clearable
+              placeholder="集团属性">
+              <el-option v-for="(item, i) in ORGANIZE_TYPE"
+                :key="i"
+                :value="item.value"
+                :label="item.label" />
             </el-select>
           </el-form-item>
 
@@ -15,62 +20,89 @@
             </el-select>
           </el-form-item>-->
 
-          <el-form-item class="form-query-input-width form-left-width" prop="staffName">
-            <el-input v-model="managerName" clearable placeholder="客户经理"/>
+          <el-form-item class="form-query-input-width form-left-width"
+            prop="staffName">
+            <el-input v-model="managerName"
+              clearable
+              placeholder="客户经理" />
           </el-form-item>
 
-          <el-form-item class="form-query-input-width form-left-width" prop="code">
-            <el-input v-model="otherField" clearable placeholder="集团名称/编码"/>
+          <el-form-item class="form-query-input-width form-left-width"
+            prop="code">
+            <el-input v-model="otherField"
+              clearable
+              placeholder="集团名称/编码" />
           </el-form-item>
         </div>
 
         <div class="flex">
           <el-form-item class="form-left-width">
-            <el-button type="primary" @click="handleQuery">查询</el-button>
+            <el-button type="primary"
+              @click="handleQuery">查询</el-button>
           </el-form-item>
           <el-form-item class="form-left-width">
-            <el-button class="el-button--have-icon" @click="handleCreate" icon="el-icon-plus">创建集团客户</el-button>
+            <el-button class="el-button--have-icon"
+              @click="handleCreate"
+              icon="el-icon-plus">创建集团客户</el-button>
           </el-form-item>
         </div>
       </el-form>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first"></el-tab-pane>
+      <el-tabs v-model="activeName"
+        @tab-click="handleClick">
+        <el-tab-pane label="全部"
+          name="first"></el-tab-pane>
         <!--<el-tab-pane label="草稿" name="second"></el-tab-pane>-->
-        <el-tab-pane label="审核中" name="third"></el-tab-pane>
-        <el-tab-pane label="审核通过" name="fourth"></el-tab-pane>
-        <el-tab-pane label="审核不通过" name="fifth"></el-tab-pane>
+        <el-tab-pane label="审核中"
+          name="third"></el-tab-pane>
+        <el-tab-pane label="审核通过"
+          name="fourth"></el-tab-pane>
+        <el-tab-pane label="审核不通过"
+          name="fifth"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
-      <wm-table
-        :source="groupCustomerList.list"
+      <wm-table :source="groupCustomerList.list"
         :total="groupCustomerList.totalCount"
         :pageNo="pageNo"
         :pageSize="pageSize"
         @onPagination="onPagination"
         @onSizePagination="onSizePagination">
-        <el-table-column label="集团编码" property="organizeCode" show-overflow-tooltip/>
-        <el-table-column label="集团名称" property="organizeName" show-overflow-tooltip>
+        <el-table-column label="集团编码"
+          property="organizeCode"
+          show-overflow-tooltip/>
+        <el-table-column label="集团名称"
+          property="organizeName"
+          show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="集团属性" property="organizeTypeName">
+        <el-table-column label="集团属性"
+          property="organizeTypeName">
         </el-table-column>
         <!--<el-table-column label="所属省份" property="provinceName">
         </el-table-column>-->
-        <el-table-column label="客户经理" property="managerName" />
-        <el-table-column label="集团状态" property="orgTaskStatusName">
+        <el-table-column label="客户经理"
+          property="managerName" />
+        <el-table-column label="集团状态"
+          property="orgTaskStatusName">
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <el-button class="table-button" type="text" v-if="isPassed(scope.row)" @click="handleEdit(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              v-if="isPassed(scope.row)"
+              @click="handleEdit(scope.row)">
               修改
             </el-button>
             <template v-if="isDraft(scope.row)">
-              <el-dropdown class="table-more-btn" @command="handleCommand(scope.row, $event)">
+              <el-dropdown class="table-more-btn"
+                @command="handleCommand(scope.row, $event)">
                 <span class="el-dropdown-link">
-                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="edit">修改</el-dropdown-item>
@@ -238,11 +270,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "scss/variables.scss";
+<style lang="less">
+@import "~scss/variables.less";
 .group-customer {
-  .el-dropdown-link{
-    color: $buttonColor;
+  .el-dropdown-link {
+    color: @buttonColor;
     cursor: pointer;
   }
 }

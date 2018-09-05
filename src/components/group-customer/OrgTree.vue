@@ -224,7 +224,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="less">
 #orgTree{
   width: 100%;
   height: 600px;

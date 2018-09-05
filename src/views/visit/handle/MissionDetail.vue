@@ -68,7 +68,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="less">
 .visit-mission-handle-detail{
   .info-block{
     margin-top: 16px;

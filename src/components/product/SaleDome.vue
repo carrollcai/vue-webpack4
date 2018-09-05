@@ -176,7 +176,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .base-info {
   margin-top: 16px;
   padding-bottom: 16px;

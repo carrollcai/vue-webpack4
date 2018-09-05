@@ -39,7 +39,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .adduser-search__title {
   height: 28px;
   line-height: 28px;

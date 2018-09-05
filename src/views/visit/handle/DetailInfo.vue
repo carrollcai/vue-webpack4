@@ -1,5 +1,6 @@
 <template>
-  <el-form label-width="130px" class="visit-mission-detail-info">
+  <el-form label-width="130px"
+    class="visit-mission-detail-info">
     <el-form-item label="走访主题">
       {{visit.visitTheme}}
     </el-form-item>
@@ -20,7 +21,8 @@
       {{date}} {{time}}
     </el-form-item>
 
-    <el-form-item label="走访内容" class="too-long-content">
+    <el-form-item label="走访内容"
+      class="too-long-content">
       {{visit.visitContent}}
     </el-form-item>
 
@@ -28,7 +30,8 @@
       {{visit.relOpporCode}}
     </el-form-item>
 
-    <el-form-item label="问题协调" class="too-long-content">
+    <el-form-item label="问题协调"
+      class="too-long-content">
       {{visit.problemCoordinate}}
     </el-form-item>
 
@@ -39,13 +42,17 @@
     <template v-if="visit.visitStatus === '4'">
       <div class="line"></div>
 
-      <el-form-item label="执行汇报" class="too-long-content">
+      <el-form-item label="执行汇报"
+        class="too-long-content">
         {{visit.feedback}}
       </el-form-item>
 
-      <el-form-item label="上传附件" >
+      <el-form-item label="上传附件">
         <template v-if="files && files.length">
-          <span v-for="(file, index) in files" :key="index" @click="handleDownload(file)" class="file-name">
+          <span v-for="(file, index) in files"
+            :key="index"
+            @click="handleDownload(file)"
+            class="file-name">
             {{file.fileName + (index === files.length - 1 ? '' : '；')}}
           </span>
         </template>
@@ -55,7 +62,7 @@
   </el-form>
 </template>
 <script>
-import {mapActions} from 'vuex';
+import { mapActions } from 'vuex';
 export default {
   name: 'VisitDetailInfo',
   props: {
@@ -119,26 +126,26 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-@import '@/assets/scss/variables.scss';
-.visit-mission-detail-info{
-  .line{
+<style lang="less">
+@import "~@/assets/scss/variables.less";
+.visit-mission-detail-info {
+  .line {
     height: 1px;
     border-top: 1px solid rgba(229, 229, 229, 1);
     margin: 2px 0 24px 0;
   }
 
-  .too-long-content{
-    .el-form-item__content{
+  .too-long-content {
+    .el-form-item__content {
       word-break: break-all;
     }
   }
 
-  .file-name{
+  .file-name {
     cursor: pointer;
-    color: $primary-color;
+    color: @primary-color;
     min-width: 50px;
-    border-bottom: 1px solid $primary-color;
+    border-bottom: 1px solid @primary-color;
     margin-right: 16px;
   }
 }

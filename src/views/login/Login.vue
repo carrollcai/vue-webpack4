@@ -221,8 +221,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-$padding-left: 46px;
+<style lang="less">
+@padding-left: 46px;
 
 .login {
   height: 100%;

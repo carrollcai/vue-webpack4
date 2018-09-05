@@ -99,15 +99,15 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-@import "scss/variables.scss";
+<style lang="less">
+@import "~scss/variables.less";
 .login-input {
   width: 100%;
   position: relative;
 
   .placeholder {
     color: rgba(0, 0, 0, 0.25);
-    margin: 16px 0 $fontWidth 0;
+    margin: 16px 0 @fontWidth 0;
     height: 24px;
   }
 

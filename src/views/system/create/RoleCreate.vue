@@ -130,10 +130,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "scss/variables.scss";
+<style lang="less">
+@import "~scss/variables.less";
 .role-create {
-  margin-top: $blockWidth;
+  margin-top: @blockWidth;
   display: flex;
   justify-content: center;
 }

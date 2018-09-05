@@ -1,5 +1,4 @@
-@import '@/assets/scss/variables.scss';
-
+@import "~@/assets/scss/variables.less";
 .customer-create {
   .steps {
     width: 620px;
@@ -8,24 +7,25 @@
       width: 120px;
     }
   }
-
-  .info-block{
+  .info-block {
     margin-top: 16px;
   }
   .customer-create-info,
   .base-optional-info {
     width: 800px;
     margin: 0 auto;
-    .el-input, .el-textarea {
-      width: $formMediumWidth;
+    .el-input,
+    .el-textarea {
+      width: @formMediumWidth;
     }
   }
   .base-info,
   .customer-manager-info {
     width: 500px;
     margin: 0 auto;
-    .el-input, .el-textarea {
-      width: $formLargeWidth;
+    .el-input,
+    .el-textarea {
+      width: @formLargeWidth;
     }
   }
   .not-required {
@@ -87,22 +87,23 @@
     border: 1px solid #dcdfe6;
     border-radius: 6px;
     box-sizing: border-box;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   }
   .hover {
     border: 1px solid #3778FF;
   }
-  .tags, .tags-input{
+  .tags,
+  .tags-input {
     outline: none;
     position: relative;
     float: left;
     color: #000;
     line-height: 25px;
     border-radius: 6px;
-    .content{
+    .content {
       line-height: 25px;
     }
-    .del{
+    .del {
       cursor: pointer;
       width: 22px;
       height: 28px;
@@ -113,7 +114,7 @@
       right: 0;
     }
   }
-  .tags-input{
+  .tags-input {
     height: 20px;
     font-size: 14px;
     padding: 0;

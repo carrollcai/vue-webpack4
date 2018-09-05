@@ -406,8 +406,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "scss/variables.scss";
+<style lang="less">
+@import "~scss/variables.less";
 // 弹出框样式设置
 .business-task-dialog {
   .el-dialog__body {

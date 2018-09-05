@@ -113,7 +113,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="less">
 .multilevel-linkage {
   position: relative;
   border: 1px #E7E7E7 solid;

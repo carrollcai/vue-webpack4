@@ -114,7 +114,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="less">
 .reset-pwd-dialog {
   line-height: 1;
   .el-dialog__header {

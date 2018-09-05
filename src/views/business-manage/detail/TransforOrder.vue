@@ -407,9 +407,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "scss/variables.scss";
-@import "./style.scss";
+<style lang="less">
+@import "~scss/variables.less";
+@import "./style.less";
 .order-container {
   padding: 16px;
   background: #fff;
@@ -418,7 +418,7 @@ export default {
   justify-content: center;
 }
 .business-detail {
-  margin-top: $blockWidth;
+  margin-top: @blockWidth;
 }
 .create-business-box-card {
   position: absolute;

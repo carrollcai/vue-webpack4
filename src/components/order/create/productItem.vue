@@ -142,6 +142,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "./style.scss";
+<style lang="less">
+@import "./style.less";
 </style>

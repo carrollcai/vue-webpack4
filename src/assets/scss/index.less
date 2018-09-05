@@ -1,4 +1,4 @@
-@import "scss/variables.scss";
+@import "~scss/variables.less";
 .block-containter {
   background-color: #fff;
   padding: 24px;
@@ -40,7 +40,7 @@
 }
 
 .form-item__input {
-  width: $inputWidthQuery;
+  width: @inputWidthQuery;
 }
 
 .float-left {
@@ -52,19 +52,19 @@
 }
 
 .breadcrumb {
-  padding-left: $blockWidth;
+  padding-left: @blockWidth;
 }
 
 .form-input-large {
-  width: $formLargeWidth !important;
+  width: @formLargeWidth  !important;
 }
 
 .form-input-medium {
-  width: $formMediumWidth !important;
+  width: @formMediumWidth  !important;
 }
 
 .form-input-half {
-  width: $formhalfWidth !important;
+  width: @formhalfWidth  !important;
 }
 
 .form-input-80 {
@@ -130,7 +130,7 @@
 }
 
 .table-container {
-  margin-top: $blockWidth;
+  margin-top: @blockWidth;
 }
 
 .margin-bottom-16 {
@@ -171,11 +171,11 @@
 }
 
 .form-left-width {
-  margin-left: $formLeftWidth;
+  margin-left: @formLeftWidth;
 }
 
 .form-query-input-width {
-  width: $inputWidthQuery;
+  width: @inputWidthQuery;
 }
 
 .overflow-hidden {

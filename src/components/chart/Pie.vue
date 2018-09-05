@@ -149,7 +149,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .has-legend {
   position: absolute;
   // right: 0;

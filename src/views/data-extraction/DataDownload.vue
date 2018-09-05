@@ -247,7 +247,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 
 .tab-bar {
   margin: 0;

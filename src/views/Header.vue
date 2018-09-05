@@ -8,18 +8,24 @@
         <i class="el-icon-bell"></i>
       </div>
       <div class="header-func__split">|</div> -->
-      <el-menu mode="horizontal" :default-active="'1'" background-color="#292c31" text-color="#fff">
+      <el-menu mode="horizontal"
+        :default-active="'1'"
+        background-color="#292c31"
+        text-color="#fff">
         <el-submenu :index="'1'">
           <template slot="title">
             <!-- <i class="el-icon-service"></i> -->
             {{currentUser.operator.staffName}}
           </template>
-          <el-menu-item index="2-1" @click="handleResetPwd">修改密码</el-menu-item>
-          <el-menu-item index="2-2" @click="handleLogout">退出</el-menu-item>
+          <el-menu-item index="2-1"
+            @click="handleResetPwd">修改密码</el-menu-item>
+          <el-menu-item index="2-2"
+            @click="handleLogout">退出</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>
-    <reset-pwd v-if="resetPwdVisible" ref="resetPwd"></reset-pwd>
+    <reset-pwd v-if="resetPwdVisible"
+      ref="resetPwd"></reset-pwd>
   </div>
 </template>
 
@@ -57,8 +63,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "scss/variables.scss";
+<style lang="less">
+@import "~scss/variables.less";
 .header-title {
   padding-left: 0;
   font-size: 18px;

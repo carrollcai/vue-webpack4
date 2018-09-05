@@ -165,7 +165,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="less">
 .family-contact_container{
   display: flex;
   align-items: center;

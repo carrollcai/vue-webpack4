@@ -408,8 +408,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "scss/variables.scss";
+<style lang="less">
+@import "~scss/variables.less";
 .p-manage {
   padding: 24px;
   background: #fff;

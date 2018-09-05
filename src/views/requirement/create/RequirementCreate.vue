@@ -362,4 +362,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" src="./style.scss"></style>
+<style lang="less" src="./style.less"></style>

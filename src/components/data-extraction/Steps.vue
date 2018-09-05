@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .step-bg{
    background: #F0F2F5;
    padding-top: 30px;

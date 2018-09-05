@@ -1,8 +1,8 @@
-@import "scss/variables.scss";
+@import "~scss/variables.less";
 .active-trend,
 .active-userdata,
 .province-user {
-  margin-top: $blockWidth;
+  margin-top: @blockWidth;
 }
 
 /* search */
@@ -23,7 +23,7 @@
 }
 
 .daliy-download {
-  margin-left: $blockWidth;
+  margin-left: @blockWidth;
 }
 
 .active-search__province,
@@ -78,8 +78,8 @@
 }
 
 .userdata-main-left__num {
-  margin-top: $blockWidth;
-  margin-bottom: $blockWidth;
+  margin-top: @blockWidth;
+  margin-bottom: @blockWidth;
   height: 22px;
   line-height: 22px;
   color: rgba(0, 0, 0, 0.65);
@@ -100,7 +100,7 @@
 }
 
 .userdata-header-quote {
-  margin-left: $blockWidth;
+  margin-left: @blockWidth;
   color: rgba(0, 0, 0, 0.25);
   font-size: 12px;
 }
@@ -111,7 +111,7 @@
 
 .trend-sub {
   display: flex;
-  margin-top: $formWidth;
+  margin-top: @formWidth;
   justify-content: space-between;
   align-items: center;
 }
@@ -136,20 +136,20 @@
 }
 
 .trend-header-right__query {
-  margin-left: $blockWidth;
+  margin-left: @blockWidth;
   display: flex;
 }
 
 .trend-header-divider {
-  margin: 0 $blockWidth;
-  height: $buttonLineHeight;
-  line-height: $buttonLineHeight;
+  margin: 0 @blockWidth;
+  height: @buttonLineHeight;
+  line-height: @buttonLineHeight;
   font-size: 20px;
   color: #E3E3E3;
 }
 
 .trend-mode {
-  margin-top: $formWidth;
+  margin-top: @formWidth;
   height: 500px;
 }
 
@@ -172,11 +172,11 @@
 }
 
 .provinceUser-search {
-  margin-left: $formWidth;
+  margin-left: @formWidth;
 }
 
 .data-download {
-  margin-left: $blockWidth;
+  margin-left: @blockWidth;
   width: auto;
   padding: 0 12px;
 }
