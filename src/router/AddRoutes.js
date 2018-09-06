@@ -63,18 +63,11 @@ import OrderHandleTaskDetail from '@/views/order/detail/HandleTaskDetail.vue';
 /* 我的走访管理 */
 import MyVisitManage from '@/views/visit/MyVisitManage.vue';
 import CreateVisitApplication from '@/views/visit/create/CreateVisitApplication.vue';
-import ExecuteProcess from '@/views/visit/detail/ExecuteProcess.vue';
-import MyVisitView from '@/views/visit/detail/MyVisitView.vue';
 
 /* 走访指派 */
 import VisitAppoint from '@/views/visit/VisitAppoint.vue';
 import CreateVisitAppoint from '@/views/visit/create/CreateVisitAppoint.vue';
 import VisitAppointDetail from '@/views/visit/detail/VisitAppointDetail.vue';
-
-/* 走访任务处理 */
-// import MissionHandling from '@/views/visit/MissionHandling.vue';
-// import VisitMissionHandle from '@/views/visit/handle/MissionHandle.vue';
-// import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
 
 /* 数据提取管理 */
 import DataDownload from '@/views/data-extraction/DataDownload.vue';
@@ -332,19 +325,6 @@ const dynamicRoutes = [
         component: VisitAppointDetail,
         meta: { menuId: 31 }
       },
-      {
-        path: '/visit/my-visit-view',
-        name: 'my-visit-view',
-        component: MyVisitView,
-        meta: { menuId: 31 }
-      },
-      {
-        path: '/visit/execute-process',
-        name: 'execute-process',
-        component: ExecuteProcess,
-        meta: { menuId: 31 }
-      },
-
       /* 走访指派 */
       {
         path: '/visit/visit-appoint',
