@@ -43,7 +43,7 @@ const state = {
     date: [],
     organizeNameOrCode: '',
     opporCodeOrName: '',
-    opporStatus: '',
+    opporStatus: '0',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },
@@ -53,7 +53,7 @@ const state = {
     date: [],
     organizeNameOrCode: '',
     opporCodeOrName: '',
-    taskHasComplete: 0,
+    taskHasComplete: '0',
     pageNo: PAGE_NO,
     pageSize: PAGE_SIZE
   },

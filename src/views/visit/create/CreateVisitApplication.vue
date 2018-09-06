@@ -11,29 +11,29 @@
     <div class="m-container visit-create">
       <el-form :label-position="'right'" :model="createVisitFrom" ref="visitRef" :rules="createVisitVaild">
         <el-form-item label="走访主题：" label-width="140px" required prop="visitTheme">
-          <el-input maxlength="25" v-model="createVisitFrom.visitTheme" :disabled="visitId && visitId > 0" class="form-input-medium" placeholder="请输入主题" />
+          <el-input :maxlength="25" v-model="createVisitFrom.visitTheme" :disabled="visitId && visitId > 0" class="form-input-medium" placeholder="请输入主题" />
         </el-form-item>
         <el-form-item label="走访公司：" label-width="140px" required>
           <el-form-item prop="organizeName">
-            <el-input maxlength="25" v-model="createVisitFrom.organizeName" :disabled="visitId && visitId > 0" class="form-input-260" style=" margin-right: 20px;" placeholder="集团名称"></el-input>
+            <el-input :maxlength="25" v-model="createVisitFrom.organizeName" :disabled="visitId && visitId > 0" class="form-input-260" style=" margin-right: 20px;" placeholder="集团名称"></el-input>
             <!-- <el-autocomplete class="form-input-half" v-model="createVisitFrom.organizeName" :fetch-suggestions="querySearchAsync" placeholder="集团名称" @select="handleSelect" :trigger-on-focus="false" /> -->
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="visitAddress">
-            <el-input maxlength="50" v-model="createVisitFrom.visitAddress" class="form-input-260" style=" margin-right: 20px;" placeholder="办公地址"></el-input>
+            <el-input :maxlength="50" v-model="createVisitFrom.visitAddress" class="form-input-260" style=" margin-right: 20px;" placeholder="办公地址"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="走访对象：" label-width="140px" required>
           <el-form-item prop="intervieweeName">
-            <el-input maxlength="50" v-model="createVisitFrom.intervieweeName" class="form-input-half" placeholder="姓名"></el-input>
+            <el-input :maxlength="50" v-model="createVisitFrom.intervieweeName" class="form-input-half" placeholder="姓名"></el-input>
           </el-form-item>
           <div class="form-input-sep">-</div>
           <el-form-item prop="intervieweeMobile">
-            <el-input v-model="createVisitFrom.intervieweeMobile" maxlength="11" class="form-input-260" style=" margin-right: 20px;" placeholder="联系电话"></el-input>
+            <el-input v-model="createVisitFrom.intervieweeMobile" :maxlength="11" class="form-input-260" style=" margin-right: 20px;" placeholder="联系电话"></el-input>
           </el-form-item>
         </el-form-item>
         <el-form-item label="我方出席人员：" label-width="140px" required prop="visitPresentMembers">
-          <el-input maxlength="50" v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“;”隔开" />
+          <el-input :maxlength="50" v-model="createVisitFrom.visitPresentMembers" class="form-input-large" placeholder="可输入多个人员，用“;”隔开" />
         </el-form-item>
         <el-form-item label="计划走访时间：" label-width="140px" required prop="visitTime">
           <el-date-picker v-model="createVisitFrom.visitTime" @change="getTimeRange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00','23:59:59']"></el-date-picker>

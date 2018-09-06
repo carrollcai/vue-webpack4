@@ -28,14 +28,14 @@
           </el-form-item>
           <el-form-item label="商机名称："
             prop="opporName">
-            <el-input maxlength="25"
+            <el-input :maxlength="25"
               v-model="businessData.opporName"
               class="form-input-medium"
               placeholder="请输入商机名称" />
           </el-form-item>
           <el-form-item label="联系人员："
             prop="contactName">
-            <el-input maxlength="6"
+            <el-input :maxlength="6"
               class="form-input-80"
               v-model="businessData.contactName"
               placeholder="姓名"></el-input>
@@ -55,7 +55,7 @@
             <span class="form-input-sep">-</span>
             <el-form-item prop="contactMobile"
               style="display: inline-block;">
-              <el-input maxlength="11"
+              <el-input :maxlength="11"
                 class="form-input-120"
                 v-model="businessData.contactMobile"
                 placeholder="手机号"></el-input>
@@ -64,14 +64,14 @@
           <el-form-item label="联系邮箱："
             prop="contactEmail"
             style="display: inline-block;">
-            <el-input maxlength="35"
+            <el-input :maxlength="35"
               class="form-input-320"
               v-model="businessData.contactEmail"
               placeholder="请输入邮箱"></el-input>
           </el-form-item>
           <el-form-item label="合作集团："
             prop="organizeName">
-            <el-autocomplete maxlength="25"
+            <el-autocomplete :maxlength="25"
               class="form-input-half"
               v-model="businessData.organizeName"
               :fetch-suggestions="querySearchAsync"
@@ -89,7 +89,7 @@
               style="display:inline-block;">
               <el-input @focus="noData = false;"
                 @blur="noData = false;"
-                maxlength="50"
+                :maxlength="50"
                 class="form-input-half"
                 v-model="businessData.address"
                 placeholder="办公地址"></el-input>
@@ -97,7 +97,7 @@
           </el-form-item>
           <el-form-item label="业务描述："
             prop="busiDesc">
-            <el-input maxlength="500"
+            <el-input :maxlength="500"
               resize="none"
               class="form-input-320"
               type="textarea"

@@ -18,7 +18,7 @@
           prop="staffName">
           <el-input class="form-input-large"
             v-model="userCreate.staffName"
-            maxlength="6"></el-input>
+            :maxlength="6"></el-input>
         </el-form-item>
         <el-form-item label="登录账号："
           prop="code">

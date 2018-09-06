@@ -39,17 +39,17 @@
       <el-tabs v-model="orderCreateManageForm.ordStatus"
         @tab-click="tabChange">
         <el-tab-pane label="全部"
-          :name="0"></el-tab-pane>
+          name="0"></el-tab-pane>
         <el-tab-pane label="草稿"
-          :name="1"></el-tab-pane>
+          name="1"></el-tab-pane>
         <el-tab-pane label="待签约"
-          :name="2"></el-tab-pane>
+          name="2"></el-tab-pane>
         <el-tab-pane label="待付款"
-          :name="3"></el-tab-pane>
+          name="3"></el-tab-pane>
         <el-tab-pane label="已完成"
-          :name="4"></el-tab-pane>
+          name="4"></el-tab-pane>
         <el-tab-pane label="已取消"
-          :name="5"></el-tab-pane>
+          name="5"></el-tab-pane>
       </el-tabs>
     </div>
 

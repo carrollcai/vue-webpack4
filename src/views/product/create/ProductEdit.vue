@@ -62,14 +62,14 @@
             resize="none"></el-input>
         </el-form-item>
         <el-form-item label="价格策略:">
-          <el-input maxlength="500"
+          <el-input :maxlength="500"
             resize="none"
             type="textarea"
             v-model="productSaleDemo.priceStrategy"
             placeholder="请输入介绍"></el-input>
         </el-form-item>
         <el-form-item label="商务策略:">
-          <el-input maxlength="500"
+          <el-input :maxlength="500"
             resize="none"
             type="textarea"
             v-model="productSaleDemo.commercialStrategy"
