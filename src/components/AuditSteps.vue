@@ -129,8 +129,8 @@ export default {
 .audit-steps {
   border-radius: 2px;
   // // background-color: rgba(250, 250, 250, 1);
-  margin-bottom: 24px;
-  margin-top: 24px;
+  padding-bottom: 24px;
+  padding-top: 24px;
   .title {
     height: 24px;
     line-height: 24px;

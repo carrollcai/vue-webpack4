@@ -1,14 +1,14 @@
 import axios from 'axios';
-import store from '../../store';
+import store from '../../store/index.js';
 import { Message } from 'element-ui';
 import { toTrim } from '../common.js';
 
-export const fetch = (url, params, method, config) => {
+export default (url, params, method, config) => {
   // 去掉首尾空格
   toTrim(params);
-
+  // 当异步事件通过async，await阻塞发生时，loading会在第一次后失效
+  // 原因，后续SHOW_PAGE_LOADING并没有触发视图的变更，采用再按钮上加v-loading.fullscreen.lock，再创建一个loading实例
   store.commit('SHOW_PAGE_LOADING');
-
   return new Promise((resolve, reject) => {
     let ajx;
     if (method === 'get') {
@@ -22,7 +22,6 @@ export const fetch = (url, params, method, config) => {
     }
 
     ajx.then(res => {
-      store.commit('HIDE_PAGE_LOADING');
       if (res.data.errorInfo.code === '401') {
         store.commit('ROUTE_CHANGE', { path: '/login' });
       } else if (String(res.data.errorInfo.code) === '200') {
@@ -36,6 +35,8 @@ export const fetch = (url, params, method, config) => {
         });
         reject(res.data);
       }
+      // 处理完事件后，再关闭加载图标
+      store.commit('HIDE_PAGE_LOADING');
     }).catch((err) => {
       store.commit('HIDE_PAGE_LOADING');
       reject(err);

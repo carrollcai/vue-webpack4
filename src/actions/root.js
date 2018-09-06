@@ -58,6 +58,8 @@ const actions = {
   getNewFileInputId({ commit }, params) {
     return API.getNewFileInputIdAPI(params).then(res => {
       return res.data;
+    }).catch(() => {
+      return '';
     });
   },
   goFirstPage({ commit, state }, params) {

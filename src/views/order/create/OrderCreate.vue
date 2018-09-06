@@ -333,13 +333,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@import "scss/variables.scss";
-@import "./style.scss";
-.order-create {
-  margin-top: $blockWidth;
-  display: flex;
-  justify-content: center;
-}
-</style>
