@@ -16,7 +16,8 @@
         </div>
         <el-steps :active="activeIndex()"
           align-center>
-          <el-step v-for="item in processList"
+          <el-step
+            v-for="item in processList"
             :key="item.processId"
             :title="`${titleFilter(item)} ${taskDesc(item)}`"
             :description="item.dealResult">
