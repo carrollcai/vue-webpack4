@@ -186,6 +186,7 @@
               @click="submit">提交</el-button>
             <el-button plain
               :disabled="isClick"
+              v-loading.fullscreen.lock="isClick"
               @click="save">保存为草稿</el-button>
           </el-form-item>
         </el-form>
