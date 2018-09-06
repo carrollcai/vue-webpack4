@@ -73,7 +73,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .o-overview-detail {
   margin-top: 16px;
 }

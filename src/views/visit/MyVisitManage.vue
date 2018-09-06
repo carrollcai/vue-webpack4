@@ -240,8 +240,8 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import "~scss/variables.less";
+<style lang="scss">
+@import "scss/variables.scss";
 .table-container {
   .el-button + .el-button {
     margin-left: 0;

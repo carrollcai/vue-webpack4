@@ -193,7 +193,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="scss">
 .visit-datil {
   .ml15 {margin-left: 15px;}
   .visit-title {

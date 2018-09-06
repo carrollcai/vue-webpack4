@@ -1,6 +1,6 @@
-@import "~scss/variables.less";
+@import "scss/variables.scss";
 .visit-create {
-  margin-top: @blockWidth;
+  margin-top: $blockWidth;
   display: flex;
   justify-content: center;
   form {

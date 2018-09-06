@@ -1,43 +1,34 @@
 <template>
   <div class="product-case">
-    <div class="title">添加销售案例
-      <span class="sub-title">（可添加多个销售案例）</span>
-    </div>
-    <el-form class="product-case_form"
-      :model="productCase"
-      :rules="rules"
-      ref="baseForm"
-      label-width="130px">
+    <div class="title">添加销售案例 <span class="sub-title">（可添加多个销售案例）</span></div>
+    <el-form class="product-case_form" :model="productCase" :rules="rules" ref="baseForm" label-width="130px">
       <el-form-item label="销售类型：">
-        <el-radio-group v-model="productCase.salesType"
-          @change="handleChangeSalesType">
+        <el-radio-group v-model="productCase.salesType" @change="handleChangeSalesType">
           <el-radio label="0">单品销售</el-radio>
           <el-radio label="1">组合销售</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="productCase.salesType === '1'"
-        label="组合产品"
-        prop="composedProduct">
-        <el-select class="full-col"
+        label="组合产品" prop="composedProduct">
+        <el-select
+          class="full-col"
           v-model="productCase.composedProduct"
           multiple
           filterable
           @change="productNameChange"
           placeholder="产品名称/编码">
-          <el-option v-for="item in composedProductList"
+          <el-option
+            v-for="item in composedProductList"
             :key="item.productId"
             :label="item.productName"
             :value="item.productName"></el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="方案介绍"
-        prop="scheme">
+      <el-form-item label="方案介绍" prop="scheme">
         <el-input v-model="productCase.scheme"
           :maxlength="500"
-          placeholder="请简要概述方案"
-          type="textarea"
-          :rows="4"></el-input>
+          placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
 
       <!--<el-form-item  label="销售数量" prop="salesNumber">
@@ -55,8 +46,7 @@
           :maxlength="500"
           placeholder="请简要概述经验教训" type="textarea" :rows="4"></el-input>
       </el-form-item>-->
-      <el-form-item label="方案附件"
-        prop="files">
+      <el-form-item label="方案附件" prop="files">
         <el-upload class="upload-files"
           :limit="FILE_MAX_COUNT"
           :auto-upload="false"
@@ -64,29 +54,24 @@
           :on-remove="handleRemoveFile"
           :on-exceed="handleExceed"
           :file-list="uploadFiles">
-          <el-button slot="trigger"
-            size="small">
+          <el-button slot="trigger" size="small">
             <i class="icon-up margin-right-8"></i>上传文件
           </el-button>
-          <div slot="tip"
-            class="el-upload__tip">
+          <div slot="tip" class="el-upload__tip">
             <p class="lh1-5">{{FILE_TIP[0]}}</p>
             <p class="lh1-5">{{FILE_TIP[1]}}</p>
           </div>
         </el-upload>
       </el-form-item>
       <el-form-item class="btn-groups">
-        <el-button type="primary"
-          size="mini"
-          @click="saveCase(formData)">确定</el-button>
-        <el-button size="mini"
-          @click="cancel">取消</el-button>
+        <el-button type="primary" size="mini" @click="saveCase(formData)">确定</el-button>
+        <el-button size="mini" @click="cancel">取消</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import { FILE_TYPE_ID } from '@/config/index.js';
 import endsWith from 'lodash/endsWith';
 import {
@@ -199,9 +184,9 @@ export default {
         if (this.productCase.fileInputId) {
           const that = this;
           this.uploadFiles = [];
-          this.queryElec({ 'fileInputId': this.productCase.fileInputId }).then((res) => {
+          this.queryElec({'fileInputId': this.productCase.fileInputId}).then((res) => {
             if (res.data) {
-              (res.data).forEach((item) => {
+              (res.data).forEach(function(item) {
                 item.name = item.fileName;
                 that.uploadFiles.push(item);
               });
@@ -257,7 +242,7 @@ export default {
     },
     handleRemoveFile(file, fileList) {
       const that = this;
-      const { uploadFiles } = that;
+      const {uploadFiles} = that;
 
       uploadFiles.splice(0, uploadFiles.length);
 
@@ -267,7 +252,7 @@ export default {
 
       if (file.elecInstId) {
         // 删除文件
-        this.delUplodFile({ elecInstId: file.elecInstId, fileTypeId: FILE_TYPE_ID.product }).then((res) => {
+        this.delUplodFile({elecInstId: file.elecInstId, fileTypeId: FILE_TYPE_ID.product}).then((res) => {
           this.deleteFiles.push(file);
         });
         // this.deleteFiles.push(file);
@@ -284,12 +269,12 @@ export default {
     },
     productNameChange(value) {
       let curValue = value[0];
-      this.getComposedProduct({ productName: curValue });
+      this.getComposedProduct({productName: curValue});
     },
     saveCase() {
       this.$refs.baseForm.validate((valid) => {
         if (valid) {
-          const { productCase } = this;
+          const {productCase} = this;
           // 修改
           if (this.index > -1) {
             if (this.productCase.fileInputId) {
@@ -310,7 +295,7 @@ export default {
                 delete params.operatorId;
                 delete params.opId;
                 this.editSalesCase(params).then(res => {
-                  let data = { productId: this.proId };
+                  let data = {productId: this.proId};
                   this.getSalesCaseDetail(data);
                 });
               });
@@ -348,7 +333,7 @@ export default {
               files: this.uploadFiles
             };
             this.addSalesCase({ params, submitParams }).then(res => {
-              let data = { productId: this.proId };
+              let data = {productId: this.proId};
               this.getSalesCaseDetail(data);
             });
           }
@@ -371,20 +356,20 @@ export default {
   }
 };
 </script>
-<style lang="less">
-@import "~@/assets/scss/variables.less";
-@form-item-width: @formLargeWidth;
-.product-case {
+<style lang="scss">
+@import '@/assets/scss/variables.scss';
+$form-item-width: $formLargeWidth;
+.product-case{
   width: 100%;
   margin: 0 auto 32px;
-  border: 1px solid #e9e9e9;
+  border: 1px solid #E9E9E9;
   border-radius: 4px;
 
-  * {
+  *{
     box-sizing: border-box;
   }
 
-  .title {
+  .title{
     height: 44px;
     line-height: 44px;
     background-color: rgba(250, 250, 250, 1);
@@ -393,30 +378,29 @@ export default {
     padding-left: 24px;
   }
 
-  .sub-title {
+  .sub-title{
     color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
   }
 
-  .full-col,
-  .el-textarea {
-    width: @form-item-width;
+  .full-col, .el-textarea{
+    width: $form-item-width;
   }
 
-  .product-case_form {
+  .product-case_form{
     margin-bottom: 32px;
   }
 
-  .btn-groups .el-button {
+  .btn-groups .el-button{
     width: 58px;
     height: 24px;
     line-height: 24px;
   }
 
-  .upload-files {
-    width: @form-item-width;
+  .upload-files{
+    width: $form-item-width;
   }
-  .el-upload__tip {
+  .el-upload__tip{
     min-height: 44px;
     line-height: 22px;
     color: rgba(0, 0, 0, 0.45);

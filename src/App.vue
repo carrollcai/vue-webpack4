@@ -1,21 +1,17 @@
 <template>
-  <div id="app"
-    class="app">
+  <div id="app" class="app">
     <router-view></router-view>
   </div>
 </template>
 
-<script>import { mapState } from 'vuex';
+<script>
+import { mapState } from 'vuex';
 export default {
   name: 'App',
   computed: {
     ...mapState({
-      currentRoute: ({
-        root
-      }
-      ) => root.currentRoute
-    }
-    )
+      currentRoute: ({ root }) => root.currentRoute
+    })
   },
   methods: {
     changeRoute(obj) {
@@ -28,16 +24,17 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import "~scss/element-variables.less";
-@import "~scss/reset.less";
-@import "~scss/index.less";
-@import "~scss/views/active.less";
-@import "~scss/views/product.less";
-@import "~scss/views/retention.less";
-@import "~scss/views/page-error.less";
-@import "~scss/views/task.less";
-@import "~scss/views/order.less";
+<style lang="scss">
+@import "scss/element-variables.scss";
+@import "scss/reset.scss";
+@import "scss/index.scss";
+@import "scss/views/active.scss";
+@import "scss/views/product.scss";
+@import "scss/views/retention.scss";
+@import "scss/views/page-error.scss";
+@import "scss/views/task.scss";
+@import "scss/views/order.scss";
+
 .app {
   height: 100vh;
 }

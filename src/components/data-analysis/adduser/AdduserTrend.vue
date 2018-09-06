@@ -225,7 +225,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .province-form-item {
   width: 160px;
   margin-right: 16px;

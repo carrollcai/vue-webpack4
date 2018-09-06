@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .visit-execute-process {
   margin-top: 16px;
 }

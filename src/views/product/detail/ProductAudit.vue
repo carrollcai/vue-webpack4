@@ -118,7 +118,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .p-content {
   .crumb-bar {
     .el-breadcrumb {

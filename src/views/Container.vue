@@ -62,8 +62,8 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import "~scss/variables.less";
+<style lang="scss">
+@import "scss/variables.scss";
 
 .common-view {
   height: 100vh;
@@ -75,13 +75,12 @@ export default {
   // 这里需要注意，中间的加减运算必须含有空格
   height: calc(100% - 60px);
   position: relative;
-  width: 100%;
 }
 .app-header {
   padding: 0 30px;
   height: 60px;
   line-height: 60px;
-  background-color: @headerBg;
+  background-color: $headerBg;
 }
 .app-aside-scroll {
   height: 100%;
@@ -103,6 +102,6 @@ export default {
   width: calc(100% - 200px);
 }
 .app-main-content {
-  padding: @blockWidth;
+  padding: $blockWidth;
 }
 </style>

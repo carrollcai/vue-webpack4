@@ -117,7 +117,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .child-title {
   text-align: center;
   font-size: 16px;

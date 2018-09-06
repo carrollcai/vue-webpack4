@@ -620,9 +620,9 @@ export default {
   }
 };
 </script>
-<style lang="less" src="./style.less">
+<style lang="scss" src="./style.scss">
 </style>
-<style lang="less">
+<style lang="scss">
 .custComTip {
   color: rgba(0, 0, 0, 0.45);
   font-size: 12px;

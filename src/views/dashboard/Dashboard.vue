@@ -395,7 +395,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .home {
   .set {
     font-size: 12px;

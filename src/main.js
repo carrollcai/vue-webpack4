@@ -5,11 +5,11 @@ import App from './App';
 import router from './router';
 import store from './store';
 import FormCancel from 'components/FormCancel.vue';
-import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/font/iconfont.css';
+// import VueClipboard from 'vue-clipboard2';
 
 // 这里不能通过import直接引入scss，不支持这个scss后缀格式，需要在App组件style中引入
-// import 'scss/index.less';
+// import 'scss/index.scss';
 
 Vue.use(ElementUI);
 // Vue.use(VueClipboard);

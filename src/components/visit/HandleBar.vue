@@ -24,7 +24,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="scss">
 .visit-handle-bar {
   border-radius: 2px;
   background-color: #fafafa;

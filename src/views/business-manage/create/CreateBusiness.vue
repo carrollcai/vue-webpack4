@@ -478,8 +478,8 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import "~scss/variables.less";
+<style lang="scss">
+@import "scss/variables.scss";
 .container {
   padding: 16px;
   margin-top: 16px;

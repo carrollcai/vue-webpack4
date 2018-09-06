@@ -284,8 +284,8 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import "~scss/variables.less";
+<style lang="scss">
+@import "scss/variables.scss";
 .overflow-hidden .el-form-item {
   margin-left: 48px;
 }

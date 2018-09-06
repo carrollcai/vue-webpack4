@@ -1,15 +1,9 @@
 <template>
   <div class="product-case">
-    <div class="title">添加销售案例
-      <span class="sub-title">（可添加多个销售案例）</span>
-    </div>
-    <el-form class="product-case_form"
-      :model="productCase"
-      ref="baseForm"
-      label-width="130px">
+    <div class="title">添加销售案例 <span class="sub-title">（可添加多个销售案例）</span></div>
+    <el-form class="product-case_form" :model="productCase" ref="baseForm" label-width="130px">
       <el-form-item label="销售类型：">
-        <el-radio-group disabled
-          v-model="productCase.salesType">
+        <el-radio-group disabled v-model="productCase.salesType">
           <el-radio label="0">单品销售</el-radio>
           <el-radio label="1">组合销售</el-radio>
         </el-radio-group>
@@ -22,7 +16,8 @@
           multiple
           filterable
           placeholder="产品名称/编码">
-          <el-option v-for="item in composedProductList"
+          <el-option
+            v-for="item in composedProductList"
             :key="item.productId"
             :label="item.productName"
             :value="item.productName"></el-option>
@@ -30,20 +25,14 @@
       </el-form-item>
 
       <el-form-item label="方案介绍">
-        <el-input :disabled="true"
-          v-model="productCase.scheme"
+        <el-input :disabled="true" v-model="productCase.scheme"
           :maxlength="500"
-          placeholder="请简要概述方案"
-          type="textarea"
-          :rows="4"></el-input>
+          placeholder="请简要概述方案" type="textarea" :rows="4"></el-input>
       </el-form-item>
-      <el-form-item label="方案附件"
-        prop="files">
+      <el-form-item label="方案附件" prop="files">
         <ul>
-          <li v-for="item in uploadFiles"
-            :key="item">
-            <label @click="downloadFile(item)"
-              class="download">{{item.fileName}}</label>
+          <li v-for="item in uploadFiles" :key="item">
+           <label @click="downloadFile(item)" class="download">{{item.fileName}}</label>
           </li>
         </ul>
       </el-form-item>
@@ -51,7 +40,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import {mapState, mapActions} from 'vuex';
 export default {
   name: 'ProductCase',
   props: {
@@ -108,9 +97,9 @@ export default {
         if (this.productCase.fileInputId) {
           const that = this;
           this.uploadFiles = [];
-          this.queryElec({ 'fileInputId': this.productCase.fileInputId }).then((res) => {
+          this.queryElec({'fileInputId': this.productCase.fileInputId}).then((res) => {
             if (res.data) {
-              (res.data).forEach((item) => {
+              (res.data).forEach(function(item) {
                 item.name = item.fileName;
                 that.uploadFiles.push(item);
               });
@@ -135,20 +124,20 @@ export default {
   }
 };
 </script>
-<style lang="less">
-@import "~@/assets/scss/variables.less";
-@form-item-width: @formLargeWidth;
-.product-case {
+<style lang="scss">
+@import '@/assets/scss/variables.scss';
+$form-item-width: $formLargeWidth;
+.product-case{
   width: 100%;
   margin: 0 auto 32px;
-  border: 1px solid #e9e9e9;
+  border: 1px solid #E9E9E9;
   border-radius: 4px;
 
-  * {
+  *{
     box-sizing: border-box;
   }
 
-  .title {
+  .title{
     height: 44px;
     line-height: 44px;
     background-color: rgba(250, 250, 250, 1);
@@ -157,37 +146,36 @@ export default {
     padding-left: 24px;
   }
 
-  .sub-title {
+  .sub-title{
     color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
   }
 
-  .full-col,
-  .el-textarea {
-    width: @form-item-width;
+  .full-col, .el-textarea{
+    width: $form-item-width;
   }
 
-  .product-case_form {
+  .product-case_form{
     margin-bottom: 32px;
   }
 
-  .btn-groups .el-button {
+  .btn-groups .el-button{
     width: 58px;
     height: 24px;
     line-height: 24px;
   }
 
-  .upload-files {
-    width: @form-item-width;
+  .upload-files{
+    width: $form-item-width;
   }
-  .el-upload__tip {
+  .el-upload__tip{
     min-height: 44px;
     line-height: 22px;
     color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
   }
   .download {
-    color: #3778ff;
+    color: #3778FF;
     font-size: 14px;
     cursor: pointer;
   }

@@ -207,6 +207,6 @@ export default {
   }
 };
 </script>
-<style lang="less">
-@import "~scss/variables.less";
+<style lang="scss">
+@import "scss/variables.scss";
 </style>

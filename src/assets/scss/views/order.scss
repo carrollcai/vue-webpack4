@@ -1,6 +1,6 @@
-@import "~scss/variables.less";
+@import "scss/variables.scss";
 .order-create {
-  margin-top: @blockWidth;
+  margin-top: $blockWidth;
   display: flex;
   justify-content: center;
 }
@@ -22,16 +22,16 @@
 }
 
 .o-form-item__input {
-  width: @inputWidthQuery;
-  margin-left: @blockWidth;
+  width: $inputWidthQuery;
+  margin-left: $blockWidth;
 }
 
 .order-form-item {
-  margin-left: @formWidth;
+  margin-left: $formWidth;
 }
 
 .el-dropdown-link {
-  color: @buttonColor;
+  color: $buttonColor;
   cursor: pointer;
 }
 

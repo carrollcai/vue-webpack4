@@ -165,7 +165,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .active-search__title {
   height: 28px;
   line-height: 28px;

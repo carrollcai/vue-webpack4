@@ -597,8 +597,8 @@ export default {
 };
 </script>
 
-<style lang="less" src="./style.less"></style>
-<style lang="less">
+<style lang="scss" src="./style.scss"></style>
+<style lang="scss">
 .product-type {
   .el-select-dropdown {
     height: 100px;

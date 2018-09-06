@@ -1,5 +1,5 @@
-@import "~scss/variables.less";
-@menu-active-color: #FFFFFF;
+@import "scss/variables.scss";
+$menu-active-color: #FFFFFF;
 /* 充值侧边栏的右边线为0 */
 
 .el-menu {
@@ -10,19 +10,19 @@
 
 .el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
   border-bottom: none;
-  color: @menu-active-color;
+  color: $menu-active-color;
 }
 
 .el-menu--horizontal .el-menu .el-menu-item.is-active,
 .el-menu--horizontal .el-menu .el-submenu__title.is-active {
-  color: @menu-active-color;
+  color: $menu-active-color;
 }
 
 /* 重置普通按钮宽度为96，加图标设置为120 */
 
 .el-button--primary,
 .el-button--default {
-  line-height: @buttonLineHeight;
+  line-height: $buttonLineHeight;
   padding: 0;
   width: 96px;
 }
@@ -34,14 +34,14 @@
 /* 重置input框高度，这里不能写成!important，select多选框会出问题 */
 
 .el-input__inner {
-  line-height: @buttonLineHeight;
-  height: @buttonLineHeight;
+  line-height: $buttonLineHeight;
+  height: $buttonLineHeight;
 }
 
 /* input框的icon */
 
 .el-input__icon {
-  line-height: @buttonLineHeight;
+  line-height: $buttonLineHeight;
 }
 
 /* 重置外部引用icon */
@@ -138,32 +138,32 @@
 /*Button*/
 
 .el-button--primary {
-  background-color: @primary-background-color;
+  background-color: $primary-background-color;
   &.is-disabled {
-    background-color: @primary-disabled-border-color;
-    border-color: @primary-disabled-border-color;
+    background-color: $primary-disabled-border-color;
+    border-color: $primary-disabled-border-color;
     &:active,
     &:focus,
     &:hover {
-      background-color: @primary-disabled-border-color;
-      border-color: @primary-disabled-border-color;
+      background-color: $primary-disabled-border-color;
+      border-color: $primary-disabled-border-color;
     }
   }
 }
 
 .el-button--default {
-  color: @primary-color;
-  border-color: @primary-border-color;
+  color: $primary-color;
+  border-color: $primary-border-color;
   &:focus,
   &:hover {
     color: #FFFFFF;
-    border-color: @primary-border-color;
-    background-color: @primary-background-color;
+    border-color: $primary-border-color;
+    background-color: $primary-background-color;
   }
 }
 
 .el-button--text {
-  color: @primary-color;
+  color: $primary-color;
 }
 
 /* 去除tabs border */
@@ -240,7 +240,7 @@ input::-webkit-inner-spin-button {
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
   .icon-up {
-    margin-right: @fontWidth;
+    margin-right: $fontWidth;
   }
 }
 

@@ -59,8 +59,8 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-@import "~scss/variables.less";
+<style lang="scss" scoped>
+@import "scss/variables.scss";
 .business-detail-bar {
   border-radius: 2px;
   background-color: #fafafa;

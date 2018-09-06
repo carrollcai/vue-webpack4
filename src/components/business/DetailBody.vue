@@ -79,8 +79,8 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-@import "~scss/variables.less";
+<style lang="scss" scoped>
+@import "scss/variables.scss";
 .detail-container {
   background: #fff;
   padding-bottom: 40px;

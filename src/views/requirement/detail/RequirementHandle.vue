@@ -11,15 +11,15 @@
     </div>
 
     <div class="m-container info-block handle-info">
-      <el-form ref="baseForm"
+      <el-form
+        ref="baseForm"
         :rules="rules"
         :model="form"
-        label-width="130px">
+        label-width="130px"
+        >
         <!--日常需求处理-->
         <template v-if="requirement.reqType === '0'">
-          <el-form-item label="处理方案"
-            prop="reqScheme"
-            key="plan">
+          <el-form-item label="处理方案" prop="reqScheme" key="plan">
             <el-input class="col-input"
               type="textarea"
               v-model="form.reqScheme"
@@ -27,9 +27,7 @@
               :maxlength="200"
               key="plan-input"></el-input>
           </el-form-item>
-          <el-form-item label="备注"
-            prop="processorRemark"
-            key="plan-desc">
+          <el-form-item label="备注" prop="processorRemark" key="plan-desc">
             <el-input class="col-input"
               v-model="form.processorRemark"
               type="textarea"
@@ -38,28 +36,21 @@
               key="plan-desc-input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary"
-              @click="submitForm">提交处理</el-button>
+            <el-button type="primary" @click="submitForm">提交处理</el-button>
           </el-form-item>
         </template>
 
         <!-- 投诉需求处理  -->
         <template v-if="requirement.reqType === '1'">
-          <el-form-item label="处理方式"
-            required>
-            <el-radio-group v-model="handleType"
-              @change="handleChangeType">
+          <el-form-item label="处理方式" required>
+            <el-radio-group v-model="handleType" @change="handleChangeType">
               <el-radio label="1">本人处理</el-radio>
-              <el-radio label="2">投诉升级
-                <span>（转交给更高级级别的人处理）</span>
-              </el-radio>
+              <el-radio label="2">投诉升级 <span>（转交给更高级级别的人处理）</span></el-radio>
             </el-radio-group>
           </el-form-item>
 
           <template v-if="handleType === '1'">
-            <el-form-item label="处理方案"
-              prop="reqScheme"
-              key="plan">
+            <el-form-item label="处理方案" prop="reqScheme" key="plan">
               <el-input class="col-input"
                 type="textarea"
                 v-model="form.reqScheme"
@@ -67,9 +58,7 @@
                 :maxlength="200"
                 key="plan-input"></el-input>
             </el-form-item>
-            <el-form-item label="备注"
-              prop="processorRemark"
-              key="plan-desc">
+            <el-form-item label="备注" prop="processorRemark" key="plan-desc">
               <el-input class="col-input"
                 v-model="form.processorRemark"
                 type="textarea"
@@ -80,17 +69,14 @@
           </template>
 
           <template v-if="handleType === '2'">
-            <el-form-item label="指派处理人"
-              required
-              key="processor">
+            <el-form-item label="指派处理人" required key="processor">
               <el-col :span="16">
-                <el-form-item prop="processor"
-                  key="processor-item">
-                  <el-cascader expand-trigger="hover"
+                <el-form-item prop="processor" key="processor-item">
+                  <el-cascader
+                    expand-trigger="hover"
                     :options="processors"
                     clearable
-                    v-model="processor"
-                    placeholder="请选择"></el-cascader>
+                    v-model="processor" placeholder="请选择"></el-cascader>
                 </el-form-item>
               </el-col>
               <!-- <el-col class="line-container" :span="8">
@@ -99,36 +85,29 @@
             </el-form-item>
           </template>
           <el-form-item>
-            <el-button type="primary"
-              @click="submitForm">提交处理</el-button>
+            <el-button type="primary" @click="submitForm">提交处理</el-button>
           </el-form-item>
         </template>
 
         <!-- 物料需求处理 -->
         <template v-if="requirement.reqType === '2'">
-          <el-form-item label="物料上传"
-            prop="uploadFiles"
-            key="material-upload">
-            <el-upload :limit="FILE_MAX_COUNT"
+          <el-form-item label="物料上传" prop="uploadFiles" key="material-upload">
+            <el-upload
+              :limit="FILE_MAX_COUNT"
               class="upload-demo"
               :on-change="handleChange"
               :on-remove="handleRemove"
               :auto-upload="false"
               :on-exceed="handleExceed"
               :file-list="uploadFiles">
-              <el-button type="primary"
-                class="el-button_upload">
-                <i class="icon-up margin-right-8"></i>选择文件</el-button>
-              <div slot="tip"
-                class="el-upload__tip">
+              <el-button type="primary" class="el-button_upload"><i class="icon-up margin-right-8"></i>选择文件</el-button>
+              <div slot="tip" class="el-upload__tip">
                 <p class="lh1-5">{{FILE_TIP[0]}}</p>
                 <p class="lh1-5">{{FILE_TIP[1]}}</p>
               </div>
             </el-upload>
           </el-form-item>
-          <el-form-item label="备注"
-            prop="materialDesc"
-            key="materialDesc">
+          <el-form-item label="备注" prop="materialDesc" key="materialDesc">
             <el-input class="col-input"
               type="textarea"
               v-model="form.materialDesc"
@@ -137,8 +116,7 @@
               key="material-desc-input-desc"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary"
-              @click="submitMaterial">提交处理</el-button>
+            <el-button type="primary" @click="submitMaterial">提交处理</el-button>
           </el-form-item>
         </template>
       </el-form>
@@ -146,7 +124,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
+import {mapActions, mapState} from 'vuex';
 import endsWith from 'lodash/endsWith';
 import {
   isEmpty as emptyValidator
@@ -165,8 +143,8 @@ export default {
   mixins: [mixins],
   data() {
     const that = this;
-    const filesValidator = (rule, val, callback) => {
-      const { uploadFiles } = that;
+    const filesValidator = function(rule, val, callback) {
+      const {uploadFiles} = that;
       if (!uploadFiles.length) {
         callback(new Error('请上传需求附件'));
       } else {
@@ -174,8 +152,8 @@ export default {
       }
     };
 
-    const processorValidator = (rule, val, callback) => {
-      const { form } = that;
+    const processorValidator = function(rule, val, callback) {
+      const {form} = that;
       if (!form.processor) {
         callback(new Error('请选择指派处理人'));
       } else {
@@ -297,7 +275,7 @@ export default {
     },
     handleRemove(file, fileList) {
       const that = this;
-      const { uploadFiles } = that;
+      const {uploadFiles} = that;
 
       uploadFiles.splice(0, uploadFiles.length);
 
@@ -308,7 +286,7 @@ export default {
       this.$refs.baseForm.validateField('uploadFiles');
     },
     handleChangeType(val) {
-      const { form } = this;
+      const {form} = this;
       if (val === '2') {
         form.reqScheme = '';
         form.processorRemark = '';
@@ -348,7 +326,7 @@ export default {
         if (valid) {
           that.getProductFileId().then((res) => {
             let fileInputId = res.data;
-            let { uploadData } = that;
+            let {uploadData} = that;
             uploadData.files = that.uploadFiles;
             uploadData.fileInputId = fileInputId;
 
@@ -380,26 +358,26 @@ export default {
   }
 };
 </script>
-<style lang="less">
-@import "~scss/variables.less";
-.requirement-detail-handle {
-  .info-block {
-    margin-top: 16px;
-  }
+<style lang="scss">
+@import "scss/variables.scss";
+  .requirement-detail-handle{
+    .info-block{
+      margin-top: 16px;
+    }
 
-  .handle-info {
-    .el-upload__tip {
-      min-height: 44px;
-      line-height: 22px;
-      color: rgba(0, 0, 0, 0.45);
-      font-size: 14px;
-    }
-    .el-form-item__content {
-      width: 400px;
-    }
-    .el-textarea {
-      width: @formLargeWidth;
+    .handle-info {
+      .el-upload__tip{
+        min-height: 44px;
+        line-height: 22px;
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 14px;
+      }
+      .el-form-item__content{
+        width: 400px;
+      }
+      .el-textarea{
+        width: $formLargeWidth;
+      }
     }
   }
-}
 </style>

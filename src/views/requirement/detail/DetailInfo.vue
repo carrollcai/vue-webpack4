@@ -1,6 +1,5 @@
 <template>
-  <el-form class="requirement-detail-info"
-    label-width="130px">
+  <el-form class="requirement-detail-info" label-width="130px">
     <el-form-item label="需求客户">
       {{requirement.organizeName}}
     </el-form-item>
@@ -10,17 +9,12 @@
     </el-form-item>
 
     <template v-if="requirement.reqType !== '2'">
-      <el-form-item label="需求描述"
-        class="too-long-content">
+      <el-form-item label="需求描述" class="too-long-content">
         {{requirement.reqDesc}}
       </el-form-item>
 
-      <el-form-item label="需求附件"
-        v-if="internalValue && internalValue.length">
-        <span v-for="(file, index) in internalValue"
-          :key="index"
-          @click="handleDownload(file)"
-          class="file-name">
+      <el-form-item label="需求附件" v-if="internalValue && internalValue.length">
+        <span v-for="(file, index) in internalValue" :key="index" @click="handleDownload(file)" class="file-name">
           {{file.fileName + (index === internalValue.length - 1 ? '' : '；')}}
         </span>
       </el-form-item>
@@ -31,8 +25,7 @@
         {{requirement.materialName}}
       </el-form-item>
 
-      <el-form-item label="物料格式要求"
-        class="too-long-content">
+      <el-form-item label="物料格式要求" class="too-long-content">
         {{requirement.materialSupplyType}}
       </el-form-item>
 
@@ -40,8 +33,7 @@
         {{requirement.materialUseCreateTime}}-{{requirement.materialUseEndTime}}
       </el-form-item>
 
-      <el-form-item label="物料描述"
-        class="too-long-content">
+      <el-form-item label="物料描述" class="too-long-content">
         {{requirement.materialDesc}}
       </el-form-item>
     </template>
@@ -52,7 +44,7 @@
   </el-form>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
 export default {
   name: 'RequirementDetailInfo',
   props: {
@@ -115,19 +107,19 @@ export default {
   }
 };
 </script>
-<style lang="less">
-@import "~@/assets/scss/variables.less";
-.requirement-detail-info {
-  .file-name {
+<style lang="scss">
+@import '@/assets/scss/variables.scss';
+.requirement-detail-info{
+  .file-name{
     cursor: pointer;
-    color: @primary-color;
+    color: $primary-color;
     min-width: 50px;
-    border-bottom: 1px solid @primary-color;
+    border-bottom: 1px solid $primary-color;
     margin-right: 16px;
   }
 
-  .too-long-content {
-    .el-form-item__content {
+  .too-long-content{
+    .el-form-item__content{
       word-break: break-all;
     }
   }
