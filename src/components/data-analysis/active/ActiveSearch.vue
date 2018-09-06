@@ -101,6 +101,7 @@ export default {
     if (this.activeObj.provinceSelected) {
       this.localProvinceSelected = Object.cloneDeep(this.activeObj.provinceSelected);
     }
+    console.log(123);
   },
   methods: {
     eventDownload() {
