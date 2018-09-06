@@ -149,7 +149,7 @@
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState, mapMutations } from 'vuex';
 import { ORDER_STATUS, PAGE_SIZE } from '@/config/index.js';
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 export default {
   data() {
@@ -293,8 +293,8 @@ export default {
       const params = Object.cloneDeep(this.orderCreateManageForm);
 
       if (params.date && params.date.length) {
-        params.startDate = dayjs(params.date[0]).format('YYYY-MM-DD');
-        params.endDate = dayjs(params.date[1]).format('YYYY-MM-DD');
+        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
       } else {
         params.startDate = '';
         params.endDate = '';

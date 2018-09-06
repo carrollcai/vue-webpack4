@@ -1,5 +1,5 @@
-import find from 'lodash/find';
-import { mapActions } from 'vuex';
+import _ from 'lodash';
+import {mapActions} from 'vuex';
 import Steps from '@/components/Steps.vue';
 import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
@@ -147,8 +147,7 @@ export default {
       this.isAddingContact = false;
     },
     handleDeleteContact(index, id) {
-      // let filters = _.filter(this.contacts, {'parentContactId': id});
-      let filters = this.contacts.filter(val => Number(val.parentContactId) === Number(id));
+      let filters = _.filter(this.contacts, {'parentContactId': id});
       if (filters.length) {
         this.$message({
           message: `已经被选为上级，不可删除`,
@@ -172,13 +171,11 @@ export default {
      * @param {*} contactId 当前联系人ID
      */
     changeContactParent(index, contactId) {
-      const { contacts } = this;
+      const {contacts} = this;
       // 当前选中的上级领导ID
       let parentContactId = contacts[index].parentContactId;
 
-      // let filters = _.filter(contacts, { 'parentContactId': contactId, 'contactId': parentContactId });
-      let filters = this.contacts.filter(val => Number(val.parentContactId) === Number(contactId) &&
-        Number(val.contactId) === Number(parentContactId));
+      let filters = _.filter(contacts, { 'parentContactId': contactId, 'contactId': parentContactId });
 
       if (filters.length) {
         this.$message({
@@ -198,7 +195,7 @@ export default {
        * @param {*} contactId
        */
       function findParents(contacts, contactId) {
-        let contact = find(contacts, { 'contactId': contactId });
+        let contact = _.find(contacts, {'contactId': contactId});
         if (contact.parentContactId) {
           parents.push(contact.parentContactId);
           findParents(contacts, contact.parentContactId);
@@ -208,7 +205,7 @@ export default {
       // 必须要清除，否则会导致死循环
       contacts[index].parentContactId = '';
       findParents(contacts, parentContactId);
-      if (parents.indexOf(contactId) >= 0) {
+      if (_.indexOf(parents, contactId) >= 0) {
         this.$message({
           message: `不能将下属选为上级`,
           type: 'warning'

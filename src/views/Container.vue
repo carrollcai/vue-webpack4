@@ -73,6 +73,7 @@ export default {
   // 这里需要注意，中间的加减运算必须含有空格
   height: calc(100% - 60px);
   position: relative;
+  // width: 100%;
 }
 .app-header {
   padding: 0 30px;

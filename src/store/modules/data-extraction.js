@@ -70,7 +70,6 @@ const mutations = {
       }
       return newVal;
     });
-    console.log(data);
     if (data[0].region) {
       state.processorList = handlers;
     } else {

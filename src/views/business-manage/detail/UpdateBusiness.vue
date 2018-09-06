@@ -184,8 +184,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import keyBy from 'lodash/keyBy';
-import flattenDeep from 'lodash/flattenDeep';
+import _ from 'lodash';
 
 import {
   checkPhone,
@@ -293,12 +292,9 @@ export default {
   methods: {
     initData(list) {
       const { ALL_NODES } = this;
-      // this.PRE_DATA_FIRST = _.keyBy(list, 'value');
-      // this.PRE_DATA_SECOND = _.keyBy(_.flattenDeep(_.map(list, 'children')), 'value');
-      // this.PRE_DATA_THIRD = _.keyBy(_.flattenDeep(_.map(_.flattenDeep(_.map(list, 'children')), 'children')), 'value');
-      this.PRE_DATA_FIRST = keyBy(list, 'value');
-      this.PRE_DATA_SECOND = keyBy(flattenDeep(list.map(val => val.children)), 'value');
-      this.PRE_DATA_THIRD = keyBy(flattenDeep(flattenDeep(list.map(val => val.children)).map(val => val.children)), 'value');
+      this.PRE_DATA_FIRST = _.keyBy(list, 'value');
+      this.PRE_DATA_SECOND = _.keyBy(_.flattenDeep(_.map(list, 'children')), 'value');
+      this.PRE_DATA_THIRD = _.keyBy(_.flattenDeep(_.map(_.flattenDeep(_.map(list, 'children')), 'children')), 'value');
 
       for (let item of list) {
         let children = item.children;
@@ -329,7 +325,7 @@ export default {
         });
       }
 
-      this.ALL_NODES = keyBy(ALL_NODES, 'value');
+      this.ALL_NODES = _.keyBy(ALL_NODES, 'value');
     },
     init() {
       const { opporId } = this.$route.params;
@@ -408,7 +404,7 @@ export default {
       this.processorData = [];
       let processor = value[2] || null;
 
-      if (processors.indexOf(processor) < 0) {
+      if (_.indexOf(processors, processor) < 0) {
         this.regionData.processorList.push(`${PRE_DATA_FIRST[value[0]].label}/${PRE_DATA_SECOND[value[1]].label}/${PRE_DATA_THIRD[value[2]].label}`);
         this.processors.push(processor);
       }

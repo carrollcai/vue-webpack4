@@ -84,7 +84,7 @@
       <el-form-item v-if="formData.isCancle === '3'" label="取消原因：" label-width="130px" prop="feedback">
         <el-input v-model="formData.feedback" placeholder="取消原因" type="textarea" :rows="4"></el-input>
       </el-form-item>
-      <el-form-item v-if="formData.isCancle === '2'" label="物料上传：" label-width="130px" prop="files">
+      <el-form-item v-if="formData.isCancle === '2'" label="上传附件：" label-width="130px" prop="files">
         <el-upload class="upload-demo" action=""
           :auto-upload="false"
           :on-change="fileChange"
@@ -92,7 +92,7 @@
           :on-remove="removeFile"
           :file-list="uploadData.files">
           <el-button slot="trigger" size="small">
-            <i class="icon-up margin-right-8"></i>上传文件
+            <i class="icon-up margin-right-8"></i>上传附件
           </el-button>
           <div slot="tip" class="el-upload__tip">
             <p class="lh1-5">{{FILE_TIP[0]}}</p>

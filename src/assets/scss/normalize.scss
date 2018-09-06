@@ -212,9 +212,18 @@ input::-webkit-inner-spin-button {
   color: #3778FF;
 }
 
-.el-step__title.is-finish,
-.el-step__description.is-finish {
+.el-step__title.is-finish {
   color: inherit;
+}
+
+.el-step__title {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.el-step__description {
+  margin-top: 10px;
+  color: rgba(0, 0, 0, 0.45) !important;
 }
 
 /* 去掉textarea高度可拖拽 */

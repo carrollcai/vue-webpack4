@@ -1,6 +1,4 @@
-import groupBy from 'lodash/groupBy';
-import uniq from 'lodash/uniq';
-import sortBy from 'lodash/sortBy';
+import _ from 'lodash';
 
 import * as types from '../types';
 import { oneMonthAgo, nineDaysAgo, twoDaysAgo, sixMonthsAgo } from '@/utils/helper';
@@ -195,12 +193,12 @@ const mutations = {
   },
   // 活跃度分析-活跃度趋势分析
   [types.ACTIVE_UPDATE_TREND](state, type) {
-    let list = Object.cloneDeep(state.trendList);
+    let list = _.cloneDeep(state.trendList);
 
-    let temp1 = groupBy(list, 'periodId');
+    let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
-    let fields = uniq(list.map(val => val.province));
+    let fields = _.uniq(_.map(list, 'province'));
     for (let key in temp1) {
       let val = temp1[key];
       let p = {};
@@ -210,7 +208,7 @@ const mutations = {
       p.periodId = key;
       result.push(p);
     }
-    result = sortBy(result, 'periodId');
+    result = _.sortBy(result, 'periodId');
 
     state.trendData = validateChartData(result, fields);
     state.trendFields = fields;
@@ -252,7 +250,7 @@ const mutations = {
       };
     });
 
-    let result = sortBy(list, 'orderNum');
+    let result = _.sortBy(list, 'orderNum');
 
     state.provinceUserList = result;
   },
@@ -286,16 +284,16 @@ const mutations = {
   },
   // 留存流失分析- 留存流失趋势分析
   [types.RETENTION_UPDATE_PROVINCE_TREND_LIST](state, type) {
-    let list = Object.cloneDeep(state.retTrendList);
+    let list = _.cloneDeep(state.retTrendList);
 
     const TYPES = {
       '0': 'retainRate',
       '1': 'dropoutRate',
     };
-    let temp1 = groupBy(list, 'periodId');
+    let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
-    let fields = uniq(list.map(val => val.province));
+    let fields = _.uniq(_.map(list, 'province'));
     for (let key in temp1) {
       let val = temp1[key];
       let p = {};
@@ -305,7 +303,7 @@ const mutations = {
       p.periodId = key;
       result.push(p);
     }
-    result = sortBy(result, 'periodId');
+    result = _.sortBy(result, 'periodId');
     state.retTrendData = result;
     state.retTrendFields = fields;
   },
@@ -350,10 +348,10 @@ const mutations = {
       '3': 'newActiveNum',
     };
 
-    let temp1 = groupBy(list, 'periodId');
+    let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
-    let fields = uniq(list.map(val => val.province));
+    let fields = _.uniq(_.map(list, 'province'));
     for (let key in temp1) {
       let val = temp1[key];
       let p = {};
@@ -363,7 +361,7 @@ const mutations = {
       p.periodId = key;
       result.push(p);
     }
-    result = sortBy(result, 'periodId');
+    result = _.sortBy(result, 'periodId');
 
     state.addUserTrendData = validateChartData(result, fields);
     state.addUserTrendFields = fields;
@@ -374,7 +372,7 @@ const mutations = {
   },
   // 新增用户分析- 用户新增排名情况
   [types.ADD_USER_DISTRICT_MAP](state, type) {
-    let list = Object.cloneDeep(state.addUserMapList);
+    let list = _.cloneDeep(state.addUserMapList);
 
     const TYPES = {
       '0': 'newUserNum',
@@ -388,7 +386,7 @@ const mutations = {
       '2': 'newActiveNumRank'
     };
 
-    let result = sortBy(list.map((item) => {
+    let result = _.sortBy(list.map((item) => {
       item.orderNum = item[RANK_TYPES[type]];
       item.name = item.province;
       item.value = item[TYPES[type]];
@@ -403,11 +401,11 @@ const mutations = {
   },
   // 新增用户分析 - 新增会员用户趋势分析
   [types.ADD_USER_VIP_CHART](state, type) {
-    let list = Object.cloneDeep(state.addUserVipList);
-    let temp1 = groupBy(list, 'periodId');
+    let list = _.cloneDeep(state.addUserVipList);
+    let temp1 = _.groupBy(list, 'periodId');
 
     let result = [];
-    let fields = uniq(list.map(val => val.province));
+    let fields = _.uniq(_.map(list, 'province'));
     for (let key in temp1) {
       let val = temp1[key];
       let p = {};
@@ -417,7 +415,7 @@ const mutations = {
       p.periodId = key;
       result.push(p);
     }
-    result = sortBy(result, 'periodId');
+    result = _.sortBy(result, 'periodId');
 
     state.addUserVipData = validateChartData(result, fields);
     state.addUserVipFields = fields;

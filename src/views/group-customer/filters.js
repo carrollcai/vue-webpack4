@@ -1,6 +1,6 @@
-import find from 'lodash/find';
-import dayjs from 'dayjs';
-import { mapState } from 'vuex';
+import _ from 'lodash';
+import moment from 'moment';
+import {mapState} from 'vuex';
 export default {
   computed: {
     ...mapState({
@@ -47,7 +47,7 @@ export default {
      * @param {*} value
      */
     memberNumFilter(value) {
-      let result = find(this.MEMBER_NUM, { value });
+      let result = _.find(this.MEMBER_NUM, {value});
 
       return result ? result.label : '';
     },
@@ -56,7 +56,7 @@ export default {
      * @param {String} value 原始值
      */
     genderFilter(value) {
-      let result = find(this.GENDER, { value });
+      let result = _.find(this.GENDER, {value});
 
       return result ? result.label : '';
     },
@@ -72,7 +72,7 @@ export default {
      * @param {String} value 原始值
      */
     provinceFilter(value) {
-      let result = find(this.provinces, { key: value });
+      let result = _.find(this.provinces, {key: value});
 
       return result ? result.value : '';
     },
@@ -88,7 +88,7 @@ export default {
      * @param {String} value 原始值
      */
     certificateTypeFilter(value) {
-      let result = find(this.CERTIFICATE_TYPE, { value });
+      let result = _.find(this.CERTIFICATE_TYPE, {value});
 
       return result ? result.label : '';
     },
@@ -97,7 +97,7 @@ export default {
      * @param {String} value 原始值
      */
     orgTypeFilter(value) {
-      let result = find(this.ORGANIZE_TYPE, { value });
+      let result = _.find(this.ORGANIZE_TYPE, {value});
 
       return result ? result.label : '';
     },
@@ -106,7 +106,7 @@ export default {
      * @param {String} value 原始值
      */
     registerFundTypeFilter(value) {
-      let result = find(this.REGISTER_FUND_TYPE, { value });
+      let result = _.find(this.REGISTER_FUND_TYPE, {value});
 
       return result ? result.label : '';
     },
@@ -115,7 +115,7 @@ export default {
      * @param {String} value 原始值
      */
     orgIndustryTypeFilter(value) {
-      let result = find(this.ORG_INDUSTRY_TYPE, { value });
+      let result = _.find(this.ORG_INDUSTRY_TYPE, {value});
 
       return result ? result.label : '';
     },
@@ -124,16 +124,17 @@ export default {
      * @param {String} value 原始值
      */
     industryTypeFilter(value) {
-      let result = find(this.INDUSTRY_TYPE, { value });
+      let result = _.find(this.INDUSTRY_TYPE, {value});
 
       return result ? result.label : '';
     },
     formateDate(date) {
       if (date) {
-        return dayjs(date).format('YYYY-MM-DD');
+        return moment(date).format('YYYY-MM-DD');
       } else {
         return '';
       }
+      // return moment(date).format('YYYY-MM-DD');
     }
   }
 };

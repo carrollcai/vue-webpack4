@@ -125,6 +125,7 @@
 </template>
 <script>
 import {mapActions, mapState} from 'vuex';
+import endsWith from 'lodash/endsWith';
 import {
   isEmpty as emptyValidator
 } from '@/utils/rules';
@@ -226,7 +227,7 @@ export default {
   methods: {
     isAcceptable(fileName) {
       for (let accept of FILE_ACCEPT) {
-        if (fileName.toLowerCase().endsWith(accept)) {
+        if (endsWith(fileName.toLowerCase(), accept)) {
           return true;
         }
       }

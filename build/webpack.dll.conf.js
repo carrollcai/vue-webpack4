@@ -30,7 +30,7 @@ module.exports = {
       'axios',
       '@antv/g2',
       '@antv/data-set',
-      'dayjs'
+      'moment'
     ]
   },
   output: {

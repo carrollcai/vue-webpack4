@@ -1,6 +1,6 @@
 import {mapActions} from 'vuex';
 import { inputLengthTwenty } from '@/utils/rules.js';
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 export default {
   data() {
@@ -175,7 +175,7 @@ export default {
     startDayOptions(date) {
       return {
         disabledDate(time) {
-          return time.getTime() > dayjs(Date.now()).add(-2, 'day').toDate().getTime();
+          return time.getTime() > moment(Date.now()).add(-2, 'day').toDate().getTime();
         }
       };
     },
@@ -183,7 +183,7 @@ export default {
       return {
         disabledDate(time) {
           if (endDate) {
-            return (time.getTime() < dayjs(endDate).add(-8, 'months').toDate().getTime()) || (time.getTime() > new Date(endDate).getTime());
+            return (time.getTime() < moment(endDate).add(-8, 'months').toDate().getTime()) || (time.getTime() > new Date(endDate).getTime());
           } else {
             return time.getTime() > Date.now();
           }
@@ -194,7 +194,7 @@ export default {
       return {
         disabledDate(time) {
           if (startDate) {
-            return (time.getTime() > dayjs(startDate).add(8, 'months').toDate().getTime()) || (time.getTime() < new Date(startDate).getTime());
+            return (time.getTime() > moment(startDate).add(8, 'months').toDate().getTime()) || (time.getTime() < new Date(startDate).getTime());
           } else {
             return time.getTime() > Date.now();
           }

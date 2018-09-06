@@ -69,11 +69,6 @@ import VisitAppoint from '@/views/visit/VisitAppoint.vue';
 import CreateVisitAppoint from '@/views/visit/create/CreateVisitAppoint.vue';
 import VisitAppointDetail from '@/views/visit/detail/VisitAppointDetail.vue';
 
-/* 走访任务处理 */
-// import MissionHandling from '@/views/visit/MissionHandling.vue';
-// import VisitMissionHandle from '@/views/visit/handle/MissionHandle.vue';
-// import VisitMissionDetail from '@/views/visit/handle/MissionDetail.vue';
-
 /* 数据提取管理 */
 import DataDownload from '@/views/data-extraction/DataDownload.vue';
 import DataAudit from '@/views/data-extraction/DataAudit.vue';
@@ -330,7 +325,6 @@ const dynamicRoutes = [
         component: VisitAppointDetail,
         meta: { menuId: 31 }
       },
-
       /* 走访指派 */
       {
         path: '/visit/visit-appoint',
