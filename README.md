@@ -75,7 +75,7 @@ npm config set sass_binary_site https://npm.taobao.org/mirrors/node-sass/
 
 2. npm 安装 chromedriver 失败的解决办法
 
-npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+npm install chromedriver@2.27.2 --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
 
 设置之后，再执行npm install
 
