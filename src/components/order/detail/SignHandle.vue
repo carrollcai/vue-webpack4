@@ -93,7 +93,10 @@
       <el-form-item class="handle-task-btn">
         <el-button type="primary"
           @click="submitAssignForm()"
-          :loading="submitAssignButton">{{!submitAssignButton ? '确定' : '加载中'}}</el-button>
+          :loading="submitAssignButton"
+          v-loading.fullscreen.lock="submitAssignButton">
+          {{!submitAssignButton ? '确定' : '加载中'}}
+        </el-button>
         <form-cancel :path="'/order/handle-task'">取消</form-cancel>
       </el-form-item>
     </el-form>
@@ -121,6 +124,7 @@ export default {
       fileValidLen(this.assignForm.files, callback);
     };
     return {
+      fullscreenLoading: false,
       FILE_TIP,
       assignForm: {
         time: '',
