@@ -1,28 +1,26 @@
 <template>
-  <div class="common-view">
-    <div style="height: 100%"
-      v-loading.fullscreen.lock="pageLoading">
-      <div class="app-container">
-        <el-header class="app-header">
-          <con-header />
-        </el-header>
-        <el-container v-if="currentUser.menuList.length"
-          class="app-content">
-          <div class="app-aside">
-            <el-scrollbar class="app-aside-scroll">
-              <con-aside style="height: 100%" />
-            </el-scrollbar>
-          </div>
-          <div class="app-main">
-            <el-scrollbar class="app-menu">
-              <div class="app-main-content">
-                <router-view />
-              </div>
-            </el-scrollbar>
-          </div>
-        </el-container>
-      </div>
-    </div>
+  <div class="common-view"
+    v-loading.fullscreen.lock="pageLoading">
+    <el-container class="app-container">
+      <el-header class="app-header">
+        <con-header />
+      </el-header>
+      <el-container v-if="currentUser.menuList.length"
+        class="app-content">
+        <div class="app-aside">
+          <el-scrollbar class="app-aside-scroll">
+            <con-aside style="height: 100%" />
+          </el-scrollbar>
+        </div>
+        <div class="app-main">
+          <el-scrollbar class="app-menu">
+            <div class="app-main-content">
+              <router-view />
+            </div>
+          </el-scrollbar>
+        </div>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -75,7 +73,7 @@ export default {
   // 这里需要注意，中间的加减运算必须含有空格
   height: calc(100% - 60px);
   position: relative;
-  width: 100%;
+  // width: 100%;
 }
 .app-header {
   padding: 0 30px;
