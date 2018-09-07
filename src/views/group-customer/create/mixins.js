@@ -1,7 +1,5 @@
 import find from 'lodash/find';
 import {mapActions} from 'vuex';
-import Steps from '@/components/Steps.vue';
-import Step from '@/components/Step.vue';
 import CustomerContacts from './CustomerContacts.vue';
 import {
   isEmpty as emptyValidator
@@ -9,8 +7,6 @@ import {
 export default {
   components: {
     CustomerContacts,
-    Steps,
-    Step
   },
   data() {
     return {

@@ -1,7 +1,5 @@
 import {mapActions} from 'vuex';
-import Steps from '@/components/Steps.vue';
 import ProductCaseshow from './ProductCaseshow.vue';
-import Step from '@/components/Step.vue';
 import ProductCase from './ProductCase.vue';
 import { multFileValid } from '@/utils/rules.js';
 import { FILE_TYPE_ID } from '@/config/index.js';
@@ -12,8 +10,6 @@ import {
 
 export default {
   components: {
-    Steps,
-    Step,
     ProductCase,
     ProductCaseshow
   },

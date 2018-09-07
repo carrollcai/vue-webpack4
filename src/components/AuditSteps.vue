@@ -90,9 +90,6 @@ export default {
 
       return result;
     },
-    isNotPassed(item) {
-      return item.businessStatus === '0' && !!item.dealResult;
-    },
     percent() {
       return this.processList.length && parseFloat(1 / this.processList.length * 100).toFixed(4) + '%';
     },

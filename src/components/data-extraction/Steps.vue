@@ -1,26 +1,35 @@
 <template>
-<div class="step-bg">
-  <el-steps :active="activeIndex()" align-center>
-    <el-step v-for="item in processLists"
-      :key="item"
-      :title="item.taskName"
-      :description="desc(item)"></el-step>
-  </el-steps>
+  <!-- 此组件已废弃 -->
+  <!-- 此组件已废弃 -->
+  <!-- 此组件已废弃 -->
+  <!-- 此组件已废弃 -->
+  <!-- 此组件已废弃 -->
+  <div class="step-bg">
+    <el-steps :active="activeIndex()"
+      align-center>
+      <el-step v-for="item in processLists"
+        :key="item"
+        :title="item.taskName"
+        :description="desc(item)"></el-step>
+    </el-steps>
 
-  <div style="display: flex;">
-    <div class="child" v-for="item in processLists" :key="item.taskId" :style="{'flex-basis': percent()}">
-      <el-popover
-        v-if="item.businessStatus === '3' || item.businessStatus === 3"
-        popper-class="audit-deal-result"
-        placement="top"
-        width="200"
-        trigger="click"
-        :content="item.dealResult">
-        <el-button slot="reference" type="text">查看原因</el-button>
+    <div style="display: flex;">
+      <div class="child"
+        v-for="item in processLists"
+        :key="item.taskId"
+        :style="{'flex-basis': percent()}">
+        <el-popover v-if="item.businessStatus === '3' || item.businessStatus === 3"
+          popper-class="audit-deal-result"
+          placement="top"
+          width="200"
+          trigger="click"
+          :content="item.dealResult">
+          <el-button slot="reference"
+            type="text">查看原因</el-button>
         </el-popover>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -76,10 +85,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.step-bg{
-   background: #F0F2F5;
-   padding-top: 30px;
-   padding-bottom: 20px;
-   .child {text-align: center;}
+.step-bg {
+  background: #f0f2f5;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  .child {
+    text-align: center;
+  }
 }
 </style>
