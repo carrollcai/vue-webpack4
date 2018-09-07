@@ -64,7 +64,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { CLIENT } from '@/config';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import SelectAll from 'components/SelectAll.vue';
 export default {
   components: {
@@ -107,8 +107,8 @@ export default {
       this.$refs.eventForm.validate(valid => {
         if (!valid) return false;
         this.eventUseraddDownload({
-          startDate: moment(params.date[0]).format('YYYY-MM-DD'),
-          endDate: moment(params.date[1]).format('YYYY-MM-DD'),
+          startDate: dayjs(params.date[0]).format('YYYY-MM-DD'),
+          endDate: dayjs(params.date[1]).format('YYYY-MM-DD'),
           province: params.provinceSelected,
         });
       });

@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import find from 'lodash/find';
 import WmTable from 'components/Table.vue';
 import {REQUIREMENT_TYPE} from '@/config';
@@ -30,7 +30,7 @@ export default {
     },
 
     formateDate(date) {
-      return moment(date).format('YYYY-MM-DD HH:MM:SS');
+      return dayjs(date).format('YYYY-MM-DD HH:MM:SS');
     },
     handleClick() {
       this.pageNo = 1;

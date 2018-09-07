@@ -1,7 +1,7 @@
 import * as types from '../store/types';
 import API from 'utils/api';
 import { twoDaysAgo, oneMonthAgo } from '@/utils/helper';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const actions = {
   getDailyActiveUser: ({ commit, state }, params) => {
@@ -206,11 +206,11 @@ function activeTrendReq(state) {
   if (trend.date.length) {
     let beginDate, endDate;
     if (trend.dateType) {
-      beginDate = moment(trend.startDate).format('YYYY-MM') + '-01';
-      endDate = moment(trend.endDate).format('YYYY-MM') + '-01';
+      beginDate = dayjs(trend.startDate).format('YYYY-MM') + '-01';
+      endDate = dayjs(trend.endDate).format('YYYY-MM') + '-01';
     } else {
-      beginDate = moment(trend.date[0]).format('YYYY-MM-DD');
-      endDate = moment(trend.date[1]).format('YYYY-MM-DD');
+      beginDate = dayjs(trend.date[0]).format('YYYY-MM-DD');
+      endDate = dayjs(trend.date[1]).format('YYYY-MM-DD');
     }
     req.region = trend.district;
     req.dateType = trend.dateType;
@@ -228,11 +228,11 @@ function activeProvinceUserReq(state) {
   if (provinceUser.date.length) {
     let beginDate, endDate;
     if (provinceUser.dateType) {
-      beginDate = moment(provinceUser.startDate).format('YYYY-MM') + '-01';
-      endDate = moment(provinceUser.endDate).format('YYYY-MM') + '-01';
+      beginDate = dayjs(provinceUser.startDate).format('YYYY-MM') + '-01';
+      endDate = dayjs(provinceUser.endDate).format('YYYY-MM') + '-01';
     } else {
-      beginDate = moment(provinceUser.date[0]).format('YYYY-MM-DD');
-      endDate = moment(provinceUser.date[1]).format('YYYY-MM-DD');
+      beginDate = dayjs(provinceUser.date[0]).format('YYYY-MM-DD');
+      endDate = dayjs(provinceUser.date[1]).format('YYYY-MM-DD');
     }
     req.dateType = provinceUser.dateType;
     req.beginDate = beginDate;
@@ -248,8 +248,8 @@ function activeProvinceUserReq(state) {
 function retTrendReq(state) {
   const req = {};
   const { retentionObj, retTrend } = state.dataAnalysis;
-  req.beginDate = moment(retTrend.startDate).format('YYYY-MM') + '-01';
-  req.endDate = moment(retTrend.endDate).format('YYYY-MM') + '-01';
+  req.beginDate = dayjs(retTrend.startDate).format('YYYY-MM') + '-01';
+  req.endDate = dayjs(retTrend.endDate).format('YYYY-MM') + '-01';
   req.clientType = retentionObj.clientSelected;
   req.region = retTrend.district;
   return req;

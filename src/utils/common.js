@@ -4,7 +4,7 @@
  */
 
 import { FILE_ACCEPT, FILE_MAX_SIZE, FILE_ERROR_TIP, FILE_MAX_COUNT } from '@/config/index.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 /**
  * @export 数组里的对象类型是否有重复
@@ -159,7 +159,7 @@ export function chinaDatetransformDate(vals = '') {
  * @returns
  */
 export function addFirstDayinMonth(val) {
-  return moment(val).format('YYYY-MM') + '-01';
+  return dayjs(val).format('YYYY-MM') + '-01';
 }
 
 export function validateChartData(list, fields) {

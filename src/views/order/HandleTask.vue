@@ -18,14 +18,22 @@
         </span>
       </el-dialog> -->
 
-      <el-form class="form-manage" ref="orderHandleTask" :rules="orderHandleTaskRules" :model="orderHandleTaskForm">
+      <el-form class="form-manage"
+        ref="orderHandleTask"
+        :rules="orderHandleTaskRules"
+        :model="orderHandleTaskForm">
         <div class="flex">
           <el-form-item prop="date">
-            <el-date-picker v-model="orderHandleTaskForm.date" type="daterange" start-placeholder="创建开始日期" end-placeholder="创建结束日期">
+            <el-date-picker v-model="orderHandleTaskForm.date"
+              type="daterange"
+              start-placeholder="创建开始日期"
+              end-placeholder="创建结束日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderHandleTaskForm.ordNameOrCode" placeholder="订单名称/编号" />
+            <el-input clearable
+              v-model="orderHandleTaskForm.ordNameOrCode"
+              placeholder="订单名称/编号" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
             <el-input clearable
@@ -33,55 +41,69 @@
               placeholder="合作集团/编码" />
           </el-form-item>
           <el-form-item class="form-query-input-width form-left-width">
-            <el-input clearable v-model="orderHandleTaskForm.staffName" placeholder="创建人" />
+            <el-input clearable
+              v-model="orderHandleTaskForm.staffName"
+              placeholder="创建人" />
           </el-form-item>
         </div>
         <div class="flex">
           <el-form-item class="form-left-width">
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary"
+              @click="query">查询</el-button>
           </el-form-item>
         </div>
       </el-form>
 
-      <el-tabs v-model="orderHandleTaskForm.businessStatus" @tab-click="tabChange">
-        <el-tab-pane label="待签约处理" name="0"></el-tab-pane>
-        <el-tab-pane label="待付款处理" name="4"></el-tab-pane>
-        <el-tab-pane label="已处理" name="1"></el-tab-pane>
+      <el-tabs v-model="orderHandleTaskForm.businessStatus"
+        @tab-click="tabChange">
+        <el-tab-pane label="待签约处理"
+          name="0"></el-tab-pane>
+        <el-tab-pane label="待付款处理"
+          name="4"></el-tab-pane>
+        <el-tab-pane label="已处理"
+          name="1"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="m-container table-container">
-      <wm-table :source="orderHandleTaskObj.list" :pageNo="orderHandleTaskForm.pageNo" :pageSize="orderHandleTaskForm.pageSize" :total="orderHandleTaskObj.totalCount" @onPagination="onPagination" @onSizePagination="onSizePagination">
-        <el-table-column label="订单编号" property="ordCode" />
-        <el-table-column label="订单名称" property="ordName" />
-        <el-table-column label="创建时间" property="createDate" />
-        <el-table-column label="合作集团" property="organizeName" />
-        <el-table-column label="创建人" property="staffName" />
-        <el-table-column v-if="orderHandleTaskForm.businessStatus === '1'" label="处理结果" property="businessStatusName" />
+      <wm-table :source="orderHandleTaskObj.list"
+        :pageNo="orderHandleTaskForm.pageNo"
+        :pageSize="orderHandleTaskForm.pageSize"
+        :total="orderHandleTaskObj.totalCount"
+        @onPagination="onPagination"
+        @onSizePagination="onSizePagination">
+        <el-table-column label="订单编号"
+          property="ordCode" />
+        <el-table-column label="订单名称"
+          property="ordName" />
+        <el-table-column label="创建时间"
+          property="createDate" />
+        <el-table-column label="合作集团"
+          property="organizeName" />
+        <el-table-column label="创建人"
+          property="staffName" />
+        <el-table-column v-if="orderHandleTaskForm.businessStatus === '1'"
+          label="处理结果"
+          property="businessStatusName" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="orderHandleTaskForm.businessStatus === '0'" class="table-button" type="text" @click="handleSign(scope.row)">
+            <el-button v-if="orderHandleTaskForm.businessStatus === '0'"
+              class="table-button"
+              type="text"
+              @click="handleSign(scope.row)">
               签约处理
             </el-button>
-            <el-button v-if="orderHandleTaskForm.businessStatus === '4'" class="table-button" type="text" @click="handlePay(scope.row)">
+            <el-button v-if="orderHandleTaskForm.businessStatus === '4'"
+              class="table-button"
+              type="text"
+              @click="handlePay(scope.row)">
               付款处理
             </el-button>
             <!-- 830版本去掉分派功能 -->
-            <el-button class="table-button" type="text" @click="handleDetail(scope.row)">
+            <el-button class="table-button"
+              type="text"
+              @click="handleDetail(scope.row)">
               详情
             </el-button>
-            <!-- <el-button v-if="orderHandleTaskForm.businessStatus !== '0'" class="table-button" type="text" @click="handleDetail(scope.row)">
-              详情
-            </el-button> -->
-            <!-- <el-dropdown class="table-more-btn" v-if="orderHandleTaskForm.businessStatus === '0'" @command="handleCommand(scope.row, $event)">
-              <span class="el-dropdown-link">
-                更多
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item class="el-dropdown-link" command="handleDispatch">分派</el-dropdown-item>
-                <el-dropdown-item class="el-dropdown-link" command="handleDetail">详情</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown> -->
           </template>
         </el-table-column>
       </wm-table>
@@ -92,32 +114,14 @@
 <script>
 import WmTable from 'components/Table.vue';
 import { mapActions, mapState, mapMutations } from 'vuex';
-import moment from 'moment';
-// import { textareaMaxLimit } from '@/utils/rules.js';
+import dayjs from 'dayjs';
 
 export default {
   data() {
     return {
       isNotPageChange: true,
       orderHandleTaskRules: {},
-      // dialogVisible: false,
       currentRow: {}
-      // assignHandle: {
-      //   id: null,
-      //   dealPerson: null,
-      //   dealResult: '',
-      //   resultStatus: '0', // 这里值固定
-      //   taskInsId: null
-      // },
-      // assignHandleRules: {
-      //   dealPerson: [
-      //     { required: true, message: '请选择指派处理人', trigger: 'change' }
-      //   ],
-      //   dealResult: [
-      //     { required: true, message: '请输入分派的原因', trigger: 'blur' },
-      //     { validator: textareaMaxLimit, trigger: 'blur' }
-      //   ]
-      // }
     };
   },
   components: {
@@ -127,7 +131,6 @@ export default {
     ...mapState({
       orderHandleTaskObj: ({ order }) => order.orderHandleTaskObj,
       orderHandleTaskForm: ({ order }) => order.orderHandleTaskForm
-      // assignHandlers: ({ order }) => order.assignHandlers
     })
   },
   beforeMount() {
@@ -136,31 +139,10 @@ export default {
     });
   },
   methods: {
-    // submitAssign() {
-    //   this.$refs.assignHandle.validate(valid => {
-    //     if (!valid) return false;
-    //     let params = Object.cloneDeep(this.assignHandle);
-    //     params.dealPerson = params.dealPerson.pop();
-    //     params.taskInsId = this.currentRow.taskInsId;
-    //     params.id = this.currentRow.ordId;
-
-    //     this.createAssign(params).then(() => {
-    //       this.query();
-    //       this.dialogVisible = false;
-    //     });
-    //   });
-    // },
     tabChange() {
       this.pageChange();
       this.query();
     },
-    // handleCommand(row, command) {
-    //   let COMMANDS = {
-    //     'handleDispatch': 'handleDispatch',
-    //     'handleDetail': 'handleDetail'
-    //   };
-    //   this[COMMANDS[command]](row);
-    // },
     async onPagination(value) {
       this.isNotPageChange = false;
       this.pageChange({ pageNo: value });
@@ -179,12 +161,6 @@ export default {
       const path = `/order/handle-task/sign/${row.ordCode}?ordId=${row.ordId}&taskInsId=${row.taskInsId}`;
       this.$router.push(path);
     },
-    // handleDispatch(row) {
-    //   this.dialogVisible = true;
-    //   this.currentRow = row;
-    //   // 初始化输入框内容部数据
-    //   this.getAssignhandler();
-    // },
     handleDetail(row) {
       const { businessStatus } = this.orderHandleTaskForm;
       let path = '';
@@ -207,8 +183,8 @@ export default {
       this.isNotPageChange && this.pageChange({ pageNo: 1 });
       const params = Object.cloneDeep(this.orderHandleTaskForm);
       if (params.date && params.date.length) {
-        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
-        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
+        params.startDate = dayjs(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = dayjs(params.date[1]).format('YYYY-MM-DD');
       } else {
         params.startDate = '';
         params.endDate = '';
@@ -227,7 +203,6 @@ export default {
     ...mapActions([
       'getHandleTaskList',
       'getAssignhandler'
-      // 'createAssign'
     ])
   }
 };

@@ -63,7 +63,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import WmTable from 'components/Table.vue';
-import moment from 'moment';
+import dayjs from 'dayjs';
 export default {
   components: {
     WmTable
@@ -108,8 +108,8 @@ export default {
       const params = this.productAuditManageForm;
 
       if (params.date !== null && params.date.length === 2) {
-        params.startDate = moment(params.date[0]).format('YYYY-MM-DD');
-        params.endDate = moment(params.date[1]).format('YYYY-MM-DD');
+        params.startDate = dayjs(params.date[0]).format('YYYY-MM-DD');
+        params.endDate = dayjs(params.date[1]).format('YYYY-MM-DD');
       } else {
         params.startDate = '';
         params.endDate = '';

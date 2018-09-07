@@ -3,7 +3,7 @@
  * @author carroll
 */
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 // 深拷贝，不支持expReg，function等类型
 Object.cloneDeep = (obj) => {
@@ -31,28 +31,28 @@ Object.isExistArray = (arr) => {
 /* obj is null, undefined, {} */
 Object.isEmptyObject = (obj) => {
   return obj === null ||
-         obj === undefined ||
-         (Object.prototype.toString.call(obj).toLowerCase() === '[object object]' && Object.keys(obj).length === 0);
+    obj === undefined ||
+    (Object.prototype.toString.call(obj).toLowerCase() === '[object object]' && Object.keys(obj).length === 0);
 };
 
 /* is a object ,exclude array */
 Object.isObject = (obj) => {
   return typeof obj === 'object' &&
-         !obj.length &&
-         Object.prototype.toString.call(obj).toLowerCase() === '[object object]';
+    !obj.length &&
+    Object.prototype.toString.call(obj).toLowerCase() === '[object object]';
 };
 
 /* 按日默认展示7天，按月默认展示半年 */
-export const nowDay = moment().format('YYYY-MM-DD');
-export const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
-export const twoDaysAgo = moment().subtract(2, 'days').format('YYYY-MM-DD');
-export const sevenDaysAgo = moment().subtract(6, 'days').format('YYYY-MM-DD');
-export const eightDaysAgo = moment().subtract(7, 'days').format('YYYY-MM-DD');
-export const nineDaysAgo = moment().subtract(8, 'days').format('YYYY-MM-DD');
+export const nowDay = dayjs().format('YYYY-MM-DD');
+export const yesterday = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
+export const twoDaysAgo = dayjs().subtract(2, 'day').format('YYYY-MM-DD');
+export const sevenDaysAgo = dayjs().subtract(6, 'day').format('YYYY-MM-DD');
+export const eightDaysAgo = dayjs().subtract(7, 'day').format('YYYY-MM-DD');
+export const nineDaysAgo = dayjs().subtract(8, 'day').format('YYYY-MM-DD');
 
-export const oneMonthAgo = moment().subtract(1, 'months').format('YYYY-MM') + '-01';
-export const nowMonth = moment().format('YYYY-MM');
-export const oneMonthAgoNoDay = moment().subtract(1, 'months').format('YYYY-MM');
+export const oneMonthAgo = dayjs().subtract(1, 'month').format('YYYY-MM') + '-01';
+export const nowMonth = dayjs().format('YYYY-MM');
+export const oneMonthAgoNoDay = dayjs().subtract(1, 'month').format('YYYY-MM');
 
-export const halfYearsAgo = moment().subtract(5, 'months').format('YYYY-MM');
-export const sixMonthsAgo = moment().subtract(6, 'months').format('YYYY-MM');
+export const halfYearsAgo = dayjs().subtract(5, 'month').format('YYYY-MM');
+export const sixMonthsAgo = dayjs().subtract(6, 'month').format('YYYY-MM');
