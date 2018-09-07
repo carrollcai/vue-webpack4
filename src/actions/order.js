@@ -198,9 +198,8 @@ const actions = {
       commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
       return false;
     }
-    console.log(state.root.pageLoading);
+
     await API.submitAssignContractAPI(_submitParams).then(() => {
-      console.log(state.root.pageLoading);
       commit(types.ORDER_SUBMIT_ASSIGN_BUTTON_STATUS);
       Message({
         message: '提交成功',

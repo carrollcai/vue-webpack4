@@ -50,6 +50,8 @@
 
 ### Build Setup
 
+> 下面的npm命令都可以替换成**yarn**
+
 ``` bash
 
 # install dependencies
@@ -75,7 +77,7 @@ npm config set sass_binary_site https://npm.taobao.org/mirrors/node-sass/
 
 2. npm 安装 chromedriver 失败的解决办法
 
-npm install chromedriver@2.27.2 --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+npm config set "chromedriver_cdnurl" "https://npm.taobao.org/mirrors/chromedriver"
 
 设置之后，再执行npm install
 
