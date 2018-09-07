@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 import { mapState } from 'vuex';
 export default {
   computed: {
@@ -33,7 +33,7 @@ export default {
      * @param {*} value
      */
     sexFilter(value) {
-      let result = _.find(this.SEX, { value });
+      let result = find(this.SEX, { value });
 
       return result ? result.label : '';
     },
@@ -42,7 +42,7 @@ export default {
      * @param {String} value 原始值
      */
     weatherFilter(value) {
-      let result = _.find(this.WEATHER, { value });
+      let result = find(this.WEATHER, { value });
 
       return result ? result.label : '';
     },
@@ -51,7 +51,7 @@ export default {
      * @param {String} value 原始值
      */
     bizOpporTypeFilter(value) {
-      let result = _.find(this.BIZOPPOR_TYPE, { value });
+      let result = find(this.BIZOPPOR_TYPE, { value });
 
       return result ? result.label : '';
     },
@@ -60,7 +60,7 @@ export default {
      * @param {String} value 原始值
      */
     bizOpporStatusFilter(value) {
-      let result = _.find(this.BIZOPPOR_STATUS, { key: value });
+      let result = find(this.BIZOPPOR_STATUS, { key: value });
 
       return result ? result.value : '';
     },
@@ -69,7 +69,7 @@ export default {
      * @param {String} value 原始值
      */
     predictAgreementTimeFilter(value) {
-      let result = _.find(this.PREDICT_AGREEMENT_TIME, { value });
+      let result = find(this.PREDICT_AGREEMENT_TIME, { value });
 
       return result ? result.label : '';
     }

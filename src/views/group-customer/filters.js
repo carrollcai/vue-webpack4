@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import find from 'lodash/find';
 import dayjs from 'dayjs';
 import { mapState } from 'vuex';
 export default {
@@ -47,7 +47,8 @@ export default {
      * @param {*} value
      */
     memberNumFilter(value) {
-      let result = _.find(this.MEMBER_NUM, { value });
+      // let result = _.find(this.MEMBER_NUM, { value });
+      let result = this.MEMBER_NUM.find(val => val.value === String(value));
 
       return result ? result.label : '';
     },
@@ -56,7 +57,8 @@ export default {
      * @param {String} value 原始值
      */
     genderFilter(value) {
-      let result = _.find(this.GENDER, { value });
+      // let result = _.find(this.GENDER, { value });
+      let result = this.GENDER.find(val => val.value === String(value));
 
       return result ? result.label : '';
     },
@@ -72,7 +74,8 @@ export default {
      * @param {String} value 原始值
      */
     provinceFilter(value) {
-      let result = _.find(this.provinces, { key: value });
+      // let result = _.find(his.provinces, { key: value });
+      let result = this.provinces.find(val => val.value === String(value));
 
       return result ? result.value : '';
     },
@@ -88,7 +91,7 @@ export default {
      * @param {String} value 原始值
      */
     certificateTypeFilter(value) {
-      let result = _.find(this.CERTIFICATE_TYPE, { value });
+      let result = this.CERTIFICATE_TYPE.find(val => val.value === String(value));
 
       return result ? result.label : '';
     },
@@ -97,7 +100,7 @@ export default {
      * @param {String} value 原始值
      */
     orgTypeFilter(value) {
-      let result = _.find(this.ORGANIZE_TYPE, { value });
+      let result = this.ORGANIZE_TYPE.find(val => val.value === String(value));
 
       return result ? result.label : '';
     },
@@ -106,7 +109,7 @@ export default {
      * @param {String} value 原始值
      */
     registerFundTypeFilter(value) {
-      let result = _.find(this.REGISTER_FUND_TYPE, { value });
+      let result = this.REGISTER_FUND_TYPE.find(val => val.value === String(value));
 
       return result ? result.label : '';
     },
@@ -115,7 +118,7 @@ export default {
      * @param {String} value 原始值
      */
     orgIndustryTypeFilter(value) {
-      let result = _.find(this.ORG_INDUSTRY_TYPE, { value });
+      let result = this.ORG_INDUSTRY_TYPE.find(val => val.value === String(value));
 
       return result ? result.label : '';
     },
@@ -124,7 +127,7 @@ export default {
      * @param {String} value 原始值
      */
     industryTypeFilter(value) {
-      let result = _.find(this.INDUSTRY_TYPE, { value });
+      let result = this.INDUSTRY_TYPE.find(val => val.value === String(value));
 
       return result ? result.label : '';
     },

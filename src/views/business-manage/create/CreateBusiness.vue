@@ -197,8 +197,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import _ from 'lodash';
-
 import { checkPhone, emailCheck, checkLeftRightSpace, textAccountLimit, fileValidLen } from '@/utils/rules.js';
 import filters from '@/views/business-manage/filters';
 import { FILE_TIP, FILE_TYPE_ID } from '@/config/index.js';
@@ -328,7 +326,7 @@ export default {
       let processor = value[2] || null;
       let regionName = '';
 
-      let existProcessors = _.filter(this.form.regionData.regionList, { processorValue: processor });
+      let existProcessors = this.form.regionData.regionList.filter(val => String(val.processorValue) === String(processor));
       // 防止重复添加
       if (existProcessors && existProcessors.length) {
         return;
