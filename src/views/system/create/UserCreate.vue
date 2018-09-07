@@ -37,7 +37,6 @@
           <el-input class="form-input-large"
             v-model="userCreate.email"></el-input>
         </el-form-item>
-
         <el-form-item label="用户归属："
           prop="opRegion">
           <el-cascader class="form-input-large"
@@ -47,7 +46,6 @@
             placeholder="用户归属">
           </el-cascader>
         </el-form-item>
-
         <el-form-item label="用户角色："
           prop="roleId">
           <el-select class="form-input-large"
@@ -59,27 +57,15 @@
               :label="item.roleName" />
           </el-select>
         </el-form-item>
-        <!-- 省份这里需要做key的处理 -->
-        <!-- 指定key为null或者0，会报错。选择 collapse-tags就没问题。解决方式改为null字符串 -->
         <el-form-item label="省份权限："
           prop="provinces">
-          <el-select v-if="Object.isExistArray(province)"
+          <select-all placeholder="省份选择"
             class="form-input-large"
-            v-model="userCreate.provinces"
-            placeholder="请选择"
-            multiple
-            @change="provinceChange">
-            <el-option v-if="province.length > 1"
-              :key="'null'"
-              label="全部"
-              :value="'null'" />
-            <el-option v-for="(item, i) in province"
-              :key="i"
-              :label="item.value"
-              :value="item.key" />
-          </el-select>
+            v-if="Object.isExistArray(province)"
+            :list="province"
+            collapse-tags
+            v-model="userCreate.provinces" />
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary"
             @click="submitForm()">提交</el-button>
@@ -89,15 +75,16 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 import { checkPhone, emailCheck, textLimit } from '@/utils/rules.js';
-
+import SelectAll from 'components/SelectAll.vue';
 export default {
+  components: {
+    SelectAll
+  },
   data() {
     return {
-      localProvinceSelected: [],
       userCreateRules: {
         staffName: [
           { required: true, message: '请输入用户姓名', trigger: 'blur' },
@@ -144,33 +131,6 @@ export default {
       const { type } = this.$route.params;
       return type === 'create' ? '创建' : '修改';
     },
-    provinceChange(val) {
-      const { province } = this;
-      let isExistAll = val.some(val => val === 'null');
-      let provinceNames = province.map(val => val.key);
-
-      // 是否点击全部
-      let isClickAll = !(isExistAll === this.localProvinceSelected.some(val => val === 'null'));
-
-      // 点击全部
-      if (isClickAll) {
-        // 子选项未全选
-        if (isExistAll) {
-          this.userCreate.provinces = provinceNames;
-          this.userCreate.provinces.push('null');
-        } else {
-          // 子选项已全选
-          this.userCreate.provinces = [];
-        }
-      } else {
-        if (!isExistAll && val.length === provinceNames.length) {
-          this.userCreate.provinces.push('null');
-        } else {
-          this.userCreate.provinces = this.userCreate.provinces.filter(val => val !== 'null');
-        }
-      }
-      this.localProvinceSelected = Object.cloneDeep(this.userCreate.provinces);
-    },
     resetForm() {
       const { type, id } = this.$route.params;
       // 需要重新获取角色。
@@ -178,24 +138,16 @@ export default {
       if (type === 'create') {
         this.initForm();
       } else {
-        this.getUserInfo({ operatorId: id }).then(() => {
-          // 重新赋值本地数据
-          if (this.userCreate.provinces) {
-            this.localProvinceSelected = Object.cloneDeep(this.userCreate.provinces);
-          }
-        });
+        this.getUserInfo({ operatorId: id });
       }
     },
     submitForm() {
       const { type, id } = this.$route.params;
       const params = Object.cloneDeep(this.userCreate);
-
-      params.provinces = params.provinces.filter(val => val !== 'null');
+      params.provinces = params.provinces.filter(val => val !== null);
       params.opRegion = params.opRegion.pop();
-
       this.$refs['userForm'].validate(valid => {
         if (!valid) return false;
-
         if (type === 'create') {
           this.createUser(params);
         } else {
@@ -221,7 +173,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
 @import "scss/variables.scss";
 .user-create {
