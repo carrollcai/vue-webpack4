@@ -40,6 +40,7 @@ module.exports = {
       "anonymous": "never",
       "named": "never",
       "asyncArrow": "always"
-    }]
+    }],
+    "object-curly-spacing": 0,
   }
 }

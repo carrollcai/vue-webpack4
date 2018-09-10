@@ -5,6 +5,7 @@ const config = require('../config');
 const webpack = require('webpack');
 const vueLoaderConfig = require('./vue-loader.conf');
 const manifest = require('./vendor-manifest.json');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
@@ -54,7 +55,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+        options: {
+          // presets: ['@babel/preset-es2015', '@babel/preset-env', "@babel/preset-react"]
+          // "plugins": [],
+        }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -80,14 +85,22 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
-      {
-        test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
-        // loader: 'style-loader!css-loader'
-      },
+      // {
+      //   test: /\.scss$/,
+      //   // loaders: ["style-loader", "css-loader", "sass-loader"]
+      //   use: [
+      //     {loader: "style-loader"},
+      //     {loader: "css-loader"},
+      //     {loader: "sass-loader"}
+      //   ]
+
+      //   // loader: 'style-loader!css-loader'
+      // },
+
     ]
   },
   plugins: [
+    new VueLoaderPlugin(),
     new webpack.DllReferencePlugin({
       manifest
     })
